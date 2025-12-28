@@ -1,12 +1,26 @@
 """
-Finance Tracker - Family financial tracking with ODS spreadsheets.
+Finance Tracker - Professional spreadsheet system with enterprise-grade formatting.
 
-This package provides tools for creating, reading, and analyzing ODS
-spreadsheets for family budget tracking, integrated with Nextcloud
-and Collabora Office.
+This package provides a comprehensive toolkit for creating professional-quality
+ODS spreadsheets with complete formatting control, type-safe APIs, and
+declarative YAML-based theming.
 
-v1.0.0 - 100% Requirements Complete (125/125)
-=============================================
+v2.0.0 - Professional Spreadsheet System (95/95 new requirements)
+==================================================================
+
+New in v2.0.0 (Professional Enhancement - ALL 95 REQUIREMENTS):
+- FR-SCHEMA-*: Extended schema with Color, Font, Border, Typography, Print Layout
+- FR-THEME-*: Enhanced theme system with inheritance and composition
+- FR-FORMAT-*: Complete ODF formatting capabilities (cell, number, conditional)
+- FR-COND-*: Conditional formatting engine with rules and criteria
+- FR-VALID-*: Data validation system with type checking and constraints
+- FR-CHART-*: Chart builder with all types (column, bar, line, area, pie, scatter, combo)
+- FR-TEMPLATE-*: Template engine with schema, loader, renderer, component system
+- FR-BUILDER-*: Enhanced builder API with charts, protection, freezing
+- FR-PROF-*: Professional templates (enterprise budget, cash flow, invoice, expense report)
+- FR-PRINT-*: Print layout optimization with page setup, headers/footers, breaks
+- FR-ADV-*: Advanced features (named ranges, comments, filters, hyperlinks, images)
+- DOC-PROF-*: Comprehensive guides (builder API, themes, templates, best practices)
 
 New in v1.0.0 (Phase 5: Future Enhancements - FINAL):
 - FR-IMPORT-003: Bank API Integration (Plaid)
@@ -61,7 +75,7 @@ New in v0.4.0:
 - CLI --theme flag support
 """
 
-__version__ = "1.0.0"
+__version__ = "2.0.0"
 __author__ = "jallen"
 
 # Account Management (NEW in v0.6.0 - Phase 3)
@@ -333,6 +347,117 @@ from finance_tracker.webdav_upload import (
     upload_budget,
 )
 
+# ============================================================================
+# v2.0.0 Professional Spreadsheet System (95 new requirements)
+# ============================================================================
+
+# Charts (NEW in v2.0.0 - FR-CHART-*)
+from finance_tracker.charts import (
+    AxisConfig,
+    AxisType,
+    ChartBuilder,
+    ChartPosition,
+    ChartSize,
+    ChartSpec,
+    ChartTitle,
+    ChartType,
+    DataLabelConfig,
+    DataLabelPosition,
+    DataSeries,
+    LegendConfig,
+    LegendPosition,
+    PlotAreaStyle,
+    Sparkline,
+    SparklineBuilder,
+    SparklineMarkers,
+    SparklineType,
+    Trendline,
+    TrendlineType,
+    budget_comparison_chart,
+    chart,
+    sparkline,
+    spending_pie_chart,
+    trend_line_chart,
+)
+
+# Template Engine (NEW in v2.0.0 - FR-TEMPLATE-*)
+from finance_tracker.template_engine import (
+    TemplateComponent,
+    TemplateEngine,
+    TemplateLoader,
+    TemplateRenderer,
+    TemplateSchema,
+    TemplateVariable,
+)
+
+# Professional Templates (NEW in v2.0.0 - FR-PROF-*)
+from finance_tracker.templates.professional import (
+    CashFlowTrackerTemplate,
+    EnterpriseBudgetTemplate,
+    ExpenseReportTemplate,
+    InvoiceTemplate,
+)
+
+# Financial Statement Templates (NEW in v2.0.0 - FR-PROF-*)
+from finance_tracker.templates.financial_statements import (
+    BalanceSheetTemplate,
+    CashFlowStatementTemplate,
+    EquityStatementTemplate,
+    IncomeStatementTemplate,
+)
+
+# Schema Extensions (NEW in v2.0.0 - FR-SCHEMA-*, FR-FORMAT-*, FR-ADV-*)
+from finance_tracker.schema.advanced import (
+    AutoFilter,
+    CellComment,
+    DataTable,
+    FilterCriteria,
+    HiddenRowsColumns,
+    Hyperlink,
+    Image,
+    NamedRange,
+    OutlineGroup,
+    OutlineSettings,
+    Shape,
+)
+from finance_tracker.schema.conditional import (
+    ConditionalFormat,
+    ConditionalRule,
+    FormatCondition,
+)
+from finance_tracker.schema.data_validation import (
+    DataValidation,
+    ValidationCriteria,
+    ValidationRule,
+    ValidationType,
+)
+from finance_tracker.schema.print_layout import (
+    HeaderFooter,
+    HeaderFooterContent,
+    PageBreak,
+    PageMargins,
+    PageOrientation,
+    PageSetup,
+    PageSetupBuilder,
+    PageSize,
+    PrintPresets,
+    PrintQuality,
+    PrintScale,
+    RepeatConfig,
+)
+from finance_tracker.schema.typography import (
+    FontPairing,
+    TypeScale,
+    Typography,
+    TypographyBuilder,
+)
+from finance_tracker.schema.units import (
+    Angle,
+    Length,
+    LengthUnit,
+    Percentage,
+)
+
 __all__ = [
     # Account Management (v0.6.0)
     "Account",
@@ -521,4 +646,82 @@ __all__ = [
     "print_completion_script",
     "render_sheets",
     "upload_budget",
+    # v2.0.0 Professional Spreadsheet System
+    "Angle",
+    "AutoFilter",
+    "AxisConfig",
+    "AxisType",
+    "BalanceSheetTemplate",
+    "CashFlowStatementTemplate",
+    "CashFlowTrackerTemplate",
+    "CellComment",
+    "ChartBuilder",
+    "ChartPosition",
+    "ChartSize",
+    "ChartSpec",
+    "ChartTitle",
+    "ChartType",
+    "ConditionalFormat",
+    "ConditionalRule",
+    "DataLabelConfig",
+    "DataLabelPosition",
+    "DataSeries",
+    "DataTable",
+    "DataValidation",
+    "EnterpriseBudgetTemplate",
+    "EquityStatementTemplate",
+    "ExpenseReportTemplate",
+    "FilterCriteria",
+    "FontPairing",
+    "FormatCondition",
+    "HeaderFooter",
+    "HeaderFooterContent",
+    "HiddenRowsColumns",
+    "Hyperlink",
+    "Image",
+    "IncomeStatementTemplate",
+    "InvoiceTemplate",
+    "LegendConfig",
+    "LegendPosition",
+    "Length",
+    "LengthUnit",
+    "NamedRange",
+    "OutlineGroup",
+    "OutlineSettings",
+    "PageBreak",
+    "PageMargins",
+    "PageOrientation",
+    "PageSetup",
+    "PageSetupBuilder",
+    "PageSize",
+    "Percentage",
+    "PlotAreaStyle",
+    "PrintPresets",
+    "PrintQuality",
+    "PrintScale",
+    "RepeatConfig",
+    "Shape",
+    "Sparkline",
+    "SparklineBuilder",
+    "SparklineMarkers",
+    "SparklineType",
+    "TemplateComponent",
+    "TemplateEngine",
+    "TemplateLoader",
+    "TemplateRenderer",
+    "TemplateSchema",
+    "TemplateVariable",
+    "Trendline",
+    "TrendlineType",
+    "TypeScale",
+    "Typography",
+    "TypographyBuilder",
+    "ValidationCriteria",
+    "ValidationRule",
+    "ValidationType",
+    "budget_comparison_chart",
+    "chart",
+    "sparkline",
+    "spending_pie_chart",
+    "trend_line_chart",
 ]
