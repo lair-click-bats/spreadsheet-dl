@@ -1,0 +1,50 @@
+# =============================================================================
+# .lycheeignore - Link Validation Exclusion Patterns
+# =============================================================================
+# Patterns for lychee to ignore during link validation
+# Syntax: glob patterns and regex (one per line)
+# =============================================================================
+
+# Node.js dependencies
+**/node_modules/**
+**/package-lock.json
+
+# Python virtual environments
+**/.venv/**
+**/__pycache__/**
+**/*.pyc
+
+# Build artifacts
+**/dist/**
+**/build/**
+**/.next/**
+**/.cache/**
+
+# Generated files
+**/*link-audit*
+**/*report*
+
+# Archive directories
+**/archive/**
+**/archived/**
+**/old/**
+**/backup/**
+
+# Coordination files (ephemeral)
+**/.coordination/**
+
+# Agent outputs (temporary)
+**/.claude/agent-outputs/**
+
+# Git
+**/.git/**
+**/.gitignore
+
+# IDE
+**/.vscode/**
+**/.idea/**
+
+# Temporary files
+**/*.tmp
+**/*.temp
+**/.DS_Store

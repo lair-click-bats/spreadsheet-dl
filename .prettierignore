@@ -1,0 +1,47 @@
+# Prettier ignore file for Workspace Template
+# Files and directories to skip during formatting
+
+# Dependencies and virtual environments
+.venv/
+node_modules/
+__pycache__/
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+
+# Cache directories
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+
+# Lock files (auto-generated)
+uv.lock
+package-lock.json
+yarn.lock
+
+# VS Code generated files
+.vscode/markdown.css
+
+# Log files
+*.log
+.claude/hooks/*.log
+
+# Git directory
+.git/
+
+# Jinja templates (have special formatting needs)
+*.j2
+
+# Binary and non-text files
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+*.pdf
+*.zip
+*.tar
+*.gz

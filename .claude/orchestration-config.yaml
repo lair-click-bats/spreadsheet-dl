@@ -1,0 +1,106 @@
+# Orchestration Configuration
+# Context compaction mitigation strategies and parallel agent swarm best practices
+# Version: 3.1.0 (Updated 2025-12-28 - Anti-Compaction Validated)
+
+# Agent Registry Configuration
+agent_registry:
+  enabled: true
+  path: .claude/agent-registry.json
+  auto_persist: true
+  retention_days: 30
+  persist_on_launch: true
+  update_on_completion: true
+  save_outputs: true
+  output_directory: .claude/agent-outputs
+
+# Checkpoint Configuration
+checkpoints:
+  enabled: true
+  path: .claude/checkpoints
+  auto_checkpoint: true
+  checkpoint_interval_phases: 1
+  checkpoint_on_context_threshold: true
+  context_threshold_percent: 70
+  retention_days: 7
+
+# Output Summarization Configuration
+summaries:
+  enabled: true
+  path: .claude/summaries
+  immediate_capture: true
+  auto_summarize: true
+  auto_summarize_threshold_tokens: 5000
+  format: markdown
+  max_summary_length_tokens: 2000
+  retention_days: 30
+
+# Swarm Orchestration Configuration
+swarm:
+  max_batch_size: 2 # VALIDATED: Reduced from 3 to prevent context explosion
+  recommended_batch_size: 1 # CRITICAL: Launch 1 at a time for max safety
+  immediate_retrieval: true
+  immediate_summarization: true # NEW: Summarize to file immediately
+  write_summaries_to_file: true # NEW: Force file-based summaries
+  max_output_tokens_in_context: 5000 # NEW: Limit output size in memory
+  poll_interval_seconds: 10
+  max_parallel_agents: 2 # VALIDATED: Reduced from 3
+  batch_strategy:
+    mode: sequential
+    wait_for_batch_completion: true
+    checkpoint_between_batches: true
+    summarize_between_batches: true
+  recovery:
+    enabled: true
+    check_filesystem_on_lost_id: true
+    fallback_to_deliverables: true
+
+# Context Management Configuration
+context_management:
+  enable_monitoring: true
+  warning_threshold_percent: 60 # VALIDATED: Lowered from 70 for earlier warning
+  critical_threshold_percent: 75 # VALIDATED: Lowered from 85 for earlier action
+  checkpoint_threshold_percent: 65 # NEW: Force checkpoint at 65%
+  auto_checkpoint_on_threshold: true
+  log_metrics: true
+  metrics_log_path: .claude/hooks/context_metrics.log
+  detect_compaction: true
+  compaction_log_path: .claude/hooks/compaction.log
+  # NEW: Active context reduction strategies
+  max_tool_output_size: 10000 # Limit individual tool output tokens
+  truncate_large_outputs: true # Auto-truncate outputs >10k tokens
+  summarize_on_threshold: true # Force summarization at thresholds
+
+# Workflow Execution Configuration
+workflow:
+  max_phases_without_checkpoint: 3
+  track_progress: true
+  progress_file: .claude/workflow-progress.json
+  validate_phase_completion: true
+  require_completion_reports: true
+  error_handling:
+    retry_on_lost_agent_id: true
+    max_retries: 1
+    fallback_to_filesystem: true
+
+# Best Practices
+best_practices:
+  orchestration:
+    - "VALIDATED 2025-12-28: Launch 1 agent at a time for maximum safety"
+    - "Never launch more than 2 agents in parallel"
+    - "Retrieve outputs immediately upon completion"
+    - "Summarize each agent output to file before continuing"
+    - "Checkpoint after each batch completes"
+    - "Monitor context usage throughout workflow"
+
+# Monitoring
+monitoring:
+  metrics:
+    - total_agents_launched
+    - agents_completed
+    - batches_executed
+    - compaction_events
+    - context_usage_peak_percent
+  logs:
+    context_metrics: .claude/hooks/context_metrics.log
+    compaction_events: .claude/hooks/compaction.log
+    errors: .claude/hooks/errors.log

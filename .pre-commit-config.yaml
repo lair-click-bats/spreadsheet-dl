@@ -1,0 +1,106 @@
+# Pre-commit configuration for Workspace Template
+# Install: pre-commit install
+# Run manually: pre-commit run --all-files
+# https://pre-commit.com
+
+repos:
+  # ==========================================================================
+  # General file checks
+  # ==========================================================================
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-yaml
+        args: [--unsafe] # Allow custom YAML tags
+      - id: check-json
+        # Exclude JSONC files (VS Code uses JSON with comments)
+        # Our jsonc.sh handles these with proper comment stripping
+        exclude: ^(\.vscode/|tsconfig\.json|jsconfig\.json)
+      - id: check-toml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md] # Preserve markdown line breaks
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: [--maxkb=500]
+      - id: mixed-line-ending
+        args: [--fix=lf]
+
+    # ==========================================================================
+    # Python: Ruff (linting + formatting)
+    # ==========================================================================
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.0
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+        types_or: [python, pyi]
+      - id: ruff-format
+        types_or: [python, pyi]
+
+    # ==========================================================================
+    # Shell scripts: ShellCheck
+    # ==========================================================================
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck
+        args: [--severity=warning]
+
+    # ==========================================================================
+    # YAML: yamllint
+    # ==========================================================================
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.37.0
+    hooks:
+      - id: yamllint
+        args: [-c, .yamllint.yaml]
+        exclude: ^(\.pre-commit-config\.yaml|uv\.lock)$
+
+    # ==========================================================================
+    # Markdown: markdownlint
+    # ==========================================================================
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.44.0
+    hooks:
+      - id: markdownlint
+        args: [--config, .markdownlint.yaml, --fix]
+        exclude: ^\.vscode/
+
+    # ==========================================================================
+    # Local hooks: Module validation and JSONC
+    # ==========================================================================
+  - repo: local
+    hooks:
+      - id: validate-modules
+        name: Validate module definitions
+        entry: uv run python scripts/validate.py --modules=base,research,implementation
+        language: system
+        pass_filenames: false
+        files: ^(base|modules|languages)/.*\.(yaml|md)$
+
+      - id: validate-yaml-syntax
+        name: Validate YAML syntax
+        entry: uv run python -c "import yaml, sys; yaml.safe_load(open(sys.argv[1]))"
+        language: system
+        types: [yaml]
+        exclude: ^\.pre-commit-config\.yaml$
+
+      - id: validate-jsonc
+        name: Validate JSON/JSONC files
+        entry: ./scripts/tools/jsonc.sh --check
+        language: script
+        types: [json]
+        # Include all JSON files - jsonc.sh handles JSONC files automatically
+
+  # ==========================================================================
+  # CI configuration
+  # ==========================================================================
+ci:
+  autofix_commit_msg: "style: auto-fix from pre-commit hooks"
+  autofix_prs: true
+  autoupdate_branch: ""
+  autoupdate_commit_msg: "chore: update pre-commit hooks"
+  autoupdate_schedule: monthly
+  skip: []
+  submodules: false

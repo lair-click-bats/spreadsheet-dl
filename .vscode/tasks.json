@@ -1,0 +1,50 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Resume Claude: c1397393-a8e",
+      "type": "shell",
+      "command": "claude",
+      "args": ["--resume", "c1397393-a8ec-41d4-9d23-41a032e4569e"],
+      "options": {
+        "cwd": "${workspaceFolder}/../knowledge-base"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Resume Claude: e7b97e31-1b7",
+      "type": "shell",
+      "command": "claude",
+      "args": ["--resume", "e7b97e31-1b71-4a81-9c96-309ae29c739f"],
+      "options": {
+        "cwd": "${workspaceFolder}/../knowledge-base"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Resume All Claude Sessions",
+      "dependsOrder": "parallel",
+      "dependsOn": [
+        "Resume Claude: c1397393-a8e",
+        "Resume Claude: e7b97e31-1b7"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}

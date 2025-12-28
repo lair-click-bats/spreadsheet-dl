@@ -1,0 +1,84 @@
+{
+  "recommendations": [
+    // === Markdown & Documentation ===
+    "yzhang.markdown-all-in-one", // 10M+ downloads, table formatting, TOC
+    "davidanson.vscode-markdownlint", // 10M+ downloads, linting
+    "bierner.markdown-mermaid", // Mermaid diagram preview
+    "esbenp.prettier-vscode", // Multi-language formatter
+    "streetsidesoftware.code-spell-checker", // 39M+ downloads, spellchecking (cSpell)
+
+    // === Diagrams ===
+    "jebbs.plantuml", // PlantUML diagrams (1.5M+ downloads)
+
+    // === Python (for scripts/) ===
+    "ms-python.python", // 120M+ downloads, testing, debugging
+    "ms-python.vscode-pylance", // 50M+ downloads, IntelliSense
+    "charliermarsh.ruff", // 3M+ downloads, linting + formatting (replaces Black/Flake8/isort)
+    "ms-python.mypy-type-checker", // Type checking
+
+    // === Jinja2 Templates ===
+    "samuelcolvin.jinjahtml", // 1M+ downloads, Jinja2 syntax
+
+    // === Bash Scripting ===
+    "mads-hartmann.bash-ide-vscode", // 600k+ downloads, LSP-based
+    "timonwong.shellcheck", // 1.8M+ downloads, includes binary
+
+    // === TCL/Tk (also handles .xdc/.sdc constraint files) ===
+    "bitwisecook.tcl", // 103k downloads, TCL syntax
+    "nmoroze.tclint", // TCL linting and formatting (uses tclint.toml)
+
+    // === LaTeX ===
+    "james-yu.latex-workshop", // 4.6M+ downloads, complete LaTeX IDE
+
+    // === Perl ===
+    "bscan.perlnavigator", // 49k downloads, LSP-based
+
+    // === Lua ===
+    "sumneko.lua", // 2M+ downloads, Lua language server
+
+    // === HDL/VHDL/FPGA ===
+    "teros-technology.teroshdl", // 128k+ downloads, all-in-one HDL IDE
+    "hbohlin.vhdl-ls", // VHDL Language Server (rust_hdl)
+    "mshr-h.veriloghdl", // Verilog/SystemVerilog support
+
+    // === Build Tools ===
+    "ms-vscode.makefile-tools", // Makefile IntelliSense
+
+    // === Git ===
+    "mhutchie.git-graph", // 13M+ downloads, 5/5 rating, better than GitLens
+
+    // === General Development ===
+    "usernamehw.errorlens", // 7.8M+ downloads, inline diagnostics
+    "gruntfuggly.todo-tree", // 6.8M+ downloads, TODO/FIXME tree view
+    "christian-kohler.path-intellisense", // 11M+ downloads, path autocomplete
+    "editorconfig.editorconfig", // 9M+ downloads, EditorConfig support
+
+    // === UI/Theming ===
+    "pkief.material-icon-theme", // 32M+ downloads, professional file icons
+
+    // === Remote Development ===
+    "ms-vscode-remote.remote-ssh", // Remote SSH (includes editing config)
+
+    // === Data & Config Files ===
+    "redhat.vscode-yaml", // 30M+ downloads, YAML support
+    "redhat.vscode-xml", // 6M+ downloads, XML validation
+    "tamasfe.even-better-toml", // 6M+ downloads, TOML support
+    "mechatroner.rainbow-csv" // 1.7M+ downloads, CSV highlighting
+  ],
+
+  "unwantedRecommendations": [
+    // === Built into VS Code (no extension needed) ===
+    "coenraads.bracket-pair-colorizer",
+    "coenraads.bracket-pair-colorizer-2",
+    "shan.code-settings-sync",
+
+    // === Replaced by Ruff ===
+    "ms-python.black-formatter",
+    "ms-python.flake8",
+    "ms-python.isort",
+
+    // === Deprecated or Superseded ===
+    "hookyqr.beautify",
+    "twxs.cmake"
+  ]
+}

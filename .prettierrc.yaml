@@ -1,0 +1,81 @@
+# Prettier Configuration for Workspace Template
+# Reference: https://prettier.io/docs/en/options
+#
+# Standardized across multi-language projects
+# Compatible with yamllint (.yamllint.yaml) and EditorConfig (.editorconfig)
+
+# =============================================================================
+# Global Settings (apply to all supported file types)
+# =============================================================================
+
+# Line width - soft limit for wrapping
+printWidth: 100
+
+# Indentation
+tabWidth: 2
+useTabs: false
+
+# Quotes
+singleQuote: true
+quoteProps: as-needed
+
+# Commas and semicolons
+trailingComma: all
+semi: true
+
+# Spacing
+bracketSpacing: true
+bracketSameLine: false
+arrowParens: always
+singleAttributePerLine: false
+
+# Line endings (LF for cross-platform consistency)
+endOfLine: lf
+
+# Prose (markdown) - preserve intentional line breaks
+proseWrap: preserve
+
+# HTML whitespace handling
+htmlWhitespaceSensitivity: css
+
+# =============================================================================
+# File-Specific Overrides
+# =============================================================================
+
+overrides:
+  # JSON files - narrower width for readability
+  - files: ["*.json", "*.jsonc", ".prettierrc"]
+    options:
+      printWidth: 80
+      tabWidth: 2
+
+  # YAML files - configuration standard
+  - files: ["*.yaml", "*.yml"]
+    options:
+      tabWidth: 2
+      singleQuote: false # YAML typically uses double quotes or unquoted
+
+  # Markdown files - preserve prose formatting
+  - files: ["*.md", "*.mdx"]
+    options:
+      proseWrap: preserve
+      tabWidth: 2
+      printWidth: 80
+
+  # HTML/template files
+  - files: ["*.html", "*.htm"]
+    options:
+      printWidth: 120
+      htmlWhitespaceSensitivity: css
+
+  # CSS/SCSS files
+  - files: ["*.css", "*.scss", "*.less"]
+    options:
+      printWidth: 100
+      singleQuote: false # CSS convention is double quotes
+
+  # Configuration files - compact
+  - files: [".eslintrc", ".babelrc", "tsconfig.json", "package.json"]
+    options:
+      printWidth: 80
+      tabWidth: 2

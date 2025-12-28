@@ -1,0 +1,861 @@
+{
+  // ============================================================================
+  // VS Code Settings for Workspace Template
+  // ============================================================================
+  // Composable template system for generating Claude Code configurations
+  // File types: Python, YAML, Markdown, Shell, Jinja2, JSON, TOML
+  // ============================================================================
+
+  // ==========================================================================
+  // SECTION 1: USER PREFERENCES
+  // ==========================================================================
+
+  "window.title": "${folderName}",
+  "window.zoomLevel": -1,
+  "explorer.compactFolders": false,
+  "explorer.openEditors.visible": 10,
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "workbench.editor.enablePreviewFromCodeNavigation": false,
+
+  // Font configuration (JetBrains Mono primary - universal across repos)
+  "editor.fontFamily": "'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Source Code Pro', 'Hack', monospace",
+  "editor.fontSize": 14,
+  "editor.fontLigatures": true,
+  "editor.fontWeight": "400",
+  "editor.lineHeight": 1.6,
+  "editor.letterSpacing": 0.0,
+
+  // Terminal font (matches editor font stack)
+  "terminal.integrated.fontFamily": "'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Source Code Pro', 'Hack', monospace",
+  "terminal.integrated.fontSize": 12,
+  "terminal.integrated.fontWeight": "400",
+  "terminal.integrated.lineHeight": 1.4,
+
+  // Debug console font
+  "debug.console.fontFamily": "'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Source Code Pro', 'Hack', monospace",
+  "debug.console.fontSize": 12,
+  "debug.console.lineHeight": 1.4,
+
+  "extensions.ignoreRecommendations": false,
+
+  // ==========================================================================
+  // SECTION 2: CORE EDITOR SETTINGS
+  // ==========================================================================
+
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  // Note: editor.codeActionsOnSaveTimeout was deprecated in VS Code 1.44+
+  // VS Code now handles timeouts automatically with improved mechanisms
+
+  // Trailing whitespace: Global trim enabled, language overrides preserve for markdown/jinja
+  "files.trimTrailingWhitespace": true,
+
+  "editor.renderWhitespace": "all",
+  "editor.renderControlCharacters": true,
+  "editor.renderLineHighlight": "all",
+
+  "editor.rulers": [
+    { "column": 80, "color": "#404040" },
+    { "column": 120, "color": "#663333" }
+  ],
+
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.guides.bracketPairsHorizontal": "active",
+  "editor.guides.highlightActiveBracketPair": true,
+  "editor.guides.highlightActiveIndentation": true,
+  "editor.guides.indentation": true,
+
+  // ==========================================================================
+  // SECTION 3: PYTHON CONFIGURATION (for scripts/)
+  // ==========================================================================
+  // Tool separation:
+  //   - Pylance: Language server ONLY (intellisense, completions, go-to-definition)
+  //   - Ruff: Linting AND formatting (via pyproject.toml)
+  //   - Mypy: Type checking (via pyproject.toml)
+
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv",
+  "python.terminal.activateEnvironment": true,
+
+  // Pylance: Language server features only (NOT for linting/type checking)
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
+      "source.organizeImports": "explicit"
+    },
+    "cSpell.enabled": false
+  },
+  "python.languageServer": "Pylance",
+
+  // Pylance IntelliSense features (KEEP ENABLED)
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.completeFunctionParens": true,
+  "python.analysis.autoSearchPaths": true,
+  "python.analysis.indexing": true,
+
+  // Pylance diagnostics (ALL DISABLED - use Ruff and mypy instead)
+  "python.analysis.diagnosticMode": "openFilesOnly",
+  "python.analysis.typeCheckingMode": "off",
+  "python.analysis.diagnosticSeverityOverrides": {
+    // Type checking diagnostics (use mypy)
+    "reportGeneralTypeIssues": "none",
+    "reportOptionalMemberAccess": "none",
+    "reportOptionalSubscript": "none",
+    "reportOptionalCall": "none",
+    "reportOptionalIterable": "none",
+    "reportOptionalContextManager": "none",
+    "reportOptionalOperand": "none",
+    "reportArgumentType": "none",
+    "reportAssignmentType": "none",
+    "reportAttributeAccessIssue": "none",
+    "reportCallIssue": "none",
+    "reportInconsistentOverload": "none",
+    "reportIndexIssue": "none",
+    "reportInvalidTypeArguments": "none",
+    "reportInvalidTypeForm": "none",
+    "reportNoOverloadImplementation": "none",
+    "reportOperatorIssue": "none",
+    "reportPossiblyUnbound": "none",
+    "reportRedeclaration": "none",
+    "reportReturnType": "none",
+    "reportAbstractUsage": "none",
+    "reportFunctionMemberAccess": "none",
+    "reportIncompatibleMethodOverride": "none",
+    "reportIncompatibleVariableOverride": "none",
+    "reportInconsistentConstructor": "none",
+    "reportOverlappingOverload": "none",
+    "reportUninitializedInstanceVariable": "none",
+
+    // Import diagnostics (use Ruff)
+    "reportMissingImports": "none",
+    "reportMissingTypeStubs": "none",
+    "reportMissingModuleSource": "none",
+    "reportPrivateImportUsage": "none",
+    "reportUnusedImport": "none",
+    "reportWildcardImportFromLibrary": "none",
+
+    // Variable/usage diagnostics (use Ruff)
+    "reportUnusedVariable": "none",
+    "reportUnusedClass": "none",
+    "reportUnusedFunction": "none",
+    "reportUnusedExpression": "none",
+    "reportUnusedCoroutine": "none",
+    "reportUnusedExcept": "none",
+    "reportUndefinedVariable": "none",
+    "reportUnboundVariable": "none",
+
+    // Other diagnostics
+    "reportPrivateUsage": "none",
+    "reportConstantRedefinition": "none",
+    "reportDuplicateImport": "none",
+    "reportInvalidStringEscapeSequence": "none",
+    "reportInvalidTypeVarUse": "none",
+    "reportSelfClsParameterName": "none",
+    "reportUnsupportedDunderAll": "none",
+    "reportUnusedCallResult": "none",
+    "reportMatchNotExhaustive": "none",
+    "reportImplicitOverride": "none",
+    "reportShadowedImports": "none",
+    "reportImplicitStringConcatenation": "none",
+    "reportPropertyTypeMismatch": "none",
+    "reportUnnecessaryCast": "none",
+    "reportUnnecessaryComparison": "none",
+    "reportUnnecessaryContains": "none",
+    "reportUnnecessaryIsInstance": "none",
+    "reportUnnecessaryTypeIgnoreComment": "none",
+    "reportDeprecated": "none",
+    "reportInvalidStubStatement": "none",
+    "reportIncompleteStub": "none",
+    "reportAssertAlwaysTrue": "none",
+    "reportMissingSuperCall": "none",
+    "reportUntypedBaseClass": "none",
+    "reportUntypedClassDecorator": "none",
+    "reportUntypedFunctionDecorator": "none",
+    "reportUntypedNamedTuple": "none",
+    "reportCallInDefaultInitializer": "none",
+    "reportImportCycles": "none",
+    "reportUnknownArgumentType": "none",
+    "reportUnknownLambdaType": "none",
+    "reportUnknownMemberType": "none",
+    "reportUnknownParameterType": "none",
+    "reportUnknownVariableType": "none",
+    "reportMissingParameterType": "none",
+    "reportMissingTypeArgument": "none"
+  },
+
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+
+  // Ruff: Linting AND formatting (config from pyproject.toml)
+  "ruff.enable": true,
+  "ruff.importStrategy": "fromEnvironment",
+  "ruff.configurationPreference": "filesystemFirst",
+  "ruff.nativeServer": "auto",
+  "ruff.lint.enable": true,
+  // Note: ruff.format.args deprecated in native server - use pyproject.toml instead
+
+  // Mypy: Type checking (config from pyproject.toml)
+  "mypy-type-checker.importStrategy": "fromEnvironment",
+  "mypy-type-checker.args": ["--config-file=${workspaceFolder}/pyproject.toml"],
+
+  // ==========================================================================
+  // SECTION 4: MARKDOWN CONFIGURATION
+  // ==========================================================================
+
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.markdownlint": "explicit"
+    },
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": {
+      "other": "on",
+      "comments": false,
+      "strings": "on"
+    },
+    "files.trimTrailingWhitespace": false,
+    "cSpell.enabled": true
+  },
+
+  "path-intellisense.extensionOnImport": true,
+  "path-intellisense.showHiddenFiles": true,
+  "path-intellisense.mappings": {
+    "/": "${workspaceFolder}"
+  },
+
+  "markdown.preview.breaks": false,
+  "markdown.extension.tableFormatter.normalizeIndentation": true,
+  "markdown.extension.orderedList.autoRenumber": true,
+
+  "markdownlint.run": "onType",
+  "markdownlint.config": {}, // Uses .markdownlint.yaml in workspace root
+  "markdown.styles": [".vscode/markdown.css"],
+
+  // ==========================================================================
+  // SECTION 4.1: SPELLCHECK CONFIGURATION (cSpell)
+  // ==========================================================================
+  // Code Spell Checker: Markdown-only spellchecking
+  // Config file: cspell.json in workspace root
+  // Custom dictionary: .cspell/custom-dictionary.txt
+
+  // Global cSpell settings (Markdown-only via enabledFileTypes)
+  "cSpell.enabled": true,
+  "cSpell.enabledFileTypes": {
+    "*": false,
+    "markdown": true
+  },
+  "cSpell.diagnosticLevel": "Information",
+  "cSpell.showStatus": true,
+  "cSpell.showStatusAlignment": "Right",
+
+  // Use workspace cspell.json for all configuration
+  "cSpell.import": ["${workspaceFolder}/cspell.json"],
+
+  // Quick actions for adding words
+  "cSpell.showAutocompleteSuggestions": true,
+  "cSpell.fixSpellingWithRenameProvider": true,
+  "cSpell.showSuggestionsLinkInEditorContextMenu": true,
+
+  // ==========================================================================
+  // SECTION 5: JINJA2 TEMPLATES
+  // ==========================================================================
+
+  "[jinja-md]": {
+    "editor.wordWrap": "on",
+    "editor.formatOnSave": false,
+    "editor.quickSuggestions": {
+      "other": "on",
+      "comments": false,
+      "strings": "on"
+    },
+    "files.trimTrailingWhitespace": false,
+    "cSpell.enabled": false
+  },
+
+  // ==========================================================================
+  // SECTION 6: SHELL SCRIPTS
+  // ==========================================================================
+
+  "[shellscript]": {
+    "editor.formatOnSave": false,
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "cSpell.enabled": false
+  },
+
+  // ShellCheck: Optimal configuration for external source files
+  // .shellcheckrc provides primary config, these settings ensure VS Code honors it
+  "shellcheck.enable": true,
+  "shellcheck.run": "onSave",
+  "shellcheck.useWorkspaceRootAsCwd": false, // Use script directory as CWD (fixes source-path resolution)
+  "shellcheck.customArgs": ["-x"], // Force external source following (more reliable than .shellcheckrc alone)
+
+  // ==========================================================================
+  // SECTION 7: LATEX CONFIGURATION
+  // ==========================================================================
+
+  "[latex]": {
+    "editor.formatOnSave": true,
+    "editor.wordWrap": "on",
+    "editor.tabSize": 2,
+    "cSpell.enabled": false
+  },
+
+  "[bibtex]": {
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "cSpell.enabled": false
+  },
+
+  // LaTeX Workshop: Build with latexmk + LuaLaTeX ONLY
+  // Lint with chktex, format with latexindent
+  "latex-workshop.latex.recipe.default": "latexmk (lualatex)",
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "latexmk (lualatex)",
+      "tools": ["lualatexmk"]
+    }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "lualatexmk",
+      "command": "latexmk",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-lualatex",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ],
+      "env": {}
+    }
+  ],
+
+  // Disable max_print_line for LuaLaTeX compatibility
+  "latex-workshop.latex.option.maxPrintLine.enabled": false,
+
+  // ChkTeX linting (uses .chktexrc if present)
+  "latex-workshop.linting.chktex.enabled": true,
+  "latex-workshop.linting.chktex.exec.path": "chktex",
+  "latex-workshop.linting.run": "onType",
+
+  // latexindent formatting (uses .latexindent.yaml in workspace root)
+  // Note: latex-workshop.latexindent.* renamed to latex-workshop.formatting.latexindent.*
+  "latex-workshop.formatting.latexindent.path": "latexindent",
+  "latex-workshop.formatting.latexindent.args": [
+    "-c",
+    "%DIR%/",
+    "-l",
+    "%WORKSPACE_FOLDER%/.latexindent.yaml",
+    "%TMPFILE%"
+  ],
+
+  // Build behavior
+  "latex-workshop.latex.autoBuild.run": "onSave",
+  "latex-workshop.latex.autoClean.run": "onBuilt",
+  "latex-workshop.latex.clean.fileTypes": [
+    "*.aux",
+    "*.bbl",
+    "*.blg",
+    "*.idx",
+    "*.ind",
+    "*.lof",
+    "*.lot",
+    "*.out",
+    "*.toc",
+    "*.acn",
+    "*.acr",
+    "*.alg",
+    "*.glg",
+    "*.glo",
+    "*.gls",
+    "*.fls",
+    "*.log",
+    "*.fdb_latexmk",
+    "*.snm",
+    "*.nav",
+    "*.synctex.gz",
+    "*.run.xml",
+    "*.bcf"
+  ],
+
+  // ==========================================================================
+  // SECTION 8: PERL CONFIGURATION
+  // ==========================================================================
+
+  "[perl]": {
+    "editor.defaultFormatter": "bscan.perlnavigator",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4,
+    "cSpell.enabled": false
+  },
+
+  // PerlNavigator: Uses .perltidyrc and .perlcriticrc from workspace root
+  "perlnavigator.enableWarnings": true,
+  "perlnavigator.perlcriticEnabled": true,
+  "perlnavigator.perlcriticProfile": "${workspaceFolder}/.perlcriticrc",
+  "perlnavigator.perltidyEnabled": true,
+  "perlnavigator.perltidyProfile": "${workspaceFolder}/.perltidyrc",
+
+  // ==========================================================================
+  // SECTION 9: LUA CONFIGURATION
+  // ==========================================================================
+
+  "[lua]": {
+    "editor.defaultFormatter": "sumneko.lua",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "cSpell.enabled": false
+  },
+
+  // Lua language server (uses .luarc.json if present)
+  "Lua.format.enable": true,
+  "Lua.format.defaultConfig": {
+    "indent_style": "space",
+    "indent_size": "2",
+    "quote_style": "double"
+  },
+  "Lua.diagnostics.enable": true,
+  "Lua.hint.enable": true,
+
+  // ==========================================================================
+  // SECTION 10: HDL/VHDL/FPGA CONFIGURATION
+  // ==========================================================================
+  // Tools: VHDL-LS (language server), TerosHDL (IDE), GHDL (linter), VSG (formatter)
+  // Config: vhdl_ls.toml, .vsg.yaml
+
+  "[vhdl]": {
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.wordWrap": "off",
+    "cSpell.enabled": false
+  },
+
+  "[verilog]": {
+    "editor.formatOnSave": false, // Verible formatter available via TerosHDL
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "cSpell.enabled": false
+  },
+
+  "[systemverilog]": {
+    "editor.formatOnSave": false, // Verible formatter available via TerosHDL
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "cSpell.enabled": false
+  },
+
+  // VHDL-LS (rust_hdl language server) - uses vhdl_ls.toml in workspace root
+  "vhdl-ls.languageServer": "embedded",
+
+  // TerosHDL configuration
+  "teroshdl.general.go_to_definition_vhdl": true,
+  "teroshdl.general.go_to_definition_verilog": true,
+  "teroshdl.formatter.vhdl.formatter_name": "vsg", // VHDL Style Guide
+  "teroshdl.formatter.verilog.formatter_name": "verible",
+  "teroshdl.linter.vhdl.linter_name": "ghdl",
+  "teroshdl.linter.verilog.linter_name": "verilator",
+  "teroshdl.documentation.vhdl.symbol_vhdl": "!",
+  "teroshdl.documentation.verilog.symbol_verilog": "!",
+
+  // Verilog-HDL extension (mshr-h)
+  "verilog.linting.linter": "verilator",
+  "verilog.ctags.path": "ctags",
+
+  // ==========================================================================
+  // SECTION 11: PLANTUML CONFIGURATION
+  // ==========================================================================
+
+  "[plantuml]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "cSpell.enabled": false
+  },
+
+  // PlantUML (jebbs.plantuml) - uses server or local JAR
+  "plantuml.render": "PlantUMLServer",
+  "plantuml.server": "https://www.plantuml.com/plantuml",
+  "plantuml.exportFormat": "svg",
+  "plantuml.previewAutoUpdate": true,
+  "plantuml.exportOutDir": "out/diagrams",
+
+  // ==========================================================================
+  // SECTION 12: TCL/TK CONFIGURATION
+  // ==========================================================================
+  // Tools: bitwisecook.tcl (syntax), nmoroze.tclint (linting/formatting)
+  // Config: tclint.toml in workspace root
+
+  "[tcl]": {
+    "editor.defaultFormatter": "nmoroze.tclint",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.wordWrap": "off",
+    "cSpell.enabled": false
+  },
+
+  // Tclint extension (uses tclint.toml in workspace root)
+  "tclint.enable": true,
+  "tclint.run": "onSave",
+
+  // ==========================================================================
+  // SECTION 13: XML CONFIGURATION
+  // ==========================================================================
+
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "cSpell.enabled": false
+  },
+
+  "[xsl]": {
+    "editor.defaultFormatter": "redhat.vscode-xml",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "cSpell.enabled": false
+  },
+
+  // Red Hat XML extension
+  "xml.format.splitAttributes": "preserve",
+  "xml.format.joinCDATALines": false,
+  "xml.format.preserveEmptyContent": true,
+  "xml.validation.enabled": true,
+  "xml.validation.schema.enabled": "always",
+
+  // ==========================================================================
+  // SECTION 14: CSV CONFIGURATION
+  // ==========================================================================
+
+  "[csv]": {
+    "editor.wordWrap": "off",
+    "editor.quickSuggestions": {
+      "comments": "off",
+      "strings": "off",
+      "other": "off"
+    },
+    "cSpell.enabled": false
+  },
+
+  // Rainbow CSV extension
+  "rainbow_csv.enable_tooltip": true,
+  "rainbow_csv.enable_auto_csv_lint": true,
+
+  // ==========================================================================
+  // SECTION 15: OTHER LANGUAGES
+  // ==========================================================================
+
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml",
+    "editor.formatOnSave": true,
+    "cSpell.enabled": false
+  },
+
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.formatOnSave": true,
+    "cSpell.enabled": false
+  },
+
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.formatOnSave": false,
+    "editor.tabSize": 2,
+    "cSpell.enabled": false
+  },
+
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml",
+    "editor.formatOnSave": true,
+    "cSpell.enabled": false
+  },
+
+  // ==========================================================================
+  // SECTION 16: GIT AND TODO MANAGEMENT
+  // ==========================================================================
+
+  // Git Graph: Superior to GitLens (13M downloads, 5/5 rating)
+  // Note: git-graph.showUncommittedChanges/fetchAndPrune deprecated,
+  // use git-graph.repository.* versions
+  "git-graph.showStatusBarItem": true,
+  "git-graph.repository.showUncommittedChanges": true,
+  "git-graph.date.format": "ISO Date & Time",
+  "git-graph.repository.fetchAndPrune": true,
+
+  // Todo Tree: TODO/FIXME highlighting in tree view
+  "todo-tree.general.tags": ["TODO", "FIXME", "NOTE", "HACK", "XXX", "BUG"],
+  "todo-tree.highlights.defaultHighlight": {
+    "type": "text-and-comment"
+  },
+  "todo-tree.highlights.customHighlight": {
+    "TODO": {
+      "icon": "check",
+      "iconColour": "#3794ff"
+    },
+    "FIXME": {
+      "icon": "alert",
+      "iconColour": "#ff6b6b"
+    },
+    "NOTE": {
+      "icon": "note",
+      "iconColour": "#4CAF50"
+    }
+  },
+
+  // ==========================================================================
+  // SECTION 17: FILE MANAGEMENT
+  // ==========================================================================
+
+  "files.associations": {
+    // Source files
+    "*.md": "markdown",
+    "*.md.j2": "jinja-md",
+    "*.j2": "jinja",
+    "*.pyi": "python",
+    "*.vhd": "vhdl",
+    "*.vhdl": "vhdl",
+    "*.v": "verilog",
+    "*.sv": "systemverilog",
+    "*.svh": "systemverilog",
+
+    // TCL/Tk
+    "*.tcl": "tcl",
+    "*.tm": "tcl",
+    "*.itcl": "tcl",
+    "*.itk": "tcl",
+
+    // PlantUML diagrams
+    "*.puml": "plantuml",
+    "*.plantuml": "plantuml",
+    "*.pu": "plantuml",
+    "*.iuml": "plantuml",
+
+    // XML and related
+    "*.xml": "xml",
+    "*.xsl": "xsl",
+    "*.xslt": "xsl",
+    "*.xsd": "xml",
+    "*.wsdl": "xml",
+    "*.svg": "xml",
+    "*.plist": "xml",
+    "*.xhtml": "xml",
+
+    // Data files
+    "*.csv": "csv",
+    "*.tsv": "csv",
+
+    // Config files with extensions
+    "pyproject.toml": "toml",
+    "uv.lock": "yaml",
+    "*.toml": "toml",
+
+    // Environment files
+    ".env.*": "dotenv",
+    ".env": "dotenv",
+
+    // Git files
+    ".gitignore": "ignore",
+    ".gitattributes": "properties",
+
+    // Ignore pattern files
+    ".claudeignore": "ignore",
+    ".prettierignore": "ignore",
+    ".dockerignore": "ignore",
+    ".npmignore": "ignore",
+    ".lycheeignore": "ignore",
+
+    // Shell configuration (use properties to avoid shellcheck running on config)
+    ".shellcheckrc": "properties",
+    ".bashrc": "shellscript",
+    ".bash_profile": "shellscript",
+    ".zshrc": "shellscript",
+    ".profile": "shellscript",
+
+    // YAML configuration files
+    ".yamllint.yaml": "yaml",
+    ".latexindent.yaml": "yaml",
+    ".prettierrc.yaml": "yaml",
+    ".markdownlint.yaml": "yaml",
+    ".pre-commit-config.yaml": "yaml",
+    ".clang-format": "yaml",
+
+    // LaTeX configuration
+    ".latexmkrc": "perl",
+    ".chktexrc": "ini",
+
+    // Perl configuration (use ini for better highlighting than plaintext)
+    ".perltidyrc": "ini",
+    ".perlcriticrc": "ini",
+
+    // JSON configuration
+    ".luarc.json": "jsonc",
+    "tsconfig.json": "jsonc",
+    "jsconfig.json": "jsonc",
+    ".babelrc": "jsonc",
+    ".eslintrc": "jsonc",
+    "*.jsonc": "jsonc",
+    "cspell.json": "jsonc",
+
+    // HDL configuration
+    "vhdl_ls.toml": "toml",
+    ".rules.verible_lint": "yaml",
+    ".vsg.yaml": "yaml",
+
+    // HDL constraint files (TCL-based)
+    "*.xdc": "tcl",
+    "*.sdc": "tcl",
+    "*.pcf": "tcl",
+    "*.lpf": "tcl",
+    "*.cst": "tcl",
+
+    // Waveform viewer save files
+    "*.gtkw": "plaintext",
+    "*.gtkwaverc": "shellscript",
+
+    // Build/Make
+    "Makefile": "makefile",
+    "makefile": "makefile",
+    "GNUmakefile": "makefile",
+    "Makefile.*": "makefile",
+
+    // Just command runner (install extension: skellock.just for best highlighting)
+    "justfile": "makefile",
+    "Justfile": "makefile",
+    ".justfile": "makefile",
+
+    // Editor configuration
+    ".editorconfig": "editorconfig",
+
+    // Version/plain files
+    "VERSION": "markdown",
+    "LICENSE": "plaintext",
+    "AUTHORS": "plaintext",
+    "CONTRIBUTORS": "plaintext",
+    "CHANGELOG": "markdown",
+    "NEWS": "plaintext",
+
+    // Dockerfile
+    "Dockerfile": "dockerfile",
+    "Dockerfile.*": "dockerfile",
+    "*.dockerfile": "dockerfile",
+
+    // Custom dictionary file (cSpell) - use properties for # comment support without markdown linting
+    "custom-dictionary.txt": "properties"
+  },
+
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/*~": true,
+    "**/__pycache__": true,
+    "**/.mypy_cache": true,
+    "**/.ruff_cache": true,
+    "**/.pytest_cache": true,
+    "**/*.aux": true,
+    "**/*.bbl": true,
+    "**/*.blg": true,
+    "**/*.fdb_latexmk": true,
+    "**/*.fls": true,
+    "**/*.synctex.gz": true,
+    "**/.cspell/.cache": true
+  },
+
+  "files.watcherExclude": {
+    "**/__pycache__/**": true,
+    "**/.mypy_cache/**": true,
+    "**/.ruff_cache/**": true,
+    "**/.venv/**": true,
+    "**/.cspell/.cache/**": true
+  },
+
+  "search.exclude": {
+    "**/__pycache__": true,
+    "**/.mypy_cache": true,
+    "**/.venv": true,
+    "**/node_modules": true,
+    "**/.cspell/.cache": true
+  },
+
+  // ==========================================================================
+  // SECTION 18: TERMINAL CONFIGURATION
+  // ==========================================================================
+  // Cross-platform terminal profiles for consistent bash experience
+  // - Linux: Native bash
+  // - Windows: Git Bash (multiple fallback paths)
+  // - WSL: Bash with login shell
+  // - macOS: zsh (default) and bash (alternative)
+
+  // Linux terminal configuration
+  "terminal.integrated.defaultProfile.linux": "bash",
+  "terminal.integrated.profiles.linux": {
+    "bash": {
+      "path": "/bin/bash",
+      "args": [],
+      "icon": "terminal-bash"
+    }
+  },
+
+  // Windows terminal configuration - Git Bash with fallbacks
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "terminal.integrated.profiles.windows": {
+    "Git Bash": {
+      "path": [
+        // Standard Git for Windows installation paths
+        "C:\\Program Files\\Git\\bin\\bash.exe",
+        "C:\\Program Files (x86)\\Git\\bin\\bash.exe",
+        // Scoop installation path
+        "${env:USERPROFILE}\\scoop\\apps\\git\\current\\bin\\bash.exe",
+        // Chocolatey installation path
+        "C:\\ProgramData\\chocolatey\\bin\\bash.exe",
+        // Portable Git
+        "${env:USERPROFILE}\\PortableGit\\bin\\bash.exe"
+      ],
+      "args": ["--login"],
+      "icon": "terminal-bash",
+      "overrideName": true
+    },
+    "Command Prompt": {
+      "path": "cmd.exe",
+      "args": [],
+      "icon": "terminal-cmd"
+    },
+    "PowerShell": {
+      "path": "powershell.exe",
+      "args": ["-NoLogo"],
+      "icon": "terminal-powershell"
+    }
+  },
+
+  // macOS terminal configuration - zsh default with bash option
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.profiles.osx": {
+    "zsh": {
+      "path": "/bin/zsh",
+      "args": ["-l"],
+      "icon": "terminal"
+    },
+    "bash": {
+      "path": "/bin/bash",
+      "args": ["-l"],
+      "icon": "terminal-bash"
+    }
+  },
+
+  // Common terminal settings
+  "terminal.integrated.scrollback": 100000,
+  "terminal.integrated.splitCwd": "workspaceRoot",
+  "terminal.integrated.enablePersistentSessions": true,
+  "terminal.integrated.copyOnSelection": false,
+  "terminal.integrated.cursorBlinking": true,
+  "terminal.integrated.cursorStyle": "line",
+  "terminal.integrated.rightClickBehavior": "default"
+}
