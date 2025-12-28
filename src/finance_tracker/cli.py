@@ -3,6 +3,19 @@ Command-line interface for finance tracker.
 
 Provides CLI commands for generating budgets, analyzing spending,
 creating reports, and managing finances.
+
+New in v0.6.0 (Phase 3: Enhanced Features):
+    - FR-CORE-004: Account management (account command)
+    - FR-CURR-001: Multi-currency support (currency command)
+    - FR-IMPORT-002: Extended bank formats (50+ supported)
+    - FR-REPORT-003: Interactive visualization (visualize command)
+    - FR-AI-001/003: Enhanced AI export with semantic tagging
+
+New in v0.5.0:
+    - FR-UX-004: Confirmation prompts for destructive operations
+    - DR-STORE-002: Backup/restore functionality
+    - FR-EXPORT-001: Multi-format export (xlsx, csv, pdf)
+    - FR-DUAL-001/002: Dual export (ODS + JSON for AI)
 """
 
 from __future__ import annotations
@@ -20,7 +33,115 @@ from finance_tracker.exceptions import (
     InvalidAmountError,
     InvalidCategoryError,
     InvalidDateError,
+    OperationCancelledError,
 )
+
+
+# =============================================================================
+# Confirmation Prompt Utilities (FR-UX-004)
+# =============================================================================
+
+
+def confirm_action(
+    message: str,
+    *,
+    default: bool = False,
+    skip_confirm: bool = False,
+) -> bool:
+    """
+    Prompt user for confirmation before destructive actions.
+
+    Args:
+        message: Description of the action to confirm.
+        default: Default response if user just presses Enter.
+        skip_confirm: If True, skip confirmation and return True.
+
+    Returns:
+        True if action is confirmed, False otherwise.
+
+    Implements:
+        FR-UX-004: Confirmation prompts for destructive operations.
+    """
+    if skip_confirm:
+        return True
+
+    # Non-interactive mode check
+    if not sys.stdin.isatty():
+        return default
+
+    prompt_suffix = " [Y/n]" if default else " [y/N]"
+    full_prompt = f"{message}{prompt_suffix}: "
+
+    try:
+        response = input(full_prompt).strip().lower()
+        if not response:
+            return default
+        return response in ("y", "yes")
+    except (EOFError, KeyboardInterrupt):
+        print()
+        return False
+
+
+def confirm_overwrite(file_path: Path, *, skip_confirm: bool = False) -> bool:
+    """
+    Confirm overwriting an existing file.
+
+    Args:
+        file_path: Path to the file that would be overwritten.
+        skip_confirm: If True, skip confirmation.
+
+    Returns:
+        True if overwrite is confirmed.
+    """
+    if not file_path.exists():
+        return True
+
+    return confirm_action(
+        f"File '{file_path}' already exists. Overwrite?",
+        default=False,
+        skip_confirm=skip_confirm,
+    )
+
+
+def confirm_delete(file_path: Path, *, skip_confirm: bool = False) -> bool:
+    """
+    Confirm deleting a file.
+
+    Args:
+        file_path: Path to the file to delete.
+        skip_confirm: If True, skip confirmation.
+
+    Returns:
+        True if deletion is confirmed.
+    """
+    return confirm_action(
+        f"Delete '{file_path}'? This cannot be undone.",
+        default=False,
+        skip_confirm=skip_confirm,
+    )
+
+
+def confirm_destructive_operation(
+    operation: str,
+    details: str | None = None,
+    *,
+    skip_confirm: bool = False,
+) -> bool:
+    """
+    Confirm a potentially destructive operation.
+
+    Args:
+        operation: Name of the operation.
+        details: Additional details about what will happen.
+        skip_confirm: If True, skip confirmation.
+
+    Returns:
+        True if operation is confirmed.
+    """
+    message = f"Proceed with {operation}?"
+    if details:
+        print(f"\n{details}")
+    return confirm_action(message, default=False, skip_confirm=skip_confirm)
 
 
 def main() -> int:
@@ -37,7 +158,13 @@ Examples:
   finance-tracker report budget.ods -f markdown
   finance-tracker expense 25.50 "Coffee shop" -c "Dining Out"
   finance-tracker import bank_export.csv --preview
+  finance-tracker export budget.ods -f xlsx
+  finance-tracker backup budget.ods
   finance-tracker dashboard budget.ods
+  finance-tracker visualize budget.ods -o dashboard.html
+  finance-tracker account add "Primary Checking" --type checking
+  finance-tracker account list
+  finance-tracker banks --list
   finance-tracker templates
   finance-tracker themes
 
@@ -64,6 +191,14 @@ For more information, visit: https://github.com/allenjd1/finance-tracker
         "--no-color",
         action="store_true",
         help="Disable colored output",
+    )
+
+    # Global confirmation skip flag
+    parser.add_argument(
+        "-y",
+        "--yes",
+        action="store_true",
+        help="Skip confirmation prompts (answer yes to all)",
     )
 
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
@@ -111,6 +246,11 @@ For more information, visit: https://github.com/allenjd1/finance-tracker
         type=int,
         default=50,
         help="Number of empty rows for data entry (default: 50)",
+    )
+    gen_parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Overwrite existing file without confirmation",
     )
 
     # Analyze command
@@ -204,6 +344,11 @@ For more information, visit: https://github.com/allenjd1/finance-tracker
         type=str,
         help="Date (YYYY-MM-DD, defaults to today)",
     )
+    expense_parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Show what would be added without modifying the file",
+    )
 
     # Import CSV command
     import_parser = subparsers.add_parser(
@@ -227,7 +372,7 @@ For more information, visit: https://github.com/allenjd1/finance-tracker
         "--bank",
         type=str,
         default="auto",
-        help="Bank format (chase, bank_of_america, capital_one, wells_fargo, citi, usaa, generic, or auto)",
+        help="Bank format (use 'banks --list' to see available formats)",
     )
     import_parser.add_argument(
         "--preview",
@@ -238,6 +383,103 @@ For more information, visit: https://github.com/allenjd1/finance-tracker
         "--theme",
         type=str,
         help="Visual theme for output file",
+    )
+    import_parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Overwrite existing output file without confirmation",
+    )
+
+    # Export command (FR-EXPORT-001)
+    export_parser = subparsers.add_parser(
+        "export",
+        help="Export to other formats",
+        description="Export ODS file to Excel, CSV, PDF, or JSON format.",
+    )
+    export_parser.add_argument(
+        "file",
+        type=Path,
+        help="Path to ODS budget file",
+    )
+    export_parser.add_argument(
+        "-o",
+        "--output",
+        type=Path,
+        help="Output file path (default: same name with new extension)",
+    )
+    export_parser.add_argument(
+        "-f",
+        "--format",
+        choices=["xlsx", "csv", "pdf", "json"],
+        required=True,
+        help="Export format",
+    )
+    export_parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Overwrite existing file without confirmation",
+    )
+
+    # Export-dual command (FR-DUAL-001/002)
+    export_dual_parser = subparsers.add_parser(
+        "export-dual",
+        help="Export to ODS + AI-friendly JSON",
+        description="Export to both ODS copy and AI-readable JSON for LLM integration.",
+    )
+    export_dual_parser.add_argument(
+        "file",
+        type=Path,
+        help="Path to ODS budget file",
+    )
+    export_dual_parser.add_argument(
+        "-o",
+        "--output-dir",
+        type=Path,
+        help="Output directory (default: same as source)",
+    )
+
+    # Backup command (DR-STORE-002)
+    backup_parser = subparsers.add_parser(
+        "backup",
+        help="Backup budget files",
+        description="Create a backup of a budget file.",
+    )
+    backup_parser.add_argument(
+        "file",
+        type=Path,
+        help="Path to file to backup",
+    )
+    backup_parser.add_argument(
+        "--list",
+        action="store_true",
+        help="List available backups for this file",
+    )
+    backup_parser.add_argument(
+        "--restore",
+        type=Path,
+        metavar="BACKUP_FILE",
+        help="Restore from a specific backup file",
+    )
+    backup_parser.add_argument(
+        "--cleanup",
+        action="store_true",
+        help="Remove backups older than retention period",
+    )
+    backup_parser.add_argument(
+        "--days",
+        type=int,
+        default=30,
+        help="Retention period in days (default: 30)",
+    )
+    backup_parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Show what would be done without making changes",
+    )
+    backup_parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Skip confirmation for restore/cleanup",
     )
 
     # Upload command
@@ -270,6 +512,147 @@ For more information, visit: https://github.com/allenjd1/finance-tracker
         help="Path to ODS budget file",
     )
     dashboard_parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Output as JSON",
+    )
+
+    # Visualize command (NEW - Phase 3 FR-REPORT-003)
+    visualize_parser = subparsers.add_parser(
+        "visualize",
+        help="Generate interactive charts",
+        description="Generate interactive HTML charts and dashboards.",
+    )
+    visualize_parser.add_argument(
+        "file",
+        type=Path,
+        help="Path to ODS budget file",
+    )
+    visualize_parser.add_argument(
+        "-o",
+        "--output",
+        type=Path,
+        help="Output HTML file (default: budget_dashboard.html)",
+    )
+    visualize_parser.add_argument(
+        "-t",
+        "--type",
+        choices=["dashboard", "pie", "bar", "trend"],
+        default="dashboard",
+        help="Chart type (default: dashboard)",
+    )
+    visualize_parser.add_argument(
+        "--theme",
+        choices=["default", "dark"],
+        default="default",
+        help="Visual theme (default: default)",
+    )
+
+    # Account command (NEW - Phase 3 FR-CORE-004)
+    account_parser = subparsers.add_parser(
+        "account",
+        help="Manage financial accounts",
+        description="Manage accounts, balances, and transfers.",
+    )
+    account_subparsers = account_parser.add_subparsers(dest="account_action")
+
+    # Account add
+    account_add = account_subparsers.add_parser("add", help="Add a new account")
+    account_add.add_argument("name", help="Account name")
+    account_add.add_argument(
+        "--type",
+        choices=["checking", "savings", "credit", "investment", "cash", "retirement"],
+        default="checking",
+        help="Account type",
+    )
+    account_add.add_argument("--institution", help="Financial institution")
+    account_add.add_argument("--balance", type=float, default=0, help="Initial balance")
+    account_add.add_argument("--currency", default="USD", help="Currency code")
+
+    # Account list
+    account_list = account_subparsers.add_parser("list", help="List accounts")
+    account_list.add_argument("--type", help="Filter by account type")
+    account_list.add_argument("--json", action="store_true", help="Output as JSON")
+
+    # Account balance
+    account_balance = account_subparsers.add_parser("balance", help="Show account balance")
+    account_balance.add_argument("name", nargs="?", help="Account name (or all)")
+
+    # Account transfer
+    account_transfer = account_subparsers.add_parser(
+        "transfer", help="Transfer between accounts"
+    )
+    account_transfer.add_argument("from_account", help="Source account name")
+    account_transfer.add_argument("to_account", help="Destination account name")
+    account_transfer.add_argument("amount", type=float, help="Amount to transfer")
+
+    # Account net-worth
+    account_networth = account_subparsers.add_parser(
+        "net-worth", help="Calculate net worth"
+    )
+    account_networth.add_argument("--json", action="store_true", help="Output as JSON")
+
+    # Banks command (NEW - Phase 3 FR-IMPORT-002)
+    banks_parser = subparsers.add_parser(
+        "banks",
+        help="List supported bank formats",
+        description="List and manage bank CSV format definitions.",
+    )
+    banks_parser.add_argument(
+        "--list",
+        action="store_true",
+        help="List all supported bank formats",
+    )
+    banks_parser.add_argument(
+        "--search",
+        type=str,
+        help="Search for banks by name",
+    )
+    banks_parser.add_argument(
+        "--type",
+        choices=["checking", "credit", "savings", "investment"],
+        help="Filter by account type",
+    )
+    banks_parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Output as JSON",
+    )
+    banks_parser.add_argument(
+        "--detect",
+        type=Path,
+        help="Detect format from CSV file",
+    )
+
+    # Currency command (NEW - Phase 3 FR-CURR-001)
+    currency_parser = subparsers.add_parser(
+        "currency",
+        help="Currency conversion utilities",
+        description="Convert between currencies and view exchange rates.",
+    )
+    currency_parser.add_argument(
+        "amount",
+        type=float,
+        nargs="?",
+        help="Amount to convert",
+    )
+    currency_parser.add_argument(
+        "--from",
+        dest="from_currency",
+        default="USD",
+        help="Source currency (default: USD)",
+    )
+    currency_parser.add_argument(
+        "--to",
+        dest="to_currency",
+        help="Target currency",
+    )
+    currency_parser.add_argument(
+        "--list",
+        action="store_true",
+        help="List supported currencies",
+    )
+    currency_parser.add_argument(
         "--json",
         action="store_true",
         help="Output as JSON",
@@ -309,7 +692,7 @@ For more information, visit: https://github.com/allenjd1/finance-tracker
         help="Output as JSON",
     )
 
-    # Themes command (NEW)
+    # Themes command
     themes_parser = subparsers.add_parser(
         "themes",
         help="List visual themes",
@@ -360,10 +743,24 @@ For more information, visit: https://github.com/allenjd1/finance-tracker
             return _cmd_expense(args)
         elif args.command == "import":
             return _cmd_import(args)
+        elif args.command == "export":
+            return _cmd_export(args)
+        elif args.command == "export-dual":
+            return _cmd_export_dual(args)
+        elif args.command == "backup":
+            return _cmd_backup(args)
         elif args.command == "upload":
             return _cmd_upload(args)
         elif args.command == "dashboard":
             return _cmd_dashboard(args)
+        elif args.command == "visualize":
+            return _cmd_visualize(args)
+        elif args.command == "account":
+            return _cmd_account(args)
+        elif args.command == "banks":
+            return _cmd_banks(args)
+        elif args.command == "currency":
+            return _cmd_currency(args)
         elif args.command == "alerts":
             return _cmd_alerts(args)
         elif args.command == "templates":
@@ -372,6 +769,9 @@ For more information, visit: https://github.com/allenjd1/finance-tracker
             return _cmd_themes(args)
         elif args.command == "config":
             return _cmd_config(args)
+    except OperationCancelledError:
+        print("Operation cancelled.", file=sys.stderr)
+        return 1
     except FinanceTrackerError as e:
         print(f"Error [{e.error_code}]: {e.message}", file=sys.stderr)
         return 1
@@ -445,6 +845,7 @@ def _cmd_generate(args: argparse.Namespace) -> int:
     from finance_tracker.templates import get_template
 
     output = args.output
+    skip_confirm = getattr(args, "yes", False) or getattr(args, "force", False)
 
     # Get template allocations if specified
     allocations = None
@@ -459,13 +860,24 @@ def _cmd_generate(args: argparse.Namespace) -> int:
         print(f"Using theme: {theme}")
 
     if output.is_dir():
+        today = date.today()
+        month = args.month or today.month
+        year = getattr(args, "year", None) or today.year
+        filename = f"budget_{year}_{month:02d}.ods"
+        output_path = output / filename
+    else:
+        output_path = output
+
+    # Check for existing file (FR-UX-004)
+    if not confirm_overwrite(output_path, skip_confirm=skip_confirm):
+        raise OperationCancelledError("File generation")
+
+    if output.is_dir():
         if allocations or theme:
             generator = OdsGenerator(theme=theme)
             today = date.today()
             month = args.month or today.month
-            year = args.year or today.year
-            filename = f"budget_{year}_{month:02d}.ods"
-            output_path = output / filename
+            year = getattr(args, "year", None) or today.year
             path = generator.create_budget_spreadsheet(
                 output_path,
                 month=month,
@@ -474,14 +886,14 @@ def _cmd_generate(args: argparse.Namespace) -> int:
             )
         else:
             path = create_monthly_budget(
-                output, month=args.month, year=args.year, theme=theme
+                output, month=args.month, year=getattr(args, "year", None), theme=theme
             )
     else:
         generator = OdsGenerator(theme=theme)
         path = generator.create_budget_spreadsheet(
             output,
             month=args.month,
-            year=args.year,
+            year=getattr(args, "year", None),
             budget_allocations=allocations,
         )
 
@@ -568,8 +980,14 @@ def _cmd_report(args: argparse.Namespace) -> int:
 
 
 def _cmd_expense(args: argparse.Namespace) -> int:
-    """Handle quick expense entry."""
+    """
+    Handle quick expense entry.
+
+    Implements:
+        - FR-CORE-003: Expense append functionality (fixes Gap G-02)
+    """
     from finance_tracker.csv_import import TransactionCategorizer
+    from finance_tracker.ods_editor import OdsEditor
     from finance_tracker.ods_generator import (
         ExpenseCategory,
         ExpenseEntry,
@@ -618,36 +1036,66 @@ def _cmd_expense(args: argparse.Namespace) -> int:
         if not ods_path.exists():
             print(f"Error: File not found: {ods_path}", file=sys.stderr)
             return 1
+        file_existed = True
     else:
         # Look for most recent budget file in current directory
         ods_files = list(Path.cwd().glob("budget_*.ods"))
         if ods_files:
             ods_path = max(ods_files, key=lambda p: p.stat().st_mtime)
             print(f"Using: {ods_path}")
+            file_existed = True
         else:
             # Create new
             today = date.today()
             ods_path = Path.cwd() / f"budget_{today.year}_{today.month:02d}.ods"
-            generator = OdsGenerator()
-            generator.create_budget_spreadsheet(ods_path)
-            print(f"Created new budget: {ods_path}")
+            file_existed = False
 
-    # Add expense to file
-    # Note: This would require additional implementation to append to existing ODS
-    # For now, just show what would be added
-    print("\nExpense recorded:")
-    print(f"  Date:        {entry.date}")
-    print(f"  Category:    {entry.category.value}")
-    print(f"  Description: {entry.description}")
-    print(f"  Amount:      ${entry.amount:.2f}")
+    # Handle dry-run mode
+    dry_run = getattr(args, "dry_run", False)
+
+    if dry_run:
+        print("\n[DRY RUN] Would add expense:")
+        print(f"  File:        {ods_path}")
+        print(f"  Date:        {entry.date}")
+        print(f"  Category:    {entry.category.value}")
+        print(f"  Description: {entry.description}")
+        print(f"  Amount:      ${entry.amount:.2f}")
+        return 0
+
+    # Create file if needed
+    if not file_existed:
+        generator = OdsGenerator()
+        generator.create_budget_spreadsheet(ods_path)
+        print(f"Created new budget: {ods_path}")
+
+    # Append expense to file (FR-CORE-003 implementation)
+    try:
+        editor = OdsEditor(ods_path)
+        row_num = editor.append_expense(entry)
+        editor.save()
+
+        print("\nExpense added successfully:")
+        print(f"  File:        {ods_path}")
+        print(f"  Row:         {row_num}")
+        print(f"  Date:        {entry.date}")
+        print(f"  Category:    {entry.category.value}")
+        print(f"  Description: {entry.description}")
+        print(f"  Amount:      ${entry.amount:.2f}")
+
+    except Exception as e:
+        print(f"Error adding expense: {e}", file=sys.stderr)
+        return 1
 
     return 0
 
 
 def _cmd_import(args: argparse.Namespace) -> int:
     """Handle CSV import."""
+    from finance_tracker.bank_formats import BankFormatRegistry
     from finance_tracker.csv_import import CSVImporter, import_bank_csv
     from finance_tracker.ods_generator import OdsGenerator
+
+    skip_confirm = getattr(args, "yes", False) or getattr(args, "force", False)
 
     if not args.csv_file.exists():
         print(f"Error: CSV file not found: {args.csv_file}", file=sys.stderr)
@@ -655,8 +1103,9 @@ def _cmd_import(args: argparse.Namespace) -> int:
 
     # Detect or use specified bank format
     if args.bank == "auto":
-        detected = CSVImporter.detect_format(args.csv_file)
-        bank = detected or "generic"
+        registry = BankFormatRegistry()
+        detected_fmt = registry.detect_format(args.csv_file)
+        bank = detected_fmt.id if detected_fmt else "generic"
         print(f"Detected format: {bank}")
     else:
         bank = args.bank
@@ -688,12 +1137,155 @@ def _cmd_import(args: argparse.Namespace) -> int:
         today = date.today()
         output_path = Path.cwd() / f"imported_{today.strftime('%Y%m%d')}.ods"
 
+    # Confirm overwrite (FR-UX-004)
+    if not confirm_overwrite(output_path, skip_confirm=skip_confirm):
+        raise OperationCancelledError("CSV import")
+
     theme = getattr(args, "theme", None)
     generator = OdsGenerator(theme=theme)
     generator.create_budget_spreadsheet(output_path, expenses=entries)
 
     print(f"Created: {output_path}")
     print(f"Total imported: ${sum(e.amount for e in entries):,.2f}")
+
+    return 0
+
+
+def _cmd_export(args: argparse.Namespace) -> int:
+    """
+    Handle export command.
+
+    Implements:
+        FR-EXPORT-001: Multi-format export (xlsx, csv, pdf)
+    """
+    from finance_tracker.export import ExportFormat, MultiFormatExporter
+
+    skip_confirm = getattr(args, "yes", False) or getattr(args, "force", False)
+
+    if not args.file.exists():
+        print(f"Error: File not found: {args.file}", file=sys.stderr)
+        return 1
+
+    # Determine output path
+    if args.output:
+        output_path = args.output
+    else:
+        output_path = args.file.with_suffix(f".{args.format}")
+
+    # Confirm overwrite (FR-UX-004)
+    if not confirm_overwrite(output_path, skip_confirm=skip_confirm):
+        raise OperationCancelledError("Export")
+
+    exporter = MultiFormatExporter()
+    result = exporter.export(args.file, output_path, args.format)
+
+    print(f"Exported: {result}")
+    return 0
+
+
+def _cmd_export_dual(args: argparse.Namespace) -> int:
+    """
+    Handle dual export command.
+
+    Implements:
+        FR-DUAL-001/002: Dual export (ODS + AI-friendly JSON)
+    """
+    from finance_tracker.ai_export import AIExporter
+
+    if not args.file.exists():
+        print(f"Error: File not found: {args.file}", file=sys.stderr)
+        return 1
+
+    output_dir = args.output_dir or args.file.parent
+
+    exporter = AIExporter()
+    ods_path, json_path = exporter.export_dual(args.file, output_dir)
+
+    print(f"Exported:")
+    print(f"  ODS:  {ods_path}")
+    print(f"  JSON: {json_path}")
+    print("\nThe JSON file is formatted for AI/LLM consumption with semantic metadata.")
+
+    return 0
+
+
+def _cmd_backup(args: argparse.Namespace) -> int:
+    """
+    Handle backup command.
+
+    Implements:
+        DR-STORE-002: Backup/restore functionality
+    """
+    from finance_tracker.backup import BackupManager, BackupReason
+
+    skip_confirm = getattr(args, "yes", False) or getattr(args, "force", False)
+    dry_run = getattr(args, "dry_run", False)
+
+    manager = BackupManager(retention_days=args.days)
+
+    # List backups
+    if args.list:
+        backups = manager.list_backups(args.file)
+        if not backups:
+            print(f"No backups found for: {args.file}")
+            return 0
+
+        print(f"Backups for: {args.file}")
+        print("-" * 60)
+        for backup in backups:
+            size_kb = backup.backup_path.stat().st_size / 1024 if backup.backup_path.exists() else 0
+            print(
+                f"  {backup.created.strftime('%Y-%m-%d %H:%M')}  "
+                f"{size_kb:>8.1f} KB  {backup.metadata.reason}"
+            )
+            print(f"    Path: {backup.backup_path}")
+        return 0
+
+    # Cleanup old backups
+    if args.cleanup:
+        if not confirm_destructive_operation(
+            "backup cleanup",
+            f"This will remove backups older than {args.days} days.",
+            skip_confirm=skip_confirm,
+        ):
+            raise OperationCancelledError("Backup cleanup")
+
+        deleted = manager.cleanup_old_backups(args.days, dry_run=dry_run)
+
+        if dry_run:
+            print(f"[DRY RUN] Would delete {len(deleted)} backup(s)")
+        else:
+            print(f"Deleted {len(deleted)} old backup(s)")
+        return 0
+
+    # Restore from backup
+    if args.restore:
+        if not args.restore.exists():
+            print(f"Error: Backup file not found: {args.restore}", file=sys.stderr)
+            return 1
+
+        target = args.file
+        if target.exists():
+            if not confirm_overwrite(target, skip_confirm=skip_confirm):
+                raise OperationCancelledError("Backup restore")
+
+        if dry_run:
+            print(f"[DRY RUN] Would restore {args.restore} to {target}")
+            return 0
+
+        restored = manager.restore_backup(args.restore, target, overwrite=True)
+        print(f"Restored: {restored}")
+        return 0
+
+    # Create backup (default action)
+    if not args.file.exists():
+        print(f"Error: File not found: {args.file}", file=sys.stderr)
+        return 1
+
+    backup_info = manager.create_backup(args.file, BackupReason.MANUAL)
+    print(f"Backup created: {backup_info.backup_path}")
+    print(f"  Original: {args.file}")
+    print(f"  Hash: {backup_info.metadata.content_hash[:16]}...")
 
     return 0
 
@@ -792,6 +1384,352 @@ def _cmd_dashboard(args: argparse.Namespace) -> int:
         print()
 
     print("=" * 60)
+
+    return 0
+
+
+def _cmd_visualize(args: argparse.Namespace) -> int:
+    """
+    Handle visualize command.
+
+    Implements:
+        FR-REPORT-003: Interactive visualization
+    """
+    from finance_tracker.visualization import (
+        ChartConfig,
+        ChartDataPoint,
+        ChartGenerator,
+        ChartType,
+        DashboardGenerator,
+        create_budget_dashboard,
+    )
+
+    if not args.file.exists():
+        print(f"Error: File not found: {args.file}", file=sys.stderr)
+        return 1
+
+    # Determine output path
+    if args.output:
+        output_path = args.output
+    else:
+        output_path = args.file.with_suffix(".html")
+        output_path = output_path.with_stem(f"{output_path.stem}_dashboard")
+
+    # Generate visualization
+    if args.type == "dashboard":
+        html = create_budget_dashboard(
+            output_path=output_path,
+            theme=args.theme,
+        )
+        print(f"Dashboard created: {output_path}")
+    else:
+        # For specific chart types, we'd need budget data
+        from finance_tracker.budget_analyzer import BudgetAnalyzer
+
+        analyzer = BudgetAnalyzer(args.file)
+        by_category = analyzer.by_category()
+
+        generator = ChartGenerator(theme=args.theme)
+        data = [
+            ChartDataPoint(label=cat, value=float(amt), category=cat)
+            for cat, amt in by_category.items()
+            if amt > 0
+        ]
+
+        if args.type == "pie":
+            config = ChartConfig(title="Spending by Category", chart_type=ChartType.PIE, cutout=60)
+            html = generator.create_pie_chart(data, config)
+        elif args.type == "bar":
+            config = ChartConfig(title="Spending by Category", chart_type=ChartType.BAR)
+            html = generator.create_bar_chart(data, config)
+        else:
+            config = ChartConfig(title="Spending Trend", chart_type=ChartType.LINE)
+            # Would need time series data for trend
+            html = generator.create_bar_chart(data, config)
+
+        with open(output_path, "w") as f:
+            f.write(html)
+        print(f"Chart created: {output_path}")
+
+    print("\nOpen the HTML file in a browser to view interactive charts.")
+    return 0
+
+
+def _cmd_account(args: argparse.Namespace) -> int:
+    """
+    Handle account command.
+
+    Implements:
+        FR-CORE-004: Account Management
+    """
+    from decimal import Decimal
+
+    from finance_tracker.accounts import AccountManager, AccountType
+
+    # Get data file path
+    config_dir = Path.home() / ".config" / "finance-tracker"
+    config_dir.mkdir(parents=True, exist_ok=True)
+    data_file = config_dir / "accounts.json"
+
+    manager = AccountManager(data_file=data_file)
+
+    if args.account_action == "add":
+        # Map string to AccountType
+        type_map = {
+            "checking": AccountType.CHECKING,
+            "savings": AccountType.SAVINGS,
+            "credit": AccountType.CREDIT,
+            "investment": AccountType.INVESTMENT,
+            "cash": AccountType.CASH,
+            "retirement": AccountType.RETIREMENT,
+        }
+        account_type = type_map.get(args.type, AccountType.CHECKING)
+
+        account = manager.add_account(
+            name=args.name,
+            account_type=account_type,
+            institution=args.institution or "",
+            balance=Decimal(str(args.balance)),
+            currency=args.currency,
+        )
+        print(f"Account created: {account.name}")
+        print(f"  ID: {account.id}")
+        print(f"  Type: {account.account_type.value}")
+        print(f"  Balance: ${account.balance:,.2f}")
+        return 0
+
+    elif args.account_action == "list":
+        accounts = manager.list_accounts()
+
+        if not accounts:
+            print("No accounts found. Add one with: finance-tracker account add <name>")
+            return 0
+
+        if getattr(args, "json", False):
+            print(json.dumps([a.to_dict() for a in accounts], indent=2))
+            return 0
+
+        print("Accounts")
+        print("=" * 60)
+        for acc in accounts:
+            status = "(active)" if acc.is_active else "(inactive)"
+            print(f"  {acc.name} {status}")
+            print(f"    Type: {acc.account_type.value}")
+            print(f"    Balance: ${acc.balance:,.2f} {acc.currency}")
+            if acc.institution:
+                print(f"    Institution: {acc.institution}")
+            print()
+        return 0
+
+    elif args.account_action == "balance":
+        if args.name:
+            account = manager.get_account_by_name(args.name)
+            if not account:
+                print(f"Account not found: {args.name}", file=sys.stderr)
+                return 1
+            print(f"{account.name}: ${account.balance:,.2f}")
+        else:
+            accounts = manager.list_accounts()
+            total = sum(a.balance for a in accounts)
+            for acc in accounts:
+                print(f"  {acc.name}: ${acc.balance:,.2f}")
+            print("-" * 40)
+            print(f"  Total: ${total:,.2f}")
+        return 0
+
+    elif args.account_action == "transfer":
+        from_acc = manager.get_account_by_name(args.from_account)
+        to_acc = manager.get_account_by_name(args.to_account)
+
+        if not from_acc:
+            print(f"Source account not found: {args.from_account}", file=sys.stderr)
+            return 1
+        if not to_acc:
+            print(f"Destination account not found: {args.to_account}", file=sys.stderr)
+            return 1
+
+        transfer = manager.transfer(
+            from_acc.id,
+            to_acc.id,
+            Decimal(str(args.amount)),
+        )
+
+        if transfer:
+            print(f"Transfer complete:")
+            print(f"  From: {from_acc.name} -> ${from_acc.balance:,.2f}")
+            print(f"  To: {to_acc.name} -> ${to_acc.balance:,.2f}")
+        else:
+            print("Transfer failed", file=sys.stderr)
+            return 1
+        return 0
+
+    elif args.account_action == "net-worth":
+        net_worth = manager.calculate_net_worth()
+
+        if getattr(args, "json", False):
+            print(json.dumps(net_worth.to_dict(), indent=2))
+            return 0
+
+        print("Net Worth Summary")
+        print("=" * 40)
+        print(f"  Total Assets:      ${net_worth.total_assets:>12,.2f}")
+        print(f"  Total Liabilities: ${net_worth.total_liabilities:>12,.2f}")
+        print("-" * 40)
+        print(f"  Net Worth:         ${net_worth.net_worth:>12,.2f}")
+
+        if net_worth.assets_by_type:
+            print("\nAssets by Type:")
+            for atype, amount in net_worth.assets_by_type.items():
+                print(f"  {atype.value}: ${amount:,.2f}")
+
+        if net_worth.liabilities_by_type:
+            print("\nLiabilities by Type:")
+            for ltype, amount in net_worth.liabilities_by_type.items():
+                print(f"  {ltype.value}: ${amount:,.2f}")
+
+        return 0
+
+    else:
+        print("Usage: finance-tracker account <add|list|balance|transfer|net-worth>")
+        print("\nManage financial accounts, balances, and transfers.")
+        print("\nExamples:")
+        print("  finance-tracker account add 'Primary Checking' --type checking --balance 1000")
+        print("  finance-tracker account list")
+        print("  finance-tracker account balance")
+        print("  finance-tracker account transfer 'Checking' 'Savings' 500")
+        print("  finance-tracker account net-worth")
+        return 0
+
+
+def _cmd_banks(args: argparse.Namespace) -> int:
+    """
+    Handle banks command.
+
+    Implements:
+        FR-IMPORT-002: Extended bank formats
+    """
+    from finance_tracker.bank_formats import BankFormatRegistry, count_formats
+
+    registry = BankFormatRegistry()
+
+    # Detect format from file
+    if args.detect:
+        if not args.detect.exists():
+            print(f"Error: File not found: {args.detect}", file=sys.stderr)
+            return 1
+
+        detected = registry.detect_format(args.detect)
+        if detected:
+            print(f"Detected format: {detected.name}")
+            print(f"  ID: {detected.id}")
+            print(f"  Institution: {detected.institution}")
+            print(f"  Type: {detected.format_type}")
+        else:
+            print("Could not auto-detect format. Try specifying with --bank option.")
+        return 0
+
+    # List or search formats
+    formats = registry.list_formats(
+        institution=args.search,
+        format_type=args.type,
+    )
+
+    if args.json:
+        print(json.dumps([f.to_dict() for f in formats], indent=2))
+        return 0
+
+    print(f"Supported Bank Formats ({count_formats()} total)")
+    print("=" * 60)
+
+    if args.search:
+        print(f"Filtered by: {args.search}")
+    if args.type:
+        print(f"Type: {args.type}")
+    print()
+
+    # Group by institution
+    by_institution: dict[str, list] = {}
+    for fmt in formats:
+        inst = fmt.institution or "Other"
+        by_institution.setdefault(inst, []).append(fmt)
+
+    for institution in sorted(by_institution.keys()):
+        print(f"{institution}")
+        for fmt in by_institution[institution]:
+            print(f"  - {fmt.id}: {fmt.name} ({fmt.format_type})")
+        print()
+
+    print("Use with: finance-tracker import data.csv --bank <format_id>")
+    return 0
+
+
+def _cmd_currency(args: argparse.Namespace) -> int:
+    """
+    Handle currency command.
+
+    Implements:
+        FR-CURR-001: Multi-currency support
+    """
+    from finance_tracker.currency import (
+        CurrencyConverter,
+        format_currency,
+        get_currency,
+        list_currencies,
+    )
+
+    # List currencies
+    if args.list:
+        currencies = list_currencies()
+
+        if args.json:
+            print(json.dumps([
+                {"code": c.code, "name": c.name, "symbol": c.symbol}
+                for c in currencies
+            ], indent=2))
+            return 0
+
+        print("Supported Currencies")
+        print("=" * 60)
+        for curr in currencies:
+            print(f"  {curr.code}  {curr.symbol:>4}  {curr.name}")
+        return 0
+
+    # Convert currency
+    if args.amount and args.to_currency:
+        from decimal import Decimal
+
+        converter = CurrencyConverter()
+        result = converter.convert(
+            Decimal(str(args.amount)),
+            args.from_currency,
+            args.to_currency,
+        )
+
+        from_curr = get_currency(args.from_currency)
+        to_curr = get_currency(args.to_currency)
+
+        if args.json:
+            print(json.dumps({
+                "from": {"amount": args.amount, "currency": args.from_currency},
+                "to": {"amount": float(result), "currency": args.to_currency},
+            }, indent=2))
+        else:
+            from_formatted = from_curr.format(Decimal(str(args.amount)))
+            to_formatted = to_curr.format(result)
+            print(f"{from_formatted} = {to_formatted}")
+
+        return 0
+
+    # Show help
+    print("Currency Conversion")
+    print("=" * 40)
+    print("\nUsage:")
+    print("  finance-tracker currency --list")
+    print("  finance-tracker currency 100 --from USD --to EUR")
+    print()
+    print("Examples:")
+    print("  finance-tracker currency 1000 --to EUR")
+    print("  finance-tracker currency 50 --from GBP --to USD")
 
     return 0
 
