@@ -27,7 +27,7 @@ from dataclasses import dataclass, field
 from datetime import date, datetime
 from enum import Enum
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, ClassVar
 
 from finance_tracker.exceptions import FinanceTrackerError, ValidationError
 
@@ -262,7 +262,7 @@ class PIIDetector:
     """
 
     # Common merchant name variations to preserve
-    SAFE_MERCHANTS = {
+    SAFE_MERCHANTS: ClassVar[set[str]] = {
         "amazon",
         "walmart",
         "target",
@@ -280,7 +280,7 @@ class PIIDetector:
     }
 
     # Words that likely indicate PII
-    PII_INDICATORS = {
+    PII_INDICATORS: ClassVar[set[str]] = {
         "account",
         "acct",
         "card",
@@ -541,7 +541,7 @@ class DataAnonymizer:
             if amount <= threshold:
                 if i == 0:
                     return f"0-{threshold}"
-                return f"{buckets[i-1]}-{threshold}"
+                return f"{buckets[i - 1]}-{threshold}"
 
         # Above all buckets
         return f"{buckets[-1]}+"
