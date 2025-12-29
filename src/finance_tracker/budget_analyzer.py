@@ -126,7 +126,7 @@ class BudgetAnalyzer:
                 # Get cell value
                 cell_type = cell.getAttribute("valuetype")
 
-                if cell_type == "float" or cell_type == "currency":
+                if cell_type in ("float", "currency"):
                     value = cell.getAttribute("value")
                     if value:
                         row_data.append(float(value))
@@ -203,7 +203,7 @@ class BudgetAnalyzer:
             df = df.dropna(subset=["Date", "Amount"], how="all")
 
             return df
-        except Exception as e:
+        except (OSError, ValueError) as e:
             raise ValueError(f"Failed to load expense log: {e}") from e
 
     def _parse_amount(self, value: Any) -> float | None:
@@ -255,7 +255,7 @@ class BudgetAnalyzer:
                 df["Monthly Budget"] = df["Monthly Budget"].apply(self._parse_amount)
 
             return df
-        except Exception as e:
+        except (OSError, ValueError) as e:
             raise ValueError(f"Failed to load budget: {e}") from e
 
     def get_summary(self) -> BudgetSummary:

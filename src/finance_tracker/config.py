@@ -291,9 +291,13 @@ class Config:
 
         Args:
             path: Path to save the configuration file.
+
+        Raises:
+            ImportError: If PyYAML is not installed.
         """
         if not HAS_YAML or yaml is None:
-            raise ImportError("PyYAML is required to save configuration files")
+            msg = "PyYAML is required to save configuration files"
+            raise ImportError(msg)
 
         path = Path(path)
         path.parent.mkdir(parents=True, exist_ok=True)

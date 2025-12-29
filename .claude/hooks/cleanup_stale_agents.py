@@ -18,7 +18,7 @@ import logging
 import os
 import shutil
 import sys
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -108,7 +108,7 @@ def load_registry() -> dict[str, Any]:
 
 def create_empty_registry() -> dict[str, Any]:
     """Create a new empty registry structure."""
-    now = datetime.now(timezone.utc).isoformat()
+    now = datetime.now(UTC).isoformat()
     return {
         "version": "2.0.0",
         "created_at": now,
@@ -131,7 +131,7 @@ def save_registry(registry: dict[str, Any]) -> None:
         shutil.copy2(REGISTRY_FILE, BACKUP_FILE)
 
     # Update timestamp
-    registry["last_updated"] = datetime.now(timezone.utc).isoformat()
+    registry["last_updated"] = datetime.now(UTC).isoformat()
 
     # Write atomically
     temp_file = REGISTRY_FILE.with_suffix(".tmp")
@@ -162,7 +162,7 @@ def get_agent_activity_time(agent_id: str) -> datetime | None:
     for output_file in AGENT_OUTPUTS_DIR.glob("*.json"):
         if agent_id in output_file.name or agent_id[:7] in output_file.name:
             try:
-                mtime = datetime.fromtimestamp(output_file.stat().st_mtime, tz=timezone.utc)
+                mtime = datetime.fromtimestamp(output_file.stat().st_mtime, tz=UTC)
                 activity_times.append(mtime)
             except OSError:
                 continue
@@ -171,7 +171,7 @@ def get_agent_activity_time(agent_id: str) -> datetime | None:
     summary_file = SUMMARIES_DIR / f"{agent_id}.md"
     if summary_file.exists():
         try:
-            mtime = datetime.fromtimestamp(summary_file.stat().st_mtime, tz=timezone.utc)
+            mtime = datetime.fromtimestamp(summary_file.stat().st_mtime, tz=UTC)
             activity_times.append(mtime)
         except OSError:
             pass
@@ -186,7 +186,7 @@ def is_agent_active(agent: dict[str, Any], agent_id: str) -> bool:
     1. It has been updated within the activity check window
     2. Its output files have been modified recently
     """
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     activity_threshold = now - timedelta(hours=ACTIVITY_CHECK_HOURS)
 
     # Check output file activity
@@ -220,7 +220,7 @@ def is_agent_stale(agent: dict[str, Any], agent_id: str) -> bool:
     if agent.get("status") != "running":
         return False
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     launched_at = agent.get("launched_at")
 
     if not launched_at:
@@ -262,7 +262,7 @@ def cleanup_stale_agents(dry_run: bool = False) -> dict[str, Any]:
         Summary of cleanup actions
     """
     registry = load_registry()
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
 
     stale_agents: list[str] = []
     old_completed: list[str] = []

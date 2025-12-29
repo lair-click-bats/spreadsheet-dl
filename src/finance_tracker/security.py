@@ -66,8 +66,8 @@ class EncryptionMetadata:
     """Metadata stored with encrypted files."""
 
     version: str = "1.0"
-    algorithm: str = DEFAULT_ALGORITHM.value
-    kdf: str = DEFAULT_KDF.value
+    algorithm: str = field(default_factory=lambda: DEFAULT_ALGORITHM.value)
+    kdf: str = field(default_factory=lambda: DEFAULT_KDF.value)
     iterations: int = DEFAULT_ITERATIONS
     salt: bytes = field(default_factory=lambda: b"")
     nonce: bytes = field(default_factory=lambda: b"")
@@ -446,15 +446,21 @@ class FileEncryptor:
 
             return metadata
 
-        except Exception as e:
+        except FinanceTrackerError:
+            self.audit_log.log_action(
+                "encrypt",
+                str(input_path),
+                success=False,
+                details={"error": "finance_tracker_error"},
+            )
+            raise
+        except OSError as e:
             self.audit_log.log_action(
                 "encrypt",
                 str(input_path),
                 success=False,
                 details={"error": str(e)},
             )
-            if isinstance(e, FinanceTrackerError):
-                raise
             raise EncryptionError(f"Failed to encrypt file: {e}") from e
 
     def decrypt_file(
@@ -528,18 +534,22 @@ class FileEncryptor:
                 details={"error": "integrity_check_failed"},
             )
             raise
-        except Exception as e:
+        except FinanceTrackerError:
+            self.audit_log.log_action(
+                "decrypt",
+                str(input_path),
+                success=False,
+                details={"error": "finance_tracker_error"},
+            )
+            raise
+        except OSError as e:
             self.audit_log.log_action(
                 "decrypt",
                 str(input_path),
                 success=False,
                 details={"error": str(e)},
             )
-            if isinstance(e, FinanceTrackerError):
-                raise
-            raise DecryptionError(
-                f"Failed to decrypt file: {e}", reason=str(e)
-            ) from e
+            raise DecryptionError(f"Failed to decrypt file: {e}", reason=str(e)) from e
 
     def _write_encrypted_file(
         self,

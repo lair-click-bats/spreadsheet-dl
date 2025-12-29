@@ -452,9 +452,7 @@ class MultiFormatExporter:
                         csv_row.append(value)
                 writer.writerow(csv_row)
 
-    def _write_csv_combined(
-        self, sheets: list[SheetData], output_path: Path
-    ) -> None:
+    def _write_csv_combined(self, sheets: list[SheetData], output_path: Path) -> None:
         """Write all sheets to a single CSV with sheet separators."""
         with open(
             output_path, "w", newline="", encoding=self.options.csv_encoding

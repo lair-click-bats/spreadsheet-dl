@@ -7,6 +7,7 @@ Provides secure file upload to Nextcloud servers using WebDAV protocol.
 from __future__ import annotations
 
 import os
+import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from pathlib import Path
 from urllib.parse import quote
@@ -195,7 +196,6 @@ class WebDAVClient:
 
         # Parse response (simple extraction)
         files = []
-        import xml.etree.ElementTree as ET
 
         try:
             root = ET.fromstring(response.text)
@@ -276,7 +276,7 @@ class WebDAVClient:
                 headers={"Depth": "0"},
             )
             return response.status_code == 207
-        except Exception:
+        except requests.RequestException:
             return False
 
 
