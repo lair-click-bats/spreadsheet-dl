@@ -13,13 +13,14 @@ Implements:
 
 from __future__ import annotations
 
+import contextlib
 import json
 from dataclasses import dataclass, field
 from datetime import date, datetime
 from decimal import ROUND_HALF_UP, Decimal
 from enum import Enum
 from pathlib import Path
-from typing import Any
+from typing import Any, ClassVar
 
 
 class CurrencyCode(Enum):
@@ -108,7 +109,9 @@ class Currency:
             amount = Decimal(amount)
 
         # Round to appropriate decimal places
-        quantize_str = "1." + "0" * self.decimal_places if self.decimal_places > 0 else "1"
+        quantize_str = (
+            "1." + "0" * self.decimal_places if self.decimal_places > 0 else "1"
+        )
         rounded = amount.quantize(Decimal(quantize_str), rounding=ROUND_HALF_UP)
 
         # Format with separators
@@ -124,7 +127,7 @@ class Currency:
             dec_part = "0" * self.decimal_places
 
         # Pad decimal places if needed
-        dec_part = dec_part.ljust(self.decimal_places, "0")[:self.decimal_places]
+        dec_part = dec_part.ljust(self.decimal_places, "0")[: self.decimal_places]
 
         # Add thousand separators
         if self.thousand_separator:
@@ -332,7 +335,7 @@ class ExchangeRateProvider:
     """
 
     # Default rates relative to USD (approximate as of late 2024)
-    DEFAULT_RATES: dict[str, Decimal] = {
+    DEFAULT_RATES: ClassVar[dict[str, Decimal]] = {
         "USD": Decimal("1.0"),
         "EUR": Decimal("0.92"),
         "GBP": Decimal("0.79"),
@@ -522,9 +525,7 @@ class ExchangeRateProvider:
         # Add default rates from USD
         for code, rate in self.DEFAULT_RATES.items():
             if code != "USD":
-                rates.append(
-                    ExchangeRate("USD", code, rate, source="default")
-                )
+                rates.append(ExchangeRate("USD", code, rate, source="default"))
 
         return rates
 
@@ -661,10 +662,9 @@ class CurrencyConverter:
 
         result: dict[str, Decimal] = {}
         for target in target_currencies:
-            try:
+            with contextlib.suppress(ValueError):
+                # Skip currencies without rates
                 result[target] = self.convert(amount, base_currency, target)
-            except ValueError:
-                pass  # Skip currencies without rates
 
         return result
 
@@ -832,6 +832,7 @@ class MoneyAmount:
 
 
 # Convenience functions
+
 
 def money(
     amount: Decimal | float | str,

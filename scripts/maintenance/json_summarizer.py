@@ -125,10 +125,9 @@ def extract_metrics(data: Any, prefix: str = "") -> dict[str, Any]:
                 metrics[full_key] = value
             elif isinstance(value, dict):
                 metrics.update(extract_metrics(value, full_key))
-            elif isinstance(value, list) and len(value) > 0:
+            elif isinstance(value, list) and len(value) > 0 and is_metric:
                 # For lists, just note the count
-                if is_metric:
-                    metrics[f"{full_key}_count"] = len(value)
+                metrics[f"{full_key}_count"] = len(value)
 
     return metrics
 

@@ -574,7 +574,9 @@ For more information, visit: https://github.com/allenjd1/finance-tracker
     account_list.add_argument("--json", action="store_true", help="Output as JSON")
 
     # Account balance
-    account_balance = account_subparsers.add_parser("balance", help="Show account balance")
+    account_balance = account_subparsers.add_parser(
+        "balance", help="Show account balance"
+    )
     account_balance.add_argument("name", nargs="?", help="Account name (or all)")
 
     # Account transfer
@@ -1229,7 +1231,11 @@ def _cmd_backup(args: argparse.Namespace) -> int:
         print(f"Backups for: {args.file}")
         print("-" * 60)
         for backup in backups:
-            size_kb = backup.backup_path.stat().st_size / 1024 if backup.backup_path.exists() else 0
+            size_kb = (
+                backup.backup_path.stat().st_size / 1024
+                if backup.backup_path.exists()
+                else 0
+            )
             print(
                 f"  {backup.created.strftime('%Y-%m-%d %H:%M')}  "
                 f"{size_kb:>8.1f} KB  {backup.metadata.reason}"
@@ -1261,9 +1267,8 @@ def _cmd_backup(args: argparse.Namespace) -> int:
             return 1
 
         target = args.file
-        if target.exists():
-            if not confirm_overwrite(target, skip_confirm=skip_confirm):
-                raise OperationCancelledError("Backup restore")
+        if target.exists() and not confirm_overwrite(target, skip_confirm=skip_confirm):
+            raise OperationCancelledError("Backup restore")
 
         if dry_run:
             print(f"[DRY RUN] Would restore {args.restore} to {target}")
@@ -1432,7 +1437,9 @@ def _cmd_visualize(args: argparse.Namespace) -> int:
         ]
 
         if args.type == "pie":
-            config = ChartConfig(title="Spending by Category", chart_type=ChartType.PIE, cutout=60)
+            config = ChartConfig(
+                title="Spending by Category", chart_type=ChartType.PIE, cutout=60
+            )
             html = generator.create_pie_chart(data, config)
         elif args.type == "bar":
             config = ChartConfig(title="Spending by Category", chart_type=ChartType.BAR)
@@ -1588,7 +1595,9 @@ def _cmd_account(args: argparse.Namespace) -> int:
         print("Usage: finance-tracker account <add|list|balance|transfer|net-worth>")
         print("\nManage financial accounts, balances, and transfers.")
         print("\nExamples:")
-        print("  finance-tracker account add 'Primary Checking' --type checking --balance 1000")
+        print(
+            "  finance-tracker account add 'Primary Checking' --type checking --balance 1000"
+        )
         print("  finance-tracker account list")
         print("  finance-tracker account balance")
         print("  finance-tracker account transfer 'Checking' 'Savings' 500")
@@ -1676,10 +1685,15 @@ def _cmd_currency(args: argparse.Namespace) -> int:
         currencies = list_currencies()
 
         if args.json:
-            print(json.dumps([
-                {"code": c.code, "name": c.name, "symbol": c.symbol}
-                for c in currencies
-            ], indent=2))
+            print(
+                json.dumps(
+                    [
+                        {"code": c.code, "name": c.name, "symbol": c.symbol}
+                        for c in currencies
+                    ],
+                    indent=2,
+                )
+            )
             return 0
 
         print("Supported Currencies")
@@ -1703,10 +1717,15 @@ def _cmd_currency(args: argparse.Namespace) -> int:
         to_curr = get_currency(args.to_currency)
 
         if args.json:
-            print(json.dumps({
-                "from": {"amount": args.amount, "currency": args.from_currency},
-                "to": {"amount": float(result), "currency": args.to_currency},
-            }, indent=2))
+            print(
+                json.dumps(
+                    {
+                        "from": {"amount": args.amount, "currency": args.from_currency},
+                        "to": {"amount": float(result), "currency": args.to_currency},
+                    },
+                    indent=2,
+                )
+            )
         else:
             from_formatted = from_curr.format(Decimal(str(args.amount)))
             to_formatted = to_curr.format(result)

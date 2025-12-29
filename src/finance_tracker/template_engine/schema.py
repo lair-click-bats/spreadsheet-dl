@@ -379,18 +379,15 @@ class SpreadsheetTemplate:
         for var in self.variables:
             if var.required and var.name not in values:
                 errors.append(f"Required variable '{var.name}' not provided")
-            elif var.name in values:
-                if not var.validate_value(values[var.name]):
-                    errors.append(
-                        f"Invalid value for variable '{var.name}': "
-                        f"expected {var.type.value}"
-                    )
+            elif var.name in values and not var.validate_value(values[var.name]):
+                errors.append(
+                    f"Invalid value for variable '{var.name}': "
+                    f"expected {var.type.value}"
+                )
 
         return errors
 
-    def get_resolved_variables(
-        self, provided: dict[str, Any]
-    ) -> dict[str, Any]:
+    def get_resolved_variables(self, provided: dict[str, Any]) -> dict[str, Any]:
         """
         Get all variables with defaults applied.
 
