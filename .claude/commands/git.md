@@ -53,4 +53,4 @@ Commit and push changes with intelligent grouping and conventional commit format
 
 ## See Also
 
-- `base/agents/git_commit_manager.md` - Primary agent handling this command
+- `.claude/agents/git_commit_manager.md` - Primary agent handling this command

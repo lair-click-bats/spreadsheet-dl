@@ -18,10 +18,11 @@ Provides advanced spreadsheet features for professional documents.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime
 from enum import Enum
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
+if TYPE_CHECKING:
+    from datetime import datetime
 
 # ============================================================================
 # Hidden Rows/Columns (FR-FORMAT-010)

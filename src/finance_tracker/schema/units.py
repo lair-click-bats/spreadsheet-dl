@@ -13,10 +13,6 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 from enum import Enum
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from typing import Self
 
 
 class LengthUnit(Enum):

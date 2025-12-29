@@ -9,8 +9,6 @@ Implements tests for:
 
 from __future__ import annotations
 
-import pytest
-
 from finance_tracker.builders.conditional import (
     ColorScaleBuilder,
     ConditionalFormatBuilder,
@@ -54,7 +52,6 @@ from finance_tracker.schema.styles import (
     TextAlign,
     VerticalAlign,
 )
-
 
 # ============================================================================
 # DataValidationBuilder Tests (FR-BUILDER-002)

@@ -22,7 +22,7 @@ from typing import TYPE_CHECKING, Any, Self
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
-    from finance_tracker.charts import ChartSpec, Sparkline
+    from finance_tracker.charts import ChartSpec
     from finance_tracker.schema.styles import Theme
 
 

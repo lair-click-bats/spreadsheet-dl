@@ -9,7 +9,6 @@ SpreadsheetTemplate objects.
 
 from __future__ import annotations
 
-import re
 from pathlib import Path
 from typing import Any
 
@@ -97,11 +96,11 @@ class TemplateLoader:
 
         try:
             import yaml
-        except ImportError:
+        except ImportError as exc:
             raise ImportError(
                 "PyYAML is required for template loading. "
                 "Install with: pip install finance-tracker[config]"
-            )
+            ) from exc
 
         with open(path) as f:
             data = yaml.safe_load(f)
@@ -120,8 +119,8 @@ class TemplateLoader:
         """
         try:
             import yaml
-        except ImportError:
-            raise ImportError("PyYAML is required for template loading")
+        except ImportError as exc:
+            raise ImportError("PyYAML is required for template loading") from exc
 
         data = yaml.safe_load(yaml_content)
         return self._parse_template(data)
@@ -149,7 +148,7 @@ class TemplateLoader:
                         "description": template.description,
                     }
                 )
-            except Exception:
+            except (OSError, ValueError, KeyError, TypeError, ImportError):
                 # Skip invalid templates
                 pass
 
@@ -164,7 +163,7 @@ class TemplateLoader:
                         "description": template.description,
                     }
                 )
-            except Exception:
+            except (OSError, ValueError, KeyError, TypeError, ImportError):
                 pass
 
         return templates

@@ -135,7 +135,7 @@ def validate_font_weight(
     Validate and return a FontWeight.
 
     Args:
-        value: Font weight value
+        value: Font weight value (numeric string like "700" or name like "bold")
         field: Field name for error messages
 
     Returns:
@@ -154,12 +154,20 @@ def validate_font_weight(
             value=value,
         )
 
+    # First try numeric values like "700"
     try:
-        return FontWeight(value.lower())
+        return FontWeight(value)
     except ValueError:
-        valid = [w.value for w in FontWeight]
+        pass
+
+    # Then try named values like "bold"
+    try:
+        return FontWeight.from_name(value)
+    except (ValueError, KeyError):
+        valid_names = ["thin", "light", "normal", "medium", "semibold", "bold", "extrabold", "black"]
+        valid_values = [w.value for w in FontWeight]
         raise SchemaValidationError(  # noqa: B904
-            f"must be one of: {', '.join(valid)}",
+            f"must be one of: {', '.join(valid_names)} or numeric values: {', '.join(valid_values)}",
             field=field,
             value=value,
         )

@@ -21,13 +21,14 @@ Features:
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import date, datetime
-from decimal import Decimal
 from enum import Enum
-from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-from finance_tracker.exceptions import FinanceTrackerError, OdsError
+from finance_tracker.exceptions import FinanceTrackerError
+
+if TYPE_CHECKING:
+    from decimal import Decimal
+    from pathlib import Path
 
 
 class InteractiveError(FinanceTrackerError):
@@ -107,9 +108,10 @@ class ValidationRule:
 
     def to_ods_content_validation(self) -> dict[str, Any]:
         """Convert to ODS content validation format."""
-        validation = {
+        validation: dict[str, Any] = {
             "allow_empty_cell": self.allow_blank,
-            "display_list": self.show_dropdown,
+            # ODF format expects lowercase string for boolean attributes
+            "display_list": "true" if self.show_dropdown else "false",
         }
 
         if self.rule_type == ValidationRuleType.LIST:
@@ -149,7 +151,7 @@ class DropdownList:
     allow_custom: bool = False
 
     @classmethod
-    def categories(cls) -> "DropdownList":
+    def categories(cls) -> DropdownList:
         """Create a dropdown for expense categories."""
         from finance_tracker.ods_generator import ExpenseCategory
 
@@ -160,7 +162,7 @@ class DropdownList:
         )
 
     @classmethod
-    def account_types(cls) -> "DropdownList":
+    def account_types(cls) -> DropdownList:
         """Create a dropdown for account types."""
         from finance_tracker.accounts import AccountType
 
@@ -171,7 +173,7 @@ class DropdownList:
         )
 
     @classmethod
-    def months(cls) -> "DropdownList":
+    def months(cls) -> DropdownList:
         """Create a dropdown for months."""
         months = [
             "January", "February", "March", "April",
@@ -214,7 +216,7 @@ class ConditionalFormat:
     priority: int = 1
 
     @classmethod
-    def over_budget_warning(cls) -> "ConditionalFormat":
+    def over_budget_warning(cls) -> ConditionalFormat:
         """Create format for over-budget cells (red background)."""
         return cls(
             format_type=ConditionalFormatType.CELL_VALUE,
@@ -228,7 +230,7 @@ class ConditionalFormat:
         )
 
     @classmethod
-    def under_budget_success(cls) -> "ConditionalFormat":
+    def under_budget_success(cls) -> ConditionalFormat:
         """Create format for under-budget cells (green background)."""
         return cls(
             format_type=ConditionalFormatType.CELL_VALUE,
@@ -241,7 +243,7 @@ class ConditionalFormat:
         )
 
     @classmethod
-    def percentage_color_scale(cls) -> "ConditionalFormat":
+    def percentage_color_scale(cls) -> ConditionalFormat:
         """Create color scale for percentage values."""
         return cls(
             format_type=ConditionalFormatType.COLOR_SCALE,
@@ -253,7 +255,7 @@ class ConditionalFormat:
         )
 
     @classmethod
-    def spending_data_bar(cls) -> "ConditionalFormat":
+    def spending_data_bar(cls) -> ConditionalFormat:
         """Create data bar for spending visualization."""
         return cls(
             format_type=ConditionalFormatType.DATA_BAR,
@@ -415,7 +417,7 @@ class InteractiveOdsBuilder:
         self,
         cell_range: str,
         dropdown: DropdownList,
-    ) -> "InteractiveOdsBuilder":
+    ) -> InteractiveOdsBuilder:
         """
         Add a dropdown list to a cell range.
 
@@ -433,7 +435,7 @@ class InteractiveOdsBuilder:
         self,
         cell_range: str,
         rule: ValidationRule,
-    ) -> "InteractiveOdsBuilder":
+    ) -> InteractiveOdsBuilder:
         """
         Add data validation to a cell range.
 
@@ -451,7 +453,7 @@ class InteractiveOdsBuilder:
         self,
         cell_range: str,
         format: ConditionalFormat,
-    ) -> "InteractiveOdsBuilder":
+    ) -> InteractiveOdsBuilder:
         """
         Add conditional formatting to a cell range.
 
@@ -469,7 +471,7 @@ class InteractiveOdsBuilder:
         self,
         cell: str,
         config: SparklineConfig,
-    ) -> "InteractiveOdsBuilder":
+    ) -> InteractiveOdsBuilder:
         """
         Add a sparkline to a cell.
 
@@ -486,7 +488,7 @@ class InteractiveOdsBuilder:
     def add_dashboard_section(
         self,
         section: DashboardSection,
-    ) -> "InteractiveOdsBuilder":
+    ) -> InteractiveOdsBuilder:
         """
         Add a dashboard section.
 
@@ -549,7 +551,7 @@ class InteractiveOdsBuilder:
     ) -> None:
         """Apply validation rule to cells."""
         try:
-            from odf.table import ContentValidation, ContentValidations
+            from odf.table import ContentValidation
 
             # Create content validation element
             validation = ContentValidation()
@@ -569,7 +571,7 @@ class InteractiveOdsBuilder:
             # Note: This is a simplified implementation
             # Full implementation would need to find/create ContentValidations element
 
-        except Exception as e:
+        except Exception:
             # Validation features may not be fully supported
             pass
 
@@ -754,7 +756,7 @@ class DashboardGenerator:
         dashboard_table.addElement(header_row)
 
         # Add KPI rows
-        for kpi_key, kpi in kpis.items():
+        for _kpi_key, kpi in kpis.items():
             kpi_row = TableRow()
 
             # Name

@@ -11,8 +11,6 @@ from datetime import date, timedelta
 from decimal import Decimal
 from pathlib import Path
 
-import pytest
-
 from finance_tracker.goals import (
     Debt,
     DebtPayoffMethod,

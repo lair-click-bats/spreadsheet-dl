@@ -49,5 +49,5 @@ Keywords that trigger multi-agent workflows:
 
 ## See Also
 
-- `base/agents/orchestrator.md` - Primary agent handling this command
+- `.claude/agents/orchestrator.md` - Primary agent handling this command
 - `/swarm` - For explicitly parallel workflows

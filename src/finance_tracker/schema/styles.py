@@ -27,11 +27,7 @@ import math
 import re
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import TYPE_CHECKING, Any
-
-if TYPE_CHECKING:
-    from finance_tracker.schema.units import Length
-
+from typing import Any
 
 # ============================================================================
 # Enumerations
@@ -306,25 +302,27 @@ class Color:
         return cls(f"#{r:02X}{g:02X}{b:02X}")
 
     @classmethod
-    def from_hsl(cls, h: float, s: float, l: float, a: float | None = None) -> Color:
+    def from_hsl(
+        cls, hue: float, saturation: float, lightness: float, a: float | None = None
+    ) -> Color:
         """
         Create color from HSL values.
 
         Args:
-            h: Hue (0-360)
-            s: Saturation (0-100)
-            l: Lightness (0-100)
+            hue: Hue (0-360)
+            saturation: Saturation (0-100)
+            lightness: Lightness (0-100)
             a: Optional alpha (0-100)
 
         Returns:
             Color instance
         """
         # Normalize values
-        h = h / 360.0
-        s = s / 100.0
-        l_norm = l / 100.0
+        h_norm = hue / 360.0
+        s_norm = saturation / 100.0
+        l_norm = lightness / 100.0
 
-        r, g, b = colorsys.hls_to_rgb(h, l_norm, s)
+        r, g, b = colorsys.hls_to_rgb(h_norm, l_norm, s_norm)
 
         if a is not None:
             alpha = int(a * 255 / 100)
@@ -373,8 +371,8 @@ class Color:
     def to_hsl(self) -> tuple[float, float, float]:
         """Convert to HSL tuple (h: 0-360, s: 0-100, l: 0-100)."""
         r, g, b = self.to_rgb()
-        h, l, s = colorsys.rgb_to_hls(r / 255, g / 255, b / 255)
-        return (h * 360, s * 100, l * 100)
+        hue, lightness, saturation = colorsys.rgb_to_hls(r / 255, g / 255, b / 255)
+        return (hue * 360, saturation * 100, lightness * 100)
 
     @property
     def alpha(self) -> float:
@@ -408,9 +406,9 @@ class Color:
         Returns:
             Lighter color
         """
-        h, s, l = self.to_hsl()
-        new_l = min(100, l + (100 - l) * amount)
-        return Color.from_hsl(h, s, new_l)
+        hue, saturation, lightness = self.to_hsl()
+        new_lightness = min(100, lightness + (100 - lightness) * amount)
+        return Color.from_hsl(hue, saturation, new_lightness)
 
     def darken(self, amount: float) -> Color:
         """
@@ -422,9 +420,9 @@ class Color:
         Returns:
             Darker color
         """
-        h, s, l = self.to_hsl()
-        new_l = max(0, l * (1 - amount))
-        return Color.from_hsl(h, s, new_l)
+        hue, saturation, lightness = self.to_hsl()
+        new_lightness = max(0, lightness * (1 - amount))
+        return Color.from_hsl(hue, saturation, new_lightness)
 
     def saturate(self, amount: float) -> Color:
         """
@@ -436,9 +434,9 @@ class Color:
         Returns:
             More saturated color
         """
-        h, s, l = self.to_hsl()
-        new_s = min(100, s + (100 - s) * amount)
-        return Color.from_hsl(h, new_s, l)
+        hue, saturation, lightness = self.to_hsl()
+        new_saturation = min(100, saturation + (100 - saturation) * amount)
+        return Color.from_hsl(hue, new_saturation, lightness)
 
     def desaturate(self, amount: float) -> Color:
         """
@@ -450,9 +448,9 @@ class Color:
         Returns:
             Less saturated color
         """
-        h, s, l = self.to_hsl()
-        new_s = max(0, s * (1 - amount))
-        return Color.from_hsl(h, new_s, l)
+        hue, saturation, lightness = self.to_hsl()
+        new_saturation = max(0, saturation * (1 - amount))
+        return Color.from_hsl(hue, new_saturation, lightness)
 
     def invert(self) -> Color:
         """Return inverted color."""
@@ -497,10 +495,10 @@ class Color:
         Returns:
             Contrast ratio (1.0-21.0)
         """
-        l1 = self.luminance()
-        l2 = other.luminance()
-        lighter = max(l1, l2)
-        darker = min(l1, l2)
+        lum1 = self.luminance()
+        lum2 = other.luminance()
+        lighter = max(lum1, lum2)
+        darker = min(lum1, lum2)
         return (lighter + 0.05) / (darker + 0.05)
 
     def is_wcag_aa(self, background: Color, large_text: bool = False) -> bool:
@@ -636,7 +634,13 @@ class ColorPalette:
         """Convert palette to dictionary."""
         result: dict[str, str] = {}
         for attr in dir(self):
-            if attr.startswith("_") or attr in ("custom", "get", "set", "generate_scale", "to_dict"):
+            if attr.startswith("_") or attr in (
+                "custom",
+                "get",
+                "set",
+                "generate_scale",
+                "to_dict",
+            ):
                 continue
             value = getattr(self, attr)
             if isinstance(value, Color):
@@ -753,7 +757,7 @@ class Font:
     @property
     def font_family_string(self) -> str:
         """Get full font family string with fallbacks."""
-        families = [self.family] + self.fallback
+        families = [self.family, *self.fallback]
         return ", ".join(f'"{f}"' if " " in f else f for f in families)
 
     def to_dict(self) -> dict[str, Any]:
@@ -1180,7 +1184,10 @@ class NumberFormat:
         if self.category == NumberFormatCategory.NUMBER:
             return self._build_number_format()
 
-        if self.category in (NumberFormatCategory.CURRENCY, NumberFormatCategory.ACCOUNTING):
+        if self.category in (
+            NumberFormatCategory.CURRENCY,
+            NumberFormatCategory.ACCOUNTING,
+        ):
             return self._build_currency_format()
 
         if self.category == NumberFormatCategory.DATE:
@@ -1206,10 +1213,7 @@ class NumberFormat:
             integer = "0" * self.min_integer_digits
 
         # Decimal part
-        if self.decimal_places > 0:
-            decimal = "." + "0" * self.decimal_places
-        else:
-            decimal = ""
+        decimal = "." + "0" * self.decimal_places if self.decimal_places > 0 else ""
 
         positive = integer + decimal
 
@@ -1236,10 +1240,7 @@ class NumberFormat:
             integer = "0" * self.min_integer_digits
 
         # Decimal part
-        if self.decimal_places > 0:
-            decimal = "." + "0" * self.decimal_places
-        else:
-            decimal = ""
+        decimal = "." + "0" * self.decimal_places if self.decimal_places > 0 else ""
 
         number = integer + decimal
 
@@ -1506,11 +1507,23 @@ class CellStyle:
         return CellStyle(
             name=self.name,
             font=self.font if self.font.family != "Liberation Sans" else parent.font,
-            text_align=self.text_align if self.text_align != TextAlign.LEFT else parent.text_align,
-            vertical_align=self.vertical_align if self.vertical_align != VerticalAlign.MIDDLE else parent.vertical_align,
-            text_rotation=self.text_rotation if self.text_rotation != 0 else parent.text_rotation,
+            text_align=(
+                self.text_align
+                if self.text_align != TextAlign.LEFT
+                else parent.text_align
+            ),
+            vertical_align=(
+                self.vertical_align
+                if self.vertical_align != VerticalAlign.MIDDLE
+                else parent.vertical_align
+            ),
+            text_rotation=(
+                self.text_rotation if self.text_rotation != 0 else parent.text_rotation
+            ),
             wrap_text=self.wrap_text if self.wrap_text else parent.wrap_text,
-            shrink_to_fit=self.shrink_to_fit if self.shrink_to_fit else parent.shrink_to_fit,
+            shrink_to_fit=(
+                self.shrink_to_fit if self.shrink_to_fit else parent.shrink_to_fit
+            ),
             indent=self.indent if self.indent != 0 else parent.indent,
             background_color=self.background_color or parent.background_color,
             fill=self.fill or parent.fill,
@@ -1614,7 +1627,9 @@ class Theme:
     meta: ThemeSchema
     colors: ColorPalette = field(default_factory=ColorPalette)
     fonts: dict[str, Font] = field(default_factory=dict)
-    traits: dict[str, StyleDefinition] = field(default_factory=dict)  # Reusable partial styles
+    traits: dict[str, StyleDefinition] = field(
+        default_factory=dict
+    )  # Reusable partial styles
     base_styles: dict[str, StyleDefinition] = field(default_factory=dict)
     styles: dict[str, StyleDefinition] = field(default_factory=dict)
     conditional_formats: dict[str, Any] = field(default_factory=dict)
@@ -1779,9 +1794,19 @@ class Theme:
             size=style_def.font_size or parent.font.size,
             weight=style_def.font_weight or parent.font.weight,
             color=style_def.font_color or parent.font.color,
-            italic=style_def.italic if style_def.italic is not None else parent.font.italic,
-            underline=style_def.underline if style_def.underline is not None else parent.font.underline,
-            strikethrough=style_def.strikethrough if style_def.strikethrough is not None else parent.font.strikethrough,
+            italic=(
+                style_def.italic if style_def.italic is not None else parent.font.italic
+            ),
+            underline=(
+                style_def.underline
+                if style_def.underline is not None
+                else parent.font.underline
+            ),
+            strikethrough=(
+                style_def.strikethrough
+                if style_def.strikethrough is not None
+                else parent.font.strikethrough
+            ),
             letter_spacing=style_def.letter_spacing or parent.font.letter_spacing,
         )
 
@@ -1790,10 +1815,24 @@ class Theme:
             font=font,
             text_align=style_def.text_align or parent.text_align,
             vertical_align=style_def.vertical_align or parent.vertical_align,
-            text_rotation=style_def.text_rotation if style_def.text_rotation is not None else parent.text_rotation,
-            wrap_text=style_def.wrap_text if style_def.wrap_text is not None else parent.wrap_text,
-            shrink_to_fit=style_def.shrink_to_fit if style_def.shrink_to_fit is not None else parent.shrink_to_fit,
-            indent=style_def.indent if style_def.indent is not None else parent.indent,
+            text_rotation=(
+                style_def.text_rotation
+                if style_def.text_rotation is not None
+                else parent.text_rotation
+            ),
+            wrap_text=(
+                style_def.wrap_text
+                if style_def.wrap_text is not None
+                else parent.wrap_text
+            ),
+            shrink_to_fit=(
+                style_def.shrink_to_fit
+                if style_def.shrink_to_fit is not None
+                else parent.shrink_to_fit
+            ),
+            indent=(
+                style_def.indent if style_def.indent is not None else parent.indent
+            ),
             background_color=style_def.background_color or parent.background_color,
             fill=style_def.fill or parent.fill,
             border_top=style_def.border_top or parent.border_top,

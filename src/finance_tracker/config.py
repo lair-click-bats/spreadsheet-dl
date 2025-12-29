@@ -22,6 +22,7 @@ try:
 
     HAS_YAML = True
 except ImportError:
+    yaml = None  # type: ignore[assignment]
     HAS_YAML = False
 
 
@@ -163,11 +164,13 @@ class Config:
     @classmethod
     def _parse_yaml_file(cls, path: Path) -> dict[str, Any]:
         """Parse a YAML configuration file."""
+        if yaml is None:
+            return {}
         try:
             with open(path) as f:
                 data = yaml.safe_load(f)
                 return data if isinstance(data, dict) else {}
-        except Exception:
+        except (OSError, ValueError, yaml.YAMLError):
             return {}
 
     @classmethod
@@ -289,7 +292,7 @@ class Config:
         Args:
             path: Path to save the configuration file.
         """
-        if not HAS_YAML:
+        if not HAS_YAML or yaml is None:
             raise ImportError("PyYAML is required to save configuration files")
 
         path = Path(path)

@@ -11,48 +11,47 @@ Provides ready-to-use templates for common financial documents
 with professional formatting, built-in formulas, and validation.
 """
 
+from finance_tracker.templates.financial_statements import (
+    FINANCIAL_STATEMENT_TEMPLATES,
+    BalanceSheetTemplate,
+    CashFlowStatementTemplate,
+    EquityStatementTemplate,
+    IncomeStatementTemplate,
+    get_financial_template,
+    list_financial_templates,
+)
 from finance_tracker.templates.professional import (
+    PROFESSIONAL_TEMPLATES,
     BudgetCategory,
     CashFlowTrackerTemplate,
     EnterpriseBudgetTemplate,
     ExpenseReportTemplate,
     InvoiceTemplate,
-    PROFESSIONAL_TEMPLATES,
     TemplateMetadata,
     get_template,
     list_templates,
 )
 
-from finance_tracker.templates.financial_statements import (
-    BalanceSheetTemplate,
-    CashFlowStatementTemplate,
-    EquityStatementTemplate,
-    FINANCIAL_STATEMENT_TEMPLATES,
-    get_financial_template,
-    IncomeStatementTemplate,
-    list_financial_templates,
-)
-
 __all__ = [
+    # Financial Statement Registry
+    "FINANCIAL_STATEMENT_TEMPLATES",
+    # Professional Registry
+    "PROFESSIONAL_TEMPLATES",
+    "BalanceSheetTemplate",
+    # Supporting classes
+    "BudgetCategory",
+    "CashFlowStatementTemplate",
+    "CashFlowTrackerTemplate",
     # Professional Templates (FR-PROF-001, FR-PROF-002, FR-PROF-003)
     "EnterpriseBudgetTemplate",
-    "CashFlowTrackerTemplate",
-    "InvoiceTemplate",
+    "EquityStatementTemplate",
     "ExpenseReportTemplate",
     # Financial Statement Templates (FR-PROF-004)
     "IncomeStatementTemplate",
-    "BalanceSheetTemplate",
-    "CashFlowStatementTemplate",
-    "EquityStatementTemplate",
-    # Supporting classes
-    "BudgetCategory",
+    "InvoiceTemplate",
     "TemplateMetadata",
-    # Professional Registry
-    "PROFESSIONAL_TEMPLATES",
-    "list_templates",
-    "get_template",
-    # Financial Statement Registry
-    "FINANCIAL_STATEMENT_TEMPLATES",
-    "list_financial_templates",
     "get_financial_template",
+    "get_template",
+    "list_financial_templates",
+    "list_templates",
 ]

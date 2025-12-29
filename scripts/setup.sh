@@ -226,21 +226,25 @@ fi
 
 # Verify scripts are executable
 log_info "Checking script executability..."
-for script in "$REPO_ROOT"/base/hooks/*.sh; do
-    if [[ -x "$script" ]]; then
-        log_success "$(basename "$script") is executable"
-    else
-        chmod +x "$script"
-        log_info "Made $(basename "$script") executable"
+for script in "$REPO_ROOT"/.claude/hooks/*.sh; do
+    if [[ -f "$script" ]]; then
+        if [[ -x "$script" ]]; then
+            log_success "$(basename "$script") is executable"
+        else
+            chmod +x "$script"
+            log_info "Made $(basename "$script") executable"
+        fi
     fi
 done
 
-for script in "$REPO_ROOT"/base/hooks/*.py; do
-    if [[ -x "$script" ]]; then
-        log_success "$(basename "$script") is executable"
-    else
-        chmod +x "$script"
-        log_info "Made $(basename "$script") executable"
+for script in "$REPO_ROOT"/.claude/hooks/*.py; do
+    if [[ -f "$script" ]]; then
+        if [[ -x "$script" ]]; then
+            log_success "$(basename "$script") is executable"
+        else
+            chmod +x "$script"
+            log_info "Made $(basename "$script") executable"
+        fi
     fi
 done
 
@@ -269,7 +273,6 @@ echo "=============================================="
 echo ""
 echo "Next steps:"
 echo "  1. Run tests:        uv run pytest -v"
-echo "  2. Validate modules: uv run python scripts/validate.py base research implementation"
-echo "  3. Validate VS Code: ./scripts/validate_vscode.sh"
-echo "  4. Bootstrap a project: uv run python scripts/bootstrap.py --help"
+echo "  2. Run quality check: ./scripts/check.sh"
+echo "  3. View CLI help:    uv run finance-tracker --help"
 echo ""

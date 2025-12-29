@@ -111,7 +111,6 @@ from finance_tracker.ai_training import (
     TrainingDataset,
     export_training_data,
 )
-
 from finance_tracker.alerts import (
     Alert,
     AlertConfig,
@@ -158,6 +157,38 @@ from finance_tracker.builder import (
     formula,
 )
 
+# ============================================================================
+# v2.0.0 Professional Spreadsheet System (95 new requirements)
+# ============================================================================
+# Charts (NEW in v2.0.0 - FR-CHART-*)
+from finance_tracker.charts import (
+    AxisConfig,
+    AxisType,
+    ChartBuilder,
+    ChartPosition,
+    ChartSize,
+    ChartSpec,
+    ChartTitle,
+    ChartType,
+    DataLabelConfig,
+    DataLabelPosition,
+    DataSeries,
+    LegendConfig,
+    LegendPosition,
+    PlotAreaStyle,
+    Sparkline,
+    SparklineBuilder,
+    SparklineMarkers,
+    SparklineType,
+    Trendline,
+    TrendlineType,
+    budget_comparison_chart,
+    chart,
+    sparkline,
+    spending_pie_chart,
+    trend_line_chart,
+)
+
 # Shell Completions (NEW in v0.7.0 - Phase 4)
 from finance_tracker.completions import (
     detect_shell,
@@ -167,11 +198,15 @@ from finance_tracker.completions import (
     install_completions,
     print_completion_script,
 )
-
 from finance_tracker.config import (
     Config,
     get_config,
     init_config_file,
+)
+from finance_tracker.csv_import import (
+    CSVImporter,
+    TransactionCategorizer,
+    import_bank_csv,
 )
 
 # Multi-Currency Support (NEW in v0.6.0 - Phase 3)
@@ -188,12 +223,6 @@ from finance_tracker.currency import (
     get_currency,
     list_currencies,
     money,
-)
-
-from finance_tracker.csv_import import (
-    CSVImporter,
-    TransactionCategorizer,
-    import_bank_csv,
 )
 from finance_tracker.exceptions import (
     ConfigurationError,
@@ -237,13 +266,15 @@ from finance_tracker.goals import (
 # Interactive ODS Features (NEW in v1.0.0 - Phase 5)
 from finance_tracker.interactive import (
     ConditionalFormat,
-    DashboardGenerator as OdsDashboardGenerator,
     DashboardKPI,
     DropdownList,
     InteractiveOdsBuilder,
     ValidationRule,
     add_interactive_features,
     generate_budget_dashboard,
+)
+from finance_tracker.interactive import (
+    DashboardGenerator as OdsDashboardGenerator,
 )
 
 # MCP Server (NEW in v1.0.0 - Phase 5)
@@ -314,6 +345,51 @@ from finance_tracker.renderer import (
 )
 from finance_tracker.report_generator import ReportGenerator
 
+# Schema Extensions (NEW in v2.0.0 - FR-SCHEMA-*, FR-FORMAT-*, FR-ADV-*)
+from finance_tracker.schema.advanced import (
+    AutoFilter,
+    CellComment,
+    DataTable,
+    FilterCriteria,
+    HiddenRowsColumns,
+    Hyperlink,
+    Image,
+    NamedRange,
+    OutlineGroup,
+    OutlineSettings,
+    Shape,
+)
+from finance_tracker.schema.conditional import (
+    ConditionalFormat,
+    ConditionalRule,
+)
+from finance_tracker.schema.data_validation import (
+    DataValidation,
+    ValidationType,
+)
+from finance_tracker.schema.print_layout import (
+    HeaderFooter,
+    HeaderFooterContent,
+    PageBreak,
+    PageMargins,
+    PageOrientation,
+    PageSetup,
+    PageSetupBuilder,
+    PageSize,
+    PrintPresets,
+    PrintQuality,
+    PrintScale,
+    RepeatConfig,
+)
+from finance_tracker.schema.typography import (
+    FontPairing,
+    Typography,
+)
+from finance_tracker.schema.units import (
+    Length,
+    LengthUnit,
+)
+
 # Security (NEW in v0.4.2)
 from finance_tracker.security import (
     CredentialStore,
@@ -323,10 +399,33 @@ from finance_tracker.security import (
     check_password_strength,
     generate_password,
 )
+
+# Template Engine (NEW in v2.0.0 - FR-TEMPLATE-*)
+from finance_tracker.template_engine import (
+    ComponentDefinition,
+    TemplateLoader,
+    TemplateRenderer,
+    TemplateVariable,
+)
 from finance_tracker.templates import (
-    BudgetTemplate,
     get_template,
     list_templates,
+)
+
+# Financial Statement Templates (NEW in v2.0.0 - FR-PROF-*)
+from finance_tracker.templates.financial_statements import (
+    BalanceSheetTemplate,
+    CashFlowStatementTemplate,
+    EquityStatementTemplate,
+    IncomeStatementTemplate,
+)
+
+# Professional Templates (NEW in v2.0.0 - FR-PROF-*)
+from finance_tracker.templates.professional import (
+    CashFlowTrackerTemplate,
+    EnterpriseBudgetTemplate,
+    ExpenseReportTemplate,
+    InvoiceTemplate,
 )
 
 # Interactive Visualization (NEW in v0.6.0 - Phase 3)
@@ -347,172 +446,79 @@ from finance_tracker.webdav_upload import (
     upload_budget,
 )
 
-# ============================================================================
-# v2.0.0 Professional Spreadsheet System (95 new requirements)
-# ============================================================================
-
-# Charts (NEW in v2.0.0 - FR-CHART-*)
-from finance_tracker.charts import (
-    AxisConfig,
-    AxisType,
-    ChartBuilder,
-    ChartPosition,
-    ChartSize,
-    ChartSpec,
-    ChartTitle,
-    ChartType,
-    DataLabelConfig,
-    DataLabelPosition,
-    DataSeries,
-    LegendConfig,
-    LegendPosition,
-    PlotAreaStyle,
-    Sparkline,
-    SparklineBuilder,
-    SparklineMarkers,
-    SparklineType,
-    Trendline,
-    TrendlineType,
-    budget_comparison_chart,
-    chart,
-    sparkline,
-    spending_pie_chart,
-    trend_line_chart,
-)
-
-# Template Engine (NEW in v2.0.0 - FR-TEMPLATE-*)
-from finance_tracker.template_engine import (
-    TemplateComponent,
-    TemplateEngine,
-    TemplateLoader,
-    TemplateRenderer,
-    TemplateSchema,
-    TemplateVariable,
-)
-
-# Professional Templates (NEW in v2.0.0 - FR-PROF-*)
-from finance_tracker.templates.professional import (
-    CashFlowTrackerTemplate,
-    EnterpriseBudgetTemplate,
-    ExpenseReportTemplate,
-    InvoiceTemplate,
-)
-
-# Financial Statement Templates (NEW in v2.0.0 - FR-PROF-*)
-from finance_tracker.templates.financial_statements import (
-    BalanceSheetTemplate,
-    CashFlowStatementTemplate,
-    EquityStatementTemplate,
-    IncomeStatementTemplate,
-)
-
-# Schema Extensions (NEW in v2.0.0 - FR-SCHEMA-*, FR-FORMAT-*, FR-ADV-*)
-from finance_tracker.schema.advanced import (
-    AutoFilter,
-    CellComment,
-    DataTable,
-    FilterCriteria,
-    HiddenRowsColumns,
-    Hyperlink,
-    Image,
-    NamedRange,
-    OutlineGroup,
-    OutlineSettings,
-    Shape,
-)
-from finance_tracker.schema.conditional import (
-    ConditionalFormat,
-    ConditionalRule,
-    FormatCondition,
-)
-from finance_tracker.schema.data_validation import (
-    DataValidation,
-    ValidationCriteria,
-    ValidationRule,
-    ValidationType,
-)
-from finance_tracker.schema.print_layout import (
-    HeaderFooter,
-    HeaderFooterContent,
-    PageBreak,
-    PageMargins,
-    PageOrientation,
-    PageSetup,
-    PageSetupBuilder,
-    PageSize,
-    PrintPresets,
-    PrintQuality,
-    PrintScale,
-    RepeatConfig,
-)
-from finance_tracker.schema.typography import (
-    FontPairing,
-    TypeScale,
-    Typography,
-    TypographyBuilder,
-)
-from finance_tracker.schema.units import (
-    Angle,
-    Length,
-    LengthUnit,
-    Percentage,
-)
-
 __all__ = [
+    "BUILTIN_FORMATS",
+    # Visualization (v0.6.0)
+    "CATEGORY_COLORS",
+    # Multi-Currency (v0.6.0)
+    "CURRENCIES",
+    # AI Export (v0.6.0)
+    "AIExporter",
     # Account Management (v0.6.0)
     "Account",
     "AccountManager",
     "AccountTransaction",
     "AccountType",
-    # AI Export (v0.6.0)
-    "AIExporter",
-    # AI Training (v1.0.0)
-    "AnonymizationConfig",
-    "AnonymizationLevel",
     "Alert",
     "AlertConfig",
     "AlertMonitor",
     "AnalyticsDashboard",
+    # v2.0.0 Professional Spreadsheet System
+    # AI Training (v1.0.0)
+    "AnonymizationConfig",
+    "AnonymizationLevel",
+    "AutoFilter",
+    "AxisConfig",
+    "AxisType",
     # Backup (v0.5.0)
     "BackupManager",
     "BackupReason",
+    "BalanceSheetTemplate",
     # Bank Formats (v0.6.0)
     "BankFormatDefinition",
     "BankFormatRegistry",
     # Bill Reminders (v0.7.0)
     "BillReminder",
     "BillReminderManager",
-    "BUILTIN_FORMATS",
     "BudgetAllocation",
     "BudgetAnalyzer",
-    "BudgetTemplate",
-    # Visualization (v0.6.0)
-    "CATEGORY_COLORS",
     "CSVImportError",
     "CSVImporter",
+    "CashFlowStatementTemplate",
+    "CashFlowTrackerTemplate",
+    "CellComment",
     # Builder API (v0.4.0)
     "CellRef",
     "CellRelationship",
     "CellSpec",
+    "ChartBuilder",
     "ChartConfig",
     "ChartDataPoint",
     "ChartGenerator",
+    "ChartPosition",
     "ChartSeries",
+    "ChartSize",
+    "ChartSpec",
+    "ChartTitle",
     "ChartType",
     "ColumnSpec",
     # Interactive ODS (v1.0.0)
     "ConditionalFormat",
+    "ConditionalRule",
     "Config",
     "ConfigurationError",
     "CredentialStore",
-    # Multi-Currency (v0.6.0)
-    "CURRENCIES",
     "Currency",
     "CurrencyCode",
     "CurrencyConverter",
     "DashboardGenerator",
     "DashboardKPI",
     "DataAnonymizer",
+    "DataLabelConfig",
+    "DataLabelPosition",
+    "DataSeries",
+    "DataTable",
+    "DataValidation",
     # Goals (v0.7.0)
     "Debt",
     "DebtPayoffMethod",
@@ -524,23 +530,39 @@ __all__ = [
     "EmailConfig",
     "EncryptionError",
     "EncryptionMetadata",
+    "EnterpriseBudgetTemplate",
+    "EquityStatementTemplate",
     "ExchangeRate",
     "ExchangeRateProvider",
     "ExpenseCategory",
     "ExpenseEntry",
+    "ExpenseReportTemplate",
     # Export (v0.5.0)
     "ExportFormat",
     "ExportOptions",
     "FileEncryptor",
     "FileError",
+    "FilterCriteria",
     "FinanceTrackerError",
+    "FontPairing",
     "FormatBuilder",
     "FormulaBuilder",
     "GoalCategory",
     "GoalManager",
     "GoalStatus",
+    "HeaderFooter",
+    "HeaderFooterContent",
+    "HiddenRowsColumns",
+    "Hyperlink",
+    "Image",
+    "IncomeStatementTemplate",
     "IntegrityError",
     "InteractiveOdsBuilder",
+    "InvoiceTemplate",
+    "LegendConfig",
+    "LegendPosition",
+    "Length",
+    "LengthUnit",
     # MCP Server (v1.0.0)
     "MCPConfig",
     "MCPServer",
@@ -548,6 +570,7 @@ __all__ = [
     "MCPToolResult",
     "MoneyAmount",
     "MultiFormatExporter",
+    "NamedRange",
     "NetWorth",
     "NextcloudConfig",
     "Notification",
@@ -563,19 +586,32 @@ __all__ = [
     "OdsGenerator",
     "OdsRenderer",
     "OperationCancelledError",
+    "OutlineGroup",
+    "OutlineSettings",
     "PIIDetector",
+    "PageBreak",
+    "PageMargins",
+    "PageOrientation",
+    "PageSetup",
+    "PageSetupBuilder",
+    "PageSize",
     # Plaid (v1.0.0)
     "PlaidAccount",
     "PlaidClient",
     "PlaidConfig",
     "PlaidSyncManager",
     "PlaidTransaction",
+    "PlotAreaStyle",
+    "PrintPresets",
+    "PrintQuality",
+    "PrintScale",
     "RangeRef",
     "RecurrenceFrequency",
     "RecurringExpense",
     "RecurringExpenseManager",
     "ReminderFrequency",
     "ReminderStatus",
+    "RepeatConfig",
     "ReportGenerator",
     "RowSpec",
     "SavingsGoal",
@@ -584,17 +620,30 @@ __all__ = [
     "SemanticCellType",
     "SemanticSheet",
     "SemanticTag",
+    "Shape",
     "SheetRef",
     "SheetSpec",
+    "Sparkline",
+    "SparklineBuilder",
+    "SparklineMarkers",
+    "SparklineType",
     "SpreadsheetBuilder",
     "SyncResult",
+    "ComponentDefinition",
     "TemplateError",
+    "TemplateLoader",
+    "TemplateRenderer",
+    "TemplateVariable",
     "TrainingDataExporter",
     "TrainingDataset",
-    "Transfer",
     "TransactionCategorizer",
+    "Transfer",
+    "Trendline",
+    "TrendlineType",
+    "Typography",
     "ValidationError",
     "ValidationRule",
+    "ValidationType",
     "WebDAVClient",
     "WebDAVError",
     "__author__",
@@ -602,6 +651,8 @@ __all__ = [
     "add_interactive_features",
     "append_expense_to_file",
     "auto_backup",
+    "budget_comparison_chart",
+    "chart",
     "check_budget_alerts",
     "check_password_strength",
     "compare_payoff_methods",
@@ -645,83 +696,8 @@ __all__ = [
     "money",
     "print_completion_script",
     "render_sheets",
-    "upload_budget",
-    # v2.0.0 Professional Spreadsheet System
-    "Angle",
-    "AutoFilter",
-    "AxisConfig",
-    "AxisType",
-    "BalanceSheetTemplate",
-    "CashFlowStatementTemplate",
-    "CashFlowTrackerTemplate",
-    "CellComment",
-    "ChartBuilder",
-    "ChartPosition",
-    "ChartSize",
-    "ChartSpec",
-    "ChartTitle",
-    "ChartType",
-    "ConditionalFormat",
-    "ConditionalRule",
-    "DataLabelConfig",
-    "DataLabelPosition",
-    "DataSeries",
-    "DataTable",
-    "DataValidation",
-    "EnterpriseBudgetTemplate",
-    "EquityStatementTemplate",
-    "ExpenseReportTemplate",
-    "FilterCriteria",
-    "FontPairing",
-    "FormatCondition",
-    "HeaderFooter",
-    "HeaderFooterContent",
-    "HiddenRowsColumns",
-    "Hyperlink",
-    "Image",
-    "IncomeStatementTemplate",
-    "InvoiceTemplate",
-    "LegendConfig",
-    "LegendPosition",
-    "Length",
-    "LengthUnit",
-    "NamedRange",
-    "OutlineGroup",
-    "OutlineSettings",
-    "PageBreak",
-    "PageMargins",
-    "PageOrientation",
-    "PageSetup",
-    "PageSetupBuilder",
-    "PageSize",
-    "Percentage",
-    "PlotAreaStyle",
-    "PrintPresets",
-    "PrintQuality",
-    "PrintScale",
-    "RepeatConfig",
-    "Shape",
-    "Sparkline",
-    "SparklineBuilder",
-    "SparklineMarkers",
-    "SparklineType",
-    "TemplateComponent",
-    "TemplateEngine",
-    "TemplateLoader",
-    "TemplateRenderer",
-    "TemplateSchema",
-    "TemplateVariable",
-    "Trendline",
-    "TrendlineType",
-    "TypeScale",
-    "Typography",
-    "TypographyBuilder",
-    "ValidationCriteria",
-    "ValidationRule",
-    "ValidationType",
-    "budget_comparison_chart",
-    "chart",
     "sparkline",
     "spending_pie_chart",
     "trend_line_chart",
+    "upload_budget",
 ]

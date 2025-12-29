@@ -15,7 +15,6 @@ import pytest
 
 from finance_tracker.currency import (
     CURRENCIES,
-    Currency,
     CurrencyCode,
     CurrencyConverter,
     ExchangeRate,

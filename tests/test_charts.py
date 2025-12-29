@@ -12,26 +12,18 @@ Implements tests for:
     - FR-BUILDER-004: ChartBuilder
 """
 
-import pytest
 
 from finance_tracker.charts import (
     AxisConfig,
-    AxisType,
     ChartBuilder,
     ChartPosition,
     ChartSize,
-    ChartSpec,
     ChartTitle,
     ChartType,
-    DataLabelConfig,
-    DataLabelPosition,
     DataSeries,
     LegendConfig,
     LegendPosition,
-    PlotAreaStyle,
-    Sparkline,
     SparklineBuilder,
-    SparklineMarkers,
     SparklineType,
     Trendline,
     TrendlineType,

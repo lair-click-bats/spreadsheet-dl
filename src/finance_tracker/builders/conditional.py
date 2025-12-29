@@ -14,8 +14,8 @@ from typing import Any, Self
 
 from finance_tracker.schema.conditional import (
     ColorScale,
-    ColorScaleType,
     ColorScalePoint,
+    ColorScaleType,
     ConditionalFormat,
     ConditionalRule,
     ConditionalRuleType,

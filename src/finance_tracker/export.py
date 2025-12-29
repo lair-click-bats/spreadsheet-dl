@@ -18,13 +18,12 @@ Features:
 from __future__ import annotations
 
 import csv
-import io
 from dataclasses import dataclass, field
 from datetime import date, datetime
 from decimal import Decimal
 from enum import Enum
 from pathlib import Path
-from typing import Any, BinaryIO
+from typing import Any
 
 from finance_tracker.exceptions import (
     FileError,
@@ -197,8 +196,8 @@ class MultiFormatExporter:
         if isinstance(format, str):
             try:
                 format = ExportFormat(format.lower())
-            except ValueError:
-                raise FormatNotSupportedError(format)
+            except ValueError as exc:
+                raise FormatNotSupportedError(format) from exc
 
         # Load ODS data
         sheet_data = self._load_ods(ods_path)
@@ -220,7 +219,7 @@ class MultiFormatExporter:
         ods_path: str | Path,
         output_dir: str | Path,
         formats: list[ExportFormat | str],
-    ) -> dict[str, Path]:
+    ) -> dict[str, Path | None]:
         """
         Export ODS file to multiple formats.
 
@@ -237,7 +236,7 @@ class MultiFormatExporter:
         output_dir.mkdir(parents=True, exist_ok=True)
 
         stem = ods_path.stem
-        results: dict[str, Path] = {}
+        results: dict[str, Path | None] = {}
 
         for fmt in formats:
             if isinstance(fmt, str):
@@ -248,7 +247,7 @@ class MultiFormatExporter:
 
             try:
                 results[fmt.value] = self.export(ods_path, output_path, fmt)
-            except Exception as e:
+            except (OSError, ValueError, MultiExportError):
                 results[fmt.value] = None
                 # Continue with other formats
 
@@ -257,15 +256,15 @@ class MultiFormatExporter:
     def _load_ods(self, ods_path: Path) -> list[SheetData]:
         """Load data from ODS file."""
         try:
-            from odf import text
+            from odf import text as odf_text
             from odf.opendocument import load
             from odf.table import Table, TableCell, TableRow
-        except ImportError:
+        except ImportError as exc:
             raise ExportDependencyError(
                 "ODS",
                 "odfpy",
                 "pip install odfpy",
-            )
+            ) from exc
 
         doc = load(str(ods_path))
         sheets: list[SheetData] = []
@@ -288,7 +287,7 @@ class MultiFormatExporter:
                     repeat = cell.getAttribute("numbercolumnsrepeated")
                     repeat_count = int(repeat) if repeat else 1
 
-                    value = self._extract_cell_value(cell)
+                    value = self._extract_cell_value(cell, odf_text)
 
                     # Add value (or repeat it)
                     for _ in range(min(repeat_count, 100)):  # Limit repeats
@@ -309,17 +308,11 @@ class MultiFormatExporter:
 
         return sheets
 
-    def _extract_cell_value(self, cell: Any) -> Any:
+    def _extract_cell_value(self, cell: Any, odf_text: Any) -> Any:
         """Extract value from ODS cell."""
         value_type = cell.getAttribute("valuetype")
 
-        if value_type == "float":
-            val = cell.getAttribute("value")
-            return Decimal(val) if val else None
-        elif value_type == "currency":
-            val = cell.getAttribute("value")
-            return Decimal(val) if val else None
-        elif value_type == "percentage":
+        if value_type in ("float", "currency", "percentage"):
             val = cell.getAttribute("value")
             return Decimal(val) if val else None
         elif value_type == "date":
@@ -335,29 +328,25 @@ class MultiFormatExporter:
         else:
             # Text or empty
             try:
-                from odf import text
-
                 text_content = []
-                for p in cell.getElementsByType(text.P):
+                for p in cell.getElementsByType(odf_text.P):
                     text_content.append(str(p))
                 return " ".join(text_content) if text_content else None
-            except Exception:
+            except (AttributeError, TypeError):
                 return None
 
-    def _export_xlsx(
-        self, sheets: list[SheetData], output_path: Path
-    ) -> Path:
+    def _export_xlsx(self, sheets: list[SheetData], output_path: Path) -> Path:
         """Export to Excel XLSX format."""
         try:
             from openpyxl import Workbook
             from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
             from openpyxl.utils import get_column_letter
-        except ImportError:
+        except ImportError as exc:
             raise ExportDependencyError(
                 "XLSX",
                 "openpyxl",
                 "pip install openpyxl",
-            )
+            ) from exc
 
         wb = Workbook()
         # Remove default sheet
@@ -368,7 +357,7 @@ class MultiFormatExporter:
             ws = wb.create_sheet(title=sheet_data.name[:31])  # Excel sheet name limit
 
             # Style definitions
-            header_font = Font(bold=True)
+            _header_font = Font(bold=True)
             header_fill = PatternFill(
                 start_color="4472C4", end_color="4472C4", fill_type="solid"
             )
@@ -417,9 +406,7 @@ class MultiFormatExporter:
         wb.save(str(output_path))
         return output_path
 
-    def _export_csv(
-        self, sheets: list[SheetData], output_path: Path
-    ) -> Path:
+    def _export_csv(self, sheets: list[SheetData], output_path: Path) -> Path:
         """Export to CSV format."""
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -496,9 +483,7 @@ class MultiFormatExporter:
                             csv_row.append(value)
                     writer.writerow(csv_row)
 
-    def _export_pdf(
-        self, sheets: list[SheetData], output_path: Path
-    ) -> Path:
+    def _export_pdf(self, sheets: list[SheetData], output_path: Path) -> Path:
         """Export to PDF format."""
         try:
             from reportlab.lib import colors
@@ -512,12 +497,12 @@ class MultiFormatExporter:
                 Table,
                 TableStyle,
             )
-        except ImportError:
+        except ImportError as exc:
             raise ExportDependencyError(
                 "PDF",
                 "reportlab",
                 "pip install reportlab",
-            )
+            ) from exc
 
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -602,7 +587,12 @@ class MultiFormatExporter:
                     # Grid
                     ("GRID", (0, 0), (-1, -1), 0.5, colors.grey),
                     # Alternating rows
-                    ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.white, colors.lightgrey]),
+                    (
+                        "ROWBACKGROUNDS",
+                        (0, 1),
+                        (-1, -1),
+                        [colors.white, colors.lightgrey],
+                    ),
                     # Padding
                     ("TOPPADDING", (0, 0), (-1, -1), 4),
                     ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
@@ -634,21 +624,19 @@ class MultiFormatExporter:
             f"Generated on {datetime.now().strftime('%Y-%m-%d %H:%M')}."
         )
 
-    def _export_json(
-        self, sheets: list[SheetData], output_path: Path
-    ) -> Path:
+    def _export_json(self, sheets: list[SheetData], output_path: Path) -> Path:
         """Export to JSON format."""
         import json
 
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
-        export_data = {
+        export_data: dict[str, Any] = {
             "export_time": datetime.now().isoformat(),
             "sheets": [],
         }
 
         for sheet in sheets:
-            sheet_dict = {
+            sheet_dict: dict[str, Any] = {
                 "name": sheet.name,
                 "headers": sheet.headers,
                 "row_count": sheet.row_count,
@@ -657,7 +645,7 @@ class MultiFormatExporter:
             }
 
             for row in sheet.rows:
-                row_dict = {}
+                row_dict: dict[str, Any] = {}
                 for i, value in enumerate(row):
                     header = sheet.headers[i] if i < len(sheet.headers) else f"col_{i}"
                     if isinstance(value, Decimal):

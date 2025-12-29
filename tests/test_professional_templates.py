@@ -7,15 +7,15 @@ Tests FR-PROF-001, FR-PROF-002, FR-PROF-003
 import pytest
 
 from finance_tracker.templates.professional import (
+    PROFESSIONAL_TEMPLATES,
     BudgetCategory,
     CashFlowTrackerTemplate,
     EnterpriseBudgetTemplate,
     ExpenseReportTemplate,
-    get_template,
     InvoiceTemplate,
-    list_templates,
-    PROFESSIONAL_TEMPLATES,
     TemplateMetadata,
+    get_template,
+    list_templates,
 )
 
 
@@ -285,7 +285,7 @@ class TestTemplateIntegration:
             fiscal_year=2024,
             departments=["Engineering"],
         )
-        builder = template.generate()
+        template.generate()
         # Would verify builder state
 
     @pytest.mark.skip(reason="Requires full builder implementation")
@@ -296,7 +296,7 @@ class TestTemplateIntegration:
             periods=12,
             opening_balance=10000,
         )
-        builder = template.generate()
+        template.generate()
         # Would verify builder state
 
     @pytest.mark.skip(reason="Requires full builder implementation")
@@ -306,5 +306,5 @@ class TestTemplateIntegration:
             company_name="Test Corp",
             invoice_number="INV-100",
         )
-        builder = template.generate()
+        template.generate()
         # Would verify builder state

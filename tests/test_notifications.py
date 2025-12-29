@@ -7,12 +7,10 @@ Tests IR-NOTIF-001: Alert Notifications.
 from __future__ import annotations
 
 import tempfile
-from datetime import date
+from datetime import date, timedelta
 from decimal import Decimal
 from pathlib import Path
 from unittest.mock import MagicMock, patch
-
-import pytest
 
 from finance_tracker.notifications import (
     EmailChannel,
@@ -300,7 +298,7 @@ class TestNotificationTemplates:
         notification = NotificationTemplates.bill_due(
             bill_name="Electric",
             amount=Decimal("150"),
-            due_date=date.today() + 3,
+            due_date=date.today() + timedelta(days=3),
         )
 
         assert notification.type == NotificationType.BILL_DUE
@@ -323,7 +321,7 @@ class TestNotificationTemplates:
         notification = NotificationTemplates.bill_overdue(
             bill_name="Rent",
             amount=Decimal("1500"),
-            due_date=date.today() - 5,
+            due_date=date.today() - timedelta(days=5),
             days_overdue=5,
         )
 

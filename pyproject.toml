@@ -23,6 +23,7 @@ dev = [
     "mypy>=1.13.0",
     "pandas-stubs>=2.1.0",
     "types-requests>=2.31.0",
+    "types-PyYAML>=6.0.0",
 ]
 export = [
     "openpyxl>=3.1.0",
@@ -116,10 +117,4 @@ exclude_lines = [
     "pragma: no cover",
     "if TYPE_CHECKING:",
     "if __name__ == .__main__.:",
-]
-
-[dependency-groups]
-dev = [
-    "pandas-stubs>=2.3.3.251201",
-    "pytest>=9.0.2",
 ]

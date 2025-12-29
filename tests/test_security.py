@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-import tempfile
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 import pytest
 
+from finance_tracker.exceptions import FileError
 from finance_tracker.security import (
     AuditLogEntry,
     DecryptionError,
@@ -17,6 +17,9 @@ from finance_tracker.security import (
     check_password_strength,
     generate_password,
 )
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 class TestEncryptionMetadata:
@@ -142,7 +145,7 @@ class TestFileEncryptor:
     def test_encrypt_nonexistent_file(self, tmp_path: Path) -> None:
         """Test encryption of nonexistent file fails."""
         encryptor = FileEncryptor()
-        with pytest.raises(Exception):  # FileError
+        with pytest.raises(FileError):
             encryptor.encrypt_file(
                 tmp_path / "nonexistent.ods",
                 tmp_path / "output.enc",

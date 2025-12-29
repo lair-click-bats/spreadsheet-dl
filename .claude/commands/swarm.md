@@ -61,5 +61,5 @@ After all agents complete:
 
 ## See Also
 
-- `base/agents/orchestrator.md` - Handles parallel dispatch
+- `.claude/agents/orchestrator.md` - Handles parallel dispatch
 - `/ai` - For serial workflows

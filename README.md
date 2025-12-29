@@ -1,5 +1,7 @@
 # Finance Tracker
 
+**Current Version: v2.0.0** - Professional Spreadsheet System
+
 Family financial tracking with ODS spreadsheets for Nextcloud and Collabora Office.
 
 ## Overview
@@ -13,7 +15,7 @@ This project provides Python tools for creating, analyzing, and reporting on fam
 
 ## Features
 
-### Core (v0.1.0)
+### Core Features
 
 - Generate structured budget spreadsheets with formulas
 - Analyze spending with pandas
@@ -21,7 +23,24 @@ This project provides Python tools for creating, analyzing, and reporting on fam
 - Mobile-friendly ODS files
 - CLI and Python API
 
-### New in v0.2.0
+### Professional Spreadsheet System (v2.0.0)
+
+- **Enterprise-grade formatting** - Professional templates for business and personal use
+- **Advanced template system** - Business, financial, and custom templates
+- **Professional styling** - Headers, footers, conditional formatting
+- **Multi-sheet workbooks** - Complex spreadsheet structures
+- **Formula validation** - Type-safe formula construction
+
+### Declarative DSL (v0.4.0)
+
+- **YAML Theme System** - Define visual styles in YAML files
+- **5 Built-in Themes** - default, corporate, minimal, dark, high_contrast
+- **Fluent Builder API** - Chainable spreadsheet construction
+- **FormulaBuilder** - Type-safe ODF formula generation
+- **Theme Inheritance** - Extend and customize themes
+- **CLI Theme Support** - `--theme` flag for all generation commands
+
+### Integration Features (v0.2.0)
 
 - **WebDAV Upload** - Direct upload to Nextcloud
 - **Bank CSV Import** - Import from Chase, Bank of America, Capital One, and more
@@ -31,15 +50,6 @@ This project provides Python tools for creating, analyzing, and reporting on fam
 - **Recurring Expenses** - Track and auto-generate recurring payments
 - **Budget Templates** - Pre-built templates (50/30/20, Family, FIRE, and more)
 - **Quick Expense CLI** - Add expenses from command line
-
-### New in v0.4.0 - Declarative DSL
-
-- **YAML Theme System** - Define visual styles in YAML files
-- **5 Built-in Themes** - default, corporate, minimal, dark, high_contrast
-- **Fluent Builder API** - Chainable spreadsheet construction
-- **FormulaBuilder** - Type-safe ODF formula generation
-- **Theme Inheritance** - Extend and customize themes
-- **CLI Theme Support** - `--theme` flag for all generation commands
 
 ## Quick Start
 
@@ -147,7 +157,7 @@ report_gen = ReportGenerator("budget_2025_01.ods")
 print(report_gen.generate_text_report())
 ```
 
-### Using Themes (New in v0.4.0)
+### Using Themes
 
 ```python
 from finance_tracker import OdsGenerator, create_monthly_budget
@@ -160,7 +170,7 @@ generator.create_budget_spreadsheet("corporate_budget.ods")
 path = create_monthly_budget("./budgets", theme="minimal")
 ```
 
-### Fluent Builder API (New in v0.4.0)
+### Fluent Builder API
 
 ```python
 from decimal import Decimal
@@ -392,13 +402,13 @@ finance-tracker/
 │       ├── alerts.py             # Alert system
 │       ├── recurring.py          # Recurring expenses
 │       ├── templates.py          # Budget templates
-│       ├── builder.py            # Fluent builder API (NEW)
-│       ├── renderer.py           # Builder -> ODS renderer (NEW)
-│       ├── schema/               # Theme schema (NEW)
+│       ├── builder.py            # Fluent builder API
+│       ├── renderer.py           # Builder -> ODS renderer
+│       ├── schema/               # Theme schema
 │       │   ├── styles.py         # Style dataclasses
 │       │   ├── loader.py         # YAML loader
 │       │   └── validation.py     # Schema validation
-│       └── themes/               # Theme YAML files (NEW)
+│       └── themes/               # Theme YAML files
 │           ├── default.yaml
 │           ├── corporate.yaml
 │           ├── minimal.yaml
@@ -505,6 +515,14 @@ MIT License - See LICENSE file
 
 ## Changelog
 
+### v2.0.0 (2025-12-29)
+
+- Professional spreadsheet system with enterprise-grade formatting
+- Advanced business and financial templates
+- Multi-sheet workbook support
+- Enhanced formula validation
+- Comprehensive test suite (250+ tests)
+
 ### v0.4.0 (2025-12-10)
 
 - Added declarative DSL for themes and styling
@@ -515,7 +533,6 @@ MIT License - See LICENSE file
 - Added CLI `--theme` flag for generation commands
 - Added CLI `themes` command to list available themes
 - Maintained full backward compatibility with v0.3.0
-- All 250+ tests passing
 
 ### v0.3.0 (2025-12-10)
 

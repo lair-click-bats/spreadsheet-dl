@@ -19,10 +19,7 @@ from datetime import date, datetime
 from decimal import ROUND_HALF_UP, Decimal
 from enum import Enum
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
-
-if TYPE_CHECKING:
-    from collections.abc import Iterator
+from typing import Any
 
 
 class CurrencyCode(Enum):

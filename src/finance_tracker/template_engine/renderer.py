@@ -16,19 +16,18 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 from datetime import date, datetime
-from pathlib import Path
-from typing import Any, Callable
+from typing import TYPE_CHECKING, Any
 
-from finance_tracker.template_engine.schema import (
-    CellTemplate,
-    ColumnTemplate,
-    ComponentDefinition,
-    ConditionalBlock,
-    RowTemplate,
-    SheetTemplate,
-    SpreadsheetTemplate,
-    VariableType,
-)
+if TYPE_CHECKING:
+    from collections.abc import Callable
+
+    from finance_tracker.template_engine.schema import (
+        CellTemplate,
+        ConditionalBlock,
+        RowTemplate,
+        SheetTemplate,
+        SpreadsheetTemplate,
+    )
 
 
 # Built-in variable functions
@@ -300,11 +299,16 @@ class ExpressionEvaluator:
         # Apply filter
         if filter_name == "default":
             if value is None:
-                # Try to evaluate filter_arg as expression or use as literal
+                # Try to evaluate filter_arg as expression first
                 if filter_arg:
                     try:
-                        return self._evaluate_expression(filter_arg)
-                    except Exception:
+                        result = self._evaluate_expression(filter_arg)
+                        # If result is None (variable not found), use filter_arg as literal
+                        if result is not None:
+                            return result
+                        # Use filter_arg as literal value
+                        return filter_arg
+                    except (ValueError, TypeError, KeyError, AttributeError):
                         return filter_arg
                 return ""
             return value
@@ -359,9 +363,7 @@ class ExpressionEvaluator:
             for arg in self._split_args(args_str):
                 arg = arg.strip()
                 # Try to evaluate as expression or variable
-                if arg.startswith('"') and arg.endswith('"'):
-                    args.append(arg[1:-1])
-                elif arg.startswith("'") and arg.endswith("'"):
+                if (arg.startswith('"') and arg.endswith('"')) or (arg.startswith("'") and arg.endswith("'")):
                     args.append(arg[1:-1])
                 else:
                     # Try as variable or literal
@@ -380,7 +382,7 @@ class ExpressionEvaluator:
 
         try:
             return func(*args)
-        except Exception:
+        except (TypeError, ValueError, KeyError, AttributeError):
             return None
 
     def _split_args(self, args_str: str) -> list[str]:
@@ -447,7 +449,7 @@ class ExpressionEvaluator:
             expr_str = " ".join(resolved)
             # Use a restricted eval
             return eval(expr_str, {"__builtins__": {}}, {})
-        except Exception:
+        except (ValueError, TypeError, SyntaxError, NameError, ZeroDivisionError):
             return None
 
 
@@ -538,7 +540,7 @@ class TemplateRenderer:
             custom_functions: Additional template functions
         """
         self._custom_functions = custom_functions or {}
-        self._components: dict[str, ComponentDefinition] = {}
+        self._components: dict[str, Any] = {}
 
     def render(
         self,

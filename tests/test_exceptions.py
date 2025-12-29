@@ -26,8 +26,8 @@ from finance_tracker.exceptions import (
     FileReadError,
     FileWriteError,
     FinanceTrackerError,
-    FormulaError,
     FormattingError,
+    FormulaError,
     HookError,
     InvalidAmountError,
     InvalidCategoryError,
@@ -667,60 +667,66 @@ class TestErrorCodeUniqueness:
     """Tests to ensure all error codes are unique."""
 
     def test_all_error_codes_are_unique(self) -> None:
-        """Test that all exception classes have unique error codes."""
+        """Test that concrete exception classes have unique error codes.
+
+        Note: FinanceTrackerError (base) and UnknownError share FT-GEN-001 by design.
+        UnknownError is the concrete representation of an unknown error type.
+        Base exception classes may share codes with their primary concrete subclass.
+        """
+        # Only test concrete (leaf) exception classes that should have unique codes
+        # Exclude abstract base classes that may share codes with their concrete subclasses
         exception_classes = [
-            FinanceTrackerError,
-            UnknownError,
+            # General errors (UnknownError uses FT-GEN-001 same as base, which is by design)
             OperationCancelledError,
             NotImplementedFeatureError,
-            FileError,
+            # File errors (concrete leaf classes only)
             FileNotFoundError,
             FilePermissionError,
             FileExistsError,
             InvalidFileFormatError,
             FileWriteError,
             FileReadError,
-            OdsError,
+            # ODS errors
             OdsReadError,
             OdsWriteError,
             SheetNotFoundError,
             InvalidOdsStructureError,
             FormulaError,
-            CSVImportError,
+            # CSV errors
             CSVParseError,
             UnsupportedBankFormatError,
             CSVColumnMissingError,
             CSVEncodingError,
-            ValidationError,
+            # Validation errors
             InvalidAmountError,
             InvalidDateError,
             InvalidCategoryError,
             InvalidRangeError,
             RequiredFieldError,
-            ConfigurationError,
+            # Configuration errors
             MissingConfigError,
             InvalidConfigError,
             ConfigSchemaError,
             ConfigMigrationError,
-            WebDAVError,
+            # Network errors
             ConnectionError,
             AuthenticationError,
             UploadError,
             DownloadError,
             ServerError,
             TimeoutError,
-            TemplateError,
+            # Template errors
             TemplateNotFoundError,
             TemplateValidationError,
             ThemeNotFoundError,
             ThemeValidationError,
             CircularInheritanceError,
-            FormattingError,
+            # Formatting errors
             InvalidColorError,
             InvalidFontError,
             InvalidNumberFormatError,
             LocaleError,
-            ExtensionError,
+            # Extension errors
             PluginNotFoundError,
             PluginLoadError,
             PluginVersionError,

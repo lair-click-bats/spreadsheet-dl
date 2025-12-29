@@ -14,10 +14,10 @@ with professional formatting and built-in formulas.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from finance_tracker.builder import CellSpec, SpreadsheetBuilder
+    from finance_tracker.builder import SpreadsheetBuilder
 
 
 # ============================================================================
@@ -629,7 +629,7 @@ class CashFlowTrackerTemplate:
         builder.cell("Status")
 
         metrics = [
-            ("Opening Balance", f"='Cash Flow'.B3"),
+            ("Opening Balance", "='Cash Flow'.B3"),
             ("Total Inflows", "='Cash Flow'.O6"),
             ("Total Outflows", "='Cash Flow'.O15"),
             ("Net Cash Flow", "=B5+B6"),

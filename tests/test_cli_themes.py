@@ -129,15 +129,15 @@ class TestCliGenerateWithTheme:
 class TestCliVersionOutput:
     """Tests for CLI version output."""
 
-    def test_version_shows_0_4_0(self) -> None:
-        """Test version command shows 0.4.0."""
+    def test_version_shows_current(self) -> None:
+        """Test version command shows current version (2.0.0)."""
         result = subprocess.run(
             [sys.executable, "-m", "finance_tracker.cli", "--version"],
             capture_output=True,
             text=True,
         )
         assert result.returncode == 0
-        assert "0.4.0" in result.stdout
+        assert "2.0.0" in result.stdout
 
 
 class TestCliHelpText:

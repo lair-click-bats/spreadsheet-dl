@@ -35,7 +35,7 @@ def log(msg: str, level: str = "INFO") -> None:
     print(f"[{timestamp}] [{level}] {msg}")
 
 
-def run_hook(hook_name: str, args: list[str] = None) -> tuple[int, str, str]:
+def run_hook(hook_name: str, args: list[str] | None = None) -> tuple[int, str, str]:
     """Run a hook script and return exit code, stdout, stderr."""
     hook_path = f"{HOOKS_DIR}/{hook_name}"
     cmd = [hook_path] + (args or [])
@@ -52,7 +52,7 @@ def run_hook(hook_name: str, args: list[str] = None) -> tuple[int, str, str]:
         return -2, "", str(e)
 
 
-def run_registry_cmd(cmd: str, args: list[str] = None) -> tuple[int, str, str]:
+def run_registry_cmd(cmd: str, args: list[str] | None = None) -> tuple[int, str, str]:
     """Run a manage_agent_registry.py command."""
     script_path = f"{HOOKS_DIR}/manage_agent_registry.py"
     full_cmd = ["python3", script_path, cmd] + (args or [])
@@ -94,7 +94,7 @@ def record_result(
         "severity": severity,
         "timestamp": datetime.now().isoformat(),
     }
-    status = "✓ PASS" if passed else "✗ FAIL"
+    status = "PASS" if passed else "FAIL"
     log(f"{status}: {test_name} - {details}", "INFO" if passed else "ERROR")
 
 
@@ -103,27 +103,28 @@ def record_result(
 # =============================================================================
 
 
-def test_rapid_compaction_events():
+def test_rapid_compaction_events() -> None:
     """Test handling of multiple rapid compaction events in succession."""
     log("Testing rapid compaction events...")
     start = time.time()
 
     # Simulate 5 rapid compaction events
     failures = 0
-    for i in range(5):
-        code, stdout, stderr = run_registry_cmd("record-compaction")
+    compaction_count = 0
+    for _i in range(5):
+        code, _stdout, _stderr = run_registry_cmd("record-compaction")
         if code != 0:
             failures += 1
         time.sleep(0.1)  # 100ms between events
 
     # Check metrics
-    code, stdout, stderr = run_registry_cmd("metrics")
+    code, stdout, _stderr = run_registry_cmd("metrics")
     try:
         metrics = json.loads(stdout)
         compaction_count = metrics.get("compaction_events", 0)
         # Should have at least 5 more than before (we started with ~4)
         passed = failures == 0 and compaction_count >= 5
-    except:
+    except (json.JSONDecodeError, KeyError):
         passed = False
 
     duration = (time.time() - start) * 1000
@@ -136,7 +137,7 @@ def test_rapid_compaction_events():
     )
 
 
-def test_compaction_during_agent_execution():
+def test_compaction_during_agent_execution() -> None:
     """Test compaction recovery while agents are 'running'."""
     log("Testing compaction during agent execution...")
     start = time.time()
@@ -147,27 +148,27 @@ def test_compaction_during_agent_execution():
 
     try:
         # Register a fake running agent
-        code, stdout, stderr = run_registry_cmd(
+        code, _stdout, stderr = run_registry_cmd(
             "register", ["stress-agent-1", "Stress test task"]
         )
         if code != 0:
             log(f"Register failed: {stderr}")
 
         # Trigger compaction recovery
-        code, stdout, stderr = run_hook("post_compact_recovery.sh")
+        code, stdout, _stderr = run_hook("post_compact_recovery.sh")
 
         try:
             result = json.loads(stdout)
             recovery_ok = result.get("ok", False)
-        except Exception:
+        except (json.JSONDecodeError, KeyError):
             recovery_ok = code == 0
 
         # Agent should still be in registry
-        code2, stdout2, stderr2 = run_registry_cmd("list")
+        _code2, stdout2, _stderr2 = run_registry_cmd("list")
         try:
             agents = json.loads(stdout2)
             agent_preserved = any(a.get("id") == "stress-agent-1" for a in agents)
-        except Exception:
+        except (json.JSONDecodeError, KeyError):
             agent_preserved = False
 
         passed = recovery_ok and agent_preserved
@@ -185,7 +186,7 @@ def test_compaction_during_agent_execution():
     )
 
 
-def test_recovery_with_corrupted_registry():
+def test_recovery_with_corrupted_registry() -> None:
     """Test recovery when registry file is corrupted."""
     log("Testing recovery with corrupted registry...")
     start = time.time()
@@ -206,7 +207,7 @@ def test_recovery_with_corrupted_registry():
         passed = code != 0 or "error" in stderr.lower() or "[]" in stdout
 
         # Check if post_compact_recovery can still run
-        code2, stdout2, stderr2 = run_hook("post_compact_recovery.sh")
+        code2, _stdout2, _stderr2 = run_hook("post_compact_recovery.sh")
         # Should not crash even with corrupted registry
         passed = passed and code2 == 0
 
@@ -223,7 +224,7 @@ def test_recovery_with_corrupted_registry():
     )
 
 
-def test_recovery_with_missing_registry():
+def test_recovery_with_missing_registry() -> None:
     """Test recovery when registry file is completely missing."""
     log("Testing recovery with missing registry...")
     start = time.time()
@@ -236,7 +237,7 @@ def test_recovery_with_missing_registry():
             os.remove(REGISTRY_FILE)
 
         # Try post_compact_recovery
-        code, stdout, stderr = run_hook("post_compact_recovery.sh")
+        code, _stdout, _stderr = run_hook("post_compact_recovery.sh")
 
         # Should complete without crashing
         passed = code == 0
@@ -266,12 +267,13 @@ def test_recovery_with_missing_registry():
 # =============================================================================
 
 
-def test_maximum_agent_count():
+def test_maximum_agent_count() -> None:
     """Test registry behavior with many agents (50+)."""
     log("Testing maximum agent count (50 agents)...")
     start = time.time()
 
     backup = backup_file(REGISTRY_FILE)
+    registered_count = 0
 
     try:
         # Register 50 agents rapidly
@@ -279,7 +281,7 @@ def test_maximum_agent_count():
         failures = 0
         for i in range(50):
             agent_id = f"stress-mass-{i:03d}"
-            code, stdout, stderr = run_registry_cmd(
+            code, _stdout, _stderr = run_registry_cmd(
                 "register", [agent_id, f"Mass test {i}"]
             )
             if code != 0:
@@ -288,13 +290,13 @@ def test_maximum_agent_count():
                 agent_ids.append(agent_id)
 
         # List all agents
-        code, stdout, stderr = run_registry_cmd("list")
+        code, stdout, _stderr = run_registry_cmd("list")
         try:
             agents = json.loads(stdout)
             registered_count = len(
                 [a for a in agents if a.get("id", "").startswith("stress-mass-")]
             )
-        except:
+        except (json.JSONDecodeError, KeyError):
             registered_count = 0
 
         passed = failures < 5 and registered_count >= 45  # Allow some tolerance
@@ -316,20 +318,21 @@ def test_maximum_agent_count():
     )
 
 
-def test_concurrent_registry_updates():
+def test_concurrent_registry_updates() -> None:
     """Test concurrent updates to registry (simulated race condition)."""
     log("Testing concurrent registry updates...")
     start = time.time()
 
     backup = backup_file(REGISTRY_FILE)
+    concurrent_count = 0
 
     try:
         import threading
 
-        results = []
+        results: list[bool] = []
 
-        def register_agent(i):
-            code, stdout, stderr = run_registry_cmd(
+        def register_agent(i: int) -> None:
+            code, _stdout, _stderr = run_registry_cmd(
                 "register", [f"concurrent-{i}", f"Task {i}"]
             )
             results.append(code == 0)
@@ -348,13 +351,13 @@ def test_concurrent_registry_updates():
         success_count = sum(results)
 
         # Verify registry integrity
-        code, stdout, stderr = run_registry_cmd("list")
+        _code, stdout, _stderr = run_registry_cmd("list")
         try:
             agents = json.loads(stdout)
             concurrent_count = len(
                 [a for a in agents if a.get("id", "").startswith("concurrent-")]
             )
-        except:
+        except (json.JSONDecodeError, KeyError):
             concurrent_count = 0
 
         # Concurrent writes without locking will have race conditions
@@ -375,12 +378,13 @@ def test_concurrent_registry_updates():
     )
 
 
-def test_orphaned_agent_detection():
+def test_orphaned_agent_detection() -> None:
     """Test handling of agents that were registered but never completed."""
     log("Testing orphaned agent detection...")
     start = time.time()
 
     backup = backup_file(REGISTRY_FILE)
+    orphan_count = 0
 
     try:
         # Register agents but don't complete them
@@ -389,7 +393,7 @@ def test_orphaned_agent_detection():
 
         # Simulate time passing (in real scenario, would be hours)
         # For now, just check if list shows them as running
-        code, stdout, stderr = run_registry_cmd("list")
+        _code, stdout, _stderr = run_registry_cmd("list")
         try:
             agents = json.loads(stdout)
             orphans = [
@@ -398,8 +402,9 @@ def test_orphaned_agent_detection():
                 if a.get("id", "").startswith("orphan-")
                 and a.get("status") == "running"
             ]
-            passed = len(orphans) == 3  # All should still be "running"
-        except:
+            orphan_count = len(orphans)
+            passed = orphan_count == 3  # All should still be "running"
+        except (json.JSONDecodeError, KeyError):
             passed = False
 
         # Note: Ideally there should be a cleanup mechanism for truly orphaned agents
@@ -412,13 +417,13 @@ def test_orphaned_agent_detection():
     record_result(
         "orphaned_agent_detection",
         passed,
-        f"Found {len(orphans) if 'orphans' in dir() else 0} orphaned agents",
+        f"Found {orphan_count} orphaned agents",
         duration,
         "medium",
     )
 
 
-def test_registry_file_size_growth():
+def test_registry_file_size_growth() -> None:
     """Test registry file size after many operations with compaction."""
     log("Testing registry file size growth with compaction...")
     start = time.time()
@@ -428,6 +433,7 @@ def test_registry_file_size_growth():
         os.path.getsize(REGISTRY_FILE) if os.path.exists(REGISTRY_FILE) else 0
     )
     removed = 0
+    size_growth = 0
 
     try:
         # Perform many register/complete cycles
@@ -436,7 +442,7 @@ def test_registry_file_size_growth():
             run_registry_cmd("complete", [f"cycle-{i}"])
 
         # Run compact to clean up completed agents
-        code, stdout, stderr = run_registry_cmd("compact")
+        _code, stdout, _stderr = run_registry_cmd("compact")
 
         final_size = os.path.getsize(REGISTRY_FILE)
         size_growth = final_size - initial_size
@@ -450,7 +456,7 @@ def test_registry_file_size_growth():
             result = json.loads(stdout)
             removed = result.get("removed", 0)
             passed = passed and removed >= 15  # Should have removed most agents
-        except Exception:
+        except (json.JSONDecodeError, KeyError):
             pass
 
     finally:
@@ -471,7 +477,7 @@ def test_registry_file_size_growth():
 # =============================================================================
 
 
-def test_checkpoint_with_large_state():
+def test_checkpoint_with_large_state() -> None:
     """Test checkpoint creation with large state data."""
     log("Testing checkpoint with large state...")
     start = time.time()
@@ -481,7 +487,7 @@ def test_checkpoint_with_large_state():
 
     try:
         # Create checkpoint
-        code, stdout, stderr = run_hook(
+        code, _stdout, _stderr = run_hook(
             "checkpoint_state.sh", ["create", checkpoint_id, "Large state test"]
         )
 
@@ -498,7 +504,7 @@ def test_checkpoint_with_large_state():
                 json.dump(large_state, f)
 
             # Try to restore
-            code2, stdout2, stderr2 = run_hook("restore_checkpoint.sh", [checkpoint_id])
+            code2, stdout2, _stderr2 = run_hook("restore_checkpoint.sh", [checkpoint_id])
             passed = code2 == 0 and "RESTORED" in stdout2
 
             # Verify state integrity
@@ -524,7 +530,7 @@ def test_checkpoint_with_large_state():
     )
 
 
-def test_multiple_overlapping_checkpoints():
+def test_multiple_overlapping_checkpoints() -> None:
     """Test creating multiple checkpoints simultaneously."""
     log("Testing multiple overlapping checkpoints...")
     start = time.time()
@@ -535,14 +541,14 @@ def test_multiple_overlapping_checkpoints():
         # Create multiple checkpoints rapidly
         created = 0
         for cp_id in checkpoint_ids:
-            code, stdout, stderr = run_hook(
+            code, _stdout, _stderr = run_hook(
                 "checkpoint_state.sh", ["create", cp_id, f"Overlap test {cp_id}"]
             )
             if code == 0:
                 created += 1
 
         # List checkpoints
-        code, stdout, stderr = run_hook("checkpoint_state.sh", ["list"])
+        code, stdout, _stderr = run_hook("checkpoint_state.sh", ["list"])
         overlap_count = sum(1 for cp_id in checkpoint_ids if cp_id in stdout)
 
         passed = created == 5 and overlap_count == 5
@@ -561,7 +567,7 @@ def test_multiple_overlapping_checkpoints():
     )
 
 
-def test_checkpoint_artifact_handling():
+def test_checkpoint_artifact_handling() -> None:
     """Test checkpoint with artifacts directory."""
     log("Testing checkpoint artifact handling...")
     start = time.time()
@@ -571,7 +577,7 @@ def test_checkpoint_artifact_handling():
 
     try:
         # Create checkpoint
-        code, stdout, stderr = run_hook(
+        code, _stdout, _stderr = run_hook(
             "checkpoint_state.sh", ["create", checkpoint_id, "Artifact test"]
         )
 
@@ -590,7 +596,7 @@ def test_checkpoint_artifact_handling():
             passed = len(artifacts) == 5
 
             # Restore and verify
-            code2, stdout2, stderr2 = run_hook("restore_checkpoint.sh", [checkpoint_id])
+            code2, _stdout2, _stderr2 = run_hook("restore_checkpoint.sh", [checkpoint_id])
             passed = passed and code2 == 0
         else:
             passed = False
@@ -613,13 +619,14 @@ def test_checkpoint_artifact_handling():
 # =============================================================================
 
 
-def test_large_agent_output_handling():
+def test_large_agent_output_handling() -> None:
     """Test handling of large agent output files."""
     log("Testing large agent output handling...")
     start = time.time()
 
     # Create a large output file
     test_output = f"{OUTPUTS_DIR}/stress-large-output.json"
+    file_size = 0
 
     try:
         large_output = {
@@ -636,11 +643,11 @@ def test_large_agent_output_handling():
         file_size = os.path.getsize(test_output)
 
         # Try to validate it
-        code, stdout, stderr = run_registry_cmd("validate-output", [test_output])
+        _code, stdout, _stderr = run_registry_cmd("validate-output", [test_output])
         try:
             result = json.loads(stdout)
             passed = result.get("valid", False) and file_size > 500000
-        except:
+        except (json.JSONDecodeError, KeyError):
             passed = False
 
     finally:
@@ -659,7 +666,7 @@ def test_large_agent_output_handling():
     )
 
 
-def test_summary_from_malformed_json():
+def test_summary_from_malformed_json() -> None:
     """Test summary generation from malformed JSON."""
     log("Testing summary from malformed JSON...")
     start = time.time()
@@ -678,7 +685,7 @@ def test_summary_from_malformed_json():
             )  # Invalid
 
         # Try to generate summary
-        code, stdout, stderr = run_registry_cmd(
+        code, stdout, _stderr = run_registry_cmd(
             "generate-summary", ["malformed-test", test_output]
         )
 
@@ -700,7 +707,7 @@ def test_summary_from_malformed_json():
     )
 
 
-def test_duplicate_summary_prevention():
+def test_duplicate_summary_prevention() -> None:
     """Test that duplicate summaries are not created."""
     log("Testing duplicate summary prevention...")
     start = time.time()
@@ -719,14 +726,14 @@ def test_duplicate_summary_prevention():
 
         # Generate summary twice
         run_registry_cmd("generate-summary", ["dup-test", test_output])
-        first_mtime = (
+        _first_mtime = (
             os.path.getmtime(summary_file) if os.path.exists(summary_file) else 0
         )
 
         time.sleep(0.1)
 
         run_registry_cmd("generate-summary", ["dup-test", test_output])
-        second_mtime = (
+        _second_mtime = (
             os.path.getmtime(summary_file) if os.path.exists(summary_file) else 0
         )
 
@@ -757,13 +764,13 @@ def test_duplicate_summary_prevention():
 # =============================================================================
 
 
-def test_batch_exceeding_max_size():
+def test_batch_exceeding_max_size() -> None:
     """Test recording batch with more agents than recommended."""
     log("Testing batch exceeding max size...")
     start = time.time()
 
     # Try to record a batch with 5 agents (exceeds recommended 2-3)
-    code, stdout, stderr = run_registry_cmd(
+    code, _stdout, _stderr = run_registry_cmd(
         "record-batch", ["oversized-batch", "5", "120.0"]
     )
 
@@ -771,12 +778,12 @@ def test_batch_exceeding_max_size():
     passed = code == 0
 
     # Verify in metrics
-    code2, stdout2, stderr2 = run_registry_cmd("metrics")
+    _code2, stdout2, _stderr2 = run_registry_cmd("metrics")
     try:
         metrics = json.loads(stdout2)
         batch_info = metrics.get("phase_times", {}).get("oversized-batch", {})
         passed = passed and batch_info.get("agents") == 5
-    except:
+    except (json.JSONDecodeError, KeyError):
         passed = False
 
     duration = (time.time() - start) * 1000
@@ -789,13 +796,13 @@ def test_batch_exceeding_max_size():
     )
 
 
-def test_zero_agent_batch():
+def test_zero_agent_batch() -> None:
     """Test recording batch with zero agents."""
     log("Testing zero agent batch...")
     start = time.time()
 
     # Try to record empty batch
-    code, stdout, stderr = run_registry_cmd("record-batch", ["empty-batch", "0", "0.0"])
+    code, stdout, _stderr = run_registry_cmd("record-batch", ["empty-batch", "0", "0.0"])
 
     # Should handle gracefully
     passed = code == 0 or "error" in stdout.lower()
@@ -810,13 +817,13 @@ def test_zero_agent_batch():
     )
 
 
-def test_negative_duration_batch():
+def test_negative_duration_batch() -> None:
     """Test recording batch with negative duration."""
     log("Testing negative duration batch...")
     start = time.time()
 
     # Try to record batch with negative duration
-    code, stdout, stderr = run_registry_cmd("record-batch", ["neg-batch", "2", "-10.0"])
+    _code, _stdout, _stderr = run_registry_cmd("record-batch", ["neg-batch", "2", "-10.0"])
 
     # Should handle gracefully (accept or reject, but not crash)
     passed = True  # Any non-crash is acceptable
@@ -831,7 +838,7 @@ def test_negative_duration_batch():
     )
 
 
-def test_metrics_file_corruption_recovery():
+def test_metrics_file_corruption_recovery() -> None:
     """Test recovery from corrupted metrics file."""
     log("Testing metrics file corruption recovery...")
     start = time.time()
@@ -844,7 +851,7 @@ def test_metrics_file_corruption_recovery():
             f.write("not valid json {{{")
 
         # Try to record batch (should handle corruption)
-        code, stdout, stderr = run_registry_cmd(
+        code, _stdout, _stderr = run_registry_cmd(
             "record-batch", ["recovery-batch", "2", "30.0"]
         )
 
@@ -852,7 +859,7 @@ def test_metrics_file_corruption_recovery():
         passed = code == 0 or code != -2  # -2 would be crash
 
         # Try to get metrics
-        code2, stdout2, stderr2 = run_registry_cmd("metrics")
+        code2, stdout2, _stderr2 = run_registry_cmd("metrics")
         passed = passed and (code2 == 0 or "error" in stdout2.lower())
 
     finally:
@@ -875,7 +882,7 @@ def test_metrics_file_corruption_recovery():
 # =============================================================================
 
 
-def test_context_check_rapid_calls():
+def test_context_check_rapid_calls() -> None:
     """Test rapid context usage checks with reasonable spacing."""
     log("Testing rapid context usage checks...")
     start = time.time()
@@ -883,7 +890,7 @@ def test_context_check_rapid_calls():
     failures = 0
     errors = []
     for i in range(10):
-        code, stdout, stderr = run_hook("check_context_usage.sh")
+        code, _stdout, stderr = run_hook("check_context_usage.sh")
         if code != 0:
             failures += 1
             errors.append(
@@ -908,12 +915,12 @@ def test_context_check_rapid_calls():
     )
 
 
-def test_context_thresholds_output():
+def test_context_thresholds_output() -> None:
     """Test context threshold warnings are properly formatted."""
     log("Testing context threshold output format...")
     start = time.time()
 
-    code, stdout, stderr = run_hook("check_context_usage.sh")
+    code, stdout, _stderr = run_hook("check_context_usage.sh")
 
     try:
         result = json.loads(stdout)
@@ -926,7 +933,7 @@ def test_context_thresholds_output():
         ]
         has_all_fields = all(field in result for field in required_fields)
         passed = code == 0 and has_all_fields
-    except:
+    except (json.JSONDecodeError, KeyError):
         passed = False
 
     duration = (time.time() - start) * 1000
@@ -1029,7 +1036,7 @@ def generate_report(results: dict[str, Any]) -> str:
 """
 
     for name, result in sorted(results.items()):
-        status = "✓ PASS" if result["passed"] else "✗ FAIL"
+        status = "PASS" if result["passed"] else "FAIL"
         severity = result.get("severity", "medium")
         details = result.get("details", "")[:50]
         duration = f"{result.get('duration_ms', 0):.1f}ms"

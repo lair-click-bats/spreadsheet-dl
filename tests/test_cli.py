@@ -28,14 +28,14 @@ class TestCLIBasics:
         result = run_cli("--version")
         assert result.returncode == 0
         assert "finance-tracker" in result.stdout
-        # Accept either 0.4.0 or 0.4.1
-        assert "0.4." in result.stdout
+        # Accept current version 2.0.0
+        assert "2.0.0" in result.stdout
 
     def test_version_short_flag(self) -> None:
         """Test -V flag shows version."""
         result = run_cli("-V")
         assert result.returncode == 0
-        assert "0.4." in result.stdout
+        assert "2.0.0" in result.stdout
 
     def test_help_flag(self) -> None:
         """Test --help flag shows help."""

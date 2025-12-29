@@ -157,10 +157,8 @@ class IncomeStatementTemplate:
         builder.cell(0, style="currency")
         if self.comparative:
             builder.cell(0, style="currency")
-            builder.cell("=B{}-C{}".format(current_row, current_row))
-            builder.cell("=IF(C{}=0,0,(B{}-C{})/ABS(C{}))".format(
-                current_row, current_row, current_row, current_row
-            ))
+            builder.cell(f"=B{current_row}-C{current_row}")
+            builder.cell(f"=IF(C{current_row}=0,0,(B{current_row}-C{current_row})/ABS(C{current_row}))")
         current_row += 1
 
         # Operating Expenses
@@ -199,7 +197,7 @@ class IncomeStatementTemplate:
         builder.cell(0, style="currency_input")
         if self.comparative:
             builder.cell(0, style="currency_input")
-            builder.cell("=B{}-C{}".format(current_row, current_row))
+            builder.cell(f"=B{current_row}-C{current_row}")
             builder.cell(0, style="percentage")
         current_row += 1
 
@@ -209,7 +207,7 @@ class IncomeStatementTemplate:
         builder.cell(0, style="currency_total")
         if self.comparative:
             builder.cell(0, style="currency_total")
-            builder.cell("=B{}-C{}".format(current_row, current_row))
+            builder.cell(f"=B{current_row}-C{current_row}")
             builder.cell(0, style="percentage")
 
         return builder
@@ -805,7 +803,7 @@ class EquityStatementTemplate:
         # Beginning balance
         builder.row(style="balance")
         builder.cell("Beginning Balance")
-        for i in range(len(self.equity_components)):
+        for _i in range(len(self.equity_components)):
             builder.cell(0, style="currency_input")
         builder.cell(f"=SUM(B{current_row}:{chr(ord('A') + len(self.equity_components))}{current_row})")
         begin_row = current_row
@@ -824,7 +822,7 @@ class EquityStatementTemplate:
         for trans in transactions:
             builder.row()
             builder.cell(f"  {trans}")
-            for i in range(len(self.equity_components)):
+            for _i in range(len(self.equity_components)):
                 builder.cell(0, style="currency_input")
             builder.cell(f"=SUM(B{current_row}:{chr(ord('A') + len(self.equity_components))}{current_row})")
             current_row += 1

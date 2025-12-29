@@ -20,7 +20,6 @@ from typing import Any
 
 from finance_tracker.schema.styles import Color, Font, FontWeight
 
-
 # ============================================================================
 # Type Scale Ratios (FR-THEME-003)
 # ============================================================================
@@ -485,9 +484,7 @@ class Typography:
             size = round(size, 1)
 
             # Adjust line height based on size
-            if steps < 0:
-                line_height = self.line_height_normal
-            elif steps == 0:
+            if steps < 0 or steps == 0:
                 line_height = self.line_height_normal
             elif steps <= 2:
                 line_height = self.line_height_tight

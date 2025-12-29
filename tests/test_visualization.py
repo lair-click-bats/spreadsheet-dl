@@ -9,8 +9,6 @@ from __future__ import annotations
 import tempfile
 from pathlib import Path
 
-import pytest
-
 from finance_tracker.visualization import (
     CATEGORY_COLORS,
     DEFAULT_COLORS,
@@ -402,7 +400,7 @@ class TestConvenienceFunctions:
         with tempfile.TemporaryDirectory() as tmpdir:
             output_path = Path(tmpdir) / "dashboard.html"
 
-            html = create_budget_dashboard(output_path=output_path)
+            create_budget_dashboard(output_path=output_path)
 
             assert output_path.exists()
             content = output_path.read_text()

@@ -8,7 +8,6 @@ creating, restoring, and managing backups.
 from __future__ import annotations
 
 import gzip
-import json
 import tempfile
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -17,9 +16,6 @@ import pytest
 
 from finance_tracker.backup import (
     BackupCompression,
-    BackupCorruptError,
-    BackupError,
-    BackupInfo,
     BackupManager,
     BackupMetadata,
     BackupNotFoundError,
@@ -28,6 +24,7 @@ from finance_tracker.backup import (
     auto_backup,
     backup_decorator,
 )
+from finance_tracker.exceptions import FileError
 
 
 @pytest.fixture
@@ -158,7 +155,7 @@ class TestBackupManager:
 
     def test_create_backup_file_not_found(self, backup_manager, temp_dir):
         """Test backup of non-existent file raises error."""
-        with pytest.raises(Exception):  # FileError
+        with pytest.raises(FileError):
             backup_manager.create_backup(temp_dir / "nonexistent.ods")
 
     def test_create_backup_content_hash(self, backup_manager, sample_file):
@@ -404,8 +401,7 @@ class TestBackupDecorator:
         backup_dir.mkdir()
 
         # Store original manager in module for the decorator
-        import finance_tracker.backup as backup_module
-        original_manager = BackupManager(backup_dir=backup_dir)
+        BackupManager(backup_dir=backup_dir)
 
         @backup_decorator(BackupReason.AUTO_BEFORE_EDIT, file_arg="file_path")
         def modify_file(file_path):

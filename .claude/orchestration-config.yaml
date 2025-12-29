@@ -1,12 +1,13 @@
 # Orchestration Configuration
 # Context compaction mitigation strategies and parallel agent swarm best practices
-# Version: 3.1.0 (Updated 2025-12-28 - Anti-Compaction Validated)
+# Version: 3.1.0 (Updated 2025-12-29 - Enhanced failure modes and optimized thresholds)
 
 # Agent Registry Configuration
 agent_registry:
   enabled: true
   path: .claude/agent-registry.json
   auto_persist: true
+  # Keep agent records for 30 days (includes historical data for analysis)
   retention_days: 30
   persist_on_launch: true
   update_on_completion: true
@@ -21,7 +22,19 @@ checkpoints:
   checkpoint_interval_phases: 1
   checkpoint_on_context_threshold: true
   context_threshold_percent: 70
+  # Checkpoints are temporary recovery artifacts, kept only 7 days
+  # (vs 30 days for agent registry which includes historical data)
   retention_days: 7
+
+  # Checkpoint structure documentation
+  format:
+    phase: "Phase number and name"
+    completed_agents: "List of completed agent IDs with summaries"
+    running_agents: "List of running agent IDs"
+    pending_agents: "List of pending tasks"
+    deliverables: "List of created files and artifacts"
+    context_usage: "Context usage percentage"
+    timestamp: "ISO-8601 timestamp"
 
 # Output Summarization Configuration
 summaries:
@@ -32,23 +45,24 @@ summaries:
   auto_summarize_threshold_tokens: 5000
   format: markdown
   max_summary_length_tokens: 2000
+  # Summaries kept for 30 days to match agent registry
   retention_days: 30
 
 # Swarm Orchestration Configuration
 swarm:
-  max_batch_size: 2 # VALIDATED: Reduced from 3 to prevent context explosion
+  max_batch_size: 2 # CRITICAL: Reduced from 3 to 2 to prevent context explosion
   recommended_batch_size: 1 # CRITICAL: Launch 1 at a time for max safety
   immediate_retrieval: true
-  immediate_summarization: true # NEW: Summarize to file immediately
-  write_summaries_to_file: true # NEW: Force file-based summaries
-  max_output_tokens_in_context: 5000 # NEW: Limit output size in memory
+  immediate_summarization: true # NEW: Summarize to file immediately after retrieval
   poll_interval_seconds: 10
-  max_parallel_agents: 2 # VALIDATED: Reduced from 3
+  max_parallel_agents: 2 # CRITICAL: Reduced from 3 to 2
   batch_strategy:
     mode: sequential
     wait_for_batch_completion: true
     checkpoint_between_batches: true
     summarize_between_batches: true
+    write_summaries_to_file: true # NEW: Force file-based summaries
+    max_output_tokens_in_context: 5000 # NEW: Limit output size kept in memory
   recovery:
     enabled: true
     check_filesystem_on_lost_id: true
@@ -57,8 +71,8 @@ swarm:
 # Context Management Configuration
 context_management:
   enable_monitoring: true
-  warning_threshold_percent: 60 # VALIDATED: Lowered from 70 for earlier warning
-  critical_threshold_percent: 75 # VALIDATED: Lowered from 85 for earlier action
+  warning_threshold_percent: 60 # CRITICAL: Lowered from 70 to 60 for earlier warning
+  critical_threshold_percent: 75 # CRITICAL: Lowered from 85 to 75 for earlier action
   checkpoint_threshold_percent: 65 # NEW: Force checkpoint at 65%
   auto_checkpoint_on_threshold: true
   log_metrics: true
@@ -85,22 +99,142 @@ workflow:
 # Best Practices
 best_practices:
   orchestration:
-    - "VALIDATED 2025-12-28: Launch 1 agent at a time for maximum safety"
-    - "Never launch more than 2 agents in parallel"
+    - "Launch agents in batches of 2-3, not 6+"
     - "Retrieve outputs immediately upon completion"
     - "Summarize each agent output to file before continuing"
     - "Checkpoint after each batch completes"
     - "Monitor context usage throughout workflow"
 
-# Monitoring
+# Failure Mode Mitigation
+# NOTE: These are documented mitigation strategies but NOT actively enforced by runtime code.
+# KNOWN GAP: No active monitoring of individual agent output size during execution.
+# TODO Phase 2: Implement runtime monitoring hook (.claude/hooks/monitor_running_agents.py)
+#              to enforce these mitigations automatically.
+failure_modes:
+  token_explosion:
+    detection: "Total estimated tokens > 10M"
+    mitigation: "Reduce batch size to 2, use haiku model for agents"
+    status: "DOCUMENTED - Manual intervention required"
+
+  long_running_session:
+    detection: "Session duration > 2 hours with active agents"
+    mitigation: "Checkpoint every 30 minutes, summarize all outputs"
+    status: "DOCUMENTED - Manual intervention required"
+    # CRITICAL GAP: Agent a2f55d8 generated 618,641 tokens (309% of 200K budget)
+    # because no runtime mechanism monitors individual agent output growth.
+    # Config has batch protection but NOT single-agent runtime protection.
+
+  single_agent_output_explosion:
+    detection: "Individual agent output exceeds 50K tokens"
+    mitigation: "Force TaskOutput retrieval, summarize immediately, continue agent work"
+    status: "DOCUMENTED - NOT IMPLEMENTED"
+    # This is the root cause of 2025-12-29 compaction failure.
+    # Need runtime hook to monitor agent output size during execution.
+
+  notification_retrieval_race:
+    detection: "Agent completion notification received"
+    mitigation: "Retrieve immediately, don't delay or batch"
+    status: "IMPLEMENTED - immediate_retrieval: true"
+
+  batch_completion_failure:
+    detection: "Some agent IDs lost before all complete"
+    mitigation: "Registry shows which completed, check filesystem"
+    status: "IMPLEMENTED - agent_registry + filesystem fallback"
+
+  resume_after_compaction:
+    detection: "No memory of agent IDs in new session"
+    mitigation: "Read registry, read checkpoints, verify deliverables"
+    status: "IMPLEMENTED - agent_registry.enabled: true"
+
+# Monitoring and Observability
 monitoring:
+  # Metrics to track
   metrics:
     - total_agents_launched
     - agents_completed
+    - agents_failed
     - batches_executed
     - compaction_events
+    - recovery_actions
     - context_usage_peak_percent
+    - total_duration_minutes
+
+  # Logs
   logs:
     context_metrics: .claude/hooks/context_metrics.log
     compaction_events: .claude/hooks/compaction.log
+    checkpoint_history: .claude/hooks/checkpoints.log
+    session_history: .claude/hooks/sessions.log
     errors: .claude/hooks/errors.log
+
+  # Health checks
+  health_checks:
+    registry_exists: "Check .claude/agent-registry.json exists"
+    checkpoint_current: "Check latest checkpoint < 1 hour old"
+    all_outputs_saved: "Verify all completed agents have output files"
+    no_orphaned_agents: "No agents running > 4 hours"
+
+# Integration with Hooks
+hooks:
+  pre_compact:
+    - "Save current agent registry state"
+    - "Checkpoint current progress"
+    - "Log compaction event with context metrics"
+
+  post_compact:
+    - "Restore agent registry"
+    - "Load last checkpoint"
+    - "Attempt to reconnect to running agents"
+    - "Verify deliverables on filesystem"
+
+  session_start:
+    - "Check for previous session registry"
+    - "Load latest checkpoint if exists"
+    - "Resume incomplete workflows"
+
+  session_end:
+    - "Save final registry state"
+    - "Create final checkpoint"
+    - "Archive old outputs and checkpoints"
+    - "Clean up temporary files"
+
+# Version History
+version_history:
+  "3.1.0":
+    date: "2025-12-29"
+    changes:
+      - "Added single_agent_output_explosion failure mode"
+      - "Enhanced failure modes with status tracking (IMPLEMENTED/DOCUMENTED)"
+      - "Reduced max_batch_size from 3 to 2"
+      - "Reduced recommended_batch_size to 1"
+      - "Lowered warning_threshold from 70% to 60%"
+      - "Lowered critical_threshold from 85% to 75%"
+      - "Added checkpoint_threshold at 65%"
+      - "Added immediate_summarization"
+      - "Added context reduction strategies"
+      - "Added checkpoint format documentation"
+      - "Enhanced monitoring metrics and health checks"
+    incident: "Single-agent output explosion (agent a2f55d8, 618K tokens, 309% of budget)"
+
+  "3.0.0":
+    date: "2025-12-25"
+    changes:
+      - "Added comprehensive context compaction mitigation"
+      - "Reduced max_batch_size from 6 to 3"
+      - "Added immediate_retrieval requirement"
+      - "Added agent registry configuration"
+      - "Added checkpoint between batches"
+      - "Added failure mode mitigation strategies"
+    incident: "Parallel agent swarm context compaction (6 agents, 25M tokens)"
+
+  "2.0.0":
+    date: "2025-12-23"
+    changes:
+      - "Initial orchestration configuration"
+      - "Basic swarm support"
+
+# References
+references:
+  - "COMPACTION_ANALYSIS_AND_SOLUTION.md"
+  - ".claude/commands/swarm.md"
+  - ".claude/commands/ai.md"

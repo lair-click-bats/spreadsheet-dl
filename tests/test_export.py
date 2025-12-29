@@ -16,6 +16,7 @@ from pathlib import Path
 
 import pytest
 
+from finance_tracker.exceptions import FileError
 from finance_tracker.export import (
     ExportDependencyError,
     ExportFormat,
@@ -131,7 +132,7 @@ class TestMultiFormatExporter:
         """Test export with non-existent file."""
         exporter = MultiFormatExporter()
 
-        with pytest.raises(Exception):  # FileError
+        with pytest.raises(FileError):
             exporter.export(
                 temp_dir / "nonexistent.ods",
                 temp_dir / "output.xlsx",
@@ -155,15 +156,12 @@ class TestMultiFormatExporter:
 
         # This should not raise - it validates format parsing
         # Actual export would fail without odfpy
-        try:
+        with pytest.raises((FileError, ExportDependencyError)):
             exporter.export(
                 temp_dir / "test.ods",
                 temp_dir / "output.xlsx",
                 "xlsx",  # String instead of enum
             )
-        except Exception as e:
-            # Expected - file doesn't exist or odfpy not installed
-            assert "not found" in str(e).lower() or "odfpy" in str(e).lower()
 
 
 class TestExportXLSX:
@@ -174,7 +172,7 @@ class TestExportXLSX:
         exporter = MultiFormatExporter()
 
         try:
-            import openpyxl
+            import openpyxl  # noqa: F401
 
             # If openpyxl is available, export should work
             output_path = temp_dir / "output.xlsx"
@@ -268,7 +266,7 @@ class TestExportPDF:
         exporter = MultiFormatExporter()
 
         try:
-            import reportlab
+            import reportlab  # noqa: F401
 
             # If reportlab is available, export should work
             output_path = temp_dir / "output.pdf"
@@ -379,7 +377,7 @@ class TestConvenienceFunctions:
 
     def test_export_to_xlsx_not_found(self, temp_dir):
         """Test export_to_xlsx with non-existent file."""
-        with pytest.raises(Exception):
+        with pytest.raises(FileError):
             export_to_xlsx(
                 temp_dir / "nonexistent.ods",
                 temp_dir / "output.xlsx",
@@ -387,7 +385,7 @@ class TestConvenienceFunctions:
 
     def test_export_to_csv_not_found(self, temp_dir):
         """Test export_to_csv with non-existent file."""
-        with pytest.raises(Exception):
+        with pytest.raises(FileError):
             export_to_csv(
                 temp_dir / "nonexistent.ods",
                 temp_dir / "output.csv",
@@ -395,7 +393,7 @@ class TestConvenienceFunctions:
 
     def test_export_to_pdf_not_found(self, temp_dir):
         """Test export_to_pdf with non-existent file."""
-        with pytest.raises(Exception):
+        with pytest.raises(FileError):
             export_to_pdf(
                 temp_dir / "nonexistent.ods",
                 temp_dir / "output.pdf",

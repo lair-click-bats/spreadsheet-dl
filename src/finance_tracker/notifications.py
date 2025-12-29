@@ -12,12 +12,14 @@ import smtplib
 import urllib.request
 from dataclasses import dataclass, field
 from datetime import date, datetime
-from decimal import Decimal
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from enum import Enum
 from pathlib import Path
-from typing import Any, Protocol
+from typing import TYPE_CHECKING, Any, Protocol
+
+if TYPE_CHECKING:
+    from decimal import Decimal
 
 
 class NotificationPriority(Enum):

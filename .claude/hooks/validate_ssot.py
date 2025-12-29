@@ -35,7 +35,7 @@ def check_duplicate_configs() -> dict[str, Any]:
     errors = []
 
     # Check for duplicate example configs - project-specific, adjust as needed
-    main_configs = PROJECT_DIR / "examples/configs"
+    PROJECT_DIR / "examples/configs"
     duplicate_locations = [
         PROJECT_DIR / ".coordination/spec/example-configs",
     ]

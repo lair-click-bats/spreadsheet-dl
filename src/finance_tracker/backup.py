@@ -22,21 +22,19 @@ from __future__ import annotations
 import gzip
 import hashlib
 import json
-import os
-import shutil
-import tempfile
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable
+from typing import TYPE_CHECKING, Any
 
 from finance_tracker.exceptions import (
     FileError,
     FinanceTrackerError,
-    IntegrityError,
-    ValidationError,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 class BackupReason(Enum):
@@ -472,9 +470,9 @@ class BackupManager:
                 # Determine backup file path
                 backup_path = metadata_path.with_suffix("").with_suffix("")
                 if metadata.compression == BackupCompression.GZIP.value:
-                    backup_suffix = f"{self.BACKUP_SUFFIX}{self.COMPRESSED_SUFFIX}"
+                    pass
                 else:
-                    backup_suffix = self.BACKUP_SUFFIX
+                    pass
 
                 # Find the actual backup file
                 possible_path = Path(str(metadata_path).replace(self.METADATA_SUFFIX, ""))

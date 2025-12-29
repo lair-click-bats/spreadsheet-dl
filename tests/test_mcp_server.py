@@ -7,21 +7,20 @@ Tests IR-MCP-002: Native MCP Server.
 from __future__ import annotations
 
 import json
-import pytest
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
+import pytest
+
 from finance_tracker.mcp_server import (
-    MCPServer,
     MCPConfig,
+    MCPError,
+    MCPSecurityError,
+    MCPServer,
     MCPTool,
+    MCPToolError,
     MCPToolParameter,
     MCPToolResult,
-    MCPVersion,
-    MCPCapabilities,
-    MCPError,
-    MCPToolError,
-    MCPSecurityError,
     create_mcp_server,
 )
 

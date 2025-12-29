@@ -9,7 +9,6 @@ import pytest
 from finance_tracker.schema.print_layout import (
     HeaderFooter,
     HeaderFooterContent,
-    PageBreak,
     PageMargins,
     PageOrientation,
     PageSetup,

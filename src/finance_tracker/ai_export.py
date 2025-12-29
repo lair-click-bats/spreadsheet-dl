@@ -32,7 +32,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any
 
-from finance_tracker.exceptions import FileError, FinanceTrackerError, OdsError
+from finance_tracker.exceptions import FileError, FinanceTrackerError
 
 
 class SemanticCellType(Enum):
@@ -665,13 +665,7 @@ class AIExporter:
         """Extract value from ODS cell."""
         value_type = cell.getAttribute("valuetype")
 
-        if value_type == "float":
-            val = cell.getAttribute("value")
-            return Decimal(val) if val else None
-        elif value_type == "currency":
-            val = cell.getAttribute("value")
-            return Decimal(val) if val else None
-        elif value_type == "percentage":
+        if value_type == "float" or value_type == "currency" or value_type == "percentage":
             val = cell.getAttribute("value")
             return Decimal(val) if val else None
         elif value_type == "date":
@@ -738,7 +732,7 @@ class AIExporter:
         # Value type based detection
         if value_type == "currency":
             # Determine if budget, expense, or income based on context
-            display = self._extract_display_value(cell)
+            self._extract_display_value(cell)
             if isinstance(value, Decimal):
                 if value < 0:
                     return SemanticCellType.EXPENSE_AMOUNT
@@ -831,9 +825,9 @@ class AIExporter:
                 cell_refs = re.findall(r"\[\.([A-Z]+\d+)\]", formula)
                 if cell_refs:
                     if func == "VLOOKUP":
-                        return f"Looks up a value and returns data from the matched row"
+                        return "Looks up a value and returns data from the matched row"
                     if func == "SUMIF":
-                        return f"Sums values where condition is met"
+                        return "Sums values where condition is met"
                     return f"{base_desc} using cells {', '.join(cell_refs)}"
 
                 return base_desc
@@ -848,7 +842,7 @@ class AIExporter:
         if "/" in formula:
             return "Calculates quotient of values"
 
-        return f"Calculated value using formula"
+        return "Calculated value using formula"
 
     def _extract_relationships(self, cell: SemanticCell, formula: str) -> None:
         """Extract cell relationships from a formula."""

@@ -282,7 +282,7 @@ class FileNotFoundError(FileError):
         super().__init__(
             message,
             context=context,
-            suggestion=f"Check that the file path is correct and the file exists.",
+            suggestion="Check that the file path is correct and the file exists.",
             details=f"The specified {file_type.lower()} could not be located on the filesystem.",
             **kwargs,
         )
@@ -305,7 +305,7 @@ class FilePermissionError(FileError):
         super().__init__(
             f"Permission denied: cannot {operation} '{file_path}'",
             context=context,
-            suggestion=f"Check file permissions or run with appropriate privileges.",
+            suggestion="Check file permissions or run with appropriate privileges.",
             details=f"The current user does not have permission to {operation} this file.",
             **kwargs,
         )

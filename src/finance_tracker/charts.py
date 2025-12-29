@@ -19,11 +19,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum, auto
-from typing import TYPE_CHECKING, Any, Self
-
-if TYPE_CHECKING:
-    pass
-
+from typing import Self
 
 # ============================================================================
 # Enums (FR-CHART-001)

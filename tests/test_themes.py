@@ -12,7 +12,7 @@ from finance_tracker.schema.loader import (
     list_available_themes,
     load_theme,
 )
-from finance_tracker.schema.styles import Theme
+from finance_tracker.schema.styles import FontWeight, Theme
 from finance_tracker.schema.validation import SchemaValidationError
 
 if TYPE_CHECKING:
@@ -155,7 +155,9 @@ class TestThemeInheritance:
 
         # header_primary extends header
         header = theme.get_style("header_primary")
-        assert header.font.weight.value == "bold"
+        # FontWeight.BOLD has value "700" (numeric weight)
+        assert header.font.weight == FontWeight.BOLD
+        assert header.font.weight.is_bold
 
 
 @pytest.mark.skipif(not HAS_YAML, reason="PyYAML not installed")
@@ -190,7 +192,8 @@ class TestThemeStyles:
         theme = loader.load("default")
 
         style = theme.get_style("header_primary")
-        assert style.font.weight.value == "bold"
+        # Check the font weight is bold using the enum or is_bold property
+        assert style.font.weight == FontWeight.BOLD or style.font.weight.is_bold
         assert style.background_color is not None
 
     def test_get_currency_style(self) -> None:

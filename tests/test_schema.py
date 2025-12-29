@@ -53,7 +53,8 @@ class TestColor:
     def test_from_rgb_classmethod(self) -> None:
         """Test Color.from_rgb classmethod."""
         color = Color.from_rgb(68, 114, 196)
-        assert str(color) == "#4472c4"
+        # Color normalizes to uppercase hex
+        assert str(color) == "#4472C4"
 
     def test_to_rgb(self) -> None:
         """Test converting color to RGB tuple."""
@@ -137,7 +138,8 @@ class TestFont:
         font = Font(family="Arial", weight=FontWeight.BOLD)
         d = font.to_dict()
         assert d["family"] == "Arial"
-        assert d["weight"] == "bold"
+        # FontWeight uses numeric values ("700" for BOLD)
+        assert d["weight"] == "700"
 
 
 class TestBorder:
@@ -323,9 +325,14 @@ class TestValidation:
         with pytest.raises(SchemaValidationError, match="valid size"):
             validate_size("invalid")
 
-    def test_validate_font_weight(self) -> None:
-        """Test validating font weight."""
+    def test_validate_font_weight_named(self) -> None:
+        """Test validating font weight by name."""
         weight = validate_font_weight("bold")
+        assert weight == FontWeight.BOLD
+
+    def test_validate_font_weight_numeric(self) -> None:
+        """Test validating font weight by numeric value."""
+        weight = validate_font_weight("700")
         assert weight == FontWeight.BOLD
 
     def test_validate_text_align(self) -> None:

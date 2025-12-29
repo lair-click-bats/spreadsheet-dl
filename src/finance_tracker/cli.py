@@ -36,7 +36,6 @@ from finance_tracker.exceptions import (
     OperationCancelledError,
 )
 
-
 # =============================================================================
 # Confirmation Prompt Utilities (FR-UX-004)
 # =============================================================================
@@ -1092,7 +1091,7 @@ def _cmd_expense(args: argparse.Namespace) -> int:
 def _cmd_import(args: argparse.Namespace) -> int:
     """Handle CSV import."""
     from finance_tracker.bank_formats import BankFormatRegistry
-    from finance_tracker.csv_import import CSVImporter, import_bank_csv
+    from finance_tracker.csv_import import import_bank_csv
     from finance_tracker.ods_generator import OdsGenerator
 
     skip_confirm = getattr(args, "yes", False) or getattr(args, "force", False)
@@ -1158,7 +1157,7 @@ def _cmd_export(args: argparse.Namespace) -> int:
     Implements:
         FR-EXPORT-001: Multi-format export (xlsx, csv, pdf)
     """
-    from finance_tracker.export import ExportFormat, MultiFormatExporter
+    from finance_tracker.export import MultiFormatExporter
 
     skip_confirm = getattr(args, "yes", False) or getattr(args, "force", False)
 
@@ -1167,10 +1166,7 @@ def _cmd_export(args: argparse.Namespace) -> int:
         return 1
 
     # Determine output path
-    if args.output:
-        output_path = args.output
-    else:
-        output_path = args.file.with_suffix(f".{args.format}")
+    output_path = args.output or args.file.with_suffix(f".{args.format}")
 
     # Confirm overwrite (FR-UX-004)
     if not confirm_overwrite(output_path, skip_confirm=skip_confirm):
@@ -1201,7 +1197,7 @@ def _cmd_export_dual(args: argparse.Namespace) -> int:
     exporter = AIExporter()
     ods_path, json_path = exporter.export_dual(args.file, output_dir)
 
-    print(f"Exported:")
+    print("Exported:")
     print(f"  ODS:  {ods_path}")
     print(f"  JSON: {json_path}")
     print("\nThe JSON file is formatted for AI/LLM consumption with semantic metadata.")
@@ -1400,7 +1396,6 @@ def _cmd_visualize(args: argparse.Namespace) -> int:
         ChartDataPoint,
         ChartGenerator,
         ChartType,
-        DashboardGenerator,
         create_budget_dashboard,
     )
 
@@ -1555,7 +1550,7 @@ def _cmd_account(args: argparse.Namespace) -> int:
         )
 
         if transfer:
-            print(f"Transfer complete:")
+            print("Transfer complete:")
             print(f"  From: {from_acc.name} -> ${from_acc.balance:,.2f}")
             print(f"  To: {to_acc.name} -> ${to_acc.balance:,.2f}")
         else:
@@ -1672,7 +1667,6 @@ def _cmd_currency(args: argparse.Namespace) -> int:
     """
     from finance_tracker.currency import (
         CurrencyConverter,
-        format_currency,
         get_currency,
         list_currencies,
     )

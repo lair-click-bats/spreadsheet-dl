@@ -1,4 +1,4 @@
-# Pre-commit configuration for Workspace Template
+# Pre-commit configuration for Finance Tracker
 # Install: pre-commit install
 # Run manually: pre-commit run --all-files
 # https://pre-commit.com
@@ -68,17 +68,10 @@ repos:
         exclude: ^\.vscode/
 
     # ==========================================================================
-    # Local hooks: Module validation and JSONC
+    # Local hooks: JSONC validation
     # ==========================================================================
   - repo: local
     hooks:
-      - id: validate-modules
-        name: Validate module definitions
-        entry: uv run python scripts/validate.py --modules=base,research,implementation
-        language: system
-        pass_filenames: false
-        files: ^(base|modules|languages)/.*\.(yaml|md)$
-
       - id: validate-yaml-syntax
         name: Validate YAML syntax
         entry: uv run python -c "import yaml, sys; yaml.safe_load(open(sys.argv[1]))"

@@ -27,12 +27,10 @@ from decimal import Decimal
 from enum import Enum
 from pathlib import Path
 from typing import Any
-from urllib.parse import urlencode
 
 from finance_tracker.exceptions import (
     ConfigurationError,
     FinanceTrackerError,
-    IntegrityError,
 )
 
 
@@ -143,7 +141,7 @@ class PlaidConfig:
     )
 
     @classmethod
-    def from_env(cls) -> "PlaidConfig":
+    def from_env(cls) -> PlaidConfig:
         """
         Load configuration from environment variables.
 
@@ -1114,7 +1112,6 @@ class PlaidSyncManager:
             List of expense dictionaries compatible with finance-tracker.
         """
         from finance_tracker.csv_import import TransactionCategorizer
-        from finance_tracker.ods_generator import ExpenseCategory
 
         categorizer = TransactionCategorizer()
         expenses = []

@@ -7,24 +7,20 @@ Tests FR-AI-010: AI training data export (anonymized).
 from __future__ import annotations
 
 import json
+
 import pytest
-from datetime import date, datetime
-from decimal import Decimal
-from pathlib import Path
 
 from finance_tracker.ai_training import (
     AnonymizationConfig,
     AnonymizationLevel,
-    ExportFormat,
-    PIIPattern,
-    PIIDetector,
+    AnonymizedTransaction,
     DataAnonymizer,
+    ExportFormat,
+    PIIDetector,
+    PIIPattern,
     TrainingDataExporter,
     TrainingDataset,
     TrainingDataStatistics,
-    AnonymizedTransaction,
-    AnonymizationError,
-    export_training_data,
 )
 
 

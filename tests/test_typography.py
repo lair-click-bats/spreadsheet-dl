@@ -9,24 +9,20 @@ Tests:
 import pytest
 
 from finance_tracker.schema import (
-    # Font pairing
     FontDefinition,
     FontPairing,
     FontRole,
-    FONT_PAIRINGS,
-    get_font_pairing,
-    list_font_pairings,
     # Typography
     HeadingStyle,
     TypeScaleRatio,
     TypeSize,
     Typography,
-    TYPOGRAPHY_PRESETS,
+    get_font_pairing,
     get_typography,
+    list_font_pairings,
     list_typography_presets,
 )
 from finance_tracker.schema.styles import Font, FontWeight
-
 
 # ============================================================================
 # Font Definition Tests (FR-THEME-002)

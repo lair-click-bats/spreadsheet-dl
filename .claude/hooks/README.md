@@ -1,6 +1,6 @@
 # Lifecycle Hooks Documentation
 
-Comprehensive guide to Claude Code lifecycle hooks in workspace template.
+Comprehensive guide to Claude Code lifecycle hooks in Finance Tracker.
 
 ## Overview
 
@@ -442,6 +442,6 @@ python scripts/maintenance/context_optimizer.py --suggestions
 
 ---
 
-**Last Updated**: 2025-12-24
-**Module**: base (workspace template)
+**Last Updated**: 2025-12-29
+**Project**: Finance Tracker
 **Hook Count**: 9 (2 validation, 2 formatting, 5 lifecycle/context management)

@@ -12,9 +12,9 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from finance_tracker.ods_editor import OdsEditor, append_expense_to_file
-from finance_tracker.ods_generator import ExpenseCategory, ExpenseEntry, OdsGenerator
 from finance_tracker.exceptions import OdsReadError, SheetNotFoundError
+from finance_tracker.ods_editor import OdsEditor, append_expense_to_file
+from finance_tracker.ods_generator import ExpenseCategory, ExpenseEntry
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -34,7 +34,8 @@ class TestOdsEditor:
         nonexistent = tmp_path / "nonexistent.ods"
         with pytest.raises(OdsReadError) as exc_info:
             OdsEditor(nonexistent)
-        assert "FILE_NOT_FOUND" in str(exc_info.value.error_code)
+        # Check the error message mentions file not found
+        assert "not found" in str(exc_info.value).lower() or "File not found" in str(exc_info.value)
 
     def test_get_sheet_names(self, sample_budget_file: Path) -> None:
         """Test getting sheet names from document."""

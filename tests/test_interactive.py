@@ -8,26 +8,23 @@ Tests:
 
 from __future__ import annotations
 
-import pytest
 from decimal import Decimal
-from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
+
+import pytest
 
 from finance_tracker.interactive import (
-    ValidationRule,
-    ValidationRuleType,
     ComparisonOperator,
-    DropdownList,
     ConditionalFormat,
     ConditionalFormatType,
-    DashboardKPI,
-    SparklineConfig,
-    DashboardSection,
-    InteractiveOdsBuilder,
     DashboardGenerator,
-    InteractiveError,
-    add_interactive_features,
-    generate_budget_dashboard,
+    DashboardKPI,
+    DashboardSection,
+    DropdownList,
+    InteractiveOdsBuilder,
+    SparklineConfig,
+    ValidationRule,
+    ValidationRuleType,
 )
 
 

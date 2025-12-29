@@ -130,17 +130,22 @@ class SavingsGoal:
             return GoalStatus.COMPLETED
         if self.is_paused:
             return GoalStatus.PAUSED
-        if self.current_amount == 0:
-            return GoalStatus.NOT_STARTED
 
+        # Check progress vs expected progress if we have a target date
         if self.target_date:
             expected = self.expected_progress_percent
             actual = self.progress_percent
+
+            # If time has elapsed and we're behind schedule
             if actual >= expected + 10:
                 return GoalStatus.AHEAD
             elif actual <= expected - 10:
                 return GoalStatus.BEHIND
             return GoalStatus.ON_TRACK
+
+        # No target date - check if started
+        if self.current_amount == 0:
+            return GoalStatus.NOT_STARTED
 
         return GoalStatus.IN_PROGRESS
 

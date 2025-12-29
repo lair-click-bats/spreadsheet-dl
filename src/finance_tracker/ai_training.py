@@ -24,13 +24,15 @@ import json
 import random
 import re
 from dataclasses import dataclass, field
-from datetime import date, datetime, timedelta
-from decimal import Decimal
+from datetime import date, datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Iterator
+from typing import TYPE_CHECKING, Any
 
 from finance_tracker.exceptions import FinanceTrackerError, ValidationError
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 
 class AnonymizationError(FinanceTrackerError):
@@ -66,7 +68,7 @@ class PIIPattern:
     replacement: str
     flags: int = re.IGNORECASE
 
-    def compile(self) -> re.Pattern:
+    def compile(self) -> re.Pattern[str]:
         """Compile the regex pattern."""
         return re.compile(self.pattern, self.flags)
 
@@ -163,7 +165,7 @@ class AnonymizedTransaction:
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
-        result = {
+        result: dict[str, Any] = {
             "id": self.id,
             "date": self.date,
             "category": self.category,
@@ -233,7 +235,7 @@ class TrainingDataset:
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
-        result = {
+        result: dict[str, Any] = {
             "version": self.version,
             "schema_version": self.schema_version,
             "created_at": self.created_at,
@@ -261,15 +263,34 @@ class PIIDetector:
 
     # Common merchant name variations to preserve
     SAFE_MERCHANTS = {
-        "amazon", "walmart", "target", "costco", "starbucks",
-        "mcdonalds", "uber", "lyft", "netflix", "spotify",
-        "whole foods", "trader joes", "chipotle", "subway",
+        "amazon",
+        "walmart",
+        "target",
+        "costco",
+        "starbucks",
+        "mcdonalds",
+        "uber",
+        "lyft",
+        "netflix",
+        "spotify",
+        "whole foods",
+        "trader joes",
+        "chipotle",
+        "subway",
     }
 
     # Words that likely indicate PII
     PII_INDICATORS = {
-        "account", "acct", "card", "member", "id", "number",
-        "reference", "ref", "confirmation", "conf",
+        "account",
+        "acct",
+        "card",
+        "member",
+        "id",
+        "number",
+        "reference",
+        "ref",
+        "confirmation",
+        "conf",
     }
 
     def __init__(self, config: AnonymizationConfig) -> None:
@@ -281,8 +302,7 @@ class PIIDetector:
         """
         self.config = config
         self._compiled_patterns = [
-            (p.name, p.compile(), p.replacement)
-            for p in config.pii_patterns
+            (p.name, p.compile(), p.replacement) for p in config.pii_patterns
         ]
 
     def detect_pii(self, text: str) -> list[tuple[str, str, int, int]]:
@@ -336,13 +356,10 @@ class PIIDetector:
         clean = self.remove_pii(description.lower())
 
         # Extract tokens
-        tokens = re.findall(r'\b[a-z]{3,}\b', clean)
+        tokens = re.findall(r"\b[a-z]{3,}\b", clean)
 
         # Filter out PII indicators
-        safe_tokens = [
-            t for t in tokens
-            if t not in self.PII_INDICATORS
-        ]
+        safe_tokens = [t for t in tokens if t not in self.PII_INDICATORS]
 
         return safe_tokens[:5]  # Limit tokens
 
@@ -415,7 +432,9 @@ class DataAnonymizer:
 
         # Add noise if configured
         if self.config.add_noise_percent > 0:
-            noise = amount * (random.uniform(-1, 1) * self.config.add_noise_percent / 100)
+            noise = amount * (
+                random.uniform(-1, 1) * self.config.add_noise_percent / 100
+            )
             amount += noise
 
         # Bucket amount
@@ -435,7 +454,7 @@ class DataAnonymizer:
 
         # Tokenize description
         description = tx.get("description", "")
-        description_tokens = []
+        description_tokens: list[str] = []
         if self.config.level in (AnonymizationLevel.NONE, AnonymizationLevel.MINIMAL):
             description_tokens = self.pii_detector.tokenize_description(description)
 
@@ -468,7 +487,8 @@ class DataAnonymizer:
         # Set reference date for relative dating
         if transactions:
             dates = [
-                date.fromisoformat(tx["date"]) if isinstance(tx.get("date"), str)
+                date.fromisoformat(tx["date"])
+                if isinstance(tx.get("date"), str)
                 else tx.get("date")
                 for tx in transactions
                 if tx.get("date")
@@ -478,8 +498,7 @@ class DataAnonymizer:
 
         # Anonymize transactions
         records = [
-            self.anonymize_transaction(tx, i)
-            for i, tx in enumerate(transactions)
+            self.anonymize_transaction(tx, i) for i, tx in enumerate(transactions)
         ]
 
         # Compute statistics if configured
@@ -659,12 +678,14 @@ class TrainingDataExporter:
         # Convert to dictionaries
         transactions = []
         for _, row in expenses.iterrows():
-            transactions.append({
-                "date": row.get("Date"),
-                "category": row.get("Category", "Unknown"),
-                "description": row.get("Description", ""),
-                "amount": row.get("Amount", 0),
-            })
+            transactions.append(
+                {
+                    "date": row.get("Date"),
+                    "category": row.get("Category", "Unknown"),
+                    "description": row.get("Description", ""),
+                    "amount": row.get("Amount", 0),
+                }
+            )
 
         # Anonymize
         dataset = self.anonymizer.anonymize_dataset(transactions)
@@ -729,28 +750,44 @@ class TrainingDataExporter:
         """Export to JSON Lines format."""
         with open(output_path, "w") as f:
             # Write metadata line
-            f.write(json.dumps({
-                "type": "metadata",
-                "version": dataset.version,
-                "schema_version": dataset.schema_version,
-                "created_at": dataset.created_at,
-                "anonymization_level": dataset.anonymization_level,
-                "record_count": len(dataset.records),
-            }) + "\n")
+            f.write(
+                json.dumps(
+                    {
+                        "type": "metadata",
+                        "version": dataset.version,
+                        "schema_version": dataset.schema_version,
+                        "created_at": dataset.created_at,
+                        "anonymization_level": dataset.anonymization_level,
+                        "record_count": len(dataset.records),
+                    }
+                )
+                + "\n"
+            )
 
             # Write statistics line
             if dataset.statistics:
-                f.write(json.dumps({
-                    "type": "statistics",
-                    **dataset.statistics.to_dict(),
-                }, default=str) + "\n")
+                f.write(
+                    json.dumps(
+                        {
+                            "type": "statistics",
+                            **dataset.statistics.to_dict(),
+                        },
+                        default=str,
+                    )
+                    + "\n"
+                )
 
             # Write records
             for record in dataset.records:
-                f.write(json.dumps({
-                    "type": "record",
-                    **record.to_dict(),
-                }) + "\n")
+                f.write(
+                    json.dumps(
+                        {
+                            "type": "record",
+                            **record.to_dict(),
+                        }
+                    )
+                    + "\n"
+                )
 
         return output_path
 
@@ -789,11 +826,11 @@ class TrainingDataExporter:
         """Export to Parquet format."""
         try:
             import pandas as pd
-        except ImportError:
+        except ImportError as exc:
             raise ImportError(
                 "pandas required for Parquet export. "
                 "Install with: pip install pandas pyarrow"
-            )
+            ) from exc
 
         # Convert to DataFrame
         records = [r.to_dict() for r in dataset.records]

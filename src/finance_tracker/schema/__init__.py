@@ -29,7 +29,28 @@ This package provides:
 """
 
 from finance_tracker.schema.loader import ThemeLoader
+from finance_tracker.schema.print_layout import (
+    # Headers and footers (FR-FORMAT-008)
+    HeaderFooter,
+    HeaderFooterContent,
+    HeaderFooterSection,
+    PageBreak,
+    PageMargins,
+    PageOrientation,
+    # Page setup (FR-PRINT-001)
+    PageSetup,
+    PageSetupBuilder,
+    PageSize,
+    # Print area (FR-PRINT-002)
+    PrintArea,
+    # Presets
+    PrintPresets,
+    PrintQuality,
+    PrintScale,
+    RepeatConfig,
+)
 from finance_tracker.schema.styles import (
+    CSS_NAMED_COLORS,
     # Borders
     Border,
     BorderEdge,
@@ -42,7 +63,6 @@ from finance_tracker.schema.styles import (
     # Colors
     Color,
     ColorPalette,
-    CSS_NAMED_COLORS,
     # Fonts
     Font,
     FontWeight,
@@ -66,31 +86,31 @@ from finance_tracker.schema.styles import (
     UnderlineStyle,
     VerticalAlign,
 )
-from finance_tracker.schema.units import (
-    cm,
-    inches,
-    Length,
-    LengthUnit,
-    mm,
-    parse_length,
-    pt,
-)
 from finance_tracker.schema.typography import (
+    FONT_PAIRINGS,
+    TYPOGRAPHY_PRESETS,
     # Font pairing (FR-THEME-002)
     FontDefinition,
     FontPairing,
     FontRole,
-    FONT_PAIRINGS,
-    get_font_pairing,
-    list_font_pairings,
     # Typography hierarchy (FR-THEME-003)
     HeadingStyle,
     TypeScaleRatio,
     TypeSize,
     Typography,
-    TYPOGRAPHY_PRESETS,
+    get_font_pairing,
     get_typography,
+    list_font_pairings,
     list_typography_presets,
+)
+from finance_tracker.schema.units import (
+    Length,
+    LengthUnit,
+    cm,
+    inches,
+    mm,
+    parse_length,
+    pt,
 )
 from finance_tracker.schema.validation import (
     SchemaValidationError,
@@ -98,108 +118,88 @@ from finance_tracker.schema.validation import (
     validate_style,
     validate_theme,
 )
-from finance_tracker.schema.print_layout import (
-    # Page setup (FR-PRINT-001)
-    PageSetup,
-    PageSize,
-    PageOrientation,
-    PrintScale,
-    PrintQuality,
-    PageMargins,
-    # Headers and footers (FR-FORMAT-008)
-    HeaderFooter,
-    HeaderFooterContent,
-    HeaderFooterSection,
-    # Print area (FR-PRINT-002)
-    PrintArea,
-    RepeatConfig,
-    PageBreak,
-    # Presets
-    PrintPresets,
-    PageSetupBuilder,
-)
 
 __all__ = [
+    "CSS_NAMED_COLORS",
+    "FONT_PAIRINGS",
+    "TYPOGRAPHY_PRESETS",
+    # Borders (FR-SCHEMA-004)
+    "Border",
+    "BorderEdge",
+    "BorderStyle",
+    "Borders",
+    # Cell Fill (FR-SCHEMA-005)
+    "CellFill",
+    # Cell Style (FR-SCHEMA-007)
+    "CellStyle",
     # Colors (FR-SCHEMA-001)
     "Color",
     "ColorPalette",
-    "CSS_NAMED_COLORS",
-    # Length (FR-SCHEMA-002)
-    "Length",
-    "LengthUnit",
-    "pt",
-    "cm",
-    "mm",
-    "inches",
-    "parse_length",
     # Fonts (FR-SCHEMA-003)
     "Font",
-    "FontWeight",
-    "UnderlineStyle",
-    "StrikethroughStyle",
     # Font Pairing (FR-THEME-002)
     "FontDefinition",
     "FontPairing",
     "FontRole",
-    "FONT_PAIRINGS",
-    "get_font_pairing",
-    "list_font_pairings",
-    # Typography Hierarchy (FR-THEME-003)
-    "HeadingStyle",
-    "TypeScaleRatio",
-    "TypeSize",
-    "Typography",
-    "TYPOGRAPHY_PRESETS",
-    "get_typography",
-    "list_typography_presets",
-    # Borders (FR-SCHEMA-004)
-    "Border",
-    "BorderEdge",
-    "Borders",
-    "BorderStyle",
-    # Cell Fill (FR-SCHEMA-005)
-    "CellFill",
-    "PatternFill",
+    "FontWeight",
     "GradientFill",
     "GradientStop",
-    "PatternType",
     "GradientType",
-    # Number Format (FR-SCHEMA-006)
-    "NumberFormat",
-    "NumberFormatCategory",
-    "NegativeFormat",
-    # Cell Style (FR-SCHEMA-007)
-    "CellStyle",
-    "StyleDefinition",
-    # Alignment
-    "TextAlign",
-    "VerticalAlign",
-    # Theme (FR-THEME-*)
-    "Theme",
-    "ThemeSchema",
-    # Loader
-    "ThemeLoader",
-    # Validation
-    "SchemaValidationError",
-    "validate_color",
-    "validate_style",
-    "validate_theme",
-    # Page Setup (FR-PRINT-001)
-    "PageSetup",
-    "PageSize",
-    "PageOrientation",
-    "PrintScale",
-    "PrintQuality",
-    "PageMargins",
     # Headers and Footers (FR-FORMAT-008)
     "HeaderFooter",
     "HeaderFooterContent",
     "HeaderFooterSection",
+    # Typography Hierarchy (FR-THEME-003)
+    "HeadingStyle",
+    # Length (FR-SCHEMA-002)
+    "Length",
+    "LengthUnit",
+    "NegativeFormat",
+    # Number Format (FR-SCHEMA-006)
+    "NumberFormat",
+    "NumberFormatCategory",
+    "PageBreak",
+    "PageMargins",
+    "PageOrientation",
+    # Page Setup (FR-PRINT-001)
+    "PageSetup",
+    "PageSetupBuilder",
+    "PageSize",
+    "PatternFill",
+    "PatternType",
     # Print Area (FR-PRINT-002)
     "PrintArea",
-    "RepeatConfig",
-    "PageBreak",
     # Print Presets
     "PrintPresets",
-    "PageSetupBuilder",
+    "PrintQuality",
+    "PrintScale",
+    "RepeatConfig",
+    # Validation
+    "SchemaValidationError",
+    "StrikethroughStyle",
+    "StyleDefinition",
+    # Alignment
+    "TextAlign",
+    # Theme (FR-THEME-*)
+    "Theme",
+    # Loader
+    "ThemeLoader",
+    "ThemeSchema",
+    "TypeScaleRatio",
+    "TypeSize",
+    "Typography",
+    "UnderlineStyle",
+    "VerticalAlign",
+    "cm",
+    "get_font_pairing",
+    "get_typography",
+    "inches",
+    "list_font_pairings",
+    "list_typography_presets",
+    "mm",
+    "parse_length",
+    "pt",
+    "validate_color",
+    "validate_style",
+    "validate_theme",
 ]

@@ -10,8 +10,6 @@ import csv
 import tempfile
 from pathlib import Path
 
-import pytest
-
 from finance_tracker.bank_formats import (
     BUILTIN_FORMATS,
     BankFormatDefinition,

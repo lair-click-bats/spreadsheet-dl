@@ -14,18 +14,14 @@ Provides reusable components for common financial document sections:
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any
 
 from finance_tracker.template_engine.schema import (
     CellTemplate,
-    ColumnTemplate,
     ComponentDefinition,
-    ConditionalBlock,
     RowTemplate,
     TemplateVariable,
     VariableType,
 )
-
 
 # ============================================================================
 # Header Components

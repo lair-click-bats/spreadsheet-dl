@@ -248,7 +248,7 @@ class TestImportBackwardCompatibility:
         assert render_sheets is not None
 
     def test_version_updated(self) -> None:
-        """Test version is updated to 0.4.0."""
+        """Test version is updated to 2.0.0."""
         from finance_tracker import __version__
 
-        assert __version__ == "0.4.0"
+        assert __version__ == "2.0.0"

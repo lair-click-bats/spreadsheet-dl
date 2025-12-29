@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import json
 import tempfile
-from datetime import date, datetime
+from datetime import date
 from decimal import Decimal
 from pathlib import Path
 
@@ -27,6 +27,7 @@ from finance_tracker.ai_export import (
     export_dual,
     export_for_ai,
 )
+from finance_tracker.exceptions import FileError
 
 
 @pytest.fixture
@@ -290,7 +291,7 @@ class TestAIExporter:
         """Test export with non-existent file."""
         exporter = AIExporter()
 
-        with pytest.raises(Exception):  # FileError
+        with pytest.raises(FileError):
             exporter.export_to_json(temp_dir / "nonexistent.ods")
 
     @pytest.mark.skipif(
@@ -361,12 +362,12 @@ class TestConvenienceFunctions:
 
     def test_export_for_ai_not_found(self, temp_dir):
         """Test export_for_ai with non-existent file."""
-        with pytest.raises(Exception):  # FileError
+        with pytest.raises(FileError):
             export_for_ai(temp_dir / "nonexistent.ods")
 
     def test_export_dual_not_found(self, temp_dir):
         """Test export_dual with non-existent file."""
-        with pytest.raises(Exception):  # FileError
+        with pytest.raises(FileError):
             export_dual(temp_dir / "nonexistent.ods")
 
 

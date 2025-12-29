@@ -28,18 +28,19 @@ import json
 import logging
 import sys
 from dataclasses import dataclass, field
-from datetime import date, datetime, timedelta
+from datetime import date, datetime
 from decimal import Decimal
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable
+from typing import TYPE_CHECKING, Any
 
 from finance_tracker.exceptions import (
-    ConfigurationError,
-    FinanceTrackerError,
     FileError,
-    ValidationError,
+    FinanceTrackerError,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 class MCPError(FinanceTrackerError):
@@ -138,12 +139,12 @@ class MCPToolResult:
     is_error: bool = False
 
     @classmethod
-    def text(cls, text: str) -> "MCPToolResult":
+    def text(cls, text: str) -> MCPToolResult:
         """Create a text result."""
         return cls(content=[{"type": "text", "text": text}])
 
     @classmethod
-    def json(cls, data: Any) -> "MCPToolResult":
+    def json(cls, data: Any) -> MCPToolResult:
         """Create a JSON result."""
         return cls(content=[{
             "type": "text",
@@ -151,7 +152,7 @@ class MCPToolResult:
         }])
 
     @classmethod
-    def error(cls, message: str) -> "MCPToolResult":
+    def error(cls, message: str) -> MCPToolResult:
         """Create an error result."""
         return cls(
             content=[{"type": "text", "text": f"Error: {message}"}],
@@ -667,7 +668,7 @@ class MCPServer:
 
             # Over budget questions
             if any(kw in question_lower for kw in ["over budget", "overspent", "exceeded"]):
-                over = [
+                [
                     cat for cat, amt in by_category.items()
                     if amt > 0  # Simplified check
                 ]
@@ -884,7 +885,7 @@ class MCPServer:
         try:
             path = self._validate_path(file_path)
 
-            from finance_tracker.alerts import AlertMonitor, AlertSeverity
+            from finance_tracker.alerts import AlertMonitor
             from finance_tracker.budget_analyzer import BudgetAnalyzer
 
             analyzer = BudgetAnalyzer(path)

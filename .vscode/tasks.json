@@ -2,48 +2,89 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Resume Claude: c1397393-a8e",
+      "label": "Run Tests",
       "type": "shell",
-      "command": "claude",
-      "args": ["--resume", "c1397393-a8ec-41d4-9d23-41a032e4569e"],
-      "options": {
-        "cwd": "${workspaceFolder}/../knowledge-base"
+      "command": "uv",
+      "args": ["run", "pytest", "-v"],
+      "group": {
+        "kind": "test",
+        "isDefault": true
       },
       "presentation": {
         "echo": true,
         "reveal": "always",
         "focus": false,
-        "panel": "dedicated",
-        "showReuseMessage": false,
-        "clear": true
+        "panel": "shared"
       },
       "problemMatcher": []
     },
     {
-      "label": "Resume Claude: e7b97e31-1b7",
+      "label": "Run Lint",
       "type": "shell",
-      "command": "claude",
-      "args": ["--resume", "e7b97e31-1b71-4a81-9c96-309ae29c739f"],
-      "options": {
-        "cwd": "${workspaceFolder}/../knowledge-base"
-      },
+      "command": "uv",
+      "args": ["run", "ruff", "check", "src/", "tests/"],
+      "group": "build",
       "presentation": {
         "echo": true,
         "reveal": "always",
         "focus": false,
-        "panel": "dedicated",
-        "showReuseMessage": false,
-        "clear": true
+        "panel": "shared"
       },
       "problemMatcher": []
     },
     {
-      "label": "Resume All Claude Sessions",
-      "dependsOrder": "parallel",
-      "dependsOn": [
-        "Resume Claude: c1397393-a8e",
-        "Resume Claude: e7b97e31-1b7"
-      ],
+      "label": "Run Format",
+      "type": "shell",
+      "command": "uv",
+      "args": ["run", "ruff", "format", "src/", "tests/"],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Type Check",
+      "type": "shell",
+      "command": "uv",
+      "args": ["run", "mypy", "src/"],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Quality Check",
+      "type": "shell",
+      "command": "./scripts/check.sh",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Generate Budget",
+      "type": "shell",
+      "command": "uv",
+      "args": ["run", "finance-tracker", "generate", "-o", "./output/"],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
       "problemMatcher": []
     }
   ]

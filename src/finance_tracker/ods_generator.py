@@ -272,7 +272,7 @@ class OdsGenerator:
                 odf_style = self._cell_style_to_odf(style_name, cell_style)
                 self._doc.automaticstyles.addElement(odf_style)
                 self._styles[style_name] = odf_style
-            except Exception:
+            except (KeyError, ValueError, AttributeError):
                 # Skip styles that fail to resolve
                 pass
 
