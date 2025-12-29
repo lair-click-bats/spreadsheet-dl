@@ -150,7 +150,9 @@ class ColorScalePoint:
         if self.value is not None:
             result["value"] = self.value
         if self.color is not None:
-            result["color"] = str(self.color) if hasattr(self.color, "__str__") else self.color
+            result["color"] = (
+                str(self.color) if hasattr(self.color, "__str__") else self.color
+            )
         return result
 
 
@@ -489,7 +491,7 @@ class ConditionalRule:
         )
 
         # Formula rule: highlight if exceeds budget
-        rule = ConditionalRule.formula(
+        rule = ConditionalRule.from_formula(
             formula="C2>B2",
             style=warning_style,
         )
@@ -558,7 +560,7 @@ class ConditionalRule:
         )
 
     @classmethod
-    def formula(
+    def from_formula(
         cls,
         formula: str,
         style: CellStyle | str,
@@ -732,7 +734,9 @@ class ConditionalRule:
         if self.date_type:
             result["dateType"] = self.date_type.value
         if self.style:
-            result["style"] = self.style if isinstance(self.style, str) else self.style.name
+            result["style"] = (
+                self.style if isinstance(self.style, str) else self.style.name
+            )
 
         return result
 
@@ -840,7 +844,7 @@ class FinancialFormats:
                     priority=1,
                 ),
                 # Formula checks if remaining < 10% of budget
-                ConditionalRule.formula(
+                ConditionalRule.from_formula(
                     formula="AND(D2>=0, D2<B2*0.1)",
                     style=warning_style,
                     priority=2,

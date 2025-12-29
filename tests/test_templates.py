@@ -8,10 +8,6 @@ Tests for v2.0.0 Professional Business Templates:
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
-import pytest
-
 from finance_tracker.templates import (
     PROFESSIONAL_TEMPLATES,
     BudgetCategory,
@@ -23,9 +19,6 @@ from finance_tracker.templates import (
     get_template,
     list_templates,
 )
-
-if TYPE_CHECKING:
-    from pathlib import Path
 
 
 class TestTemplateMetadata:
@@ -90,7 +83,7 @@ class TestProfessionalTemplatesRegistry:
 
     def test_registry_values_are_classes(self) -> None:
         """Test that registry values are template classes."""
-        for name, template_class in PROFESSIONAL_TEMPLATES.items():
+        for _name, template_class in PROFESSIONAL_TEMPLATES.items():
             assert isinstance(template_class, type)
 
     def test_get_template_returns_class(self) -> None:

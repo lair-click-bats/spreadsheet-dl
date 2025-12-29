@@ -262,19 +262,18 @@ from finance_tracker.goals import (
     create_debt_payoff_plan,
     create_emergency_fund,
 )
+from finance_tracker.interactive import (
+    DashboardGenerator as OdsDashboardGenerator,
+)
 
 # Interactive ODS Features (NEW in v1.0.0 - Phase 5)
 from finance_tracker.interactive import (
-    ConditionalFormat,
     DashboardKPI,
     DropdownList,
     InteractiveOdsBuilder,
     ValidationRule,
     add_interactive_features,
     generate_budget_dashboard,
-)
-from finance_tracker.interactive import (
-    DashboardGenerator as OdsDashboardGenerator,
 )
 
 # MCP Server (NEW in v1.0.0 - Phase 5)
@@ -435,7 +434,6 @@ from finance_tracker.visualization import (
     ChartDataPoint,
     ChartGenerator,
     ChartSeries,
-    ChartType,
     DashboardGenerator,
     create_budget_dashboard,
     create_spending_pie_chart,
@@ -447,14 +445,12 @@ from finance_tracker.webdav_upload import (
 )
 
 __all__ = [
+    # Constants (uppercase first)
     "BUILTIN_FORMATS",
-    # Visualization (v0.6.0)
     "CATEGORY_COLORS",
-    # Multi-Currency (v0.6.0)
     "CURRENCIES",
-    # AI Export (v0.6.0)
+    # Classes (alphabetical)
     "AIExporter",
-    # Account Management (v0.6.0)
     "Account",
     "AccountManager",
     "AccountTransaction",
@@ -463,21 +459,16 @@ __all__ = [
     "AlertConfig",
     "AlertMonitor",
     "AnalyticsDashboard",
-    # v2.0.0 Professional Spreadsheet System
-    # AI Training (v1.0.0)
     "AnonymizationConfig",
     "AnonymizationLevel",
     "AutoFilter",
     "AxisConfig",
     "AxisType",
-    # Backup (v0.5.0)
     "BackupManager",
     "BackupReason",
     "BalanceSheetTemplate",
-    # Bank Formats (v0.6.0)
     "BankFormatDefinition",
     "BankFormatRegistry",
-    # Bill Reminders (v0.7.0)
     "BillReminder",
     "BillReminderManager",
     "BudgetAllocation",
@@ -487,7 +478,6 @@ __all__ = [
     "CashFlowStatementTemplate",
     "CashFlowTrackerTemplate",
     "CellComment",
-    # Builder API (v0.4.0)
     "CellRef",
     "CellRelationship",
     "CellSpec",
@@ -502,7 +492,7 @@ __all__ = [
     "ChartTitle",
     "ChartType",
     "ColumnSpec",
-    # Interactive ODS (v1.0.0)
+    "ComponentDefinition",
     "ConditionalFormat",
     "ConditionalRule",
     "Config",
@@ -519,13 +509,11 @@ __all__ = [
     "DataSeries",
     "DataTable",
     "DataValidation",
-    # Goals (v0.7.0)
     "Debt",
     "DebtPayoffMethod",
     "DebtPayoffPlan",
     "DecryptionError",
     "DropdownList",
-    # Notifications (v0.7.0)
     "EmailChannel",
     "EmailConfig",
     "EncryptionError",
@@ -537,7 +525,6 @@ __all__ = [
     "ExpenseCategory",
     "ExpenseEntry",
     "ExpenseReportTemplate",
-    # Export (v0.5.0)
     "ExportFormat",
     "ExportOptions",
     "FileEncryptor",
@@ -563,7 +550,6 @@ __all__ = [
     "LegendPosition",
     "Length",
     "LengthUnit",
-    # MCP Server (v1.0.0)
     "MCPConfig",
     "MCPServer",
     "MCPTool",
@@ -595,7 +581,6 @@ __all__ = [
     "PageSetup",
     "PageSetupBuilder",
     "PageSize",
-    # Plaid (v1.0.0)
     "PlaidAccount",
     "PlaidClient",
     "PlaidConfig",
@@ -629,7 +614,6 @@ __all__ = [
     "SparklineType",
     "SpreadsheetBuilder",
     "SyncResult",
-    "ComponentDefinition",
     "TemplateError",
     "TemplateLoader",
     "TemplateRenderer",
@@ -646,8 +630,10 @@ __all__ = [
     "ValidationType",
     "WebDAVClient",
     "WebDAVError",
+    # Dunder attributes
     "__author__",
     "__version__",
+    # Functions (alphabetical)
     "add_interactive_features",
     "append_expense_to_file",
     "auto_backup",
