@@ -115,17 +115,23 @@ class ValidationRule:
         }
 
         if self.rule_type == ValidationRuleType.LIST:
-            validation["condition"] = f"cell-content-is-in-list({';'.join(self.values)})"
+            validation["condition"] = (
+                f"cell-content-is-in-list({';'.join(self.values)})"
+            )
         elif self.rule_type == ValidationRuleType.DECIMAL:
             if self.operator == ComparisonOperator.GREATER_OR_EQUAL:
                 validation["condition"] = f"cell-content()>={self.value1}"
             elif self.operator == ComparisonOperator.BETWEEN:
-                validation["condition"] = f"cell-content-is-between({self.value1},{self.value2})"
+                validation["condition"] = (
+                    f"cell-content-is-between({self.value1},{self.value2})"
+                )
         elif self.rule_type == ValidationRuleType.DATE:
             validation["condition"] = "cell-content-is-date()"
-        elif self.rule_type == ValidationRuleType.TEXT_LENGTH:
-            if self.operator == ComparisonOperator.LESS_OR_EQUAL:
-                validation["condition"] = f"cell-content-text-length()<={self.value1}"
+        elif (
+            self.rule_type == ValidationRuleType.TEXT_LENGTH
+            and self.operator == ComparisonOperator.LESS_OR_EQUAL
+        ):
+            validation["condition"] = f"cell-content-text-length()<={self.value1}"
 
         validation["error_message"] = self.error_message
         validation["error_title"] = self.error_title
@@ -176,9 +182,18 @@ class DropdownList:
     def months(cls) -> DropdownList:
         """Create a dropdown for months."""
         months = [
-            "January", "February", "March", "April",
-            "May", "June", "July", "August",
-            "September", "October", "November", "December",
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
         ]
         return cls(name="months", values=months, allow_custom=False)
 
@@ -508,14 +523,6 @@ class InteractiveOdsBuilder:
         Args:
             doc: ODF document object from odfpy.
         """
-        try:
-            from odf.table import Table
-        except ImportError:
-            raise InteractiveError(
-                "odfpy required for ODS features. "
-                "Install with: pip install odfpy"
-            )
-
         # Apply dropdowns as content validations
         for cell_range, (_, dropdown) in self._dropdowns.items():
             self._apply_dropdown_validation(doc, cell_range, dropdown)
@@ -582,9 +589,11 @@ class InteractiveOdsBuilder:
         format_config: ConditionalFormat,
     ) -> None:
         """Apply conditional formatting to cells."""
-        # ODS conditional formatting is complex
-        # This is a placeholder for the full implementation
-        pass
+        raise NotImplementedError(
+            "Conditional formatting application to ODS documents is not yet implemented. "
+            "The ConditionalFormat class provides the data model, but integration with "
+            "odfpy's conditional formatting requires additional development."
+        )
 
     def _apply_sparkline(
         self,
@@ -593,8 +602,11 @@ class InteractiveOdsBuilder:
         config: SparklineConfig,
     ) -> None:
         """Apply sparkline formula to a cell."""
-        # Sparklines would be added as formula cells
-        pass
+        raise NotImplementedError(
+            "Sparkline application to ODS documents is not yet implemented. "
+            "Sparklines would be implemented as formula cells using appropriate "
+            "spreadsheet functions or custom chart objects."
+        )
 
 
 class DashboardGenerator:
@@ -670,7 +682,9 @@ class DashboardGenerator:
             self.builder.add_dashboard_section(section)
 
         # Generate ODS with dashboard
-        output_path = output_path or budget_path.with_stem(f"{budget_path.stem}_dashboard")
+        output_path = output_path or budget_path.with_stem(
+            f"{budget_path.stem}_dashboard"
+        )
         return self._write_dashboard_ods(output_path, kpis, sections, by_category)
 
     def _create_kpis(
@@ -710,7 +724,11 @@ class DashboardGenerator:
                 value=percent_used,
                 target=100,
                 unit="%",
-                status="critical" if percent_used > 100 else "warning" if percent_used > 80 else "good",
+                status="critical"
+                if percent_used > 100
+                else "warning"
+                if percent_used > 80
+                else "good",
             ),
         }
 
@@ -726,11 +744,11 @@ class DashboardGenerator:
             from odf.opendocument import OpenDocumentSpreadsheet
             from odf.table import Table, TableCell, TableRow
             from odf.text import P
-        except ImportError:
+        except ImportError as err:
             raise InteractiveError(
                 "odfpy required for dashboard generation. "
                 "Install with: pip install odfpy"
-            )
+            ) from err
 
         doc = OpenDocumentSpreadsheet()
 
@@ -801,7 +819,9 @@ class DashboardGenerator:
 
         # Add category rows
         total = sum(by_category.values())
-        sorted_categories = sorted(by_category.items(), key=lambda x: x[1], reverse=True)
+        sorted_categories = sorted(
+            by_category.items(), key=lambda x: x[1], reverse=True
+        )
 
         for cat_name, cat_amount in sorted_categories[:10]:
             cat_row = TableRow()
@@ -851,11 +871,10 @@ def add_interactive_features(
     """
     try:
         from odf.opendocument import load
-    except ImportError:
+    except ImportError as err:
         raise InteractiveError(
-            "odfpy required for interactive features. "
-            "Install with: pip install odfpy"
-        )
+            "odfpy required for interactive features. Install with: pip install odfpy"
+        ) from err
 
     doc = load(str(ods_path))
 

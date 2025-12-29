@@ -30,7 +30,7 @@ from datetime import date, datetime
 from decimal import Decimal
 from enum import Enum
 from pathlib import Path
-from typing import Any
+from typing import Any, ClassVar
 
 from finance_tracker.exceptions import FileError, FinanceTrackerError
 
@@ -296,7 +296,9 @@ class SemanticSheet:
         }
 
         if self.relationship_graph:
-            result["relationship_graph"] = [r.to_dict() for r in self.relationship_graph]
+            result["relationship_graph"] = [
+                r.to_dict() for r in self.relationship_graph
+            ]
 
         return result
 
@@ -372,7 +374,7 @@ class AIExporter:
     """
 
     # Enhanced formula descriptions with natural language
-    FORMULA_DESCRIPTIONS = {
+    FORMULA_DESCRIPTIONS: ClassVar[dict[str, str]] = {
         "SUM": "Calculates the total of a range of values",
         "AVERAGE": "Calculates the average of a range of values",
         "MAX": "Returns the maximum value in a range",
@@ -394,11 +396,28 @@ class AIExporter:
     }
 
     # Semantic tag patterns based on context
-    TAG_PATTERNS = {
-        SemanticTag.FIXED_EXPENSE: ["rent", "mortgage", "insurance", "subscription", "loan"],
+    TAG_PATTERNS: ClassVar[dict[SemanticTag, list[str]]] = {
+        SemanticTag.FIXED_EXPENSE: [
+            "rent",
+            "mortgage",
+            "insurance",
+            "subscription",
+            "loan",
+        ],
         SemanticTag.VARIABLE_EXPENSE: ["groceries", "utilities", "gas", "dining"],
-        SemanticTag.ESSENTIAL: ["housing", "utilities", "groceries", "healthcare", "insurance"],
-        SemanticTag.DISCRETIONARY: ["entertainment", "dining out", "shopping", "vacation"],
+        SemanticTag.ESSENTIAL: [
+            "housing",
+            "utilities",
+            "groceries",
+            "healthcare",
+            "insurance",
+        ],
+        SemanticTag.DISCRETIONARY: [
+            "entertainment",
+            "dining out",
+            "shopping",
+            "vacation",
+        ],
         SemanticTag.RECURRING: ["monthly", "weekly", "annual", "subscription"],
     }
 
@@ -468,7 +487,8 @@ class AIExporter:
             metadata = AIExportMetadata(
                 source_file=str(ods_path),
                 export_time=datetime.now().isoformat(),
-                business_context=business_context or self._infer_business_context(sheets),
+                business_context=business_context
+                or self._infer_business_context(sheets),
             )
 
             # Build export data
@@ -564,14 +584,13 @@ class AIExporter:
     def _parse_ods(self, ods_path: Path) -> list[SemanticSheet]:
         """Parse ODS file and extract semantic data."""
         try:
-            from odf import text
             from odf.opendocument import load
             from odf.table import Table, TableCell, TableRow
-        except ImportError:
+        except ImportError as err:
             raise DualExportError(
                 "odfpy library required for ODS parsing. "
                 "Install with: pip install odfpy"
-            )
+            ) from err
 
         doc = load(str(ods_path))
         sheets: list[SemanticSheet] = []
@@ -665,7 +684,11 @@ class AIExporter:
         """Extract value from ODS cell."""
         value_type = cell.getAttribute("valuetype")
 
-        if value_type == "float" or value_type == "currency" or value_type == "percentage":
+        if (
+            value_type == "float"
+            or value_type == "currency"
+            or value_type == "percentage"
+        ):
             val = cell.getAttribute("value")
             return Decimal(val) if val else None
         elif value_type == "date":
@@ -775,7 +798,13 @@ class AIExporter:
                 return SemanticCellType.CATEGORY_NAME
 
             # Account keywords
-            account_keywords = ["checking", "savings", "credit", "investment", "retirement"]
+            account_keywords = [
+                "checking",
+                "savings",
+                "credit",
+                "investment",
+                "retirement",
+            ]
             if any(kw in lower_val for kw in account_keywords):
                 return SemanticCellType.ACCOUNT_TYPE
 
@@ -912,13 +941,14 @@ class AIExporter:
         # Apply type-based tags
         if cell.semantic_type == SemanticCellType.BUDGET_AMOUNT:
             cell.add_tag(SemanticTag.MONTHLY_ALLOCATION)
-        elif cell.semantic_type == SemanticCellType.EXPENSE_AMOUNT:
-            if isinstance(cell.value, Decimal):
-                # Check if over budget
-                budget_header = cell.context.get("column_header", "").lower()
-                if "remaining" in budget_header and cell.value < 0:
-                    cell.add_tag(SemanticTag.EXCEEDED)
-                    cell.add_tag(SemanticTag.NEEDS_ATTENTION)
+        elif cell.semantic_type == SemanticCellType.EXPENSE_AMOUNT and isinstance(
+            cell.value, Decimal
+        ):
+            # Check if over budget
+            budget_header = cell.context.get("column_header", "").lower()
+            if "remaining" in budget_header and cell.value < 0:
+                cell.add_tag(SemanticTag.EXCEEDED)
+                cell.add_tag(SemanticTag.NEEDS_ATTENTION)
 
         # Current period detection
         if sheet.name and "current" in sheet.name.lower():
@@ -1233,8 +1263,7 @@ class AIExporter:
 
             # Check sheet names
             ods_names = {
-                t.getAttribute("name") or f"Sheet{i}"
-                for i, t in enumerate(ods_sheets)
+                t.getAttribute("name") or f"Sheet{i}" for i, t in enumerate(ods_sheets)
             }
             json_names = {s["name"] for s in json_sheets}
 
