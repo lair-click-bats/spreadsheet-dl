@@ -14,9 +14,9 @@ Enhancements in 2.0.0:
 import json
 import os
 import sys
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict, Optional
 
 # Configuration
 PROJECT_DIR = Path(os.getenv("CLAUDE_PROJECT_DIR", "."))
@@ -30,10 +30,10 @@ METRICS_FILE = PROJECT_DIR / ".claude" / "hooks" / "orchestration-metrics.json"
 SUMMARIES_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def load_registry() -> dict[str, Any]:
+def load_registry() -> Dict[str, Any]:
     """Load agent registry from file."""
     if not REGISTRY_FILE.exists():
-        now = datetime.now(UTC).isoformat()
+        now = datetime.now(timezone.utc).isoformat()
         return {
             "version": "1.0.0",
             "created_at": now,
@@ -49,25 +49,25 @@ def load_registry() -> dict[str, Any]:
         }
 
     try:
-        with open(REGISTRY_FILE) as f:
+        with open(REGISTRY_FILE, "r") as f:
             return json.load(f)
     except json.JSONDecodeError:
         print(f"Error: Corrupted registry file: {REGISTRY_FILE}", file=sys.stderr)
         if BACKUP_FILE.exists():
             print(f"Restoring from backup: {BACKUP_FILE}", file=sys.stderr)
-            with open(BACKUP_FILE) as f:
+            with open(BACKUP_FILE, "r") as f:
                 return json.load(f)
         raise
 
 
-def save_registry(registry: dict[str, Any]) -> None:
+def save_registry(registry: Dict[str, Any]) -> None:
     """Save registry to file with backup."""
     # Backup current registry
     if REGISTRY_FILE.exists():
         REGISTRY_FILE.rename(BACKUP_FILE)
 
     # Update timestamp
-    registry["last_updated"] = datetime.now(UTC).isoformat()
+    registry["last_updated"] = datetime.now(timezone.utc).isoformat()
 
     # Write new registry
     REGISTRY_FILE.parent.mkdir(parents=True, exist_ok=True)
@@ -78,7 +78,7 @@ def save_registry(registry: dict[str, Any]) -> None:
 def register_agent(
     agent_id: str,
     task_description: str,
-    config: dict[str, Any] | None = None,
+    config: Optional[Dict[str, Any]] = None,
 ) -> None:
     """Register a new agent."""
     registry = load_registry()
@@ -86,7 +86,7 @@ def register_agent(
     registry["agents"][agent_id] = {
         "task_description": task_description,
         "status": "running",
-        "launched_at": datetime.now(UTC).isoformat(),
+        "launched_at": datetime.now(timezone.utc).isoformat(),
         "completed_at": None,
         "config": config or {},
         "output_file": None,
@@ -105,9 +105,9 @@ def register_agent(
 def update_agent_status(
     agent_id: str,
     status: str,
-    output_file: str | None = None,
-    summary_file: str | None = None,
-    deliverables: list | None = None,
+    output_file: Optional[str] = None,
+    summary_file: Optional[str] = None,
+    deliverables: Optional[list] = None,
 ) -> None:
     """Update agent status."""
     registry = load_registry()
@@ -121,14 +121,15 @@ def update_agent_status(
     agent["status"] = status
 
     if status == "completed":
-        agent["completed_at"] = datetime.now(UTC).isoformat()
+        agent["completed_at"] = datetime.now(timezone.utc).isoformat()
         if old_status == "running":
             registry["metadata"]["agents_running"] -= 1
             registry["metadata"]["agents_completed"] += 1
 
-    if status == "failed" and old_status == "running":
-        registry["metadata"]["agents_running"] -= 1
-        registry["metadata"]["agents_failed"] += 1
+    if status == "failed":
+        if old_status == "running":
+            registry["metadata"]["agents_running"] -= 1
+            registry["metadata"]["agents_failed"] += 1
 
     if output_file:
         agent["output_file"] = output_file
@@ -141,13 +142,13 @@ def update_agent_status(
     print(f"Updated agent {agent_id}: {old_status} → {status}")
 
 
-def get_agent_status(agent_id: str) -> dict[str, Any] | None:
+def get_agent_status(agent_id: str) -> Optional[Dict[str, Any]]:
     """Get status of a specific agent."""
     registry = load_registry()
     return registry["agents"].get(agent_id)
 
 
-def list_agents(status_filter: str | None = None) -> list:
+def list_agents(status_filter: Optional[str] = None) -> list:
     """List all agents, optionally filtered by status."""
     registry = load_registry()
     agents = []
@@ -162,7 +163,7 @@ def list_agents(status_filter: str | None = None) -> list:
 def cleanup_old_agents(days: int = 30) -> None:
     """Remove agents older than specified days."""
     registry = load_registry()
-    now = datetime.now(UTC)
+    now = datetime.now(timezone.utc)
     cleaned = 0
 
     for agent_id in list(registry["agents"].keys()):
@@ -171,9 +172,7 @@ def cleanup_old_agents(days: int = 30) -> None:
 
         if completed_at:
             try:
-                completed_date = datetime.fromisoformat(
-                    completed_at.replace("Z", "+00:00")
-                )
+                completed_date = datetime.fromisoformat(completed_at.replace("Z", "+00:00"))
                 if completed_date.tzinfo is None:
                     age_days = (now.replace(tzinfo=None) - completed_date).days
                 else:
@@ -187,12 +186,12 @@ def cleanup_old_agents(days: int = 30) -> None:
                 pass
 
     if cleaned > 0:
-        registry["metadata"]["last_cleanup"] = datetime.now(UTC).isoformat()
+        registry["metadata"]["last_cleanup"] = datetime.now(timezone.utc).isoformat()
         save_registry(registry)
         print(f"Cleaned up {cleaned} old agents (>{days} days)")
 
 
-def compact_registry() -> dict[str, int]:
+def compact_registry() -> Dict[str, int]:
     """
     Compact the registry by removing all completed agents.
     Returns count of agents removed.
@@ -212,13 +211,13 @@ def compact_registry() -> dict[str, int]:
             kept_running += 1
 
     if removed > 0:
-        registry["metadata"]["last_cleanup"] = datetime.now(UTC).isoformat()
+        registry["metadata"]["last_cleanup"] = datetime.now(timezone.utc).isoformat()
         save_registry(registry)
 
     return {"removed": removed, "kept_running": kept_running}
 
 
-def complete_agent(agent_id: str, output_file: str | None = None) -> bool:
+def complete_agent(agent_id: str, output_file: Optional[str] = None) -> bool:
     """Mark an agent as completed. Convenience wrapper around update_agent_status."""
     registry = load_registry()
     if agent_id not in registry["agents"]:
@@ -229,7 +228,7 @@ def complete_agent(agent_id: str, output_file: str | None = None) -> bool:
     return True
 
 
-def get_summary() -> dict[str, Any]:
+def get_summary() -> Dict[str, Any]:
     """Get registry summary."""
     registry = load_registry()
     return {
@@ -246,7 +245,7 @@ def get_summary() -> dict[str, Any]:
 # =============================================================================
 
 
-def generate_summary(agent_id: str, output_file: str | None = None) -> str | None:
+def generate_summary(agent_id: str, output_file: Optional[str] = None) -> Optional[str]:
     """
     Generate a concise markdown summary from agent output.
 
@@ -280,7 +279,7 @@ def generate_summary(agent_id: str, output_file: str | None = None) -> str | Non
     try:
         with open(output_path) as f:
             output_data = json.load(f)
-    except (OSError, json.JSONDecodeError) as e:
+    except (json.JSONDecodeError, IOError) as e:
         print(f"Error reading output file: {e}", file=sys.stderr)
         return None
 
@@ -347,7 +346,7 @@ def generate_summary(agent_id: str, output_file: str | None = None) -> str | Non
     return str(summary_path)
 
 
-def generate_all_summaries() -> dict[str, Any]:
+def generate_all_summaries() -> Dict[str, Any]:
     """Generate summaries for all completed agents that don't have one."""
     registry = load_registry()
     generated = 0
@@ -381,7 +380,7 @@ def generate_all_summaries() -> dict[str, Any]:
 # =============================================================================
 
 
-def load_metrics() -> dict[str, Any]:
+def load_metrics() -> Dict[str, Any]:
     """Load orchestration metrics."""
     if METRICS_FILE.exists():
         try:
@@ -402,24 +401,22 @@ def load_metrics() -> dict[str, Any]:
     }
 
 
-def save_metrics(metrics: dict[str, Any]) -> None:
+def save_metrics(metrics: Dict[str, Any]) -> None:
     """Save orchestration metrics."""
-    metrics["last_updated"] = datetime.now(UTC).isoformat()
+    metrics["last_updated"] = datetime.now(timezone.utc).isoformat()
     METRICS_FILE.parent.mkdir(parents=True, exist_ok=True)
     with open(METRICS_FILE, "w") as f:
         json.dump(metrics, f, indent=2)
 
 
-def record_batch_completion(
-    batch_id: str, agent_count: int, duration_seconds: float
-) -> None:
+def record_batch_completion(batch_id: str, agent_count: int, duration_seconds: float) -> None:
     """Record completion of a batch."""
     metrics = load_metrics()
     metrics["batches_executed"] += 1
     metrics["phase_times"][batch_id] = {
         "agents": agent_count,
         "duration_seconds": duration_seconds,
-        "completed_at": datetime.now(UTC).isoformat(),
+        "completed_at": datetime.now(timezone.utc).isoformat(),
     }
     save_metrics(metrics)
     print(f"Recorded batch {batch_id}: {agent_count} agents, {duration_seconds:.1f}s")
@@ -447,7 +444,7 @@ def update_context_peak(usage_percent: int) -> None:
         save_metrics(metrics)
 
 
-def get_metrics_summary() -> dict[str, Any]:
+def get_metrics_summary() -> Dict[str, Any]:
     """Get current metrics summary."""
     metrics = load_metrics()
     registry = load_registry()
@@ -469,7 +466,7 @@ def get_metrics_summary() -> dict[str, Any]:
 # =============================================================================
 
 
-def validate_output(output_file: str) -> dict[str, Any]:
+def validate_output(output_file: str) -> Dict[str, Any]:
     """Validate an agent output file."""
     path = Path(output_file)
     result = {
@@ -502,7 +499,7 @@ def validate_output(output_file: str) -> dict[str, Any]:
 
     except json.JSONDecodeError as e:
         result["errors"].append(f"JSON parse error: {e}")
-    except OSError as e:
+    except IOError as e:
         result["errors"].append(f"Read error: {e}")
 
     return result
@@ -519,9 +516,7 @@ def main():
         print("  status <agent_id>")
         print("  list [status_filter]")
         print("  cleanup [days]")
-        print(
-            "  compact                            - Remove all completed/failed agents"
-        )
+        print("  compact                            - Remove all completed/failed agents")
         print("  summary")
         print("")
         print("Enhancement Commands (v2.0):")

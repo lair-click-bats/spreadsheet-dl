@@ -15,15 +15,32 @@
     ],
     "deny": [
       "Read(./.claude/agent-outputs/archive/**)",
+      "Read(./.claude/archive/**)",
       "Read(./.coordination/archive/**)",
       "Read(./.coordination/checkpoints/**/state.json)",
       "Read(./.git/**)",
+      "Read(./__pycache__/**)",
+      "Read(./.venv/**)",
+      "Read(./.ruff_cache/**)",
+      "Read(./.mypy_cache/**)",
+      "Read(./.pytest_cache/**)",
+      "Read(./.hypothesis/**)",
+      "Read(./.nox/**)",
+      "Read(./.cspell/.cache/**)",
+      "Read(./dist/**)",
+      "Read(./*.egg-info/**)",
+      "Read(./.coverage)",
+      "Read(./htmlcov/**)",
+      "Read(./.tox/**)",
       "Write(./.claude/settings.json)",
       "Write(./.claude/template.lock)",
       "Write(**/.env*)",
       "Write(**/*.key)",
       "Write(**/*.pem)",
       "Write(**/*credentials*)",
+      "Read(.env*)",
+      "Read(**/credentials*)",
+      "Bash(pip:*)",
       "Read(./__pycache__/**)",
       "Read(./.venv/**)",
       "Read(./.ruff_cache/**)",
@@ -33,10 +50,7 @@
       "Read(./*.egg-info/**)",
       "Read(./.coverage)",
       "Read(./htmlcov/**)",
-      "Read(./.tox/**)",
-      "Bash(pip:*)",
-      "Read(.env*)",
-      "Read(**/credentials*)"
+      "Read(./.tox/**)"
     ],
     "defaultMode": "bypassPermissions"
   },
@@ -112,12 +126,22 @@
           {
             "type": "command",
             "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/check_subagent_stop.py\" 2>>\"$CLAUDE_PROJECT_DIR/.claude/hooks/errors.log\" || echo '{\"ok\": true}'",
-            "timeout": 10
+            "timeout": 30
           }
         ]
       }
     ],
     "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/enforce_agent_limit.py\" 2>>\"$CLAUDE_PROJECT_DIR/.claude/hooks/errors.log\" || echo '{\"ok\": true}'",
+            "timeout": 5
+          }
+        ],
+        "matcher": "Task"
+      },
       {
         "hooks": [
           {
@@ -139,14 +163,14 @@
         "matcher": "Write|Edit|NotebookEdit"
       },
       {
-        "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
             "command": "if echo \"$COMMAND\" | grep -qE '^(pip|python) '; then\n  echo \"BLOCKED: Use uv instead of pip/python directly.\"\n  echo \"Examples: uv run python, uv add package, uv run pytest\"\n  exit 1\nfi\n",
             "timeout": 5
           }
-        ]
+        ],
+        "matcher": "Bash"
       }
     ],
     "PostToolUse": [
@@ -159,12 +183,22 @@
           }
         ],
         "matcher": "Write|Edit|NotebookEdit"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$FILE_PATH\" | grep -qE '\\.py$'; then\n  uv run ruff format \"$FILE_PATH\" 2>/dev/null || true\n  uv run ruff check --fix \"$FILE_PATH\" 2>/dev/null || true\nfi\n",
+            "timeout": 30
+          }
+        ],
+        "matcher": "Write|Edit"
       }
     ]
   },
   "_generated": {
-    "source": "coding-standards.yaml",
-    "timestamp": "2025-12-29T13:45:00.000000+00:00",
-    "version": "2.7.0"
+    "source": "workspace-template/bootstrap.py",
+    "timestamp": "2025-12-30T18:14:53.439215+00:00",
+    "version": "2.8.0"
   }
 }

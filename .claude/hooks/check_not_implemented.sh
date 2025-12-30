@@ -15,9 +15,6 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$REPO_ROOT}"
 LOG_FILE="$PROJECT_DIR/.claude/hooks/hook.log"
 
-# Ensure log directory exists
-mkdir -p "$(dirname "$LOG_FILE")"
-
 log() {
     echo "[$(date -Iseconds)] CHECK_NOT_IMPL: $*" >>"$LOG_FILE"
 }
@@ -30,13 +27,6 @@ fi
 
 log "Checking for untracked NotImplementedError"
 
-# Check if src directory exists
-if [ ! -d "$PROJECT_DIR/src" ]; then
-    echo '{"ok": true, "message": "No src directory found, skipping check"}'
-    log "Skipped: No src directory found"
-    exit 0
-fi
-
 # Find all NotImplementedError instances in code
 UNTRACKED=0
 
@@ -44,12 +34,17 @@ while IFS= read -r line; do
     file=$(echo "$line" | cut -d: -f1)
 
     # Skip if this NotImplementedError has a FUTURE-XXX comment nearby
-    if grep -B2 -A2 "raise NotImplementedError" "$file" 2>/dev/null | grep -q "# FUTURE-"; then
+    if grep -B2 -A2 "raise NotImplementedError" "$file" | grep -q "# FUTURE-"; then
         continue
     fi
 
     # Skip if file uses ABC or has @abstractmethod (valid abstract base class pattern)
-    if grep -q "from abc import.*ABC\|@abstractmethod" "$file" 2>/dev/null; then
+    if grep -q "from abc import.*ABC\|@abstractmethod" "$file"; then
+        continue
+    fi
+
+    # Skip if NotImplementedError message indicates subclass requirement (soft ABC pattern)
+    if grep -q 'NotImplementedError.*[Ss]ubclass.*must\|NotImplementedError.*must implement' "$file"; then
         continue
     fi
 

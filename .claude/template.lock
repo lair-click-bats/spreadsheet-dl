@@ -1,11 +1,11 @@
 {
-  "template_version": "2.3.0",
-  "generated_at": "2025-12-28T12:55:14.554609+00:00",
-  "project_name": "Finance Tracker",
+  "template_version": "2.8.0",
+  "generated_at": "2025-12-30T18:14:53.464112+00:00",
+  "project_name": "My Project",
   "composition": {
     "modules": {
-      "base": "2.7.0",
-      "implementation": "2.3.0"
+      "base": "2.8.0",
+      "implementation": "2.8.0"
     },
     "language": "python"
   }

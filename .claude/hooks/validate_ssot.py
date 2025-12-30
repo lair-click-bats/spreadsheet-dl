@@ -25,7 +25,6 @@ def log(message: str) -> None:
     """Log to hook log file."""
     from datetime import datetime
 
-    LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
     with open(LOG_FILE, "a") as f:
         f.write(f"[{datetime.now().isoformat()}] VALIDATE_SSOT: {message}\n")
 
@@ -34,17 +33,15 @@ def check_duplicate_configs() -> dict[str, Any]:
     """Check for duplicate configuration files."""
     errors = []
 
-    # Check for duplicate example configs - project-specific, adjust as needed
+    # Check for duplicate example configs
     PROJECT_DIR / "examples/configs"
     duplicate_locations = [
-        PROJECT_DIR / ".coordination/spec/example-configs",
+        PROJECT_DIR / ".coordination/spec/tracekit/example-configs",
     ]
 
     for dup_loc in duplicate_locations:
         if dup_loc.exists():
-            errors.append(
-                f"Duplicate config directory exists: {dup_loc.relative_to(PROJECT_DIR)}"
-            )
+            errors.append(f"Duplicate config directory exists: {dup_loc.relative_to(PROJECT_DIR)}")
 
     return {"ok": len(errors) == 0, "errors": errors}
 
@@ -56,8 +53,8 @@ def check_metadata_sync() -> dict[str, Any]:
 
     metadata_file = PROJECT_DIR / ".claude/project-metadata.yaml"
     if not metadata_file.exists():
-        warnings.append("project-metadata.yaml not found (optional for some projects)")
-        return {"ok": True, "warnings": warnings}
+        errors.append("project-metadata.yaml not found")
+        return {"ok": False, "errors": errors}
 
     try:
         import yaml
@@ -74,8 +71,8 @@ def check_metadata_sync() -> dict[str, Any]:
     # Extract expected GitHub org
     expected_org = metadata.get("project", {}).get("github", {}).get("org")
     if not expected_org:
-        warnings.append("GitHub org not defined in project-metadata.yaml")
-        return {"ok": True, "warnings": warnings}
+        errors.append("GitHub org not defined in project-metadata.yaml")
+        return {"ok": False, "errors": errors}
 
     # Check files that should have consistent GitHub URLs
     url_locations = metadata.get("project", {}).get("url_locations", [])
@@ -86,13 +83,11 @@ def check_metadata_sync() -> dict[str, Any]:
 
         try:
             content = full_path.read_text()
-            # Check for old/wrong org names - customize for your org
-            wrong_orgs = []  # Add any wrong org names here
+            # Check for old/wrong org names
+            wrong_orgs = ["allenjd1", "allenjd"]
             for wrong_org in wrong_orgs:
-                if wrong_org in content and file_path not in ["CHANGELOG.md"]:
-                    errors.append(
-                        f"{file_path} contains '{wrong_org}', expected '{expected_org}'"
-                    )
+                if wrong_org in content and file_path not in ["CHANGELOG.md"]:  # Allow in changelog
+                    errors.append(f"{file_path} contains '{wrong_org}', expected '{expected_org}'")
         except Exception:
             pass
 

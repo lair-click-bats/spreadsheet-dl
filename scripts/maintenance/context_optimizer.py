@@ -20,7 +20,6 @@ Examples:
 """
 
 import argparse
-import contextlib
 import hashlib
 import json
 import os
@@ -29,6 +28,7 @@ from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+
 
 # Thresholds for recommendations
 LARGE_FILE_THRESHOLD = 100 * 1024  # 100KB
@@ -201,9 +201,7 @@ def analyze_directory(directory: Path) -> dict[str, Any]:
             {
                 "action": "compress_large_json",
                 "command": "gzip -k <file>",
-                "files": [
-                    f["path"] for f in large_files[:10] if f["path"].endswith(".json")
-                ],
+                "files": [f["path"] for f in large_files[:10] if f["path"].endswith(".json")],
             }
         )
 
@@ -228,8 +226,10 @@ def analyze_directory(directory: Path) -> dict[str, Any]:
         total_dupe_size = 0
         for paths in duplicates.values():
             if len(paths) > 1:
-                with contextlib.suppress(OSError, AttributeError):
+                try:
                     total_dupe_size += Path(paths[0]).stat().st_size * (len(paths) - 1)
+                except (OSError, AttributeError):
+                    pass
 
         analysis["issues"].append(
             {
@@ -240,9 +240,7 @@ def analyze_directory(directory: Path) -> dict[str, Any]:
                 "description": f"Found {len(duplicates)} groups of duplicate files",
             }
         )
-        analysis["duplicates"] = {
-            h[:8]: paths for h, paths in list(duplicates.items())[:5]
-        }
+        analysis["duplicates"] = {h[:8]: paths for h, paths in list(duplicates.items())[:5]}
 
     if excludable_size > 0:
         analysis["suggestions"].append(
@@ -254,12 +252,10 @@ def analyze_directory(directory: Path) -> dict[str, Any]:
         )
 
     # Sort large files
-    analysis["files"]["by_size_bracket"]["large"].sort(
-        key=lambda x: x["size"], reverse=True
-    )
-    analysis["files"]["by_size_bracket"]["large"] = analysis["files"][
-        "by_size_bracket"
-    ]["large"][:20]
+    analysis["files"]["by_size_bracket"]["large"].sort(key=lambda x: x["size"], reverse=True)
+    analysis["files"]["by_size_bracket"]["large"] = analysis["files"]["by_size_bracket"]["large"][
+        :20
+    ]
 
     return analysis
 
@@ -297,7 +293,7 @@ def generate_report(analysis: dict[str, Any]) -> str:
                 lines.append(f"   {suggestion['description']}")
             if "command" in suggestion:
                 lines.append(f"   Command: {suggestion['command']}")
-            if suggestion.get("files"):
+            if "files" in suggestion and suggestion["files"]:
                 lines.append(f"   Files: {', '.join(suggestion['files'][:5])}")
         lines.append("")
 
@@ -365,7 +361,7 @@ def main():
                 print(f"{i}. {s['action']}")
                 if "description" in s:
                     print(f"   {s['description']}")
-                if s.get("files"):
+                if "files" in s and s["files"]:
                     print(f"   Affected: {len(s['files'])} files")
         else:
             print("No optimization suggestions.")

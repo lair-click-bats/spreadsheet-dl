@@ -47,9 +47,7 @@ def get_file_info(path: Path) -> dict[str, Any]:
         }
 
 
-def process_batch(
-    files: list[Path], batch_num: int, total_batches: int
-) -> dict[str, Any]:
+def process_batch(files: list[Path], batch_num: int, total_batches: int) -> dict[str, Any]:
     """Process a batch of files and return summary."""
     batch_info = {
         "batch": batch_num,
@@ -110,9 +108,7 @@ def output_summary(batches: list[dict[str, Any]]) -> dict[str, Any]:
             "batch_count": len(batches),
         },
         "extensions": dict(all_extensions),
-        "largest_files": [
-            {"path": f["path"], "size": format_size(f["size"])} for f in largest
-        ],
+        "largest_files": [{"path": f["path"], "size": format_size(f["size"])} for f in largest],
     }
 
 
@@ -176,11 +172,7 @@ def main():
         help="Output format (default: summary)",
     )
     parser.add_argument(
-        "--max-batches",
-        "-m",
-        type=int,
-        default=0,
-        help="Max batches to process (0=all)",
+        "--max-batches", "-m", type=int, default=0, help="Max batches to process (0=all)"
     )
 
     args = parser.parse_args()

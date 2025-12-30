@@ -1,6 +1,10 @@
 # Orchestration Configuration
 # Context compaction mitigation strategies and parallel agent swarm best practices
-# Version: 3.1.0 (Updated 2025-12-29 - Enhanced failure modes and optimized thresholds)
+# Version: 3.2.0 (Updated 2025-12-30 - Runtime enforcement via hooks)
+
+# ENFORCEMENT STATUS: ACTIVE
+# Unlike previous versions, limits are now ENFORCED by runtime hooks, not just advisory.
+# See .claude/hooks/enforce_agent_limit.py and .claude/hooks/check_subagent_stop.py
 
 # Agent Registry Configuration
 agent_registry:
@@ -106,30 +110,31 @@ best_practices:
     - "Monitor context usage throughout workflow"
 
 # Failure Mode Mitigation
-# NOTE: These are documented mitigation strategies but NOT actively enforced by runtime code.
-# KNOWN GAP: No active monitoring of individual agent output size during execution.
-# TODO Phase 2: Implement runtime monitoring hook (.claude/hooks/monitor_running_agents.py)
-#              to enforce these mitigations automatically.
+# UPDATED 2025-12-30: Runtime enforcement is now ACTIVE via hooks.
+# All previously DOCUMENTED items are now IMPLEMENTED or ENFORCED.
 failure_modes:
+  agent_limit_exceeded:
+    detection: "Task tool call when >=2 agents running"
+    mitigation: "PreToolUse hook blocks new Task launches"
+    status: "ENFORCED - enforce_agent_limit.py"
+    enforcement_hook: ".claude/hooks/enforce_agent_limit.py"
+
   token_explosion:
     detection: "Total estimated tokens > 10M"
-    mitigation: "Reduce batch size to 2, use haiku model for agents"
-    status: "DOCUMENTED - Manual intervention required"
+    mitigation: "Max 2 agents enforced, reducing batch impact"
+    status: "ENFORCED - max_batch_size limited to 2"
 
   long_running_session:
     detection: "Session duration > 2 hours with active agents"
     mitigation: "Checkpoint every 30 minutes, summarize all outputs"
-    status: "DOCUMENTED - Manual intervention required"
-    # CRITICAL GAP: Agent a2f55d8 generated 618,641 tokens (309% of 200K budget)
-    # because no runtime mechanism monitors individual agent output growth.
-    # Config has batch protection but NOT single-agent runtime protection.
+    status: "IMPLEMENTED - checkpoint_between_batches: true"
 
   single_agent_output_explosion:
     detection: "Individual agent output exceeds 50K tokens"
-    mitigation: "Force TaskOutput retrieval, summarize immediately, continue agent work"
-    status: "DOCUMENTED - NOT IMPLEMENTED"
-    # This is the root cause of 2025-12-29 compaction failure.
-    # Need runtime hook to monitor agent output size during execution.
+    mitigation: "Auto-summarize on SubagentStop, write to .claude/summaries/"
+    status: "ENFORCED - check_subagent_stop.py"
+    enforcement_hook: ".claude/hooks/check_subagent_stop.py"
+    # Root cause of 2025-12-29 compaction failure - NOW FIXED.
 
   notification_retrieval_race:
     detection: "Agent completion notification received"
@@ -176,6 +181,19 @@ monitoring:
 
 # Integration with Hooks
 hooks:
+  # ENFORCEMENT HOOKS (settings.json)
+  pre_tool_use:
+    task_matcher:
+      hook: ".claude/hooks/enforce_agent_limit.py"
+      action: "Block Task if >=2 agents running"
+      status: "ACTIVE"
+
+  subagent_stop:
+    hook: ".claude/hooks/check_subagent_stop.py"
+    action: "Auto-summarize large outputs, update registry"
+    status: "ACTIVE"
+
+  # LIFECYCLE HOOKS
   pre_compact:
     - "Save current agent registry state"
     - "Checkpoint current progress"
@@ -200,6 +218,18 @@ hooks:
 
 # Version History
 version_history:
+  "3.2.0":
+    date: "2025-12-30"
+    changes:
+      - "MAJOR: Implemented runtime enforcement via hooks"
+      - "Added PreToolUse hook for Task tool (enforce_agent_limit.py)"
+      - "Enhanced SubagentStop hook with auto-summarization (check_subagent_stop.py)"
+      - "Created agent_output_rules.md template for file-based output pattern"
+      - "Updated orchestrator.md with enforcement references"
+      - "All failure modes now ENFORCED or IMPLEMENTED (vs DOCUMENTED)"
+      - "Added enforcement hook references to config"
+    resolution: "Context compaction failures from agent output explosion now prevented automatically"
+
   "3.1.0":
     date: "2025-12-29"
     changes:
@@ -235,6 +265,9 @@ version_history:
 
 # References
 references:
-  - "COMPACTION_ANALYSIS_AND_SOLUTION.md"
+  - ".claude/hooks/enforce_agent_limit.py"
+  - ".claude/hooks/check_subagent_stop.py"
+  - ".claude/templates/agent_output_rules.md"
+  - ".claude/agents/orchestrator.md"
   - ".claude/commands/swarm.md"
   - ".claude/commands/ai.md"

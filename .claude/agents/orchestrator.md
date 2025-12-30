@@ -73,14 +73,73 @@ Before routing to next agent:
 4. Extract `artifacts` for handoff context
 5. Note any `potential_gaps` or `open_questions`
 
+## Enforcement System (CRITICAL)
+
+The orchestration system is **ENFORCED** by runtime hooks, not just advisory configuration.
+
+### Enforcement Layers
+
+| Layer | Hook                       | Purpose                                       |
+| ----- | -------------------------- | --------------------------------------------- |
+| 1     | `enforce_agent_limit.py`   | PreToolUse: Blocks Task if >=2 agents running |
+| 2     | `agent_output_rules.md`    | Template: File-based output pattern           |
+| 3     | `check_subagent_stop.py`   | SubagentStop: Auto-summarizes large outputs   |
+| 4     | `manage_agent_registry.py` | Registry: Tracks all agent state              |
+
+### What Gets Blocked
+
+- Task tool call blocked if 2+ agents already running
+- Wait for agent completion before launching new ones
+- Use `TaskOutput` to retrieve results before new launches
+
+### What Gets Auto-Handled
+
+- Outputs >50K tokens auto-summarized to `.claude/summaries/`
+- Agent registry updated on completion
+- Metrics tracked in `.claude/hooks/orchestration-metrics.json`
+
 ## Parallel Dispatch (Swarm Pattern)
+
+**CRITICAL**: Use batched execution with agent registry to prevent context compaction failures.
+**ENFORCED**: Max 2 agents running simultaneously via PreToolUse hook.
 
 For keywords (comprehensive, multiple, various, full analysis):
 
-1. Identify independent subtasks
-2. Spawn agents in parallel using multiple Task tool calls
-3. Collect completion reports from all agents
-4. Synthesize into unified response
+1. **Load Configuration**: Read `.claude/orchestration-config.yaml`
+2. **Initialize Registry**: Create/load `.claude/agent-registry.json`
+3. **Decompose**: Identify independent subtasks
+4. **Batch Planning**: Group into batches of max 2 agents (ENFORCED)
+5. **Execute Each Batch**:
+
+   ```python
+   for batch in agent_batches:
+       # Launch batch agents
+       agents = []
+       for config in batch:
+           agent_id = Task(config)
+           # CRITICAL: Persist to registry immediately
+           register_agent(agent_id, config, status="running")
+           agents.append(agent_id)
+
+       # Monitor with immediate retrieval (polling loop)
+       while agents:
+           for agent_id in list(agents):
+               # Non-blocking check
+               result = TaskOutput(agent_id, block=False, timeout=5000)
+               if result.status == "completed":
+                   # CRITICAL: Immediate actions
+                   save_output_to_file(agent_id, result.output)
+                   update_registry(agent_id, status="completed")
+                   summarize_to_file(agent_id, result.output)
+                   agents.remove(agent_id)
+           sleep(10)  # Poll interval
+
+       # CRITICAL: Checkpoint after each batch
+       save_checkpoint(batch_num, completed_agents, remaining_batches)
+   ```
+
+6. **Synthesize**: Read all summaries and create unified response
+7. **Cleanup**: Archive old outputs, update final registry state
 
 ## Subagent Prompting
 
@@ -95,15 +154,41 @@ Context Files: [Only files needed for this subtask]
 
 **Return expectations**: Subagent returns distilled 1,000-2,000 token summary, not full exploration.
 
-## Context Monitoring
+## Context Monitoring & Compaction Management
 
-Trigger compaction when:
+**Monitor context usage continuously** (see `.claude/orchestration-config.yaml` v3.2.0):
 
-1. 70% context capacity reached
-2. Workflow phase complete
-3. Before new unrelated task
+- **Low warning**: 60% - Consider summarizing completed work
+- **Checkpoint threshold**: 65% - Create checkpoint now
+- **High warning**: 70% - Avoid launching new agents
+- **Critical threshold**: 75% - Complete current task only, then checkpoint
+- **Emergency**: 85% - Compact immediately
+- **Token estimation**: Each agent approximately 4M tokens, 2 agents approximately 8M tokens
 
-**Compaction guidance**: Preserve decisions, progress, remaining tasks, dependencies. Drop verbose outputs, exploration paths, resolved errors.
+**Trigger compaction when**:
+
+1. 70% context capacity reached - Checkpoint first
+2. Workflow batch complete - Checkpoint + summarize
+3. Before new unrelated task - Archive current work
+
+**Compaction guidance**:
+
+- **Preserve**: Decisions, progress, remaining tasks, dependencies, agent registry, checkpoints
+- **Drop**: Verbose outputs (already summarized to files), exploration paths, resolved errors, redundant context
+
+**Pre-compaction checklist**:
+
+1. All running agents in registry with status
+2. All completed outputs saved to `.claude/summaries/`
+3. Current checkpoint written to `.claude/checkpoints/`
+4. Progress state in `.claude/workflow-progress.json`
+
+**Post-compaction recovery**:
+
+1. Load `.claude/agent-registry.json`
+2. Read latest checkpoint from `.claude/checkpoints/`
+3. Resume from last completed batch
+4. Verify deliverables on filesystem
 
 ## Long-Running Task Management
 
@@ -118,9 +203,18 @@ For tasks exceeding 5 steps:
 - `scripts/check.sh` - Run after significant workflows for quality validation
 - `scripts/maintenance/archive_coordination.sh` - Archive old coordination files
 
-For diagram scripts, delegate to diagram_specialist.
-
 ## Anti-patterns
+
+**CRITICAL - Context Compaction Failures** (NOW ENFORCED):
+
+- Spawning >2 agents simultaneously → **BLOCKED by enforce_agent_limit.py**
+- Not persisting agent registry on launch → **AUTO-HANDLED by registry**
+- Waiting for all agents before retrieving any outputs → **ENFORCED: retrieve immediately**
+- Batching retrieval instead of immediate capture → **ENFORCED**
+- No checkpointing between batches → **SHOULD checkpoint between batches**
+- Large agent outputs → **AUTO-SUMMARIZED by check_subagent_stop.py**
+
+**Other Anti-patterns**:
 
 - Hardcoded routing tables (use dynamic discovery)
 - Direct worker-to-worker communication

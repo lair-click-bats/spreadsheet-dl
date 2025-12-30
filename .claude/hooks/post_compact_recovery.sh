@@ -185,17 +185,17 @@ RECOVERY_SUGGESTIONS=()
 
 if [ ${#WARNINGS[@]} -gt 0 ] || [ ${#ERRORS[@]} -gt 0 ]; then
     # Check if CLAUDE.md is missing
-    if [[ " ${WARNINGS[*]} " =~ "CLAUDE.md" ]] || [[ " ${ERRORS[*]} " =~ "CLAUDE.md" ]]; then
+    if [[ " ${WARNINGS[*]} " =~ CLAUDE\.md ]] || [[ " ${ERRORS[*]} " =~ CLAUDE\.md ]]; then
         RECOVERY_SUGGESTIONS+=("CLAUDE.md missing: Check git history with 'git checkout HEAD -- CLAUDE.md'")
     fi
 
     # Check if agents directory issue
-    if [[ " ${WARNINGS[*]} " =~ "agents" ]] || [[ " ${ERRORS[*]} " =~ "agents" ]]; then
+    if [[ " ${WARNINGS[*]} " =~ agents ]] || [[ " ${ERRORS[*]} " =~ agents ]]; then
         RECOVERY_SUGGESTIONS+=("Agents missing: Restore from .claude/agents/ backup or git")
     fi
 
     # Check if spec directory issue
-    if [[ " ${WARNINGS[*]} " =~ "spec" ]]; then
+    if [[ " ${WARNINGS[*]} " =~ spec ]]; then
         RECOVERY_SUGGESTIONS+=("Spec files missing: Restore from .coordination/spec/ backup")
     fi
 fi

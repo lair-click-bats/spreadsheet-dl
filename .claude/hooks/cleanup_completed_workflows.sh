@@ -16,9 +16,6 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$REPO_ROOT}"
 LOG_FILE="$PROJECT_DIR/.claude/hooks/hook.log"
 
-# Ensure log directory exists
-mkdir -p "$(dirname "$LOG_FILE")"
-
 log() {
     echo "[$(date -Iseconds)] CLEANUP_WORKFLOWS: $*" >>"$LOG_FILE"
 }

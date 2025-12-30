@@ -23,11 +23,17 @@ Execute tasks requiring multiple independent agents working simultaneously.
 
 ## Process
 
+**CRITICAL**: Use batch execution to prevent context compaction
+
 1. Decompose task into independent subtasks
-2. Identify agents via dynamic discovery
-3. Spawn agents in parallel
-4. Collect completion reports
-5. Synthesize results into unified response
+2. Group subtasks into batches of 2-3 agents max
+3. For each batch:
+   a. Spawn agents in parallel (max 3 at once)
+   b. **Retrieve outputs IMMEDIATELY** upon each completion
+   c. Summarize each output to `.claude/summaries/{agent-id}.md`
+   d. Update `.claude/agent-registry.json` with completion
+   e. Checkpoint batch progress to `.claude/checkpoints/`
+4. Synthesize all results into unified response
 
 ## Examples
 
@@ -54,12 +60,48 @@ After all agents complete:
 
 ## Anti-patterns
 
+**CRITICAL - Context Compaction Failures**:
+
+- Spawning >3 agents simultaneously (causes 25M+ token explosion)
+- Waiting for all agents before retrieving outputs (IDs lost to compaction)
+- Not persisting agent registry (cannot recover after compaction)
+- Batching output retrieval (retrieve immediately)
+- No checkpointing between batches (lose progress on compaction)
+
+**Other Anti-patterns**:
+
 - Using /swarm for tasks with dependencies (use /ai for serial)
-- Spawning too many agents (3-5 is optimal)
 - Not synthesizing results
 - Parallel agents that need each other's output
 
+## Context Compaction Mitigation
+
+**Why This Matters**: 6 parallel agents can generate 25M tokens, triggering context compaction that loses agent task IDs and makes outputs unretrievable.
+
+**Mitigation Strategy** (See `.claude/orchestration-config.yaml`):
+
+1. **Agent Registry**: Persist agent IDs to `.claude/agent-registry.json` on launch
+2. **Immediate Retrieval**: Call `TaskOutput(agent_id, block=False)` in polling loop
+3. **Batch Execution**: Launch 2-3 agents, wait for completion, then next batch
+4. **Checkpoint Progress**: Save state to `.claude/checkpoints/` after each batch
+5. **Summarize Immediately**: Write outputs to files before moving to next batch
+
+**Recovery Path** (if context compaction occurs):
+
+1. Read `.claude/agent-registry.json` for agent IDs and status
+2. Load latest checkpoint from `.claude/checkpoints/`
+3. Check filesystem for deliverables (agents write files successfully)
+4. Resume from last completed batch
+
+**Optimal Configuration**:
+
+- **Batch size**: 2-3 agents (not 6+)
+- **Poll interval**: 10 seconds
+- **Retrieval**: Immediate (non-blocking check, then blocking retrieve)
+- **Model**: Haiku for simple agents (reduces token usage)
+
 ## See Also
 
-- `.claude/agents/orchestrator.md` - Handles parallel dispatch
+- `.claude/orchestration-config.yaml` - Complete orchestration configuration
+- `.claude/agents/orchestrator.md` - Handles parallel dispatch with registry
 - `/ai` - For serial workflows

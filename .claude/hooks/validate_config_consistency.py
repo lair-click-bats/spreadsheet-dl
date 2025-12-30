@@ -89,7 +89,7 @@ class ConfigValidator:
             standards = yaml.safe_load(f)
 
         hooks = standards.get("hooks", {})
-        for _hook_type, hook_list in hooks.items():
+        for hook_type, hook_list in hooks.items():
             if not isinstance(hook_list, list):
                 continue
 
@@ -128,11 +128,9 @@ class ConfigValidator:
 
             for agent_ref in agent_refs:
                 if agent_ref not in agent_files:
-                    self.error(
-                        f"{cmd_file.name} references non-existent agent: {agent_ref}"
-                    )
+                    self.error(f"{cmd_file.name} references non-existent agent: {agent_ref}")
                 else:
-                    self.info_msg(f"{cmd_file.name} -> {agent_ref}")
+                    self.info_msg(f"{cmd_file.name} → {agent_ref} ✓")
 
     def validate_settings_generation(self) -> None:
         """Check settings.json was generated from coding-standards.yaml."""
@@ -153,7 +151,7 @@ class ConfigValidator:
             if source != "coding-standards.yaml":
                 self.error(f"settings.json source mismatch: {source}")
             else:
-                self.info_msg(f"settings.json generated from {source}")
+                self.info_msg(f"settings.json generated from {source} ✓")
 
     def validate_agent_routing_keywords(self) -> None:
         """Check agent routing keywords are unique and consistent."""
@@ -202,7 +200,7 @@ class ConfigValidator:
         for ssot_file in ssot_files:
             path = PROJECT_DIR / ssot_file
             if not path.exists():
-                self.warning(f"SSOT file missing: {ssot_file}")
+                self.error(f"SSOT file missing: {ssot_file}")
             else:
                 self.info_msg(f"SSOT file exists: {ssot_file}")
 
@@ -229,9 +227,7 @@ class ConfigValidator:
 
                 if order is not None:
                     if order in orders:
-                        self.error(
-                            f"Duplicate order {order}: {name} and {orders[order]}"
-                        )
+                        self.error(f"Duplicate order {order}: {name} and {orders[order]}")
                     else:
                         orders[order] = name
 
@@ -239,10 +235,7 @@ class ConfigValidator:
                 for dep in depends:
                     found = False
                     for other_hook in hooks:
-                        if (
-                            isinstance(other_hook, dict)
-                            and other_hook.get("name") == dep
-                        ):
+                        if isinstance(other_hook, dict) and other_hook.get("name") == dep:
                             found = True
                             break
                     if not found:
@@ -281,35 +274,35 @@ def main():
 
     # Print results
     if result["info"]:
-        print("Info:")
+        print("ℹ️  Information:")
         for msg in result["info"]:
             print(f"   {msg}")
         print()
 
     if result["warnings"]:
-        print("Warnings:")
+        print("⚠️  Warnings:")
         for msg in result["warnings"]:
             print(f"   {msg}")
         print()
 
     if result["errors"]:
-        print("Errors:")
+        print("❌ Errors:")
         for msg in result["errors"]:
             print(f"   {msg}")
         print()
 
     # Summary
-    print("=" * 60)
+    print("═" * 60)
     print(f"Errors: {result['summary']['errors']}")
     print(f"Warnings: {result['summary']['warnings']}")
     print(f"Info: {result['summary']['info']}")
-    print("=" * 60)
+    print("═" * 60)
 
     if result["ok"]:
-        print("Configuration is consistent and optimal")
+        print("✅ Configuration is consistent and optimal")
         sys.exit(0)
     else:
-        print("Configuration has issues that need fixing")
+        print("❌ Configuration has issues that need fixing")
         sys.exit(1)
 
 

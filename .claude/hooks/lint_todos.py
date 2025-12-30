@@ -25,7 +25,6 @@ def log(message: str) -> None:
     """Log to hook log file."""
     from datetime import datetime
 
-    LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
     with open(LOG_FILE, "a") as f:
         f.write(f"[{datetime.now().isoformat()}] LINT_TODOS: {message}\n")
 
@@ -35,11 +34,7 @@ def check_forbidden_markers() -> dict[str, Any]:
     forbidden = ["TODO:", "FIXME:", "XXX:", "HACK:"]
     errors = []
 
-    src_dir = PROJECT_DIR / "src"
-    if not src_dir.exists():
-        return {"ok": True, "errors": []}
-
-    for py_file in src_dir.rglob("*.py"):
+    for py_file in (PROJECT_DIR / "src").rglob("*.py"):
         try:
             content = py_file.read_text()
             for line_num, line in enumerate(content.splitlines(), 1):
@@ -61,11 +56,7 @@ def check_future_markers() -> dict[str, Any]:
     """Check FUTURE markers have issue IDs."""
     warnings = []
 
-    src_dir = PROJECT_DIR / "src"
-    if not src_dir.exists():
-        return {"ok": True, "warnings": []}
-
-    for py_file in src_dir.rglob("*.py"):
+    for py_file in (PROJECT_DIR / "src").rglob("*.py"):
         try:
             content = py_file.read_text()
             for line_num, line in enumerate(content.splitlines(), 1):

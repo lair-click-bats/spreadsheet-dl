@@ -25,14 +25,7 @@ import sys
 from pathlib import Path
 
 # Excluded directories (skip validation)
-EXCLUDED_DIRS = {
-    ".venv",
-    "node_modules",
-    "__pycache__",
-    ".git",
-    ".mypy_cache",
-    ".ruff_cache",
-}
+EXCLUDED_DIRS = {".venv", "node_modules", "__pycache__", ".git", ".mypy_cache", ".ruff_cache"}
 
 # Maximum issues to report per file
 MAX_ISSUES = 5
@@ -129,14 +122,7 @@ def validate_file(file_path: str, project_root: str) -> list[str]:
             if not has_tool("uv"):
                 return []
             result = subprocess.run(
-                [
-                    "uv",
-                    "run",
-                    "ruff",
-                    "check",
-                    "--output-format=concise",
-                    str(file_path),
-                ],
+                ["uv", "run", "ruff", "check", "--output-format=concise", str(file_path)],
                 cwd=project_root,
                 capture_output=True,
                 text=True,
@@ -213,9 +199,7 @@ def main() -> None:
             sys.exit(0)
 
         # Extract file path from tool input
-        file_path = tool_input.get("file_path", "") or tool_input.get(
-            "notebook_path", ""
-        )
+        file_path = tool_input.get("file_path", "") or tool_input.get("notebook_path", "")
 
         if not file_path:
             sys.exit(0)

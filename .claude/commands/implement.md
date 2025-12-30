@@ -60,6 +60,6 @@ Mark Complete   Retry (max 3x)
 
 ## See Also
 
-- `.claude/agents/spec_implementer.md` - Implementation agent
-- `.claude/agents/spec_validator.md` - Validation agent
+- `modules/implementation/agents/spec_implementer.md` - Implementation agent
+- `modules/implementation/agents/spec_validator.md` - Validation agent
 - `/spec` - Specification workflow utilities

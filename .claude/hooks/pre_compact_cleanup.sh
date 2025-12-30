@@ -141,7 +141,7 @@ ROOT_LARGE_JSON=0
 while IFS= read -r -d '' json_file; do
     if [ -f "$json_file" ]; then
         file_size=$(stat -c%s "$json_file" 2>/dev/null || echo 0)
-        mtime_days=$(( ($(date +%s) - $(stat -c%Y "$json_file" 2>/dev/null || echo $(date +%s))) / 86400 ))
+        mtime_days=$(( ($(date +%s) - $(stat -c%Y "$json_file" 2>/dev/null || echo "$(date +%s)")) / 86400 ))
         # Only archive if older than 7 days and large
         if [ "$file_size" -gt "$LARGE_JSON_SIZE" ] && [ "$mtime_days" -gt "$OLD_REPORT_DAYS" ]; then
             base_name=$(basename "$json_file")
@@ -171,7 +171,7 @@ OLD_REPORT_COUNT=0
 for pattern in "*_report*.json" "*_validation*.json" "comprehensive_*.json"; do
     while IFS= read -r -d '' report_file; do
         if [ -f "$report_file" ]; then
-            mtime_days=$(( ($(date +%s) - $(stat -c%Y "$report_file" 2>/dev/null || echo $(date +%s))) / 86400 ))
+            mtime_days=$(( ($(date +%s) - $(stat -c%Y "$report_file" 2>/dev/null || echo "$(date +%s)")) / 86400 ))
             if [ "$mtime_days" -gt "$OLD_REPORT_DAYS" ]; then
                 mkdir -p "$COORD_DIR/archive/$ARCHIVE_DATE/reports"
                 mv "$report_file" "$COORD_DIR/archive/$ARCHIVE_DATE/reports/" 2>/dev/null || true

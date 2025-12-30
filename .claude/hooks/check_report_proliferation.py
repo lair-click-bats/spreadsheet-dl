@@ -31,7 +31,6 @@ def log(message: str) -> None:
     """Log to hook log file."""
     from datetime import datetime
 
-    LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
     with open(LOG_FILE, "a") as f:
         f.write(f"[{datetime.now().isoformat()}] REPORT_CHECK: {message}\n")
 
@@ -42,31 +41,25 @@ def load_forbidden_patterns() -> list[dict[str, str]]:
         import yaml
 
         standards_file = PROJECT_DIR / ".claude/coding-standards.yaml"
-        if standards_file.exists():
-            with open(standards_file) as f:
-                standards = yaml.safe_load(f)
-            return standards.get("report_generation", {}).get("forbidden_reports", [])
+        with open(standards_file) as f:
+            standards = yaml.safe_load(f)
+        return standards.get("report_generation", {}).get("forbidden_reports", [])
     except Exception:
-        pass
-
-    # Fallback patterns if YAML not available
-    return [
-        {
-            "pattern": "*_AUDIT_*.md",
-            "reason": "Audit results should be communicated directly",
-        },
-        {
-            "pattern": "*_ANALYSIS_*.md",
-            "reason": "Analysis results belong in completion reports",
-        },
-        {"pattern": "*_SUMMARY.md", "reason": "Use .claude/summaries/ instead"},
-        {"pattern": "*_RESULTS.*", "reason": "Results belong in validation reports"},
-        {"pattern": "COMPREHENSIVE_*.md", "reason": "One-time reports create clutter"},
-        {
-            "pattern": "ULTIMATE_*.md",
-            "reason": "Superlative naming indicates temporary artifact",
-        },
-    ]
+        # Fallback patterns if YAML not available
+        return [
+            {"pattern": "*_AUDIT_*.md", "reason": "Audit results should be communicated directly"},
+            {
+                "pattern": "*_ANALYSIS_*.md",
+                "reason": "Analysis results belong in completion reports",
+            },
+            {"pattern": "*_SUMMARY.md", "reason": "Use .claude/summaries/ instead"},
+            {"pattern": "*_RESULTS.*", "reason": "Results belong in validation reports"},
+            {"pattern": "COMPREHENSIVE_*.md", "reason": "One-time reports create clutter"},
+            {
+                "pattern": "ULTIMATE_*.md",
+                "reason": "Superlative naming indicates temporary artifact",
+            },
+        ]
 
 
 def check_file_path(file_path: str) -> dict[str, Any]:
