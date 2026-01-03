@@ -475,12 +475,12 @@ class OdsRenderer:
         if value is None:
             return attrs
 
-        if isinstance(value, date):
-            attrs["valuetype"] = "date"
-            attrs["datevalue"] = value.isoformat()
-        elif isinstance(value, datetime):
+        if isinstance(value, datetime):
             attrs["valuetype"] = "date"
             attrs["datevalue"] = value.date().isoformat()
+        elif isinstance(value, date):
+            attrs["valuetype"] = "date"
+            attrs["datevalue"] = value.isoformat()
         elif isinstance(value, Decimal):
             attrs["valuetype"] = "currency" if type_hint == "currency" else "float"
             attrs["value"] = str(value)
@@ -502,10 +502,10 @@ class OdsRenderer:
         if value is None:
             return ""
 
-        if isinstance(value, date):
-            return value.strftime("%Y-%m-%d")
-        elif isinstance(value, datetime):
+        if isinstance(value, datetime):
             return value.date().strftime("%Y-%m-%d")
+        elif isinstance(value, date):
+            return value.strftime("%Y-%m-%d")
         elif isinstance(value, (Decimal, float)):
             if type_hint == "currency":
                 return f"${value:,.2f}"
@@ -531,6 +531,26 @@ class OdsRenderer:
         if self._doc is None:
             return
 
+        if not named_ranges:
+            return
+
+        # Create or get NamedExpressions container
+        from odf.table import NamedExpressions
+
+        named_expressions = None
+        for child in self._doc.spreadsheet.childNodes:
+            # Check by tag name since NamedExpressions is a function
+            if hasattr(child, "qname") and child.qname == (
+                "urn:oasis:names:tc:opendocument:xmlns:table:1.0",
+                "named-expressions",
+            ):
+                named_expressions = child
+                break
+
+        if named_expressions is None:
+            named_expressions = NamedExpressions()
+            self._doc.spreadsheet.addElement(named_expressions)
+
         for named_range_spec in named_ranges:
             # Build the cell range address
             range_ref = named_range_spec.range
@@ -547,8 +567,8 @@ class OdsRenderer:
                 cellrangeaddress=cell_range,
             )
 
-            # Add to document
-            self._doc.spreadsheet.addElement(odf_named_range)
+            # Add to NamedExpressions container (not directly to spreadsheet)
+            named_expressions.addElement(odf_named_range)
 
     # =========================================================================
     # Chart Rendering (TASK-231)
