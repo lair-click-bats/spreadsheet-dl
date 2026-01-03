@@ -592,8 +592,13 @@ class FileEncryptor:
                 )
 
             metadata_len = int.from_bytes(f.read(4), "big")
-            metadata_json = f.read(metadata_len).decode("utf-8")
-            metadata = EncryptionMetadata.from_json(metadata_json)
+            try:
+                metadata_json = f.read(metadata_len).decode("utf-8")
+                metadata = EncryptionMetadata.from_json(metadata_json)
+            except (UnicodeDecodeError, ValueError, KeyError) as e:
+                raise DecryptionError(
+                    "Corrupted file - unable to read metadata"
+                ) from e
 
             # Read tag and ciphertext
             tag = f.read(TAG_SIZE)
