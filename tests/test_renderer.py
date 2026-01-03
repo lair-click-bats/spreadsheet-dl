@@ -1669,26 +1669,43 @@ class TestRendererEdgeCases:
         from unittest.mock import MagicMock
         from odf.opendocument import OpenDocumentSpreadsheet
 
-        renderer = OdsRenderer()
-        output_file = tmp_path / "theme_exc.ods"
-
-        # Create sheet with a cell that has a style
-        sheet = SheetSpec(name="Test")
-        row = RowSpec()
-        row.cells.append(CellSpec(value="A", style="bad_style"))
-        sheet.rows.append(row)
-
-        # Create theme with mocked get_style that raises exception
+        # Create theme with mocked list_styles and get_style
         meta = ThemeSchema(name="test", version="1.0")
         theme = Theme(meta=meta)
-        theme.get_style = MagicMock(side_effect=KeyError("Style not found"))
 
-        renderer._theme = theme
+        # Mock list_styles to return a style name
+        theme.list_styles = MagicMock(return_value=["bad_style", "good_style"])
 
-        # Render with the theme - this will collect "bad_style" and try to resolve it
-        # The exception should be caught at lines 245-247
+        # Mock get_style to:
+        # - Raise KeyError for "bad_style" (exception path)
+        # - Return a valid style for "good_style" (success path for comparison)
+        def mock_get_style(style_name):
+            if style_name == "bad_style":
+                raise KeyError("Style not found")
+            # Return a minimal valid CellStyle for "good_style"
+            from spreadsheet_dl.schema.styles import CellStyle
+
+            return CellStyle(name=style_name)
+
+        theme.get_style = mock_get_style
+
+        # Create renderer with theme
+        renderer = OdsRenderer(theme=theme)
+        output_file = tmp_path / "theme_exc.ods"
+
+        # Create simple sheet
+        sheet = SheetSpec(name="Test")
+        row = RowSpec()
+        row.cells.append(CellSpec(value="A"))
+        sheet.rows.append(row)
+
+        # Render - this will call _create_theme_styles which iterates list_styles()
+        # and tries to get_style() for each, catching exception at lines 245-247
         result = renderer.render([sheet], output_file)
         assert result.exists()
+
+        # Verify that list_styles was called
+        theme.list_styles.assert_called()
 
     def test_render_with_named_ranges_path(self, tmp_path: Path) -> None:
         """Test render() calls _add_named_ranges (line 144)."""
