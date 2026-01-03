@@ -8,8 +8,8 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from finance_tracker.ods_generator import ExpenseCategory
-from finance_tracker.recurring import (
+from spreadsheet_dl.ods_generator import ExpenseCategory
+from spreadsheet_dl.recurring import (
     COMMON_RECURRING,
     RecurrenceFrequency,
     RecurringExpense,

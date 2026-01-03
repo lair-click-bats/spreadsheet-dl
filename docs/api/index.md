@@ -1,6 +1,6 @@
 # API Reference
 
-Complete API documentation for Finance Tracker.
+Complete API documentation for SpreadsheetDL.
 
 ## Module Overview
 
@@ -25,7 +25,7 @@ Complete API documentation for Finance Tracker.
 ### Creating Budgets
 
 ```python
-from finance_tracker import OdsGenerator, create_monthly_budget
+from spreadsheet_dl import OdsGenerator, create_monthly_budget
 
 # Simple creation
 path = create_monthly_budget("./budgets")
@@ -42,7 +42,7 @@ generator.create_budget_spreadsheet(
 ### Adding Expenses
 
 ```python
-from finance_tracker import OdsEditor, ExpenseEntry, ExpenseCategory
+from spreadsheet_dl import OdsEditor, ExpenseEntry, ExpenseCategory
 from decimal import Decimal
 from datetime import date
 
@@ -60,7 +60,7 @@ editor.save()
 ### Analyzing Data
 
 ```python
-from finance_tracker import BudgetAnalyzer
+from spreadsheet_dl import BudgetAnalyzer
 
 analyzer = BudgetAnalyzer("budget.ods")
 summary = analyzer.get_summary()
@@ -73,7 +73,7 @@ print(f"Used: {summary.percent_used}%")
 ### Generating Reports
 
 ```python
-from finance_tracker import ReportGenerator
+from spreadsheet_dl import ReportGenerator
 
 generator = ReportGenerator("budget.ods")
 print(generator.generate_markdown_report())
@@ -82,7 +82,7 @@ print(generator.generate_markdown_report())
 ### Importing CSV
 
 ```python
-from finance_tracker import import_bank_csv, OdsGenerator
+from spreadsheet_dl import import_bank_csv, OdsGenerator
 
 expenses = import_bank_csv("transactions.csv", bank="chase")
 generator = OdsGenerator()
@@ -192,19 +192,19 @@ class ExpenseCategory(Enum):
 
 ## Exceptions
 
-All exceptions inherit from `FinanceTrackerError`:
+All exceptions inherit from `SpreadsheetDLError`:
 
 ```python
-class FinanceTrackerError(Exception):
+class SpreadsheetDLError(Exception):
     message: str
     error_code: str
 
-class OdsError(FinanceTrackerError): ...
+class OdsError(SpreadsheetDLError): ...
 class OdsReadError(OdsError): ...
 class OdsWriteError(OdsError): ...
 class SheetNotFoundError(OdsError): ...
 
-class ValidationError(FinanceTrackerError): ...
+class ValidationError(SpreadsheetDLError): ...
 class InvalidAmountError(ValidationError): ...
 class InvalidDateError(ValidationError): ...
 class InvalidCategoryError(ValidationError): ...

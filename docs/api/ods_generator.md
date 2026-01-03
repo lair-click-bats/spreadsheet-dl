@@ -90,7 +90,7 @@ def create_expense_template(
 #### Basic Creation
 
 ```python
-from finance_tracker import OdsGenerator
+from spreadsheet_dl import OdsGenerator
 
 generator = OdsGenerator()
 path = generator.create_budget_spreadsheet("budget_2025_01.ods")
@@ -100,7 +100,7 @@ print(f"Created: {path}")
 #### With Theme
 
 ```python
-from finance_tracker import OdsGenerator
+from spreadsheet_dl import OdsGenerator
 
 generator = OdsGenerator(theme="corporate")
 path = generator.create_budget_spreadsheet(
@@ -113,7 +113,7 @@ path = generator.create_budget_spreadsheet(
 #### With Pre-populated Data
 
 ```python
-from finance_tracker import (
+from spreadsheet_dl import (
     OdsGenerator, ExpenseEntry, BudgetAllocation, ExpenseCategory
 )
 from decimal import Decimal
@@ -168,7 +168,7 @@ def create_monthly_budget(
 ### Example
 
 ```python
-from finance_tracker import create_monthly_budget
+from spreadsheet_dl import create_monthly_budget
 
 # Creates budget_2025_01.ods in ./budgets/
 path = create_monthly_budget("./budgets/", month=1, year=2025)
@@ -203,7 +203,7 @@ class ExpenseCategory(Enum):
 ### Usage
 
 ```python
-from finance_tracker import ExpenseCategory
+from spreadsheet_dl import ExpenseCategory
 
 # By name
 cat = ExpenseCategory.GROCERIES
@@ -238,7 +238,7 @@ class ExpenseEntry:
 ### Example
 
 ```python
-from finance_tracker import ExpenseEntry, ExpenseCategory
+from spreadsheet_dl import ExpenseEntry, ExpenseCategory
 from decimal import Decimal
 from datetime import date
 
@@ -270,7 +270,7 @@ class BudgetAllocation:
 ### Example
 
 ```python
-from finance_tracker import BudgetAllocation, ExpenseCategory
+from spreadsheet_dl import BudgetAllocation, ExpenseCategory
 from decimal import Decimal
 
 allocations = [

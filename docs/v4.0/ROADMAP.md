@@ -30,18 +30,18 @@ This roadmap implements SpreadsheetDL v4.0 through **incremental refactoring** o
 
 **Modules to update**:
 ```
-src/finance_tracker/schema/styles.py      # 20+ dataclasses
-src/finance_tracker/schema/conditional.py # 15+ dataclasses
-src/finance_tracker/schema/advanced.py    # 10+ dataclasses
-src/finance_tracker/builder.py            # 9 dataclasses
-src/finance_tracker/charts.py             # 12 dataclasses
-src/finance_tracker/currency.py           # 3 dataclasses (Currency already frozen)
+src/spreadsheet_dl/schema/styles.py      # 20+ dataclasses
+src/spreadsheet_dl/schema/conditional.py # 15+ dataclasses
+src/spreadsheet_dl/schema/advanced.py    # 10+ dataclasses
+src/spreadsheet_dl/builder.py            # 9 dataclasses
+src/spreadsheet_dl/charts.py             # 12 dataclasses
+src/spreadsheet_dl/currency.py           # 3 dataclasses (Currency already frozen)
 ```
 
 **Test command**: `uv run pytest tests/test_schema.py tests/test_builder.py -v`
 
 ### 1.2 YAML Loader Enhancement (Day 3-4)
-**File**: `src/finance_tracker/schema/loader.py`
+**File**: `src/spreadsheet_dl/schema/loader.py`
 **Changes**:
 - Add PatternFill parsing
 - Add GradientFill parsing
@@ -53,8 +53,8 @@ src/finance_tracker/currency.py           # 3 dataclasses (Currency already froz
 
 ### 1.3 Theme Variant Support (Day 5)
 **Files**:
-- `src/finance_tracker/schema/loader.py`
-- `src/finance_tracker/themes/*.yaml`
+- `src/spreadsheet_dl/schema/loader.py`
+- `src/spreadsheet_dl/themes/*.yaml`
 
 **Changes**:
 - Add theme variant loader (`variants:` section)
@@ -66,7 +66,7 @@ src/finance_tracker/currency.py           # 3 dataclasses (Currency already froz
 ## Phase 2: Core Evolution (Days 6-15)
 
 ### 2.1 Builder Improvements (Day 6-8)
-**File**: `src/finance_tracker/builder.py`
+**File**: `src/spreadsheet_dl/builder.py`
 **Changes**:
 - Implement actual cell merge rendering (colspan/rowspan)
 - Add named range integration to FormulaBuilder
@@ -76,7 +76,7 @@ src/finance_tracker/currency.py           # 3 dataclasses (Currency already froz
 **Test command**: `uv run pytest tests/test_builder.py -v`
 
 ### 2.2 Conditional Format Application (Day 9-10)
-**File**: `src/finance_tracker/renderer.py`
+**File**: `src/spreadsheet_dl/renderer.py`
 **Changes**:
 - Apply ConditionalFormat during render (not just store)
 - Support color scales, data bars, icon sets
@@ -85,7 +85,7 @@ src/finance_tracker/currency.py           # 3 dataclasses (Currency already froz
 **Test command**: `uv run pytest tests/test_renderer.py -v`
 
 ### 2.3 Data Validation Application (Day 11-12)
-**File**: `src/finance_tracker/renderer.py`
+**File**: `src/spreadsheet_dl/renderer.py`
 **Changes**:
 - Apply DataValidation during render
 - Support all validation types (list, number, date, custom)
@@ -93,8 +93,8 @@ src/finance_tracker/currency.py           # 3 dataclasses (Currency already froz
 
 ### 2.4 Chart Rendering (Day 13-15)
 **Files**:
-- `src/finance_tracker/charts.py`
-- `src/finance_tracker/renderer.py`
+- `src/spreadsheet_dl/charts.py`
+- `src/spreadsheet_dl/renderer.py`
 
 **Changes**:
 - Implement chart rendering to ODS
@@ -107,7 +107,7 @@ src/finance_tracker/currency.py           # 3 dataclasses (Currency already froz
 ## Phase 3: MCP Expansion (Days 16-25)
 
 ### 3.1 MCP Tool Registry (Day 16-17)
-**File**: `src/finance_tracker/mcp_server.py`
+**File**: `src/spreadsheet_dl/mcp_server.py`
 **Changes**:
 - Create MCPToolRegistry class
 - Add decorator-based tool registration
@@ -143,21 +143,21 @@ named_range_create, table_create
 ## Phase 4: New Capabilities (Days 26-35)
 
 ### 4.1 Streaming I/O (Day 26-28)
-**New module**: `src/finance_tracker/streaming.py`
+**New module**: `src/spreadsheet_dl/streaming.py`
 **Changes**:
 - StreamingReader for large files (100k+ rows)
 - StreamingWriter for chunked output
 - Memory-efficient cell iteration
 
 ### 4.2 Round-Trip Serialization (Day 29-32)
-**New module**: `src/finance_tracker/roundtrip.py`
+**New module**: `src/spreadsheet_dl/roundtrip.py`
 **Changes**:
 - ODS → Builder reconstruction
 - Preserve styles, formulas, charts
 - Semantic metadata restoration
 
 ### 4.3 Format Adapters (Day 33-35)
-**New directory**: `src/finance_tracker/adapters/`
+**New directory**: `src/spreadsheet_dl/adapters/`
 **Files**:
 ```
 adapters/__init__.py
@@ -228,10 +228,10 @@ adapters/csv.py        # CSV with type preservation
 These files are 95%+ reusable and should be touched minimally:
 
 ```
-src/finance_tracker/schema/styles.py      # Core style definitions
-src/finance_tracker/schema/units.py       # Unit handling
-src/finance_tracker/schema/validation.py  # Schema validation
-src/finance_tracker/themes/*.yaml         # Theme definitions
+src/spreadsheet_dl/schema/styles.py      # Core style definitions
+src/spreadsheet_dl/schema/units.py       # Unit handling
+src/spreadsheet_dl/schema/validation.py  # Schema validation
+src/spreadsheet_dl/themes/*.yaml         # Theme definitions
 tests/*                                    # All test files
 docs/*                                     # All documentation
 .claude/*                                  # Agent/command configs

@@ -2,15 +2,15 @@
 
 ## Version 2.0.0 - Professional Spreadsheet System
 
-This document describes the architecture of Finance Tracker v2.0.0, a comprehensive
+This document describes the architecture of SpreadsheetDL v2.0.0, a comprehensive
 professional spreadsheet system with enterprise-grade formatting capabilities.
 
 ## Project Structure
 
 ```
-finance-tracker/
+spreadsheet-dl/
 ├── src/
-│   └── finance_tracker/          # Main package
+│   └── spreadsheet_dl/          # Main package
 │       ├── __init__.py           # Package exports (250+ symbols)
 │       ├── ods_generator.py      # ODS file creation
 │       ├── budget_analyzer.py    # Pandas-based analysis
@@ -324,10 +324,10 @@ Native MCP server for Claude Code integration:
 ```json
 {
   "mcpServers": {
-    "finance-tracker": {
+    "spreadsheet-dl": {
       "type": "stdio",
       "command": "uv",
-      "args": ["run", "finance-tracker-mcp"],
+      "args": ["run", "spreadsheet-dl-mcp"],
       "env": {
         "FINANCE_DATA_DIR": "~/Documents/Finance"
       }
@@ -349,7 +349,7 @@ Native MCP server for Claude Code integration:
 Automatic transaction import from banks:
 
 ```python
-from finance_tracker import PlaidClient, PlaidSyncManager
+from spreadsheet_dl import PlaidClient, PlaidSyncManager
 
 client = PlaidClient(config)
 sync_manager = PlaidSyncManager(client)
@@ -419,7 +419,7 @@ uv add --dev ruff mypy pytest pytest-cov
 ### Credential Storage
 
 ```
-~/.config/finance-tracker/
+~/.config/spreadsheet-dl/
 ├── credentials.enc    # Encrypted credential store
 ├── security_audit.log # Audit trail
 └── config.yaml        # Application config (no secrets)
@@ -502,7 +502,7 @@ class CustomExporter(MultiFormatExporter):
 Add validation rules:
 
 ```python
-from finance_tracker import ValidationRule, ValidationRuleType
+from spreadsheet_dl import ValidationRule, ValidationRuleType
 
 custom_rule = ValidationRule(
     rule_type=ValidationRuleType.CUSTOM,
@@ -513,7 +513,7 @@ custom_rule = ValidationRule(
 
 ## Versioning
 
-Finance Tracker follows semantic versioning:
+SpreadsheetDL follows semantic versioning:
 
 - **v2.0.0**: Professional Spreadsheet System (95 requirements)
 - **v1.0.0**: Phase 5 - Future Enhancements

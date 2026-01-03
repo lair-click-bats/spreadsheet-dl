@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from finance_tracker.builder import (
+from spreadsheet_dl.builder import (
     CellRef,
     CellSpec,
     ColumnSpec,

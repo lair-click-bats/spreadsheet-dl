@@ -10,7 +10,7 @@ import json
 from datetime import date
 from pathlib import Path
 
-from finance_tracker.budget_analyzer import BudgetAnalyzer, analyze_budget
+from spreadsheet_dl.budget_analyzer import BudgetAnalyzer, analyze_budget
 
 
 def example_basic_analysis(ods_path: Path) -> None:
@@ -105,7 +105,7 @@ if __name__ == "__main__":
     if not budget_path.exists():
         # Create one if it doesn't exist
         print("Creating sample budget file first...")
-        from finance_tracker.ods_generator import create_monthly_budget
+        from spreadsheet_dl.ods_generator import create_monthly_budget
 
         output_dir = Path("output")
         output_dir.mkdir(exist_ok=True)

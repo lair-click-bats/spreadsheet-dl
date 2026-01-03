@@ -6,7 +6,7 @@ Tests FR-FORMAT-007, FR-FORMAT-008, FR-PRINT-001, FR-PRINT-002
 
 import pytest
 
-from finance_tracker.schema.print_layout import (
+from spreadsheet_dl.schema.print_layout import (
     HeaderFooter,
     HeaderFooterContent,
     PageMargins,

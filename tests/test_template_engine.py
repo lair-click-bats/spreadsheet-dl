@@ -8,7 +8,7 @@ Tests:
 """
 
 
-from finance_tracker.template_engine import (
+from spreadsheet_dl.template_engine import (
     CellTemplate,
     ColumnTemplate,
     ConditionalBlock,

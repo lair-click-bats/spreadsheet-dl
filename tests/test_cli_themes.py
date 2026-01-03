@@ -18,7 +18,7 @@ class TestCliThemeCommand:
     def test_themes_command(self) -> None:
         """Test themes command lists themes."""
         result = subprocess.run(
-            [sys.executable, "-m", "finance_tracker.cli", "themes"],
+            [sys.executable, "-m", "spreadsheet_dl.cli", "themes"],
             capture_output=True,
             text=True,
         )
@@ -31,7 +31,7 @@ class TestCliThemeCommand:
     def test_themes_command_json(self) -> None:
         """Test themes command with JSON output."""
         result = subprocess.run(
-            [sys.executable, "-m", "finance_tracker.cli", "themes", "--json"],
+            [sys.executable, "-m", "spreadsheet_dl.cli", "themes", "--json"],
             capture_output=True,
             text=True,
         )
@@ -48,7 +48,7 @@ class TestCliGenerateWithTheme:
             [
                 sys.executable,
                 "-m",
-                "finance_tracker.cli",
+                "spreadsheet_dl.cli",
                 "generate",
                 "-o",
                 str(tmp_path),
@@ -72,7 +72,7 @@ class TestCliGenerateWithTheme:
             [
                 sys.executable,
                 "-m",
-                "finance_tracker.cli",
+                "spreadsheet_dl.cli",
                 "generate",
                 "-o",
                 str(tmp_path),
@@ -91,7 +91,7 @@ class TestCliGenerateWithTheme:
             [
                 sys.executable,
                 "-m",
-                "finance_tracker.cli",
+                "spreadsheet_dl.cli",
                 "generate",
                 "-o",
                 str(tmp_path),
@@ -109,7 +109,7 @@ class TestCliGenerateWithTheme:
             [
                 sys.executable,
                 "-m",
-                "finance_tracker.cli",
+                "spreadsheet_dl.cli",
                 "generate",
                 "-o",
                 str(tmp_path),
@@ -131,7 +131,7 @@ class TestCliVersionOutput:
     def test_version_shows_current(self) -> None:
         """Test version command shows current version (2.0.0)."""
         result = subprocess.run(
-            [sys.executable, "-m", "finance_tracker.cli", "--version"],
+            [sys.executable, "-m", "spreadsheet_dl.cli", "--version"],
             capture_output=True,
             text=True,
         )
@@ -145,7 +145,7 @@ class TestCliHelpText:
     def test_help_includes_theme_option(self) -> None:
         """Test help includes --theme option."""
         result = subprocess.run(
-            [sys.executable, "-m", "finance_tracker.cli", "generate", "--help"],
+            [sys.executable, "-m", "spreadsheet_dl.cli", "generate", "--help"],
             capture_output=True,
             text=True,
         )
@@ -155,7 +155,7 @@ class TestCliHelpText:
     def test_help_includes_themes_command(self) -> None:
         """Test main help includes themes command."""
         result = subprocess.run(
-            [sys.executable, "-m", "finance_tracker.cli", "--help"],
+            [sys.executable, "-m", "spreadsheet_dl.cli", "--help"],
             capture_output=True,
             text=True,
         )
@@ -165,7 +165,7 @@ class TestCliHelpText:
     def test_examples_include_theme(self) -> None:
         """Test examples include theme usage."""
         result = subprocess.run(
-            [sys.executable, "-m", "finance_tracker.cli", "--help"],
+            [sys.executable, "-m", "spreadsheet_dl.cli", "--help"],
             capture_output=True,
             text=True,
         )

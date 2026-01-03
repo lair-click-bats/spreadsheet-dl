@@ -13,7 +13,7 @@ Implements tests for:
 """
 
 
-from finance_tracker.charts import (
+from spreadsheet_dl.charts import (
     AxisConfig,
     ChartBuilder,
     ChartPosition,

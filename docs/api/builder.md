@@ -19,7 +19,7 @@ The Builder API provides a fluent, chainable interface for constructing spreadsh
 Fluent builder for creating spreadsheets with theme support.
 
 ```python
-from finance_tracker.builder import SpreadsheetBuilder, create_spreadsheet
+from spreadsheet_dl.builder import SpreadsheetBuilder, create_spreadsheet
 
 # Using class directly
 builder = SpreadsheetBuilder(theme="corporate")
@@ -320,7 +320,7 @@ builder.chart(chart_spec: ChartSpec) -> Self
 
 **Example:**
 ```python
-from finance_tracker.charts import ChartBuilder
+from spreadsheet_dl.charts import ChartBuilder
 
 chart = ChartBuilder() \
     .column_chart() \
@@ -365,7 +365,7 @@ print(f"Saved to: {output_path}")
 Type-safe formula builder for ODF formulas.
 
 ```python
-from finance_tracker.builder import FormulaBuilder, formula
+from spreadsheet_dl.builder import FormulaBuilder, formula
 
 # Using class directly
 f = FormulaBuilder()
@@ -630,8 +630,8 @@ class WorkbookProperties:
 ## Complete Example
 
 ```python
-from finance_tracker.builder import SpreadsheetBuilder, formula
-from finance_tracker.charts import ChartBuilder
+from spreadsheet_dl.builder import SpreadsheetBuilder, formula
+from spreadsheet_dl.charts import ChartBuilder
 
 # Create builder with theme
 builder = SpreadsheetBuilder(theme="professional")

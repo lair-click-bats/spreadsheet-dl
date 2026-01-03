@@ -2,7 +2,7 @@
 
 **Implements: DOC-PROF-004: Style Composition Guide**
 
-This guide explains how to compose and inherit styles using the finance-tracker's
+This guide explains how to compose and inherit styles using the spreadsheet-dl's
 style system for professional, consistent spreadsheet formatting.
 
 ## Overview
@@ -149,7 +149,7 @@ styles:
 ## Using StyleBuilder (Programmatic)
 
 ```python
-from finance_tracker.builders.style import StyleBuilder
+from spreadsheet_dl.builders.style import StyleBuilder
 
 # Create a header style
 header = (

@@ -126,7 +126,7 @@ def save(self, output_path: Path | str | None = None) -> Path:
 ### Usage Example
 
 ```python
-from finance_tracker import OdsEditor, ExpenseEntry, ExpenseCategory
+from spreadsheet_dl import OdsEditor, ExpenseEntry, ExpenseCategory
 from decimal import Decimal
 from datetime import date
 
@@ -212,7 +212,7 @@ def append_expense_to_file(
 ### Usage Example
 
 ```python
-from finance_tracker import append_expense_to_file, ExpenseEntry, ExpenseCategory
+from spreadsheet_dl import append_expense_to_file, ExpenseEntry, ExpenseCategory
 from decimal import Decimal
 from datetime import date
 
@@ -232,8 +232,8 @@ print(f"Added to {path} at row {row}")
 ## Error Handling
 
 ```python
-from finance_tracker import OdsEditor
-from finance_tracker.exceptions import OdsReadError, SheetNotFoundError, OdsWriteError
+from spreadsheet_dl import OdsEditor
+from spreadsheet_dl.exceptions import OdsReadError, SheetNotFoundError, OdsWriteError
 
 try:
     editor = OdsEditor("budget.ods")

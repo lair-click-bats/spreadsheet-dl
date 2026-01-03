@@ -12,9 +12,9 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from finance_tracker.exceptions import OdsReadError, SheetNotFoundError
-from finance_tracker.ods_editor import OdsEditor, append_expense_to_file
-from finance_tracker.ods_generator import ExpenseCategory, ExpenseEntry
+from spreadsheet_dl.exceptions import OdsReadError, SheetNotFoundError
+from spreadsheet_dl.ods_editor import OdsEditor, append_expense_to_file
+from spreadsheet_dl.ods_generator import ExpenseCategory, ExpenseEntry
 
 if TYPE_CHECKING:
     from pathlib import Path

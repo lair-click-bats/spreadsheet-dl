@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from finance_tracker.schema.styles import (
+from spreadsheet_dl.schema.styles import (
     Border,
     BorderStyle,
     CellStyle,
@@ -18,7 +18,7 @@ from finance_tracker.schema.styles import (
     ThemeSchema,
     VerticalAlign,
 )
-from finance_tracker.schema.validation import (
+from spreadsheet_dl.schema.validation import (
     SchemaValidationError,
     validate_border_style,
     validate_color,

@@ -1,4 +1,4 @@
-# Finance Tracker - Dual-Audience Requirements (Human + AI/LLM)
+# SpreadsheetDL - Dual-Audience Requirements (Human + AI/LLM)
 
 **Document Version:** 1.0.0
 **Date:** 2025-12-28
@@ -620,7 +620,7 @@ When generating a budget, the system SHALL simultaneously create:
 **Priority:** P1 (High)
 **Status:** Not Implemented
 
-CLI command: `finance-tracker export-dual <ods-file>`
+CLI command: `spreadsheet-dl export-dual <ods-file>`
 
 **Options:**
 - `--format`: `json`, `yaml`, `both` (default: `json`)
@@ -630,7 +630,7 @@ CLI command: `finance-tracker export-dual <ods-file>`
 
 **Output:**
 ```bash
-$ finance-tracker export-dual budget-2025-01.ods
+$ spreadsheet-dl export-dual budget-2025-01.ods
 ✓ Analyzing ODS file...
 ✓ Extracting 3 sheets, 487 cells, 23 formulas
 ✓ Generating semantic JSON
@@ -652,7 +652,7 @@ Ready for AI/LLM consumption!
 
 The system SHALL import from AI-optimized JSON to create ODS:
 
-CLI: `finance-tracker import-ai <json-file> --output <ods-file>`
+CLI: `spreadsheet-dl import-ai <json-file> --output <ods-file>`
 
 **Capabilities:**
 - Parse semantic JSON
@@ -738,7 +738,7 @@ No API or interface exists for natural language interaction.
 **Severity:** Medium
 **Impact:** No native integration with Claude or other AI assistants
 
-While LibreOffice MCP setup is documented, no native finance-tracker MCP server exists.
+While LibreOffice MCP setup is documented, no native spreadsheet-dl MCP server exists.
 
 **Related Requirements:** FR-AI-009
 

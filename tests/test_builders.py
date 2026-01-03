@@ -9,7 +9,7 @@ Implements tests for:
 
 from __future__ import annotations
 
-from finance_tracker.builders.conditional import (
+from spreadsheet_dl.builders.conditional import (
     ColorScaleBuilder,
     ConditionalFormatBuilder,
     DataBarBuilder,
@@ -18,14 +18,14 @@ from finance_tracker.builders.conditional import (
     expense_bar_format,
     percent_scale_format,
 )
-from finance_tracker.builders.style import (
+from spreadsheet_dl.builders.style import (
     StyleBuilder,
     currency_style,
     header_style,
     percentage_style,
     total_row_style,
 )
-from finance_tracker.builders.validation import (
+from spreadsheet_dl.builders.validation import (
     DataValidationBuilder,
     category_validation,
     date_validation,
@@ -33,19 +33,19 @@ from finance_tracker.builders.validation import (
     number_validation,
     positive_number_validation,
 )
-from finance_tracker.schema.conditional import (
+from spreadsheet_dl.schema.conditional import (
     ColorScaleType,
     ConditionalRuleType,
     IconSetType,
     RuleOperator,
     ValueType,
 )
-from finance_tracker.schema.data_validation import (
+from spreadsheet_dl.schema.data_validation import (
     ErrorAlertStyle,
     ValidationOperator,
     ValidationType,
 )
-from finance_tracker.schema.styles import (
+from spreadsheet_dl.schema.styles import (
     BorderStyle,
     FontWeight,
     NumberFormatCategory,

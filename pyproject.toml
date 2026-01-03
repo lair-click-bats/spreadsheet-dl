@@ -1,12 +1,12 @@
 [project]
-name = "finance-tracker"
+name = "spreadsheet-dl"
 version = "4.0.0-alpha.1"
-description = "Universal spreadsheet definition format with LLM-optimized MCP server"
+description = "Universal spreadsheet definition language with LLM-optimized MCP server"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 license = { text = "MIT" }
 authors = [{ name = "jallen" }]
-keywords = ["spreadsheet", "ods", "xlsx", "mcp", "llm", "claude", "yaml", "template", "finance", "budget"]
+keywords = ["spreadsheet", "ods", "xlsx", "mcp", "llm", "claude", "yaml", "template", "definition-language", "schema"]
 
 dependencies = [
     "odfpy>=1.4.1",
@@ -48,23 +48,23 @@ mcp = [
     # No additional dependencies needed
 ]
 all = [
-    "finance-tracker[export,config]",
+    "spreadsheet-dl[export,config]",
 ]
 
 [project.scripts]
-finance-tracker = "finance_tracker.cli:main"
-finance-tracker-mcp = "finance_tracker.mcp_server:main"
+spreadsheet-dl = "spreadsheet_dl.cli:main"
+spreadsheet-dl-mcp = "spreadsheet_dl.mcp_server:main"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/finance_tracker"]
+packages = ["src/spreadsheet_dl"]
 
 [tool.ruff]
 line-length = 88
-target-version = "py311"
+target-version = "py312"
 src = ["src", "tests"]
 
 [tool.ruff.lint]
@@ -84,10 +84,10 @@ ignore = [
 ]
 
 [tool.ruff.lint.isort]
-known-first-party = ["finance_tracker"]
+known-first-party = ["spreadsheet_dl"]
 
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.12"
 strict = true
 warn_return_any = true
 warn_unused_ignores = true

@@ -6,14 +6,14 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from finance_tracker.schema.loader import (
+from spreadsheet_dl.schema.loader import (
     ThemeLoader,
     get_default_loader,
     list_available_themes,
     load_theme,
 )
-from finance_tracker.schema.styles import FontWeight, Theme
-from finance_tracker.schema.validation import SchemaValidationError
+from spreadsheet_dl.schema.styles import FontWeight, Theme
+from spreadsheet_dl.schema.validation import SchemaValidationError
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -240,7 +240,7 @@ class TestThemeWithOdsGenerator:
 
     def test_ods_generator_with_theme(self, tmp_path: Path) -> None:
         """Test OdsGenerator with theme creates valid file."""
-        from finance_tracker.ods_generator import OdsGenerator
+        from spreadsheet_dl.ods_generator import OdsGenerator
 
         output = tmp_path / "themed_budget.ods"
         generator = OdsGenerator(theme="default")
@@ -251,7 +251,7 @@ class TestThemeWithOdsGenerator:
 
     def test_ods_generator_with_corporate_theme(self, tmp_path: Path) -> None:
         """Test OdsGenerator with corporate theme."""
-        from finance_tracker.ods_generator import OdsGenerator
+        from spreadsheet_dl.ods_generator import OdsGenerator
 
         output = tmp_path / "corporate_budget.ods"
         generator = OdsGenerator(theme="corporate")
@@ -261,7 +261,7 @@ class TestThemeWithOdsGenerator:
 
     def test_ods_generator_with_invalid_theme(self, tmp_path: Path) -> None:
         """Test OdsGenerator with invalid theme falls back to legacy."""
-        from finance_tracker.ods_generator import OdsGenerator
+        from spreadsheet_dl.ods_generator import OdsGenerator
 
         output = tmp_path / "fallback_budget.ods"
         # Should not raise, should fall back to legacy styles
@@ -306,7 +306,7 @@ class TestBuiltinThemes:
     )
     def test_theme_creates_valid_ods(self, theme_name: str, tmp_path: Path) -> None:
         """Test all themes create valid ODS files."""
-        from finance_tracker.ods_generator import OdsGenerator
+        from spreadsheet_dl.ods_generator import OdsGenerator
 
         output = tmp_path / f"{theme_name}_budget.ods"
         generator = OdsGenerator(theme=theme_name)

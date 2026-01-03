@@ -11,7 +11,7 @@ from decimal import Decimal
 
 import pytest
 
-from finance_tracker.plaid_integration import (
+from spreadsheet_dl.plaid_integration import (
     AccessToken,
     LinkStatus,
     LinkToken,

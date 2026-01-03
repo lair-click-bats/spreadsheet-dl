@@ -6,7 +6,7 @@ Tests FR-PROF-001, FR-PROF-002, FR-PROF-003
 
 import pytest
 
-from finance_tracker.templates.professional import (
+from spreadsheet_dl.templates.professional import (
     PROFESSIONAL_TEMPLATES,
     BudgetCategory,
     CashFlowTrackerTemplate,

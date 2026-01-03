@@ -1,13 +1,13 @@
 # Examples
 
-Practical examples for using Finance Tracker.
+Practical examples for using SpreadsheetDL.
 
 ## Quick Start Examples
 
 ### Create Your First Budget
 
 ```python
-from finance_tracker import create_monthly_budget
+from spreadsheet_dl import create_monthly_budget
 
 # Create budget for current month
 path = create_monthly_budget("./budgets/")
@@ -18,7 +18,7 @@ print(f"Created: {path}")
 ### Add an Expense
 
 ```python
-from finance_tracker import OdsEditor, ExpenseEntry, ExpenseCategory
+from spreadsheet_dl import OdsEditor, ExpenseEntry, ExpenseCategory
 from decimal import Decimal
 from datetime import date
 
@@ -35,7 +35,7 @@ editor.save()
 ### View Budget Summary
 
 ```python
-from finance_tracker import BudgetAnalyzer
+from spreadsheet_dl import BudgetAnalyzer
 
 analyzer = BudgetAnalyzer("budgets/budget_2025_01.ods")
 summary = analyzer.get_summary()
@@ -60,7 +60,7 @@ from datetime import date
 from decimal import Decimal
 from pathlib import Path
 
-from finance_tracker import (
+from spreadsheet_dl import (
     OdsGenerator,
     OdsEditor,
     BudgetAnalyzer,
@@ -181,27 +181,27 @@ print("\nDone!")
 mkdir -p ~/finances/2025
 
 # Generate January budget with family template
-uv run finance-tracker generate \
+uv run spreadsheet-dl generate \
     -o ~/finances/2025/ \
     -m 1 -y 2025 \
     -t family \
     --theme default
 
 # Add expenses
-uv run finance-tracker expense 1500 "Rent" -c Housing -d 2025-01-01
-uv run finance-tracker expense 245.50 "Costco" -c Groceries -d 2025-01-05
-uv run finance-tracker expense 95 "Electric" -c Utilities -d 2025-01-08
-uv run finance-tracker expense 125 "Dinner out" -c "Dining Out" -d 2025-01-12
-uv run finance-tracker expense 45 "Gas" -c Transportation -d 2025-01-15
+uv run spreadsheet-dl expense 1500 "Rent" -c Housing -d 2025-01-01
+uv run spreadsheet-dl expense 245.50 "Costco" -c Groceries -d 2025-01-05
+uv run spreadsheet-dl expense 95 "Electric" -c Utilities -d 2025-01-08
+uv run spreadsheet-dl expense 125 "Dinner out" -c "Dining Out" -d 2025-01-12
+uv run spreadsheet-dl expense 45 "Gas" -c Transportation -d 2025-01-15
 
 # View dashboard
-uv run finance-tracker dashboard ~/finances/2025/budget_2025_01.ods
+uv run spreadsheet-dl dashboard ~/finances/2025/budget_2025_01.ods
 
 # Check alerts
-uv run finance-tracker alerts ~/finances/2025/budget_2025_01.ods
+uv run spreadsheet-dl alerts ~/finances/2025/budget_2025_01.ods
 
 # Generate report
-uv run finance-tracker report \
+uv run spreadsheet-dl report \
     ~/finances/2025/budget_2025_01.ods \
     -f markdown \
     -o ~/finances/2025/january_report.md
@@ -219,7 +219,7 @@ Import bank CSV and create budget.
 """
 
 from pathlib import Path
-from finance_tracker import import_bank_csv, OdsGenerator
+from spreadsheet_dl import import_bank_csv, OdsGenerator
 
 # Import from Chase CSV
 csv_path = Path("~/Downloads/Chase_Activity.csv").expanduser()
@@ -254,7 +254,7 @@ Manage recurring expenses.
 
 from decimal import Decimal
 from datetime import date
-from finance_tracker import (
+from spreadsheet_dl import (
     RecurringExpenseManager,
     RecurringExpense,
     RecurrenceFrequency,
@@ -299,7 +299,7 @@ entries = manager.generate_for_month(1, 2025)
 print(f"\nGenerated {len(entries)} entries for January")
 
 # Add to budget
-from finance_tracker import OdsEditor
+from spreadsheet_dl import OdsEditor
 
 editor = OdsEditor("budget_2025_01.ods")
 for entry in entries:
@@ -316,7 +316,7 @@ editor.save()
 Create budget with custom theme colors.
 """
 
-from finance_tracker import OdsGenerator
+from spreadsheet_dl import OdsGenerator
 
 # Use built-in theme
 generator = OdsGenerator(theme="corporate")
@@ -336,7 +336,7 @@ generator.create_budget_spreadsheet("accessible_budget.ods")
 Generate analytics dashboard data.
 """
 
-from finance_tracker import generate_dashboard, BudgetAnalyzer
+from spreadsheet_dl import generate_dashboard, BudgetAnalyzer
 
 # Get dashboard data
 data = generate_dashboard("budget_2025_01.ods")
@@ -373,7 +373,7 @@ if data['recommendations']:
 Configure custom budget alerts.
 """
 
-from finance_tracker import check_budget_alerts, AlertConfig
+from spreadsheet_dl import check_budget_alerts, AlertConfig
 
 config = AlertConfig(
     budget_warning_threshold=75.0,  # Warn at 75% used

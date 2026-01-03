@@ -1,4 +1,4 @@
-# Finance Tracker Requirements - Final Validation Report
+# SpreadsheetDL Requirements - Final Validation Report
 
 **Validation Date:** 2025-12-28
 **Documents Reviewed:** 2 (125 total requirements)
@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-This report presents the results of a comprehensive 7-phase validation of the Finance Tracker requirements documentation. The analysis covered:
+This report presents the results of a comprehensive 7-phase validation of the SpreadsheetDL requirements documentation. The analysis covered:
 
 1. **Primary Document:** `2025-12-28-comprehensive-requirements.md` (v2.0.0, ~2800 lines, 106 requirements)
 2. **Addendum Document:** `2025-12-28-dual-audience-requirements.md` (v1.0.0, 19 requirements)
@@ -414,7 +414,7 @@ All dependency chains are acyclic. The implementation phases respect dependency 
 
 #### 7.2 Competitive Feature Parity
 
-| Feature | Finance Tracker | YNAB | Mint | GnuCash |
+| Feature | SpreadsheetDL | YNAB | Mint | GnuCash |
 |---------|-----------------|------|------|---------|
 | Budget tracking | Yes | Yes | Yes | Yes |
 | Multi-account | Planned (P1) | Yes | Yes | Yes |
@@ -428,7 +428,7 @@ All dependency chains are acyclic. The implementation phases respect dependency 
 | **Open source** | Yes | No | No | Yes |
 | **ODS native** | Yes | No | No | No |
 
-**Finding:** Finance Tracker will be competitive with major players while offering unique AI/LLM integration and local-first privacy that others don't provide.
+**Finding:** SpreadsheetDL will be competitive with major players while offering unique AI/LLM integration and local-first privacy that others don't provide.
 
 #### 7.3 AI-Era Readiness
 
@@ -507,7 +507,7 @@ None identified. The requirements are ready for implementation.
 
 ### APPROVED
 
-The Finance Tracker requirements documentation passes comprehensive validation across all 7 phases:
+The SpreadsheetDL requirements documentation passes comprehensive validation across all 7 phases:
 
 | Phase | Status | Score |
 |-------|--------|-------|
@@ -523,7 +523,7 @@ The Finance Tracker requirements documentation passes comprehensive validation a
 
 ### Certification Statement
 
-I certify that the Finance Tracker requirements documentation (comprehensive-requirements.md v2.1.0 and dual-audience-requirements.md v1.0.0) are:
+I certify that the SpreadsheetDL requirements documentation (comprehensive-requirements.md v2.1.0 and dual-audience-requirements.md v1.0.0) are:
 
 - **Complete**: All current features documented, all gaps identified, all ideal-state features specified
 - **Consistent**: Terminology, naming, priorities, and patterns are internally consistent

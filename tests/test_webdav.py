@@ -8,7 +8,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from finance_tracker.webdav_upload import (
+from spreadsheet_dl.webdav_upload import (
     NextcloudConfig,
     WebDAVClient,
 )

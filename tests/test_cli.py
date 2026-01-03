@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 def run_cli(*args: str) -> subprocess.CompletedProcess[str]:
     """Run the CLI with given arguments."""
     return subprocess.run(
-        [sys.executable, "-m", "finance_tracker.cli", *args],
+        [sys.executable, "-m", "spreadsheet_dl.cli", *args],
         capture_output=True,
         text=True,
     )
@@ -27,7 +27,7 @@ class TestCLIBasics:
         """Test --version flag shows version."""
         result = run_cli("--version")
         assert result.returncode == 0
-        assert "finance-tracker" in result.stdout
+        assert "spreadsheet-dl" in result.stdout
         # Accept current version 2.0.0
         assert "2.0.0" in result.stdout
 
@@ -41,7 +41,7 @@ class TestCLIBasics:
         """Test --help flag shows help."""
         result = run_cli("--help")
         assert result.returncode == 0
-        assert "finance-tracker" in result.stdout
+        assert "spreadsheet-dl" in result.stdout
         assert "generate" in result.stdout
         assert "analyze" in result.stdout
         assert "report" in result.stdout
@@ -50,7 +50,7 @@ class TestCLIBasics:
         """Test running without command shows help."""
         result = run_cli()
         assert result.returncode == 1  # Exits with error
-        assert "usage:" in result.stdout.lower() or "finance-tracker" in result.stdout
+        assert "usage:" in result.stdout.lower() or "spreadsheet-dl" in result.stdout
 
 
 class TestGenerateCommand:

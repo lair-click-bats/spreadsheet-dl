@@ -12,7 +12,7 @@ from decimal import Decimal
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-from finance_tracker.notifications import (
+from spreadsheet_dl.notifications import (
     EmailChannel,
     EmailConfig,
     Notification,

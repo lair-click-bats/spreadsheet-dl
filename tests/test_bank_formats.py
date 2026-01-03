@@ -10,7 +10,7 @@ import csv
 import tempfile
 from pathlib import Path
 
-from finance_tracker.bank_formats import (
+from spreadsheet_dl.bank_formats import (
     BUILTIN_FORMATS,
     BankFormatDefinition,
     BankFormatRegistry,

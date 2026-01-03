@@ -1,12 +1,12 @@
 # Error Code Reference
 
-This document provides a complete reference for all error codes used by Finance Tracker.
+This document provides a complete reference for all error codes used by SpreadsheetDL.
 
 ## Error Code Format
 
 All error codes follow the format: `FT-<CATEGORY>-<NUMBER>`
 
-- **FT**: Finance Tracker prefix
+- **FT**: SpreadsheetDL prefix
 - **CATEGORY**: Three-letter category code
 - **NUMBER**: Three-digit error number within category
 
@@ -282,7 +282,7 @@ The ODS file doesn't have the expected structure.
 
 **Common Causes:**
 - File was manually edited incorrectly
-- File was not created by Finance Tracker
+- File was not created by SpreadsheetDL
 - Required sheets or columns are missing
 
 **Resolution:**
@@ -833,7 +833,7 @@ The locale code is not recognized.
 The requested plugin is not installed.
 
 **Resolution:**
-- Install the plugin: `pip install finance-tracker-plugin-<name>`
+- Install the plugin: `pip install spreadsheet-dl-plugin-<name>`
 - Check plugin name spelling
 
 ---
@@ -863,7 +863,7 @@ Could not load the plugin.
 The plugin version is incompatible.
 
 **Resolution:**
-- Update plugin: `pip install --upgrade finance-tracker-plugin-<name>`
+- Update plugin: `pip install --upgrade spreadsheet-dl-plugin-<name>`
 - Check compatibility matrix in plugin docs
 
 ---
@@ -885,8 +885,8 @@ A plugin hook failed during execution.
 
 If you encounter an error not listed here or need additional assistance:
 
-1. **Check documentation:** https://finance-tracker.readthedocs.io
-2. **Search issues:** https://github.com/allenjd1/finance-tracker/issues
+1. **Check documentation:** https://spreadsheet-dl.readthedocs.io
+2. **Search issues:** https://github.com/lair-click-bats/spreadsheet-dl/issues
 3. **Report new issue:** Include full error output with `--debug` flag
 
 ### Debug Mode
@@ -894,7 +894,7 @@ If you encounter an error not listed here or need additional assistance:
 For more detailed error information, run commands with `--debug`:
 
 ```bash
-finance-tracker --debug analyze budget.ods
+spreadsheet-dl --debug analyze budget.ods
 ```
 
 This will include:

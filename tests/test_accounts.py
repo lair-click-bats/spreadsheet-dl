@@ -14,7 +14,7 @@ from pathlib import Path
 
 import pytest
 
-from finance_tracker.accounts import (
+from spreadsheet_dl.accounts import (
     Account,
     AccountManager,
     AccountTransaction,

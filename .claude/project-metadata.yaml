@@ -1,14 +1,14 @@
 # Project Metadata - Single Source of Truth
 # This file is the authoritative source for all project metadata
-# Version: 2.1.0 (Updated 2025-12-25)
+# Version: 4.0.0 (Updated 2026-01-03)
 #
 # Template file - customize for your project
-# Configured for finance-tracker project
+# Configured for spreadsheet-dl project
 
 project:
-  name: "finance-tracker"
+  name: "spreadsheet-dl"
   version_source: pyproject.toml # Single source for version
-  description: "Family financial tracking with ODS spreadsheets"
+  description: "Universal spreadsheet definition language with LLM-optimized MCP server"
 
   # Author/maintainer information
   authors:
@@ -24,16 +24,15 @@ project:
 
   # Python version requirements (for Python projects)
   python:
-    minimum: "3.11"
+    minimum: "3.12"
     tested:
-      - "3.11"
       - "3.12"
       - "3.13"
 
   github:
-    org: "allenjd1"
-    repo: "finance-tracker"
-    url: "https://github.com/allenjd1/finance-tracker"
+    org: "lair-click-bats"
+    repo: "spreadsheet-dl"
+    url: "https://github.com/lair-click-bats/spreadsheet-dl"
 
   # Files that must reference the GitHub URL
   url_locations:
@@ -46,7 +45,7 @@ project:
     primary: pyproject.toml # Single source of truth
     secondary:
       - README.md: "Current Version: v{version}"
-      - "src/finance_tracker/__init__.py": '__version__ = "{version}"'
+      - "src/spreadsheet_dl/__init__.py": '__version__ = "{version}"'
 
   # Version pattern for validation (supports pre-release)
   version_pattern: '^[0-9]+\.[0-9]+\.[0-9]+(-[a-z]+(\.[0-9]+)?)?(\+[a-z0-9]+)?$'

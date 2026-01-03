@@ -8,13 +8,13 @@ from pathlib import Path
 
 import pytest
 
-from finance_tracker.ods_generator import (
+from spreadsheet_dl.ods_generator import (
     BudgetAllocation,
     ExpenseCategory,
     ExpenseEntry,
     OdsGenerator,
 )
-from finance_tracker.report_generator import (
+from spreadsheet_dl.report_generator import (
     ReportConfig,
     ReportGenerator,
     generate_monthly_report,

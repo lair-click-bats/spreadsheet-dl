@@ -13,7 +13,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from finance_tracker.interactive import (
+from spreadsheet_dl.interactive import (
     ComparisonOperator,
     ConditionalFormat,
     ConditionalFormatType,

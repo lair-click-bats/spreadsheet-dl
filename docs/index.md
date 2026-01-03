@@ -1,10 +1,10 @@
-# Finance Tracker Documentation
+# SpreadsheetDL Documentation
 
 Family financial tracking with ODS spreadsheets for Nextcloud and Collabora Office.
 
 ## Overview
 
-Finance Tracker provides Python tools for creating, analyzing, and reporting on family budget spreadsheets in ODS format. Designed for seamless integration with self-hosted infrastructure.
+SpreadsheetDL provides Python tools for creating, analyzing, and reporting on family budget spreadsheets in ODS format. Designed for seamless integration with self-hosted infrastructure.
 
 ## Quick Links
 
@@ -111,7 +111,7 @@ Current version: **v1.0.0** (v2.0.0 in development)
 
 ```bash
 # Using uv (recommended)
-cd ~/development/finance-tracker
+cd ~/development/spreadsheet-dl
 uv sync
 
 # Install with theme support
@@ -121,7 +121,7 @@ uv sync --extra config
 ## Basic Usage
 
 ```python
-from finance_tracker import OdsGenerator, BudgetAnalyzer
+from spreadsheet_dl import OdsGenerator, BudgetAnalyzer
 
 # Create a budget
 generator = OdsGenerator()
@@ -136,8 +136,8 @@ print(f"Total spent: ${summary.total_spent}")
 ### Using the Builder API
 
 ```python
-from finance_tracker.builder import SpreadsheetBuilder, formula
-from finance_tracker.charts import ChartBuilder
+from spreadsheet_dl.builder import SpreadsheetBuilder, formula
+from spreadsheet_dl.charts import ChartBuilder
 
 # Create spreadsheet with fluent API
 builder = SpreadsheetBuilder(theme="professional")
@@ -168,23 +168,23 @@ builder.save("budget.ods")
 
 ```bash
 # Generate budget
-uv run finance-tracker generate -o ./budgets/
+uv run spreadsheet-dl generate -o ./budgets/
 
 # Add expense (NEW in v0.4.1 - actually writes to file!)
-uv run finance-tracker expense 25.50 "Lunch" -c "Dining Out"
+uv run spreadsheet-dl expense 25.50 "Lunch" -c "Dining Out"
 
 # Analyze budget
-uv run finance-tracker analyze budget.ods
+uv run spreadsheet-dl analyze budget.ods
 
 # View dashboard
-uv run finance-tracker dashboard budget.ods
+uv run spreadsheet-dl dashboard budget.ods
 ```
 
 ## Architecture
 
 ```
-finance-tracker/
-├── src/finance_tracker/
+spreadsheet-dl/
+├── src/spreadsheet_dl/
 │   ├── ods_generator.py    # Create ODS files
 │   ├── ods_editor.py       # Modify existing ODS files
 │   ├── budget_analyzer.py  # Analyze budgets
@@ -205,10 +205,10 @@ finance-tracker/
 
 ## Error Handling
 
-Finance Tracker uses structured error codes for programmatic error handling:
+SpreadsheetDL uses structured error codes for programmatic error handling:
 
 ```python
-from finance_tracker.exceptions import InvalidAmountError
+from spreadsheet_dl.exceptions import InvalidAmountError
 
 try:
     # Process expense

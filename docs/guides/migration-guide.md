@@ -2,7 +2,7 @@
 
 **Implements: DOC-PROF-006: Migration Guide**
 
-This guide helps you migrate from older versions of finance-tracker
+This guide helps you migrate from older versions of spreadsheet-dl
 and from other spreadsheet tools to the professional spreadsheet system.
 
 ## Table of Contents
@@ -38,7 +38,7 @@ Version 2.0 introduces the professional spreadsheet system with:
 
 ```python
 # v1.x - Old way
-from finance_tracker.ods_generator import ODSGenerator
+from spreadsheet_dl.ods_generator import ODSGenerator
 
 gen = ODSGenerator()
 gen.create_sheet("Budget")
@@ -47,7 +47,7 @@ gen.add_row(["Housing", 1500])
 gen.save("budget.ods")
 
 # v2.0 - New way
-from finance_tracker.builder import SpreadsheetBuilder
+from spreadsheet_dl.builder import SpreadsheetBuilder
 
 builder = SpreadsheetBuilder(theme="default")
 builder.sheet("Budget")
@@ -83,7 +83,7 @@ builder.cell(5000, style="currency_total")
 gen.add_cell(formula="=SUM(B2:B10)")
 
 # v2.0 - Formula builder (optional, strings still work)
-from finance_tracker.builder import formula
+from spreadsheet_dl.builder import formula
 
 builder.cell(formula().sum("B2:B10").build())
 # or
@@ -106,7 +106,7 @@ No breaking changes - existing code continues to work.
 ### Before: Procedural Style
 
 ```python
-from finance_tracker.ods_generator import ODSGenerator
+from spreadsheet_dl.ods_generator import ODSGenerator
 
 gen = ODSGenerator()
 sheet = gen.create_sheet("Expenses")
@@ -131,7 +131,7 @@ gen.save("expenses.ods")
 ### After: Builder Pattern
 
 ```python
-from finance_tracker.builder import SpreadsheetBuilder
+from spreadsheet_dl.builder import SpreadsheetBuilder
 
 builder = SpreadsheetBuilder(theme="corporate")
 
@@ -206,10 +206,10 @@ ws.cell(row=4, column=3, value="=SUM(C2:C3)")
 wb.save("budget.xlsx")
 ```
 
-### finance-tracker Equivalent
+### spreadsheet-dl Equivalent
 
 ```python
-from finance_tracker.builder import SpreadsheetBuilder
+from spreadsheet_dl.builder import SpreadsheetBuilder
 
 builder = SpreadsheetBuilder(theme="corporate")
 
@@ -237,7 +237,7 @@ builder.save("budget.ods")
 
 ### Style Mapping
 
-| openpyxl | finance-tracker |
+| openpyxl | spreadsheet-dl |
 |----------|-----------------|
 | `Font(bold=True)` | `font_weight: bold` in style |
 | `PatternFill("solid", ...)` | `background_color: "#..."` |
@@ -263,11 +263,11 @@ df = pd.DataFrame({
 df.to_excel("budget.xlsx", index=False)
 ```
 
-### finance-tracker with DataFrame
+### spreadsheet-dl with DataFrame
 
 ```python
 import pandas as pd
-from finance_tracker.builder import SpreadsheetBuilder
+from spreadsheet_dl.builder import SpreadsheetBuilder
 
 df = pd.DataFrame({
     "Category": ["Housing", "Food", "Transport"],
@@ -364,7 +364,7 @@ End Sub
 ### Python Equivalent
 
 ```python
-from finance_tracker.builder import SpreadsheetBuilder
+from spreadsheet_dl.builder import SpreadsheetBuilder
 
 def create_budget():
     builder = SpreadsheetBuilder(theme="corporate")
@@ -420,7 +420,7 @@ def create_budget():
 ```
 
 ```yaml
-# finance-tracker theme
+# spreadsheet-dl theme
 styles:
   header:
     background_color: "#4472C4"
@@ -445,7 +445,7 @@ styles:
 ```
 
 ```yaml
-# finance-tracker style
+# spreadsheet-dl style
 header_primary:
   font_weight: bold
   font_size: "12pt"

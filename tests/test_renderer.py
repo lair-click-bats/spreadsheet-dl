@@ -8,14 +8,14 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from finance_tracker.builder import (
+from spreadsheet_dl.builder import (
     CellSpec,
     ColumnSpec,
     RowSpec,
     SheetSpec,
     SpreadsheetBuilder,
 )
-from finance_tracker.renderer import OdsRenderer, render_sheets
+from spreadsheet_dl.renderer import OdsRenderer, render_sheets
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -198,7 +198,7 @@ class TestOdsRendererWithTheme:
 
     def test_render_with_theme(self, tmp_path: Path) -> None:
         """Test rendering with theme."""
-        from finance_tracker.schema.loader import ThemeLoader
+        from spreadsheet_dl.schema.loader import ThemeLoader
 
         output = tmp_path / "themed.ods"
         loader = ThemeLoader()

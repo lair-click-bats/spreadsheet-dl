@@ -8,7 +8,7 @@ Tests:
 
 import pytest
 
-from finance_tracker.schema import (
+from spreadsheet_dl.schema import (
     FontDefinition,
     FontPairing,
     FontRole,
@@ -22,7 +22,7 @@ from finance_tracker.schema import (
     list_font_pairings,
     list_typography_presets,
 )
-from finance_tracker.schema.styles import Font, FontWeight
+from spreadsheet_dl.schema.styles import Font, FontWeight
 
 # ============================================================================
 # Font Definition Tests (FR-THEME-002)

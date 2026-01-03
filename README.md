@@ -1,4 +1,4 @@
-# Finance Tracker
+# SpreadsheetDL
 
 **Current Version: v2.0.0** - Professional Spreadsheet System
 
@@ -57,7 +57,7 @@ This project provides Python tools for creating, analyzing, and reporting on fam
 
 ```bash
 # Clone the repository
-cd ~/development/finance-tracker
+cd ~/development/spreadsheet-dl
 
 # Set up Python environment with uv
 uv sync
@@ -73,45 +73,45 @@ uv sync --extra config
 
 ```bash
 # Create a budget (with optional template and theme)
-uv run finance-tracker generate -o ./budgets/
-uv run finance-tracker generate -o ./budgets/ -t 50_30_20
-uv run finance-tracker generate -o ./budgets/ --theme corporate
-uv run finance-tracker generate -o ./budgets/ -t family --theme minimal
+uv run spreadsheet-dl generate -o ./budgets/
+uv run spreadsheet-dl generate -o ./budgets/ -t 50_30_20
+uv run spreadsheet-dl generate -o ./budgets/ --theme corporate
+uv run spreadsheet-dl generate -o ./budgets/ -t family --theme minimal
 
 # List available themes
-uv run finance-tracker themes
-uv run finance-tracker themes --json
+uv run spreadsheet-dl themes
+uv run spreadsheet-dl themes --json
 
 # Analyze a budget
-uv run finance-tracker analyze budget.ods
-uv run finance-tracker analyze budget.ods --json
+uv run spreadsheet-dl analyze budget.ods
+uv run spreadsheet-dl analyze budget.ods --json
 
 # Generate reports
-uv run finance-tracker report budget.ods -f text
-uv run finance-tracker report budget.ods -f markdown -o report.md
+uv run spreadsheet-dl report budget.ods -f text
+uv run spreadsheet-dl report budget.ods -f markdown -o report.md
 
 # View analytics dashboard
-uv run finance-tracker dashboard budget.ods
-uv run finance-tracker dashboard budget.ods --json
+uv run spreadsheet-dl dashboard budget.ods
+uv run spreadsheet-dl dashboard budget.ods --json
 
 # Check budget alerts
-uv run finance-tracker alerts budget.ods
-uv run finance-tracker alerts budget.ods --critical-only
+uv run spreadsheet-dl alerts budget.ods
+uv run spreadsheet-dl alerts budget.ods --critical-only
 
 # Import bank CSV
-uv run finance-tracker import transactions.csv --bank chase
-uv run finance-tracker import transactions.csv --preview
-uv run finance-tracker import transactions.csv --theme default
+uv run spreadsheet-dl import transactions.csv --bank chase
+uv run spreadsheet-dl import transactions.csv --preview
+uv run spreadsheet-dl import transactions.csv --theme default
 
 # Quick expense entry
-uv run finance-tracker expense 25.50 "Lunch at Chipotle"
-uv run finance-tracker expense 150 "Whole Foods" -c Groceries
+uv run spreadsheet-dl expense 25.50 "Lunch at Chipotle"
+uv run spreadsheet-dl expense 150 "Whole Foods" -c Groceries
 
 # Upload to Nextcloud
-uv run finance-tracker upload budget.ods
+uv run spreadsheet-dl upload budget.ods
 
 # List available templates
-uv run finance-tracker templates
+uv run spreadsheet-dl templates
 ```
 
 ## Python API
@@ -121,7 +121,7 @@ uv run finance-tracker templates
 ```python
 from decimal import Decimal
 from datetime import date
-from finance_tracker import (
+from spreadsheet_dl import (
     OdsGenerator, BudgetAnalyzer, ReportGenerator,
     ExpenseCategory, ExpenseEntry, BudgetAllocation,
 )
@@ -160,7 +160,7 @@ print(report_gen.generate_text_report())
 ### Using Themes
 
 ```python
-from finance_tracker import OdsGenerator, create_monthly_budget
+from spreadsheet_dl import OdsGenerator, create_monthly_budget
 
 # Create budget with a theme
 generator = OdsGenerator(theme="corporate")
@@ -174,7 +174,7 @@ path = create_monthly_budget("./budgets", theme="minimal")
 
 ```python
 from decimal import Decimal
-from finance_tracker import create_spreadsheet, formula
+from spreadsheet_dl import create_spreadsheet, formula
 
 # Build spreadsheet with fluent API
 builder = create_spreadsheet(theme="default")
@@ -214,7 +214,7 @@ builder.save("my_budget.ods")
 ### FormulaBuilder API
 
 ```python
-from finance_tracker import formula
+from spreadsheet_dl import formula
 
 f = formula()
 
@@ -247,7 +247,7 @@ f.divide("B2", "C2")
 ### Using Templates
 
 ```python
-from finance_tracker import get_template, OdsGenerator
+from spreadsheet_dl import get_template, OdsGenerator
 
 # Get a predefined template
 template = get_template("50_30_20")  # or "family", "fire", "minimalist", etc.
@@ -266,7 +266,7 @@ generator.create_budget_spreadsheet(
 ### Import Bank Transactions
 
 ```python
-from finance_tracker import import_bank_csv, OdsGenerator
+from spreadsheet_dl import import_bank_csv, OdsGenerator
 
 # Import from CSV (auto-detects bank format)
 expenses = import_bank_csv("bank_export.csv", bank="auto")
@@ -279,7 +279,7 @@ generator.create_budget_spreadsheet("imported.ods", expenses=expenses)
 ### Analytics Dashboard
 
 ```python
-from finance_tracker import generate_dashboard
+from spreadsheet_dl import generate_dashboard
 
 # Get comprehensive analytics
 data = generate_dashboard("budget.ods")
@@ -295,7 +295,7 @@ for rec in data['recommendations']:
 ### Alert System
 
 ```python
-from finance_tracker import check_budget_alerts, AlertConfig
+from spreadsheet_dl import check_budget_alerts, AlertConfig
 
 # Check with custom thresholds
 config = AlertConfig(
@@ -312,8 +312,8 @@ for alert in alerts:
 ### Recurring Expenses
 
 ```python
-from finance_tracker import RecurringExpenseManager, RecurringExpense, RecurrenceFrequency
-from finance_tracker.recurring import create_common_recurring
+from spreadsheet_dl import RecurringExpenseManager, RecurringExpense, RecurrenceFrequency
+from spreadsheet_dl.recurring import create_common_recurring
 
 # Create manager
 manager = RecurringExpenseManager("recurring.json")
@@ -340,7 +340,7 @@ print(f"Monthly total: ${manager.calculate_monthly_total()}")
 ### WebDAV Upload
 
 ```python
-from finance_tracker import upload_budget, NextcloudConfig
+from spreadsheet_dl import upload_budget, NextcloudConfig
 
 # Configure (or use environment variables)
 config = NextcloudConfig(
@@ -388,9 +388,9 @@ export NEXTCLOUD_PATH=/Finance
 ## Project Structure
 
 ```
-finance-tracker/
+spreadsheet-dl/
 ├── src/
-│   └── finance_tracker/
+│   └── spreadsheet_dl/
 │       ├── __init__.py           # Package exports
 │       ├── ods_generator.py      # ODS file creation
 │       ├── budget_analyzer.py    # Pandas-based analysis
@@ -432,7 +432,7 @@ export NEXTCLOUD_USER=username
 export NEXTCLOUD_PASSWORD=app-password
 
 # Upload
-uv run finance-tracker upload budget.ods
+uv run spreadsheet-dl upload budget.ods
 ```
 
 ### Edit with Collabora

@@ -9,7 +9,7 @@ from datetime import date
 from decimal import Decimal
 from typing import TYPE_CHECKING
 
-from finance_tracker.ods_generator import (
+from spreadsheet_dl.ods_generator import (
     BudgetAllocation,
     ExpenseCategory,
     ExpenseEntry,
@@ -215,7 +215,7 @@ class TestImportBackwardCompatibility:
 
     def test_import_from_package(self) -> None:
         """Test imports from main package still work."""
-        from finance_tracker import (
+        from spreadsheet_dl import (
             BudgetAllocation,
             ExpenseCategory,
             ExpenseEntry,
@@ -231,7 +231,7 @@ class TestImportBackwardCompatibility:
 
     def test_import_new_components(self) -> None:
         """Test new components can be imported."""
-        from finance_tracker import (
+        from spreadsheet_dl import (
             FormulaBuilder,
             OdsRenderer,
             SpreadsheetBuilder,
@@ -249,6 +249,6 @@ class TestImportBackwardCompatibility:
 
     def test_version_updated(self) -> None:
         """Test version is updated to 2.0.0."""
-        from finance_tracker import __version__
+        from spreadsheet_dl import __version__
 
         assert __version__ == "2.0.0"

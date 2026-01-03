@@ -14,7 +14,7 @@ from pathlib import Path
 
 import pytest
 
-from finance_tracker.backup import (
+from spreadsheet_dl.backup import (
     BackupCompression,
     BackupManager,
     BackupMetadata,
@@ -24,7 +24,7 @@ from finance_tracker.backup import (
     auto_backup,
     backup_decorator,
 )
-from finance_tracker.exceptions import FileError
+from spreadsheet_dl.exceptions import FileError
 
 
 @pytest.fixture

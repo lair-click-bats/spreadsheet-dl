@@ -134,7 +134,7 @@ For security, limit which directories the MCP server can access:
 1. **Generate Budget** (Python):
 
    ```bash
-   uv run finance-tracker generate -o ./budgets/
+   uv run spreadsheet-dl generate -o ./budgets/
    ```
 
 2. **Upload to Nextcloud** (manual or script):
@@ -161,7 +161,7 @@ For security, limit which directories the MCP server can access:
 
 6. **Generate Report** (Python):
    ```bash
-   uv run finance-tracker report ./budgets/budget_2025_01.ods -f markdown
+   uv run spreadsheet-dl report ./budgets/budget_2025_01.ods -f markdown
    ```
 
 ## Troubleshooting
@@ -224,8 +224,8 @@ file your_budget.ods
 If MCP is not needed, use the Python API directly:
 
 ```python
-from finance_tracker.budget_analyzer import analyze_budget
-from finance_tracker.report_generator import generate_monthly_report
+from spreadsheet_dl.budget_analyzer import analyze_budget
+from spreadsheet_dl.report_generator import generate_monthly_report
 
 # Analyze
 data = analyze_budget("budget_2025_01.ods")

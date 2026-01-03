@@ -10,7 +10,7 @@ import json
 
 import pytest
 
-from finance_tracker.ai_training import (
+from spreadsheet_dl.ai_training import (
     AnonymizationConfig,
     AnonymizationLevel,
     AnonymizedTransaction,

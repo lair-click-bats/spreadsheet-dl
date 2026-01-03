@@ -1,17 +1,17 @@
 # CLI Reference
 
-Command-line interface documentation for Finance Tracker.
+Command-line interface documentation for SpreadsheetDL.
 
 ## Usage
 
 ```bash
-finance-tracker [OPTIONS] COMMAND [ARGS]...
+spreadsheet-dl [OPTIONS] COMMAND [ARGS]...
 ```
 
 Or with uv:
 
 ```bash
-uv run finance-tracker [OPTIONS] COMMAND [ARGS]...
+uv run spreadsheet-dl [OPTIONS] COMMAND [ARGS]...
 ```
 
 ## Global Options
@@ -32,7 +32,7 @@ uv run finance-tracker [OPTIONS] COMMAND [ARGS]...
 Create a new budget spreadsheet.
 
 ```bash
-finance-tracker generate [OPTIONS]
+spreadsheet-dl generate [OPTIONS]
 ```
 
 **Options:**
@@ -50,13 +50,13 @@ finance-tracker generate [OPTIONS]
 
 ```bash
 # Basic creation
-finance-tracker generate -o ./budgets/
+spreadsheet-dl generate -o ./budgets/
 
 # Specific month/year
-finance-tracker generate -m 6 -y 2025
+spreadsheet-dl generate -m 6 -y 2025
 
 # With template and theme
-finance-tracker generate -t family --theme corporate -o ./budgets/
+spreadsheet-dl generate -t family --theme corporate -o ./budgets/
 ```
 
 ---
@@ -68,7 +68,7 @@ Add a quick expense entry to a budget file.
 **New in v0.4.1**: Now actually writes to ODS files!
 
 ```bash
-finance-tracker expense AMOUNT DESCRIPTION [OPTIONS]
+spreadsheet-dl expense AMOUNT DESCRIPTION [OPTIONS]
 ```
 
 **Arguments:**
@@ -91,19 +91,19 @@ finance-tracker expense AMOUNT DESCRIPTION [OPTIONS]
 
 ```bash
 # Basic expense (auto-categorized)
-finance-tracker expense 25.50 "Walmart groceries"
+spreadsheet-dl expense 25.50 "Walmart groceries"
 
 # Specify category
-finance-tracker expense 45.00 "Gas station" -c Transportation
+spreadsheet-dl expense 45.00 "Gas station" -c Transportation
 
 # Specify date
-finance-tracker expense 150.00 "Electric bill" -c Utilities -d 2025-01-15
+spreadsheet-dl expense 150.00 "Electric bill" -c Utilities -d 2025-01-15
 
 # Specify file
-finance-tracker expense 12.99 "Netflix" -f budget_2025_01.ods -c Subscriptions
+spreadsheet-dl expense 12.99 "Netflix" -f budget_2025_01.ods -c Subscriptions
 
 # Preview without writing
-finance-tracker expense 100.00 "Test" --dry-run
+spreadsheet-dl expense 100.00 "Test" --dry-run
 ```
 
 **Valid Categories:**
@@ -119,7 +119,7 @@ finance-tracker expense 100.00 "Test" --dry-run
 Analyze a budget file and show spending summary.
 
 ```bash
-finance-tracker analyze FILE [OPTIONS]
+spreadsheet-dl analyze FILE [OPTIONS]
 ```
 
 **Options:**
@@ -135,16 +135,16 @@ finance-tracker analyze FILE [OPTIONS]
 
 ```bash
 # Basic analysis
-finance-tracker analyze budget.ods
+spreadsheet-dl analyze budget.ods
 
 # JSON output
-finance-tracker analyze budget.ods --json
+spreadsheet-dl analyze budget.ods --json
 
 # Filter by category
-finance-tracker analyze budget.ods --category Groceries
+spreadsheet-dl analyze budget.ods --category Groceries
 
 # Filter by date range
-finance-tracker analyze budget.ods --start-date 2025-01-01 --end-date 2025-01-31
+spreadsheet-dl analyze budget.ods --start-date 2025-01-01 --end-date 2025-01-31
 ```
 
 ---
@@ -154,7 +154,7 @@ finance-tracker analyze budget.ods --start-date 2025-01-01 --end-date 2025-01-31
 Generate a formatted report from a budget file.
 
 ```bash
-finance-tracker report FILE [OPTIONS]
+spreadsheet-dl report FILE [OPTIONS]
 ```
 
 **Options:**
@@ -168,13 +168,13 @@ finance-tracker report FILE [OPTIONS]
 
 ```bash
 # Markdown to stdout
-finance-tracker report budget.ods
+spreadsheet-dl report budget.ods
 
 # Text format
-finance-tracker report budget.ods -f text
+spreadsheet-dl report budget.ods -f text
 
 # Save to file
-finance-tracker report budget.ods -f markdown -o report.md
+spreadsheet-dl report budget.ods -f markdown -o report.md
 ```
 
 ---
@@ -184,7 +184,7 @@ finance-tracker report budget.ods -f markdown -o report.md
 Display an analytics dashboard for a budget file.
 
 ```bash
-finance-tracker dashboard FILE [OPTIONS]
+spreadsheet-dl dashboard FILE [OPTIONS]
 ```
 
 **Options:**
@@ -225,7 +225,7 @@ TOP SPENDING
 Check for budget alerts and warnings.
 
 ```bash
-finance-tracker alerts FILE [OPTIONS]
+spreadsheet-dl alerts FILE [OPTIONS]
 ```
 
 **Options:**
@@ -242,7 +242,7 @@ finance-tracker alerts FILE [OPTIONS]
 Import transactions from a bank CSV export.
 
 ```bash
-finance-tracker import CSV_FILE [OPTIONS]
+spreadsheet-dl import CSV_FILE [OPTIONS]
 ```
 
 **Options:**
@@ -262,13 +262,13 @@ finance-tracker import CSV_FILE [OPTIONS]
 
 ```bash
 # Auto-detect bank format
-finance-tracker import transactions.csv
+spreadsheet-dl import transactions.csv
 
 # Specify bank
-finance-tracker import transactions.csv --bank chase
+spreadsheet-dl import transactions.csv --bank chase
 
 # Preview first
-finance-tracker import transactions.csv --preview
+spreadsheet-dl import transactions.csv --preview
 ```
 
 ---
@@ -278,7 +278,7 @@ finance-tracker import transactions.csv --preview
 Upload a budget file to Nextcloud via WebDAV.
 
 ```bash
-finance-tracker upload FILE [OPTIONS]
+spreadsheet-dl upload FILE [OPTIONS]
 ```
 
 **Options:**
@@ -299,7 +299,7 @@ finance-tracker upload FILE [OPTIONS]
 List available budget templates.
 
 ```bash
-finance-tracker templates [OPTIONS]
+spreadsheet-dl templates [OPTIONS]
 ```
 
 **Options:**
@@ -315,7 +315,7 @@ finance-tracker templates [OPTIONS]
 List available visual themes.
 
 ```bash
-finance-tracker themes [OPTIONS]
+spreadsheet-dl themes [OPTIONS]
 ```
 
 **Options:**
@@ -331,7 +331,7 @@ finance-tracker themes [OPTIONS]
 Manage configuration.
 
 ```bash
-finance-tracker config [OPTIONS]
+spreadsheet-dl config [OPTIONS]
 ```
 
 **Options:**

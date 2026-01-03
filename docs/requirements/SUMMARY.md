@@ -1,4 +1,4 @@
-# Finance Tracker Requirements - Final Summary
+# SpreadsheetDL Requirements - Final Summary
 
 **Date:** 2025-12-28
 **Status:** VALIDATED & APPROVED
@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-The Finance Tracker requirements documentation has undergone comprehensive analysis, development, and validation, resulting in **125 total requirements** representing the ideal future state of the project.
+The SpreadsheetDL requirements documentation has undergone comprehensive analysis, development, and validation, resulting in **125 total requirements** representing the ideal future state of the project.
 
 ### Documentation Suite
 
@@ -249,7 +249,7 @@ The Finance Tracker requirements documentation has undergone comprehensive analy
 
 ## Unique Differentiators
 
-The Finance Tracker has several unique features that distinguish it from competitors:
+The SpreadsheetDL has several unique features that distinguish it from competitors:
 
 1. **ODS-Native Format**
    - Works seamlessly with Collabora/LibreOffice
@@ -378,7 +378,7 @@ The Finance Tracker has several unique features that distinguish it from competi
 
 ## Conclusion
 
-The Finance Tracker requirements specification is **complete, validated, and ready for implementation**. With 125 comprehensive requirements covering all aspects of the application—from core functionality to AI integration—the project has a clear roadmap to deliver a best-in-class, privacy-respecting, AI-ready personal finance tool.
+The SpreadsheetDL requirements specification is **complete, validated, and ready for implementation**. With 125 comprehensive requirements covering all aspects of the application—from core functionality to AI integration—the project has a clear roadmap to deliver a best-in-class, privacy-respecting, AI-ready personal finance tool.
 
 **Status: APPROVED FOR IMPLEMENTATION** ✓
 

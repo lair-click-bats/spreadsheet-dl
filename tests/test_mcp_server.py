@@ -12,7 +12,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from finance_tracker.mcp_server import (
+from spreadsheet_dl.mcp_server import (
     MCPConfig,
     MCPError,
     MCPSecurityError,
@@ -32,7 +32,7 @@ class TestMCPConfig:
         """Test default configuration values."""
         config = MCPConfig()
 
-        assert config.name == "finance-tracker"
+        assert config.name == "spreadsheet-dl"
         assert config.version == "1.0.0"
         assert config.rate_limit_per_minute == 60
         assert config.enable_audit_log is True
@@ -210,7 +210,7 @@ class TestMCPServer:
         assert "result" in response
         assert response["result"]["protocolVersion"] == "2024-11-05"
         assert "serverInfo" in response["result"]
-        assert response["result"]["serverInfo"]["name"] == "finance-tracker"
+        assert response["result"]["serverInfo"]["name"] == "spreadsheet-dl"
 
     def test_handle_tools_list(self, server):
         """Test tools/list message handling."""
@@ -314,7 +314,7 @@ class TestMCPServerToolHandlers:
     def test_handle_query_budget_total_spent(self, server, tmp_path):
         """Test query_budget for total spending question."""
         # Create a mock budget file and analyzer
-        with patch("finance_tracker.budget_analyzer.BudgetAnalyzer") as MockAnalyzer:
+        with patch("spreadsheet_dl.budget_analyzer.BudgetAnalyzer") as MockAnalyzer:
             mock_summary = MagicMock()
             mock_summary.total_spent = 1500.00
             mock_summary.total_budget = 2000.00
@@ -341,7 +341,7 @@ class TestMCPServerToolHandlers:
 
     def test_handle_query_budget_remaining(self, server, tmp_path):
         """Test query_budget for remaining budget question."""
-        with patch("finance_tracker.budget_analyzer.BudgetAnalyzer") as MockAnalyzer:
+        with patch("spreadsheet_dl.budget_analyzer.BudgetAnalyzer") as MockAnalyzer:
             mock_summary = MagicMock()
             mock_summary.total_spent = 1500.00
             mock_summary.total_budget = 2000.00
