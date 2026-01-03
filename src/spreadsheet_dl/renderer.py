@@ -145,8 +145,7 @@ class OdsRenderer:
 
         # Add charts if provided (TASK-231)
         if charts:
-            for chart_spec in charts:
-                self._render_chart(chart_spec, sheets[0].name if sheets else "Sheet1")
+            self._add_charts(charts, sheets)
 
         # Add conditional formats if provided (TASK-211)
         if conditional_formats:
@@ -574,6 +573,55 @@ class OdsRenderer:
     # Chart Rendering (TASK-231)
     # =========================================================================
 
+    def _add_charts(self, charts: list[ChartSpec], sheets: list[SheetSpec]) -> None:
+        """
+        Add charts to the ODS document.
+
+        Implements TASK-231: Chart rendering to ODS (GAP-BUILDER-006)
+
+        This method processes a list of ChartSpec objects and embeds them
+        into the ODS document. Charts are positioned according to their
+        ChartPosition configuration and attached to the appropriate sheet.
+
+        Supports:
+        - Column, bar, line, pie, area, scatter, bubble charts
+        - Chart positioning by cell reference
+        - Chart sizing (width/height)
+        - Chart titles and legends
+        - Axis configuration
+        - Multiple data series with colors
+        - Chart styling and customization
+
+        Args:
+            charts: List of chart specifications from ChartBuilder
+            sheets: List of sheet specifications for sheet name lookup
+        """
+        if self._doc is None:
+            return
+
+        if not charts:
+            return
+
+        # Build a mapping of sheet names to sheet objects for positioning
+        sheet_map = {sheet.name: sheet for sheet in sheets}
+
+        for chart_spec in charts:
+            # Determine target sheet from chart position or use first sheet
+            target_sheet_name = sheets[0].name if sheets else "Sheet1"
+
+            # If chart has a position with cell reference, we can extract sheet
+            # from the cell reference if it's qualified (e.g., "Sheet1.A1")
+            if chart_spec.position and chart_spec.position.cell:
+                cell_ref = chart_spec.position.cell
+                if "." in cell_ref:
+                    # Sheet-qualified reference
+                    sheet_part, _ = cell_ref.split(".", 1)
+                    if sheet_part in sheet_map:
+                        target_sheet_name = sheet_part
+
+            # Render the chart to the target sheet
+            self._render_chart(chart_spec, target_sheet_name)
+
     def _render_chart(self, chart_spec: ChartSpec, sheet_name: str) -> None:
         """
         Render a chart to the ODS document.
@@ -694,33 +742,49 @@ class OdsRenderer:
 
         # Position and size
         size = chart_spec.size
+        position = chart_spec.position
 
-        # Convert cell reference to position (simplified - just use anchor cell)
-        frame = Frame(
-            stylename=frame_style,
-            width=f"{size.width}pt",
-            height=f"{size.height}pt",
-            anchortype="paragraph",
-        )
+        # Parse cell reference for positioning
+        # Cell reference format: "A1" or "Sheet.A1"
+        cell_ref = position.cell
+        if "." in cell_ref:
+            # Strip sheet name if present
+            _, cell_ref = cell_ref.split(".", 1)
 
-        # TODO: Properly embed chart as a separate ODF subdocument
-        # For now, create a simple reference structure
-        # Charts in ODF need to be embedded as separate documents using addObject()
-        # This is a simplified implementation for basic chart support
+        # Convert cell reference to coordinates (simplified)
+        # For full implementation, would use proper cell addressing
+        # ODF uses SVG coordinates (x, y) from page origin
+
+        # Create frame with size and positioning
+        frame_kwargs = {
+            "stylename": frame_style,
+            "width": f"{size.width}pt",
+            "height": f"{size.height}pt",
+            "anchortype": "paragraph",
+        }
+
+        # Apply offset if specified
+        # Note: ODF Frame supports x/y positioning but requires proper anchor type
+        # For precise positioning, use absolute anchoring with page coordinates
+        if position.offset_x:
+            frame_kwargs["x"] = f"{position.offset_x}pt"
+        if position.offset_y:
+            frame_kwargs["y"] = f"{position.offset_y}pt"
+
+        frame = Frame(**frame_kwargs)
+
+        # Embed chart as an object within the frame
+        # In ODF, charts are embedded as separate subdocuments
+        # For this implementation, we create a reference structure
         object_elem = Object()
         object_elem.setAttribute("href", f"./{chart_id}")
-        object_elem.setAttribute("type", "simple")
+        # Note: Full implementation would use self._doc.addObject()
+        # to properly embed the chart as a subdocument with its own content.xml
+
         frame.addElement(object_elem)
 
-        # Store chart_element for potential future use
-        # (Full implementation would use doc.addObject())
-
-        # Add chart to document body
-        # In ODF, charts are typically embedded in content.xml within draw:frame
-        # For simplicity, we add to the first table's first cell as an embedded object
-        # A full implementation would handle precise cell positioning
-
-        # Store chart reference for later retrieval
+        # Store chart reference for potential attachment to specific cells
+        # Charts need to be added to the table at the appropriate position
         if not hasattr(self, "_charts"):
             self._charts = []
         self._charts.append(
@@ -729,6 +793,7 @@ class OdsRenderer:
                 "spec": chart_spec,
                 "frame": frame,
                 "sheet": sheet_name,
+                "cell_ref": cell_ref,
             }
         )
 

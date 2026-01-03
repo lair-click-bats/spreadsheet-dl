@@ -1,6 +1,6 @@
 # SpreadsheetDL
 
-**Current Version: v2.0.0** - Professional Spreadsheet System
+**Current Version: v4.0.0-alpha.1** - Universal Spreadsheet Definition Language
 
 Family financial tracking with ODS spreadsheets for Nextcloud and Collabora Office.
 
@@ -23,7 +23,7 @@ This project provides Python tools for creating, analyzing, and reporting on fam
 - Mobile-friendly ODS files
 - CLI and Python API
 
-### Professional Spreadsheet System (v2.0.0)
+### Professional Spreadsheet System (v4.0.0)
 
 - **Enterprise-grade formatting** - Professional templates for business and personal use
 - **Advanced template system** - Business, financial, and custom templates
@@ -515,48 +515,11 @@ MIT License - See LICENSE file
 
 ## Changelog
 
-### v2.0.0 (2025-12-29)
+See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
 
-- Professional spreadsheet system with enterprise-grade formatting
-- Advanced business and financial templates
-- Multi-sheet workbook support
-- Enhanced formula validation
-- Comprehensive test suite (250+ tests)
+### Recent Releases
 
-### v0.4.0 (2025-12-10)
-
-- Added declarative DSL for themes and styling
-- Added YAML-based theme definitions (5 built-in themes)
-- Added fluent SpreadsheetBuilder API
-- Added type-safe FormulaBuilder
-- Added OdsRenderer for builder-to-ODS conversion
-- Added CLI `--theme` flag for generation commands
-- Added CLI `themes` command to list available themes
-- Maintained full backward compatibility with v0.3.0
-
-### v0.3.0 (2025-12-10)
-
-- Added configuration management
-- Added exceptions module
-- Performance improvements
-
-### v0.2.0 (2025-12-10)
-
-- Added WebDAV upload to Nextcloud
-- Added bank CSV import with auto-detection
-- Added transaction auto-categorization
-- Added analytics dashboard
-- Added configurable alert system
-- Added recurring expense management
-- Added budget templates (50/30/20, Family, FIRE, etc.)
-- Added quick expense CLI command
-- Fixed pandas ODS reading issues using pyexcel_ods3
-- All 35+ tests passing
-
-### v0.1.0 (2025-12-09)
-
-- Initial release
-- ODS budget generation with formulas
-- Budget analysis with pandas
-- Report generation (text, Markdown, JSON)
-- CLI interface
+- **v4.0.0-alpha.1** (2026-01-03) - Universal spreadsheet definition language with MCP server, streaming I/O, 97% test coverage
+- **v2.0.0** (2025-12-29) - Professional spreadsheet system with enterprise formatting
+- **v0.4.1** (2025-12-15) - Expense append functionality and comprehensive error codes
+- **v0.4.0** (2025-12-10) - Declarative DSL with themes and fluent builder API

@@ -11,7 +11,6 @@ import pytest
 from spreadsheet_dl.builder import (
     CellSpec,
     ColumnSpec,
-    NamedRange as NamedRangeSpec,
     RangeRef,
     RowSpec,
     SheetSpec,
@@ -500,7 +499,7 @@ class TestOdsRendererNamedRanges:
 
     def test_render_with_named_range(self, tmp_path: Path) -> None:
         """Test rendering with sheet-scoped named ranges (lines 531-567)."""
-        from spreadsheet_dl.builder import NamedRange, RangeRef
+        from spreadsheet_dl.builder import NamedRange
 
         output_file = tmp_path / "named_ranges.ods"
         renderer = OdsRenderer()
@@ -525,7 +524,7 @@ class TestOdsRendererNamedRanges:
 
     def test_render_with_workbook_scoped_range(self, tmp_path: Path) -> None:
         """Test rendering with workbook-scoped named range (lines 556-558)."""
-        from spreadsheet_dl.builder import NamedRange, RangeRef
+        from spreadsheet_dl.builder import NamedRange
 
         output_file = tmp_path / "workbook_range.ods"
         renderer = OdsRenderer()
@@ -549,7 +548,7 @@ class TestOdsRendererNamedRanges:
 
     def test_render_with_multiple_named_ranges(self, tmp_path: Path) -> None:
         """Test rendering with multiple named ranges (lines 540-567)."""
-        from spreadsheet_dl.builder import NamedRange, RangeRef
+        from spreadsheet_dl.builder import NamedRange
 
         output_file = tmp_path / "multiple_ranges.ods"
         renderer = OdsRenderer()
@@ -1627,6 +1626,186 @@ class TestDataValidationRendering:
         assert path.exists()
 
 
+class TestChartAdditionMethod:
+    """Tests for _add_charts() method implementation."""
+
+    def test_add_charts_with_empty_list(self, tmp_path: Path) -> None:
+        """Test _add_charts() with empty chart list."""
+        output = tmp_path / "empty_charts.ods"
+        sheets = [SheetSpec(name="Data")]
+
+        renderer = OdsRenderer()
+        path = renderer.render(sheets, output, charts=[])
+
+        assert path.exists()
+
+    def test_add_charts_with_none_doc(self) -> None:
+        """Test _add_charts() returns early when _doc is None."""
+        from spreadsheet_dl.charts import ChartBuilder
+
+        renderer = OdsRenderer()
+        # _doc is None before initialization
+        assert renderer._doc is None
+
+        chart = ChartBuilder().column_chart().title("Test").build()
+
+        # Should return early without error
+        renderer._add_charts([chart], [SheetSpec(name="Sheet1")])
+
+    def test_add_charts_single_sheet(self, tmp_path: Path) -> None:
+        """Test _add_charts() with single sheet."""
+        from spreadsheet_dl.charts import ChartBuilder
+
+        output = tmp_path / "single_chart.ods"
+        sheets = [SheetSpec(name="Data")]
+
+        chart = (
+            ChartBuilder()
+            .column_chart()
+            .title("Test Chart")
+            .series("Values", "Data.B1:B10")
+            .position("D1")
+            .build()
+        )
+
+        renderer = OdsRenderer()
+        path = renderer.render(sheets, output, charts=[chart])
+
+        assert path.exists()
+
+    def test_add_charts_multiple_sheets(self, tmp_path: Path) -> None:
+        """Test _add_charts() with multiple sheets."""
+        from spreadsheet_dl.charts import ChartBuilder
+
+        output = tmp_path / "multi_sheet_charts.ods"
+        sheets = [
+            SheetSpec(name="Data1"),
+            SheetSpec(name="Data2"),
+        ]
+
+        chart1 = (
+            ChartBuilder()
+            .column_chart()
+            .title("Chart 1")
+            .series("Values", "Data1.B1:B10")
+            .position("Data1.D1")
+            .build()
+        )
+
+        chart2 = (
+            ChartBuilder()
+            .line_chart()
+            .title("Chart 2")
+            .series("Trend", "Data2.B1:B10")
+            .position("Data2.D1")
+            .build()
+        )
+
+        renderer = OdsRenderer()
+        path = renderer.render(sheets, output, charts=[chart1, chart2])
+
+        assert path.exists()
+
+    def test_add_charts_sheet_qualified_position(self, tmp_path: Path) -> None:
+        """Test _add_charts() extracts sheet from qualified cell reference."""
+        from spreadsheet_dl.charts import ChartBuilder
+
+        output = tmp_path / "qualified_position.ods"
+        sheets = [
+            SheetSpec(name="Sheet1"),
+            SheetSpec(name="Sheet2"),
+        ]
+
+        # Chart with sheet-qualified position (Sheet2.E5)
+        chart = (
+            ChartBuilder()
+            .pie_chart()
+            .title("Distribution")
+            .series("Values", "Sheet2.B1:B5")
+            .position("Sheet2.E5")
+            .build()
+        )
+
+        renderer = OdsRenderer()
+        path = renderer.render(sheets, output, charts=[chart])
+
+        assert path.exists()
+
+    def test_add_charts_unqualified_position(self, tmp_path: Path) -> None:
+        """Test _add_charts() with unqualified cell reference uses first sheet."""
+        from spreadsheet_dl.charts import ChartBuilder
+
+        output = tmp_path / "unqualified_position.ods"
+        sheets = [SheetSpec(name="Main"), SheetSpec(name="Extra")]
+
+        # Chart with unqualified position (F2)
+        chart = (
+            ChartBuilder()
+            .bar_chart()
+            .title("Comparison")
+            .series("Values", "Main.B1:B10")
+            .position("F2")
+            .build()
+        )
+
+        renderer = OdsRenderer()
+        path = renderer.render(sheets, output, charts=[chart])
+
+        assert path.exists()
+
+    def test_add_charts_with_offsets(self, tmp_path: Path) -> None:
+        """Test _add_charts() handles position offsets."""
+        from spreadsheet_dl.charts import ChartBuilder, ChartPosition
+
+        output = tmp_path / "chart_with_offsets.ods"
+        sheets = [SheetSpec(name="Data")]
+
+        # Chart with offsets
+        chart_spec = (
+            ChartBuilder()
+            .column_chart()
+            .title("Offset Chart")
+            .series("Values", "Data.B1:B10")
+            .build()
+        )
+        # Manually set position with offsets
+        chart_spec.position = ChartPosition(
+            cell="D1",
+            offset_x=50,
+            offset_y=100,
+        )
+
+        renderer = OdsRenderer()
+        path = renderer.render(sheets, output, charts=[chart_spec])
+
+        assert path.exists()
+
+    def test_add_charts_stores_chart_metadata(self, tmp_path: Path) -> None:
+        """Test _add_charts() stores chart metadata in _charts attribute."""
+        from spreadsheet_dl.charts import ChartBuilder
+
+        output = tmp_path / "chart_metadata.ods"
+        sheets = [SheetSpec(name="Data")]
+
+        chart = (
+            ChartBuilder()
+            .column_chart()
+            .title("Metadata Test")
+            .series("Values", "Data.B1:B5")
+            .position("E3")
+            .build()
+        )
+
+        renderer = OdsRenderer()
+        renderer.render(sheets, output, charts=[chart])
+
+        # Check that _charts attribute exists and has one entry
+        assert hasattr(renderer, "_charts")
+        assert len(renderer._charts) == 1
+        assert renderer._charts[0]["sheet"] == "Data"
+        assert renderer._charts[0]["cell_ref"] == "E3"
+
+
 class TestRendererEdgeCases:
     """Test edge cases and error handling in renderer."""
 
@@ -1665,9 +1844,9 @@ class TestRendererEdgeCases:
 
     def test_create_theme_styles_with_exception(self, tmp_path: Path) -> None:
         """Test _create_theme_styles handles exceptions (lines 245-247)."""
-        from spreadsheet_dl.schema.styles import Theme, ThemeSchema
         from unittest.mock import MagicMock
-        from odf.opendocument import OpenDocumentSpreadsheet
+
+        from spreadsheet_dl.schema.styles import Theme, ThemeSchema
 
         # Create theme with mocked list_styles and get_style
         meta = ThemeSchema(name="test", version="1.0")
@@ -1709,7 +1888,7 @@ class TestRendererEdgeCases:
 
     def test_render_with_named_ranges_path(self, tmp_path: Path) -> None:
         """Test render() calls _add_named_ranges (line 144)."""
-        from spreadsheet_dl.builder import NamedRange, RangeRef
+        from spreadsheet_dl.builder import NamedRange
 
         output_file = tmp_path / "test_named.ods"
         sheet = SheetSpec(name="Data")
@@ -1739,7 +1918,7 @@ class TestRendererEdgeCases:
 
     def test_add_named_ranges_none_doc(self, tmp_path: Path) -> None:
         """Test _add_named_ranges returns early when _doc is None (line 532)."""
-        from spreadsheet_dl.builder import NamedRange, RangeRef
+        from spreadsheet_dl.builder import NamedRange
 
         renderer = OdsRenderer()
         # _doc is None before initialization
@@ -1756,8 +1935,9 @@ class TestRendererEdgeCases:
 
     def test_add_named_ranges_reuses_container(self, tmp_path: Path) -> None:
         """Test _add_named_ranges reuses existing NamedExpressions (lines 547-548)."""
-        from spreadsheet_dl.builder import NamedRange, RangeRef
         from odf.opendocument import OpenDocumentSpreadsheet
+
+        from spreadsheet_dl.builder import NamedRange
 
         renderer = OdsRenderer()
         renderer._doc = OpenDocumentSpreadsheet()

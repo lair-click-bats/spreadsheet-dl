@@ -24,6 +24,7 @@ Security:
 
 from __future__ import annotations
 
+import contextlib
 import json
 import logging
 import sys
@@ -1617,15 +1618,18 @@ class MCPServer:
     ) -> MCPToolResult:
         """Get the value of a specific cell."""
         try:
-            path = self._validate_path(file_path)  # noqa: F841
-            # TODO: Implement cell reading from ODS
-            # For now, return placeholder
+            path = self._validate_path(file_path)
+
+            from spreadsheet_dl.ods_editor import OdsEditor
+
+            editor = OdsEditor(path)
+            value = editor.get_cell_value(sheet, cell)
+
             return MCPToolResult.json(
                 {
                     "cell": cell,
                     "sheet": sheet,
-                    "value": None,
-                    "message": "Cell reading not yet implemented",
+                    "value": value,
                 }
             )
         except Exception as e:
@@ -1640,15 +1644,20 @@ class MCPServer:
     ) -> MCPToolResult:
         """Set the value of a specific cell."""
         try:
-            path = self._validate_path(file_path)  # noqa: F841
-            # TODO: Implement cell writing to ODS
+            path = self._validate_path(file_path)
+
+            from spreadsheet_dl.ods_editor import OdsEditor
+
+            editor = OdsEditor(path)
+            editor.set_cell_value(sheet, cell, value)
+            editor.save()
+
             return MCPToolResult.json(
                 {
                     "success": True,
                     "cell": cell,
                     "sheet": sheet,
                     "value": value,
-                    "message": "Cell writing not yet implemented",
                 }
             )
         except Exception as e:
@@ -1662,14 +1671,19 @@ class MCPServer:
     ) -> MCPToolResult:
         """Clear the value and formatting of a cell."""
         try:
-            path = self._validate_path(file_path)  # noqa: F841
-            # TODO: Implement cell clearing
+            path = self._validate_path(file_path)
+
+            from spreadsheet_dl.ods_editor import OdsEditor
+
+            editor = OdsEditor(path)
+            editor.clear_cell(sheet, cell)
+            editor.save()
+
             return MCPToolResult.json(
                 {
                     "success": True,
                     "cell": cell,
                     "sheet": sheet,
-                    "message": "Cell clearing not yet implemented",
                 }
             )
         except Exception as e:
@@ -1684,15 +1698,20 @@ class MCPServer:
     ) -> MCPToolResult:
         """Copy a cell or range to another location."""
         try:
-            path = self._validate_path(file_path)  # noqa: F841
-            # TODO: Implement cell copying
+            path = self._validate_path(file_path)
+
+            from spreadsheet_dl.ods_editor import OdsEditor
+
+            editor = OdsEditor(path)
+            editor.copy_cells(sheet, source, destination)
+            editor.save()
+
             return MCPToolResult.json(
                 {
                     "success": True,
                     "source": source,
                     "destination": destination,
                     "sheet": sheet,
-                    "message": "Cell copying not yet implemented",
                 }
             )
         except Exception as e:
@@ -1707,15 +1726,20 @@ class MCPServer:
     ) -> MCPToolResult:
         """Move a cell or range to another location."""
         try:
-            path = self._validate_path(file_path)  # noqa: F841
-            # TODO: Implement cell moving
+            path = self._validate_path(file_path)
+
+            from spreadsheet_dl.ods_editor import OdsEditor
+
+            editor = OdsEditor(path)
+            editor.move_cells(sheet, source, destination)
+            editor.save()
+
             return MCPToolResult.json(
                 {
                     "success": True,
                     "source": source,
                     "destination": destination,
                     "sheet": sheet,
-                    "message": "Cell moving not yet implemented",
                 }
             )
         except Exception as e:
@@ -1729,15 +1753,36 @@ class MCPServer:
     ) -> MCPToolResult:
         """Get values of multiple cells in a single operation."""
         try:
-            path = self._validate_path(file_path)  # noqa: F841
-            # TODO: Implement batch cell reading
-            cell_list = [c.strip() for c in cells.split(",")]
+            path = self._validate_path(file_path)
+
+            from spreadsheet_dl.ods_editor import OdsEditor
+
+            editor = OdsEditor(path)
+
+            # Parse cells - can be comma-separated cells or a range
+            if ":" in cells:
+                # It's a range
+                start, end = editor._parse_range(cells)
+                cell_list = []
+                for row in range(start[0], end[0] + 1):
+                    for col in range(start[1], end[1] + 1):
+                        col_letter = editor._col_index_to_letter(col)
+                        cell_list.append(f"{col_letter}{row + 1}")
+            else:
+                # Comma-separated cells
+                cell_list = [c.strip() for c in cells.split(",")]
+
+            # Get values for all cells
+            values = {}
+            for cell_ref in cell_list:
+                value = editor.get_cell_value(sheet, cell_ref)
+                values[cell_ref] = value
+
             return MCPToolResult.json(
                 {
                     "cells": cell_list,
                     "sheet": sheet,
-                    "values": {},
-                    "message": "Batch cell reading not yet implemented",
+                    "values": values,
                 }
             )
         except Exception as e:
@@ -1751,15 +1796,24 @@ class MCPServer:
     ) -> MCPToolResult:
         """Set values of multiple cells in a single operation."""
         try:
-            path = self._validate_path(file_path)  # noqa: F841
+            path = self._validate_path(file_path)
+
+            from spreadsheet_dl.ods_editor import OdsEditor
+
+            editor = OdsEditor(path)
             values_dict = json.loads(values)
-            # TODO: Implement batch cell writing
+
+            # Set each cell value
+            for cell_ref, value in values_dict.items():
+                editor.set_cell_value(sheet, cell_ref, value)
+
+            editor.save()
+
             return MCPToolResult.json(
                 {
                     "success": True,
                     "sheet": sheet,
                     "cells_updated": len(values_dict),
-                    "message": "Batch cell writing not yet implemented",
                 }
             )
         except Exception as e:
@@ -1774,15 +1828,25 @@ class MCPServer:
     ) -> MCPToolResult:
         """Find cells containing specific text or matching a pattern."""
         try:
-            path = self._validate_path(file_path)  # noqa: F841
-            # TODO: Implement cell search
+            path = self._validate_path(file_path)
+
+            from spreadsheet_dl.ods_editor import OdsEditor
+
+            editor = OdsEditor(path)
+            matches = editor.find_cells(sheet, search_text, match_case)
+
+            # Convert matches to JSON-serializable format
+            match_list = [
+                {"cell": cell_ref, "value": value} for cell_ref, value in matches
+            ]
+
             return MCPToolResult.json(
                 {
                     "search_text": search_text,
                     "sheet": sheet,
                     "match_case": match_case,
-                    "matches": [],
-                    "message": "Cell search not yet implemented",
+                    "matches": match_list,
+                    "count": len(match_list),
                 }
             )
         except Exception as e:
@@ -1798,8 +1862,14 @@ class MCPServer:
     ) -> MCPToolResult:
         """Find and replace text in cells."""
         try:
-            path = self._validate_path(file_path)  # noqa: F841
-            # TODO: Implement find and replace
+            path = self._validate_path(file_path)
+
+            from spreadsheet_dl.ods_editor import OdsEditor
+
+            editor = OdsEditor(path)
+            count = editor.replace_cells(sheet, search_text, replace_text, match_case)
+            editor.save()
+
             return MCPToolResult.json(
                 {
                     "success": True,
@@ -1807,8 +1877,7 @@ class MCPServer:
                     "replace_text": replace_text,
                     "sheet": sheet,
                     "match_case": match_case,
-                    "replacements": 0,
-                    "message": "Find and replace not yet implemented",
+                    "replacements": count,
                 }
             )
         except Exception as e:
@@ -1822,16 +1891,46 @@ class MCPServer:
     ) -> MCPToolResult:
         """Merge a range of cells."""
         try:
-            path = self._validate_path(file_path)  # noqa: F841
-            # TODO: Implement cell merging
-            return MCPToolResult.json(
-                {
-                    "success": True,
-                    "range": range,
-                    "sheet": sheet,
-                    "message": "Cell merging not yet implemented",
-                }
-            )
+            path = self._validate_path(file_path)
+
+            from spreadsheet_dl.ods_editor import OdsEditor
+
+            editor = OdsEditor(path)
+            sheet_obj = editor.get_sheet(sheet)
+
+            # Parse range
+            start, end = editor._parse_range(range)
+            rows_to_span = end[0] - start[0] + 1
+            cols_to_span = end[1] - start[1] + 1
+
+            # Ensure the cell exists by setting an empty value if needed
+            cell = editor._get_cell(sheet_obj, start[0], start[1])
+            if cell is None:
+                # Create the cell by setting an empty value
+                editor._set_cell_value(sheet_obj, start[0], start[1], "")
+                cell = editor._get_cell(sheet_obj, start[0], start[1])
+
+            if cell is not None:
+                # Set merge attributes
+                if rows_to_span > 1:
+                    cell.setAttribute("numberrowsspanned", str(rows_to_span))
+                if cols_to_span > 1:
+                    cell.setAttribute("numbercolumnsspanned", str(cols_to_span))
+
+                editor.save()
+
+                return MCPToolResult.json(
+                    {
+                        "success": True,
+                        "range": range,
+                        "sheet": sheet,
+                        "rows_spanned": rows_to_span,
+                        "cols_spanned": cols_to_span,
+                    }
+                )
+            else:
+                return MCPToolResult.error(f"Cell not found at range start: {range}")
+
         except Exception as e:
             return MCPToolResult.error(str(e))
 
@@ -1843,16 +1942,38 @@ class MCPServer:
     ) -> MCPToolResult:
         """Unmerge a previously merged cell range."""
         try:
-            path = self._validate_path(file_path)  # noqa: F841
-            # TODO: Implement cell unmerging
-            return MCPToolResult.json(
-                {
-                    "success": True,
-                    "cell": cell,
-                    "sheet": sheet,
-                    "message": "Cell unmerging not yet implemented",
-                }
-            )
+            path = self._validate_path(file_path)
+
+            from spreadsheet_dl.ods_editor import OdsEditor
+
+            editor = OdsEditor(path)
+            sheet_obj = editor.get_sheet(sheet)
+
+            # Parse cell reference
+            row, col = editor._parse_cell_reference(cell)
+
+            # Get the cell
+            cell_obj = editor._get_cell(sheet_obj, row, col)
+
+            if cell_obj is not None:
+                # Remove merge attributes (suppress exception if they don't exist)
+                with contextlib.suppress(Exception):
+                    cell_obj.removeAttribute("numberrowsspanned")
+                with contextlib.suppress(Exception):
+                    cell_obj.removeAttribute("numbercolumnsspanned")
+
+                editor.save()
+
+                return MCPToolResult.json(
+                    {
+                        "success": True,
+                        "cell": cell,
+                        "sheet": sheet,
+                    }
+                )
+            else:
+                return MCPToolResult.error(f"Cell not found: {cell}")
+
         except Exception as e:
             return MCPToolResult.error(str(e))
 

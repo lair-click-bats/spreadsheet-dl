@@ -758,53 +758,353 @@ class TestMCPServerCellOperations:
         config = MCPConfig(allowed_paths=[tmp_path, Path.cwd()])
         return MCPServer(config)
 
-    def test_cell_get_handler(self, server: MCPServer, tmp_path: Path) -> None:
-        """Test cell_get handler."""
+    @pytest.fixture
+    def test_ods(self, tmp_path: Path) -> Path:
+        """Create a test ODS file with sample data."""
+        from odf.opendocument import OpenDocumentSpreadsheet
+        from odf.table import Table, TableCell, TableRow
+        from odf.text import P
+
+        # Create a simple ODS file
+        doc = OpenDocumentSpreadsheet()
+        table = Table(name="Sheet1")
+
+        # Add header row
+        header_row = TableRow()
+        for header in ["Name", "Value", "Status"]:
+            cell = TableCell(valuetype="string")
+            cell.addElement(P(text=header))
+            header_row.addElement(cell)
+        table.addElement(header_row)
+
+        # Add data rows
+        data = [
+            ["Test1", "100", "Active"],
+            ["Test2", "200", "Inactive"],
+            ["Test3", "300", "Active"],
+        ]
+        for row_data in data:
+            row = TableRow()
+            for value in row_data:
+                cell = TableCell(valuetype="string")
+                cell.addElement(P(text=value))
+                row.addElement(cell)
+            table.addElement(row)
+
+        doc.spreadsheet.addElement(table)
+
+        # Save to file
         test_file = tmp_path / "test.ods"
-        test_file.write_bytes(b"test")
+        doc.save(str(test_file))
+        return test_file
 
-        # The handler should exist
-        assert hasattr(server, "_handle_cell_get")
+    def test_cell_get_handler(self, server: MCPServer, test_ods: Path) -> None:
+        """Test cell_get handler reads values correctly."""
+        result = server._handle_cell_get(
+            file_path=str(test_ods),
+            sheet="Sheet1",
+            cell="A1",
+        )
 
-    def test_cell_set_handler(self, server: MCPServer, tmp_path: Path) -> None:
-        """Test cell_set handler."""
-        assert hasattr(server, "_handle_cell_set")
+        assert not result.is_error
+        content = json.loads(result.content[0]["text"])
+        assert content["cell"] == "A1"
+        assert content["sheet"] == "Sheet1"
+        assert content["value"] == "Name"
 
-    def test_cell_clear_handler(self, server: MCPServer) -> None:
-        """Test cell_clear handler."""
-        assert hasattr(server, "_handle_cell_clear")
+    def test_cell_set_handler(self, server: MCPServer, test_ods: Path) -> None:
+        """Test cell_set handler writes values correctly."""
+        result = server._handle_cell_set(
+            file_path=str(test_ods),
+            sheet="Sheet1",
+            cell="D1",
+            value="NewColumn",
+        )
 
-    def test_cell_copy_handler(self, server: MCPServer) -> None:
-        """Test cell_copy handler."""
-        assert hasattr(server, "_handle_cell_copy")
+        assert not result.is_error
+        content = json.loads(result.content[0]["text"])
+        assert content["success"] is True
+        assert content["cell"] == "D1"
+        assert content["value"] == "NewColumn"
 
-    def test_cell_move_handler(self, server: MCPServer) -> None:
-        """Test cell_move handler."""
-        assert hasattr(server, "_handle_cell_move")
+        # Verify the value was written
+        get_result = server._handle_cell_get(
+            file_path=str(test_ods),
+            sheet="Sheet1",
+            cell="D1",
+        )
+        get_content = json.loads(get_result.content[0]["text"])
+        assert get_content["value"] == "NewColumn"
 
-    def test_cell_batch_get_handler(self, server: MCPServer) -> None:
-        """Test cell_batch_get handler."""
-        assert hasattr(server, "_handle_cell_batch_get")
+    def test_cell_clear_handler(self, server: MCPServer, test_ods: Path) -> None:
+        """Test cell_clear handler clears cell values."""
+        # First set a value
+        server._handle_cell_set(
+            file_path=str(test_ods),
+            sheet="Sheet1",
+            cell="E1",
+            value="ToClear",
+        )
 
-    def test_cell_batch_set_handler(self, server: MCPServer) -> None:
-        """Test cell_batch_set handler."""
-        assert hasattr(server, "_handle_cell_batch_set")
+        # Now clear it
+        result = server._handle_cell_clear(
+            file_path=str(test_ods),
+            sheet="Sheet1",
+            cell="E1",
+        )
 
-    def test_cell_find_handler(self, server: MCPServer) -> None:
-        """Test cell_find handler."""
-        assert hasattr(server, "_handle_cell_find")
+        assert not result.is_error
+        content = json.loads(result.content[0]["text"])
+        assert content["success"] is True
 
-    def test_cell_replace_handler(self, server: MCPServer) -> None:
-        """Test cell_replace handler."""
-        assert hasattr(server, "_handle_cell_replace")
+        # Verify it was cleared
+        get_result = server._handle_cell_get(
+            file_path=str(test_ods),
+            sheet="Sheet1",
+            cell="E1",
+        )
+        get_content = json.loads(get_result.content[0]["text"])
+        assert get_content["value"] is None or get_content["value"] == ""
 
-    def test_cell_merge_handler(self, server: MCPServer) -> None:
-        """Test cell_merge handler."""
-        assert hasattr(server, "_handle_cell_merge")
+    def test_cell_copy_handler(self, server: MCPServer, test_ods: Path) -> None:
+        """Test cell_copy handler copies cell values."""
+        result = server._handle_cell_copy(
+            file_path=str(test_ods),
+            sheet="Sheet1",
+            source="A1",
+            destination="F1",
+        )
 
-    def test_cell_unmerge_handler(self, server: MCPServer) -> None:
-        """Test cell_unmerge handler."""
-        assert hasattr(server, "_handle_cell_unmerge")
+        assert not result.is_error
+        content = json.loads(result.content[0]["text"])
+        assert content["success"] is True
+
+        # Verify the copy
+        get_result = server._handle_cell_get(
+            file_path=str(test_ods),
+            sheet="Sheet1",
+            cell="F1",
+        )
+        get_content = json.loads(get_result.content[0]["text"])
+        assert get_content["value"] == "Name"
+
+    def test_cell_move_handler(self, server: MCPServer, test_ods: Path) -> None:
+        """Test cell_move handler moves cell values."""
+        # Set a value to move
+        server._handle_cell_set(
+            file_path=str(test_ods),
+            sheet="Sheet1",
+            cell="G1",
+            value="ToMove",
+        )
+
+        result = server._handle_cell_move(
+            file_path=str(test_ods),
+            sheet="Sheet1",
+            source="G1",
+            destination="H1",
+        )
+
+        assert not result.is_error
+        content = json.loads(result.content[0]["text"])
+        assert content["success"] is True
+
+        # Verify destination has the value
+        get_result = server._handle_cell_get(
+            file_path=str(test_ods),
+            sheet="Sheet1",
+            cell="H1",
+        )
+        get_content = json.loads(get_result.content[0]["text"])
+        assert get_content["value"] == "ToMove"
+
+        # Verify source is cleared
+        get_result = server._handle_cell_get(
+            file_path=str(test_ods),
+            sheet="Sheet1",
+            cell="G1",
+        )
+        get_content = json.loads(get_result.content[0]["text"])
+        assert get_content["value"] is None or get_content["value"] == ""
+
+    def test_cell_batch_get_handler(self, server: MCPServer, test_ods: Path) -> None:
+        """Test cell_batch_get handler reads multiple cells."""
+        result = server._handle_cell_batch_get(
+            file_path=str(test_ods),
+            sheet="Sheet1",
+            cells="A1,B1,C1",
+        )
+
+        assert not result.is_error
+        content = json.loads(result.content[0]["text"])
+        assert len(content["values"]) == 3
+        assert content["values"]["A1"] == "Name"
+        assert content["values"]["B1"] == "Value"
+        assert content["values"]["C1"] == "Status"
+
+    def test_cell_batch_get_range(self, server: MCPServer, test_ods: Path) -> None:
+        """Test cell_batch_get handler reads a range."""
+        result = server._handle_cell_batch_get(
+            file_path=str(test_ods),
+            sheet="Sheet1",
+            cells="A1:C1",
+        )
+
+        assert not result.is_error
+        content = json.loads(result.content[0]["text"])
+        assert len(content["values"]) == 3
+        assert "A1" in content["values"]
+        assert "B1" in content["values"]
+        assert "C1" in content["values"]
+
+    def test_cell_batch_set_handler(self, server: MCPServer, test_ods: Path) -> None:
+        """Test cell_batch_set handler writes multiple cells."""
+        values = json.dumps(
+            {
+                "A5": "Batch1",
+                "B5": "Batch2",
+                "C5": "Batch3",
+            }
+        )
+
+        result = server._handle_cell_batch_set(
+            file_path=str(test_ods),
+            sheet="Sheet1",
+            values=values,
+        )
+
+        assert not result.is_error
+        content = json.loads(result.content[0]["text"])
+        assert content["success"] is True
+        assert content["cells_updated"] == 3
+
+        # Verify values were written
+        get_result = server._handle_cell_get(
+            file_path=str(test_ods),
+            sheet="Sheet1",
+            cell="B5",
+        )
+        get_content = json.loads(get_result.content[0]["text"])
+        assert get_content["value"] == "Batch2"
+
+    def test_cell_find_handler(self, server: MCPServer, test_ods: Path) -> None:
+        """Test cell_find handler finds matching cells."""
+        result = server._handle_cell_find(
+            file_path=str(test_ods),
+            sheet="Sheet1",
+            search_text="Test",
+            match_case=False,
+        )
+
+        assert not result.is_error
+        content = json.loads(result.content[0]["text"])
+        assert content["count"] >= 3  # At least 3 matches (Test1, Test2, Test3)
+        assert len(content["matches"]) >= 3
+
+    def test_cell_find_case_sensitive(self, server: MCPServer, test_ods: Path) -> None:
+        """Test cell_find handler with case sensitivity."""
+        result = server._handle_cell_find(
+            file_path=str(test_ods),
+            sheet="Sheet1",
+            search_text="Active",
+            match_case=True,
+        )
+
+        assert not result.is_error
+        content = json.loads(result.content[0]["text"])
+        assert content["match_case"] is True
+        assert content["count"] >= 2  # At least 2 "Active" matches
+
+    def test_cell_replace_handler(self, server: MCPServer, test_ods: Path) -> None:
+        """Test cell_replace handler replaces text in cells."""
+        result = server._handle_cell_replace(
+            file_path=str(test_ods),
+            sheet="Sheet1",
+            search_text="Active",
+            replace_text="Enabled",
+            match_case=False,
+        )
+
+        assert not result.is_error
+        content = json.loads(result.content[0]["text"])
+        assert content["success"] is True
+        assert content["replacements"] >= 2
+
+        # Verify replacement
+        find_result = server._handle_cell_find(
+            file_path=str(test_ods),
+            sheet="Sheet1",
+            search_text="Enabled",
+            match_case=False,
+        )
+        find_content = json.loads(find_result.content[0]["text"])
+        assert find_content["count"] >= 2
+
+    def test_cell_merge_handler(self, server: MCPServer, test_ods: Path) -> None:
+        """Test cell_merge handler merges cell ranges."""
+        result = server._handle_cell_merge(
+            file_path=str(test_ods),
+            sheet="Sheet1",
+            range="A6:C6",
+        )
+
+        assert not result.is_error
+        content = json.loads(result.content[0]["text"])
+        assert content["success"] is True
+        assert content["rows_spanned"] == 1
+        assert content["cols_spanned"] == 3
+
+    def test_cell_unmerge_handler(self, server: MCPServer, test_ods: Path) -> None:
+        """Test cell_unmerge handler unmerges cells."""
+        # First merge
+        server._handle_cell_merge(
+            file_path=str(test_ods),
+            sheet="Sheet1",
+            range="A7:B7",
+        )
+
+        # Then unmerge
+        result = server._handle_cell_unmerge(
+            file_path=str(test_ods),
+            sheet="Sheet1",
+            cell="A7",
+        )
+
+        assert not result.is_error
+        content = json.loads(result.content[0]["text"])
+        assert content["success"] is True
+
+    def test_cell_get_nonexistent_file(self, server: MCPServer, tmp_path: Path) -> None:
+        """Test cell_get with nonexistent file returns error."""
+        result = server._handle_cell_get(
+            file_path=str(tmp_path / "nonexistent.ods"),
+            sheet="Sheet1",
+            cell="A1",
+        )
+
+        assert result.is_error
+
+    def test_cell_get_invalid_sheet(self, server: MCPServer, test_ods: Path) -> None:
+        """Test cell_get with invalid sheet name returns error."""
+        result = server._handle_cell_get(
+            file_path=str(test_ods),
+            sheet="NonexistentSheet",
+            cell="A1",
+        )
+
+        assert result.is_error
+
+    def test_cell_get_invalid_cell_reference(
+        self, server: MCPServer, test_ods: Path
+    ) -> None:
+        """Test cell_get with invalid cell reference returns error."""
+        result = server._handle_cell_get(
+            file_path=str(test_ods),
+            sheet="Sheet1",
+            cell="INVALID",
+        )
+
+        assert result.is_error
 
 
 class TestMCPServerStyleOperations:

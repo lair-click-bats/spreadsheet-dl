@@ -55,9 +55,9 @@ SpreadsheetDL provides Python tools for creating, analyzing, and reporting on fa
 
 ## Version
 
-Current version: **v1.0.0** (v2.0.0 in development)
+Current version: **v4.0.0-alpha.1**
 
-### What's New in v2.0 (Development)
+### What's New in v4.0.0-alpha.1
 
 - **Template Engine** - Define spreadsheets declaratively in YAML
   - Variable substitution with `${...}` syntax
