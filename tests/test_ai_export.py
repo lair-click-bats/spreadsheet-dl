@@ -15,7 +15,7 @@ from pathlib import Path
 
 import pytest
 
-from finance_tracker.ai_export import (
+from spreadsheet_dl.ai_export import (
     AIExporter,
     AIExportMetadata,
     ConsistencyError,
@@ -27,7 +27,7 @@ from finance_tracker.ai_export import (
     export_dual,
     export_for_ai,
 )
-from finance_tracker.exceptions import FileError
+from spreadsheet_dl.exceptions import FileError
 
 
 @pytest.fixture
@@ -227,7 +227,7 @@ class TestAIExportMetadata:
         result = metadata.to_dict()
 
         assert result["source_file"] == "/path/to/budget.ods"
-        assert result["format"] == "finance-tracker-ai-export"
+        assert result["format"] == "spreadsheet-dl-ai-export"
         assert result["business_context"]["domain"] == "personal_finance"
         assert "export_time" in result
 

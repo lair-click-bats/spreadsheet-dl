@@ -7,8 +7,7 @@ Tests:
     - FR-TEMPLATE-003: Conditional Content
 """
 
-
-from finance_tracker.template_engine import (
+from spreadsheet_dl.template_engine import (
     CellTemplate,
     ColumnTemplate,
     ConditionalBlock,
@@ -432,6 +431,7 @@ class TestTemplateRenderer:
         result = render_template(template, {})
         # Should have current year
         from datetime import date
+
         assert result.sheets[0].rows[0].cells[0].value == date.today().year
 
 

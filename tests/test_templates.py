@@ -8,7 +8,7 @@ Tests for v2.0.0 Professional Business Templates:
 
 from __future__ import annotations
 
-from finance_tracker.templates import (
+from spreadsheet_dl.templates import (
     PROFESSIONAL_TEMPLATES,
     BudgetCategory,
     CashFlowTrackerTemplate,

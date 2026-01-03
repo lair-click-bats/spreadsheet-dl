@@ -13,7 +13,7 @@ from pathlib import Path
 
 import pytest
 
-from finance_tracker.currency import (
+from spreadsheet_dl.currency import (
     CURRENCIES,
     CurrencyCode,
     CurrencyConverter,

@@ -8,7 +8,7 @@ from unittest.mock import patch
 
 import pytest
 
-from finance_tracker.config import (
+from spreadsheet_dl.config import (
     Config,
     DefaultSettings,
     DisplaySettings,

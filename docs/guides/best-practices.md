@@ -3,7 +3,7 @@
 **Implements: DOC-PROF-005: Best Practices Documentation**
 
 This guide covers best practices for creating professional, maintainable
-spreadsheets using finance-tracker.
+spreadsheets using spreadsheet-dl.
 
 ## Table of Contents
 
@@ -103,7 +103,7 @@ colors:
 Always ensure sufficient contrast:
 
 ```python
-from finance_tracker.schema import Color
+from spreadsheet_dl.schema import Color
 
 bg_color = Color("#4472C4")
 text_color = Color("#FFFFFF")
@@ -230,7 +230,7 @@ builder.cell("=SUM(B2:B100)")          # Magic range
 ### Use Structured References
 
 ```python
-from finance_tracker.builder import formula
+from spreadsheet_dl.builder import formula
 
 # Build formulas with clear structure
 variance = (
@@ -260,7 +260,7 @@ builder.cell(
 ### Always Validate User Input
 
 ```python
-from finance_tracker.schema.data_validation import (
+from spreadsheet_dl.schema.data_validation import (
     DataValidation,
     InputMessage,
     ErrorAlert,
@@ -347,7 +347,7 @@ ConditionalFormatBuilder()
 ### Always Set Print Area
 
 ```python
-from finance_tracker.schema.print_layout import PageSetup, PrintArea
+from spreadsheet_dl.schema.print_layout import PageSetup, PrintArea
 
 setup = PageSetup(
     print_area=PrintArea("A1:F50"),  # Define what prints
@@ -375,7 +375,7 @@ PageSetup(
 ### Include Headers and Footers
 
 ```python
-from finance_tracker.schema.print_layout import (
+from spreadsheet_dl.schema.print_layout import (
     HeaderFooter,
     HeaderFooterContent,
 )

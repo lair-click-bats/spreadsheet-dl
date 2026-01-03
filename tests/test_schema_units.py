@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import pytest
 
-from finance_tracker.schema.units import (
+from spreadsheet_dl.schema.units import (
     Length,
     LengthUnit,
     cm,

@@ -77,7 +77,7 @@
       "label": "Generate Budget",
       "type": "shell",
       "command": "uv",
-      "args": ["run", "finance-tracker", "generate", "-o", "./output/"],
+      "args": ["run", "spreadsheet-dl", "generate", "-o", "./output/"],
       "group": "build",
       "presentation": {
         "echo": true,

@@ -4,7 +4,7 @@
 
 **Document Version:** 1.0.0
 **Date:** 2025-12-28
-**Project:** Finance Tracker Professional Enhancement
+**Project:** SpreadsheetDL Professional Enhancement
 **Base Version:** v1.0.0 (125/125 requirements complete)
 **Target Version:** v2.0.0
 **Status:** Requirements Complete
@@ -15,7 +15,7 @@
 
 ### Project Overview
 
-This specification defines comprehensive requirements for upgrading Finance Tracker from a basic spreadsheet generator to an enterprise-grade professional spreadsheet system. The enhancement covers 12 major areas with 95+ detailed requirements.
+This specification defines comprehensive requirements for upgrading SpreadsheetDL from a basic spreadsheet generator to an enterprise-grade professional spreadsheet system. The enhancement covers 12 major areas with 95+ detailed requirements.
 
 ### Goals and Objectives
 
@@ -82,7 +82,7 @@ The system SHALL provide a comprehensive Color dataclass supporting multiple col
 
 **Examples:**
 ```python
-from finance_tracker.schema.styles import Color
+from spreadsheet_dl.schema.styles import Color
 
 # Multiple creation methods
 c1 = Color("#4472C4")
@@ -124,7 +124,7 @@ The system SHALL provide a Length value object for consistent measurement handli
 
 **Examples:**
 ```python
-from finance_tracker.schema.units import Length
+from spreadsheet_dl.schema.units import Length
 
 # Creation
 width = Length(12, "pt")
@@ -168,7 +168,7 @@ The system SHALL provide a comprehensive Font dataclass with full typographic co
 
 **Examples:**
 ```python
-from finance_tracker.schema.styles import Font, FontWeight, UnderlineStyle
+from spreadsheet_dl.schema.styles import Font, FontWeight, UnderlineStyle
 
 font = Font(
     family="Liberation Sans",
@@ -207,7 +207,7 @@ The system SHALL provide comprehensive border specification with per-side contro
 
 **Examples:**
 ```python
-from finance_tracker.schema.styles import Borders, BorderEdge, BorderStyle
+from spreadsheet_dl.schema.styles import Borders, BorderEdge, BorderStyle
 
 # Per-side control
 borders = Borders(
@@ -247,7 +247,7 @@ The system SHALL provide cell background fill specification supporting solid col
 
 **Examples:**
 ```python
-from finance_tracker.schema.styles import CellFill, PatternFill, GradientFill, PatternType
+from spreadsheet_dl.schema.styles import CellFill, PatternFill, GradientFill, PatternType
 
 # Solid fill
 solid = CellFill(solid_color=Color("#E8F4FD"))
@@ -298,7 +298,7 @@ The system SHALL provide a comprehensive number format specification with ODF fo
 
 **Examples:**
 ```python
-from finance_tracker.schema.styles import NumberFormat
+from spreadsheet_dl.schema.styles import NumberFormat
 
 # Currency with accounting format
 accounting = NumberFormat(
@@ -347,7 +347,7 @@ The system SHALL provide a complete CellStyle dataclass incorporating all format
 
 **Examples:**
 ```python
-from finance_tracker.schema.styles import CellStyle, TextAlign, VerticalAlign
+from spreadsheet_dl.schema.styles import CellStyle, TextAlign, VerticalAlign
 
 style = CellStyle(
     name="accounting_cell",
@@ -388,7 +388,7 @@ The system SHALL provide comprehensive JSON Schema for theme and template YAML v
 
 **Examples:**
 ```python
-from finance_tracker.schema.validation import validate_theme_yaml
+from spreadsheet_dl.schema.validation import validate_theme_yaml
 
 errors = validate_theme_yaml("themes/corporate.yaml")
 if errors:
@@ -550,7 +550,7 @@ The system SHALL support automatic migration of theme and template files when sc
 
 **Examples:**
 ```python
-from finance_tracker.schema.migration import migrate_theme
+from spreadsheet_dl.schema.migration import migrate_theme
 
 # Migrate theme file to current version
 result = migrate_theme("themes/old-theme.yaml", dry_run=True)
@@ -725,7 +725,7 @@ The system SHALL validate themes for WCAG accessibility compliance and provide c
 
 **Examples:**
 ```python
-from finance_tracker.schema.accessibility import check_theme_accessibility
+from spreadsheet_dl.schema.accessibility import check_theme_accessibility
 
 report = check_theme_accessibility("themes/corporate.yaml")
 print(f"WCAG AA Compliant: {report.wcag_aa_compliant}")
@@ -806,7 +806,7 @@ The system SHALL provide a library of professional, ready-to-use themes for vari
 
 **Examples:**
 ```python
-from finance_tracker.schema.loader import ThemeLoader
+from spreadsheet_dl.schema.loader import ThemeLoader
 
 # Load professional theme
 loader = ThemeLoader()
@@ -879,7 +879,7 @@ The system SHALL support runtime theme switching for template preview and multi-
 
 **Examples:**
 ```python
-from finance_tracker.builder import SpreadsheetBuilder
+from spreadsheet_dl.builder import SpreadsheetBuilder
 
 builder = SpreadsheetBuilder(theme="corporate")
 builder.sheet("Budget").column("Amount")...
@@ -918,7 +918,7 @@ The system SHALL support exporting themes to various formats for documentation a
 
 **Examples:**
 ```python
-from finance_tracker.schema.export import export_theme
+from spreadsheet_dl.schema.export import export_theme
 
 # Export to CSS
 css = export_theme("corporate", format="css")
@@ -957,7 +957,7 @@ The system SHALL provide comprehensive theme validation and linting with actiona
 
 **Examples:**
 ```python
-from finance_tracker.schema.validation import validate_theme, lint_theme
+from spreadsheet_dl.schema.validation import validate_theme, lint_theme
 
 # Validation (errors)
 errors = validate_theme("themes/my-theme.yaml")
@@ -1002,7 +1002,7 @@ The system SHALL provide complete font formatting control matching ODF capabilit
 
 **Examples:**
 ```python
-from finance_tracker.schema.styles import Font, UnderlineStyle
+from spreadsheet_dl.schema.styles import Font, UnderlineStyle
 
 font = Font(
     family="Liberation Sans",
@@ -2425,7 +2425,7 @@ meta:
   name: "Monthly Budget"
   version: "1.0.0"
   description: "Standard monthly budget tracking template"
-  author: "Finance Tracker Team"
+  author: "SpreadsheetDL Team"
   theme: "corporate"
 
 variables:
@@ -2675,7 +2675,7 @@ The system SHALL support template export and import for sharing.
 
 **Examples:**
 ```python
-from finance_tracker.templates import export_template, import_template
+from spreadsheet_dl.templates import export_template, import_template
 
 # Export
 package_path = export_template(
@@ -2714,7 +2714,7 @@ The system SHALL support template preview before generation.
 
 **Examples:**
 ```python
-from finance_tracker.templates import preview_template
+from spreadsheet_dl.templates import preview_template
 
 # Preview with sample data
 html = preview_template(
@@ -2756,7 +2756,7 @@ The system SHALL provide comprehensive template validation.
 
 **Examples:**
 ```python
-from finance_tracker.templates import validate_template
+from spreadsheet_dl.templates import validate_template
 
 errors = validate_template("my-template.yaml")
 for error in errors:
@@ -2827,16 +2827,16 @@ The system SHALL provide CLI commands for template management.
 **Examples:**
 ```bash
 # List templates
-finance-tracker templates list
+spreadsheet-dl templates list
 
 # Show template details
-finance-tracker templates show monthly-budget
+spreadsheet-dl templates show monthly-budget
 
 # Validate custom template
-finance-tracker templates validate my-template.yaml
+spreadsheet-dl templates validate my-template.yaml
 
 # Create from wizard
-finance-tracker templates create --interactive
+spreadsheet-dl templates create --interactive
 ```
 
 ---
@@ -2864,7 +2864,7 @@ The system SHALL provide an extended SpreadsheetBuilder with full formatting sup
 
 **Examples:**
 ```python
-from finance_tracker.builder import SpreadsheetBuilder
+from spreadsheet_dl.builder import SpreadsheetBuilder
 
 builder = SpreadsheetBuilder(theme="corporate")
 
@@ -2908,7 +2908,7 @@ The system SHALL provide a fluent DataValidationBuilder for data validation rule
 
 **Examples:**
 ```python
-from finance_tracker.builder import DataValidationBuilder
+from spreadsheet_dl.builder import DataValidationBuilder
 
 # List validation
 category_validation = DataValidationBuilder() \
@@ -2955,7 +2955,7 @@ The system SHALL provide a fluent ConditionalFormatBuilder for conditional forma
 
 **Examples:**
 ```python
-from finance_tracker.builder import ConditionalFormatBuilder
+from spreadsheet_dl.builder import ConditionalFormatBuilder
 
 # Budget status formatting
 budget_format = ConditionalFormatBuilder() \
@@ -3004,7 +3004,7 @@ The system SHALL provide a fluent ChartBuilder for chart creation.
 
 **Examples:**
 ```python
-from finance_tracker.builder import ChartBuilder
+from spreadsheet_dl.builder import ChartBuilder
 
 chart = ChartBuilder() \
     .column_chart() \
@@ -3047,7 +3047,7 @@ The system SHALL enhance the FormulaBuilder with additional functions and featur
 
 **Examples:**
 ```python
-from finance_tracker.builder import formula
+from spreadsheet_dl.builder import formula
 
 f = formula()
 
@@ -3091,7 +3091,7 @@ The system SHALL provide a fluent StyleBuilder for inline style creation.
 
 **Examples:**
 ```python
-from finance_tracker.builder import StyleBuilder
+from spreadsheet_dl.builder import StyleBuilder
 
 header_style = StyleBuilder("my_header") \
     .font(family="Arial", size="12pt", weight="bold", color="#FFFFFF") \
@@ -3133,8 +3133,8 @@ The system SHALL provide complete type safety for all builder APIs.
 
 **Examples:**
 ```python
-from finance_tracker.builder import SpreadsheetBuilder, CellSpec
-from finance_tracker.schema.styles import CellStyle
+from spreadsheet_dl.builder import SpreadsheetBuilder, CellSpec
+from spreadsheet_dl.schema.styles import CellStyle
 
 # Type-safe method signatures
 def build_report(builder: SpreadsheetBuilder, data: list[dict[str, Any]]) -> None:
@@ -3174,8 +3174,8 @@ The system SHALL provide comprehensive error handling in the builder API.
 
 **Examples:**
 ```python
-from finance_tracker.builder import SpreadsheetBuilder
-from finance_tracker.exceptions import BuilderError, ValidationWarning
+from spreadsheet_dl.builder import SpreadsheetBuilder
+from spreadsheet_dl.exceptions import BuilderError, ValidationWarning
 
 try:
     builder = SpreadsheetBuilder(theme="corporate")
@@ -3220,7 +3220,7 @@ The system SHALL optimize builder performance for large spreadsheets.
 
 **Examples:**
 ```python
-from finance_tracker.builder import SpreadsheetBuilder
+from spreadsheet_dl.builder import SpreadsheetBuilder
 
 # With progress callback
 def on_progress(percent: float, message: str) -> None:

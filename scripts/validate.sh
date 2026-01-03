@@ -56,65 +56,90 @@ else
 fi
 echo ""
 
-# ODS Generation Test
-echo "5. ODS Generation Test"
-echo "----------------------"
+# SpreadsheetDL Integration Test
+echo "5. SpreadsheetDL Integration Test"
+echo "----------------------------------"
 mkdir -p output
 if uv run python -c "
-from finance_tracker.ods_generator import create_monthly_budget
+from spreadsheet_dl import SpreadsheetBuilder
 from pathlib import Path
-path = create_monthly_budget('output')
+
+# Create a simple test spreadsheet using correct API
+builder = SpreadsheetBuilder()
+builder.sheet('Test').header_row().data_rows(3)
+
+# Save using builder's save method
+path = Path('output/validation-test.ods')
+builder.save(str(path))
+
 assert path.exists(), 'File not created'
 assert path.stat().st_size > 0, 'File is empty'
 print(f'Generated: {path} ({path.stat().st_size} bytes)')
 "; then
-    echo "PASS: ODS generation works"
+    echo "PASS: SpreadsheetDL integration works"
 else
-    echo "FAIL: ODS generation failed"
+    echo "FAIL: SpreadsheetDL integration failed"
     FAILURES=$((FAILURES + 1))
 fi
 echo ""
 
-# ODS Analysis Test
-echo "6. ODS Analysis Test"
-echo "--------------------"
+# Streaming I/O Test
+echo "6. Streaming I/O Test"
+echo "---------------------"
 if uv run python -c "
-from finance_tracker.budget_analyzer import analyze_budget
+from spreadsheet_dl.streaming import StreamingWriter
 from pathlib import Path
-ods_files = list(Path('output').glob('*.ods'))
-if ods_files:
-    result = analyze_budget(ods_files[0])
-    assert 'total_budget' in result
-    assert 'total_spent' in result
-    print(f'Analysis complete: budget=\${result[\"total_budget\"]:,.2f}')
-else:
-    print('No ODS files to analyze')
+
+# Test streaming write using correct API
+path = Path('output/streaming-test.ods')
+writer = StreamingWriter(str(path))
+writer.start_sheet('Data')
+for i in range(50):
+    writer.write_row([f'Row {i}', f'Value {i}', i * 10])
+writer.end_sheet()
+writer.close()
+
+assert path.exists(), 'Streaming file not created'
+assert path.stat().st_size > 0, 'Streaming file is empty'
+print(f'Streaming test: {path} ({path.stat().st_size} bytes)')
 "; then
-    echo "PASS: ODS analysis works"
+    echo "PASS: Streaming I/O works"
 else
-    echo "FAIL: ODS analysis failed"
+    echo "FAIL: Streaming I/O failed"
     FAILURES=$((FAILURES + 1))
 fi
 echo ""
 
-# Report Generation Test
-echo "7. Report Generation Test"
-echo "-------------------------"
+# Format Adapters Test
+echo "7. Format Adapters Test"
+echo "-----------------------"
 if uv run python -c "
-from finance_tracker.report_generator import generate_monthly_report
+from spreadsheet_dl import SpreadsheetBuilder
+from spreadsheet_dl.adapters import CsvAdapter, JsonAdapter
 from pathlib import Path
-ods_files = list(Path('output').glob('*.ods'))
-if ods_files:
-    report = generate_monthly_report(ods_files[0], format='text')
-    assert 'BUDGET REPORT' in report
-    print('Report generated successfully')
-    print(report[:200] + '...')
-else:
-    print('No ODS files for report')
+
+# Create test data using correct API
+builder = SpreadsheetBuilder()
+builder.sheet('Export Test').header_row().data_rows(2)
+
+# Test CSV export using adapter's export method
+csv_path = Path('output/adapter-test.csv')
+csv_adapter = CsvAdapter()
+csv_adapter.export(builder._sheets, csv_path)
+assert csv_path.exists(), 'CSV export failed'
+
+# Test JSON export using adapter's export method
+json_path = Path('output/adapter-test.json')
+json_adapter = JsonAdapter()
+json_adapter.export(builder._sheets, json_path)
+assert json_path.exists(), 'JSON export failed'
+
+print(f'CSV: {csv_path} ({csv_path.stat().st_size} bytes)')
+print(f'JSON: {json_path} ({json_path.stat().st_size} bytes)')
 "; then
-    echo "PASS: Report generation works"
+    echo "PASS: Format adapters work"
 else
-    echo "FAIL: Report generation failed"
+    echo "FAIL: Format adapters failed"
     FAILURES=$((FAILURES + 1))
 fi
 echo ""

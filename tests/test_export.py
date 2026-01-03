@@ -16,8 +16,8 @@ from pathlib import Path
 
 import pytest
 
-from finance_tracker.exceptions import FileError
-from finance_tracker.export import (
+from spreadsheet_dl.exceptions import FileError
+from spreadsheet_dl.export import (
     ExportDependencyError,
     ExportFormat,
     ExportOptions,

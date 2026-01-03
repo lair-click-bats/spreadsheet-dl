@@ -22,7 +22,7 @@ import json
 import os
 import shutil
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 
@@ -48,8 +48,8 @@ def get_file_age_days(filepath: Path) -> float:
     """Get file age in days."""
     try:
         mtime = filepath.stat().st_mtime
-        mtime_dt = datetime.fromtimestamp(mtime, tz=timezone.utc)
-        now = datetime.now(tz=timezone.utc)
+        mtime_dt = datetime.fromtimestamp(mtime, tz=UTC)
+        now = datetime.now(tz=UTC)
         return (now - mtime_dt).total_seconds() / 86400
     except Exception:
         return 0
@@ -183,11 +183,18 @@ def main() -> None:
     total_removed = coord_stats["removed"] + archive_removed
 
     if total_archived > 0 or total_removed > 0:
-        log_info(f"Cleanup complete: {total_archived} archived, {total_removed} removed")
+        log_info(
+            f"Cleanup complete: {total_archived} archived, {total_removed} removed"
+        )
 
     # Always succeed - cleanup is best-effort
     print(
-        json.dumps({"ok": True, "cleanup": {"archived": total_archived, "removed": total_removed}})
+        json.dumps(
+            {
+                "ok": True,
+                "cleanup": {"archived": total_archived, "removed": total_removed},
+            }
+        )
     )
     sys.exit(0)
 

@@ -1,4 +1,4 @@
-# Finance Tracker - Comprehensive Requirements Specification
+# SpreadsheetDL - Comprehensive Requirements Specification
 
 **Document Version:** 2.1.0
 **Analysis Date:** 2025-12-28
@@ -9,9 +9,9 @@
 
 ## Executive Summary
 
-This document provides comprehensive requirements for the Finance Tracker project, representing the ideal future state after all development is complete. The analysis is based on deep exploration of the current codebase (v0.4.0), identification of gaps, research of best practices, and forward-looking feature design.
+This document provides comprehensive requirements for the SpreadsheetDL project, representing the ideal future state after all development is complete. The analysis is based on deep exploration of the current codebase (v0.4.0), identification of gaps, research of best practices, and forward-looking feature design.
 
-The Finance Tracker is a Python-based family financial tracking application that generates ODS (Open Document Format) spreadsheets for budget management, designed for integration with Nextcloud and Collabora Office.
+The SpreadsheetDL is a Python-based family financial tracking application that generates ODS (Open Document Format) spreadsheets for budget management, designed for integration with Nextcloud and Collabora Office.
 
 **Version 2.0.0 Enhancements:** Added detailed requirements for UI/UX, Extensibility, Template/Config System, and Formatting based on comprehensive codebase audit.
 
@@ -43,7 +43,7 @@ The Finance Tracker is a Python-based family financial tracking application that
 
 | Attribute | Value |
 |-----------|-------|
-| Name | finance-tracker |
+| Name | spreadsheet-dl |
 | Version | 0.4.0 |
 | Language | Python 3.11+ |
 | Package Manager | uv |
@@ -53,7 +53,7 @@ The Finance Tracker is a Python-based family financial tracking application that
 ### 1.2 Architecture
 
 ```
-src/finance_tracker/
+src/spreadsheet_dl/
 ├── __init__.py              # Package exports (68 exports)
 ├── ods_generator.py         # ODS file creation with odfpy
 ├── budget_analyzer.py       # Pandas-based analysis with pyexcel_ods3
@@ -957,7 +957,7 @@ The system SHALL:
 **Dependencies:** None
 
 The system SHALL:
-- Provide interactive command discovery via `finance-tracker` without args
+- Provide interactive command discovery via `spreadsheet-dl` without args
 - Show contextual help based on partial command input
 - Suggest related commands after successful operations
 - Display common workflows in help output
@@ -972,8 +972,8 @@ The system SHALL:
 
 **Example Implementation:**
 ```
-$ finance-tracker
-Finance Tracker v0.4.0 - Family Budget Management
+$ spreadsheet-dl
+SpreadsheetDL v0.4.0 - Family Budget Management
 
 Getting Started:
   generate    Create a new budget spreadsheet
@@ -994,8 +994,8 @@ Management:
   upload      Sync to Nextcloud
   config      Manage settings
 
-Run 'finance-tracker <command> --help' for command details.
-Run 'finance-tracker guide' for interactive tutorial.
+Run 'spreadsheet-dl <command> --help' for command details.
+Run 'spreadsheet-dl guide' for interactive tutorial.
 ```
 
 #### FR-UX-002: Progress Indicators
@@ -1019,7 +1019,7 @@ The system SHALL:
 
 **Example Output:**
 ```
-$ finance-tracker import bank_export.csv
+$ spreadsheet-dl import bank_export.csv
 Detecting format... Chase Credit Card
 Parsing transactions: [################----] 80% (800/1000)
 Categorizing:        [####################] 100%
@@ -1062,9 +1062,9 @@ Error [FT-CSV-001]: Cannot parse CSV file
   Found:    MM/DD/YY (e.g., 12/31/24)
 
 Suggestion: Specify the bank format explicitly:
-  finance-tracker import --bank=chase /path/to/transactions.csv
+  spreadsheet-dl import --bank=chase /path/to/transactions.csv
 
-Documentation: https://docs.finance-tracker.io/errors/FT-CSV-001
+Documentation: https://docs.spreadsheet-dl.io/errors/FT-CSV-001
 ```
 
 #### FR-UX-004: Confirmation Prompts
@@ -1142,7 +1142,7 @@ The system SHALL:
 - Support undo within session
 
 **Acceptance Criteria:**
-- AC1: `finance-tracker interactive` launches wizard
+- AC1: `spreadsheet-dl interactive` launches wizard
 - AC2: Tab completion works in interactive mode
 - AC3: History navigation with up/down arrows
 - AC4: Ctrl+C exits cleanly with partial save option
@@ -1182,7 +1182,7 @@ The system SHALL:
 - Allow skipping to specific sections
 
 **Acceptance Criteria:**
-- AC1: `finance-tracker tutorial` starts guided tour
+- AC1: `spreadsheet-dl tutorial` starts guided tour
 - AC2: Tutorial completes in < 10 minutes
 - AC3: Each step validates before proceeding
 - AC4: Progress persists across sessions
@@ -1201,7 +1201,7 @@ The system SHALL:
 - Complete file paths contextually
 
 **Acceptance Criteria:**
-- AC1: Completions install via `finance-tracker completions install`
+- AC1: Completions install via `spreadsheet-dl completions install`
 - AC2: Commands complete after typing 2+ chars
 - AC3: File arguments complete with correct extensions
 - AC4: Option values complete (e.g., --theme <TAB>)
@@ -1306,22 +1306,22 @@ The system SHALL:
 - Version plugin API with semver
 
 **Acceptance Criteria:**
-- AC1: Plugins discoverable via `finance-tracker plugins list`
-- AC2: Plugins installable via `pip install finance-tracker-plugin-*`
+- AC1: Plugins discoverable via `spreadsheet-dl plugins list`
+- AC2: Plugins installable via `pip install spreadsheet-dl-plugin-*`
 - AC3: Plugin errors don't crash main application
 - AC4: API version checked at load time
 - AC5: Plugin config merged with main config
 
 **Plugin Interface:**
 ```python
-from finance_tracker.plugins import Plugin, hookimpl
+from spreadsheet_dl.plugins import Plugin, hookimpl
 
 class MyPlugin(Plugin):
     """Example plugin implementation."""
 
     name = "my-plugin"
     version = "1.0.0"
-    api_version = "1.0"  # Required finance-tracker plugin API
+    api_version = "1.0"  # Required spreadsheet-dl plugin API
 
     @hookimpl
     def on_expense_added(self, expense: ExpenseEntry) -> None:
@@ -1352,9 +1352,9 @@ The system SHALL:
 - Support plugin-specific configuration
 
 **Acceptance Criteria:**
-- AC1: `finance-tracker plugins install <name>` works
-- AC2: `finance-tracker plugins enable/disable <name>` works
-- AC3: Plugin config in ~/.config/finance-tracker/plugins/
+- AC1: `spreadsheet-dl plugins install <name>` works
+- AC2: `spreadsheet-dl plugins enable/disable <name>` works
+- AC3: Plugin config in ~/.config/spreadsheet-dl/plugins/
 - AC4: Disabled plugins don't load
 - AC5: Plugin health check on startup
 
@@ -1449,7 +1449,7 @@ The system SHALL:
 
 **Category Configuration:**
 ```yaml
-# ~/.config/finance-tracker/categories.yaml
+# ~/.config/spreadsheet-dl/categories.yaml
 categories:
   # Add new top-level category
   - name: "Pet Care"
@@ -1542,14 +1542,14 @@ The system SHALL:
 
 **Acceptance Criteria:**
 - AC1: Bank format YAML schema defined
-- AC2: `finance-tracker bank-format create` wizard
+- AC2: `spreadsheet-dl bank-format create` wizard
 - AC3: Format validation before save
 - AC4: Export format as shareable YAML
 - AC5: Community format repository linkable
 
 **Bank Format Schema:**
 ```yaml
-# ~/.config/finance-tracker/banks/my_bank.yaml
+# ~/.config/spreadsheet-dl/banks/my_bank.yaml
 bank_format:
   name: "My Local Bank"
   version: "1.0.0"
@@ -1607,11 +1607,11 @@ The system SHALL:
 **Stability Levels:**
 | Module | Stability | Guarantee |
 |--------|-----------|-----------|
-| `finance_tracker.ods_generator` | Stable | Minor version compatible |
-| `finance_tracker.budget_analyzer` | Stable | Minor version compatible |
-| `finance_tracker.cli` | Stable | Command names stable |
-| `finance_tracker.builder` | Beta | May change in minor versions |
-| `finance_tracker.plugins` | Experimental | May change anytime |
+| `spreadsheet_dl.ods_generator` | Stable | Minor version compatible |
+| `spreadsheet_dl.budget_analyzer` | Stable | Minor version compatible |
+| `spreadsheet_dl.cli` | Stable | Command names stable |
+| `spreadsheet_dl.builder` | Beta | May change in minor versions |
+| `spreadsheet_dl.plugins` | Experimental | May change anytime |
 
 ---
 
@@ -1626,10 +1626,10 @@ The system SHALL:
 
 The system SHALL implement configuration cascade:
 1. Built-in defaults (lowest priority)
-2. System-wide config (`/etc/finance-tracker/config.yaml`)
-3. User config (`~/.config/finance-tracker/config.yaml`)
-4. Project config (`./.finance-tracker.yaml`)
-5. Environment variables (`FINANCE_TRACKER_*`)
+2. System-wide config (`/etc/spreadsheet-dl/config.yaml`)
+3. User config (`~/.config/spreadsheet-dl/config.yaml`)
+4. Project config (`./.spreadsheet-dl.yaml`)
+5. Environment variables (`SPREADSHEET_DL_*`)
 6. Command-line arguments (highest priority)
 
 **Acceptance Criteria:**
@@ -1641,17 +1641,17 @@ The system SHALL implement configuration cascade:
 
 **Example Resolution:**
 ```
-$ finance-tracker config --show --sources
+$ spreadsheet-dl config --show --sources
 
 Configuration (resolved):
   defaults.template: "50_30_20"
     - Default: ""
-    - User config (~/.config/finance-tracker/config.yaml): "50_30_20"  <-- ACTIVE
+    - User config (~/.config/spreadsheet-dl/config.yaml): "50_30_20"  <-- ACTIVE
 
   defaults.currency_symbol: "EUR"
     - Default: "$"
     - User config: "$"
-    - Environment (FINANCE_TRACKER_CURRENCY): "EUR"  <-- ACTIVE
+    - Environment (SPREADSHEET_DL_CURRENCY): "EUR"  <-- ACTIVE
 
   nextcloud.url: "https://cloud.example.com"
     - Environment (NEXTCLOUD_URL): "https://cloud.example.com"  <-- ACTIVE
@@ -1735,15 +1735,15 @@ The system SHALL:
 - Support .env files
 
 **Acceptance Criteria:**
-- AC1: Pattern: `FINANCE_TRACKER_<SECTION>_<KEY>`
-- AC2: Nested: `FINANCE_TRACKER_ALERTS_WARNING_THRESHOLD`
+- AC1: Pattern: `SPREADSHEET_DL_<SECTION>_<KEY>`
+- AC2: Nested: `SPREADSHEET_DL_ALERTS_WARNING_THRESHOLD`
 - AC3: Boolean: `true/false/1/0/yes/no`
 - AC4: `.env` file auto-loaded
 - AC5: `config --env-template` generates template
 
 **Environment Variable Mapping:**
 ```bash
-# ~/.config/finance-tracker/.env
+# ~/.config/spreadsheet-dl/.env
 
 # Nextcloud settings
 NEXTCLOUD_URL=https://cloud.example.com
@@ -1751,17 +1751,17 @@ NEXTCLOUD_USER=myuser
 NEXTCLOUD_PASSWORD=secret
 
 # Defaults
-FINANCE_TRACKER_DEFAULTS_TEMPLATE=family
-FINANCE_TRACKER_DEFAULTS_CURRENCY_SYMBOL=$
-FINANCE_TRACKER_DEFAULTS_DATE_FORMAT=%Y-%m-%d
+SPREADSHEET_DL_DEFAULTS_TEMPLATE=family
+SPREADSHEET_DL_DEFAULTS_CURRENCY_SYMBOL=$
+SPREADSHEET_DL_DEFAULTS_DATE_FORMAT=%Y-%m-%d
 
 # Alerts
-FINANCE_TRACKER_ALERTS_WARNING_THRESHOLD=80
-FINANCE_TRACKER_ALERTS_CRITICAL_THRESHOLD=95
+SPREADSHEET_DL_ALERTS_WARNING_THRESHOLD=80
+SPREADSHEET_DL_ALERTS_CRITICAL_THRESHOLD=95
 
 # Display
-FINANCE_TRACKER_DISPLAY_USE_COLOR=true
-FINANCE_TRACKER_DISPLAY_SHOW_PROGRESS=true
+SPREADSHEET_DL_DISPLAY_USE_COLOR=true
+SPREADSHEET_DL_DISPLAY_SHOW_PROGRESS=true
 ```
 
 ### 12.2 Template Management
@@ -1787,7 +1787,7 @@ The system SHALL:
 
 **Template Creation Flow:**
 ```
-$ finance-tracker template create
+$ spreadsheet-dl template create
 
 Budget Template Wizard
 ======================
@@ -1812,8 +1812,8 @@ Assign remaining to:
   [3] Leave unallocated
 > 1
 
-Template saved to: ~/.config/finance-tracker/templates/my_custom_budget.yaml
-Use with: finance-tracker generate --template=my_custom_budget
+Template saved to: ~/.config/spreadsheet-dl/templates/my_custom_budget.yaml
+Use with: spreadsheet-dl generate --template=my_custom_budget
 ```
 
 #### FR-TMPL-006: Template Versioning
@@ -2559,26 +2559,26 @@ Effort Scale: S (1-2 days), M (3-5 days), L (1-2 weeks), XL (2-4 weeks)
 ## Appendix A: File Inventory
 
 ### Source Files (20 files)
-- `src/finance_tracker/__init__.py` - Package exports
-- `src/finance_tracker/ods_generator.py` - ODS generation
-- `src/finance_tracker/budget_analyzer.py` - Analysis
-- `src/finance_tracker/report_generator.py` - Reports
-- `src/finance_tracker/cli.py` - CLI interface
-- `src/finance_tracker/csv_import.py` - Bank imports
-- `src/finance_tracker/webdav_upload.py` - Nextcloud sync
-- `src/finance_tracker/analytics.py` - Dashboard
-- `src/finance_tracker/alerts.py` - Alert system
-- `src/finance_tracker/recurring.py` - Recurring expenses
-- `src/finance_tracker/templates.py` - Budget templates
-- `src/finance_tracker/builder.py` - Fluent API
-- `src/finance_tracker/renderer.py` - ODS renderer
-- `src/finance_tracker/config.py` - Configuration
-- `src/finance_tracker/exceptions.py` - Exceptions
-- `src/finance_tracker/schema/__init__.py`
-- `src/finance_tracker/schema/styles.py`
-- `src/finance_tracker/schema/loader.py`
-- `src/finance_tracker/schema/validation.py`
-- `src/finance_tracker/themes/__init__.py`
+- `src/spreadsheet_dl/__init__.py` - Package exports
+- `src/spreadsheet_dl/ods_generator.py` - ODS generation
+- `src/spreadsheet_dl/budget_analyzer.py` - Analysis
+- `src/spreadsheet_dl/report_generator.py` - Reports
+- `src/spreadsheet_dl/cli.py` - CLI interface
+- `src/spreadsheet_dl/csv_import.py` - Bank imports
+- `src/spreadsheet_dl/webdav_upload.py` - Nextcloud sync
+- `src/spreadsheet_dl/analytics.py` - Dashboard
+- `src/spreadsheet_dl/alerts.py` - Alert system
+- `src/spreadsheet_dl/recurring.py` - Recurring expenses
+- `src/spreadsheet_dl/templates.py` - Budget templates
+- `src/spreadsheet_dl/builder.py` - Fluent API
+- `src/spreadsheet_dl/renderer.py` - ODS renderer
+- `src/spreadsheet_dl/config.py` - Configuration
+- `src/spreadsheet_dl/exceptions.py` - Exceptions
+- `src/spreadsheet_dl/schema/__init__.py`
+- `src/spreadsheet_dl/schema/styles.py`
+- `src/spreadsheet_dl/schema/loader.py`
+- `src/spreadsheet_dl/schema/validation.py`
+- `src/spreadsheet_dl/themes/__init__.py`
 
 ### Test Files (19 files)
 - `tests/conftest.py`
@@ -2603,11 +2603,11 @@ Effort Scale: S (1-2 days), M (3-5 days), L (1-2 weeks), XL (2-4 weeks)
 - `tests/test_webdav.py`
 
 ### Theme Files (5 files)
-- `src/finance_tracker/themes/default.yaml`
-- `src/finance_tracker/themes/corporate.yaml`
-- `src/finance_tracker/themes/minimal.yaml`
-- `src/finance_tracker/themes/dark.yaml`
-- `src/finance_tracker/themes/high_contrast.yaml`
+- `src/spreadsheet_dl/themes/default.yaml`
+- `src/spreadsheet_dl/themes/corporate.yaml`
+- `src/spreadsheet_dl/themes/minimal.yaml`
+- `src/spreadsheet_dl/themes/dark.yaml`
+- `src/spreadsheet_dl/themes/high_contrast.yaml`
 
 ---
 
@@ -2705,8 +2705,8 @@ Proposed additions:
 ### Complete Configuration Schema
 
 ```yaml
-# finance-tracker configuration file
-# Location: ~/.config/finance-tracker/config.yaml
+# spreadsheet-dl configuration file
+# Location: ~/.config/spreadsheet-dl/config.yaml
 
 # Schema version for migration
 schema_version: "1.0"
@@ -2788,7 +2788,7 @@ plugins:
   - 6 identified gaps in AI/LLM support
   - Implementation examples and MCP integration
 
-This addendum ensures finance-tracker serves both human users (visual ODS spreadsheets) and AI assistants (structured JSON with semantic metadata) optimally.
+This addendum ensures spreadsheet-dl serves both human users (visual ODS spreadsheets) and AI assistants (structured JSON with semantic metadata) optimally.
 
 ---
 

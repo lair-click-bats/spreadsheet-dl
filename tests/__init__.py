@@ -1,1 +1,1 @@
-"""Tests for finance_tracker package."""
+"""Tests for spreadsheet_dl package."""

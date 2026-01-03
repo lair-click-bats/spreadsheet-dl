@@ -1,18 +1,53 @@
 [project]
-name = "finance-tracker"
-version = "2.0.0"
-description = "Professional spreadsheet system with enterprise-grade formatting and templates"
+name = "spreadsheet-dl"
+version = "4.0.0"
+description = "The Spreadsheet Definition Language for Python - declarative API, multi-format export, domain templates, native MCP server"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 license = { text = "MIT" }
-authors = [{ name = "jallen" }]
-keywords = ["finance", "ods", "spreadsheet", "nextcloud", "collabora", "budget", "plaid", "mcp"]
+authors = [{ name = "lair-click-bats" }]
+keywords = [
+    "spreadsheet",
+    "definition-language",
+    "declarative",
+    "ods",
+    "xlsx",
+    "pdf",
+    "mcp",
+    "llm",
+    "claude",
+    "yaml",
+    "template",
+    "builder",
+    "finance",
+    "science",
+    "engineering",
+    "data-science",
+    "formula",
+    "chart",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Manufacturing",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial :: Spreadsheet",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing :: Markup",
+    "Typing :: Typed",
+]
 
 dependencies = [
     "odfpy>=1.4.1",
     "pandas>=2.1.0",
     "pyexcel-ods3>=0.6.1",
     "requests>=2.31.0",
+    "rich>=13.0.0",
 ]
 
 [project.optional-dependencies]
@@ -48,23 +83,23 @@ mcp = [
     # No additional dependencies needed
 ]
 all = [
-    "finance-tracker[export,config]",
+    "spreadsheet-dl[export,config]",
 ]
 
 [project.scripts]
-finance-tracker = "finance_tracker.cli:main"
-finance-tracker-mcp = "finance_tracker.mcp_server:main"
+spreadsheet-dl = "spreadsheet_dl.cli:main"
+spreadsheet-dl-mcp = "spreadsheet_dl.mcp_server:main"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/finance_tracker"]
+packages = ["src/spreadsheet_dl"]
 
 [tool.ruff]
 line-length = 88
-target-version = "py311"
+target-version = "py312"
 src = ["src", "tests"]
 
 [tool.ruff.lint]
@@ -84,10 +119,10 @@ ignore = [
 ]
 
 [tool.ruff.lint.isort]
-known-first-party = ["finance_tracker"]
+known-first-party = ["spreadsheet_dl"]
 
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.12"
 strict = true
 warn_return_any = true
 warn_unused_ignores = true

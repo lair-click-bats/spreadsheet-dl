@@ -11,7 +11,7 @@ import json
 import os
 import shutil
 import sys
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 # Configuration
@@ -26,7 +26,7 @@ RETENTION_DAYS = 30
 def log(message: str) -> None:
     """Log to hook log file."""
     with open(LOG_FILE, "a") as f:
-        f.write(f"[{datetime.now(timezone.utc).isoformat()}] ARCHIVE_CHECKPOINTS: {message}\n")
+        f.write(f"[{datetime.now(UTC).isoformat()}] ARCHIVE_CHECKPOINTS: {message}\n")
 
 
 def archive_old_checkpoints() -> dict:
@@ -39,7 +39,7 @@ def archive_old_checkpoints() -> dict:
     ]
 
     removed_count = 0
-    cutoff_time = datetime.now(timezone.utc) - timedelta(days=RETENTION_DAYS)
+    cutoff_time = datetime.now(UTC) - timedelta(days=RETENTION_DAYS)
 
     for checkpoint_dir in checkpoint_dirs:
         if not checkpoint_dir.exists():
@@ -48,7 +48,7 @@ def archive_old_checkpoints() -> dict:
         for item in checkpoint_dir.iterdir():
             try:
                 # Get modification time
-                mtime = datetime.fromtimestamp(item.stat().st_mtime, tz=timezone.utc)
+                mtime = datetime.fromtimestamp(item.stat().st_mtime, tz=UTC)
 
                 if mtime < cutoff_time:
                     if item.is_dir():

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 
-from finance_tracker.exceptions import (
+from spreadsheet_dl.exceptions import (
     AuthenticationError,
     CircularInheritanceError,
     ConfigMigrationError,
@@ -453,7 +453,9 @@ class TestNetworkErrors:
 
     def test_connection_error(self) -> None:
         """Test ConnectionError."""
-        error = ConnectionError("https://cloud.example.com", reason="DNS resolution failed")
+        error = ConnectionError(
+            "https://cloud.example.com", reason="DNS resolution failed"
+        )
         assert error.error_code == "FT-NET-601"
         assert error.url == "https://cloud.example.com"
         assert error.reason == "DNS resolution failed"
@@ -585,7 +587,9 @@ class TestExtensionErrors:
 
     def test_plugin_version_error(self) -> None:
         """Test PluginVersionError."""
-        error = PluginVersionError("my-plugin", required_version="2.0", actual_version="1.5")
+        error = PluginVersionError(
+            "my-plugin", required_version="2.0", actual_version="1.5"
+        )
         assert error.error_code == "FT-EXT-903"
         assert error.plugin_name == "my-plugin"
         assert error.required_version == "2.0"
@@ -602,39 +606,39 @@ class TestExtensionErrors:
 class TestExceptionHierarchy:
     """Tests for exception class hierarchy."""
 
-    def test_file_error_is_finance_tracker_error(self) -> None:
+    def test_file_error_is_spreadsheet_dl_error(self) -> None:
         """Test FileError inherits from FinanceTrackerError."""
         assert issubclass(FileError, FinanceTrackerError)
 
-    def test_ods_error_is_finance_tracker_error(self) -> None:
+    def test_ods_error_is_spreadsheet_dl_error(self) -> None:
         """Test OdsError inherits from FinanceTrackerError."""
         assert issubclass(OdsError, FinanceTrackerError)
 
-    def test_validation_error_is_finance_tracker_error(self) -> None:
+    def test_validation_error_is_spreadsheet_dl_error(self) -> None:
         """Test ValidationError inherits from FinanceTrackerError."""
         assert issubclass(ValidationError, FinanceTrackerError)
 
-    def test_csv_import_error_is_finance_tracker_error(self) -> None:
+    def test_csv_import_error_is_spreadsheet_dl_error(self) -> None:
         """Test CSVImportError inherits from FinanceTrackerError."""
         assert issubclass(CSVImportError, FinanceTrackerError)
 
-    def test_webdav_error_is_finance_tracker_error(self) -> None:
+    def test_webdav_error_is_spreadsheet_dl_error(self) -> None:
         """Test WebDAVError inherits from FinanceTrackerError."""
         assert issubclass(WebDAVError, FinanceTrackerError)
 
-    def test_configuration_error_is_finance_tracker_error(self) -> None:
+    def test_configuration_error_is_spreadsheet_dl_error(self) -> None:
         """Test ConfigurationError inherits from FinanceTrackerError."""
         assert issubclass(ConfigurationError, FinanceTrackerError)
 
-    def test_template_error_is_finance_tracker_error(self) -> None:
+    def test_template_error_is_spreadsheet_dl_error(self) -> None:
         """Test TemplateError inherits from FinanceTrackerError."""
         assert issubclass(TemplateError, FinanceTrackerError)
 
-    def test_formatting_error_is_finance_tracker_error(self) -> None:
+    def test_formatting_error_is_spreadsheet_dl_error(self) -> None:
         """Test FormattingError inherits from FinanceTrackerError."""
         assert issubclass(FormattingError, FinanceTrackerError)
 
-    def test_extension_error_is_finance_tracker_error(self) -> None:
+    def test_extension_error_is_spreadsheet_dl_error(self) -> None:
         """Test ExtensionError inherits from FinanceTrackerError."""
         assert issubclass(ExtensionError, FinanceTrackerError)
 
@@ -762,6 +766,6 @@ class TestErrorCodeUniqueness:
         ]
 
         for cls in exception_classes:
-            assert pattern.match(
-                cls.error_code
-            ), f"{cls.__name__} has invalid error code format: {cls.error_code}"
+            assert pattern.match(cls.error_code), (
+                f"{cls.__name__} has invalid error code format: {cls.error_code}"
+            )

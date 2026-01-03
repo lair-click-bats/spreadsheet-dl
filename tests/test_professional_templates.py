@@ -6,7 +6,7 @@ Tests FR-PROF-001, FR-PROF-002, FR-PROF-003
 
 import pytest
 
-from finance_tracker.templates.professional import (
+from spreadsheet_dl.templates.professional import (
     PROFESSIONAL_TEMPLATES,
     BudgetCategory,
     CashFlowTrackerTemplate,
@@ -240,9 +240,7 @@ class TestExpenseReportTemplate:
 
     def test_custom_categories(self):
         """Test custom expense categories."""
-        template = ExpenseReportTemplate(
-            categories=["Travel", "Supplies", "Software"]
-        )
+        template = ExpenseReportTemplate(categories=["Travel", "Supplies", "Software"])
         assert len(template.categories) == 3
         assert "Software" in template.categories
 

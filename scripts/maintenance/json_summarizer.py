@@ -84,7 +84,8 @@ def summarize_value(value: Any, max_depth: int = 2, current_depth: int = 0) -> A
             }
         # Show first few keys
         summary = {
-            k: summarize_value(v, max_depth, current_depth + 1) for k, v in list(value.items())[:3]
+            k: summarize_value(v, max_depth, current_depth + 1)
+            for k, v in list(value.items())[:3]
         }
         summary["__remaining__"] = f"{len(value) - 3} more keys"
         return summary
@@ -132,7 +133,9 @@ def extract_metrics(data: Any, prefix: str = "") -> dict[str, Any]:
     return metrics
 
 
-def analyze_structure(data: Any, max_depth: int = 3, current_depth: int = 0) -> dict[str, Any]:
+def analyze_structure(
+    data: Any, max_depth: int = 3, current_depth: int = 0
+) -> dict[str, Any]:
     """Analyze the structure of JSON data."""
     if current_depth >= max_depth:
         return {"type": get_type_name(data)}
@@ -241,7 +244,9 @@ def summarize_json_file(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Extract key metrics from large JSON files")
+    parser = argparse.ArgumentParser(
+        description="Extract key metrics from large JSON files"
+    )
     parser.add_argument("file", help="JSON file to summarize")
     parser.add_argument(
         "--keys",

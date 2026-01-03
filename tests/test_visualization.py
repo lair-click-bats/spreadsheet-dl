@@ -9,7 +9,7 @@ from __future__ import annotations
 import tempfile
 from pathlib import Path
 
-from finance_tracker.visualization import (
+from spreadsheet_dl.visualization import (
     CATEGORY_COLORS,
     DEFAULT_COLORS,
     ChartConfig,

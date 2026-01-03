@@ -77,7 +77,14 @@ WARNED_PATTERNS = {
 }
 
 # Excluded directories (no validation needed - handled by auto_format)
-EXCLUDED_DIRS = {".venv", "node_modules", "__pycache__", ".git", ".mypy_cache", ".ruff_cache"}
+EXCLUDED_DIRS = {
+    ".venv",
+    "node_modules",
+    "__pycache__",
+    ".git",
+    ".mypy_cache",
+    ".ruff_cache",
+}
 
 
 def matches_pattern(path: Path, pattern: str) -> bool:
@@ -102,9 +109,9 @@ def matches_pattern(path: Path, pattern: str) -> bool:
         for parent in [path, *path.parents]:
             parent_str = str(parent)
             # Path is under the matched directory (don't match the directory itself)
-            if (parent_str.endswith(base_pattern) or f"/{base_pattern}" in parent_str) and str(
-                path
-            ) != parent_str:
+            if (
+                parent_str.endswith(base_pattern) or f"/{base_pattern}" in parent_str
+            ) and str(path) != parent_str:
                 return True
         # Also check if path starts with the pattern prefix
         if base_pattern in path_str:
@@ -155,7 +162,10 @@ def validate_path(file_path: str, project_root: str) -> tuple[bool, str | None]:
                 try:
                     link_target.relative_to(project_path)
                 except ValueError:
-                    return False, f"Symlink escapes project root: {check_path} -> {link_target}"
+                    return (
+                        False,
+                        f"Symlink escapes project root: {check_path} -> {link_target}",
+                    )
             check_path = check_path.parent
 
         abs_path = path.resolve()
@@ -180,7 +190,10 @@ def validate_path(file_path: str, project_root: str) -> tuple[bool, str | None]:
     # Check BLOCKED patterns (security-critical)
     for pattern in BLOCKED_PATTERNS:
         if matches_pattern(path, pattern):
-            return False, f"Blocked: Writing to {pattern} files is prohibited (security)"
+            return (
+                False,
+                f"Blocked: Writing to {pattern} files is prohibited (security)",
+            )
 
     # Check WARNED patterns (important configs)
     for pattern in WARNED_PATTERNS:
@@ -206,7 +219,9 @@ def main() -> None:
             sys.exit(0)
 
         # Extract file path from tool input
-        file_path = tool_input.get("file_path", "") or tool_input.get("notebook_path", "")
+        file_path = tool_input.get("file_path", "") or tool_input.get(
+            "notebook_path", ""
+        )
 
         if not file_path:
             sys.exit(0)

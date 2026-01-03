@@ -44,7 +44,10 @@ LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler(LOG_FILE, mode="a"), logging.StreamHandler(sys.stderr)],
+    handlers=[
+        logging.FileHandler(LOG_FILE, mode="a"),
+        logging.StreamHandler(sys.stderr),
+    ],
 )
 logger = logging.getLogger("validate_incomplete_features")
 
@@ -204,7 +207,9 @@ def validate_markers() -> dict[str, Any]:
         else:
             logger.info("All FUTURE markers match registry")
     else:
-        logger.error(f"Validation failed: {len(issues)} errors, {len(warnings)} warnings")
+        logger.error(
+            f"Validation failed: {len(issues)} errors, {len(warnings)} warnings"
+        )
 
     return result
 
@@ -219,8 +224,12 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Validate FUTURE markers against incomplete-features.yaml"
     )
-    parser.add_argument("--verbose", "-v", action="store_true", help="Show detailed output")
-    parser.add_argument("--strict", action="store_true", help="Treat warnings as errors")
+    parser.add_argument(
+        "--verbose", "-v", action="store_true", help="Show detailed output"
+    )
+    parser.add_argument(
+        "--strict", action="store_true", help="Treat warnings as errors"
+    )
     args = parser.parse_args()
 
     try:

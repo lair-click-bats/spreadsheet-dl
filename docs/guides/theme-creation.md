@@ -1,6 +1,6 @@
 # Theme Creation Guide
 
-A comprehensive guide to creating custom themes for Finance Tracker spreadsheets.
+A comprehensive guide to creating custom themes for SpreadsheetDL spreadsheets.
 
 **Implements:** DOC-PROF-002 (Theme Creation Guide)
 
@@ -137,7 +137,7 @@ colors:
 Ensure sufficient contrast for readability:
 
 ```python
-from finance_tracker.schema.styles import Color
+from spreadsheet_dl.schema.styles import Color
 
 # Check contrast ratio
 primary = Color("#1A3A5C")
@@ -182,7 +182,7 @@ fonts:
 Use the built-in font pairings:
 
 ```python
-from finance_tracker.schema.typography import get_font_pairing
+from spreadsheet_dl.schema.typography import get_font_pairing
 
 # Professional (Liberation Sans + Serif)
 professional = get_font_pairing("professional")
@@ -424,7 +424,7 @@ formats:
 ### From File
 
 ```python
-from finance_tracker.schema.loader import ThemeLoader
+from spreadsheet_dl.schema.loader import ThemeLoader
 from pathlib import Path
 
 # Load from directory
@@ -435,7 +435,7 @@ theme = loader.load("corporate")
 ### Programmatically
 
 ```python
-from finance_tracker.schema.styles import Theme, ColorPalette, Color
+from spreadsheet_dl.schema.styles import Theme, ColorPalette, Color
 
 theme = Theme(
     name="custom",
@@ -450,7 +450,7 @@ theme = Theme(
 ### Using with SpreadsheetBuilder
 
 ```python
-from finance_tracker.builder import SpreadsheetBuilder
+from spreadsheet_dl.builder import SpreadsheetBuilder
 
 # By name (looks in default themes directory)
 builder = SpreadsheetBuilder(theme="corporate")

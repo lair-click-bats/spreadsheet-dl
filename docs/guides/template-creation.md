@@ -579,7 +579,7 @@ sheets:
 ### 5. Render the Template
 
 ```python
-from finance_tracker.template_engine import TemplateLoader, TemplateRenderer
+from spreadsheet_dl.template_engine import TemplateLoader, TemplateRenderer
 
 # Load template
 loader = TemplateLoader("./templates")

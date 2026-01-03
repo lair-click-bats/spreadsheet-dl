@@ -10,7 +10,7 @@ import json
 
 import pytest
 
-from finance_tracker.ai_training import (
+from spreadsheet_dl.ai_training import (
     AnonymizationConfig,
     AnonymizationLevel,
     AnonymizedTransaction,
@@ -159,7 +159,9 @@ class TestDataAnonymizer:
                 "amount": amount,
             }
             result = anonymizer.anonymize_transaction(tx)
-            assert result.amount_bucket == expected_bucket, f"Amount {amount} got bucket {result.amount_bucket}"
+            assert result.amount_bucket == expected_bucket, (
+                f"Amount {amount} got bucket {result.amount_bucket}"
+            )
 
     def test_anonymize_transaction_date_relative(self, anonymizer):
         """Test date anonymization to relative format."""
@@ -340,7 +342,9 @@ class TestTrainingDataExporter:
     def test_export_jsonl(self, exporter, sample_dataset, tmp_path):
         """Test JSONL export."""
         output_path = tmp_path / "training_data.jsonl"
-        result = exporter.export_dataset(sample_dataset, output_path, ExportFormat.JSONL)
+        result = exporter.export_dataset(
+            sample_dataset, output_path, ExportFormat.JSONL
+        )
 
         assert result.exists()
 

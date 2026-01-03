@@ -13,8 +13,8 @@ from pathlib import Path
 
 import pytest
 
-from finance_tracker.ods_generator import ExpenseCategory
-from finance_tracker.reminders import (
+from spreadsheet_dl.ods_generator import ExpenseCategory
+from spreadsheet_dl.reminders import (
     COMMON_BILLS,
     BillReminder,
     BillReminderManager,
@@ -214,11 +214,17 @@ class TestBillReminderManager:
         manager = BillReminderManager()
 
         # Due in 3 days
-        manager.add_bill(BillReminder.create("Soon", 100, date.today() + timedelta(days=3)))
+        manager.add_bill(
+            BillReminder.create("Soon", 100, date.today() + timedelta(days=3))
+        )
         # Due in 10 days
-        manager.add_bill(BillReminder.create("Later", 200, date.today() + timedelta(days=10)))
+        manager.add_bill(
+            BillReminder.create("Later", 200, date.today() + timedelta(days=10))
+        )
         # Due in 30 days
-        manager.add_bill(BillReminder.create("Far", 300, date.today() + timedelta(days=30)))
+        manager.add_bill(
+            BillReminder.create("Far", 300, date.today() + timedelta(days=30))
+        )
 
         upcoming = manager.get_upcoming_bills(days=7)
         assert len(upcoming) == 1
@@ -228,8 +234,12 @@ class TestBillReminderManager:
         """Test getting overdue bills."""
         manager = BillReminderManager()
 
-        manager.add_bill(BillReminder.create("Overdue", 100, date.today() - timedelta(days=5)))
-        manager.add_bill(BillReminder.create("Not Due", 100, date.today() + timedelta(days=5)))
+        manager.add_bill(
+            BillReminder.create("Overdue", 100, date.today() - timedelta(days=5))
+        )
+        manager.add_bill(
+            BillReminder.create("Not Due", 100, date.today() + timedelta(days=5))
+        )
 
         overdue = manager.get_overdue_bills()
         assert len(overdue) == 1
@@ -254,18 +264,22 @@ class TestBillReminderManager:
         """Test monthly total calculation."""
         manager = BillReminderManager()
 
-        manager.add_bill(BillReminder.create(
-            "Monthly",
-            100,
-            date.today(),
-            frequency=ReminderFrequency.MONTHLY,
-        ))
-        manager.add_bill(BillReminder.create(
-            "Annual",
-            1200,
-            date.today(),
-            frequency=ReminderFrequency.ANNUAL,
-        ))
+        manager.add_bill(
+            BillReminder.create(
+                "Monthly",
+                100,
+                date.today(),
+                frequency=ReminderFrequency.MONTHLY,
+            )
+        )
+        manager.add_bill(
+            BillReminder.create(
+                "Annual",
+                1200,
+                date.today(),
+                frequency=ReminderFrequency.ANNUAL,
+            )
+        )
 
         # Monthly: $100 + Annual/12: $100 = $200
         total = manager.get_monthly_total()
@@ -275,22 +289,28 @@ class TestBillReminderManager:
         """Test alert generation."""
         manager = BillReminderManager()
 
-        manager.add_bill(BillReminder.create(
-            "Overdue",
-            100,
-            date.today() - timedelta(days=3),
-        ))
-        manager.add_bill(BillReminder.create(
-            "Today",
-            100,
-            date.today(),
-        ))
-        manager.add_bill(BillReminder.create(
-            "Upcoming",
-            100,
-            date.today() + timedelta(days=2),
-            remind_days_before=5,
-        ))
+        manager.add_bill(
+            BillReminder.create(
+                "Overdue",
+                100,
+                date.today() - timedelta(days=3),
+            )
+        )
+        manager.add_bill(
+            BillReminder.create(
+                "Today",
+                100,
+                date.today(),
+            )
+        )
+        manager.add_bill(
+            BillReminder.create(
+                "Upcoming",
+                100,
+                date.today() + timedelta(days=2),
+                remind_days_before=5,
+            )
+        )
 
         alerts = manager.get_alerts()
         assert len(alerts) == 3
@@ -305,7 +325,9 @@ class TestBillReminderManager:
         manager = BillReminderManager()
 
         manager.add_bill(BillReminder.create("Bill 1", 100, date.today()))
-        manager.add_bill(BillReminder.create("Bill 2", 200, date.today() + timedelta(days=5)))
+        manager.add_bill(
+            BillReminder.create("Bill 2", 200, date.today() + timedelta(days=5))
+        )
 
         summary = manager.get_summary()
         assert summary["total_bills"] == 2
@@ -338,12 +360,14 @@ class TestCalendarExport:
         with tempfile.TemporaryDirectory() as tmpdir:
             manager = BillReminderManager()
 
-            manager.add_bill(BillReminder.create(
-                "Electric",
-                150,
-                date(2025, 2, 1),
-                frequency=ReminderFrequency.MONTHLY,
-            ))
+            manager.add_bill(
+                BillReminder.create(
+                    "Electric",
+                    150,
+                    date(2025, 2, 1),
+                    frequency=ReminderFrequency.MONTHLY,
+                )
+            )
 
             output_path = Path(tmpdir) / "bills.ics"
             result = manager.export_to_ics(output_path, months_ahead=3)
@@ -361,12 +385,14 @@ class TestCalendarExport:
         with tempfile.TemporaryDirectory() as tmpdir:
             manager = BillReminderManager()
 
-            manager.add_bill(BillReminder.create(
-                "Test",
-                100,
-                date(2025, 2, 1),
-                remind_days_before=3,
-            ))
+            manager.add_bill(
+                BillReminder.create(
+                    "Test",
+                    100,
+                    date(2025, 2, 1),
+                    remind_days_before=3,
+                )
+            )
 
             output_path = Path(tmpdir) / "bills.ics"
             manager.export_to_ics(output_path, include_reminders=True)
@@ -380,12 +406,14 @@ class TestCalendarExport:
         with tempfile.TemporaryDirectory() as tmpdir:
             manager = BillReminderManager()
 
-            manager.add_bill(BillReminder.create(
-                "Monthly Bill",
-                100,
-                date(2025, 1, 1),
-                frequency=ReminderFrequency.MONTHLY,
-            ))
+            manager.add_bill(
+                BillReminder.create(
+                    "Monthly Bill",
+                    100,
+                    date(2025, 1, 1),
+                    frequency=ReminderFrequency.MONTHLY,
+                )
+            )
 
             output_path = Path(tmpdir) / "bills.ics"
             manager.export_to_ics(output_path, months_ahead=3)

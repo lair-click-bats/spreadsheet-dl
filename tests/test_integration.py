@@ -6,21 +6,21 @@ from datetime import date
 from decimal import Decimal
 from typing import TYPE_CHECKING
 
-from finance_tracker.alerts import check_budget_alerts
-from finance_tracker.analytics import AnalyticsDashboard, generate_dashboard
-from finance_tracker.budget_analyzer import BudgetAnalyzer
-from finance_tracker.ods_generator import (
+from spreadsheet_dl.alerts import check_budget_alerts
+from spreadsheet_dl.analytics import AnalyticsDashboard, generate_dashboard
+from spreadsheet_dl.budget_analyzer import BudgetAnalyzer
+from spreadsheet_dl.ods_generator import (
     BudgetAllocation,
     ExpenseCategory,
     ExpenseEntry,
     OdsGenerator,
 )
-from finance_tracker.recurring import (
+from spreadsheet_dl.recurring import (
     RecurrenceFrequency,
     RecurringExpense,
     RecurringExpenseManager,
 )
-from finance_tracker.report_generator import ReportGenerator
+from spreadsheet_dl.report_generator import ReportGenerator
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -220,7 +220,7 @@ class TestProfessionalTemplates:
 
     def test_enterprise_budget_template(self, tmp_path: Path) -> None:
         """Test that enterprise budget template creates valid spreadsheet."""
-        from finance_tracker.templates import get_template
+        from spreadsheet_dl.templates import get_template
 
         template_cls = get_template("enterprise_budget")
         template = template_cls()

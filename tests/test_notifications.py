@@ -12,7 +12,7 @@ from decimal import Decimal
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-from finance_tracker.notifications import (
+from spreadsheet_dl.notifications import (
     EmailChannel,
     EmailConfig,
     Notification,
@@ -270,21 +270,27 @@ class TestNotificationManager:
         """Test filtering history by type."""
         manager = NotificationManager()
 
-        manager._history.append(Notification(
-            type=NotificationType.BILL_DUE,
-            title="Bill",
-            message="",
-        ))
-        manager._history.append(Notification(
-            type=NotificationType.GOAL_COMPLETED,
-            title="Goal",
-            message="",
-        ))
-        manager._history.append(Notification(
-            type=NotificationType.BILL_DUE,
-            title="Bill 2",
-            message="",
-        ))
+        manager._history.append(
+            Notification(
+                type=NotificationType.BILL_DUE,
+                title="Bill",
+                message="",
+            )
+        )
+        manager._history.append(
+            Notification(
+                type=NotificationType.GOAL_COMPLETED,
+                title="Goal",
+                message="",
+            )
+        )
+        manager._history.append(
+            Notification(
+                type=NotificationType.BILL_DUE,
+                title="Bill 2",
+                message="",
+            )
+        )
 
         bills = manager.get_history(notification_type=NotificationType.BILL_DUE)
         assert len(bills) == 2

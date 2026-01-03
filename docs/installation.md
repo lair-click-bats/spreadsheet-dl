@@ -1,6 +1,6 @@
 # Installation Guide
 
-This guide covers installing Finance Tracker for development and production use.
+This guide covers installing SpreadsheetDL for development and production use.
 
 ## Requirements
 
@@ -13,22 +13,22 @@ This guide covers installing Finance Tracker for development and production use.
 
 ```bash
 # Clone the repository
-git clone https://github.com/allenjd1/finance-tracker.git
-cd finance-tracker
+git clone https://github.com/lair-click-bats/spreadsheet-dl.git
+cd spreadsheet-dl
 
 # Install dependencies
 uv sync
 
 # Verify installation
-uv run finance-tracker --version
+uv run spreadsheet-dl --version
 ```
 
 ### Using pip
 
 ```bash
 # Clone the repository
-git clone https://github.com/allenjd1/finance-tracker.git
-cd finance-tracker
+git clone https://github.com/lair-click-bats/spreadsheet-dl.git
+cd spreadsheet-dl
 
 # Create virtual environment
 python -m venv .venv
@@ -38,7 +38,7 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 pip install -e .
 
 # Verify installation
-finance-tracker --version
+spreadsheet-dl --version
 ```
 
 ## Optional Dependencies
@@ -75,13 +75,13 @@ After installation, verify everything works:
 
 ```bash
 # Check version
-uv run finance-tracker --version
+uv run spreadsheet-dl --version
 
 # Run tests
 uv run pytest
 
 # Generate a test budget
-uv run finance-tracker generate -o /tmp/test/
+uv run spreadsheet-dl generate -o /tmp/test/
 ```
 
 ## Environment Configuration
@@ -102,10 +102,10 @@ export NEXTCLOUD_PATH=/Finance  # Optional, default: /Finance
 Alternatively, create a configuration file:
 
 ```bash
-uv run finance-tracker config --init
+uv run spreadsheet-dl config --init
 ```
 
-This creates `~/.config/finance-tracker/config.yaml`.
+This creates `~/.config/spreadsheet-dl/config.yaml`.
 
 ## Platform-Specific Notes
 
@@ -132,7 +132,7 @@ Install Python from [python.org](https://www.python.org/downloads/) or via Windo
 Use PowerShell for commands:
 
 ```powershell
-uv run finance-tracker --version
+uv run spreadsheet-dl --version
 ```
 
 ## Troubleshooting

@@ -25,7 +25,14 @@ import sys
 from pathlib import Path
 
 # Excluded directories (skip formatting)
-EXCLUDED_DIRS = {".venv", "node_modules", "__pycache__", ".git", ".mypy_cache", ".ruff_cache"}
+EXCLUDED_DIRS = {
+    ".venv",
+    "node_modules",
+    "__pycache__",
+    ".git",
+    ".mypy_cache",
+    ".ruff_cache",
+}
 
 # Tool availability cache (avoid repeated lookups)
 _tool_cache = {}
@@ -151,7 +158,9 @@ def main() -> None:
             sys.exit(0)
 
         # Extract file path from tool input
-        file_path = tool_input.get("file_path", "") or tool_input.get("notebook_path", "")
+        file_path = tool_input.get("file_path", "") or tool_input.get(
+            "notebook_path", ""
+        )
 
         if not file_path:
             sys.exit(0)

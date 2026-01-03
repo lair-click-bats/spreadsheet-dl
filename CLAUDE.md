@@ -1,6 +1,6 @@
-# Claude Context: Finance Tracker
+# Claude Context: SpreadsheetDL
 
-Professional spreadsheet system with enterprise-grade formatting and templates
+Universal spreadsheet definition language with LLM-optimized MCP server
 
 ## Project Information
 
@@ -12,12 +12,12 @@ Professional spreadsheet system with enterprise-grade formatting and templates
 
 **Single Source of Truth (SSOT)**: All configuration is authoritative in the locations below. When modifying, edit these files directly:
 
-| Resource | Location | Notes |
-|----------|----------|-------|
-| Agents | `.claude/agents/*.md` | Agent definitions with frontmatter |
-| Commands | `.claude/commands/*.md` | Slash command definitions |
-| Settings | `.claude/settings.json` | Claude Code settings, hooks |
-| Scripts | `scripts/README.md` | Script documentation and reference |
+| Resource | Location                | Notes                              |
+| -------- | ----------------------- | ---------------------------------- |
+| Agents   | `.claude/agents/*.md`   | Agent definitions with frontmatter |
+| Commands | `.claude/commands/*.md` | Slash command definitions          |
+| Settings | `.claude/settings.json` | Claude Code settings, hooks        |
+| Scripts  | `scripts/README.md`     | Script documentation and reference |
 
 This CLAUDE.md file is a high-level overview. For detailed documentation, see the authoritative sources above.
 
@@ -51,12 +51,12 @@ This CLAUDE.md file is a high-level overview. For detailed documentation, see th
 
 ## Agent Roster (4 Agents)
 
-| Agent | Purpose | When to Use |
-|-------|---------|-------------|
-| orchestrator | Route tasks to specialists or coordinate multi-agent workflows. Central hub for all inter-agent communication via completion reports. | route, coordinate, delegate |
-| git_commit_manager | Manage git operations with conventional commits and atomic, well-organized history. | git, commit, push |
-| spec_implementer | Implement tasks from task-graph according to requirements. Trace all implementations to requirement IDs. | implement, code, build |
-| spec_validator | Validate implementations against acceptance criteria from validation manifest. Map test results to requirements. | test, pytest, validate |
+| Agent              | Purpose                                                                                                                               | When to Use                 |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
+| orchestrator       | Route tasks to specialists or coordinate multi-agent workflows. Central hub for all inter-agent communication via completion reports. | route, coordinate, delegate |
+| git_commit_manager | Manage git operations with conventional commits and atomic, well-organized history.                                                   | git, commit, push           |
+| spec_implementer   | Implement tasks from task-graph according to requirements. Trace all implementations to requirement IDs.                              | implement, code, build      |
+| spec_validator     | Validate implementations against acceptance criteria from validation manifest. Map test results to requirements.                      | test, pytest, validate      |
 
 ## Development Tools
 
@@ -72,6 +72,7 @@ uv run python script.py    # Run scripts
 ```
 
 **Adding dependencies**:
+
 ```bash
 uv add package             # Add runtime dependency
 uv add --dev package       # Add dev dependency
@@ -83,18 +84,18 @@ Quality and maintenance scripts are available in `scripts/`. Use these for code 
 
 ### Quality Scripts
 
-| Script | Purpose | When to Use |
-|--------|---------|-------------|
-| `scripts/check.sh` | Quick quality check (lint + format check) | Before commits, after significant changes |
-| `scripts/lint.sh` | Run all configured linters | When checking for issues |
-| `scripts/format.sh` | Format all code files | When formatting is needed |
-| `scripts/clean.sh` | Clean build artifacts and caches | When builds are stale |
-| `scripts/doctor.sh` | Environment health check | When tools seem broken |
+| Script              | Purpose                                   | When to Use                               |
+| ------------------- | ----------------------------------------- | ----------------------------------------- |
+| `scripts/check.sh`  | Quick quality check (lint + format check) | Before commits, after significant changes |
+| `scripts/lint.sh`   | Run all configured linters                | When checking for issues                  |
+| `scripts/format.sh` | Format all code files                     | When formatting is needed                 |
+| `scripts/clean.sh`  | Clean build artifacts and caches          | When builds are stale                     |
+| `scripts/doctor.sh` | Environment health check                  | When tools seem broken                    |
 
 ### Maintenance Scripts
 
-| Script | Purpose | When to Use |
-|--------|---------|-------------|
+| Script                                        | Purpose                        | When to Use                 |
+| --------------------------------------------- | ------------------------------ | --------------------------- |
 | `scripts/maintenance/archive_coordination.sh` | Archive old coordination files | Periodically (>30 days old) |
 
 ### Tool Wrappers
@@ -174,11 +175,11 @@ Manual compaction with focus:
 
 ## State Tracking
 
-| File | Purpose |
-|------|---------|
-| `active_work.json` | Current task (check before new work) |
+| File                           | Purpose                                   |
+| ------------------------------ | ----------------------------------------- |
+| `active_work.json`             | Current task (check before new work)      |
 | `.claude/agent-outputs/*.json` | Completion reports (read before handoffs) |
-| `.coordination/checkpoints/` | Long-running task state |
+| `.coordination/checkpoints/`   | Long-running task state                   |
 
 **On interruption**: Resume from last checkpoint or completion report.
 
@@ -189,9 +190,26 @@ Manual compaction with focus:
 - Validation tests map to acceptance criteria
 - Dependencies verified before implementation
 
+## Pre-Release Policy (v4.0.0-alpha)
+
+**CRITICAL: Backwards compatibility is NOT a concern before v4.0.0 release.**
+
+Since SpreadsheetDL has not been released to PyPI yet:
+
+- ✅ **Breaking changes are ALLOWED** - Perfect the API without constraints
+- ✅ **Refactor freely** - Rename modules, classes, functions for clarity
+- ✅ **Restructure packages** - Move code to optimal locations
+- ✅ **Change signatures** - Improve function/method signatures
+- ✅ **Remove dead code** - Delete anything unused or unclear
+
+**Goal:** Ship v4.0.0 with the BEST possible API, not constrained by alpha-phase decisions.
+
+**Post-v4.0.0:** Follow semantic versioning strictly (breaking changes only in major versions).
+
 ## Anti-Patterns
 
 Never:
+
 - Over-engineer solutions
 - Create files without reading existing content first
 - Skip validation before completion
@@ -199,6 +217,7 @@ Never:
 - Direct worker-to-worker communication
 - Hardcoded routing tables
 - Commit without conventional format
+- Maintain backwards compatibility pre-v4.0.0 (we want the BEST API, not backwards compatible API)
 
 ## Coordination
 

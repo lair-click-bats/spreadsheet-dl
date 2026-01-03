@@ -1,31 +1,69 @@
 # API Reference
 
-Complete API documentation for Finance Tracker.
+Complete API documentation for SpreadsheetDL v4.0.
 
 ## Module Overview
 
-| Module | Description |
-|--------|-------------|
-| [ods_generator](ods_generator.md) | Create ODS spreadsheets |
-| [ods_editor](ods_editor.md) | Modify existing ODS files |
-| [budget_analyzer](budget_analyzer.md) | Analyze budget data |
-| [report_generator](report_generator.md) | Generate reports |
-| [csv_import](csv_import.md) | Import bank CSV files |
-| [analytics](analytics.md) | Dashboard analytics |
-| [alerts](alerts.md) | Budget alert system |
-| [recurring](recurring.md) | Recurring expenses |
-| [templates](templates.md) | Budget templates |
-| [builder](builder.md) | Fluent builder API |
+### Core Modules
+
+| Module                                | Description                   |
+| ------------------------------------- | ----------------------------- |
+| [ods_generator](ods_generator.md)     | Create ODS spreadsheets       |
+| [ods_editor](ods_editor.md)           | Modify existing ODS files     |
+| [builder](builder.md)                 | Fluent builder API            |
+| [charts](charts.md)                   | Chart builder and types       |
+| [template_engine](template_engine.md) | Template system               |
+| [mcp_server](mcp_server.md)           | MCP server for AI integration |
+
+### v4.0 Modules
+
+| Module                            | Description                        |
+| --------------------------------- | ---------------------------------- |
+| [streaming](streaming.md)         | Stream-based I/O for large files   |
+| [serialization](serialization.md) | Round-trip JSON/YAML serialization |
+| [adapters](adapters.md)           | Multi-format export/import         |
+| [performance](performance.md)     | Caching, lazy loading, benchmarks  |
+
+### Budget & Finance
+
+| Module                                | Description                |
+| ------------------------------------- | -------------------------- |
+| [budget_analyzer](budget_analyzer.md) | Analyze budget data        |
+| [accounts](accounts.md)               | Account management         |
+| [categories](categories.md)           | Custom category management |
+| [csv_import](csv_import.md)           | Import bank CSV files      |
+| [recurring](recurring.md)             | Recurring expenses         |
+| [alerts](alerts.md)                   | Budget alert system        |
+
+### Reporting & Visualization
+
+| Module                                  | Description                     |
+| --------------------------------------- | ------------------------------- |
+| [report_generator](report_generator.md) | Generate reports                |
+| [visualization](visualization.md)       | Interactive charts & dashboards |
+| [analytics](analytics.md)               | Dashboard analytics             |
+
+### Security & Configuration
+
+| Module                      | Description              |
+| --------------------------- | ------------------------ |
+| [security](security.md)     | Encryption & credentials |
+| [config](config.md)         | Configuration management |
+| [exceptions](exceptions.md) | Exception classes        |
+
+### Integration
+
+| Module                            | Description      |
+| --------------------------------- | ---------------- |
 | [webdav_upload](webdav_upload.md) | Nextcloud WebDAV |
-| [config](config.md) | Configuration management |
-| [exceptions](exceptions.md) | Exception classes |
+| [templates](templates.md)         | Budget templates |
 
 ## Quick Reference
 
 ### Creating Budgets
 
 ```python
-from finance_tracker import OdsGenerator, create_monthly_budget
+from spreadsheet_dl import OdsGenerator, create_monthly_budget
 
 # Simple creation
 path = create_monthly_budget("./budgets")
@@ -42,7 +80,7 @@ generator.create_budget_spreadsheet(
 ### Adding Expenses
 
 ```python
-from finance_tracker import OdsEditor, ExpenseEntry, ExpenseCategory
+from spreadsheet_dl import OdsEditor, ExpenseEntry, ExpenseCategory
 from decimal import Decimal
 from datetime import date
 
@@ -57,36 +95,114 @@ editor.append_expense(ExpenseEntry(
 editor.save()
 ```
 
-### Analyzing Data
+### Using the Builder API
 
 ```python
-from finance_tracker import BudgetAnalyzer
+from spreadsheet_dl import SpreadsheetBuilder
+
+builder = SpreadsheetBuilder(theme="professional")
+builder.sheet("Budget") \
+    .column("Category", width="150pt") \
+    .column("Budget", type="currency") \
+    .column("Actual", type="currency") \
+    .header_row() \
+    .row().cells("Housing", 1500, 1450) \
+    .row().cells("Groceries", 500, 480) \
+    .total_row(formulas=["Total", "=SUM(B2:B3)", "=SUM(C2:C3)"])
+
+builder.save("budget_report.ods")
+```
+
+### Streaming Large Files
+
+```python
+from spreadsheet_dl import stream_read, stream_write
+
+# Read large file row by row
+with stream_read("large_file.ods") as reader:
+    for row in reader.rows("Data"):
+        process_row(row)
+
+# Write large file in chunks
+with stream_write("output.ods") as writer:
+    writer.start_sheet("Data", columns=["A", "B", "C"])
+    for chunk in data_generator():
+        writer.write_rows(chunk)
+```
+
+### Multi-Format Export
+
+```python
+from spreadsheet_dl import export_to, import_from
+
+# Export to various formats
+export_to(sheets, "data.csv")
+export_to(sheets, "data.json")
+export_to(sheets, "data.html")
+
+# Import from various formats
+sheets = import_from("data.csv")
+```
+
+### Performance Optimization
+
+```python
+from spreadsheet_dl import cached, LRUCache, batch_process
+
+# Cache expensive computations
+@cached(maxsize=100, ttl=3600)
+def analyze_budget(budget_id: str) -> dict:
+    return expensive_analysis(budget_id)
+
+# Process items in batches
+result = batch_process(
+    items=large_list,
+    processor=process_item,
+    batch_size=100
+)
+print(f"Processed {result.success_count} items")
+```
+
+### Account Management
+
+```python
+from spreadsheet_dl import AccountManager, AccountType
+from decimal import Decimal
+
+manager = AccountManager("accounts.json")
+
+# Add accounts
+checking = manager.add_account(
+    name="Primary Checking",
+    account_type=AccountType.CHECKING,
+    balance=Decimal("5000")
+)
+
+# Transfer funds
+manager.transfer(checking.id, savings.id, Decimal("500"))
+
+# Calculate net worth
+net_worth = manager.calculate_net_worth()
+print(f"Net worth: ${net_worth.net_worth:,.2f}")
+```
+
+### File Encryption
+
+```python
+from spreadsheet_dl import FileEncryptor
+
+encryptor = FileEncryptor()
+encryptor.encrypt_file("budget.ods", "budget.ods.enc", "password")
+encryptor.decrypt_file("budget.ods.enc", "budget.ods", "password")
+```
+
+### Interactive Visualization
+
+```python
+from spreadsheet_dl import create_budget_dashboard, BudgetAnalyzer
 
 analyzer = BudgetAnalyzer("budget.ods")
-summary = analyzer.get_summary()
-
-print(f"Budget: ${summary.total_budget}")
-print(f"Spent: ${summary.total_spent}")
-print(f"Used: {summary.percent_used}%")
-```
-
-### Generating Reports
-
-```python
-from finance_tracker import ReportGenerator
-
-generator = ReportGenerator("budget.ods")
-print(generator.generate_markdown_report())
-```
-
-### Importing CSV
-
-```python
-from finance_tracker import import_bank_csv, OdsGenerator
-
-expenses = import_bank_csv("transactions.csv", bank="chase")
-generator = OdsGenerator()
-generator.create_budget_spreadsheet("imported.ods", expenses=expenses)
+create_budget_dashboard(analyzer, "dashboard.html", theme="dark")
 ```
 
 ## Core Classes
@@ -129,6 +245,21 @@ class OdsEditor:
     ) -> int: ...
 
     def save(self, output_path: Path | str | None = None) -> Path: ...
+```
+
+### SpreadsheetBuilder
+
+Fluent builder for creating spreadsheets.
+
+```python
+class SpreadsheetBuilder:
+    def __init__(self, theme: str | None = "default") -> None: ...
+
+    def sheet(self, name: str) -> Self: ...
+    def column(self, name: str, **kwargs) -> Self: ...
+    def row(self, **kwargs) -> Self: ...
+    def cell(self, value: Any = None, **kwargs) -> Self: ...
+    def save(self, path: Path | str) -> Path: ...
 ```
 
 ### BudgetAnalyzer
@@ -192,22 +323,26 @@ class ExpenseCategory(Enum):
 
 ## Exceptions
 
-All exceptions inherit from `FinanceTrackerError`:
+All exceptions inherit from `SpreadsheetDLError`:
 
 ```python
-class FinanceTrackerError(Exception):
+class SpreadsheetDLError(Exception):
     message: str
     error_code: str
 
-class OdsError(FinanceTrackerError): ...
+class OdsError(SpreadsheetDLError): ...
 class OdsReadError(OdsError): ...
 class OdsWriteError(OdsError): ...
 class SheetNotFoundError(OdsError): ...
 
-class ValidationError(FinanceTrackerError): ...
+class ValidationError(SpreadsheetDLError): ...
 class InvalidAmountError(ValidationError): ...
 class InvalidDateError(ValidationError): ...
 class InvalidCategoryError(ValidationError): ...
+
+class EncryptionError(SpreadsheetDLError): ...
+class DecryptionError(SpreadsheetDLError): ...
+class IntegrityError(SpreadsheetDLError): ...
 ```
 
 ## Type Hints
@@ -226,3 +361,12 @@ def func(path: Path | str) -> Path: ...
 # Sequences accept lists, tuples, etc.
 def func(items: Sequence[ExpenseEntry]) -> None: ...
 ```
+
+## Version History
+
+- **v4.0.0**: Universal spreadsheet definition language, streaming I/O, format adapters, performance optimization
+- **v2.0.0**: Professional templates, charts, conditional formatting
+- **v0.7.0**: Goals, debt payoff, bill reminders, shell completions
+- **v0.6.0**: Account management, multi-currency, visualization
+- **v0.5.0**: Backup, multi-format export, AI export
+- **v0.4.0**: Builder API, themes, security

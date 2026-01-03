@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 def run_cli(*args: str) -> subprocess.CompletedProcess[str]:
     """Run the CLI with given arguments."""
     return subprocess.run(
-        [sys.executable, "-m", "finance_tracker.cli", *args],
+        [sys.executable, "-m", "spreadsheet_dl.cli", *args],
         capture_output=True,
         text=True,
     )
@@ -27,21 +27,21 @@ class TestCLIBasics:
         """Test --version flag shows version."""
         result = run_cli("--version")
         assert result.returncode == 0
-        assert "finance-tracker" in result.stdout
-        # Accept current version 2.0.0
-        assert "2.0.0" in result.stdout
+        assert "spreadsheet-dl" in result.stdout
+        # Accept current version 4.0.0
+        assert "4.0.0" in result.stdout
 
     def test_version_short_flag(self) -> None:
         """Test -V flag shows version."""
         result = run_cli("-V")
         assert result.returncode == 0
-        assert "2.0.0" in result.stdout
+        assert "4.0.0" in result.stdout
 
     def test_help_flag(self) -> None:
         """Test --help flag shows help."""
         result = run_cli("--help")
         assert result.returncode == 0
-        assert "finance-tracker" in result.stdout
+        assert "spreadsheet-dl" in result.stdout
         assert "generate" in result.stdout
         assert "analyze" in result.stdout
         assert "report" in result.stdout
@@ -50,7 +50,7 @@ class TestCLIBasics:
         """Test running without command shows help."""
         result = run_cli()
         assert result.returncode == 1  # Exits with error
-        assert "usage:" in result.stdout.lower() or "finance-tracker" in result.stdout
+        assert "usage:" in result.stdout.lower() or "spreadsheet-dl" in result.stdout
 
 
 class TestGenerateCommand:
@@ -229,10 +229,14 @@ class TestExpenseCommand:
         ods_file = next(iter(tmp_path.glob("budget_*.ods")))
 
         result = run_cli(
-            "expense", "25.50", "Test purchase",
-            "-c", "Groceries",
-            "-f", str(ods_file),
-            "--dry-run"
+            "expense",
+            "25.50",
+            "Test purchase",
+            "-c",
+            "Groceries",
+            "-f",
+            str(ods_file),
+            "--dry-run",
         )
 
         assert result.returncode == 0
@@ -248,9 +252,13 @@ class TestExpenseCommand:
         ods_file = next(iter(tmp_path.glob("budget_*.ods")))
 
         result = run_cli(
-            "expense", "42.50", "Coffee and snacks",
-            "-c", "Dining Out",
-            "-f", str(ods_file),
+            "expense",
+            "42.50",
+            "Coffee and snacks",
+            "-c",
+            "Dining Out",
+            "-f",
+            str(ods_file),
         )
 
         assert result.returncode == 0
@@ -267,10 +275,15 @@ class TestExpenseCommand:
         ods_file = next(iter(tmp_path.glob("budget_*.ods")))
 
         result = run_cli(
-            "expense", "100.00", "Monthly subscription",
-            "-c", "Subscriptions",
-            "-f", str(ods_file),
-            "-d", "2025-01-15",
+            "expense",
+            "100.00",
+            "Monthly subscription",
+            "-c",
+            "Subscriptions",
+            "-f",
+            str(ods_file),
+            "-d",
+            "2025-01-15",
         )
 
         assert result.returncode == 0
@@ -283,8 +296,11 @@ class TestExpenseCommand:
         ods_file = next(iter(tmp_path.glob("budget_*.ods")))
 
         result = run_cli(
-            "expense", "50.00", "Walmart groceries",
-            "-f", str(ods_file),
+            "expense",
+            "50.00",
+            "Walmart groceries",
+            "-f",
+            str(ods_file),
         )
 
         assert result.returncode == 0
@@ -293,13 +309,17 @@ class TestExpenseCommand:
     def test_expense_creates_file_if_none_exists(self, tmp_path: Path) -> None:
         """Test expense creates budget file if none exists in directory."""
         import os
+
         orig_cwd = os.getcwd()
         try:
             os.chdir(tmp_path)
 
             result = run_cli(
-                "expense", "25.00", "Test expense",
-                "-c", "Miscellaneous",
+                "expense",
+                "25.00",
+                "Test expense",
+                "-c",
+                "Miscellaneous",
             )
 
             assert result.returncode == 0
@@ -315,11 +335,16 @@ class TestExpenseCommand:
     def test_expense_file_not_found(self, tmp_path: Path) -> None:
         """Test expense with non-existent file specified."""
         result = run_cli(
-            "expense", "25.00", "Test",
-            "-f", str(tmp_path / "nonexistent.ods"),
+            "expense",
+            "25.00",
+            "Test",
+            "-f",
+            str(tmp_path / "nonexistent.ods"),
         )
         assert result.returncode == 1
-        assert "not found" in result.stderr.lower() or "not found" in result.stdout.lower()
+        assert (
+            "not found" in result.stderr.lower() or "not found" in result.stdout.lower()
+        )
 
 
 class TestImportCommand:

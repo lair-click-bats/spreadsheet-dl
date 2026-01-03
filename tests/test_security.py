@@ -6,8 +6,8 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from finance_tracker.exceptions import FileError
-from finance_tracker.security import (
+from spreadsheet_dl.exceptions import FileError
+from spreadsheet_dl.security import (
     AuditLogEntry,
     DecryptionError,
     EncryptionMetadata,

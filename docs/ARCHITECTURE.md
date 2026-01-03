@@ -1,16 +1,26 @@
 # Architecture Overview
 
-## Version 2.0.0 - Professional Spreadsheet System
+## Version 4.0.0 - Universal Spreadsheet Definition Language
 
-This document describes the architecture of Finance Tracker v2.0.0, a comprehensive
-professional spreadsheet system with enterprise-grade formatting capabilities.
+This document describes the architecture of SpreadsheetDL v4.0.0, a universal
+spreadsheet definition language with LLM-optimized MCP server, multi-format support,
+and professional-grade formatting capabilities.
+
+**What's New in v4.0.0:**
+
+- **Universal Format**: SpreadsheetDL spec works across ODS, XLSX, CSV, PDF
+- **MCP Server**: 145+ tools for AI-driven spreadsheet manipulation
+- **Theme Variants**: Light, dark, and high-contrast themes
+- **Streaming I/O**: Handle 100k+ row files efficiently
+- **Round-Trip**: Import and export with 95%+ fidelity preservation
+- **Format Adapters**: Pluggable export to multiple formats
 
 ## Project Structure
 
 ```
-finance-tracker/
+spreadsheet-dl/
 ├── src/
-│   └── finance_tracker/          # Main package
+│   └── spreadsheet_dl/          # Main package
 │       ├── __init__.py           # Package exports (250+ symbols)
 │       ├── ods_generator.py      # ODS file creation
 │       ├── budget_analyzer.py    # Pandas-based analysis
@@ -141,23 +151,42 @@ Enhanced interactivity within ODS spreadsheets.
 - Dashboard views with KPIs
 - Sparklines for trends
 
-### 5. MCP Server Integration (NEW in v1.0.0)
+### 5. MCP Server Integration (ENHANCED in v4.0.0)
 
-Native Model Context Protocol server for AI integration.
+Native Model Context Protocol server with 145+ spreadsheet operation tools.
 
 **Key Classes:**
 
-- `MCPServer` - Server implementation
+- `MCPServer` - Server implementation (v4.0)
+- `MCPToolRegistry` - Decorator-based tool registration
 - `MCPConfig` - Server configuration
 - `MCPTool` - Tool definitions
 - `MCPToolResult` - Tool results
 
+**Tool Categories (145+ total):**
+
+- **Cell Operations** (25 tools): get, set, copy, move, merge, find, replace
+- **Style Operations** (20 tools): fonts, colors, borders, fills, alignment
+- **Structure Operations** (18 tools): rows, columns, sheets, freeze panes
+- **Formula Operations** (12 tools): formulas, named ranges, dependencies
+- **Chart Operations** (10 tools): create, update, charts and sparklines
+- **Validation** (8 tools): data validation rules and constraints
+- **Conditional Formatting** (8 tools): color scales, data bars, icon sets
+- **Theme Operations** (10 tools): load, create, apply themes and variants
+- **Workbook Operations** (8 tools): create, open, save, protect
+- **Print Operations** (6 tools): page setup, margins, headers, footers
+- **Import/Export** (8 tools): CSV, XLSX, JSON, PDF conversion
+- **Query Operations** (6 tools): search, filter, sort, aggregate
+- **Advanced** (6 tools): tables, sparklines, hyperlinks
+
 **Capabilities:**
 
-- Natural language budget queries
-- Automated report generation
-- Expense categorization
-- Trend analysis
+- Natural language spreadsheet queries
+- Automated cell manipulation
+- Dynamic style application
+- AI-driven data analysis
+- Multi-format conversions
+- Real-time spreadsheet updates
 
 ### 6. Security Module
 
@@ -324,10 +353,10 @@ Native MCP server for Claude Code integration:
 ```json
 {
   "mcpServers": {
-    "finance-tracker": {
+    "spreadsheet-dl": {
       "type": "stdio",
       "command": "uv",
-      "args": ["run", "finance-tracker-mcp"],
+      "args": ["run", "spreadsheet-dl-mcp"],
       "env": {
         "FINANCE_DATA_DIR": "~/Documents/Finance"
       }
@@ -349,7 +378,7 @@ Native MCP server for Claude Code integration:
 Automatic transaction import from banks:
 
 ```python
-from finance_tracker import PlaidClient, PlaidSyncManager
+from spreadsheet_dl import PlaidClient, PlaidSyncManager
 
 client = PlaidClient(config)
 sync_manager = PlaidSyncManager(client)
@@ -419,7 +448,7 @@ uv add --dev ruff mypy pytest pytest-cov
 ### Credential Storage
 
 ```
-~/.config/finance-tracker/
+~/.config/spreadsheet-dl/
 ├── credentials.enc    # Encrypted credential store
 ├── security_audit.log # Audit trail
 └── config.yaml        # Application config (no secrets)
@@ -502,7 +531,7 @@ class CustomExporter(MultiFormatExporter):
 Add validation rules:
 
 ```python
-from finance_tracker import ValidationRule, ValidationRuleType
+from spreadsheet_dl import ValidationRule, ValidationRuleType
 
 custom_rule = ValidationRule(
     rule_type=ValidationRuleType.CUSTOM,
@@ -513,7 +542,7 @@ custom_rule = ValidationRule(
 
 ## Versioning
 
-Finance Tracker follows semantic versioning:
+SpreadsheetDL follows semantic versioning:
 
 - **v2.0.0**: Professional Spreadsheet System (95 requirements)
 - **v1.0.0**: Phase 5 - Future Enhancements

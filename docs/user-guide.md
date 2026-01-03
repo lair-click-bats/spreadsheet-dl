@@ -1,6 +1,6 @@
 # User Guide
 
-A comprehensive guide to using Finance Tracker for family budget management.
+A comprehensive guide to using SpreadsheetDL for family budget management.
 
 ## Table of Contents
 
@@ -25,7 +25,7 @@ A comprehensive guide to using Finance Tracker for family budget management.
 Create your first budget with a single command:
 
 ```bash
-uv run finance-tracker generate -o ./budgets/
+uv run spreadsheet-dl generate -o ./budgets/
 ```
 
 This creates a file like `budgets/budget_2025_01.ods` with:
@@ -48,13 +48,13 @@ Open the ODS file with:
 
 ```bash
 # Current month budget in current directory
-uv run finance-tracker generate
+uv run spreadsheet-dl generate
 
 # Specific output directory
-uv run finance-tracker generate -o ~/finances/
+uv run spreadsheet-dl generate -o ~/finances/
 
 # Specific month and year
-uv run finance-tracker generate -m 6 -y 2025 -o ~/finances/
+uv run spreadsheet-dl generate -m 6 -y 2025 -o ~/finances/
 ```
 
 ### With Templates
@@ -63,13 +63,13 @@ Use pre-built budget templates:
 
 ```bash
 # 50/30/20 rule (needs/wants/savings)
-uv run finance-tracker generate -t 50_30_20
+uv run spreadsheet-dl generate -t 50_30_20
 
 # Family budget (4+ people)
-uv run finance-tracker generate -t family
+uv run spreadsheet-dl generate -t family
 
 # FIRE (high savings rate)
-uv run finance-tracker generate -t fire
+uv run spreadsheet-dl generate -t fire
 ```
 
 See [Budget Templates](#budget-templates) for all options.
@@ -80,13 +80,13 @@ Apply visual styling:
 
 ```bash
 # Corporate theme
-uv run finance-tracker generate --theme corporate
+uv run spreadsheet-dl generate --theme corporate
 
 # High contrast (accessibility)
-uv run finance-tracker generate --theme high_contrast
+uv run spreadsheet-dl generate --theme high_contrast
 
 # Combine template and theme
-uv run finance-tracker generate -t family --theme minimal
+uv run spreadsheet-dl generate -t family --theme minimal
 ```
 
 See [Visual Themes](#visual-themes) for all options.
@@ -101,17 +101,17 @@ Add expenses directly from the command line:
 
 ```bash
 # Basic expense with auto-categorization
-uv run finance-tracker expense 25.50 "Walmart groceries"
+uv run spreadsheet-dl expense 25.50 "Walmart groceries"
 # Output: Auto-categorized as: Groceries
 
 # Specify category
-uv run finance-tracker expense 45.00 "Gas station" -c Transportation
+uv run spreadsheet-dl expense 45.00 "Gas station" -c Transportation
 
 # Specify date
-uv run finance-tracker expense 150.00 "Electric bill" -c Utilities -d 2025-01-15
+uv run spreadsheet-dl expense 150.00 "Electric bill" -c Utilities -d 2025-01-15
 
 # Specify file
-uv run finance-tracker expense 12.99 "Netflix" -c Subscriptions -f budget_2025_01.ods
+uv run spreadsheet-dl expense 12.99 "Netflix" -c Subscriptions -f budget_2025_01.ods
 ```
 
 ### Dry Run Mode
@@ -119,13 +119,13 @@ uv run finance-tracker expense 12.99 "Netflix" -c Subscriptions -f budget_2025_0
 Preview what will be added without modifying files:
 
 ```bash
-uv run finance-tracker expense 100.00 "Test" --dry-run
+uv run spreadsheet-dl expense 100.00 "Test" --dry-run
 # Output: [DRY RUN] Would add expense: ...
 ```
 
 ### Auto-Categorization
 
-If you don't specify a category, Finance Tracker automatically categorizes based on the description:
+If you don't specify a category, SpreadsheetDL automatically categorizes based on the description:
 
 | Description Contains | Category |
 |---------------------|----------|
@@ -163,7 +163,7 @@ If you don't specify a category, Finance Tracker automatically categorizes based
 
 ```bash
 # Summary view
-uv run finance-tracker analyze budget_2025_01.ods
+uv run spreadsheet-dl analyze budget_2025_01.ods
 
 # Output:
 # Budget Analysis: budget_2025_01.ods
@@ -177,13 +177,13 @@ uv run finance-tracker analyze budget_2025_01.ods
 ### JSON Output
 
 ```bash
-uv run finance-tracker analyze budget_2025_01.ods --json
+uv run spreadsheet-dl analyze budget_2025_01.ods --json
 ```
 
 ### Filter by Category
 
 ```bash
-uv run finance-tracker analyze budget_2025_01.ods --category Groceries
+uv run spreadsheet-dl analyze budget_2025_01.ods --category Groceries
 # Output:
 # Category: Groceries
 # Total: $275.50
@@ -193,7 +193,7 @@ uv run finance-tracker analyze budget_2025_01.ods --category Groceries
 ### Filter by Date Range
 
 ```bash
-uv run finance-tracker analyze budget_2025_01.ods \
+uv run spreadsheet-dl analyze budget_2025_01.ods \
   --start-date 2025-01-01 --end-date 2025-01-15
 ```
 
@@ -204,25 +204,25 @@ uv run finance-tracker analyze budget_2025_01.ods \
 ### Text Report
 
 ```bash
-uv run finance-tracker report budget_2025_01.ods -f text
+uv run spreadsheet-dl report budget_2025_01.ods -f text
 ```
 
 ### Markdown Report
 
 ```bash
-uv run finance-tracker report budget_2025_01.ods -f markdown
+uv run spreadsheet-dl report budget_2025_01.ods -f markdown
 ```
 
 ### Save to File
 
 ```bash
-uv run finance-tracker report budget_2025_01.ods -f markdown -o report.md
+uv run spreadsheet-dl report budget_2025_01.ods -f markdown -o report.md
 ```
 
 ### JSON Data for Visualizations
 
 ```bash
-uv run finance-tracker report budget_2025_01.ods -f json
+uv run spreadsheet-dl report budget_2025_01.ods -f json
 ```
 
 ---
@@ -243,8 +243,8 @@ uv run finance-tracker report budget_2025_01.ods -f json
 ### List All Templates
 
 ```bash
-uv run finance-tracker templates
-uv run finance-tracker templates --json
+uv run spreadsheet-dl templates
+uv run spreadsheet-dl templates --json
 ```
 
 ### Template Details
@@ -271,13 +271,13 @@ Each template includes:
 ### List All Themes
 
 ```bash
-uv run finance-tracker themes
-uv run finance-tracker themes --json
+uv run spreadsheet-dl themes
+uv run spreadsheet-dl themes --json
 ```
 
 ### Custom Themes
 
-Create custom themes by adding YAML files to `src/finance_tracker/themes/`.
+Create custom themes by adding YAML files to `src/spreadsheet_dl/themes/`.
 
 ---
 
@@ -297,19 +297,19 @@ Create custom themes by adding YAML files to `src/finance_tracker/themes/`.
 
 ```bash
 # Auto-detect bank format
-uv run finance-tracker import transactions.csv
+uv run spreadsheet-dl import transactions.csv
 ```
 
 ### Specify Bank
 
 ```bash
-uv run finance-tracker import transactions.csv --bank chase
+uv run spreadsheet-dl import transactions.csv --bank chase
 ```
 
 ### Preview Before Import
 
 ```bash
-uv run finance-tracker import transactions.csv --preview
+uv run spreadsheet-dl import transactions.csv --preview
 # Output:
 # Preview (first 10):
 #   2025-01-15 | Groceries       | $  125.50 | WALMART
@@ -320,7 +320,7 @@ uv run finance-tracker import transactions.csv --preview
 ### Import with Theme
 
 ```bash
-uv run finance-tracker import transactions.csv --theme corporate -o imported.ods
+uv run spreadsheet-dl import transactions.csv --theme corporate -o imported.ods
 ```
 
 ---
@@ -330,8 +330,8 @@ uv run finance-tracker import transactions.csv --theme corporate -o imported.ods
 ### Python API
 
 ```python
-from finance_tracker import RecurringExpenseManager, RecurringExpense
-from finance_tracker import ExpenseCategory, RecurrenceFrequency
+from spreadsheet_dl import RecurringExpenseManager, RecurringExpense
+from spreadsheet_dl import ExpenseCategory, RecurrenceFrequency
 from decimal import Decimal
 
 # Create manager
@@ -370,7 +370,7 @@ export NEXTCLOUD_PASSWORD=app-password
 ### Upload Budget
 
 ```bash
-uv run finance-tracker upload budget_2025_01.ods
+uv run spreadsheet-dl upload budget_2025_01.ods
 # Output: Uploaded: https://your-nextcloud.com/remote.php/dav/files/...
 ```
 

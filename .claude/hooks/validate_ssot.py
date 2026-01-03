@@ -41,7 +41,9 @@ def check_duplicate_configs() -> dict[str, Any]:
 
     for dup_loc in duplicate_locations:
         if dup_loc.exists():
-            errors.append(f"Duplicate config directory exists: {dup_loc.relative_to(PROJECT_DIR)}")
+            errors.append(
+                f"Duplicate config directory exists: {dup_loc.relative_to(PROJECT_DIR)}"
+            )
 
     return {"ok": len(errors) == 0, "errors": errors}
 
@@ -86,8 +88,12 @@ def check_metadata_sync() -> dict[str, Any]:
             # Check for old/wrong org names
             wrong_orgs = ["allenjd1", "allenjd"]
             for wrong_org in wrong_orgs:
-                if wrong_org in content and file_path not in ["CHANGELOG.md"]:  # Allow in changelog
-                    errors.append(f"{file_path} contains '{wrong_org}', expected '{expected_org}'")
+                if wrong_org in content and file_path not in [
+                    "CHANGELOG.md"
+                ]:  # Allow in changelog
+                    errors.append(
+                        f"{file_path} contains '{wrong_org}', expected '{expected_org}'"
+                    )
         except Exception:
             pass
 

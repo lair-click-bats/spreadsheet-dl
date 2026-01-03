@@ -1,24 +1,156 @@
 # Migration Guide
 
-**Implements: DOC-PROF-006: Migration Guide**
+**Implements: DOC-PROF-006: Migration Guide | TASK-502: v4.0 Documentation**
 
-This guide helps you migrate from older versions of finance-tracker
-and from other spreadsheet tools to the professional spreadsheet system.
+This guide helps you migrate from older versions of spreadsheet-dl
+and from other spreadsheet tools to the universal SpreadsheetDL v4.0.
 
 ## Table of Contents
 
 1. [Version Migration](#version-migration)
+   - [From v2.0 to v4.0](#from-v20-to-v40) **NEW**
+   - [From v1.x to v2.0](#from-v1x-to-v20)
 2. [Migrating from Basic API to Builder API](#migrating-from-basic-api-to-builder-api)
 3. [Migrating from openpyxl](#migrating-from-openpyxl)
 4. [Migrating from pandas](#migrating-from-pandas)
 5. [Migrating from Excel VBA](#migrating-from-excel-vba)
 6. [Migrating Themes](#migrating-themes)
+7. [Using the MCP Server](#using-the-mcp-server) **NEW**
 
 ## Version Migration
+
+### From v2.0 to v4.0
+
+Version 4.0 introduces universal spreadsheet definition language with:
+
+- **145+ MCP Tools**: AI-driven spreadsheet manipulation
+- **Multi-Format Support**: ODS, XLSX, CSV, PDF export
+- **Theme Variants**: Light, dark, high-contrast themes
+- **Streaming I/O**: Handle 100k+ row files
+- **Round-Trip Import**: Import ODS/XLSX back to SpreadsheetDL
+- **Format Adapters**: Pluggable export system
+
+#### Breaking Changes
+
+| v2.0            | v4.0                         | Notes                                 |
+| --------------- | ---------------------------- | ------------------------------------- |
+| `Theme(...)`    | `Theme(..., variants={...})` | Theme variants support                |
+| ODS-only export | Multi-format adapters        | `export_ods()`, `export_xlsx()`, etc. |
+| In-memory only  | Streaming support            | `StreamingWriter` for large files     |
+| One-way export  | Round-trip capable           | `import_ods()`, `import_xlsx()`       |
+
+#### Migration Steps
+
+**1. Update Theme Definitions with Variants**
+
+```python
+# v2.0 - Single theme
+from spreadsheet_dl.schema.styles import Theme
+
+theme = Theme(
+    name="corporate",
+    colors={"primary": "#1E3A8A", "secondary": "#60A5FA"},
+)
+
+# v4.0 - Theme with variants
+from spreadsheet_dl.schema.styles import Theme, ThemeVariant
+
+theme = Theme(
+    name="corporate",
+    colors={"primary": "#1E3A8A", "secondary": "#60A5FA"},
+    variants={
+        "dark": ThemeVariant(
+            colors={"primary": "#60A5FA", "secondary": "#1E3A8A"},
+        ),
+        "high_contrast": ThemeVariant(
+            colors={"primary": "#000000", "secondary": "#FFFFFF"},
+        ),
+    }
+)
+
+# Switch variants at runtime
+theme.set_variant("dark")
+```
+
+**2. Use Multi-Format Export**
+
+```python
+# v2.0 - ODS only
+builder.save("report.ods")
+
+# v4.0 - Multiple formats
+from spreadsheet_dl.adapters import OdsAdapter, XlsxAdapter, CsvAdapter
+
+builder.save("report.ods")  # Still works
+builder.export_xlsx("report.xlsx")  # Export to Excel
+builder.export_csv("report.csv")  # Export to CSV
+builder.export_pdf("report.pdf")  # Export to PDF
+
+# Or use adapters directly
+adapter = XlsxAdapter()
+adapter.export(builder.spec, "report.xlsx")
+```
+
+**3. Handle Large Files with Streaming**
+
+```python
+# v2.0 - In-memory only (limited to ~50k rows)
+builder = SpreadsheetBuilder()
+for row in large_dataset:  # May cause OOM
+    builder.row().cell(row[0]).cell(row[1])
+builder.save("large.ods")
+
+# v4.0 - Streaming for large files
+from spreadsheet_dl.streaming import StreamingWriter
+
+with StreamingWriter("large.ods") as writer:
+    writer.write_header(["Column1", "Column2"])
+    for row in large_dataset:  # Handles 100k+ rows
+        writer.write_row([row[0], row[1]])
+```
+
+**4. Import Existing Spreadsheets**
+
+```python
+# v4.0 - NEW: Round-trip import
+from spreadsheet_dl.roundtrip import import_ods, import_xlsx
+
+# Import ODS to SpreadsheetBuilder
+builder = import_ods("existing.ods")
+builder.sheet("Sheet1").row().cell("New Data")
+builder.save("modified.ods")
+
+# Import XLSX
+builder = import_xlsx("excel_file.xlsx")
+builder.export_ods("converted.ods")
+```
+
+**5. Use MCP Server for AI Integration**
+
+```python
+# v4.0 - NEW: MCP Server
+from spreadsheet_dl.mcp_server import MCPServer, MCPConfig
+
+# Start MCP server for Claude Desktop integration
+config = MCPConfig(
+    allowed_paths=[Path("~/Documents")],
+    rate_limit_per_minute=120,
+)
+server = MCPServer(config)
+server.run()  # Exposes 145+ tools to Claude
+```
+
+#### Compatibility Notes
+
+- **v2.0 code continues to work** in v4.0 with no changes required
+- **Themes are backward compatible** - variants are optional
+- **ODS export unchanged** - same file format and quality
+- **New features are opt-in** - streaming, import, adapters are optional
 
 ### From v1.x to v2.0
 
 Version 2.0 introduces the professional spreadsheet system with:
+
 - Theme-based styling
 - Builder pattern API
 - Professional templates
@@ -26,11 +158,11 @@ Version 2.0 introduces the professional spreadsheet system with:
 
 #### Breaking Changes
 
-| v1.x | v2.0 | Notes |
-|------|------|-------|
+| v1.x                          | v2.0                           | Notes           |
+| ----------------------------- | ------------------------------ | --------------- |
 | `ODSGenerator.create_sheet()` | `SpreadsheetBuilder().sheet()` | Builder pattern |
-| `add_row(values)` | `builder.row().cell()...` | Fluent API |
-| Inline styles | Theme-based styles | Style names |
+| `add_row(values)`             | `builder.row().cell()...`      | Fluent API      |
+| Inline styles                 | Theme-based styles             | Style names     |
 
 #### Migration Steps
 
@@ -38,7 +170,7 @@ Version 2.0 introduces the professional spreadsheet system with:
 
 ```python
 # v1.x - Old way
-from finance_tracker.ods_generator import ODSGenerator
+from spreadsheet_dl.ods_generator import ODSGenerator
 
 gen = ODSGenerator()
 gen.create_sheet("Budget")
@@ -47,7 +179,7 @@ gen.add_row(["Housing", 1500])
 gen.save("budget.ods")
 
 # v2.0 - New way
-from finance_tracker.builder import SpreadsheetBuilder
+from spreadsheet_dl.builder import SpreadsheetBuilder
 
 builder = SpreadsheetBuilder(theme="default")
 builder.sheet("Budget")
@@ -83,7 +215,7 @@ builder.cell(5000, style="currency_total")
 gen.add_cell(formula="=SUM(B2:B10)")
 
 # v2.0 - Formula builder (optional, strings still work)
-from finance_tracker.builder import formula
+from spreadsheet_dl.builder import formula
 
 builder.cell(formula().sum("B2:B10").build())
 # or
@@ -95,6 +227,7 @@ builder.cell("=SUM(B2:B10)")  # Still supported
 Minor version with backward compatibility.
 
 New features:
+
 - Print layout configuration
 - Professional templates
 - Enhanced validation
@@ -106,7 +239,7 @@ No breaking changes - existing code continues to work.
 ### Before: Procedural Style
 
 ```python
-from finance_tracker.ods_generator import ODSGenerator
+from spreadsheet_dl.ods_generator import ODSGenerator
 
 gen = ODSGenerator()
 sheet = gen.create_sheet("Expenses")
@@ -131,7 +264,7 @@ gen.save("expenses.ods")
 ### After: Builder Pattern
 
 ```python
-from finance_tracker.builder import SpreadsheetBuilder
+from spreadsheet_dl.builder import SpreadsheetBuilder
 
 builder = SpreadsheetBuilder(theme="corporate")
 
@@ -163,12 +296,12 @@ builder.save("expenses.ods")
 
 ### Key Differences
 
-| Aspect | Basic API | Builder API |
-|--------|-----------|-------------|
-| Styling | Inline dicts | Named styles from theme |
-| Structure | Imperative | Declarative |
-| Reusability | Copy-paste | Templates |
-| Maintenance | Edit everywhere | Edit theme once |
+| Aspect      | Basic API       | Builder API             |
+| ----------- | --------------- | ----------------------- |
+| Styling     | Inline dicts    | Named styles from theme |
+| Structure   | Imperative      | Declarative             |
+| Reusability | Copy-paste      | Templates               |
+| Maintenance | Edit everywhere | Edit theme once         |
 
 ## Migrating from openpyxl
 
@@ -206,10 +339,10 @@ ws.cell(row=4, column=3, value="=SUM(C2:C3)")
 wb.save("budget.xlsx")
 ```
 
-### finance-tracker Equivalent
+### spreadsheet-dl Equivalent
 
 ```python
-from finance_tracker.builder import SpreadsheetBuilder
+from spreadsheet_dl.builder import SpreadsheetBuilder
 
 builder = SpreadsheetBuilder(theme="corporate")
 
@@ -237,13 +370,13 @@ builder.save("budget.ods")
 
 ### Style Mapping
 
-| openpyxl | finance-tracker |
-|----------|-----------------|
-| `Font(bold=True)` | `font_weight: bold` in style |
-| `PatternFill("solid", ...)` | `background_color: "#..."` |
-| `Alignment(horizontal="center")` | `text_align: center` |
-| `Border(...)` | `border_top`, `border_bottom`, etc. |
-| `NumberFormat(...)` | `number_format: { category: ... }` |
+| openpyxl                         | spreadsheet-dl                      |
+| -------------------------------- | ----------------------------------- |
+| `Font(bold=True)`                | `font_weight: bold` in style        |
+| `PatternFill("solid", ...)`      | `background_color: "#..."`          |
+| `Alignment(horizontal="center")` | `text_align: center`                |
+| `Border(...)`                    | `border_top`, `border_bottom`, etc. |
+| `NumberFormat(...)`              | `number_format: { category: ... }`  |
 
 ## Migrating from pandas
 
@@ -263,11 +396,11 @@ df = pd.DataFrame({
 df.to_excel("budget.xlsx", index=False)
 ```
 
-### finance-tracker with DataFrame
+### spreadsheet-dl with DataFrame
 
 ```python
 import pandas as pd
-from finance_tracker.builder import SpreadsheetBuilder
+from spreadsheet_dl.builder import SpreadsheetBuilder
 
 df = pd.DataFrame({
     "Category": ["Housing", "Food", "Transport"],
@@ -364,7 +497,7 @@ End Sub
 ### Python Equivalent
 
 ```python
-from finance_tracker.builder import SpreadsheetBuilder
+from spreadsheet_dl.builder import SpreadsheetBuilder
 
 def create_budget():
     builder = SpreadsheetBuilder(theme="corporate")
@@ -394,15 +527,15 @@ def create_budget():
 
 ### VBA Concept Mapping
 
-| VBA Concept | Python Equivalent |
-|-------------|-------------------|
-| `Worksheet` | `builder.sheet()` |
-| `Range.Value` | `builder.cell(value)` |
-| `Range.Formula` | `builder.cell(formula="...")` |
-| `Range.Font.Bold` | Style: `font_weight: bold` |
+| VBA Concept            | Python Equivalent                 |
+| ---------------------- | --------------------------------- |
+| `Worksheet`            | `builder.sheet()`                 |
+| `Range.Value`          | `builder.cell(value)`             |
+| `Range.Formula`        | `builder.cell(formula="...")`     |
+| `Range.Font.Bold`      | Style: `font_weight: bold`        |
 | `Range.Interior.Color` | Style: `background_color: "#..."` |
-| `Range.NumberFormat` | Style: `number_format: {...}` |
-| `Cells(row, col)` | `builder.cell()` in row context |
+| `Range.NumberFormat`   | Style: `number_format: {...}`     |
+| `Cells(row, col)`      | `builder.cell()` in row context   |
 
 ## Migrating Themes
 
@@ -411,26 +544,26 @@ def create_budget():
 ```css
 /* CSS */
 .header {
-    background-color: #4472C4;
-    color: white;
-    font-weight: bold;
-    text-align: center;
-    border-bottom: 2px solid #2F4A82;
+  background-color: #4472c4;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 2px solid #2f4a82;
 }
 ```
 
 ```yaml
-# finance-tracker theme
+# spreadsheet-dl theme
 styles:
   header:
-    background_color: "#4472C4"
-    font_color: "#FFFFFF"
+    background_color: '#4472C4'
+    font_color: '#FFFFFF'
     font_weight: bold
     text_align: center
     border_bottom:
-      width: "2pt"
+      width: '2pt'
       style: solid
-      color: "#2F4A82"
+      color: '#2F4A82'
 ```
 
 ### From Excel Styles
@@ -445,12 +578,12 @@ styles:
 ```
 
 ```yaml
-# finance-tracker style
+# spreadsheet-dl style
 header_primary:
   font_weight: bold
-  font_size: "12pt"
-  font_color: "#FFFFFF"
-  background_color: "#4472C4"
+  font_size: '12pt'
+  font_color: '#FFFFFF'
+  background_color: '#4472C4'
   text_align: center
 ```
 

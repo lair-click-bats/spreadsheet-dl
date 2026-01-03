@@ -3,7 +3,7 @@
 **Implements: DOC-PROF-008: Troubleshooting Guide**
 
 This guide helps you diagnose and resolve common issues when using the
-finance-tracker library.
+spreadsheet-dl library.
 
 ## Table of Contents
 
@@ -22,18 +22,18 @@ finance-tracker library.
 
 ### Import Errors
 
-**Problem:** `ImportError: No module named 'finance_tracker'`
+**Problem:** `ImportError: No module named 'spreadsheet_dl'`
 
 **Solution:**
 ```bash
 # Ensure package is installed
-pip install finance-tracker
+pip install spreadsheet-dl
 
 # Or install from source
 pip install -e .
 
 # Verify installation
-python -c "import finance_tracker; print(finance_tracker.__version__)"
+python -c "import spreadsheet_dl; print(spreadsheet_dl.__version__)"
 ```
 
 ### Missing Dependencies
@@ -43,7 +43,7 @@ python -c "import finance_tracker; print(finance_tracker.__version__)"
 **Solution:**
 ```bash
 # Install all dependencies
-pip install finance-tracker[all]
+pip install spreadsheet-dl[all]
 
 # Or install specific dependency
 pip install pyyaml
@@ -64,7 +64,7 @@ source .venv/bin/activate  # Linux/Mac
 # or
 .venv\Scripts\activate  # Windows
 
-pip install finance-tracker
+pip install spreadsheet-dl
 ```
 
 ## Theme Issues
@@ -82,7 +82,7 @@ pip install finance-tracker
 
 ```python
 # Check available themes
-from finance_tracker.schema import ThemeLoader
+from spreadsheet_dl.schema import ThemeLoader
 
 loader = ThemeLoader()
 print(loader.list_themes())
@@ -109,7 +109,7 @@ builder = SpreadsheetBuilder(theme="default")
 **Debug Steps:**
 
 ```python
-from finance_tracker.schema import validate_theme
+from spreadsheet_dl.schema import validate_theme
 import yaml
 
 with open("theme.yaml") as f:
@@ -349,7 +349,7 @@ chart = (
 
 **Fix:**
 ```python
-from finance_tracker.schema import PageSetup, PageSize
+from spreadsheet_dl.schema import PageSetup, PageSize
 
 setup = PageSetup(
     size=PageSize.A4,  # or LETTER, LEGAL, etc.
@@ -386,7 +386,7 @@ setup = PageSetup(
 
 **Fix:**
 ```python
-from finance_tracker.schema import RepeatConfig
+from spreadsheet_dl.schema import RepeatConfig
 
 setup = PageSetup(
     repeat=RepeatConfig.header_row(1),  # Repeat row 1
@@ -543,7 +543,7 @@ builder.cell(title)
 
 **Fix:**
 ```python
-from finance_tracker.schema import Color
+from spreadsheet_dl.schema import Color
 
 # Valid formats
 Color("#4472C4")      # 6-digit hex
@@ -571,7 +571,7 @@ builder = SpreadsheetBuilder(theme="corporate")
 ### Validate Theme
 
 ```python
-from finance_tracker.schema import validate_theme
+from spreadsheet_dl.schema import validate_theme
 import yaml
 
 with open("theme.yaml") as f:
@@ -601,8 +601,8 @@ When reporting issues, include:
 
 1. **Version information:**
    ```python
-   import finance_tracker
-   print(finance_tracker.__version__)
+   import spreadsheet_dl
+   print(spreadsheet_dl.__version__)
    ```
 
 2. **Minimal reproducible example**

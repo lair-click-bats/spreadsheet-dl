@@ -128,7 +128,9 @@ class ConfigValidator:
 
             for agent_ref in agent_refs:
                 if agent_ref not in agent_files:
-                    self.error(f"{cmd_file.name} references non-existent agent: {agent_ref}")
+                    self.error(
+                        f"{cmd_file.name} references non-existent agent: {agent_ref}"
+                    )
                 else:
                     self.info_msg(f"{cmd_file.name} → {agent_ref} ✓")
 
@@ -227,7 +229,9 @@ class ConfigValidator:
 
                 if order is not None:
                     if order in orders:
-                        self.error(f"Duplicate order {order}: {name} and {orders[order]}")
+                        self.error(
+                            f"Duplicate order {order}: {name} and {orders[order]}"
+                        )
                     else:
                         orders[order] = name
 
@@ -235,7 +239,10 @@ class ConfigValidator:
                 for dep in depends:
                     found = False
                     for other_hook in hooks:
-                        if isinstance(other_hook, dict) and other_hook.get("name") == dep:
+                        if (
+                            isinstance(other_hook, dict)
+                            and other_hook.get("name") == dep
+                        ):
                             found = True
                             break
                     if not found:

@@ -1,6 +1,6 @@
 # Scripts Reference
 
-Quality and maintenance scripts for the Finance Tracker project.
+Quality and maintenance scripts for the SpreadsheetDL project.
 
 ## Quick Reference
 

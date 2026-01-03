@@ -3,7 +3,7 @@
 **Implements: DOC-PROF-007: Example Gallery**
 
 This gallery showcases practical examples of professional spreadsheet creation
-using the finance-tracker library.
+using the spreadsheet-dl library.
 
 ## Table of Contents
 
@@ -21,7 +21,7 @@ using the finance-tracker library.
 ### Minimal Spreadsheet
 
 ```python
-from finance_tracker.builder import SpreadsheetBuilder
+from spreadsheet_dl.builder import SpreadsheetBuilder
 
 # Create a simple spreadsheet
 builder = SpreadsheetBuilder()
@@ -37,7 +37,7 @@ builder.save("simple.ods")
 ### Spreadsheet with Theme
 
 ```python
-from finance_tracker.builder import SpreadsheetBuilder
+from spreadsheet_dl.builder import SpreadsheetBuilder
 
 builder = SpreadsheetBuilder(theme="corporate")
 
@@ -67,7 +67,7 @@ builder.save("sales_report.ods")
 ### Simple Monthly Budget
 
 ```python
-from finance_tracker.builder import SpreadsheetBuilder
+from spreadsheet_dl.builder import SpreadsheetBuilder
 
 builder = SpreadsheetBuilder(theme="corporate")
 
@@ -114,7 +114,7 @@ builder.save("monthly_budget.ods")
 ### Enterprise Budget Template
 
 ```python
-from finance_tracker.templates import EnterpriseBudgetTemplate, BudgetCategory
+from spreadsheet_dl.templates import EnterpriseBudgetTemplate, BudgetCategory
 
 template = EnterpriseBudgetTemplate(
     fiscal_year=2024,
@@ -137,7 +137,7 @@ builder.save("enterprise_budget_2024.ods")
 ### Income Statement
 
 ```python
-from finance_tracker.templates.financial_statements import IncomeStatementTemplate
+from spreadsheet_dl.templates.financial_statements import IncomeStatementTemplate
 
 template = IncomeStatementTemplate(
     company_name="ACME Corporation",
@@ -163,7 +163,7 @@ builder.save("income_statement.ods")
 ### Balance Sheet
 
 ```python
-from finance_tracker.templates.financial_statements import BalanceSheetTemplate
+from spreadsheet_dl.templates.financial_statements import BalanceSheetTemplate
 
 template = BalanceSheetTemplate(
     company_name="ACME Corporation",
@@ -178,7 +178,7 @@ builder.save("balance_sheet.ods")
 ### Cash Flow Statement
 
 ```python
-from finance_tracker.templates.financial_statements import CashFlowStatementTemplate
+from spreadsheet_dl.templates.financial_statements import CashFlowStatementTemplate
 
 template = CashFlowStatementTemplate(
     company_name="ACME Corporation",
@@ -196,8 +196,8 @@ builder.save("cash_flow_statement.ods")
 ### Column Chart with Budget vs Actual
 
 ```python
-from finance_tracker.builder import SpreadsheetBuilder
-from finance_tracker.charts import ChartBuilder
+from spreadsheet_dl.builder import SpreadsheetBuilder
+from spreadsheet_dl.charts import ChartBuilder
 
 builder = SpreadsheetBuilder(theme="corporate")
 
@@ -224,7 +224,7 @@ builder.save("budget_chart.ods")
 ### Pie Chart for Expense Breakdown
 
 ```python
-from finance_tracker.charts import ChartBuilder
+from spreadsheet_dl.charts import ChartBuilder
 
 chart = (
     ChartBuilder()
@@ -240,7 +240,7 @@ chart = (
 ### Line Chart with Trendline
 
 ```python
-from finance_tracker.charts import ChartBuilder, TrendlineType
+from spreadsheet_dl.charts import ChartBuilder, TrendlineType
 
 chart = (
     ChartBuilder()
@@ -257,7 +257,7 @@ chart = (
 ### Sparklines in Cells
 
 ```python
-from finance_tracker.charts import SparklineBuilder, SparklineType
+from spreadsheet_dl.charts import SparklineBuilder, SparklineType
 
 sparkline = (
     SparklineBuilder()
@@ -275,7 +275,7 @@ sparkline = (
 ### Budget Variance Highlighting
 
 ```python
-from finance_tracker.builders.conditional import ConditionalFormatBuilder
+from spreadsheet_dl.builders.conditional import ConditionalFormatBuilder
 
 # Highlight variances
 format = (
@@ -291,7 +291,7 @@ format = (
 ### Color Scale for Percentages
 
 ```python
-from finance_tracker.builders.conditional import ConditionalFormatBuilder
+from spreadsheet_dl.builders.conditional import ConditionalFormatBuilder
 
 format = (
     ConditionalFormatBuilder()
@@ -307,7 +307,7 @@ format = (
 ### Data Bars for Visual Comparison
 
 ```python
-from finance_tracker.builders.conditional import ConditionalFormatBuilder
+from spreadsheet_dl.builders.conditional import ConditionalFormatBuilder
 
 format = (
     ConditionalFormatBuilder()
@@ -323,7 +323,7 @@ format = (
 ### Icon Sets for Status
 
 ```python
-from finance_tracker.builders.conditional import ConditionalFormatBuilder
+from spreadsheet_dl.builders.conditional import ConditionalFormatBuilder
 
 format = (
     ConditionalFormatBuilder()
@@ -340,7 +340,7 @@ format = (
 ### Category Dropdown
 
 ```python
-from finance_tracker.schema.data_validation import (
+from spreadsheet_dl.schema.data_validation import (
     DataValidation,
     InputMessage,
     ErrorAlert,
@@ -356,7 +356,7 @@ validation = DataValidation.list(
 ### Positive Number Validation
 
 ```python
-from finance_tracker.schema.data_validation import DataValidation
+from spreadsheet_dl.schema.data_validation import DataValidation
 
 validation = DataValidation.positive_number(
     allow_zero=True,
@@ -368,7 +368,7 @@ validation = DataValidation.positive_number(
 
 ```python
 from datetime import date
-from finance_tracker.schema.data_validation import DataValidation
+from spreadsheet_dl.schema.data_validation import DataValidation
 
 validation = DataValidation.date_between(
     date(2024, 1, 1),
@@ -380,7 +380,7 @@ validation = DataValidation.date_between(
 ### Custom Formula Validation
 
 ```python
-from finance_tracker.schema.data_validation import DataValidation
+from spreadsheet_dl.schema.data_validation import DataValidation
 
 # Value must not exceed budget
 validation = DataValidation.custom(
@@ -397,7 +397,7 @@ validation = DataValidation.custom(
 ### Invoice Template
 
 ```python
-from finance_tracker.templates import InvoiceTemplate
+from spreadsheet_dl.templates import InvoiceTemplate
 
 template = InvoiceTemplate(
     company_name="Your Business LLC",
@@ -415,7 +415,7 @@ builder.save("invoice.ods")
 ### Expense Report Template
 
 ```python
-from finance_tracker.templates import ExpenseReportTemplate
+from spreadsheet_dl.templates import ExpenseReportTemplate
 
 template = ExpenseReportTemplate(
     employee_name="John Smith",
@@ -430,7 +430,7 @@ builder.save("expense_report.ods")
 ### Cash Flow Tracker
 
 ```python
-from finance_tracker.templates import CashFlowTrackerTemplate
+from spreadsheet_dl.templates import CashFlowTrackerTemplate
 
 template = CashFlowTrackerTemplate(
     start_date="2024-01-01",
@@ -449,8 +449,8 @@ builder.save("cash_flow_tracker.ods")
 ### Print-Ready Report
 
 ```python
-from finance_tracker.builder import SpreadsheetBuilder
-from finance_tracker.schema import (
+from spreadsheet_dl.builder import SpreadsheetBuilder
+from spreadsheet_dl.schema import (
     PageSetup,
     PageSize,
     PageOrientation,
@@ -487,7 +487,7 @@ builder.save("printable_report.ods")
 ### Multi-Sheet Workbook
 
 ```python
-from finance_tracker.builder import SpreadsheetBuilder
+from spreadsheet_dl.builder import SpreadsheetBuilder
 
 builder = SpreadsheetBuilder(theme="corporate")
 
@@ -519,8 +519,8 @@ builder.save("q1_financial_package.ods")
 ### Dashboard with Charts
 
 ```python
-from finance_tracker.builder import SpreadsheetBuilder
-from finance_tracker.charts import ChartBuilder
+from spreadsheet_dl.builder import SpreadsheetBuilder
+from spreadsheet_dl.charts import ChartBuilder
 
 builder = SpreadsheetBuilder(theme="corporate")
 

@@ -6,7 +6,7 @@ from datetime import date
 from decimal import Decimal
 from typing import TYPE_CHECKING
 
-from finance_tracker.ods_generator import (
+from spreadsheet_dl.ods_generator import (
     BudgetAllocation,
     ExpenseCategory,
     ExpenseEntry,

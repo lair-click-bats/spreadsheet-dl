@@ -1,10 +1,12 @@
-# Finance Tracker Documentation
+# SpreadsheetDL Documentation
 
-Family financial tracking with ODS spreadsheets for Nextcloud and Collabora Office.
+**The Spreadsheet Definition Language for Python**
+
+Define complex spreadsheets in Python or YAML, export to ODS/XLSX/PDF. Built-in domain plugins for finance, science, and engineering. Native MCP server for Claude integration.
 
 ## Overview
 
-Finance Tracker provides Python tools for creating, analyzing, and reporting on family budget spreadsheets in ODS format. Designed for seamless integration with self-hosted infrastructure.
+SpreadsheetDL is a universal spreadsheet definition language that lets you create professional spreadsheets programmatically using a declarative, high-level API. Instead of writing cell-by-cell imperative code (like openpyxl/xlsxwriter), you define the structure once and export to multiple formats.
 
 ## Quick Links
 
@@ -23,41 +25,49 @@ Finance Tracker provides Python tools for creating, analyzing, and reporting on 
 
 ## Features
 
-### Core Functionality
+### Core Platform (v4.0.0)
 
-- Generate structured budget spreadsheets with formulas
-- Analyze spending patterns with pandas
-- Generate reports in text, Markdown, or JSON
-- Mobile-friendly ODS files
-- CLI and Python API
+- ✅ **Declarative Builder API** - Define spreadsheets using fluent, chainable methods
+- ✅ **Type-Safe Formulas** - FormulaBuilder with 60+ functions, circular reference detection
+- ✅ **Theme System** - YAML-based themes (5 built-in: default, corporate, minimal, dark, high_contrast)
+- ✅ **Chart Builder** - 60+ chart types (column, bar, line, area, pie, scatter, combo, sparklines)
+- ✅ **Multi-Format Export** - ODS (native), XLSX, PDF from single definition
+- ✅ **Advanced Formatting** - Conditional formatting, data validation, named ranges, cell merging
+- ✅ **Template Engine** - Schema-driven template system with component composition
+- ✅ **MCP Server** - Native server with 8 tools (145+ planned), Claude Desktop integration
+- ✅ **Streaming I/O** - Handle 100k+ row spreadsheets efficiently
+- ✅ **Round-Trip Editing** - Read, modify, and write existing ODS files
+- ✅ **CLI & Python API** - Both command-line and programmatic interfaces
 
-### v2.0 Professional Features
+### Domain Plugins (Official)
 
-- **Template Engine** - YAML-based templates with variable substitution
-- **Theme System** - Comprehensive color palettes, font pairings, and typography
-- **ChartBuilder** - Fluent API for creating charts and sparklines
-- **FormulaBuilder** - Type-safe formula construction with 60+ functions
-- **Component Library** - Pre-built components for financial documents
+#### 💰 Finance Domain
 
-### Integration Features
+- **Templates**: Monthly budget, financial statements, invoices, expense reports
+- **Formulas**: NPV, IRR, PMT, PV, FV (financial functions)
+- **Importers**: Bank CSV (50+ banks), Plaid API integration
+- **Utils**: Account management, budget analytics, alerts, recurring expenses
+- **Features**: WebDAV upload (Nextcloud), multi-currency support, auto-categorization
 
-- **WebDAV Upload** - Direct upload to Nextcloud
-- **Bank CSV Import** - Import from Chase, Bank of America, Capital One, and more
-- **Auto-Categorization** - Automatic transaction categorization
+#### 🔬 Data Science Domain (Planned - Phase 1)
 
-### Advanced Features
+- **Templates**: Experiment log, dataset catalog, analysis report, A/B test results
+- **Formulas**: Statistical tests (TTEST, FTEST), ML metrics (F1, precision, recall)
+- **Importers**: Scientific CSV, MLflow experiment import
 
-- **Analytics Dashboard** - Comprehensive budget analytics
-- **Alert System** - Configurable budget alerts
-- **Recurring Expenses** - Track recurring payments
-- **Budget Templates** - Pre-built templates (50/30/20, Family, FIRE, etc.)
-- **Visual Themes** - Professional themes for spreadsheet styling
+#### ⚙️ Engineering Domain (Planned - Phase 2)
+
+- **Electrical**: BOM, pin mapping, power budget, signal routing
+- **Mechanical**: Design calculations, tolerance stack-up, material properties
+- **Civil**: Load calculations, construction schedules, cost estimates
+
+See [Domain Analysis](.coordination/2026-01-03-comprehensive-domain-analysis.md) for full roadmap.
 
 ## Version
 
-Current version: **v1.0.0** (v2.0.0 in development)
+Current version: **v4.0.0-alpha.1**
 
-### What's New in v2.0 (Development)
+### What's New in v4.0.0-alpha.1
 
 - **Template Engine** - Define spreadsheets declaratively in YAML
   - Variable substitution with `${...}` syntax
@@ -111,7 +121,7 @@ Current version: **v1.0.0** (v2.0.0 in development)
 
 ```bash
 # Using uv (recommended)
-cd ~/development/finance-tracker
+cd ~/development/spreadsheet-dl
 uv sync
 
 # Install with theme support
@@ -121,7 +131,7 @@ uv sync --extra config
 ## Basic Usage
 
 ```python
-from finance_tracker import OdsGenerator, BudgetAnalyzer
+from spreadsheet_dl import OdsGenerator, BudgetAnalyzer
 
 # Create a budget
 generator = OdsGenerator()
@@ -136,8 +146,8 @@ print(f"Total spent: ${summary.total_spent}")
 ### Using the Builder API
 
 ```python
-from finance_tracker.builder import SpreadsheetBuilder, formula
-from finance_tracker.charts import ChartBuilder
+from spreadsheet_dl.builder import SpreadsheetBuilder, formula
+from spreadsheet_dl.charts import ChartBuilder
 
 # Create spreadsheet with fluent API
 builder = SpreadsheetBuilder(theme="professional")
@@ -168,23 +178,23 @@ builder.save("budget.ods")
 
 ```bash
 # Generate budget
-uv run finance-tracker generate -o ./budgets/
+uv run spreadsheet-dl generate -o ./budgets/
 
 # Add expense (NEW in v0.4.1 - actually writes to file!)
-uv run finance-tracker expense 25.50 "Lunch" -c "Dining Out"
+uv run spreadsheet-dl expense 25.50 "Lunch" -c "Dining Out"
 
 # Analyze budget
-uv run finance-tracker analyze budget.ods
+uv run spreadsheet-dl analyze budget.ods
 
 # View dashboard
-uv run finance-tracker dashboard budget.ods
+uv run spreadsheet-dl dashboard budget.ods
 ```
 
 ## Architecture
 
 ```
-finance-tracker/
-├── src/finance_tracker/
+spreadsheet-dl/
+├── src/spreadsheet_dl/
 │   ├── ods_generator.py    # Create ODS files
 │   ├── ods_editor.py       # Modify existing ODS files
 │   ├── budget_analyzer.py  # Analyze budgets
@@ -205,10 +215,10 @@ finance-tracker/
 
 ## Error Handling
 
-Finance Tracker uses structured error codes for programmatic error handling:
+SpreadsheetDL uses structured error codes for programmatic error handling:
 
 ```python
-from finance_tracker.exceptions import InvalidAmountError
+from spreadsheet_dl.exceptions import InvalidAmountError
 
 try:
     # Process expense

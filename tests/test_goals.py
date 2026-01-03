@@ -11,7 +11,7 @@ from datetime import date, timedelta
 from decimal import Decimal
 from pathlib import Path
 
-from finance_tracker.goals import (
+from spreadsheet_dl.goals import (
     Debt,
     DebtPayoffMethod,
     DebtPayoffPlan,
@@ -390,4 +390,7 @@ class TestConvenienceFunctions:
         assert "recommendation" in comparison
 
         # Avalanche should save more interest in this case
-        assert comparison["avalanche"]["total_interest"] <= comparison["snowball"]["total_interest"]
+        assert (
+            comparison["avalanche"]["total_interest"]
+            <= comparison["snowball"]["total_interest"]
+        )

@@ -11,7 +11,7 @@ from unittest.mock import patch
 
 import pytest
 
-from finance_tracker.completions import (
+from spreadsheet_dl.completions import (
     COMMAND_STRUCTURE,
     detect_shell,
     generate_bash_completions,
@@ -57,8 +57,8 @@ class TestBashCompletions:
         script = generate_bash_completions()
 
         # Check basic structure
-        assert "_finance_tracker_completions()" in script
-        assert "complete -F _finance_tracker_completions finance-tracker" in script
+        assert "_spreadsheet_dl_completions()" in script
+        assert "complete -F _spreadsheet_dl_completions spreadsheet-dl" in script
 
     def test_bash_includes_commands(self) -> None:
         """Test Bash script includes all commands."""
@@ -100,8 +100,8 @@ class TestZshCompletions:
         script = generate_zsh_completions()
 
         # Check basic structure
-        assert "#compdef finance-tracker" in script
-        assert "_finance_tracker()" in script
+        assert "#compdef spreadsheet-dl" in script
+        assert "_spreadsheet_dl()" in script
 
     def test_zsh_includes_commands(self) -> None:
         """Test Zsh script includes all commands."""
@@ -122,9 +122,9 @@ class TestZshCompletions:
         """Test Zsh generates per-command completion functions."""
         script = generate_zsh_completions()
 
-        # Should have _finance_tracker_<cmd> functions
-        assert "_finance_tracker_generate()" in script
-        assert "_finance_tracker_expense()" in script
+        # Should have _spreadsheet_dl_<cmd> functions
+        assert "_spreadsheet_dl_generate()" in script
+        assert "_spreadsheet_dl_expense()" in script
 
     def test_zsh_option_descriptions(self) -> None:
         """Test Zsh script includes option descriptions."""
@@ -143,7 +143,7 @@ class TestFishCompletions:
         script = generate_fish_completions()
 
         # Check basic structure
-        assert "complete -c finance-tracker" in script
+        assert "complete -c spreadsheet-dl" in script
 
     def test_fish_includes_commands(self) -> None:
         """Test Fish script includes all commands."""
@@ -211,7 +211,7 @@ class TestInstallCompletions:
         assert result["success"] is False
         assert "Unsupported" in result["message"]
 
-    @patch("finance_tracker.completions._install_bash_completions")
+    @patch("spreadsheet_dl.completions._install_bash_completions")
     def test_install_calls_correct_function(self, mock_install: any) -> None:
         """Test install calls correct shell function."""
         mock_install.return_value = Path("/test/path")
@@ -228,7 +228,7 @@ class TestPrintCompletionScript:
     def test_print_bash(self) -> None:
         """Test printing Bash script."""
         script = print_completion_script("bash")
-        assert "_finance_tracker_completions" in script
+        assert "_spreadsheet_dl_completions" in script
 
     def test_print_zsh(self) -> None:
         """Test printing Zsh script."""
@@ -238,7 +238,7 @@ class TestPrintCompletionScript:
     def test_print_fish(self) -> None:
         """Test printing Fish script."""
         script = print_completion_script("fish")
-        assert "complete -c finance-tracker" in script
+        assert "complete -c spreadsheet-dl" in script
 
     def test_print_unsupported(self) -> None:
         """Test error for unsupported shell."""
