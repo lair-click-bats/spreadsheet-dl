@@ -843,17 +843,40 @@ def _validate_date(date_str: str) -> date:
 def _cmd_generate(args: argparse.Namespace) -> int:
     """Handle generate command."""
     from finance_tracker.ods_generator import OdsGenerator, create_monthly_budget
-    from finance_tracker.templates import get_template
+    from finance_tracker.templates import get_template, list_templates
 
     output = args.output
     skip_confirm = getattr(args, "yes", False) or getattr(args, "force", False)
 
-    # Get template allocations if specified
-    allocations = None
+    # Handle professional templates - they generate complete spreadsheets
     if args.template:
-        template = get_template(args.template)
-        allocations = template.allocations
-        print(f"Using template: {template.name}")
+        available = list_templates()
+        if args.template not in available:
+            print(f"Error: Unknown template '{args.template}'", file=sys.stderr)
+            print(f"Available templates: {', '.join(available)}", file=sys.stderr)
+            return 1
+        template_cls = get_template(args.template)
+        theme = getattr(args, "theme", None)
+        template = template_cls(theme=theme) if theme else template_cls()
+        print(f"Using professional template: {args.template}")
+
+        if output.is_dir():
+            today = date.today()
+            filename = f"{args.template}_{today.year}_{today.month:02d}.ods"
+            output_path = output / filename
+        else:
+            output_path = output
+
+        if not confirm_overwrite(output_path, skip_confirm=skip_confirm):
+            raise OperationCancelledError("File generation")
+
+        builder = template.generate()
+        builder.save(output_path)
+        print(f"Created: {output_path}")
+        return 0
+
+    # Standard budget generation (no template)
+    allocations = None
 
     # Get theme if specified
     theme = getattr(args, "theme", None)
@@ -1778,25 +1801,56 @@ def _cmd_alerts(args: argparse.Namespace) -> int:
 
 def _cmd_templates(args: argparse.Namespace) -> int:
     """Handle templates command."""
-    from finance_tracker.templates import list_templates
+    from finance_tracker.templates import list_financial_templates, list_templates
 
-    templates = list_templates()
+    # Build template info for display
+    template_info = []
+
+    # Professional templates
+    professional_descriptions = {
+        "enterprise_budget": "Multi-department enterprise budget planning",
+        "cash_flow": "Track incoming and outgoing cash flows",
+        "invoice": "Professional invoice generation",
+        "expense_report": "Employee expense tracking and reimbursement",
+    }
+    for name in list_templates():
+        template_info.append({
+            "name": name,
+            "category": "Professional",
+            "description": professional_descriptions.get(name, "Professional template"),
+        })
+
+    # Financial statement templates
+    financial_descriptions = {
+        "income_statement": "Statement of revenues and expenses",
+        "balance_sheet": "Assets, liabilities, and equity snapshot",
+        "cash_flow_statement": "Statement of cash flows",
+        "equity_statement": "Statement of changes in equity",
+    }
+    for name in list_financial_templates():
+        template_info.append({
+            "name": name,
+            "category": "Financial Statement",
+            "description": financial_descriptions.get(name, "Financial statement template"),
+        })
 
     if args.json:
-        print(json.dumps(templates, indent=2))
+        print(json.dumps(template_info, indent=2))
         return 0
 
-    print("Available Budget Templates")
+    print("Available Templates")
     print("=" * 60)
     print()
 
-    for t in templates:
+    current_category = None
+    for t in template_info:
+        if t["category"] != current_category:
+            current_category = t["category"]
+            print(f"{current_category} Templates:")
+            print("-" * 40)
+
         print(f"  {t['name']}")
-        print(f"    {t['display_name']}")
         print(f"    {t['description']}")
-        print(f"    Default budget: ${float(t['total_budget']):,.2f}")
-        if t["recommended_for"]:
-            print(f"    For: {', '.join(t['recommended_for'])}")
         print()
 
     print("Use: finance-tracker generate -t <template_name>")
