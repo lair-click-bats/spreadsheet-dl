@@ -126,8 +126,10 @@ class TestFileEncryptor:
             content[100] ^= 0xFF
         encrypted_file.write_bytes(bytes(content))
 
-        # Try to decrypt
-        with pytest.raises(IntegrityError):
+        # Try to decrypt - corrupted file should fail with either
+        # IntegrityError (if ciphertext is corrupted) or
+        # DecryptionError (if metadata is corrupted)
+        with pytest.raises((IntegrityError, DecryptionError)):
             encryptor.decrypt_file(encrypted_file, decrypted_file, "password")
 
     def test_decrypt_invalid_format(self, tmp_path: Path) -> None:

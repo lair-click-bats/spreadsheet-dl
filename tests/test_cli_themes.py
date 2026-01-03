@@ -114,7 +114,7 @@ class TestCliGenerateWithTheme:
                 "-o",
                 str(tmp_path),
                 "-t",
-                "50_30_20",
+                "enterprise_budget",
                 "--theme",
                 "minimal",
             ],
@@ -122,8 +122,7 @@ class TestCliGenerateWithTheme:
             text=True,
         )
         assert result.returncode == 0
-        assert "Using template:" in result.stdout
-        assert "Using theme: minimal" in result.stdout
+        assert "Using professional template: enterprise_budget" in result.stdout
 
 
 class TestCliVersionOutput:

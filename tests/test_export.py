@@ -353,23 +353,23 @@ class TestExportJSON:
 class TestExportBatch:
     """Tests for batch export functionality."""
 
-    def test_export_batch(self, temp_dir, sample_sheet_data):
+    def test_export_batch(self, temp_dir, sample_budget_file):
         """Test batch export to multiple formats."""
         exporter = MultiFormatExporter()
 
-        # Create test ODS file (mock by testing CSV and JSON only)
-        # Real batch test would require ODS file
-
-        # Just test the batch method with CSV and JSON
+        # Test batch export with CSV and JSON formats
         results = exporter.export_batch(
-            temp_dir / "test.ods",  # Won't exist, but tests the logic
+            sample_budget_file,
             temp_dir / "output",
             [ExportFormat.CSV, ExportFormat.JSON],
         )
 
-        # Both should fail (file not found) but keys should exist
+        # Both formats should be in results
         assert ExportFormat.CSV.value in results
         assert ExportFormat.JSON.value in results
+        # Exported files should exist
+        assert results[ExportFormat.CSV.value] is not None
+        assert results[ExportFormat.JSON.value] is not None
 
 
 class TestConvenienceFunctions:

@@ -84,10 +84,10 @@ class TestGenerateCommand:
         assert (tmp_path / "budget_2025_06.ods").exists()
 
     def test_generate_with_template(self, tmp_path: Path) -> None:
-        """Test generate with a template."""
-        result = run_cli("generate", "-o", str(tmp_path), "-t", "50_30_20")
+        """Test generate with a professional template."""
+        result = run_cli("generate", "-o", str(tmp_path), "-t", "enterprise_budget")
         assert result.returncode == 0
-        assert "Using template: 50/30/20 Rule" in result.stdout
+        assert "Using professional template: enterprise_budget" in result.stdout
 
 
 class TestTemplatesCommand:
@@ -97,9 +97,9 @@ class TestTemplatesCommand:
         """Test templates command lists templates."""
         result = run_cli("templates")
         assert result.returncode == 0
-        assert "50_30_20" in result.stdout
-        assert "family" in result.stdout
-        assert "minimalist" in result.stdout
+        assert "enterprise_budget" in result.stdout
+        assert "cash_flow" in result.stdout
+        assert "invoice" in result.stdout
 
     def test_templates_json(self) -> None:
         """Test templates --json output."""
@@ -111,6 +111,8 @@ class TestTemplatesCommand:
         assert isinstance(data, list)
         assert len(data) > 0
         assert "name" in data[0]
+        assert "category" in data[0]
+        assert "description" in data[0]
 
 
 class TestConfigCommand:

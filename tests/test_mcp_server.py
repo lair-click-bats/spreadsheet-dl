@@ -314,7 +314,7 @@ class TestMCPServerToolHandlers:
     def test_handle_query_budget_total_spent(self, server, tmp_path):
         """Test query_budget for total spending question."""
         # Create a mock budget file and analyzer
-        with patch("finance_tracker.mcp_server.BudgetAnalyzer") as MockAnalyzer:
+        with patch("finance_tracker.budget_analyzer.BudgetAnalyzer") as MockAnalyzer:
             mock_summary = MagicMock()
             mock_summary.total_spent = 1500.00
             mock_summary.total_budget = 2000.00
@@ -341,7 +341,7 @@ class TestMCPServerToolHandlers:
 
     def test_handle_query_budget_remaining(self, server, tmp_path):
         """Test query_budget for remaining budget question."""
-        with patch("finance_tracker.mcp_server.BudgetAnalyzer") as MockAnalyzer:
+        with patch("finance_tracker.budget_analyzer.BudgetAnalyzer") as MockAnalyzer:
             mock_summary = MagicMock()
             mock_summary.total_spent = 1500.00
             mock_summary.total_budget = 2000.00

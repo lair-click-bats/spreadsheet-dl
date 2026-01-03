@@ -21,7 +21,6 @@ from finance_tracker.recurring import (
     RecurringExpenseManager,
 )
 from finance_tracker.report_generator import ReportGenerator
-from finance_tracker.templates import get_template
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -32,8 +31,6 @@ class TestEndToEndWorkflow:
 
     def test_full_budget_workflow(self, tmp_path: Path) -> None:
         """Test complete workflow: create, analyze, report, alerts."""
-        # Step 1: Create budget with template
-        template = get_template("50_30_20")
         generator = OdsGenerator()
 
         expenses = [
@@ -57,13 +54,21 @@ class TestEndToEndWorkflow:
             ),
         ]
 
+        allocations = [
+            BudgetAllocation(ExpenseCategory.GROCERIES, Decimal("400")),
+            BudgetAllocation(ExpenseCategory.DINING_OUT, Decimal("200")),
+            BudgetAllocation(ExpenseCategory.TRANSPORTATION, Decimal("150")),
+            BudgetAllocation(ExpenseCategory.HOUSING, Decimal("1500")),
+            BudgetAllocation(ExpenseCategory.UTILITIES, Decimal("200")),
+        ]
+
         budget_path = tmp_path / "january_2025.ods"
         generator.create_budget_spreadsheet(
             budget_path,
             month=1,
             year=2025,
             expenses=expenses,
-            budget_allocations=template.allocations,
+            budget_allocations=allocations,
         )
 
         assert budget_path.exists()
@@ -210,47 +215,21 @@ class TestRecurringIntegration:
         assert housing.percent_used == 100.0
 
 
-class TestTemplateIntegration:
-    """Test budget templates integration."""
+class TestProfessionalTemplates:
+    """Test professional templates integration."""
 
-    def test_all_templates_create_valid_budget(self, tmp_path: Path) -> None:
-        """Test that all templates create valid, analyzable budgets."""
-        from finance_tracker.templates import BUDGET_TEMPLATES
+    def test_enterprise_budget_template(self, tmp_path: Path) -> None:
+        """Test that enterprise budget template creates valid spreadsheet."""
+        from finance_tracker.templates import get_template
 
-        for name, template in BUDGET_TEMPLATES.items():
-            budget_path = tmp_path / f"{name}.ods"
+        template_cls = get_template("enterprise_budget")
+        template = template_cls()
+        builder = template.generate()
 
-            generator = OdsGenerator()
-            generator.create_budget_spreadsheet(
-                budget_path,
-                budget_allocations=template.allocations,
-            )
+        output_path = tmp_path / "enterprise.ods"
+        builder.save(output_path)
 
-            # Should be analyzable
-            analyzer = BudgetAnalyzer(budget_path)
-            summary = analyzer.get_summary()
-
-            assert summary.total_budget == template.total_budget
-            assert len(summary.categories) > 0
-
-    def test_scaled_template(self, tmp_path: Path) -> None:
-        """Test creating budget from scaled template."""
-        template = get_template("50_30_20")
-        scaled = template.scale_to_income(Decimal("8000"))
-
-        generator = OdsGenerator()
-        budget_path = tmp_path / "scaled.ods"
-
-        generator.create_budget_spreadsheet(
-            budget_path,
-            budget_allocations=scaled,
-        )
-
-        analyzer = BudgetAnalyzer(budget_path)
-        summary = analyzer.get_summary()
-
-        # Total should be close to $8000
-        assert Decimal("7500") < summary.total_budget < Decimal("8500")
+        assert output_path.exists()
 
 
 class TestAnalyticsIntegration:
