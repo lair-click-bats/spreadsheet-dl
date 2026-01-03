@@ -342,8 +342,13 @@ class ThemeLoader:
                 style.font_size = style_data["font_size"]
 
             if "font_weight" in style_data:
-                with contextlib.suppress(ValueError):
-                    style.font_weight = FontWeight(style_data["font_weight"])
+                weight_str = style_data["font_weight"]
+                try:
+                    # Try numeric value first (e.g., "700")
+                    style.font_weight = FontWeight(weight_str)
+                except ValueError:
+                    # Fall back to name lookup (e.g., "bold")
+                    style.font_weight = FontWeight.from_name(weight_str)
 
             if "color" in style_data:
                 style.font_color = self._resolve_color(style_data["color"], colors)
