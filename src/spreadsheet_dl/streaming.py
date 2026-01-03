@@ -12,10 +12,12 @@ from __future__ import annotations
 
 import xml.etree.ElementTree as ET
 import zipfile
-from collections.abc import Iterator
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 # ODF Namespaces
 ODF_NS = {
@@ -271,17 +273,17 @@ class StreamingReader:
         value_type = cell_elem.get(f"{{{ODF_NS['office']}}}value-type", "string")
 
         # Get value based on type
-        value = None
+        value: Any = None
         if value_type == "float":
-            value = cell_elem.get(f"{{{ODF_NS['office']}}}value")
-            if value:
-                value = float(value)
+            value_str = cell_elem.get(f"{{{ODF_NS['office']}}}value")
+            if value_str:
+                value = float(value_str)
         elif value_type == "date":
             value = cell_elem.get(f"{{{ODF_NS['office']}}}date-value")
         elif value_type == "currency" or value_type == "percentage":
-            value = cell_elem.get(f"{{{ODF_NS['office']}}}value")
-            if value:
-                value = float(value)
+            value_str = cell_elem.get(f"{{{ODF_NS['office']}}}value")
+            if value_str:
+                value = float(value_str)
         else:
             # String or other - get text content
             text_p = cell_elem.find(f"{{{ODF_NS['text']}}}p")

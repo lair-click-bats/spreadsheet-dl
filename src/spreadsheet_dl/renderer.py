@@ -384,7 +384,7 @@ class OdsRenderer:
                             self._merged_regions.add((r, c))
 
                 # Add covered cells for remaining columns in this row
-                for c in range(col_idx + 1, col_idx + cell_spec.colspan):
+                for _c in range(col_idx + 1, col_idx + cell_spec.colspan):
                     row.addElement(CoveredTableCell())
 
         return row
@@ -574,7 +574,6 @@ class OdsRenderer:
         if self._doc is None:
             return
 
-
         self._chart_counter += 1
         chart_id = f"chart_{self._chart_counter}"
 
@@ -674,7 +673,6 @@ class OdsRenderer:
         self._doc.automaticstyles.addElement(frame_style)
 
         # Position and size
-        pos = chart_spec.position
         size = chart_spec.size
 
         # Convert cell reference to position (simplified - just use anchor cell)
@@ -748,7 +746,7 @@ class OdsRenderer:
         }
         return chart_class_map.get(chart_type, "chart:bar")
 
-    def _get_odf_legend_position(self, legend_position) -> str:
+    def _get_odf_legend_position(self, legend_position: Any) -> str:
         """
         Map LegendPosition enum to ODF legend position.
 

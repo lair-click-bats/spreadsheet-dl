@@ -132,7 +132,7 @@ class TemplateLoader:
         Returns:
             List of template info dictionaries
         """
-        templates = []
+        templates: list[dict[str, Any]] = []
 
         if not self._template_dir.exists():
             return templates
@@ -276,9 +276,7 @@ class TemplateLoader:
             custom_rows = self._parse_rows(sheet_data.get("rows", []))
 
             # Parse conditionals
-            conditionals = self._parse_conditionals(
-                sheet_data.get("conditionals", [])
-            )
+            conditionals = self._parse_conditionals(sheet_data.get("conditionals", []))
 
             sheets.append(
                 SheetTemplate(
@@ -302,9 +300,7 @@ class TemplateLoader:
 
         return sheets
 
-    def _parse_columns(
-        self, col_list: list[dict[str, Any]]
-    ) -> list[ColumnTemplate]:
+    def _parse_columns(self, col_list: list[dict[str, Any]]) -> list[ColumnTemplate]:
         """Parse column definitions."""
         columns = []
 
@@ -398,7 +394,9 @@ class TemplateLoader:
         return conditionals
 
 
-def load_template(name: str, template_dir: Path | str | None = None) -> SpreadsheetTemplate:
+def load_template(
+    name: str, template_dir: Path | str | None = None
+) -> SpreadsheetTemplate:
     """
     Load template by name.
 

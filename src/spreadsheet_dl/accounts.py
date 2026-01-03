@@ -17,7 +17,8 @@ from __future__ import annotations
 import json
 import uuid
 from dataclasses import dataclass, field
-from datetime import date, datetime
+from datetime import date as date_type
+from datetime import datetime
 from decimal import Decimal
 from enum import Enum
 from pathlib import Path
@@ -221,7 +222,7 @@ class AccountTransaction:
 
     id: str
     account_id: str
-    date: date
+    date: date_type
     description: str
     amount: Decimal
     category: str = ""
@@ -235,7 +236,7 @@ class AccountTransaction:
     def create(
         cls,
         account_id: str,
-        transaction_date: date,
+        transaction_date: date_type,
         description: str,
         amount: Decimal | float | str,
         category: str = "",
@@ -298,7 +299,7 @@ class AccountTransaction:
         return cls(
             id=data["id"],
             account_id=data["account_id"],
-            date=date.fromisoformat(data["date"]),
+            date=date_type.fromisoformat(data["date"]),
             description=data["description"],
             amount=Decimal(data["amount"]),
             category=data.get("category", ""),
@@ -324,7 +325,7 @@ class Transfer:
     from_account_id: str
     to_account_id: str
     amount: Decimal
-    date: date
+    date: date_type
     description: str = "Transfer"
     notes: str = ""
     from_transaction_id: str = ""
@@ -337,7 +338,7 @@ class Transfer:
         from_account_id: str,
         to_account_id: str,
         amount: Decimal | float | str,
-        transfer_date: date | None = None,
+        transfer_date: date_type | None = None,
         description: str = "Transfer",
         notes: str = "",
     ) -> Transfer:
@@ -355,7 +356,7 @@ class Transfer:
             from_account_id=from_account_id,
             to_account_id=to_account_id,
             amount=amount,
-            date=transfer_date or date.today(),
+            date=transfer_date or date_type.today(),
             description=description,
             notes=notes,
         )
@@ -383,7 +384,7 @@ class Transfer:
             from_account_id=data["from_account_id"],
             to_account_id=data["to_account_id"],
             amount=Decimal(data["amount"]),
-            date=date.fromisoformat(data["date"]),
+            date=date_type.fromisoformat(data["date"]),
             description=data.get("description", "Transfer"),
             notes=data.get("notes", ""),
             from_transaction_id=data.get("from_transaction_id", ""),
@@ -407,7 +408,7 @@ class NetWorth:
     net_worth: Decimal
     assets_by_type: dict[AccountType, Decimal]
     liabilities_by_type: dict[AccountType, Decimal]
-    calculation_date: date = field(default_factory=date.today)
+    calculation_date: date_type = field(default_factory=date_type.today)
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary representation."""
@@ -415,9 +416,7 @@ class NetWorth:
             "total_assets": str(self.total_assets),
             "total_liabilities": str(self.total_liabilities),
             "net_worth": str(self.net_worth),
-            "assets_by_type": {
-                k.value: str(v) for k, v in self.assets_by_type.items()
-            },
+            "assets_by_type": {k.value: str(v) for k, v in self.assets_by_type.items()},
             "liabilities_by_type": {
                 k.value: str(v) for k, v in self.liabilities_by_type.items()
             },
@@ -510,9 +509,7 @@ class AccountManager:
             "transactions": {
                 tx_id: tx.to_dict() for tx_id, tx in self._transactions.items()
             },
-            "transfers": {
-                tf_id: tf.to_dict() for tf_id, tf in self._transfers.items()
-            },
+            "transfers": {tf_id: tf.to_dict() for tf_id, tf in self._transfers.items()},
         }
 
         with open(self._data_file, "w") as f:
@@ -685,7 +682,7 @@ class AccountManager:
     def add_transaction(
         self,
         account_id: str,
-        transaction_date: date,
+        transaction_date: date_type,
         description: str,
         amount: Decimal | float | str,
         category: str = "",
@@ -739,8 +736,8 @@ class AccountManager:
     def get_transactions(
         self,
         account_id: str,
-        start_date: date | None = None,
-        end_date: date | None = None,
+        start_date: date_type | None = None,
+        end_date: date_type | None = None,
         limit: int | None = None,
     ) -> list[AccountTransaction]:
         """
@@ -779,7 +776,7 @@ class AccountManager:
         from_account_id: str,
         to_account_id: str,
         amount: Decimal | float | str,
-        transfer_date: date | None = None,
+        transfer_date: date_type | None = None,
         description: str = "Transfer",
         notes: str = "",
     ) -> Transfer | None:
@@ -855,8 +852,8 @@ class AccountManager:
     def list_transfers(
         self,
         account_id: str | None = None,
-        start_date: date | None = None,
-        end_date: date | None = None,
+        start_date: date_type | None = None,
+        end_date: date_type | None = None,
     ) -> list[Transfer]:
         """
         List transfers.

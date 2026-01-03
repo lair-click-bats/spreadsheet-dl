@@ -644,7 +644,7 @@ class DashboardGenerator:
 
         analyzer = BudgetAnalyzer(budget_path)
         summary = analyzer.get_summary()
-        by_category = analyzer.by_category()
+        by_category = analyzer.get_category_breakdown()
 
         # Create KPIs
         kpis = self._create_kpis(summary, by_category)

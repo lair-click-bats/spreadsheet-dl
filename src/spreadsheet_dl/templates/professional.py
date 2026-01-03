@@ -103,7 +103,12 @@ class EnterpriseBudgetTemplate:
                 ),
                 BudgetCategory(
                     name="Technology",
-                    subcategories=["Software", "Hardware", "Cloud Services", "IT Support"],
+                    subcategories=[
+                        "Software",
+                        "Hardware",
+                        "Cloud Services",
+                        "IT Support",
+                    ],
                 ),
                 BudgetCategory(
                     name="Marketing",
@@ -123,8 +128,18 @@ class EnterpriseBudgetTemplate:
     def months(self) -> list[str]:
         """Get month names for fiscal year."""
         return [
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
         ]
 
     def generate(self) -> SpreadsheetBuilder:
@@ -193,7 +208,9 @@ class EnterpriseBudgetTemplate:
             builder.cell(f"='{self.departments[0]}'.B{row_num}", style="currency")
             builder.cell(f"='{self.departments[0]}'.C{row_num}", style="currency")
             builder.cell(f"=B{row_num}-C{row_num}", style="currency_variance")
-            builder.cell(f"=IF(B{row_num}=0,0,C{row_num}/B{row_num})", style="percentage")
+            builder.cell(
+                f"=IF(B{row_num}=0,0,C{row_num}/B{row_num})", style="percentage"
+            )
             row_num += 1
 
         # Grand total
@@ -440,8 +457,18 @@ class CashFlowTrackerTemplate:
             return [f"Week {i + 1}" for i in range(self.periods)]
         else:
             months = [
-                "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec",
             ]
             return months[: self.periods]
 
@@ -519,7 +546,9 @@ class CashFlowTrackerTemplate:
         for col_idx in range(len(period_headers)):
             col_letter = chr(ord("B") + col_idx)
             builder.cell(f"=SUM({col_letter}5:{col_letter}{current_row - 1})")
-        builder.cell(f"=SUM(B{current_row}:{chr(ord('A') + len(period_headers))}{current_row})")
+        builder.cell(
+            f"=SUM(B{current_row}:{chr(ord('A') + len(period_headers))}{current_row})"
+        )
         current_row += 1
 
         # Closing Balance
@@ -591,7 +620,9 @@ class CashFlowTrackerTemplate:
         builder.cell("  Total Outflows", style="subtotal_label")
         for col_idx in range(num_periods):
             col_letter = chr(ord("B") + col_idx)
-            builder.cell(f"=-SUM({col_letter}{outflow_start}:{col_letter}{outflow_end})")
+            builder.cell(
+                f"=-SUM({col_letter}{outflow_start}:{col_letter}{outflow_end})"
+            )
         builder.cell(f"=SUM(B{current_row}:{chr(ord('A') + num_periods)}{current_row})")
         current_row += 1
 
@@ -640,7 +671,12 @@ class CashFlowTrackerTemplate:
             builder.row()
             builder.cell(metric_name)
             builder.cell(formula, style="currency")
-            builder.cell('=IF(B' + str(builder._current_sheet.rows.__len__() + 1) + '>0,"Positive","Negative")')
+            if builder._current_sheet is not None:
+                builder.cell(
+                    "=IF(B"
+                    + str(len(builder._current_sheet.rows) + 1)
+                    + '>0,"Positive","Negative")'
+                )
 
     def _create_projections_sheet(self, builder: SpreadsheetBuilder) -> None:
         """Create cash flow projections sheet."""
@@ -678,8 +714,9 @@ class CashFlowTrackerTemplate:
             builder.cell(desc)
             builder.cell(amount, style="currency_input")
             builder.cell(prob, style="percentage_input")
-            row_num = len(builder._current_sheet.rows) + 1
-            builder.cell(f"=C{row_num}*D{row_num}")
+            if builder._current_sheet is not None:
+                row_num = len(builder._current_sheet.rows) + 1
+                builder.cell(f"=C{row_num}*D{row_num}")
 
         # Expected value total
         builder.row(style="total")

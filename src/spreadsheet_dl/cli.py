@@ -26,6 +26,7 @@ import sys
 from datetime import date
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
+from typing import Any
 
 from spreadsheet_dl import __version__
 from spreadsheet_dl.exceptions import (
@@ -843,19 +844,27 @@ def _validate_date(date_str: str) -> date:
 def _cmd_generate(args: argparse.Namespace) -> int:
     """Handle generate command."""
     from spreadsheet_dl.ods_generator import OdsGenerator, create_monthly_budget
-    from spreadsheet_dl.templates import get_template, list_templates
+    from spreadsheet_dl.templates.professional import (
+        get_template,
+    )
+    from spreadsheet_dl.templates.professional import (
+        list_templates as list_professional_templates,
+    )
 
     output = args.output
     skip_confirm = getattr(args, "yes", False) or getattr(args, "force", False)
 
     # Handle professional templates - they generate complete spreadsheets
     if args.template:
-        available = list_templates()
+        available = list_professional_templates()
         if args.template not in available:
             print(f"Error: Unknown template '{args.template}'", file=sys.stderr)
             print(f"Available templates: {', '.join(available)}", file=sys.stderr)
             return 1
         template_cls = get_template(args.template)
+        if template_cls is None:
+            print(f"Error: Template '{args.template}' not found", file=sys.stderr)
+            return 1
         theme = getattr(args, "theme", None)
         template = template_cls(theme=theme) if theme else template_cls()
         print(f"Using professional template: {args.template}")
@@ -1450,7 +1459,7 @@ def _cmd_visualize(args: argparse.Namespace) -> int:
         from spreadsheet_dl.budget_analyzer import BudgetAnalyzer
 
         analyzer = BudgetAnalyzer(args.file)
-        by_category = analyzer.by_category()
+        by_category = analyzer.get_category_breakdown()
 
         generator = ChartGenerator(theme=args.theme)
         data = [
@@ -1548,11 +1557,11 @@ def _cmd_account(args: argparse.Namespace) -> int:
 
     elif args.account_action == "balance":
         if args.name:
-            account = manager.get_account_by_name(args.name)
-            if not account:
+            found_account = manager.get_account_by_name(args.name)
+            if found_account is None:
                 print(f"Account not found: {args.name}", file=sys.stderr)
                 return 1
-            print(f"{account.name}: ${account.balance:,.2f}")
+            print(f"{found_account.name}: ${found_account.balance:,.2f}")
         else:
             accounts = manager.list_accounts()
             total = sum(a.balance for a in accounts)
@@ -1675,7 +1684,7 @@ def _cmd_banks(args: argparse.Namespace) -> int:
     print()
 
     # Group by institution
-    by_institution: dict[str, list] = {}
+    by_institution: dict[str, list[Any]] = {}
     for fmt in formats:
         inst = fmt.institution or "Other"
         by_institution.setdefault(inst, []).append(fmt)
@@ -1814,11 +1823,15 @@ def _cmd_templates(args: argparse.Namespace) -> int:
         "expense_report": "Employee expense tracking and reimbursement",
     }
     for name in list_templates():
-        template_info.append({
-            "name": name,
-            "category": "Professional",
-            "description": professional_descriptions.get(name, "Professional template"),
-        })
+        template_info.append(
+            {
+                "name": name,
+                "category": "Professional",
+                "description": professional_descriptions.get(
+                    name, "Professional template"
+                ),
+            }
+        )
 
     # Financial statement templates
     financial_descriptions = {
@@ -1828,11 +1841,15 @@ def _cmd_templates(args: argparse.Namespace) -> int:
         "equity_statement": "Statement of changes in equity",
     }
     for name in list_financial_templates():
-        template_info.append({
-            "name": name,
-            "category": "Financial Statement",
-            "description": financial_descriptions.get(name, "Financial statement template"),
-        })
+        template_info.append(
+            {
+                "name": name,
+                "category": "Financial Statement",
+                "description": financial_descriptions.get(
+                    name, "Financial statement template"
+                ),
+            }
+        )
 
     if args.json:
         print(json.dumps(template_info, indent=2))

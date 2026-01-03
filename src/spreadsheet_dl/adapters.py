@@ -16,7 +16,7 @@ from datetime import date, datetime
 from decimal import Decimal
 from enum import Enum
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, ClassVar
 
 if TYPE_CHECKING:
     from spreadsheet_dl.builder import SheetSpec
@@ -87,13 +87,13 @@ class FormatAdapter(ABC):
     @abstractmethod
     def format_name(self) -> str:
         """Return the adapter's format name."""
-        ...
+        ...  # pragma: no cover
 
     @property
     @abstractmethod
     def file_extension(self) -> str:
         """Return the file extension for this format."""
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def export(
@@ -113,7 +113,7 @@ class FormatAdapter(ABC):
         Returns:
             Path to created file
         """
-        ...
+        ...  # pragma: no cover
 
     @abstractmethod
     def import_file(
@@ -131,7 +131,7 @@ class FormatAdapter(ABC):
         Returns:
             List of imported sheet specifications
         """
-        ...
+        ...  # pragma: no cover
 
 
 class OdsAdapter(FormatAdapter):
@@ -518,7 +518,7 @@ class AdapterRegistry:
         AdapterRegistry.export(sheets, "output.xlsx", ExportFormat.XLSX)
     """
 
-    _adapters: dict[ExportFormat, type[FormatAdapter]] = {
+    _adapters: ClassVar[dict[ExportFormat, type[FormatAdapter]]] = {
         ExportFormat.ODS: OdsAdapter,
         ExportFormat.CSV: CsvAdapter,
         ExportFormat.TSV: TsvAdapter,

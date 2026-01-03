@@ -253,7 +253,9 @@ class SavingsGoal:
             else None,
             priority=data.get("priority", 1),
             notes=data.get("notes", ""),
-            created_at=date.fromisoformat(data.get("created_at", date.today().isoformat())),
+            created_at=date.fromisoformat(
+                data.get("created_at", date.today().isoformat())
+            ),
             completed_at=date.fromisoformat(data["completed_at"])
             if data.get("completed_at")
             else None,
@@ -397,7 +399,9 @@ class Debt:
             minimum_payment=Decimal(data["minimum_payment"]),
             due_day=data.get("due_day", 1),
             notes=data.get("notes", ""),
-            created_at=date.fromisoformat(data.get("created_at", date.today().isoformat())),
+            created_at=date.fromisoformat(
+                data.get("created_at", date.today().isoformat())
+            ),
             paid_off_at=date.fromisoformat(data["paid_off_at"])
             if data.get("paid_off_at")
             else None,
@@ -433,12 +437,14 @@ class DebtPayoffPlan:
     @property
     def total_debt(self) -> Decimal:
         """Total remaining debt."""
-        return sum(d.current_balance for d in self.debts)
+        return sum((d.current_balance for d in self.debts), Decimal("0"))
 
     @property
     def total_minimum_payment(self) -> Decimal:
         """Total minimum payments."""
-        return sum(d.minimum_payment for d in self.debts if not d.is_paid_off)
+        return sum(
+            (d.minimum_payment for d in self.debts if not d.is_paid_off), Decimal("0")
+        )
 
     @property
     def monthly_payment(self) -> Decimal:
@@ -462,7 +468,7 @@ class DebtPayoffPlan:
 
         while any(b > 0 for b in balances.values()) and month < max_months:
             month += 1
-            month_data = {
+            month_data: dict[str, Any] = {
                 "month": month,
                 "date": date.today() + timedelta(days=month * 30),
                 "payments": {},
@@ -507,9 +513,9 @@ class DebtPayoffPlan:
 
             # Record final balances
             for debt_id, balance in balances.items():
-                month_data["balances"][debt_id] = Decimal(str(max(0, balance))).quantize(
-                    Decimal("0.01")
-                )
+                month_data["balances"][debt_id] = Decimal(
+                    str(max(0, balance))
+                ).quantize(Decimal("0.01"))
                 month_data["total_balance"] += month_data["balances"][debt_id]
 
             month_data["total_interest"] = sum(
@@ -534,7 +540,7 @@ class DebtPayoffPlan:
     def total_interest_paid(self) -> Decimal:
         """Calculate total interest that will be paid."""
         schedule = self.calculate_payoff_schedule()
-        return sum(m["total_interest"] for m in schedule)
+        return sum((m["total_interest"] for m in schedule), Decimal("0"))
 
     def interest_saved_vs_minimum(self) -> Decimal:
         """Calculate interest saved compared to minimum payments only."""
@@ -649,11 +655,11 @@ class GoalManager:
 
     def get_total_saved(self) -> Decimal:
         """Get total amount saved across all goals."""
-        return sum(g.current_amount for g in self._goals)
+        return sum((g.current_amount for g in self._goals), Decimal("0"))
 
     def get_total_target(self) -> Decimal:
         """Get total target amount across all goals."""
-        return sum(g.target_amount for g in self._goals)
+        return sum((g.target_amount for g in self._goals), Decimal("0"))
 
     def get_goals_summary(self) -> dict[str, Any]:
         """Get summary of all goals."""
@@ -766,9 +772,7 @@ class GoalManager:
         with open(path) as f:
             data = json.load(f)
 
-        self._goals = [
-            SavingsGoal.from_dict(g) for g in data.get("savings_goals", [])
-        ]
+        self._goals = [SavingsGoal.from_dict(g) for g in data.get("savings_goals", [])]
 
         if data.get("debt_plan"):
             self._debt_plan = DebtPayoffPlan.from_dict(data["debt_plan"])
@@ -881,9 +885,7 @@ def compare_payoff_methods(
     Returns:
         Comparison of both methods with months and interest.
     """
-    snowball = create_debt_payoff_plan(
-        debts, DebtPayoffMethod.SNOWBALL, extra_payment
-    )
+    snowball = create_debt_payoff_plan(debts, DebtPayoffMethod.SNOWBALL, extra_payment)
     avalanche = create_debt_payoff_plan(
         debts, DebtPayoffMethod.AVALANCHE, extra_payment
     )

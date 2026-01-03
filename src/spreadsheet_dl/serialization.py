@@ -11,12 +11,12 @@ and various formats (YAML, JSON) with full fidelity preservation.
 from __future__ import annotations
 
 import json
-from dataclasses import asdict, is_dataclass
+from dataclasses import is_dataclass
 from datetime import date, datetime
 from decimal import Decimal
 from enum import Enum
 from pathlib import Path
-from typing import Any, TypeVar
+from typing import Any, ClassVar, TypeVar
 
 import yaml
 
@@ -58,13 +58,39 @@ class SpreadsheetEncoder(json.JSONEncoder):
     - Path objects
     """
 
+    def _encode_value(self, obj: Any) -> Any:
+        """Recursively encode a value with type markers."""
+        if is_dataclass(obj) and not isinstance(obj, type):
+            # Convert dataclass to dict with type marker
+            from dataclasses import fields
+
+            result = {"_type": obj.__class__.__name__}
+            # Recursively encode fields by accessing attributes directly
+            for field in fields(obj):
+                field_value = getattr(obj, field.name)
+                result[field.name] = self._encode_value(field_value)
+            return result
+        elif isinstance(obj, Enum):
+            return {"_enum": obj.__class__.__name__, "_value": obj.value}
+        elif isinstance(obj, Decimal):
+            return {"_decimal": str(obj)}
+        elif isinstance(obj, datetime):
+            return {"_datetime": obj.isoformat()}
+        elif isinstance(obj, date):
+            return {"_date": obj.isoformat()}
+        elif isinstance(obj, Path):
+            return {"_path": str(obj)}
+        elif isinstance(obj, list):
+            return [self._encode_value(item) for item in obj]
+        elif isinstance(obj, dict):
+            return {k: self._encode_value(v) for k, v in obj.items()}
+        else:
+            return obj
+
     def default(self, obj: Any) -> Any:
         """Encode non-standard types."""
         if is_dataclass(obj) and not isinstance(obj, type):
-            return {
-                "_type": obj.__class__.__name__,
-                **asdict(obj),
-            }
+            return self._encode_value(obj)
         if isinstance(obj, Enum):
             return {"_enum": obj.__class__.__name__, "_value": obj.value}
         if isinstance(obj, Decimal):
@@ -89,7 +115,7 @@ class SpreadsheetDecoder:
     """
 
     # Type registry for reconstruction
-    TYPE_REGISTRY: dict[str, type] = {
+    TYPE_REGISTRY: ClassVar[dict[str, type]] = {
         "SheetSpec": SheetSpec,
         "RowSpec": RowSpec,
         "CellSpec": CellSpec,
@@ -106,24 +132,32 @@ class SpreadsheetDecoder:
         "ChartSize": ChartSize,
     }
 
-    ENUM_REGISTRY: dict[str, type] = {
+    ENUM_REGISTRY: ClassVar[dict[str, type]] = {
         "ChartType": ChartType,
         "LegendPosition": LegendPosition,
     }
 
     @classmethod
-    def decode(cls, data: dict[str, Any]) -> Any:
+    def decode(cls, data: Any) -> Any:
         """
-        Decode a dictionary back to proper types.
+        Decode a value back to proper types.
 
         Args:
-            data: Dictionary to decode
+            data: Value to decode (dict, list, or primitive)
 
         Returns:
             Reconstructed object
         """
+        # Handle lists recursively
+        if isinstance(data, list):
+            return [cls.decode(item) for item in data]
+
+        # Handle non-dict types
         if not isinstance(data, dict):
             return data
+
+        # Make a copy to avoid mutating the original
+        data = dict(data)
 
         # Handle typed objects
         if "_type" in data:
@@ -133,6 +167,7 @@ class SpreadsheetDecoder:
                 # Recursively decode nested values
                 decoded = {k: cls.decode(v) for k, v in data.items()}
                 return type_cls(**decoded)
+            # Unknown type, return as dict without _type
             return data
 
         # Handle enums
@@ -160,7 +195,7 @@ class SpreadsheetDecoder:
     @classmethod
     def decode_list(cls, data: list[Any]) -> list[Any]:
         """Decode a list of items."""
-        return [cls.decode(item) if isinstance(item, dict) else item for item in data]
+        return [cls.decode(item) for item in data]
 
 
 class Serializer:
@@ -433,7 +468,7 @@ class DefinitionFormat:
         return serializer.save_yaml(definition, file_path)
 
     @classmethod
-    def load(cls, file_path: Path | str) -> dict[str, Any]:
+    def load(cls, file_path: Path | str) -> Any:
         """
         Load a complete spreadsheet definition.
 
@@ -475,7 +510,7 @@ def save_definition(
     return DefinitionFormat.save(file_path, sheets, **kwargs)
 
 
-def load_definition(file_path: Path | str) -> dict[str, Any]:
+def load_definition(file_path: Path | str) -> Any:
     """
     Load spreadsheet definition from file.
 

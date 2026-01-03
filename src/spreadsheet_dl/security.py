@@ -24,7 +24,7 @@ import os
 import secrets
 import tempfile
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import UTC, datetime
 from enum import Enum
 from pathlib import Path
 from typing import Any
@@ -71,7 +71,7 @@ class EncryptionMetadata:
     iterations: int = DEFAULT_ITERATIONS
     salt: bytes = field(default_factory=lambda: b"")
     nonce: bytes = field(default_factory=lambda: b"")
-    created_at: str = field(default_factory=lambda: datetime.utcnow().isoformat())
+    created_at: str = field(default_factory=lambda: datetime.now(UTC).isoformat())
     original_filename: str = ""
     content_hash: str = ""  # SHA-256 of original content
 
@@ -172,7 +172,7 @@ class SecurityAuditLog:
         import getpass
 
         entry = AuditLogEntry(
-            timestamp=datetime.utcnow().isoformat(),
+            timestamp=datetime.now(UTC).isoformat(),
             action=action,
             file_path=file_path,
             user=getpass.getuser(),
@@ -596,9 +596,7 @@ class FileEncryptor:
                 metadata_json = f.read(metadata_len).decode("utf-8")
                 metadata = EncryptionMetadata.from_json(metadata_json)
             except (UnicodeDecodeError, ValueError, KeyError) as e:
-                raise DecryptionError(
-                    "Corrupted file - unable to read metadata"
-                ) from e
+                raise DecryptionError("Corrupted file - unable to read metadata") from e
 
             # Read tag and ciphertext
             tag = f.read(TAG_SIZE)
@@ -728,7 +726,11 @@ class CredentialStore:
                 self.store_path, tmp_path, master_password, verify_hash=True
             )
             with open(tmp_path) as f:
-                return json.load(f)
+                loaded_data = json.load(f)
+                # Ensure we return a dict[str, str]
+                if isinstance(loaded_data, dict):
+                    return {str(k): str(v) for k, v in loaded_data.items()}
+                return {}
         except (DecryptionError, json.JSONDecodeError):
             return {}
         finally:

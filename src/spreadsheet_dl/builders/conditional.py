@@ -79,7 +79,7 @@ class ColorScaleBuilder:
             self._type = ColorScaleType.TWO_COLOR
         else:
             self._type = ColorScaleType.THREE_COLOR
-        return ColorScale(type=self._type, points=self._points)
+        return ColorScale(type=self._type, points=tuple(self._points))
 
 
 @dataclass
@@ -248,7 +248,7 @@ class IconSetBuilder:
         """Build the icon set."""
         return IconSet(
             icon_set=self._icon_set,
-            thresholds=self._thresholds,
+            thresholds=tuple(self._thresholds),
             show_value=self._show_value,
             reverse=self._reverse,
         )
@@ -500,13 +500,17 @@ class ConditionalFormatBuilder:
 
     def top(self, n: int, style: CellStyle | str, percent: bool = False) -> Self:
         """Add top N rule."""
-        rule = ConditionalRule.top_n(n, style, percent=percent, priority=len(self._rules) + 1)
+        rule = ConditionalRule.top_n(
+            n, style, percent=percent, priority=len(self._rules) + 1
+        )
         self._rules.append(rule)
         return self
 
     def bottom(self, n: int, style: CellStyle | str, percent: bool = False) -> Self:
         """Add bottom N rule."""
-        rule = ConditionalRule.bottom_n(n, style, percent=percent, priority=len(self._rules) + 1)
+        rule = ConditionalRule.bottom_n(
+            n, style, percent=percent, priority=len(self._rules) + 1
+        )
         self._rules.append(rule)
         return self
 
@@ -615,19 +619,9 @@ def budget_variance_format(
 
 def percent_scale_format(range_ref: str) -> ConditionalFormat:
     """Create percentage color scale (green at 0%, red at 100%)."""
-    return (
-        ConditionalFormatBuilder()
-        .range(range_ref)
-        .green_yellow_red()
-        .build()
-    )
+    return ConditionalFormatBuilder().range(range_ref).green_yellow_red().build()
 
 
 def expense_bar_format(range_ref: str) -> ConditionalFormat:
     """Create expense data bar format."""
-    return (
-        ConditionalFormatBuilder()
-        .range(range_ref)
-        .default_data_bar()
-        .build()
-    )
+    return ConditionalFormatBuilder().range(range_ref).default_data_bar().build()

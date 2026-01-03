@@ -670,7 +670,7 @@ class TrainingDataExporter:
 
         # Load transactions from ODS
         analyzer = BudgetAnalyzer(ods_path)
-        expenses = analyzer.get_expenses()
+        expenses = analyzer.expenses
 
         if expenses.empty:
             raise ValidationError("No transactions found in budget file")

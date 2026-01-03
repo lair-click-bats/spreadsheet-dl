@@ -1120,7 +1120,7 @@ class MCPServer:
                 )
 
             elif analysis_type == "detailed":
-                by_category = analyzer.by_category()
+                by_category = analyzer.get_category_breakdown()
                 return MCPToolResult.json(
                     {
                         "summary": {
@@ -1132,13 +1132,13 @@ class MCPServer:
                         "by_category": {
                             cat: float(amt) for cat, amt in by_category.items()
                         },
-                        "transaction_count": len(analyzer.get_expenses()),
+                        "transaction_count": len(analyzer.expenses),
                         "alerts": summary.alerts,
                     }
                 )
 
             elif analysis_type == "categories":
-                by_category = analyzer.by_category()
+                by_category = analyzer.get_category_breakdown()
                 total = sum(by_category.values())
                 return MCPToolResult.json(
                     {
@@ -1253,7 +1253,7 @@ class MCPServer:
 
             analyzer = BudgetAnalyzer(path)
             summary = analyzer.get_summary()
-            by_category = analyzer.by_category()
+            by_category = analyzer.get_category_breakdown()
 
             # Parse question intent
             question_lower = question.lower()
@@ -1349,7 +1349,7 @@ class MCPServer:
             from spreadsheet_dl.budget_analyzer import BudgetAnalyzer
 
             analyzer = BudgetAnalyzer(path)
-            expenses = analyzer.get_expenses()
+            expenses = analyzer.expenses
 
             if expenses.empty:
                 return MCPToolResult.json(
@@ -1542,7 +1542,7 @@ class MCPServer:
                     "message": a.message,
                     "category": a.category,
                     "severity": a.severity.value,
-                    "value": float(a.current_value) if a.current_value else None,
+                    "value": float(a.amount) if a.amount else None,
                     "threshold": float(a.threshold) if a.threshold else None,
                 }
                 for a in alerts
@@ -1566,7 +1566,7 @@ class MCPServer:
 
             analyzer = BudgetAnalyzer(path)
             summary = analyzer.get_summary()
-            by_category = analyzer.by_category()
+            by_category = analyzer.get_category_breakdown()
 
             recommendations = []
 
@@ -2282,7 +2282,7 @@ class MCPServer:
     # MCP Protocol Methods
     # =========================================================================
 
-    def handle_message(self, message: dict[str, Any]) -> dict[str, Any]:
+    def handle_message(self, message: dict[str, Any]) -> dict[str, Any] | None:
         """
         Handle an incoming MCP message.
 
@@ -2290,7 +2290,7 @@ class MCPServer:
             message: JSON-RPC message.
 
         Returns:
-            JSON-RPC response.
+            JSON-RPC response or None for notifications.
         """
         msg_id = message.get("id")
         method = message.get("method", "")

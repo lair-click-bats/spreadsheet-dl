@@ -187,11 +187,13 @@ class EmailChannel:
             for key, value in notification.data.items():
                 lines.append(f"  - {key}: {value}")
 
-        lines.extend([
-            "",
-            "---",
-            f"Sent by SpreadsheetDL at {notification.created_at.strftime('%Y-%m-%d %H:%M')}",
-        ])
+        lines.extend(
+            [
+                "",
+                "---",
+                f"Sent by SpreadsheetDL at {notification.created_at.strftime('%Y-%m-%d %H:%M')}",
+            ]
+        )
 
         return "\n".join(lines)
 
@@ -235,7 +237,7 @@ class EmailChannel:
                     {data_html}
                 </div>
                 <div class="footer">
-                    <p>Sent by SpreadsheetDL at {notification.created_at.strftime('%Y-%m-%d %H:%M')}</p>
+                    <p>Sent by SpreadsheetDL at {notification.created_at.strftime("%Y-%m-%d %H:%M")}</p>
                 </div>
             </div>
         </body>
@@ -297,7 +299,7 @@ class NtfyChannel:
             req = urllib.request.Request(url, data=data, headers=headers)
 
             with urllib.request.urlopen(req, timeout=10) as response:
-                return response.status == 200
+                return bool(response.status == 200)
 
         except Exception:
             return False
@@ -521,7 +523,9 @@ class NotificationTemplates:
             title=f"Budget Alert: {category}",
             message=f"You've used {percent_used:.0f}% of your {category} budget. "
             f"${remaining:.2f} remaining.",
-            priority=NotificationPriority.HIGH if percent_used >= 90 else NotificationPriority.NORMAL,
+            priority=NotificationPriority.HIGH
+            if percent_used >= 90
+            else NotificationPriority.NORMAL,
             data={
                 "category": category,
                 "spent": str(spent),
@@ -611,9 +615,7 @@ class NotificationTemplates:
         budget_status: str,
     ) -> Notification:
         """Create weekly spending summary."""
-        categories_text = ", ".join(
-            f"{cat}: ${amt}" for cat, amt in top_categories[:3]
-        )
+        categories_text = ", ".join(f"{cat}: ${amt}" for cat, amt in top_categories[:3])
         return Notification(
             type=NotificationType.WEEKLY_SUMMARY,
             title="Weekly Spending Summary",
@@ -624,8 +626,7 @@ class NotificationTemplates:
             data={
                 "week_total": str(week_total),
                 "top_categories": [
-                    {"category": cat, "amount": str(amt)}
-                    for cat, amt in top_categories
+                    {"category": cat, "amount": str(amt)} for cat, amt in top_categories
                 ],
                 "budget_status": budget_status,
             },
@@ -643,7 +644,9 @@ class NotificationTemplates:
         status = "under" if total_spent <= total_budget else "over"
         diff = abs(float(total_budget) - float(total_spent))
 
-        message = f"In {month}, you spent ${total_spent} (${diff:.2f} {status} budget). "
+        message = (
+            f"In {month}, you spent ${total_spent} (${diff:.2f} {status} budget). "
+        )
         if savings > 0:
             message += f"You saved ${savings}. "
         if over_budget_categories:
@@ -668,7 +671,9 @@ class NotificationTemplates:
 # Configuration from file
 
 
-def load_notification_config(config_path: Path | str) -> tuple[EmailConfig | None, NtfyConfig | None]:
+def load_notification_config(
+    config_path: Path | str,
+) -> tuple[EmailConfig | None, NtfyConfig | None]:
     """
     Load notification configuration from file.
 

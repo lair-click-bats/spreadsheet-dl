@@ -1383,6 +1383,7 @@ class SpreadsheetBuilder:
         col_count = len(self._current_sheet.columns)
         for i in range(count):
             # Determine row style
+            row_style: str | None
             if alternate_styles:
                 row_style = alternate_styles[i % len(alternate_styles)]
             else:
@@ -1799,7 +1800,7 @@ class FormulaDependencyGraph:
                 elif dep in rec_stack:
                     # Found a cycle - extract the circular path
                     cycle_start_idx = path.index(dep)
-                    cycle = path[cycle_start_idx:] + [dep]
+                    cycle = [*path[cycle_start_idx:], dep]
                     circular_refs.append((cell, cycle))
                     return True
 

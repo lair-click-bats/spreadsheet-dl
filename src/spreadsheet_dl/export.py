@@ -193,26 +193,29 @@ class MultiFormatExporter:
             raise FileError(f"Source file not found: {ods_path}")
 
         # Parse format
+        format_obj: ExportFormat
         if isinstance(format, str):
             try:
-                format = ExportFormat(format.lower())
+                format_obj = ExportFormat(format.lower())
             except ValueError as exc:
                 raise FormatNotSupportedError(format) from exc
+        else:
+            format_obj = format
 
         # Load ODS data
         sheet_data = self._load_ods(ods_path)
 
         # Export to target format
-        if format == ExportFormat.XLSX:
+        if format_obj == ExportFormat.XLSX:
             return self._export_xlsx(sheet_data, output_path)
-        elif format == ExportFormat.CSV:
+        elif format_obj == ExportFormat.CSV:
             return self._export_csv(sheet_data, output_path)
-        elif format == ExportFormat.PDF:
+        elif format_obj == ExportFormat.PDF:
             return self._export_pdf(sheet_data, output_path)
-        elif format == ExportFormat.JSON:
+        elif format_obj == ExportFormat.JSON:
             return self._export_json(sheet_data, output_path)
         else:
-            raise FormatNotSupportedError(format.value)
+            raise FormatNotSupportedError(format_obj.value)
 
     def export_batch(
         self,
@@ -435,12 +438,14 @@ class MultiFormatExporter:
             writer = csv.writer(
                 f,
                 delimiter=self.options.csv_delimiter,
-                quoting=self.options.csv_quoting,
+                quoting=csv.QUOTE_MINIMAL
+                if self.options.csv_quoting == 1
+                else csv.QUOTE_ALL,
             )
 
             for row in sheet.rows:
                 # Convert values for CSV
-                csv_row = []
+                csv_row: list[Any] = []
                 for value in row:
                     if isinstance(value, Decimal):
                         csv_row.append(float(value))
@@ -460,7 +465,9 @@ class MultiFormatExporter:
             writer = csv.writer(
                 f,
                 delimiter=self.options.csv_delimiter,
-                quoting=self.options.csv_quoting,
+                quoting=csv.QUOTE_MINIMAL
+                if self.options.csv_quoting == 1
+                else csv.QUOTE_ALL,
             )
 
             for i, sheet in enumerate(sheets):
@@ -469,7 +476,7 @@ class MultiFormatExporter:
                 writer.writerow([f"=== {sheet.name} ==="])
 
                 for row in sheet.rows:
-                    csv_row = []
+                    csv_row: list[Any] = []
                     for value in row:
                         if isinstance(value, Decimal):
                             csv_row.append(float(value))

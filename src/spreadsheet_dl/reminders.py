@@ -10,7 +10,7 @@ from __future__ import annotations
 import json
 import uuid
 from dataclasses import dataclass
-from datetime import date, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
 from decimal import Decimal
 from enum import Enum
 from pathlib import Path
@@ -320,11 +320,7 @@ class BillReminderManager:
     def get_upcoming_bills(self, days: int = 7) -> list[BillReminder]:
         """Get bills due within specified days."""
         cutoff = date.today() + timedelta(days=days)
-        return [
-            b
-            for b in self._bills
-            if b.is_active and b.due_date <= cutoff
-        ]
+        return [b for b in self._bills if b.is_active and b.due_date <= cutoff]
 
     def get_overdue_bills(self) -> list[BillReminder]:
         """Get all overdue bills."""
@@ -400,39 +396,45 @@ class BillReminderManager:
                 continue
 
             if bill.status == ReminderStatus.OVERDUE:
-                alerts.append({
-                    "type": "overdue",
-                    "severity": "critical",
-                    "bill_id": bill.id,
-                    "bill_name": bill.name,
-                    "amount": bill.amount,
-                    "due_date": bill.due_date,
-                    "days_overdue": abs(bill.days_until_due),
-                    "message": f"OVERDUE: {bill.name} was due {abs(bill.days_until_due)} days ago",
-                })
+                alerts.append(
+                    {
+                        "type": "overdue",
+                        "severity": "critical",
+                        "bill_id": bill.id,
+                        "bill_name": bill.name,
+                        "amount": bill.amount,
+                        "due_date": bill.due_date,
+                        "days_overdue": abs(bill.days_until_due),
+                        "message": f"OVERDUE: {bill.name} was due {abs(bill.days_until_due)} days ago",
+                    }
+                )
             elif bill.status == ReminderStatus.DUE_TODAY:
-                alerts.append({
-                    "type": "due_today",
-                    "severity": "warning",
-                    "bill_id": bill.id,
-                    "bill_name": bill.name,
-                    "amount": bill.amount,
-                    "due_date": bill.due_date,
-                    "auto_pay": bill.auto_pay,
-                    "message": f"DUE TODAY: {bill.name} - ${bill.amount}"
-                    + (" (auto-pay)" if bill.auto_pay else ""),
-                })
+                alerts.append(
+                    {
+                        "type": "due_today",
+                        "severity": "warning",
+                        "bill_id": bill.id,
+                        "bill_name": bill.name,
+                        "amount": bill.amount,
+                        "due_date": bill.due_date,
+                        "auto_pay": bill.auto_pay,
+                        "message": f"DUE TODAY: {bill.name} - ${bill.amount}"
+                        + (" (auto-pay)" if bill.auto_pay else ""),
+                    }
+                )
             elif bill.status == ReminderStatus.UPCOMING:
-                alerts.append({
-                    "type": "upcoming",
-                    "severity": "info",
-                    "bill_id": bill.id,
-                    "bill_name": bill.name,
-                    "amount": bill.amount,
-                    "due_date": bill.due_date,
-                    "days_until_due": bill.days_until_due,
-                    "message": f"UPCOMING: {bill.name} due in {bill.days_until_due} days - ${bill.amount}",
-                })
+                alerts.append(
+                    {
+                        "type": "upcoming",
+                        "severity": "info",
+                        "bill_id": bill.id,
+                        "bill_name": bill.name,
+                        "amount": bill.amount,
+                        "due_date": bill.due_date,
+                        "days_until_due": bill.days_until_due,
+                        "message": f"UPCOMING: {bill.name} due in {bill.days_until_due} days - ${bill.amount}",
+                    }
+                )
 
         # Sort by severity and due date
         severity_order = {"critical": 0, "warning": 1, "info": 2}
@@ -539,32 +541,36 @@ class BillReminderManager:
             "X-WR-TIMEZONE:UTC",
         ]
 
-        now = datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
+        now = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
 
         for event in events:
             event_date = event["date"].strftime("%Y%m%d")
 
-            lines.extend([
-                "BEGIN:VEVENT",
-                f"UID:{event['uid']}@spreadsheet-dl",
-                f"DTSTAMP:{now}",
-                f"DTSTART;VALUE=DATE:{event_date}",
-                f"DTEND;VALUE=DATE:{event_date}",
-                f"SUMMARY:{self._escape_ics(event['summary'])}",
-                f"DESCRIPTION:{event['description']}",
-                f"CATEGORIES:{','.join(event['categories'])}",
-                "TRANSP:TRANSPARENT",
-            ])
+            lines.extend(
+                [
+                    "BEGIN:VEVENT",
+                    f"UID:{event['uid']}@spreadsheet-dl",
+                    f"DTSTAMP:{now}",
+                    f"DTSTART;VALUE=DATE:{event_date}",
+                    f"DTEND;VALUE=DATE:{event_date}",
+                    f"SUMMARY:{self._escape_ics(event['summary'])}",
+                    f"DESCRIPTION:{event['description']}",
+                    f"CATEGORIES:{','.join(event['categories'])}",
+                    "TRANSP:TRANSPARENT",
+                ]
+            )
 
             # Add reminder alarm
             if event.get("remind_minutes"):
-                lines.extend([
-                    "BEGIN:VALARM",
-                    "TRIGGER:-PT" + str(event["remind_minutes"]) + "M",
-                    "ACTION:DISPLAY",
-                    f"DESCRIPTION:Reminder: {event['summary']}",
-                    "END:VALARM",
-                ])
+                lines.extend(
+                    [
+                        "BEGIN:VALARM",
+                        "TRIGGER:-PT" + str(event["remind_minutes"]) + "M",
+                        "ACTION:DISPLAY",
+                        f"DESCRIPTION:Reminder: {event['summary']}",
+                        "END:VALARM",
+                    ]
+                )
 
             lines.append("END:VEVENT")
 

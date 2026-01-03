@@ -261,8 +261,12 @@ class PlaidAccount:
             "type": self.type,
             "subtype": self.subtype,
             "mask": self.mask,
-            "current_balance": float(self.current_balance) if self.current_balance else None,
-            "available_balance": float(self.available_balance) if self.available_balance else None,
+            "current_balance": float(self.current_balance)
+            if self.current_balance
+            else None,
+            "available_balance": float(self.available_balance)
+            if self.available_balance
+            else None,
             "currency": self.currency,
         }
 
@@ -639,7 +643,9 @@ class PlaidClient:
         if self.config.environment == PlaidEnvironment.SANDBOX:
             return self._simulate_transaction_range(start_date, end_date)
 
-        return self._api_get_transactions(access_token, start_date, end_date, account_ids)
+        return self._api_get_transactions(
+            access_token, start_date, end_date, account_ids
+        )
 
     def refresh_transactions(
         self,
@@ -812,12 +818,36 @@ class PlaidClient:
             ("Uber", ["Transportation", "Rides"], Decimal("15.50"), "Uber", "other"),
             ("WHOLEFDS", ["Groceries"], Decimal("67.89"), "Whole Foods", "in_store"),
             ("AMAZON", ["Shopping"], Decimal("42.99"), "Amazon", "online"),
-            ("NETFLIX", ["Entertainment", "Streaming"], Decimal("15.99"), "Netflix", "online"),
-            ("STARBUCKS", ["Food and Drink", "Coffee"], Decimal("6.75"), "Starbucks", "in_store"),
+            (
+                "NETFLIX",
+                ["Entertainment", "Streaming"],
+                Decimal("15.99"),
+                "Netflix",
+                "online",
+            ),
+            (
+                "STARBUCKS",
+                ["Food and Drink", "Coffee"],
+                Decimal("6.75"),
+                "Starbucks",
+                "in_store",
+            ),
             ("SHELL", ["Transportation", "Gas"], Decimal("45.00"), "Shell", "in_store"),
             ("ATM WITHDRAWAL", ["Transfer", "ATM"], Decimal("100.00"), None, "other"),
-            ("WALGREENS", ["Health", "Pharmacy"], Decimal("23.45"), "Walgreens", "in_store"),
-            ("SPOTIFY", ["Entertainment", "Music"], Decimal("9.99"), "Spotify", "online"),
+            (
+                "WALGREENS",
+                ["Health", "Pharmacy"],
+                Decimal("23.45"),
+                "Walgreens",
+                "in_store",
+            ),
+            (
+                "SPOTIFY",
+                ["Entertainment", "Music"],
+                Decimal("9.99"),
+                "Spotify",
+                "online",
+            ),
             ("PG&E", ["Utilities"], Decimal("125.00"), "PG&E", "other"),
         ]
 
@@ -833,7 +863,9 @@ class PlaidClient:
                 transactions.append(
                     PlaidTransaction(
                         transaction_id=f"tx-{current_date.isoformat()}-{tx_id + i}",
-                        account_id="acc_checking_001" if tx_data[2] < 50 else "acc_credit_001",
+                        account_id="acc_checking_001"
+                        if tx_data[2] < 50
+                        else "acc_credit_001",
                         amount=tx_data[2],
                         date=current_date,
                         name=tx_data[0],
@@ -890,16 +922,13 @@ class PlaidClient:
         ]
 
         query_lower = query.lower()
-        return [
-            inst for inst in all_institutions
-            if query_lower in inst.name.lower()
-        ]
+        return [inst for inst in all_institutions if query_lower in inst.name.lower()]
 
     # =========================================================================
     # Production API Methods (stubs)
     # =========================================================================
 
-    def _api_create_link_token(self, request_data: dict) -> LinkToken:
+    def _api_create_link_token(self, request_data: dict[str, Any]) -> LinkToken:
         """Make API call to create link token."""
         # Would use requests or httpx to call Plaid API
         raise NotImplementedError("Production API not implemented")
@@ -1025,8 +1054,7 @@ class PlaidSyncManager:
             List of connection info dictionaries.
         """
         return [
-            conn.to_dict(include_token=False)
-            for conn in self._connections.values()
+            conn.to_dict(include_token=False) for conn in self._connections.values()
         ]
 
     def sync_all(self) -> dict[str, SyncResult]:
@@ -1127,15 +1155,17 @@ class PlaidSyncManager:
                 # Use auto-categorizer as fallback
                 category = categorizer.categorize(tx.name)
 
-            expenses.append({
-                "date": tx.date,
-                "category": category.value,
-                "description": tx.merchant_name or tx.name,
-                "amount": float(tx.amount),
-                "notes": f"Imported from Plaid ({tx.transaction_id})",
-                "plaid_transaction_id": tx.transaction_id,
-                "plaid_account_id": tx.account_id,
-            })
+            expenses.append(
+                {
+                    "date": tx.date,
+                    "category": category.value,
+                    "description": tx.merchant_name or tx.name,
+                    "amount": float(tx.amount),
+                    "notes": f"Imported from Plaid ({tx.transaction_id})",
+                    "plaid_transaction_id": tx.transaction_id,
+                    "plaid_account_id": tx.account_id,
+                }
+            )
 
         return expenses
 

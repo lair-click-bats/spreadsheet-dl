@@ -1,175 +1,132 @@
 {
-  "task_id": "2026-01-03-v4-implementation-complete",
-  "status": "complete",
-  "started_at": "2026-01-03T14:00:00Z",
-  "completed_at": "2026-01-03T15:30:00Z",
-  "description": "SpreadsheetDL v4.0 implementation - completed all remaining tasks",
+  "task_id": "2026-01-03-production-ready-quality",
+  "status": "in_progress",
+  "started_at": "2026-01-03T18:00:00Z",
+  "description": "Achieve 100% test coverage and fix ALL pre-existing issues for production-ready code",
   "orchestration_mode": "serial",
-  "final_phase": "Implementation Complete",
+  "current_phase": "Phase 1 Complete - Ready for Validation",
 
-  "implementation_summary": {
-    "phase_2_completion": {
-      "TASK-231": {
-        "name": "Chart rendering to ODS",
-        "status": "COMPLETE",
-        "requirement": "GAP-BUILDER-006",
-        "file": "src/spreadsheet_dl/renderer.py",
-        "description": "Full chart rendering with 17 chart types, axes, legends, series"
+  "objectives": {
+    "primary": "100% test coverage for v4.0 modules (adapters.py, serialization.py, streaming.py)",
+    "secondary": ">95% test coverage for core modules (renderer.py, builder.py, charts.py, mcp_server.py)",
+    "tertiary": "Fix ALL linting and type hint issues"
+  },
+
+  "workflow_phases": {
+    "phase_1": {
+      "name": "V4.0 Module 100% Coverage",
+      "status": "complete",
+      "targets": {
+        "adapters.py": {
+          "current": "93.7%",
+          "target": "100%",
+          "missing_lines": [90, 96, 116, 134, "232-235", 394, 493, 495, 561],
+          "tests_added": [
+            "test_export_select_specific_sheet_by_name",
+            "test_import_empty_data",
+            "test_import_single_dict_returns_list",
+            "test_export_datetime_value",
+            "test_register_custom_adapter",
+            "test_import_with_explicit_format",
+            "TestFormatAdapterAbstract"
+          ]
+        },
+        "serialization.py": {
+          "current": "93.8%",
+          "target": "100%",
+          "missing_lines": [82, 104, 180, 266, 311, 345, 348],
+          "tests_added": [
+            "test_encode_date_via_default_method",
+            "test_encode_unsupported_type_raises",
+            "test_decode_unknown_enum_type",
+            "test_from_json_primitive_data",
+            "test_load_json_primitive_data",
+            "test_from_yaml_list_data",
+            "test_from_yaml_primitive_data"
+          ]
+        },
+        "streaming.py": {
+          "current": "91.8%",
+          "target": "100%",
+          "missing_lines": [193, 241, "262-264", 280, "282-284", 409],
+          "tests_added": [
+            "test_column_count_nonexistent_sheet",
+            "test_get_table_without_open_raises_error",
+            "test_end_sheet_when_no_active_sheet",
+            "test_parse_covered_table_cells",
+            "test_parse_currency_value_type",
+            "test_parse_percentage_value_type"
+          ]
+        }
       },
-      "TASK-211": {
-        "name": "Conditional format rendering",
-        "status": "INFRASTRUCTURE_COMPLETE",
-        "requirement": "GAP-BUILDER-007",
-        "file": "src/spreadsheet_dl/renderer.py",
-        "description": "Infrastructure for color scales, data bars, icon sets, cell rules"
-      },
-      "TASK-221": {
-        "name": "Data validation rendering",
-        "status": "INFRASTRUCTURE_COMPLETE",
-        "requirement": "GAP-BUILDER-008",
-        "file": "src/spreadsheet_dl/renderer.py",
-        "description": "Infrastructure for list, number, date, custom validations"
-      }
+      "agent": "spec_implementer",
+      "completed_at": "2026-01-03T18:30:00Z"
     },
-    "phase_4_completion": {
-      "TASK-401": {
-        "name": "Streaming I/O for large files",
-        "status": "COMPLETE",
-        "requirement": "GAP-BUILDER-002",
-        "file": "src/spreadsheet_dl/streaming.py",
-        "description": "StreamingReader and StreamingWriter for 100k+ row files"
+    "phase_2": {
+      "name": "Core Module Coverage Enhancement",
+      "status": "pending",
+      "targets": {
+        "renderer.py": { "current": "79%", "target": ">95%" },
+        "builder.py": { "current": "56%", "target": ">95%" },
+        "charts.py": { "current": "91%", "target": ">95%" },
+        "mcp_server.py": { "current": "40%", "target": ">95%" }
       },
-      "TASK-402": {
-        "name": "Round-trip serialization",
-        "status": "COMPLETE",
-        "requirement": "GAP-BUILDER-001",
-        "file": "src/spreadsheet_dl/serialization.py",
-        "description": "JSON/YAML serialization with full fidelity preservation"
-      },
-      "TASK-403": {
-        "name": "Format adapters",
-        "status": "COMPLETE",
-        "requirement": "FR-EXPORT-001",
-        "file": "src/spreadsheet_dl/adapters.py",
-        "description": "ODS, CSV, TSV, JSON, HTML adapters with registry"
-      }
+      "agent": "spec_implementer"
+    },
+    "phase_3": {
+      "name": "Fix Linting Issues",
+      "status": "pending",
+      "issues": [
+        "RUF012: Mutable class attributes - add ClassVar annotations",
+        "RUF005: Collection concatenation - use better patterns",
+        "B007: Unused loop variable - rename to _",
+        "F841: Unused variable - remove or use",
+        "TC003: Move stdlib import to TYPE_CHECKING block"
+      ],
+      "agent": "spec_implementer"
+    },
+    "phase_4": {
+      "name": "Fix Type Hints",
+      "status": "pending",
+      "issues_count": 49,
+      "description": "Add missing type annotations in legacy code",
+      "agent": "spec_implementer"
+    },
+    "phase_5": {
+      "name": "Final Validation",
+      "status": "pending",
+      "checks": [
+        "All tests passing (1488+)",
+        "100% coverage for v4.0 modules",
+        ">95% coverage for core modules",
+        "0 linting issues",
+        "0 mypy errors"
+      ],
+      "agent": "spec_validator"
     }
   },
 
-  "completed_tasks": {
-    "phase_1": [
-      "TASK-101",
-      "TASK-102",
-      "TASK-103",
-      "TASK-111",
-      "TASK-112",
-      "TASK-113",
-      "TASK-114",
-      "TASK-121",
-      "TASK-122"
-    ],
-    "phase_2": [
-      "TASK-201",
-      "TASK-202",
-      "TASK-203",
-      "TASK-204",
-      "TASK-211",
-      "TASK-221",
-      "TASK-231",
-      "TASK-232"
-    ],
-    "phase_3": ["TASK-301", "TASK-302", "TASK-303", "TASK-304", "TASK-305"],
-    "phase_4": ["TASK-401", "TASK-402", "TASK-403"]
+  "success_criteria": {
+    "coverage": {
+      "adapters_py": "100%",
+      "serialization_py": "100%",
+      "streaming_py": "100%",
+      "renderer_py": ">95%",
+      "builder_py": ">95%",
+      "charts_py": ">95%",
+      "mcp_server_py": ">95%"
+    },
+    "quality": {
+      "test_failures": 0,
+      "linting_issues": 0,
+      "mypy_errors": 0,
+      "warnings": 0
+    }
   },
 
-  "new_modules_created": [
-    {
-      "path": "src/spreadsheet_dl/streaming.py",
-      "lines": 450,
-      "exports": [
-        "StreamingReader",
-        "StreamingWriter",
-        "StreamingRow",
-        "StreamingCell",
-        "stream_read",
-        "stream_write"
-      ],
-      "task": "TASK-401"
-    },
-    {
-      "path": "src/spreadsheet_dl/serialization.py",
-      "lines": 320,
-      "exports": [
-        "Serializer",
-        "SpreadsheetEncoder",
-        "SpreadsheetDecoder",
-        "DefinitionFormat",
-        "save_definition",
-        "load_definition"
-      ],
-      "task": "TASK-402"
-    },
-    {
-      "path": "src/spreadsheet_dl/adapters.py",
-      "lines": 550,
-      "exports": [
-        "FormatAdapter",
-        "OdsAdapter",
-        "CsvAdapter",
-        "TsvAdapter",
-        "JsonAdapter",
-        "HtmlAdapter",
-        "AdapterRegistry",
-        "export_to",
-        "import_from"
-      ],
-      "task": "TASK-403"
-    }
-  ],
-
-  "enhanced_modules": [
-    {
-      "path": "src/spreadsheet_dl/renderer.py",
-      "changes": "Chart rendering, conditional format infrastructure, data validation infrastructure",
-      "lines_added": 500,
-      "tasks": ["TASK-231", "TASK-211", "TASK-221"]
-    },
-    {
-      "path": "src/spreadsheet_dl/__init__.py",
-      "changes": "Export all new modules, version bump to 4.0.0",
-      "lines_added": 75
-    },
-    {
-      "path": "tests/test_renderer.py",
-      "changes": "Chart rendering tests, conditional format tests, validation tests",
-      "lines_added": 350
-    }
-  ],
-
-  "statistics": {
-    "total_tasks": 25,
-    "completed": 25,
-    "completion_rate": "100%",
-    "lines_of_code_added": 2200,
-    "new_modules": 3,
-    "enhanced_modules": 3,
-    "new_test_methods": 15,
-    "version": "4.0.0"
-  },
-
-  "deliverables": [
-    "/home/lair-click-bats/development/spreadsheet-dl/src/spreadsheet_dl/streaming.py",
-    "/home/lair-click-bats/development/spreadsheet-dl/src/spreadsheet_dl/serialization.py",
-    "/home/lair-click-bats/development/spreadsheet-dl/src/spreadsheet_dl/adapters.py",
-    "/home/lair-click-bats/development/spreadsheet-dl/src/spreadsheet_dl/renderer.py",
-    "/home/lair-click-bats/development/spreadsheet-dl/src/spreadsheet_dl/__init__.py",
-    "/home/lair-click-bats/development/spreadsheet-dl/tests/test_renderer.py"
-  ],
-
-  "next_steps": [
-    "Run full test suite to validate implementations",
-    "Fix remaining test failure (test_with_overrides)",
-    "Update MCP tool stubs to functional implementations",
-    "Document new APIs"
-  ]
+  "progress": {
+    "phases_completed": 1,
+    "phases_total": 5,
+    "context_checkpoint": "2026-01-03T18:30:00Z"
+  }
 }
