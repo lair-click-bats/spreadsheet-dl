@@ -1171,7 +1171,7 @@ class PlaidSyncManager:
             "insurance": ExpenseCategory.INSURANCE,
             "shopping": ExpenseCategory.MISCELLANEOUS,
             "clothing": ExpenseCategory.CLOTHING,
-            "personal care": ExpenseCategory.PERSONAL_CARE,
+            "personal care": ExpenseCategory.PERSONAL,
             "education": ExpenseCategory.EDUCATION,
         }
 
