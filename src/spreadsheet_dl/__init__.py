@@ -103,16 +103,6 @@ __version__ = "4.0.0"
 __author__ = "jallen"
 
 # Account Management (NEW in v0.6.0 - Phase 3)
-from spreadsheet_dl.domains.finance.accounts import (
-    Account,
-    AccountManager,
-    AccountTransaction,
-    AccountType,
-    NetWorth,
-    Transfer,
-    get_default_accounts,
-)
-
 # Format Adapters (NEW in v4.0.0 - TASK-403)
 from spreadsheet_dl.adapters import (
     AdapterOptions,
@@ -151,16 +141,6 @@ from spreadsheet_dl.ai_training import (
     TrainingDataset,
     export_training_data,
 )
-from spreadsheet_dl.domains.finance.alerts import (
-    Alert,
-    AlertConfig,
-    AlertMonitor,
-    check_budget_alerts,
-)
-from spreadsheet_dl.domains.finance.analytics import (
-    AnalyticsDashboard,
-    generate_dashboard,
-)
 
 # Backup (NEW in v0.5.0)
 from spreadsheet_dl.backup import (
@@ -168,19 +148,6 @@ from spreadsheet_dl.backup import (
     BackupReason,
     auto_backup,
 )
-
-# Extended Bank Formats (NEW in v0.6.0 - Phase 3)
-from spreadsheet_dl.domains.finance.bank_formats import (
-    BUILTIN_FORMATS,
-    BankFormatDefinition,
-    BankFormatRegistry,
-    FormatBuilder,
-    count_formats,
-    detect_format,
-    get_format,
-    list_formats,
-)
-from spreadsheet_dl.domains.finance.budget_analyzer import BudgetAnalyzer
 
 # Builder API (NEW in v0.4.0)
 from spreadsheet_dl.builder import (
@@ -195,15 +162,6 @@ from spreadsheet_dl.builder import (
     SpreadsheetBuilder,
     create_spreadsheet,
     formula,
-)
-
-# Custom Categories (NEW in v4.0.0 - FR-EXT-005)
-from spreadsheet_dl.domains.finance.categories import (
-    Category,
-    CategoryManager,
-    StandardCategory,
-    category_from_string,
-    get_category_manager,
 )
 
 # ============================================================================
@@ -252,6 +210,47 @@ from spreadsheet_dl.config import (
     get_config,
     init_config_file,
 )
+from spreadsheet_dl.domains.finance.accounts import (
+    Account,
+    AccountManager,
+    AccountTransaction,
+    AccountType,
+    NetWorth,
+    Transfer,
+    get_default_accounts,
+)
+from spreadsheet_dl.domains.finance.alerts import (
+    Alert,
+    AlertConfig,
+    AlertMonitor,
+    check_budget_alerts,
+)
+from spreadsheet_dl.domains.finance.analytics import (
+    AnalyticsDashboard,
+    generate_dashboard,
+)
+
+# Extended Bank Formats (NEW in v0.6.0 - Phase 3)
+from spreadsheet_dl.domains.finance.bank_formats import (
+    BUILTIN_FORMATS,
+    BankFormatDefinition,
+    BankFormatRegistry,
+    FormatBuilder,
+    count_formats,
+    detect_format,
+    get_format,
+    list_formats,
+)
+from spreadsheet_dl.domains.finance.budget_analyzer import BudgetAnalyzer
+
+# Custom Categories (NEW in v4.0.0 - FR-EXT-005)
+from spreadsheet_dl.domains.finance.categories import (
+    Category,
+    CategoryManager,
+    StandardCategory,
+    category_from_string,
+    get_category_manager,
+)
 from spreadsheet_dl.domains.finance.csv_import import (
     CSVImporter,
     TransactionCategorizer,
@@ -272,6 +271,70 @@ from spreadsheet_dl.domains.finance.currency import (
     get_currency,
     list_currencies,
     money,
+)
+
+# Goals and Debt Payoff (NEW in v0.7.0 - Phase 4)
+from spreadsheet_dl.domains.finance.goals import (
+    Debt,
+    DebtPayoffMethod,
+    DebtPayoffPlan,
+    GoalCategory,
+    GoalManager,
+    GoalStatus,
+    SavingsGoal,
+    compare_payoff_methods,
+    create_debt_payoff_plan,
+    create_emergency_fund,
+)
+from spreadsheet_dl.domains.finance.ods_generator import (
+    BudgetAllocation,
+    ExpenseCategory,
+    ExpenseEntry,
+    OdsGenerator,
+    create_monthly_budget,
+)
+
+# Plaid Integration (NEW in v1.0.0 - Phase 5)
+from spreadsheet_dl.domains.finance.plaid_integration import (
+    PlaidAccount,
+    PlaidClient,
+    PlaidConfig,
+    PlaidSyncManager,
+    PlaidTransaction,
+    SyncResult,
+)
+
+# Recurring expenses (Enhanced in Phase 4)
+from spreadsheet_dl.domains.finance.recurring import (
+    RecurrenceFrequency,
+    RecurringExpense,
+    RecurringExpenseManager,
+)
+
+# Bill Reminders (NEW in v0.7.0 - Phase 4)
+from spreadsheet_dl.domains.finance.reminders import (
+    BillReminder,
+    BillReminderManager,
+    ReminderFrequency,
+    ReminderStatus,
+    create_bill_from_template,
+)
+from spreadsheet_dl.domains.finance.report_generator import ReportGenerator
+
+# Financial Statement Templates (NEW in v2.0.0 - FR-PROF-*)
+from spreadsheet_dl.domains.finance.templates.financial_statements import (
+    BalanceSheetTemplate,
+    CashFlowStatementTemplate,
+    EquityStatementTemplate,
+    IncomeStatementTemplate,
+)
+
+# Professional Templates (NEW in v2.0.0 - FR-PROF-*)
+from spreadsheet_dl.domains.finance.templates.professional import (
+    CashFlowTrackerTemplate,
+    EnterpriseBudgetTemplate,
+    ExpenseReportTemplate,
+    InvoiceTemplate,
 )
 from spreadsheet_dl.exceptions import (
     ConfigurationError,
@@ -295,20 +358,6 @@ from spreadsheet_dl.export import (
     export_to_csv,
     export_to_pdf,
     export_to_xlsx,
-)
-
-# Goals and Debt Payoff (NEW in v0.7.0 - Phase 4)
-from spreadsheet_dl.domains.finance.goals import (
-    Debt,
-    DebtPayoffMethod,
-    DebtPayoffPlan,
-    GoalCategory,
-    GoalManager,
-    GoalStatus,
-    SavingsGoal,
-    compare_payoff_methods,
-    create_debt_payoff_plan,
-    create_emergency_fund,
 )
 from spreadsheet_dl.interactive import (
     DashboardGenerator as OdsDashboardGenerator,
@@ -351,13 +400,6 @@ from spreadsheet_dl.ods_editor import (
     OdsEditor,
     append_expense_to_file,
 )
-from spreadsheet_dl.domains.finance.ods_generator import (
-    BudgetAllocation,
-    ExpenseCategory,
-    ExpenseEntry,
-    OdsGenerator,
-    create_monthly_budget,
-)
 
 # Performance Optimization (NEW in v4.0.0 - TASK-503)
 from spreadsheet_dl.performance import (
@@ -376,38 +418,11 @@ from spreadsheet_dl.performance import (
     timed,
 )
 
-# Plaid Integration (NEW in v1.0.0 - Phase 5)
-from spreadsheet_dl.domains.finance.plaid_integration import (
-    PlaidAccount,
-    PlaidClient,
-    PlaidConfig,
-    PlaidSyncManager,
-    PlaidTransaction,
-    SyncResult,
-)
-
-# Recurring expenses (Enhanced in Phase 4)
-from spreadsheet_dl.domains.finance.recurring import (
-    RecurrenceFrequency,
-    RecurringExpense,
-    RecurringExpenseManager,
-)
-
-# Bill Reminders (NEW in v0.7.0 - Phase 4)
-from spreadsheet_dl.domains.finance.reminders import (
-    BillReminder,
-    BillReminderManager,
-    ReminderFrequency,
-    ReminderStatus,
-    create_bill_from_template,
-)
-
 # Renderer (NEW in v0.4.0)
 from spreadsheet_dl.renderer import (
     OdsRenderer,
     render_sheets,
 )
-from spreadsheet_dl.domains.finance.report_generator import ReportGenerator
 
 # Schema Extensions (NEW in v2.0.0 - FR-SCHEMA-*, FR-FORMAT-*, FR-ADV-*)
 from spreadsheet_dl.schema.advanced import (
@@ -494,22 +509,6 @@ from spreadsheet_dl.template_engine import (
 from spreadsheet_dl.templates import (
     get_template,
     list_templates,
-)
-
-# Financial Statement Templates (NEW in v2.0.0 - FR-PROF-*)
-from spreadsheet_dl.domains.finance.templates.financial_statements import (
-    BalanceSheetTemplate,
-    CashFlowStatementTemplate,
-    EquityStatementTemplate,
-    IncomeStatementTemplate,
-)
-
-# Professional Templates (NEW in v2.0.0 - FR-PROF-*)
-from spreadsheet_dl.domains.finance.templates.professional import (
-    CashFlowTrackerTemplate,
-    EnterpriseBudgetTemplate,
-    ExpenseReportTemplate,
-    InvoiceTemplate,
 )
 
 # Interactive Visualization (NEW in v0.6.0 - Phase 3)

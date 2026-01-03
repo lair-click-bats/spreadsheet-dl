@@ -1129,12 +1129,12 @@ def _cmd_expense(args: argparse.Namespace) -> int:
         - FR-CORE-003: Expense append functionality (fixes Gap G-02)
     """
     from spreadsheet_dl.domains.finance.csv_import import TransactionCategorizer
-    from spreadsheet_dl.ods_editor import OdsEditor
     from spreadsheet_dl.domains.finance.ods_generator import (
         ExpenseCategory,
         ExpenseEntry,
         OdsGenerator,
     )
+    from spreadsheet_dl.ods_editor import OdsEditor
 
     # Parse amount with validation
     amount = _validate_amount(args.amount)

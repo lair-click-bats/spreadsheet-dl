@@ -11,7 +11,6 @@ from spreadsheet_dl.builder import (
     CellRef,
     CellSpec,
     ColumnSpec,
-    EmptySheetError,
     FormulaBuilder,
     FormulaDependencyGraph,
     NamedRange,

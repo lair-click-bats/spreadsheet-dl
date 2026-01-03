@@ -1,127 +1,83 @@
 {
-  "task_id": "2026-01-03-v4-feature-completion",
+  "task_id": "V4-RELEASE-PHASE-C-BATCH-1",
+  "title": "Phase C: Domain Plugin Implementation - Batch 1",
   "status": "in_progress",
-  "started_at": "2026-01-03T21:00:00Z",
-  "description": "Complete ALL remaining features for SpreadsheetDL v4.0 - 100% feature completion",
-  "orchestration_mode": "serial",
-  "current_phase": "P0-Critical",
+  "started_at": "2026-01-03T23:30:00Z",
+  "current_phase": "Phase C: Domain Plugins",
+  "current_batch": 1,
+  "batches_total": 4,
 
-  "objectives": {
-    "primary": "100% feature completion for v4.0 release",
-    "tasks_total": 12,
-    "tasks_completed": 0
-  },
-
-  "workflow_phases": {
-    "P0_critical": {
-      "name": "P0 - Critical for Core Functionality",
-      "status": "in_progress",
-      "tasks": [
-        {
-          "id": "FR-CORE-003",
-          "name": "Quick expense entry append to ODS",
-          "status": "pending",
-          "effort_hours": 4
-        },
-        {
-          "id": "FR-SEC-001",
-          "name": "Data encryption at rest (AES-256)",
-          "status": "pending",
-          "effort_hours": 12
-        },
-        {
-          "id": "FR-EXT-005",
-          "name": "Custom category support",
-          "status": "pending",
-          "effort_hours": 8
-        }
-      ]
-    },
-    "P1_required": {
-      "name": "P1 - Required for Complete v4.0",
-      "status": "pending",
-      "tasks": [
-        {
-          "id": "API-DOCS",
-          "name": "Complete API documentation",
-          "status": "pending",
-          "effort_hours": 8
-        },
-        {
-          "id": "TASK-503",
-          "name": "Performance optimization",
-          "status": "pending",
-          "effort_hours": 8
-        },
-        {
-          "id": "TASK-502",
-          "name": "User guide and tutorials",
-          "status": "pending",
-          "effort_hours": 8
-        }
-      ]
-    },
-    "P2_completion": {
-      "name": "P2 - Feature Completion",
-      "status": "pending",
-      "tasks": [
-        {
-          "id": "TASK-501",
-          "name": "MCP tool expansion (49 to 145)",
-          "status": "pending",
-          "effort_hours": 16
-        },
-        {
-          "id": "FR-REPORT-003",
-          "name": "Interactive visualization",
-          "status": "pending",
-          "effort_hours": 12
-        },
-        {
-          "id": "FR-UX-002",
-          "name": "Progress indicators",
-          "status": "pending",
-          "effort_hours": 4
-        },
-        {
-          "id": "FR-EXT-001",
-          "name": "Plugin system framework",
-          "status": "pending",
-          "effort_hours": 16
-        }
-      ]
-    },
-    "P3_polish": {
-      "name": "P3 - Final Polish",
-      "status": "pending",
-      "tasks": [
-        {
-          "id": "VALIDATION",
-          "name": "Comprehensive validation and tests",
-          "status": "pending",
-          "effort_hours": 4
-        },
-        {
-          "id": "RELEASE",
-          "name": "Release preparation",
-          "status": "pending",
-          "effort_hours": 2
-        }
-      ]
-    }
-  },
-
-  "success_criteria": {
-    "feature_completion": "100%",
-    "test_coverage": ">95%",
-    "all_tests_pass": true,
-    "documentation_complete": true
-  },
+  "description": "Implement 8 domain plugins in parallel batches. Batch 1: Data Science + Electrical Engineering domains running in parallel.",
 
   "progress": {
-    "phases_completed": 0,
-    "phases_total": 4,
-    "tasks_completed": 0,
-    "tasks_total": 12
-  }
+    "phases_completed": 2,
+    "phases_total": 6,
+    "domains_completed": 1,
+    "domains_total": 9,
+    "batch_1_status": "in_progress",
+    "batch_2_status": "pending",
+    "batch_3_status": "pending",
+    "batch_4_status": "pending"
+  },
+
+  "batch_1": {
+    "name": "Data Science + Electrical Engineering",
+    "status": "in_progress",
+    "started_at": "2026-01-03T23:30:00Z",
+    "domains": [
+      {
+        "name": "data_science",
+        "task_id": "TASK-C001",
+        "agent_id": null,
+        "status": "launching",
+        "templates": [
+          "ExperimentLog",
+          "DatasetCatalog",
+          "AnalysisReport",
+          "ABTestResults",
+          "ModelComparison"
+        ],
+        "formulas": [
+          "TTEST",
+          "FTEST",
+          "ZTEST",
+          "CHISQ",
+          "ACCURACY",
+          "PRECISION",
+          "RECALL",
+          "F1SCORE"
+        ]
+      },
+      {
+        "name": "electrical_engineering",
+        "task_id": "TASK-C002",
+        "agent_id": null,
+        "status": "launching",
+        "templates": [
+          "BOM",
+          "PinMapping",
+          "PowerBudget",
+          "SignalRouting",
+          "TestProcedure"
+        ],
+        "formulas": [
+          "POWERDISSIPATION",
+          "VOLTAGEDROP",
+          "PARALLELRESISTANCE",
+          "SERIESRESISTANCE",
+          "SNR"
+        ]
+      }
+    ]
+  },
+
+  "quality_gates": {
+    "test_coverage": "95%+ per domain",
+    "templates_validated": "All render to ODS",
+    "formulas_validated": "All calculations correct",
+    "integration_verified": "Core platform integration"
+  },
+
+  "coordination_file": ".coordination/2026-01-03-v4-release-task-graph.yaml",
+  "checkpoint_dir": ".claude/checkpoints/phase-c-batch-1/"
 }

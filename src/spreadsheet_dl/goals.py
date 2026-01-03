@@ -9,4 +9,4 @@ Implements:
 """
 
 # Re-export everything from the new location
-from spreadsheet_dl.domains.finance.goals import *  # noqa: F403, F401
+from spreadsheet_dl.domains.finance.goals import *  # noqa: F403

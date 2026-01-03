@@ -1433,11 +1433,11 @@ class MCPServer:
         try:
             from datetime import date as date_type
 
-            from spreadsheet_dl.ods_editor import OdsEditor
             from spreadsheet_dl.domains.finance.ods_generator import (
                 ExpenseCategory,
                 ExpenseEntry,
             )
+            from spreadsheet_dl.ods_editor import OdsEditor
 
             # Find or validate budget file
             if file_path:
