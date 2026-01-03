@@ -16,7 +16,6 @@ without writing complex ODF XML.
 """
 
 import sys
-from pathlib import Path
 
 # ============================================================================
 # Example 1: Basic Column Charts
@@ -206,7 +205,7 @@ def example_line_area_charts() -> None:
     )
 
     print(f"   Chart type: {chart.chart_type.name}")
-    print(f"   Shows cumulative data: Stacked area")
+    print("   Shows cumulative data: Stacked area")
 
     print("\n✓ Line and area charts created")
     print()
@@ -698,7 +697,7 @@ def example_chart_styling() -> None:
         .build()
     )
 
-    print(f"   Professional styling applied")
+    print("   Professional styling applied")
     print(f"   Chart size: {chart.size.width}x{chart.size.height}px")
 
     print("\n✓ Chart styling demonstrated")
@@ -805,8 +804,8 @@ def example_budget_visualizations() -> None:
         .build()
     )
 
-    print(f"   Dashboard chart created")
-    print(f"   Visualizes: Budget, Actual, and Variance")
+    print("   Dashboard chart created")
+    print("   Visualizes: Budget, Actual, and Variance")
     print(f"   Size: {chart.size.width}x{chart.size.height}px")
 
     print("\n✓ Budget visualizations created")

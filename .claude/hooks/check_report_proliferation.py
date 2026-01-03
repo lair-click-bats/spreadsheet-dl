@@ -47,14 +47,23 @@ def load_forbidden_patterns() -> list[dict[str, str]]:
     except Exception:
         # Fallback patterns if YAML not available
         return [
-            {"pattern": "*_AUDIT_*.md", "reason": "Audit results should be communicated directly"},
+            {
+                "pattern": "*_AUDIT_*.md",
+                "reason": "Audit results should be communicated directly",
+            },
             {
                 "pattern": "*_ANALYSIS_*.md",
                 "reason": "Analysis results belong in completion reports",
             },
             {"pattern": "*_SUMMARY.md", "reason": "Use .claude/summaries/ instead"},
-            {"pattern": "*_RESULTS.*", "reason": "Results belong in validation reports"},
-            {"pattern": "COMPREHENSIVE_*.md", "reason": "One-time reports create clutter"},
+            {
+                "pattern": "*_RESULTS.*",
+                "reason": "Results belong in validation reports",
+            },
+            {
+                "pattern": "COMPREHENSIVE_*.md",
+                "reason": "One-time reports create clutter",
+            },
             {
                 "pattern": "ULTIMATE_*.md",
                 "reason": "Superlative naming indicates temporary artifact",

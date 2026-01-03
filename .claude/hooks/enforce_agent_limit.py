@@ -79,7 +79,11 @@ def load_config() -> dict[str, Any]:
                 for line in content.split("\n"):
                     if "max_batch_size:" in line:
                         try:
-                            return {"swarm": {"max_batch_size": int(line.split(":")[-1].strip())}}
+                            return {
+                                "swarm": {
+                                    "max_batch_size": int(line.split(":")[-1].strip())
+                                }
+                            }
                         except ValueError:
                             pass
         except OSError:
@@ -97,13 +101,16 @@ def count_running_agents(registry: dict[str, Any]) -> int:
 
     # Verify by counting actual running agents
     actual_count = sum(
-        1 for agent in registry.get("agents", {}).values() if agent.get("status") == "running"
+        1
+        for agent in registry.get("agents", {}).values()
+        if agent.get("status") == "running"
     )
 
     # If mismatch, log warning and use actual count
     if metadata_count != actual_count:
         log_message(
-            "WARNING", f"Registry count mismatch: metadata={metadata_count}, actual={actual_count}"
+            "WARNING",
+            f"Registry count mismatch: metadata={metadata_count}, actual={actual_count}",
         )
 
     return actual_count
@@ -196,7 +203,9 @@ def main() -> None:
     # Make decision
     if running_count >= max_running:
         # BLOCK - too many agents running
-        log_message("BLOCK", f"Blocked Task: {running_count}/{max_running} agents running")
+        log_message(
+            "BLOCK", f"Blocked Task: {running_count}/{max_running} agents running"
+        )
         update_metrics("block", running_count)
 
         # Build informative message
@@ -222,7 +231,9 @@ def main() -> None:
 
     else:
         # ALLOW - under limit
-        log_message("ALLOW", f"Allowed Task: {running_count}/{max_running} agents running")
+        log_message(
+            "ALLOW", f"Allowed Task: {running_count}/{max_running} agents running"
+        )
         update_metrics("allow", running_count)
 
         result = {

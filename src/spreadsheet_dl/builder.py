@@ -6,6 +6,7 @@ Implements:
     - FR-BUILDER-004: ChartBuilder (via charts module)
     - FR-BUILDER-005: Formula Builder Enhancement
     - GAP-FORMULA-001: Circular reference detection (TASK-204)
+    - PHASE0-004: Perfect Builder API (v4.0.0)
 
 Provides a declarative, chainable API for building spreadsheets:
 - SpreadsheetBuilder: Main builder for creating sheets
@@ -13,6 +14,13 @@ Provides a declarative, chainable API for building spreadsheets:
 - FormulaBuilder: Type-safe formula construction
 - ChartBuilder: Fluent chart creation (from charts module)
 - FormulaDependencyGraph: Circular reference detection
+
+Changes in v4.0.0 (PHASE0-004):
+- Enhanced error messages with actionable guidance
+- Improved edge case handling (empty sheets, invalid ranges)
+- Consistent method signatures across all builders
+- Better type safety and validation
+- Optimized developer experience
 """
 
 from __future__ import annotations
@@ -30,6 +38,83 @@ if TYPE_CHECKING:
 
 
 # ============================================================================
+# Custom Exceptions (v4.0.0 - PHASE0-004)
+# ============================================================================
+
+
+class BuilderError(Exception):
+    """Base exception for builder errors with actionable messages."""
+
+    pass
+
+
+class NoSheetSelectedError(BuilderError):
+    """Raised when sheet operation attempted without active sheet."""
+
+    def __init__(self, operation: str) -> None:
+        """
+        Initialize with operation context.
+
+        Args:
+            operation: The operation that was attempted
+        """
+        super().__init__(
+            f"Cannot {operation}: no sheet is currently selected.\n"
+            f"Fix: Call .sheet('SheetName') first to create or select a sheet."
+        )
+
+
+class NoRowSelectedError(BuilderError):
+    """Raised when row operation attempted without active row."""
+
+    def __init__(self, operation: str) -> None:
+        """
+        Initialize with operation context.
+
+        Args:
+            operation: The operation that was attempted
+        """
+        super().__init__(
+            f"Cannot {operation}: no row is currently active.\n"
+            f"Fix: Call .row() first to create a new row, or use .header_row() or .data_rows()."
+        )
+
+
+class InvalidRangeError(BuilderError):
+    """Raised when an invalid range is provided."""
+
+    def __init__(self, range_ref: str, reason: str) -> None:
+        """
+        Initialize with range and reason.
+
+        Args:
+            range_ref: The invalid range reference
+            reason: Why it's invalid
+        """
+        super().__init__(
+            f"Invalid range '{range_ref}': {reason}\n"
+            f"Fix: Use a valid range format like 'A1:B10' or 'Sheet1.A1:B10'."
+        )
+
+
+class EmptySheetError(BuilderError):
+    """Raised when attempting to build with empty/invalid sheet."""
+
+    def __init__(self, sheet_name: str, reason: str) -> None:
+        """
+        Initialize with sheet context.
+
+        Args:
+            sheet_name: Name of the problematic sheet
+            reason: What's wrong with the sheet
+        """
+        super().__init__(
+            f"Sheet '{sheet_name}' cannot be built: {reason}\n"
+            f"Fix: Add columns and rows to the sheet, or remove it from the builder."
+        )
+
+
+# ============================================================================
 # Data Specifications
 # ============================================================================
 
@@ -40,6 +125,7 @@ class CellSpec:
     Specification for a single cell.
 
     Implements GAP-002: Missing __slots__ declarations
+    Implements PHASE0-004: Enhanced validation and edge case handling
 
     Attributes:
         value: Cell value (string, number, date, etc.)
@@ -60,6 +146,19 @@ class CellSpec:
     value_type: str | None = None
     validation: str | None = None
     conditional_format: str | None = None
+
+    def __post_init__(self) -> None:
+        """Validate cell specification after initialization."""
+        if self.colspan < 1:
+            raise ValueError(
+                f"colspan must be >= 1, got {self.colspan}. "
+                "Fix: Use colspan=1 (default) or higher."
+            )
+        if self.rowspan < 1:
+            raise ValueError(
+                f"rowspan must be >= 1, got {self.rowspan}. "
+                "Fix: Use rowspan=1 (default) or higher."
+            )
 
     def is_empty(self) -> bool:
         """Check if cell has no content."""
@@ -305,19 +404,29 @@ class SheetRef:
 
 class FormulaBuilder:
     """
-    Type-safe formula builder for ODF formulas.
+    Type-safe formula builder for ODF formulas with 100+ functions.
 
-    Implements FR-BUILDER-005: Formula Builder Enhancement
+    Implements:
+        - FR-BUILDER-005: Formula Builder Enhancement
+        - PHASE0-005: Complete FormulaBuilder with 100+ functions
 
     Provides methods for common spreadsheet functions with
     proper ODF syntax generation, including:
-    - Mathematical functions
-    - Statistical functions
-    - Financial functions (PMT, PV, FV, NPV, IRR)
-    - Date/time functions
-    - Lookup functions (VLOOKUP, HLOOKUP, INDEX, MATCH)
-    - Text functions
+    - Mathematical functions (SUM, AVERAGE, PRODUCT, SUMPRODUCT, trigonometry)
+    - Statistical functions (STDEV, VAR, CORREL, FORECAST, regression)
+    - Financial functions (PMT, PV, FV, NPV, IRR, depreciation)
+    - Date/time functions (DATE, NOW, NETWORKDAYS, WORKDAY)
+    - Lookup functions (VLOOKUP, HLOOKUP, INDEX, MATCH, OFFSET)
+    - Text functions (CONCATENATE, LEFT, RIGHT, FIND, TEXTJOIN)
+    - Logical functions (IF, AND, OR, NOT, XOR, CHOOSE)
     - Array formula support
+
+    Features:
+        - 100+ formula functions implemented
+        - Type-safe formula construction
+        - Circular reference detection (via FormulaDependencyGraph)
+        - ODF-compliant formula syntax
+        - Performance optimized
 
     Examples:
         f = FormulaBuilder()
@@ -330,11 +439,15 @@ class FormulaBuilder:
         formula = f.pmt(f.cell("B1"), f.cell("B2"), f.cell("B3"))
         # -> "of:=PMT([.B1];[.B2];[.B3])"
 
-        # Lookup
+        # Lookup: INDEX/MATCH
         formula = f.index_match(
             f.range("B:B", "B:B"),
             f.match(f.cell("A2"), f.range("A:A", "A:A")),
         )
+
+        # Statistical: Correlation
+        formula = f.correl(f.range("A2", "A10"), f.range("B2", "B10"))
+        # -> "of:=CORREL([.A2:A10];[.B2:B10])"
     """
 
     # ODF formula prefix
@@ -465,6 +578,117 @@ class FormulaBuilder:
         """Create SQRT formula."""
         return f"{self.PREFIX}SQRT({self._format_value(ref)})"
 
+    def ceiling(
+        self, number: CellRef | str, significance: CellRef | str | float = 1
+    ) -> str:
+        """Create CEILING formula (round up to nearest multiple)."""
+        return f"{self.PREFIX}CEILING({self._format_value(number)};{self._format_value(significance)})"
+
+    def floor(
+        self, number: CellRef | str, significance: CellRef | str | float = 1
+    ) -> str:
+        """Create FLOOR formula (round down to nearest multiple)."""
+        return f"{self.PREFIX}FLOOR({self._format_value(number)};{self._format_value(significance)})"
+
+    def int_func(self, ref: CellRef | str) -> str:
+        """Create INT formula (round down to nearest integer)."""
+        return f"{self.PREFIX}INT({self._format_value(ref)})"
+
+    def trunc(self, ref: CellRef | str, decimals: int = 0) -> str:
+        """Create TRUNC formula (truncate to specified decimals)."""
+        return f"{self.PREFIX}TRUNC({self._format_value(ref)};{decimals})"
+
+    def sign(self, ref: CellRef | str) -> str:
+        """Create SIGN formula (returns -1, 0, or 1)."""
+        return f"{self.PREFIX}SIGN({self._format_value(ref)})"
+
+    def gcd(self, *numbers: CellRef | str | int) -> str:
+        """Create GCD formula (greatest common divisor)."""
+        parts = [self._format_value(n) for n in numbers]
+        return f"{self.PREFIX}GCD({';'.join(parts)})"
+
+    def lcm(self, *numbers: CellRef | str | int) -> str:
+        """Create LCM formula (least common multiple)."""
+        parts = [self._format_value(n) for n in numbers]
+        return f"{self.PREFIX}LCM({';'.join(parts)})"
+
+    def product(self, *refs: RangeRef | str) -> str:
+        """Create PRODUCT formula (multiply all values)."""
+        parts = [self._format_ref(r) for r in refs]
+        return f"{self.PREFIX}PRODUCT({';'.join(parts)})"
+
+    def sumproduct(self, *arrays: RangeRef | str) -> str:
+        """
+        Create SUMPRODUCT formula (sum of products of corresponding ranges).
+
+        Implements:
+            - PHASE0-005: Complete FormulaBuilder with 100+ functions
+        """
+        parts = [self._format_ref(a) for a in arrays]
+        return f"{self.PREFIX}SUMPRODUCT({';'.join(parts)})"
+
+    def quotient(self, numerator: CellRef | str, denominator: CellRef | str) -> str:
+        """Create QUOTIENT formula (integer portion of division)."""
+        return f"{self.PREFIX}QUOTIENT({self._format_value(numerator)};{self._format_value(denominator)})"
+
+    def exp(self, ref: CellRef | str) -> str:
+        """Create EXP formula (e raised to power)."""
+        return f"{self.PREFIX}EXP({self._format_value(ref)})"
+
+    def ln(self, ref: CellRef | str) -> str:
+        """Create LN formula (natural logarithm)."""
+        return f"{self.PREFIX}LN({self._format_value(ref)})"
+
+    def log(self, number: CellRef | str, base: CellRef | str | int = 10) -> str:
+        """Create LOG formula (logarithm to specified base)."""
+        return (
+            f"{self.PREFIX}LOG({self._format_value(number)};{self._format_value(base)})"
+        )
+
+    def log10(self, ref: CellRef | str) -> str:
+        """Create LOG10 formula (base 10 logarithm)."""
+        return f"{self.PREFIX}LOG10({self._format_value(ref)})"
+
+    def pi(self) -> str:
+        """Create PI formula (value of pi)."""
+        return f"{self.PREFIX}PI()"
+
+    def radians(self, degrees: CellRef | str) -> str:
+        """Create RADIANS formula (convert degrees to radians)."""
+        return f"{self.PREFIX}RADIANS({self._format_value(degrees)})"
+
+    def degrees(self, radians: CellRef | str) -> str:
+        """Create DEGREES formula (convert radians to degrees)."""
+        return f"{self.PREFIX}DEGREES({self._format_value(radians)})"
+
+    def sin(self, ref: CellRef | str) -> str:
+        """Create SIN formula."""
+        return f"{self.PREFIX}SIN({self._format_value(ref)})"
+
+    def cos(self, ref: CellRef | str) -> str:
+        """Create COS formula."""
+        return f"{self.PREFIX}COS({self._format_value(ref)})"
+
+    def tan(self, ref: CellRef | str) -> str:
+        """Create TAN formula."""
+        return f"{self.PREFIX}TAN({self._format_value(ref)})"
+
+    def asin(self, ref: CellRef | str) -> str:
+        """Create ASIN formula (arcsine)."""
+        return f"{self.PREFIX}ASIN({self._format_value(ref)})"
+
+    def acos(self, ref: CellRef | str) -> str:
+        """Create ACOS formula (arccosine)."""
+        return f"{self.PREFIX}ACOS({self._format_value(ref)})"
+
+    def atan(self, ref: CellRef | str) -> str:
+        """Create ATAN formula (arctangent)."""
+        return f"{self.PREFIX}ATAN({self._format_value(ref)})"
+
+    def atan2(self, x: CellRef | str, y: CellRef | str) -> str:
+        """Create ATAN2 formula (arctangent of x/y)."""
+        return f"{self.PREFIX}ATAN2({self._format_value(x)};{self._format_value(y)})"
+
     # =========================================================================
     # Statistical Functions
     # =========================================================================
@@ -547,6 +771,79 @@ class FormulaBuilder:
     def percentile(self, ref: RangeRef | str, k: float) -> str:
         """Create PERCENTILE formula."""
         return f"{self.PREFIX}PERCENTILE({self._format_ref(ref)};{k})"
+
+    def mode(self, ref: RangeRef | str) -> str:
+        """Create MODE formula (most frequently occurring value)."""
+        return f"{self.PREFIX}MODE({self._format_ref(ref)})"
+
+    def varp(self, ref: RangeRef | str) -> str:
+        """Create VARP formula (population variance)."""
+        return f"{self.PREFIX}VARP({self._format_ref(ref)})"
+
+    def quartile(self, ref: RangeRef | str, quart: int) -> str:
+        """
+        Create QUARTILE formula.
+
+        Args:
+            ref: Range reference
+            quart: Quartile to return (0=min, 1=Q1, 2=median, 3=Q3, 4=max)
+
+        Returns:
+            ODF formula string
+        """
+        return f"{self.PREFIX}QUARTILE({self._format_ref(ref)};{quart})"
+
+    def rank(self, number: CellRef | str, ref: RangeRef | str, order: int = 0) -> str:
+        """
+        Create RANK formula.
+
+        Args:
+            number: Value to rank
+            ref: Range containing values
+            order: 0=descending, 1=ascending
+
+        Returns:
+            ODF formula string
+        """
+        return f"{self.PREFIX}RANK({self._format_value(number)};{self._format_ref(ref)};{order})"
+
+    def large(self, ref: RangeRef | str, k: int) -> str:
+        """Create LARGE formula (k-th largest value)."""
+        return f"{self.PREFIX}LARGE({self._format_ref(ref)};{k})"
+
+    def small(self, ref: RangeRef | str, k: int) -> str:
+        """Create SMALL formula (k-th smallest value)."""
+        return f"{self.PREFIX}SMALL({self._format_ref(ref)};{k})"
+
+    def correl(self, array1: RangeRef | str, array2: RangeRef | str) -> str:
+        """Create CORREL formula (correlation coefficient)."""
+        return f"{self.PREFIX}CORREL({self._format_ref(array1)};{self._format_ref(array2)})"
+
+    def covar(self, array1: RangeRef | str, array2: RangeRef | str) -> str:
+        """Create COVAR formula (covariance)."""
+        return (
+            f"{self.PREFIX}COVAR({self._format_ref(array1)};{self._format_ref(array2)})"
+        )
+
+    def forecast(
+        self, x: CellRef | str, known_y: RangeRef | str, known_x: RangeRef | str
+    ) -> str:
+        """Create FORECAST formula (linear regression forecast)."""
+        return f"{self.PREFIX}FORECAST({self._format_value(x)};{self._format_ref(known_y)};{self._format_ref(known_x)})"
+
+    def slope(self, known_y: RangeRef | str, known_x: RangeRef | str) -> str:
+        """Create SLOPE formula (slope of linear regression)."""
+        return f"{self.PREFIX}SLOPE({self._format_ref(known_y)};{self._format_ref(known_x)})"
+
+    def intercept(self, known_y: RangeRef | str, known_x: RangeRef | str) -> str:
+        """Create INTERCEPT formula (y-intercept of linear regression)."""
+        return f"{self.PREFIX}INTERCEPT({self._format_ref(known_y)};{self._format_ref(known_x)})"
+
+    def rsq(self, known_y: RangeRef | str, known_x: RangeRef | str) -> str:
+        """Create RSQ formula (R-squared of linear regression)."""
+        return (
+            f"{self.PREFIX}RSQ({self._format_ref(known_y)};{self._format_ref(known_x)})"
+        )
 
     # =========================================================================
     # Financial Functions (FR-BUILDER-005)
@@ -705,6 +1002,95 @@ class FormulaBuilder:
         """
         return f"{self.PREFIX}RATE({self._format_value(nper)};{self._format_value(pmt)};{self._format_value(pv)};{self._format_value(fv)};{payment_type};{guess})"
 
+    def sln(
+        self,
+        cost: CellRef | str | float,
+        salvage: CellRef | str | float,
+        life: CellRef | str | int,
+    ) -> str:
+        """
+        Create SLN formula (straight-line depreciation).
+
+        Implements:
+            - PHASE0-005: Complete FormulaBuilder with 100+ functions
+
+        Args:
+            cost: Initial cost
+            salvage: Salvage value
+            life: Number of periods
+
+        Returns:
+            ODF formula string
+        """
+        return f"{self.PREFIX}SLN({self._format_value(cost)};{self._format_value(salvage)};{self._format_value(life)})"
+
+    def db(
+        self,
+        cost: CellRef | str | float,
+        salvage: CellRef | str | float,
+        life: CellRef | str | int,
+        period: CellRef | str | int,
+        month: int = 12,
+    ) -> str:
+        """
+        Create DB formula (declining balance depreciation).
+
+        Args:
+            cost: Initial cost
+            salvage: Salvage value
+            life: Number of periods
+            period: Period to calculate
+            month: Number of months in first year (default 12)
+
+        Returns:
+            ODF formula string
+        """
+        return f"{self.PREFIX}DB({self._format_value(cost)};{self._format_value(salvage)};{self._format_value(life)};{self._format_value(period)};{month})"
+
+    def ddb(
+        self,
+        cost: CellRef | str | float,
+        salvage: CellRef | str | float,
+        life: CellRef | str | int,
+        period: CellRef | str | int,
+        factor: float = 2.0,
+    ) -> str:
+        """
+        Create DDB formula (double-declining balance depreciation).
+
+        Args:
+            cost: Initial cost
+            salvage: Salvage value
+            life: Number of periods
+            period: Period to calculate
+            factor: Depreciation factor (default 2.0)
+
+        Returns:
+            ODF formula string
+        """
+        return f"{self.PREFIX}DDB({self._format_value(cost)};{self._format_value(salvage)};{self._format_value(life)};{self._format_value(period)};{factor})"
+
+    def syd(
+        self,
+        cost: CellRef | str | float,
+        salvage: CellRef | str | float,
+        life: CellRef | str | int,
+        period: CellRef | str | int,
+    ) -> str:
+        """
+        Create SYD formula (sum-of-years digits depreciation).
+
+        Args:
+            cost: Initial cost
+            salvage: Salvage value
+            life: Number of periods
+            period: Period to calculate
+
+        Returns:
+            ODF formula string
+        """
+        return f"{self.PREFIX}SYD({self._format_value(cost)};{self._format_value(salvage)};{self._format_value(life)};{self._format_value(period)})"
+
     # =========================================================================
     # Date/Time Functions (FR-BUILDER-005)
     # =========================================================================
@@ -768,6 +1154,76 @@ class FormulaBuilder:
             ODF formula string
         """
         return f'{self.PREFIX}DATEDIF({self._format_value(start_date)};{self._format_value(end_date)};"{unit}")'
+
+    def time(
+        self,
+        hour: CellRef | str | int,
+        minute: CellRef | str | int,
+        second: CellRef | str | int,
+    ) -> str:
+        """Create TIME formula."""
+        return f"{self.PREFIX}TIME({self._format_value(hour)};{self._format_value(minute)};{self._format_value(second)})"
+
+    def hour(self, ref: CellRef | str) -> str:
+        """Create HOUR formula."""
+        return f"{self.PREFIX}HOUR({self._format_value(ref)})"
+
+    def minute(self, ref: CellRef | str) -> str:
+        """Create MINUTE formula."""
+        return f"{self.PREFIX}MINUTE({self._format_value(ref)})"
+
+    def second(self, ref: CellRef | str) -> str:
+        """Create SECOND formula."""
+        return f"{self.PREFIX}SECOND({self._format_value(ref)})"
+
+    def networkdays(
+        self,
+        start_date: CellRef | str,
+        end_date: CellRef | str,
+        holidays: RangeRef | str | None = None,
+    ) -> str:
+        """
+        Create NETWORKDAYS formula (working days between dates).
+
+        Implements:
+            - PHASE0-005: Complete FormulaBuilder with 100+ functions
+
+        Args:
+            start_date: Start date
+            end_date: End date
+            holidays: Optional range of holiday dates
+
+        Returns:
+            ODF formula string
+        """
+        if holidays:
+            return f"{self.PREFIX}NETWORKDAYS({self._format_value(start_date)};{self._format_value(end_date)};{self._format_ref(holidays)})"
+        return f"{self.PREFIX}NETWORKDAYS({self._format_value(start_date)};{self._format_value(end_date)})"
+
+    def workday(
+        self,
+        start_date: CellRef | str,
+        days: CellRef | str | int,
+        holidays: RangeRef | str | None = None,
+    ) -> str:
+        """
+        Create WORKDAY formula (date after specified working days).
+
+        Args:
+            start_date: Start date
+            days: Number of working days to add
+            holidays: Optional range of holiday dates
+
+        Returns:
+            ODF formula string
+        """
+        if holidays:
+            return f"{self.PREFIX}WORKDAY({self._format_value(start_date)};{self._format_value(days)};{self._format_ref(holidays)})"
+        return f"{self.PREFIX}WORKDAY({self._format_value(start_date)};{self._format_value(days)})"
+
+    def edate(self, start_date: CellRef | str, months: CellRef | str | int) -> str:
+        """Create EDATE formula (date after specified months)."""
+        return f"{self.PREFIX}EDATE({self._format_value(start_date)};{self._format_value(months)})"
 
     # =========================================================================
     # Lookup Functions (FR-BUILDER-005)
@@ -953,6 +1409,60 @@ class FormulaBuilder:
             parts.append(str(instance_num))
         return f"{self.PREFIX}SUBSTITUTE({';'.join(parts)})"
 
+    def rept(self, text: CellRef | str, number_times: CellRef | str | int) -> str:
+        """Create REPT formula (repeat text)."""
+        return f"{self.PREFIX}REPT({self._format_value(text)};{self._format_value(number_times)})"
+
+    def replace(
+        self,
+        old_text: CellRef | str,
+        start_num: int,
+        num_chars: int,
+        new_text: str,
+    ) -> str:
+        """Create REPLACE formula."""
+        return f'{self.PREFIX}REPLACE({self._format_value(old_text)};{start_num};{num_chars};"{new_text}")'
+
+    def value(self, text: CellRef | str) -> str:
+        """Create VALUE formula (convert text to number)."""
+        return f"{self.PREFIX}VALUE({self._format_value(text)})"
+
+    def char(self, number: CellRef | str | int) -> str:
+        """Create CHAR formula (character from code)."""
+        return f"{self.PREFIX}CHAR({self._format_value(number)})"
+
+    def code(self, text: CellRef | str) -> str:
+        """Create CODE formula (code from character)."""
+        return f"{self.PREFIX}CODE({self._format_value(text)})"
+
+    def exact(self, text1: CellRef | str, text2: CellRef | str) -> str:
+        """Create EXACT formula (case-sensitive text comparison)."""
+        return f"{self.PREFIX}EXACT({self._format_value(text1)};{self._format_value(text2)})"
+
+    def textjoin(
+        self,
+        delimiter: str,
+        ignore_empty: bool,
+        *text_values: CellRef | RangeRef | str,
+    ) -> str:
+        """
+        Create TEXTJOIN formula (join text with delimiter).
+
+        Implements:
+            - PHASE0-005: Complete FormulaBuilder with 100+ functions
+
+        Args:
+            delimiter: Text to use between values
+            ignore_empty: True to skip empty cells
+            text_values: Values or ranges to join
+
+        Returns:
+            ODF formula string
+        """
+        ignore = "1" if ignore_empty else "0"
+        parts = [self._format_value(v) for v in text_values]
+        return f'{self.PREFIX}TEXTJOIN("{delimiter}";{ignore};{";".join(parts)})'
+
     # =========================================================================
     # Logical Functions
     # =========================================================================
@@ -1012,6 +1522,47 @@ class FormulaBuilder:
         """Create ISTEXT formula."""
         return f"{self.PREFIX}ISTEXT({self._format_value(ref)})"
 
+    def xor(self, *conditions: str) -> str:
+        """
+        Create XOR formula (exclusive OR).
+
+        Implements:
+            - PHASE0-005: Complete FormulaBuilder with 100+ functions
+
+        Args:
+            conditions: Logical conditions to evaluate
+
+        Returns:
+            ODF formula string
+        """
+        return f"{self.PREFIX}XOR({';'.join(conditions)})"
+
+    def choose(self, index: CellRef | str | int, *values: CellRef | str) -> str:
+        """
+        Create CHOOSE formula (select value by index).
+
+        Args:
+            index: Index number (1-based)
+            values: Values to choose from
+
+        Returns:
+            ODF formula string
+        """
+        parts = [self._format_value(v) for v in values]
+        return f"{self.PREFIX}CHOOSE({self._format_value(index)};{';'.join(parts)})"
+
+    def isna(self, ref: CellRef | str) -> str:
+        """Create ISNA formula (check for #N/A error)."""
+        return f"{self.PREFIX}ISNA({self._format_value(ref)})"
+
+    def iseven(self, ref: CellRef | str) -> str:
+        """Create ISEVEN formula."""
+        return f"{self.PREFIX}ISEVEN({self._format_value(ref)})"
+
+    def isodd(self, ref: CellRef | str) -> str:
+        """Create ISODD formula."""
+        return f"{self.PREFIX}ISODD({self._format_value(ref)})"
+
     # =========================================================================
     # Array Formulas (FR-BUILDER-005)
     # =========================================================================
@@ -1035,7 +1586,7 @@ class FormulaBuilder:
 
 
 # ============================================================================
-# Spreadsheet Builder (FR-BUILDER-001)
+# Spreadsheet Builder (FR-BUILDER-001, PHASE0-004)
 # ============================================================================
 
 
@@ -1044,6 +1595,7 @@ class SpreadsheetBuilder:
     Fluent builder for creating spreadsheets.
 
     Implements FR-BUILDER-001: Extended SpreadsheetBuilder
+    Implements PHASE0-004: Perfect Builder API (v4.0.0)
 
     Provides a chainable API for building multi-sheet spreadsheets
     with theme support, including:
@@ -1053,6 +1605,12 @@ class SpreadsheetBuilder:
     - Total row formulas
     - Conditional formats and validations
     - Charts (FR-BUILDER-004)
+
+    v4.0.0 Improvements:
+    - Enhanced error messages with actionable guidance
+    - Better edge case handling
+    - Consistent method signatures
+    - Improved validation
 
     Examples:
         builder = SpreadsheetBuilder(theme="corporate")
@@ -1181,15 +1739,22 @@ class SpreadsheetBuilder:
 
         Returns:
             Self for chaining
+
+        Raises:
+            NoSheetSelectedError: If no sheet active and sheet parameter is None
         """
         sheet_name = sheet or (
             self._current_sheet.name if self._current_sheet else None
         )
+        if sheet_name is None:
+            raise NoSheetSelectedError(
+                "add named range without explicit sheet parameter"
+            )
         self._named_ranges.append(
             NamedRange(
                 name=name,
                 range=RangeRef(start, end, sheet_name),
-                scope="workbook" if sheet is None else sheet_name or "workbook",
+                scope="workbook" if sheet is None else sheet_name,
             )
         )
         return self
@@ -1223,9 +1788,12 @@ class SpreadsheetBuilder:
 
         Returns:
             Self for chaining
+
+        Raises:
+            NoSheetSelectedError: If no sheet is currently active
         """
         if self._current_sheet is None:
-            raise ValueError("No sheet selected. Call .sheet() first.")
+            raise NoSheetSelectedError("freeze rows/columns")
         self._current_sheet.freeze_rows = rows
         self._current_sheet.freeze_cols = cols
         return self
@@ -1239,9 +1807,12 @@ class SpreadsheetBuilder:
 
         Returns:
             Self for chaining
+
+        Raises:
+            NoSheetSelectedError: If no sheet is currently active
         """
         if self._current_sheet is None:
-            raise ValueError("No sheet selected.")
+            raise NoSheetSelectedError("set print area")
         self._current_sheet.print_area = range_ref
         return self
 
@@ -1262,9 +1833,12 @@ class SpreadsheetBuilder:
 
         Returns:
             Self for chaining
+
+        Raises:
+            NoSheetSelectedError: If no sheet is currently active
         """
         if self._current_sheet is None:
-            raise ValueError("No sheet selected.")
+            raise NoSheetSelectedError("enable protection")
         self._current_sheet.protection = {
             "enabled": True,
             "password": password,
@@ -1300,9 +1874,12 @@ class SpreadsheetBuilder:
 
         Returns:
             Self for chaining
+
+        Raises:
+            NoSheetSelectedError: If no sheet is currently active
         """
         if self._current_sheet is None:
-            raise ValueError("No sheet selected. Call .sheet() first.")
+            raise NoSheetSelectedError("add column")
 
         self._current_sheet.columns.append(
             ColumnSpec(
@@ -1329,9 +1906,12 @@ class SpreadsheetBuilder:
 
         Returns:
             Self for chaining
+
+        Raises:
+            NoSheetSelectedError: If no sheet is currently active
         """
         if self._current_sheet is None:
-            raise ValueError("No sheet selected.")
+            raise NoSheetSelectedError("add header row")
 
         row = RowSpec(style=style)
         for col in self._current_sheet.columns:
@@ -1351,9 +1931,12 @@ class SpreadsheetBuilder:
 
         Returns:
             Self for chaining
+
+        Raises:
+            NoSheetSelectedError: If no sheet is currently active
         """
         if self._current_sheet is None:
-            raise ValueError("No sheet selected.")
+            raise NoSheetSelectedError("add row")
 
         self._current_row = RowSpec(style=style, height=height)
         self._current_sheet.rows.append(self._current_row)
@@ -1376,9 +1959,19 @@ class SpreadsheetBuilder:
 
         Returns:
             Self for chaining
+
+        Raises:
+            NoSheetSelectedError: If no sheet is currently active
+            ValueError: If count is less than 1
         """
         if self._current_sheet is None:
-            raise ValueError("No sheet selected.")
+            raise NoSheetSelectedError("add data rows")
+
+        if count < 1:
+            raise ValueError(
+                f"count must be >= 1, got {count}. "
+                "Fix: Specify a positive number of rows to add."
+            )
 
         col_count = len(self._current_sheet.columns)
         for i in range(count):
@@ -1413,9 +2006,12 @@ class SpreadsheetBuilder:
 
         Returns:
             Self for chaining
+
+        Raises:
+            NoSheetSelectedError: If no sheet is currently active
         """
         if self._current_sheet is None:
-            raise ValueError("No sheet selected.")
+            raise NoSheetSelectedError("add total row")
 
         row = RowSpec(style=style)
 
@@ -1457,9 +2053,12 @@ class SpreadsheetBuilder:
 
         Returns:
             Self for chaining
+
+        Raises:
+            NoSheetSelectedError: If no sheet is currently active
         """
         if self._current_sheet is None:
-            raise ValueError("No sheet selected.")
+            raise NoSheetSelectedError("add formula row")
 
         row = RowSpec(style=style)
         for formula in formulas:
@@ -1496,9 +2095,12 @@ class SpreadsheetBuilder:
 
         Returns:
             Self for chaining
+
+        Raises:
+            NoRowSelectedError: If no row is currently active
         """
         if self._current_row is None:
-            raise ValueError("No row selected. Call .row() first.")
+            raise NoRowSelectedError("add cell")
 
         self._current_row.cells.append(
             CellSpec(
@@ -1522,9 +2124,12 @@ class SpreadsheetBuilder:
 
         Returns:
             Self for chaining
+
+        Raises:
+            NoRowSelectedError: If no row is currently active
         """
         if self._current_row is None:
-            raise ValueError("No row selected. Call .row() first.")
+            raise NoRowSelectedError("add cells")
 
         for value in values:
             self._current_row.cells.append(CellSpec(value=value, style=style))
@@ -1543,9 +2148,12 @@ class SpreadsheetBuilder:
 
         Returns:
             Self for chaining
+
+        Raises:
+            NoSheetSelectedError: If no sheet is currently active
         """
         if self._current_sheet is None:
-            raise ValueError("No sheet selected.")
+            raise NoSheetSelectedError("add conditional format")
         self._current_sheet.conditional_formats.append(format_ref)
         return self
 
@@ -1558,9 +2166,12 @@ class SpreadsheetBuilder:
 
         Returns:
             Self for chaining
+
+        Raises:
+            NoSheetSelectedError: If no sheet is currently active
         """
         if self._current_sheet is None:
-            raise ValueError("No sheet selected.")
+            raise NoSheetSelectedError("add validation")
         self._current_sheet.validations.append(validation_ref)
         return self
 
@@ -1589,9 +2200,12 @@ class SpreadsheetBuilder:
                 .build()
 
             builder.sheet("Summary").chart(chart)
+
+        Raises:
+            NoSheetSelectedError: If no sheet is currently active
         """
         if self._current_sheet is None:
-            raise ValueError("No sheet selected.")
+            raise NoSheetSelectedError("add chart")
         self._current_sheet.charts.append(chart_spec)
         return self
 
@@ -1605,7 +2219,15 @@ class SpreadsheetBuilder:
 
         Returns:
             List of SheetSpec objects
+
+        Raises:
+            EmptySheetError: If any sheet is empty or invalid
         """
+        # Validate all sheets
+        for sheet in self._sheets:
+            if len(sheet.columns) == 0 and len(sheet.rows) == 0:
+                raise EmptySheetError(sheet.name, "no columns or rows defined")
+
         return self._sheets
 
     def get_properties(self) -> WorkbookProperties:
@@ -1637,7 +2259,13 @@ class SpreadsheetBuilder:
 
         Returns:
             Path to saved file
+
+        Raises:
+            EmptySheetError: If any sheet is empty or invalid
         """
+        # Validate before rendering
+        self.build()
+
         from spreadsheet_dl.renderer import OdsRenderer
 
         renderer = OdsRenderer(self._get_theme())
@@ -1695,7 +2323,10 @@ class CircularReferenceError(Exception):
 
     def _format_message(self) -> str:
         cycle_str = " -> ".join(self.cycle)
-        return f"Circular reference detected at {self.cell}: {cycle_str}"
+        return (
+            f"Circular reference detected at {self.cell}: {cycle_str}\n"
+            f"Fix: Remove the circular dependency by breaking the reference chain."
+        )
 
 
 class FormulaDependencyGraph:

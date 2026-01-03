@@ -349,13 +349,18 @@ class DataValidation:
         error_alert: ErrorAlert | None = None,
     ) -> DataValidation:
         """Create positive number validation."""
-        op = ValidationOperator.GREATER_THAN_OR_EQUAL if allow_zero else ValidationOperator.GREATER_THAN
+        op = (
+            ValidationOperator.GREATER_THAN_OR_EQUAL
+            if allow_zero
+            else ValidationOperator.GREATER_THAN
+        )
         return cls.decimal(
             op,
             0,
             allow_blank=allow_blank,
             input_message=input_message,
-            error_alert=error_alert or ErrorAlert.stop(
+            error_alert=error_alert
+            or ErrorAlert.stop(
                 "Invalid Amount",
                 "Please enter a positive number" + (" or zero" if allow_zero else ""),
             ),
@@ -374,7 +379,8 @@ class DataValidation:
             return cls.decimal_greater_than(
                 0,
                 allow_blank=allow_blank,
-                input_message=input_message or InputMessage("Percentage", "Enter a percentage"),
+                input_message=input_message
+                or InputMessage("Percentage", "Enter a percentage"),
                 error_alert=error_alert,
             )
         return cls.decimal_between(
@@ -382,7 +388,8 @@ class DataValidation:
             1 if not allow_over_100 else 100,
             allow_blank=allow_blank,
             input_message=input_message or InputMessage("Percentage", "Enter 0-100%"),
-            error_alert=error_alert or ErrorAlert.stop(
+            error_alert=error_alert
+            or ErrorAlert.stop(
                 "Invalid Percentage",
                 "Enter a value between 0 and 100%",
             ),
@@ -485,11 +492,13 @@ class DataValidation:
         return cls.custom(
             formula=formula,
             allow_blank=allow_blank,
-            input_message=input_message or InputMessage(
+            input_message=input_message
+            or InputMessage(
                 "Future Date",
                 "Enter a date in the future" + (" or today" if allow_today else ""),
             ),
-            error_alert=error_alert or ErrorAlert.stop(
+            error_alert=error_alert
+            or ErrorAlert.stop(
                 "Invalid Date",
                 "Please enter a future date",
             ),
@@ -533,11 +542,13 @@ class DataValidation:
             ValidationOperator.LESS_THAN_OR_EQUAL,
             max_length,
             allow_blank=allow_blank,
-            input_message=input_message or InputMessage(
+            input_message=input_message
+            or InputMessage(
                 "Text Input",
                 f"Enter up to {max_length} characters",
             ),
-            error_alert=error_alert or ErrorAlert.stop(
+            error_alert=error_alert
+            or ErrorAlert.stop(
                 "Too Long",
                 f"Text must be {max_length} characters or less",
             ),
@@ -659,7 +670,9 @@ class FinancialValidations:
         return DataValidation.list(
             items=categories or default_categories,
             input_message=InputMessage("Category", "Select expense category"),
-            error_alert=ErrorAlert.stop("Invalid Category", "Select from dropdown list"),
+            error_alert=ErrorAlert.stop(
+                "Invalid Category", "Select from dropdown list"
+            ),
         )
 
     @staticmethod
@@ -668,7 +681,9 @@ class FinancialValidations:
         return DataValidation.positive_number(
             allow_zero=allow_zero,
             input_message=InputMessage("Amount", "Enter dollar amount"),
-            error_alert=ErrorAlert.stop("Invalid Amount", "Enter a positive dollar amount"),
+            error_alert=ErrorAlert.stop(
+                "Invalid Amount", "Enter a positive dollar amount"
+            ),
         )
 
     @staticmethod
@@ -681,12 +696,16 @@ class FinancialValidations:
             return DataValidation.date_after(
                 date(start_year, 1, 1),
                 input_message=InputMessage("Date", f"Enter date from {start_year}"),
-                error_alert=ErrorAlert.stop("Invalid Date", f"Date must be after {start_year}"),
+                error_alert=ErrorAlert.stop(
+                    "Invalid Date", f"Date must be after {start_year}"
+                ),
             )
         # Use custom formula to check <= TODAY()
         return DataValidation.custom(
             formula=f"AND(A1>=DATE({start_year},1,1), A1<=TODAY())",
-            input_message=InputMessage("Date", f"Enter date from {start_year} to today"),
+            input_message=InputMessage(
+                "Date", f"Enter date from {start_year} to today"
+            ),
             error_alert=ErrorAlert.stop("Invalid Date", "Date must be in the past"),
         )
 
@@ -722,7 +741,9 @@ class FinancialValidations:
         """Create description field validation."""
         return DataValidation.text_max_length(
             max_length=max_length,
-            input_message=InputMessage("Description", f"Enter description (max {max_length} chars)"),
+            input_message=InputMessage(
+                "Description", f"Enter description (max {max_length} chars)"
+            ),
         )
 
     @staticmethod
@@ -730,7 +751,9 @@ class FinancialValidations:
         """Create budget allocation validation (0-100%)."""
         return DataValidation.percentage(
             allow_over_100=False,
-            input_message=InputMessage("Allocation", "Enter budget percentage (0-100%)"),
+            input_message=InputMessage(
+                "Allocation", "Enter budget percentage (0-100%)"
+            ),
             error_alert=ErrorAlert.stop("Invalid Percentage", "Enter 0-100%"),
         )
 

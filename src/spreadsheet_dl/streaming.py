@@ -16,6 +16,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
+from spreadsheet_dl.progress import BatchProgress
+
 if TYPE_CHECKING:
     from collections.abc import Iterator
 
@@ -493,26 +495,55 @@ class StreamingWriter:
 
         # Convert accumulated data to SheetSpecs
         sheets = []
-        for sheet_data in self._sheets:
-            columns = [ColumnSpec(name=col) for col in sheet_data["columns"]]
 
-            rows = []
-            for streaming_row in sheet_data["rows"]:
-                cells = []
-                for cell in streaming_row.cells:
-                    cells.append(
-                        CellSpec(
-                            value=cell.value,
-                            value_type=cell.value_type,
-                            formula=cell.formula,
-                            style=cell.style,
-                        )
+        # Count total rows for progress
+        total_rows = sum(len(sheet_data["rows"]) for sheet_data in self._sheets)
+        use_progress = total_rows > 100
+
+        if use_progress:
+            with BatchProgress(total_rows, "Generating ODS file") as progress:
+                for sheet_data in self._sheets:
+                    columns = [ColumnSpec(name=col) for col in sheet_data["columns"]]
+
+                    rows = []
+                    for streaming_row in sheet_data["rows"]:
+                        cells = []
+                        for cell in streaming_row.cells:
+                            cells.append(
+                                CellSpec(
+                                    value=cell.value,
+                                    value_type=cell.value_type,
+                                    formula=cell.formula,
+                                    style=cell.style,
+                                )
+                            )
+                        rows.append(RowSpec(cells=cells, style=streaming_row.style))
+                        progress.update()
+
+                    sheets.append(
+                        SheetSpec(name=sheet_data["name"], columns=columns, rows=rows)
                     )
-                rows.append(RowSpec(cells=cells, style=streaming_row.style))
+        else:
+            for sheet_data in self._sheets:
+                columns = [ColumnSpec(name=col) for col in sheet_data["columns"]]
 
-            sheets.append(
-                SheetSpec(name=sheet_data["name"], columns=columns, rows=rows)
-            )
+                rows = []
+                for streaming_row in sheet_data["rows"]:
+                    cells = []
+                    for cell in streaming_row.cells:
+                        cells.append(
+                            CellSpec(
+                                value=cell.value,
+                                value_type=cell.value_type,
+                                formula=cell.formula,
+                                style=cell.style,
+                            )
+                        )
+                    rows.append(RowSpec(cells=cells, style=streaming_row.style))
+
+                sheets.append(
+                    SheetSpec(name=sheet_data["name"], columns=columns, rows=rows)
+                )
 
         # Render to file
         render_sheets(sheets, self._file_path)

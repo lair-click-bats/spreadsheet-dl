@@ -39,7 +39,9 @@ _TO_POINTS: dict[LengthUnit, float] = {
 }
 
 # Pattern for parsing length strings
-_LENGTH_PATTERN = re.compile(r"^(-?\d+(?:\.\d+)?)\s*(pt|px|em|cm|mm|in|%)$", re.IGNORECASE)
+_LENGTH_PATTERN = re.compile(
+    r"^(-?\d+(?:\.\d+)?)\s*(pt|px|em|cm|mm|in|%)$", re.IGNORECASE
+)
 
 
 @dataclass(frozen=True)

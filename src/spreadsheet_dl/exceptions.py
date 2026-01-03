@@ -975,9 +975,7 @@ class UploadError(WebDAVError):
         self.file_path = file_path
         self.remote_path = remote_path
         self.reason = reason
-        context = ErrorContext(
-            file_path=file_path, extra={"remote_path": remote_path}
-        )
+        context = ErrorContext(file_path=file_path, extra={"remote_path": remote_path})
         super().__init__(
             f"Failed to upload '{file_path}' to '{remote_path}'",
             context=context,

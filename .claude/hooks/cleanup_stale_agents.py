@@ -282,7 +282,9 @@ def cleanup_stale_agents(dry_run: bool = False) -> dict[str, Any]:
                 completed_at = agent.get("completed_at")
                 if completed_at:
                     try:
-                        completed = datetime.fromisoformat(completed_at.replace("Z", "+00:00"))
+                        completed = datetime.fromisoformat(
+                            completed_at.replace("Z", "+00:00")
+                        )
                         age_days = (now - completed).days
                         if age_days > MAX_AGE_DAYS:
                             old_completed.append(agent_id)
@@ -304,7 +306,9 @@ def cleanup_stale_agents(dry_run: bool = False) -> dict[str, Any]:
         for agent_id in stale_agents:
             registry["agents"][agent_id]["status"] = "failed"
             registry["agents"][agent_id]["completed_at"] = now.isoformat()
-            registry["agents"][agent_id]["failure_reason"] = "Marked stale by cleanup hook"
+            registry["agents"][agent_id]["failure_reason"] = (
+                "Marked stale by cleanup hook"
+            )
             if registry["metadata"]["agents_running"] > 0:
                 registry["metadata"]["agents_running"] -= 1
             registry["metadata"]["agents_failed"] += 1
@@ -352,7 +356,9 @@ def main() -> None:
     """Main entry point."""
     parser = argparse.ArgumentParser(description="Clean up stale agents from registry")
     parser.add_argument(
-        "--dry-run", action="store_true", help="Report what would be cleaned without modifying"
+        "--dry-run",
+        action="store_true",
+        help="Report what would be cleaned without modifying",
     )
     args = parser.parse_args()
 

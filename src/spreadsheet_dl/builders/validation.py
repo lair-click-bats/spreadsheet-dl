@@ -460,7 +460,9 @@ def positive_number_validation(
     else:
         builder.greater_than(0)
 
-    return builder.input_message("Amount", message).stop_alert("Invalid", message).build()
+    return (
+        builder.input_message("Amount", message).stop_alert("Invalid", message).build()
+    )
 
 
 def category_validation(categories: list[str]) -> DataValidation:

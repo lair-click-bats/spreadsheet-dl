@@ -29,6 +29,7 @@ from spreadsheet_dl.exceptions import (
     FileError,
     FinanceTrackerError,
 )
+from spreadsheet_dl.progress import BatchProgress
 
 
 class ExportFormat(Enum):
@@ -342,7 +343,7 @@ class MultiFormatExporter:
         """Export to Excel XLSX format."""
         try:
             from openpyxl import Workbook
-            from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
+            from openpyxl.styles import Border, Font, PatternFill, Side
             from openpyxl.utils import get_column_letter
         except ImportError as exc:
             raise ExportDependencyError(
@@ -372,29 +373,34 @@ class MultiFormatExporter:
                 bottom=Side(style="thin"),
             )
 
-            for row_idx, row_data in enumerate(sheet_data.rows, 1):
-                for col_idx, value in enumerate(row_data, 1):
-                    cell = ws.cell(row=row_idx, column=col_idx)
+            # Use progress bar for large sheets (>100 rows)
+            total_rows = len(sheet_data.rows)
+            use_progress = total_rows > 100
 
-                    # Set value
-                    if isinstance(value, Decimal):
-                        cell.value = float(value)
-                        cell.number_format = self.options.xlsx_currency_format
-                    elif isinstance(value, date):
-                        cell.value = value
-                        cell.number_format = self.options.xlsx_date_format
-                    else:
-                        cell.value = value
-
-                    # Apply formatting
-                    if self.options.preserve_formatting:
-                        cell.border = thin_border
-
-                        # Header styling (first row)
-                        if row_idx == 1:
-                            cell.font = header_font_white
-                            cell.fill = header_fill
-                            cell.alignment = Alignment(horizontal="center")
+            if use_progress:
+                with BatchProgress(
+                    total_rows, f"Exporting {sheet_data.name} to XLSX"
+                ) as progress:
+                    for row_idx, row_data in enumerate(sheet_data.rows, 1):
+                        self._export_xlsx_row(
+                            ws,
+                            row_idx,
+                            row_data,
+                            header_font_white,
+                            header_fill,
+                            thin_border,
+                        )
+                        progress.update()
+            else:
+                for row_idx, row_data in enumerate(sheet_data.rows, 1):
+                    self._export_xlsx_row(
+                        ws,
+                        row_idx,
+                        row_data,
+                        header_font_white,
+                        header_fill,
+                        thin_border,
+                    )
 
             # Auto-adjust column widths
             for col_idx in range(1, sheet_data.column_count + 1):
@@ -408,6 +414,41 @@ class MultiFormatExporter:
         output_path.parent.mkdir(parents=True, exist_ok=True)
         wb.save(str(output_path))
         return output_path
+
+    def _export_xlsx_row(
+        self,
+        ws: Any,
+        row_idx: int,
+        row_data: list[Any],
+        header_font_white: Any,
+        header_fill: Any,
+        thin_border: Any,
+    ) -> None:
+        """Export a single row to XLSX worksheet."""
+        from openpyxl.styles import Alignment
+
+        for col_idx, value in enumerate(row_data, 1):
+            cell = ws.cell(row=row_idx, column=col_idx)
+
+            # Set value
+            if isinstance(value, Decimal):
+                cell.value = float(value)
+                cell.number_format = self.options.xlsx_currency_format
+            elif isinstance(value, date):
+                cell.value = value
+                cell.number_format = self.options.xlsx_date_format
+            else:
+                cell.value = value
+
+            # Apply formatting
+            if self.options.preserve_formatting:
+                cell.border = thin_border
+
+                # Header styling (first row)
+                if row_idx == 1:
+                    cell.font = header_font_white
+                    cell.fill = header_fill
+                    cell.alignment = Alignment(horizontal="center")
 
     def _export_csv(self, sheets: list[SheetData], output_path: Path) -> Path:
         """Export to CSV format."""
@@ -443,19 +484,36 @@ class MultiFormatExporter:
                 else csv.QUOTE_ALL,
             )
 
-            for row in sheet.rows:
-                # Convert values for CSV
-                csv_row: list[Any] = []
-                for value in row:
-                    if isinstance(value, Decimal):
-                        csv_row.append(float(value))
-                    elif isinstance(value, date):
-                        csv_row.append(value.isoformat())
-                    elif value is None:
-                        csv_row.append("")
-                    else:
-                        csv_row.append(value)
-                writer.writerow(csv_row)
+            # Use progress for large sheets
+            total_rows = len(sheet.rows)
+            use_progress = total_rows > 100
+
+            if use_progress:
+                with BatchProgress(
+                    total_rows, f"Exporting {sheet.name} to CSV"
+                ) as progress:
+                    for row in sheet.rows:
+                        csv_row = self._convert_row_to_csv(row)
+                        writer.writerow(csv_row)
+                        progress.update()
+            else:
+                for row in sheet.rows:
+                    csv_row = self._convert_row_to_csv(row)
+                    writer.writerow(csv_row)
+
+    def _convert_row_to_csv(self, row: list[Any]) -> list[Any]:
+        """Convert a row's values to CSV-compatible format."""
+        csv_row: list[Any] = []
+        for value in row:
+            if isinstance(value, Decimal):
+                csv_row.append(float(value))
+            elif isinstance(value, date):
+                csv_row.append(value.isoformat())
+            elif value is None:
+                csv_row.append("")
+            else:
+                csv_row.append(value)
+        return csv_row
 
     def _write_csv_combined(self, sheets: list[SheetData], output_path: Path) -> None:
         """Write all sheets to a single CSV with sheet separators."""

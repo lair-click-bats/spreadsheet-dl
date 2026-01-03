@@ -178,7 +178,9 @@ class ChartGenerator:
         include_cdn: bool = True,
     ) -> str:
         """Create HTML wrapper for a chart."""
-        cdn_script = f'<script src="{self.CHARTJS_CDN}"></script>' if include_cdn else ""
+        cdn_script = (
+            f'<script src="{self.CHARTJS_CDN}"></script>' if include_cdn else ""
+        )
 
         return f"""<!DOCTYPE html>
 <html lang="en">
@@ -261,10 +263,7 @@ class ChartGenerator:
 
         labels = [d.label for d in data]
         values = [d.value for d in data]
-        colors = [
-            d.color or self._get_color(i, d.category)
-            for i, d in enumerate(data)
-        ]
+        colors = [d.color or self._get_color(i, d.category) for i, d in enumerate(data)]
 
         chart_type = "doughnut" if config.cutout > 0 else "pie"
         cutout_option = f"cutout: '{config.cutout}%'," if config.cutout > 0 else ""
@@ -327,10 +326,7 @@ new Chart(ctx, {{
 
         labels = [d.label for d in data]
         values = [d.value for d in data]
-        colors = [
-            d.color or self._get_color(i, d.category)
-            for i, d in enumerate(data)
-        ]
+        colors = [d.color or self._get_color(i, d.category) for i, d in enumerate(data)]
 
         index_axis = "'y'" if config.chart_type == ChartType.HORIZONTAL_BAR else "'x'"
 
@@ -356,7 +352,7 @@ new Chart(ctx, {{
             tooltip: {{
                 callbacks: {{
                     label: function(context) {{
-                        return context.parsed.{('x' if config.chart_type == ChartType.HORIZONTAL_BAR else 'y')}.toLocaleString('en-US', {{style: 'currency', currency: 'USD'}});
+                        return context.parsed.{("x" if config.chart_type == ChartType.HORIZONTAL_BAR else "y")}.toLocaleString('en-US', {{style: 'currency', currency: 'USD'}});
                     }}
                 }}
             }}
@@ -399,14 +395,16 @@ new Chart(ctx, {{
         datasets = []
         for i, s in enumerate(series):
             color = s.color or self.colors[i % len(self.colors)]
-            datasets.append({
-                "label": s.name,
-                "data": s.data,
-                "borderColor": color,
-                "backgroundColor": f"{color}20",
-                "fill": config.chart_type == ChartType.AREA,
-                "tension": config.tension,
-            })
+            datasets.append(
+                {
+                    "label": s.name,
+                    "data": s.data,
+                    "borderColor": color,
+                    "backgroundColor": f"{color}20",
+                    "fill": config.chart_type == ChartType.AREA,
+                    "tension": config.tension,
+                }
+            )
 
         chart_js = f"""
 const ctx = document.getElementById('chart').getContext('2d');
@@ -474,11 +472,13 @@ new Chart(ctx, {{
         datasets = []
         for i, s in enumerate(series):
             color = s.color or self.colors[i % len(self.colors)]
-            datasets.append({
-                "label": s.name,
-                "data": s.data,
-                "backgroundColor": color,
-            })
+            datasets.append(
+                {
+                    "label": s.name,
+                    "data": s.data,
+                    "backgroundColor": color,
+                }
+            )
 
         chart_js = f"""
 const ctx = document.getElementById('chart').getContext('2d');
@@ -522,7 +522,7 @@ class DashboardGenerator:
 
     Example:
         ```python
-        from spreadsheet_dl.budget_analyzer import BudgetAnalyzer
+        from spreadsheet_dl.domains.finance.budget_analyzer import BudgetAnalyzer
 
         analyzer = BudgetAnalyzer("budget.ods")
         generator = DashboardGenerator(analyzer)
@@ -643,13 +643,19 @@ class DashboardGenerator:
 
         # Calculate progress percentage for visual
         pct_used = min(100, max(0, summary["percent_used"]))
-        progress_color = "#27ae60" if pct_used < 80 else "#f39c12" if pct_used < 100 else "#e74c3c"
+        progress_color = (
+            "#27ae60" if pct_used < 80 else "#f39c12" if pct_used < 100 else "#e74c3c"
+        )
 
         # Prepare chart data
         labels = [d.label for d in category_data]
         values = [d.value for d in category_data]
-        colors = [CATEGORY_COLORS.get(d.category or d.label, DEFAULT_COLORS[i % len(DEFAULT_COLORS)])
-                  for i, d in enumerate(category_data)]
+        colors = [
+            CATEGORY_COLORS.get(
+                d.category or d.label, DEFAULT_COLORS[i % len(DEFAULT_COLORS)]
+            )
+            for i, d in enumerate(category_data)
+        ]
 
         months, series = trend_data
 
@@ -821,7 +827,9 @@ class DashboardGenerator:
                     <canvas id="barChart"></canvas>
                 </div>
                 <div class="category-list">
-                    {"".join(f'''
+                    {
+            "".join(
+                f'''
                     <div class="category-item">
                         <span class="category-name">
                             <span class="category-dot" style="background: {colors[i]}"></span>
@@ -829,7 +837,10 @@ class DashboardGenerator:
                         </span>
                         <span>${d.value:,.2f}</span>
                     </div>
-                    ''' for i, d in enumerate(category_data))}
+                    '''
+                for i, d in enumerate(category_data)
+            )
+        }
                 </div>
             </div>
 
@@ -930,14 +941,16 @@ class DashboardGenerator:
         datasets = []
         colors = [DEFAULT_COLORS[0], DEFAULT_COLORS[1]]
         for i, s in enumerate(series):
-            datasets.append({
-                "label": s.name,
-                "data": s.data,
-                "borderColor": colors[i],
-                "backgroundColor": f"{colors[i]}20",
-                "fill": i == 1,
-                "tension": 0.3,
-            })
+            datasets.append(
+                {
+                    "label": s.name,
+                    "data": s.data,
+                    "borderColor": colors[i],
+                    "backgroundColor": f"{colors[i]}20",
+                    "fill": i == 1,
+                    "tension": 0.3,
+                }
+            )
 
         return f"""
         new Chart(document.getElementById('trendChart'), {{
@@ -985,6 +998,7 @@ class DashboardGenerator:
 
 
 # Convenience functions
+
 
 def create_spending_pie_chart(
     categories: dict[str, float],

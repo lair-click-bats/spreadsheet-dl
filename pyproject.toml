@@ -1,18 +1,53 @@
 [project]
 name = "spreadsheet-dl"
-version = "4.0.0-alpha.1"
-description = "Universal spreadsheet definition language with LLM-optimized MCP server"
+version = "4.0.0"
+description = "The Spreadsheet Definition Language for Python - declarative API, multi-format export, domain templates, native MCP server"
 readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "MIT" }
-authors = [{ name = "jallen" }]
-keywords = ["spreadsheet", "ods", "xlsx", "mcp", "llm", "claude", "yaml", "template", "definition-language", "schema"]
+authors = [{ name = "lair-click-bats" }]
+keywords = [
+    "spreadsheet",
+    "definition-language",
+    "declarative",
+    "ods",
+    "xlsx",
+    "pdf",
+    "mcp",
+    "llm",
+    "claude",
+    "yaml",
+    "template",
+    "builder",
+    "finance",
+    "science",
+    "engineering",
+    "data-science",
+    "formula",
+    "chart",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Manufacturing",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial :: Spreadsheet",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing :: Markup",
+    "Typing :: Typed",
+]
 
 dependencies = [
     "odfpy>=1.4.1",
     "pandas>=2.1.0",
     "pyexcel-ods3>=0.6.1",
     "requests>=2.31.0",
+    "rich>=13.0.0",
 ]
 
 [project.optional-dependencies]

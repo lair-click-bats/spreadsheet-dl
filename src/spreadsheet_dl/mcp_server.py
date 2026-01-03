@@ -1015,6 +1015,261 @@ class MCPServer:
                 category="advanced_operations",
             )
 
+        # =====================================================================
+        # Workbook Operation Tools (TASK-501)
+        # =====================================================================
+
+        workbook_tools = [
+            ("workbook_properties_get", "Get workbook properties and metadata"),
+            ("workbook_properties_set", "Set workbook properties"),
+            ("workbook_metadata_get", "Get workbook metadata"),
+            ("workbook_metadata_set", "Update workbook metadata"),
+            ("workbook_protection_enable", "Enable workbook protection"),
+            ("workbook_protection_disable", "Disable workbook protection"),
+            ("formulas_recalculate", "Recalculate all formulas in workbook"),
+            ("links_update", "Update external links"),
+            ("links_break", "Break external links"),
+            ("data_connections_list", "List data connections"),
+            ("data_refresh", "Refresh data from external sources"),
+            ("workbooks_compare", "Compare two workbooks"),
+            ("workbooks_merge", "Merge multiple workbooks"),
+            ("workbook_statistics", "Get workbook statistics"),
+            ("formulas_audit", "Audit formulas for errors"),
+            ("circular_refs_find", "Find circular references"),
+        ]
+
+        for tool_name, tool_desc in workbook_tools:
+            self._registry.register(
+                name=tool_name,
+                description=tool_desc,
+                handler=getattr(self, f"_handle_{tool_name}"),
+                parameters=[
+                    MCPToolParameter(
+                        name="file_path",
+                        type="string",
+                        description="Path to the spreadsheet file",
+                    ),
+                ],
+                category="workbook_operations",
+            )
+
+        # =====================================================================
+        # Theme Management Tools (TASK-501)
+        # =====================================================================
+
+        theme_tools = [
+            ("theme_list", "List all available themes"),
+            ("theme_get", "Get details of a specific theme"),
+            ("theme_create", "Create a new custom theme"),
+            ("theme_update", "Update an existing theme"),
+            ("theme_delete", "Delete a custom theme"),
+            ("theme_apply", "Apply a theme to the workbook"),
+            ("theme_export", "Export theme definition"),
+            ("theme_import", "Import theme from file"),
+            ("theme_preview", "Preview theme appearance"),
+            ("color_scheme_generate", "Generate color scheme from base colors"),
+            ("font_set_apply", "Apply font set to workbook"),
+            ("style_guide_create", "Create comprehensive style guide"),
+        ]
+
+        for tool_name, tool_desc in theme_tools:
+            self._registry.register(
+                name=tool_name,
+                description=tool_desc,
+                handler=getattr(self, f"_handle_{tool_name}"),
+                parameters=[
+                    MCPToolParameter(
+                        name="file_path",
+                        type="string",
+                        description="Path to the spreadsheet file",
+                    ),
+                ],
+                category="theme_management",
+            )
+
+        # =====================================================================
+        # Print Layout Tools (TASK-501)
+        # =====================================================================
+
+        print_tools = [
+            ("page_setup", "Configure page setup and layout"),
+            ("print_area_set", "Set print area for a sheet"),
+            ("page_breaks_insert", "Insert manual page breaks"),
+            ("page_breaks_remove", "Remove page breaks"),
+            ("header_footer_set", "Set header and footer content"),
+            ("print_titles_set", "Set rows/columns to repeat on each page"),
+            ("print_options_set", "Configure print options"),
+            ("pages_fit_to", "Fit content to specific number of pages"),
+            ("print_preview", "Generate print preview"),
+            ("pdf_export", "Export sheet to PDF"),
+        ]
+
+        for tool_name, tool_desc in print_tools:
+            self._registry.register(
+                name=tool_name,
+                description=tool_desc,
+                handler=getattr(self, f"_handle_{tool_name}"),
+                parameters=[
+                    MCPToolParameter(
+                        name="file_path",
+                        type="string",
+                        description="Path to the spreadsheet file",
+                    ),
+                    MCPToolParameter(
+                        name="sheet",
+                        type="string",
+                        description="Sheet name",
+                    ),
+                ],
+                category="print_layout",
+            )
+
+        # =====================================================================
+        # Import/Export Operation Tools (TASK-501)
+        # =====================================================================
+
+        import_export_tools = [
+            ("csv_import", "Import data from CSV file"),
+            ("tsv_import", "Import data from TSV file"),
+            ("json_import", "Import data from JSON file"),
+            ("xlsx_import", "Import data from XLSX file"),
+            ("xml_import", "Import data from XML file"),
+            ("html_import", "Import data from HTML table"),
+            ("csv_export", "Export sheet to CSV format"),
+            ("tsv_export", "Export sheet to TSV format"),
+            ("json_export", "Export sheet to JSON format"),
+            ("xlsx_export", "Export to XLSX format"),
+            ("xml_export", "Export to XML format"),
+            ("html_export", "Export to HTML table"),
+            ("batch_import", "Batch import from multiple files"),
+            ("batch_export", "Batch export to multiple formats"),
+            ("data_mapping_create", "Create data mapping schema"),
+            ("column_mapping_apply", "Apply column mapping during import"),
+            ("format_auto_detect", "Auto-detect file format"),
+        ]
+
+        for tool_name, tool_desc in import_export_tools:
+            self._registry.register(
+                name=tool_name,
+                description=tool_desc,
+                handler=getattr(self, f"_handle_{tool_name}"),
+                parameters=[
+                    MCPToolParameter(
+                        name="file_path",
+                        type="string",
+                        description="Path to the file",
+                    ),
+                ],
+                category="import_export",
+            )
+
+        # =====================================================================
+        # Account Operation Tools (TASK-501)
+        # =====================================================================
+
+        account_tools = [
+            ("account_create", "Create a new financial account"),
+            ("account_list", "List all accounts"),
+            ("account_get", "Get account details"),
+            ("account_update", "Update account information"),
+            ("account_delete", "Delete an account"),
+            ("account_balance", "Get current account balance"),
+            ("account_transactions", "List account transactions"),
+            ("account_reconcile", "Reconcile account with statement"),
+            ("account_statement_import", "Import account statement"),
+            ("account_statement_export", "Export account statement"),
+            ("account_budgets", "Get budgets for account"),
+            ("account_analysis", "Analyze account activity"),
+            ("account_trends", "Get account spending trends"),
+            ("account_categories", "List account categories"),
+            ("account_tags", "Get account tags"),
+        ]
+
+        for tool_name, tool_desc in account_tools:
+            self._registry.register(
+                name=tool_name,
+                description=tool_desc,
+                handler=getattr(self, f"_handle_{tool_name}"),
+                parameters=[
+                    MCPToolParameter(
+                        name="file_path",
+                        type="string",
+                        description="Path to the budget file",
+                    ),
+                ],
+                category="account_operations",
+            )
+
+        # =====================================================================
+        # Goal Tracking Tools (TASK-501)
+        # =====================================================================
+
+        goal_tools = [
+            ("goal_create", "Create a new financial goal"),
+            ("goal_list", "List all goals"),
+            ("goal_get", "Get goal details"),
+            ("goal_update", "Update goal information"),
+            ("goal_delete", "Delete a goal"),
+            ("goal_progress", "Get goal progress"),
+            ("goal_milestones", "List goal milestones"),
+            ("goal_projections", "Get goal projections"),
+            ("debt_payoff_plan", "Generate debt payoff plan"),
+            ("savings_plan", "Create savings plan"),
+            ("investment_plan", "Create investment plan"),
+            ("goal_dashboard", "Get goal tracking dashboard"),
+        ]
+
+        for tool_name, tool_desc in goal_tools:
+            self._registry.register(
+                name=tool_name,
+                description=tool_desc,
+                handler=getattr(self, f"_handle_{tool_name}"),
+                parameters=[
+                    MCPToolParameter(
+                        name="file_path",
+                        type="string",
+                        description="Path to the budget file",
+                    ),
+                ],
+                category="goal_tracking",
+            )
+
+        # =====================================================================
+        # Reporting Tools (TASK-501)
+        # =====================================================================
+
+        reporting_tools = [
+            # Note: "generate_report" already exists as a budget analysis tool
+            ("report_schedule", "Schedule report generation"),
+            ("report_list", "List available reports"),
+            ("report_templates", "List report templates"),
+            ("cash_flow_report", "Generate cash flow report"),
+            ("income_statement", "Generate income statement"),
+            ("balance_sheet", "Generate balance sheet"),
+            ("budget_variance", "Generate budget variance report"),
+            ("category_breakdown", "Generate category breakdown"),
+            ("trend_analysis", "Perform trend analysis"),
+            ("forecast", "Generate financial forecast"),
+            ("what_if_analysis", "Perform what-if analysis"),
+            ("report_export", "Export report to file"),
+            ("report_email", "Email report to recipients"),
+        ]
+
+        for tool_name, tool_desc in reporting_tools:
+            self._registry.register(
+                name=tool_name,
+                description=tool_desc,
+                handler=getattr(self, f"_handle_{tool_name}"),
+                parameters=[
+                    MCPToolParameter(
+                        name="file_path",
+                        type="string",
+                        description="Path to the budget file",
+                    ),
+                ],
+                category="reporting",
+            )
+
         # Update _tools from registry
         self._tools.update(self._registry.get_all_tools())
 
@@ -1101,7 +1356,7 @@ class MCPServer:
         try:
             path = self._validate_path(file_path)
 
-            from spreadsheet_dl.budget_analyzer import BudgetAnalyzer
+            from spreadsheet_dl.domains.finance.budget_analyzer import BudgetAnalyzer
 
             analyzer = BudgetAnalyzer(path)
             summary = analyzer.get_summary()
@@ -1179,7 +1434,10 @@ class MCPServer:
             from datetime import date as date_type
 
             from spreadsheet_dl.ods_editor import OdsEditor
-            from spreadsheet_dl.ods_generator import ExpenseCategory, ExpenseEntry
+            from spreadsheet_dl.domains.finance.ods_generator import (
+                ExpenseCategory,
+                ExpenseEntry,
+            )
 
             # Find or validate budget file
             if file_path:
@@ -1250,7 +1508,7 @@ class MCPServer:
         try:
             path = self._validate_path(file_path)
 
-            from spreadsheet_dl.budget_analyzer import BudgetAnalyzer
+            from spreadsheet_dl.domains.finance.budget_analyzer import BudgetAnalyzer
 
             analyzer = BudgetAnalyzer(path)
             summary = analyzer.get_summary()
@@ -1347,7 +1605,7 @@ class MCPServer:
         try:
             path = self._validate_path(file_path)
 
-            from spreadsheet_dl.budget_analyzer import BudgetAnalyzer
+            from spreadsheet_dl.domains.finance.budget_analyzer import BudgetAnalyzer
 
             analyzer = BudgetAnalyzer(path)
             expenses = analyzer.expenses
@@ -1413,7 +1671,7 @@ class MCPServer:
         try:
             path = self._validate_path(file_path)
 
-            from spreadsheet_dl.budget_analyzer import BudgetAnalyzer
+            from spreadsheet_dl.domains.finance.budget_analyzer import BudgetAnalyzer
 
             analyzer = BudgetAnalyzer(path)
 
@@ -1479,7 +1737,7 @@ class MCPServer:
         try:
             path = self._validate_path(file_path)
 
-            from spreadsheet_dl.report_generator import ReportGenerator
+            from spreadsheet_dl.domains.finance.report_generator import ReportGenerator
 
             generator = ReportGenerator(path)
 
@@ -1508,7 +1766,7 @@ class MCPServer:
     def _handle_list_categories(self) -> MCPToolResult:
         """Handle list_categories tool."""
         try:
-            from spreadsheet_dl.ods_generator import ExpenseCategory
+            from spreadsheet_dl.domains.finance.ods_generator import ExpenseCategory
 
             categories = [
                 {"name": cat.value, "id": cat.name} for cat in ExpenseCategory
@@ -1527,8 +1785,8 @@ class MCPServer:
         try:
             path = self._validate_path(file_path)
 
-            from spreadsheet_dl.alerts import AlertMonitor
-            from spreadsheet_dl.budget_analyzer import BudgetAnalyzer
+            from spreadsheet_dl.domains.finance.alerts import AlertMonitor
+            from spreadsheet_dl.domains.finance.budget_analyzer import BudgetAnalyzer
 
             analyzer = BudgetAnalyzer(path)
             monitor = AlertMonitor(analyzer)
@@ -1563,7 +1821,7 @@ class MCPServer:
     def _generate_recommendations(self, path: Path) -> list[str]:
         """Generate spending recommendations."""
         try:
-            from spreadsheet_dl.budget_analyzer import BudgetAnalyzer
+            from spreadsheet_dl.domains.finance.budget_analyzer import BudgetAnalyzer
 
             analyzer = BudgetAnalyzer(path)
             summary = analyzer.get_summary()
@@ -2394,6 +2652,1471 @@ class MCPServer:
                     "results": [],
                     "sheet": sheet,
                     "message": "Query find not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    # =========================================================================
+    # Workbook Operation Handlers (TASK-501)
+    # =========================================================================
+
+    def _handle_workbook_properties_get(self, file_path: str) -> MCPToolResult:
+        """
+        Get workbook properties and metadata.
+
+        TASK-501: Stub implementation.
+        Returns schema for workbook properties.
+
+        Args:
+            file_path: Path to spreadsheet file
+
+        Returns:
+            Workbook properties
+        """
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "properties": {
+                        "title": "Untitled",
+                        "author": "",
+                        "created": "",
+                        "modified": "",
+                    },
+                    "message": "Stub: Full implementation pending",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_workbook_properties_set(self, file_path: str) -> MCPToolResult:
+        """Set workbook properties. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "message": "Stub: Property setting not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_workbook_metadata_get(self, file_path: str) -> MCPToolResult:
+        """Get workbook metadata. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "metadata": {},
+                    "message": "Stub: Metadata retrieval not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_workbook_metadata_set(self, file_path: str) -> MCPToolResult:
+        """Update workbook metadata. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "message": "Stub: Metadata update not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_workbook_protection_enable(self, file_path: str) -> MCPToolResult:
+        """Enable workbook protection. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "protected": True,
+                    "message": "Stub: Protection not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_workbook_protection_disable(self, file_path: str) -> MCPToolResult:
+        """Disable workbook protection. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "protected": False,
+                    "message": "Stub: Protection removal not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_formulas_recalculate(self, file_path: str) -> MCPToolResult:
+        """Recalculate all formulas. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "formulas_recalculated": 0,
+                    "message": "Stub: Formula recalculation not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_links_update(self, file_path: str) -> MCPToolResult:
+        """Update external links. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "links_updated": 0,
+                    "message": "Stub: Link update not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_links_break(self, file_path: str) -> MCPToolResult:
+        """Break external links. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "links_broken": 0,
+                    "message": "Stub: Link breaking not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_data_connections_list(self, file_path: str) -> MCPToolResult:
+        """List data connections. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "connections": [],
+                    "message": "Stub: Connection listing not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_data_refresh(self, file_path: str) -> MCPToolResult:
+        """Refresh data from external sources. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "refreshed": 0,
+                    "message": "Stub: Data refresh not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_workbooks_compare(self, file_path: str) -> MCPToolResult:
+        """Compare two workbooks. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "differences": [],
+                    "message": "Stub: Workbook comparison not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_workbooks_merge(self, file_path: str) -> MCPToolResult:
+        """Merge multiple workbooks. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "merged_count": 0,
+                    "message": "Stub: Workbook merging not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_workbook_statistics(self, file_path: str) -> MCPToolResult:
+        """Get workbook statistics. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "statistics": {
+                        "sheets": 0,
+                        "cells": 0,
+                        "formulas": 0,
+                    },
+                    "message": "Stub: Statistics calculation not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_formulas_audit(self, file_path: str) -> MCPToolResult:
+        """Audit formulas for errors. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "errors": [],
+                    "warnings": [],
+                    "message": "Stub: Formula auditing not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_circular_refs_find(self, file_path: str) -> MCPToolResult:
+        """Find circular references. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "circular_refs": [],
+                    "message": "Stub: Circular reference detection not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    # =========================================================================
+    # Theme Management Handlers (TASK-501)
+    # =========================================================================
+
+    def _handle_theme_list(self, file_path: str) -> MCPToolResult:
+        """List all available themes. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "themes": ["Default", "Office", "Modern"],
+                    "message": "Stub: Theme listing not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_theme_get(self, file_path: str) -> MCPToolResult:
+        """Get theme details. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "theme": {},
+                    "message": "Stub: Theme retrieval not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_theme_create(self, file_path: str) -> MCPToolResult:
+        """Create a new custom theme. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "theme_id": "custom_1",
+                    "message": "Stub: Theme creation not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_theme_update(self, file_path: str) -> MCPToolResult:
+        """Update an existing theme. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "message": "Stub: Theme update not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_theme_delete(self, file_path: str) -> MCPToolResult:
+        """Delete a custom theme. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "message": "Stub: Theme deletion not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_theme_apply(self, file_path: str) -> MCPToolResult:
+        """Apply a theme to the workbook. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "message": "Stub: Theme application not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_theme_export(self, file_path: str) -> MCPToolResult:
+        """Export theme definition. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "export_path": "",
+                    "message": "Stub: Theme export not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_theme_import(self, file_path: str) -> MCPToolResult:
+        """Import theme from file. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "theme_id": "",
+                    "message": "Stub: Theme import not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_theme_preview(self, file_path: str) -> MCPToolResult:
+        """Preview theme appearance. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "preview": {},
+                    "message": "Stub: Theme preview not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_color_scheme_generate(self, file_path: str) -> MCPToolResult:
+        """Generate color scheme from base colors. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "color_scheme": {},
+                    "message": "Stub: Color scheme generation not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_font_set_apply(self, file_path: str) -> MCPToolResult:
+        """Apply font set to workbook. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "message": "Stub: Font set application not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_style_guide_create(self, file_path: str) -> MCPToolResult:
+        """Create comprehensive style guide. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "style_guide": {},
+                    "message": "Stub: Style guide creation not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    # =========================================================================
+    # Print Layout Handlers (TASK-501)
+    # =========================================================================
+
+    def _handle_page_setup(self, file_path: str, sheet: str) -> MCPToolResult:
+        """Configure page setup and layout. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "sheet": sheet,
+                    "message": "Stub: Page setup not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_print_area_set(self, file_path: str, sheet: str) -> MCPToolResult:
+        """Set print area for a sheet. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "sheet": sheet,
+                    "message": "Stub: Print area setting not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_page_breaks_insert(self, file_path: str, sheet: str) -> MCPToolResult:
+        """Insert manual page breaks. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "sheet": sheet,
+                    "message": "Stub: Page break insertion not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_page_breaks_remove(self, file_path: str, sheet: str) -> MCPToolResult:
+        """Remove page breaks. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "sheet": sheet,
+                    "message": "Stub: Page break removal not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_header_footer_set(self, file_path: str, sheet: str) -> MCPToolResult:
+        """Set header and footer content. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "sheet": sheet,
+                    "message": "Stub: Header/footer setting not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_print_titles_set(self, file_path: str, sheet: str) -> MCPToolResult:
+        """Set rows/columns to repeat on each page. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "sheet": sheet,
+                    "message": "Stub: Print titles not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_print_options_set(self, file_path: str, sheet: str) -> MCPToolResult:
+        """Configure print options. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "sheet": sheet,
+                    "message": "Stub: Print options not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_pages_fit_to(self, file_path: str, sheet: str) -> MCPToolResult:
+        """Fit content to specific number of pages. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "sheet": sheet,
+                    "message": "Stub: Fit to pages not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_print_preview(self, file_path: str, sheet: str) -> MCPToolResult:
+        """Generate print preview. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "sheet": sheet,
+                    "preview": {},
+                    "message": "Stub: Print preview not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_pdf_export(self, file_path: str, sheet: str) -> MCPToolResult:
+        """Export sheet to PDF. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "sheet": sheet,
+                    "pdf_path": "",
+                    "message": "Stub: PDF export not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    # =========================================================================
+    # Import/Export Handlers (TASK-501)
+    # =========================================================================
+
+    def _handle_csv_import(self, file_path: str) -> MCPToolResult:
+        """Import data from CSV file. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "rows_imported": 0,
+                    "message": "Stub: CSV import not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_tsv_import(self, file_path: str) -> MCPToolResult:
+        """Import data from TSV file. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "rows_imported": 0,
+                    "message": "Stub: TSV import not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_json_import(self, file_path: str) -> MCPToolResult:
+        """Import data from JSON file. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "records_imported": 0,
+                    "message": "Stub: JSON import not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_xlsx_import(self, file_path: str) -> MCPToolResult:
+        """Import data from XLSX file. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "sheets_imported": 0,
+                    "message": "Stub: XLSX import not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_xml_import(self, file_path: str) -> MCPToolResult:
+        """Import data from XML file. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "records_imported": 0,
+                    "message": "Stub: XML import not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_html_import(self, file_path: str) -> MCPToolResult:
+        """Import data from HTML table. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "tables_imported": 0,
+                    "message": "Stub: HTML import not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_csv_export(self, file_path: str) -> MCPToolResult:
+        """Export sheet to CSV format. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "export_path": "",
+                    "message": "Stub: CSV export not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_tsv_export(self, file_path: str) -> MCPToolResult:
+        """Export sheet to TSV format. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "export_path": "",
+                    "message": "Stub: TSV export not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_json_export(self, file_path: str) -> MCPToolResult:
+        """Export sheet to JSON format. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "export_path": "",
+                    "message": "Stub: JSON export not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_xlsx_export(self, file_path: str) -> MCPToolResult:
+        """Export to XLSX format. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "export_path": "",
+                    "message": "Stub: XLSX export not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_xml_export(self, file_path: str) -> MCPToolResult:
+        """Export to XML format. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "export_path": "",
+                    "message": "Stub: XML export not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_html_export(self, file_path: str) -> MCPToolResult:
+        """Export to HTML table. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "export_path": "",
+                    "message": "Stub: HTML export not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_batch_import(self, file_path: str) -> MCPToolResult:
+        """Batch import from multiple files. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "files_imported": 0,
+                    "message": "Stub: Batch import not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_batch_export(self, file_path: str) -> MCPToolResult:
+        """Batch export to multiple formats. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "files_exported": 0,
+                    "message": "Stub: Batch export not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_data_mapping_create(self, file_path: str) -> MCPToolResult:
+        """Create data mapping schema. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "mapping": {},
+                    "message": "Stub: Data mapping not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_column_mapping_apply(self, file_path: str) -> MCPToolResult:
+        """Apply column mapping during import. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "message": "Stub: Column mapping not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_format_auto_detect(self, file_path: str) -> MCPToolResult:
+        """Auto-detect file format. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "detected_format": "unknown",
+                    "message": "Stub: Format detection not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    # =========================================================================
+    # Account Operation Handlers (TASK-501)
+    # =========================================================================
+
+    def _handle_account_create(self, file_path: str) -> MCPToolResult:
+        """Create a new financial account. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "account_id": "acc_1",
+                    "message": "Stub: Account creation not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_account_list(self, file_path: str) -> MCPToolResult:
+        """List all accounts. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "accounts": [],
+                    "message": "Stub: Account listing not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_account_get(self, file_path: str) -> MCPToolResult:
+        """Get account details. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "account": {},
+                    "message": "Stub: Account retrieval not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_account_update(self, file_path: str) -> MCPToolResult:
+        """Update account information. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "message": "Stub: Account update not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_account_delete(self, file_path: str) -> MCPToolResult:
+        """Delete an account. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "message": "Stub: Account deletion not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_account_balance(self, file_path: str) -> MCPToolResult:
+        """Get current account balance. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "balance": 0.0,
+                    "message": "Stub: Balance calculation not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_account_transactions(self, file_path: str) -> MCPToolResult:
+        """List account transactions. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "transactions": [],
+                    "message": "Stub: Transaction listing not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_account_reconcile(self, file_path: str) -> MCPToolResult:
+        """Reconcile account with statement. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "reconciled": False,
+                    "message": "Stub: Account reconciliation not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_account_statement_import(self, file_path: str) -> MCPToolResult:
+        """Import account statement. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "transactions_imported": 0,
+                    "message": "Stub: Statement import not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_account_statement_export(self, file_path: str) -> MCPToolResult:
+        """Export account statement. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "export_path": "",
+                    "message": "Stub: Statement export not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_account_budgets(self, file_path: str) -> MCPToolResult:
+        """Get budgets for account. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "budgets": [],
+                    "message": "Stub: Account budgets not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_account_analysis(self, file_path: str) -> MCPToolResult:
+        """Analyze account activity. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "analysis": {},
+                    "message": "Stub: Account analysis not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_account_trends(self, file_path: str) -> MCPToolResult:
+        """Get account spending trends. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "trends": {},
+                    "message": "Stub: Account trends not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_account_categories(self, file_path: str) -> MCPToolResult:
+        """List account categories. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "categories": [],
+                    "message": "Stub: Category listing not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_account_tags(self, file_path: str) -> MCPToolResult:
+        """Get account tags. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "tags": [],
+                    "message": "Stub: Tag listing not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    # =========================================================================
+    # Goal Tracking Handlers (TASK-501)
+    # =========================================================================
+
+    def _handle_goal_create(self, file_path: str) -> MCPToolResult:
+        """Create a new financial goal. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "goal_id": "goal_1",
+                    "message": "Stub: Goal creation not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_goal_list(self, file_path: str) -> MCPToolResult:
+        """List all goals. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "goals": [],
+                    "message": "Stub: Goal listing not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_goal_get(self, file_path: str) -> MCPToolResult:
+        """Get goal details. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "goal": {},
+                    "message": "Stub: Goal retrieval not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_goal_update(self, file_path: str) -> MCPToolResult:
+        """Update goal information. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "message": "Stub: Goal update not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_goal_delete(self, file_path: str) -> MCPToolResult:
+        """Delete a goal. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "message": "Stub: Goal deletion not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_goal_progress(self, file_path: str) -> MCPToolResult:
+        """Get goal progress. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "progress": 0.0,
+                    "message": "Stub: Goal progress tracking not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_goal_milestones(self, file_path: str) -> MCPToolResult:
+        """List goal milestones. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "milestones": [],
+                    "message": "Stub: Goal milestones not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_goal_projections(self, file_path: str) -> MCPToolResult:
+        """Get goal projections. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "projections": {},
+                    "message": "Stub: Goal projections not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_debt_payoff_plan(self, file_path: str) -> MCPToolResult:
+        """Generate debt payoff plan. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "plan": {},
+                    "message": "Stub: Debt payoff planning not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_savings_plan(self, file_path: str) -> MCPToolResult:
+        """Create savings plan. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "plan": {},
+                    "message": "Stub: Savings planning not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_investment_plan(self, file_path: str) -> MCPToolResult:
+        """Create investment plan. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "plan": {},
+                    "message": "Stub: Investment planning not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_goal_dashboard(self, file_path: str) -> MCPToolResult:
+        """Get goal tracking dashboard. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "dashboard": {},
+                    "message": "Stub: Goal dashboard not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    # =========================================================================
+    # Reporting Handlers (TASK-501)
+    # =========================================================================
+
+    def _handle_report_schedule(self, file_path: str) -> MCPToolResult:
+        """Schedule report generation. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "schedule_id": "sched_1",
+                    "message": "Stub: Report scheduling not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_report_list(self, file_path: str) -> MCPToolResult:
+        """List available reports. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "reports": [],
+                    "message": "Stub: Report listing not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_report_templates(self, file_path: str) -> MCPToolResult:
+        """List report templates. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "templates": [],
+                    "message": "Stub: Report templates not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_cash_flow_report(self, file_path: str) -> MCPToolResult:
+        """Generate cash flow report. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "report": {},
+                    "message": "Stub: Cash flow report not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_income_statement(self, file_path: str) -> MCPToolResult:
+        """Generate income statement. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "statement": {},
+                    "message": "Stub: Income statement not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_balance_sheet(self, file_path: str) -> MCPToolResult:
+        """Generate balance sheet. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "balance_sheet": {},
+                    "message": "Stub: Balance sheet not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_budget_variance(self, file_path: str) -> MCPToolResult:
+        """Generate budget variance report. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "variance": {},
+                    "message": "Stub: Budget variance not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_category_breakdown(self, file_path: str) -> MCPToolResult:
+        """Generate category breakdown. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "breakdown": {},
+                    "message": "Stub: Category breakdown not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_trend_analysis(self, file_path: str) -> MCPToolResult:
+        """Perform trend analysis. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "trends": {},
+                    "message": "Stub: Trend analysis not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_forecast(self, file_path: str) -> MCPToolResult:
+        """Generate financial forecast. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "forecast": {},
+                    "message": "Stub: Financial forecasting not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_what_if_analysis(self, file_path: str) -> MCPToolResult:
+        """Perform what-if analysis. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "scenarios": {},
+                    "message": "Stub: What-if analysis not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_report_export(self, file_path: str) -> MCPToolResult:
+        """Export report to file. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "export_path": "",
+                    "message": "Stub: Report export not yet implemented",
+                }
+            )
+        except Exception as e:
+            return MCPToolResult.error(str(e))
+
+    def _handle_report_email(self, file_path: str) -> MCPToolResult:
+        """Email report to recipients. TASK-501: Stub implementation."""
+        try:
+            path = self._validate_path(file_path)
+            return MCPToolResult.json(
+                {
+                    "success": True,
+                    "file": str(path),
+                    "sent": False,
+                    "message": "Stub: Report emailing not yet implemented",
                 }
             )
         except Exception as e:

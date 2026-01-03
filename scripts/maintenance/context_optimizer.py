@@ -200,7 +200,9 @@ def analyze_directory(directory: Path) -> dict[str, Any]:
             {
                 "action": "compress_large_json",
                 "command": "gzip -k <file>",
-                "files": [f["path"] for f in large_files[:10] if f["path"].endswith(".json")],
+                "files": [
+                    f["path"] for f in large_files[:10] if f["path"].endswith(".json")
+                ],
             }
         )
 
@@ -239,7 +241,9 @@ def analyze_directory(directory: Path) -> dict[str, Any]:
                 "description": f"Found {len(duplicates)} groups of duplicate files",
             }
         )
-        analysis["duplicates"] = {h[:8]: paths for h, paths in list(duplicates.items())[:5]}
+        analysis["duplicates"] = {
+            h[:8]: paths for h, paths in list(duplicates.items())[:5]
+        }
 
     if excludable_size > 0:
         analysis["suggestions"].append(
@@ -251,10 +255,12 @@ def analyze_directory(directory: Path) -> dict[str, Any]:
         )
 
     # Sort large files
-    analysis["files"]["by_size_bracket"]["large"].sort(key=lambda x: x["size"], reverse=True)
-    analysis["files"]["by_size_bracket"]["large"] = analysis["files"]["by_size_bracket"]["large"][
-        :20
-    ]
+    analysis["files"]["by_size_bracket"]["large"].sort(
+        key=lambda x: x["size"], reverse=True
+    )
+    analysis["files"]["by_size_bracket"]["large"] = analysis["files"][
+        "by_size_bracket"
+    ]["large"][:20]
 
     return analysis
 

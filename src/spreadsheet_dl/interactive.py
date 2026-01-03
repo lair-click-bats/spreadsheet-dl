@@ -159,7 +159,7 @@ class DropdownList:
     @classmethod
     def categories(cls) -> DropdownList:
         """Create a dropdown for expense categories."""
-        from spreadsheet_dl.ods_generator import ExpenseCategory
+        from spreadsheet_dl.domains.finance.ods_generator import ExpenseCategory
 
         return cls(
             name="categories",
@@ -170,7 +170,7 @@ class DropdownList:
     @classmethod
     def account_types(cls) -> DropdownList:
         """Create a dropdown for account types."""
-        from spreadsheet_dl.accounts import AccountType
+        from spreadsheet_dl.domains.finance.accounts import AccountType
 
         return cls(
             name="account_types",
@@ -640,7 +640,7 @@ class DashboardGenerator:
         Returns:
             Path to generated dashboard file.
         """
-        from spreadsheet_dl.budget_analyzer import BudgetAnalyzer
+        from spreadsheet_dl.domains.finance.budget_analyzer import BudgetAnalyzer
 
         analyzer = BudgetAnalyzer(budget_path)
         summary = analyzer.get_summary()

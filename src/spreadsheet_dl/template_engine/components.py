@@ -187,14 +187,18 @@ def income_summary() -> ComponentDefinition:
         rows=[
             RowTemplate(
                 cells=[
-                    CellTemplate(value="Income Summary", style="section_header", colspan=2),
+                    CellTemplate(
+                        value="Income Summary", style="section_header", colspan=2
+                    ),
                 ],
                 style="section_header_row",
             ),
             RowTemplate(
                 cells=[
                     CellTemplate(value="${income_label}", style="label"),
-                    CellTemplate(value="${income_total}", style="currency_value", type="currency"),
+                    CellTemplate(
+                        value="${income_total}", style="currency_value", type="currency"
+                    ),
                 ],
             ),
         ],
@@ -227,14 +231,20 @@ def expense_summary() -> ComponentDefinition:
         rows=[
             RowTemplate(
                 cells=[
-                    CellTemplate(value="Expense Summary", style="section_header", colspan=2),
+                    CellTemplate(
+                        value="Expense Summary", style="section_header", colspan=2
+                    ),
                 ],
                 style="section_header_row",
             ),
             RowTemplate(
                 cells=[
                     CellTemplate(value="${expense_label}", style="label"),
-                    CellTemplate(value="${expense_total}", style="currency_value", type="currency"),
+                    CellTemplate(
+                        value="${expense_total}",
+                        style="currency_value",
+                        type="currency",
+                    ),
                 ],
             ),
         ],
@@ -325,8 +335,12 @@ def category_row() -> ComponentDefinition:
             RowTemplate(
                 cells=[
                     CellTemplate(value="${category}", style="category_name"),
-                    CellTemplate(value="${budget}", style="currency_cell", type="currency"),
-                    CellTemplate(value="${actual}", style="currency_cell", type="currency"),
+                    CellTemplate(
+                        value="${budget}", style="currency_cell", type="currency"
+                    ),
+                    CellTemplate(
+                        value="${actual}", style="currency_cell", type="currency"
+                    ),
                     CellTemplate(
                         formula="=${budget}-${actual}",
                         style="variance_cell",
@@ -516,7 +530,9 @@ def transaction_entry() -> ComponentDefinition:
                     CellTemplate(value="${date}", style="date_cell", type="date"),
                     CellTemplate(value="${description}", style="text_cell"),
                     CellTemplate(value="${category}", style="category_cell"),
-                    CellTemplate(value="${amount}", style="currency_cell", type="currency"),
+                    CellTemplate(
+                        value="${amount}", style="currency_cell", type="currency"
+                    ),
                 ],
             ),
         ],
@@ -629,8 +645,7 @@ class ComponentLibrary:
             List of matching components
         """
         return [
-            comp for name, comp in self._components.items()
-            if name.startswith(category)
+            comp for name, comp in self._components.items() if name.startswith(category)
         ]
 
 

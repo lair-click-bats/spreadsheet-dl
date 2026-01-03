@@ -19,7 +19,6 @@ import sys
 from datetime import date
 from decimal import Decimal
 from pathlib import Path
-from typing import Any
 
 # Setup logging
 logging.basicConfig(
@@ -139,7 +138,7 @@ def example_cell_operations() -> None:
     - Cell find and replace
     - Error handling
     """
-    from spreadsheet_dl.mcp_server import MCPServer, MCPToolResult
+    from spreadsheet_dl.mcp_server import MCPServer
 
     print("=" * 70)
     print("Example 2: Cell Operations via MCP")
@@ -590,7 +589,7 @@ def example_error_handling() -> None:
     )
 
     # Should still work, fallback to default
-    print(f"   Handled with fallback behavior")
+    print("   Handled with fallback behavior")
 
     # 4. Audit logging
     print("\n4. Testing audit logging:")
@@ -668,20 +667,20 @@ def example_advanced_configuration() -> None:
     server = MCPServer(config)
 
     print(f"\n✓ Advanced server configured: {config.name}")
-    print(f"\n  Security Configuration:")
+    print("\n  Security Configuration:")
     print(f"    Allowed paths: {len(config.allowed_paths)}")
     for path in config.allowed_paths:
         print(f"      • {path}")
 
-    print(f"\n  Performance Configuration:")
+    print("\n  Performance Configuration:")
     print(f"    Rate limit: {config.rate_limit_per_minute} requests/min")
 
-    print(f"\n  Audit Configuration:")
+    print("\n  Audit Configuration:")
     print(f"    Logging enabled: {config.enable_audit_log}")
     print(f"    Log file: {config.audit_log_path}")
 
     # Explore tool registry
-    print(f"\n  Tool Registry:")
+    print("\n  Tool Registry:")
     registry = server._registry
     categories = registry.get_categories()
     print(f"    Categories: {', '.join(categories)}")

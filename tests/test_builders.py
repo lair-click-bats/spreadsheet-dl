@@ -64,10 +64,7 @@ class TestDataValidationBuilder:
     def test_list_validation(self) -> None:
         """Test list validation builder."""
         validation = (
-            DataValidationBuilder()
-            .list(["A", "B", "C"])
-            .show_dropdown()
-            .build()
+            DataValidationBuilder().list(["A", "B", "C"]).show_dropdown().build()
         )
         assert validation.type == ValidationType.LIST
         assert validation.list_items == ["A", "B", "C"]
@@ -75,46 +72,27 @@ class TestDataValidationBuilder:
 
     def test_list_from_range(self) -> None:
         """Test list validation from range."""
-        validation = (
-            DataValidationBuilder()
-            .list_from_range("Categories!A:A")
-            .build()
-        )
+        validation = DataValidationBuilder().list_from_range("Categories!A:A").build()
         assert validation.type == ValidationType.LIST
         assert validation.list_source == "Categories!A:A"
 
     def test_decimal_greater_than(self) -> None:
         """Test decimal greater than validation."""
-        validation = (
-            DataValidationBuilder()
-            .decimal()
-            .greater_than(0)
-            .build()
-        )
+        validation = DataValidationBuilder().decimal().greater_than(0).build()
         assert validation.type == ValidationType.DECIMAL
         assert validation.operator == ValidationOperator.GREATER_THAN
         assert validation.value1 == 0
 
     def test_decimal_between(self) -> None:
         """Test decimal between validation."""
-        validation = (
-            DataValidationBuilder()
-            .decimal()
-            .between(0, 100)
-            .build()
-        )
+        validation = DataValidationBuilder().decimal().between(0, 100).build()
         assert validation.operator == ValidationOperator.BETWEEN
         assert validation.value1 == 0
         assert validation.value2 == 100
 
     def test_whole_number_less_than(self) -> None:
         """Test whole number less than validation."""
-        validation = (
-            DataValidationBuilder()
-            .whole_number()
-            .less_than(1000)
-            .build()
-        )
+        validation = DataValidationBuilder().whole_number().less_than(1000).build()
         assert validation.type == ValidationType.WHOLE_NUMBER
         assert validation.operator == ValidationOperator.LESS_THAN
         assert validation.value1 == 1000
@@ -137,10 +115,7 @@ class TestDataValidationBuilder:
     def test_text_length_validation(self) -> None:
         """Test text length validation."""
         validation = (
-            DataValidationBuilder()
-            .text_length()
-            .less_than_or_equal(100)
-            .build()
+            DataValidationBuilder().text_length().less_than_or_equal(100).build()
         )
         assert validation.type == ValidationType.TEXT_LENGTH
         assert validation.operator == ValidationOperator.LESS_THAN_OR_EQUAL
@@ -148,11 +123,7 @@ class TestDataValidationBuilder:
 
     def test_custom_formula_validation(self) -> None:
         """Test custom formula validation."""
-        validation = (
-            DataValidationBuilder()
-            .custom("=A1<=SUM(B:B)")
-            .build()
-        )
+        validation = DataValidationBuilder().custom("=A1<=SUM(B:B)").build()
         assert validation.type == ValidationType.CUSTOM
         assert validation.formula == "=A1<=SUM(B:B)"
 
@@ -201,11 +172,7 @@ class TestDataValidationBuilder:
     def test_allow_blank_disabled(self) -> None:
         """Test disabling allow_blank."""
         validation = (
-            DataValidationBuilder()
-            .decimal()
-            .greater_than(0)
-            .allow_blank(False)
-            .build()
+            DataValidationBuilder().decimal().greater_than(0).allow_blank(False).build()
         )
         assert validation.allow_blank is False
 
@@ -285,12 +252,7 @@ class TestConditionalFormatBuilder:
 
     def test_range_setting(self) -> None:
         """Test setting range."""
-        fmt = (
-            ConditionalFormatBuilder()
-            .range("D2:D100")
-            .red_yellow_green()
-            .build()
-        )
+        fmt = ConditionalFormatBuilder().range("D2:D100").red_yellow_green().build()
         assert fmt.range == "D2:D100"
 
     def test_cell_value_rule_less_than(self) -> None:
@@ -298,7 +260,9 @@ class TestConditionalFormatBuilder:
         fmt = (
             ConditionalFormatBuilder()
             .range("D2:D100")
-            .when_value().less_than(0).style("danger")
+            .when_value()
+            .less_than(0)
+            .style("danger")
             .build()
         )
         assert len(fmt.rules) == 1
@@ -312,7 +276,9 @@ class TestConditionalFormatBuilder:
         fmt = (
             ConditionalFormatBuilder()
             .range("D2:D100")
-            .when_value().between(0, 100).style("normal")
+            .when_value()
+            .between(0, 100)
+            .style("normal")
             .build()
         )
         assert fmt.rules[0].operator == RuleOperator.BETWEEN
@@ -335,8 +301,12 @@ class TestConditionalFormatBuilder:
         fmt = (
             ConditionalFormatBuilder()
             .range("D2:D100")
-            .when_value().less_than(0).style("danger")
-            .when_value().greater_than_or_equal(0).style("success")
+            .when_value()
+            .less_than(0)
+            .style("danger")
+            .when_value()
+            .greater_than_or_equal(0)
+            .style("success")
             .build()
         )
         assert len(fmt.rules) == 2
@@ -345,12 +315,7 @@ class TestConditionalFormatBuilder:
 
     def test_color_scale_preset(self) -> None:
         """Test color scale preset."""
-        fmt = (
-            ConditionalFormatBuilder()
-            .range("E2:E100")
-            .red_yellow_green()
-            .build()
-        )
+        fmt = ConditionalFormatBuilder().range("E2:E100").red_yellow_green().build()
         assert len(fmt.rules) == 1
         assert fmt.rules[0].type == ConditionalRuleType.COLOR_SCALE
         assert fmt.rules[0].color_scale is not None
@@ -368,12 +333,7 @@ class TestConditionalFormatBuilder:
 
     def test_data_bar_default(self) -> None:
         """Test default data bar."""
-        fmt = (
-            ConditionalFormatBuilder()
-            .range("C2:C100")
-            .default_data_bar()
-            .build()
-        )
+        fmt = ConditionalFormatBuilder().range("C2:C100").default_data_bar().build()
         assert fmt.rules[0].type == ConditionalRuleType.DATA_BAR
         assert fmt.rules[0].data_bar is not None
 
@@ -390,12 +350,7 @@ class TestConditionalFormatBuilder:
 
     def test_icon_set_preset(self) -> None:
         """Test icon set preset."""
-        fmt = (
-            ConditionalFormatBuilder()
-            .range("F2:F100")
-            .three_arrows()
-            .build()
-        )
+        fmt = ConditionalFormatBuilder().range("F2:F100").three_arrows().build()
         assert fmt.rules[0].type == ConditionalRuleType.ICON_SET
         assert fmt.rules[0].icon_set is not None
 
@@ -412,12 +367,7 @@ class TestConditionalFormatBuilder:
 
     def test_top_rule(self) -> None:
         """Test top N rule."""
-        fmt = (
-            ConditionalFormatBuilder()
-            .range("C2:C100")
-            .top(10, "highlight")
-            .build()
-        )
+        fmt = ConditionalFormatBuilder().range("C2:C100").top(10, "highlight").build()
         assert fmt.rules[0].type == ConditionalRuleType.TOP_BOTTOM
         assert fmt.rules[0].rank == 10
         assert fmt.rules[0].bottom is False
@@ -436,12 +386,7 @@ class TestConditionalFormatBuilder:
 
     def test_above_average_rule(self) -> None:
         """Test above average rule."""
-        fmt = (
-            ConditionalFormatBuilder()
-            .range("C2:C100")
-            .above_average("high")
-            .build()
-        )
+        fmt = ConditionalFormatBuilder().range("C2:C100").above_average("high").build()
         assert fmt.rules[0].type == ConditionalRuleType.ABOVE_BELOW_AVERAGE
 
     def test_contains_text_rule(self) -> None:
@@ -493,12 +438,7 @@ class TestColorScaleBuilder:
 
     def test_two_color_scale(self) -> None:
         """Test two color scale."""
-        scale = (
-            ColorScaleBuilder()
-            .min_color("#FF0000")
-            .max_color("#00FF00")
-            .build()
-        )
+        scale = ColorScaleBuilder().min_color("#FF0000").max_color("#00FF00").build()
         assert scale.type == ColorScaleType.TWO_COLOR
         assert len(scale.points) == 2
 
@@ -594,13 +534,7 @@ class TestIconSetBuilder:
 
     def test_custom_thresholds(self) -> None:
         """Test custom thresholds."""
-        icons = (
-            IconSetBuilder()
-            .arrows_3()
-            .threshold(70, 0)
-            .threshold(30, 1)
-            .build()
-        )
+        icons = IconSetBuilder().arrows_3().threshold(70, 0).threshold(30, 1).build()
         assert len(icons.thresholds) == 2
         assert icons.thresholds[0].value == 70
         assert icons.thresholds[1].value == 30
@@ -660,9 +594,7 @@ class TestStyleBuilder:
     def test_alignment(self) -> None:
         """Test alignment configuration."""
         style = (
-            StyleBuilder("test")
-            .align(horizontal="center", vertical="middle")
-            .build()
+            StyleBuilder("test").align(horizontal="center", vertical="middle").build()
         )
         assert style.text_align == TextAlign.CENTER
         assert style.vertical_align == VerticalAlign.MIDDLE
@@ -680,11 +612,7 @@ class TestStyleBuilder:
 
     def test_borders(self) -> None:
         """Test border configuration."""
-        style = (
-            StyleBuilder("test")
-            .border("2pt", "solid", "#000000")
-            .build()
-        )
+        style = StyleBuilder("test").border("2pt", "solid", "#000000").build()
         assert style.border_top is not None
         assert style.border_bottom is not None
         assert style.border_left is not None
@@ -724,9 +652,7 @@ class TestStyleBuilder:
     def test_currency_format(self) -> None:
         """Test currency format shortcut."""
         style = (
-            StyleBuilder("test")
-            .currency(symbol="$", negatives="parentheses")
-            .build()
+            StyleBuilder("test").currency(symbol="$", negatives="parentheses").build()
         )
         assert style.number_format is not None
         assert style.number_format.category == NumberFormatCategory.CURRENCY

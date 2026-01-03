@@ -147,7 +147,9 @@ def test_compaction_during_agent_execution():
 
     try:
         # Register a fake running agent
-        code, stdout, stderr = run_registry_cmd("register", ["stress-agent-1", "Stress test task"])
+        code, stdout, stderr = run_registry_cmd(
+            "register", ["stress-agent-1", "Stress test task"]
+        )
         if code != 0:
             log(f"Register failed: {stderr}")
 
@@ -242,7 +244,9 @@ def test_recovery_with_missing_registry():
         # Try registry commands
         code2, stdout2, stderr2 = run_registry_cmd("list")
         # Should handle missing file gracefully
-        passed = passed and (code2 == 0 or "not found" in stderr2.lower() or "[]" in stdout2)
+        passed = passed and (
+            code2 == 0 or "not found" in stderr2.lower() or "[]" in stdout2
+        )
 
     finally:
         restore_file(REGISTRY_FILE, backup)
@@ -275,7 +279,9 @@ def test_maximum_agent_count():
         failures = 0
         for i in range(50):
             agent_id = f"stress-mass-{i:03d}"
-            code, stdout, stderr = run_registry_cmd("register", [agent_id, f"Mass test {i}"])
+            code, stdout, stderr = run_registry_cmd(
+                "register", [agent_id, f"Mass test {i}"]
+            )
             if code != 0:
                 failures += 1
             else:
@@ -323,7 +329,9 @@ def test_concurrent_registry_updates():
         results = []
 
         def register_agent(i):
-            code, stdout, stderr = run_registry_cmd("register", [f"concurrent-{i}", f"Task {i}"])
+            code, stdout, stderr = run_registry_cmd(
+                "register", [f"concurrent-{i}", f"Task {i}"]
+            )
             results.append(code == 0)
 
         # Launch 10 concurrent registrations
@@ -343,7 +351,9 @@ def test_concurrent_registry_updates():
         code, stdout, stderr = run_registry_cmd("list")
         try:
             agents = json.loads(stdout)
-            concurrent_count = len([a for a in agents if a.get("id", "").startswith("concurrent-")])
+            concurrent_count = len(
+                [a for a in agents if a.get("id", "").startswith("concurrent-")]
+            )
         except:
             concurrent_count = 0
 
@@ -385,7 +395,8 @@ def test_orphaned_agent_detection():
             orphans = [
                 a
                 for a in agents
-                if a.get("id", "").startswith("orphan-") and a.get("status") == "running"
+                if a.get("id", "").startswith("orphan-")
+                and a.get("status") == "running"
             ]
             passed = len(orphans) == 3  # All should still be "running"
         except:
@@ -413,7 +424,9 @@ def test_registry_file_size_growth():
     start = time.time()
 
     backup = backup_file(REGISTRY_FILE)
-    initial_size = os.path.getsize(REGISTRY_FILE) if os.path.exists(REGISTRY_FILE) else 0
+    initial_size = (
+        os.path.getsize(REGISTRY_FILE) if os.path.exists(REGISTRY_FILE) else 0
+    )
     removed = 0
 
     try:
@@ -503,7 +516,9 @@ def test_checkpoint_with_large_state():
     record_result(
         "checkpoint_with_large_state",
         passed,
-        "Large state (100KB+) handled correctly" if passed else "Failed with large state",
+        "Large state (100KB+) handled correctly"
+        if passed
+        else "Failed with large state",
         duration,
         "medium",
     )
@@ -636,7 +651,9 @@ def test_large_agent_output_handling():
     record_result(
         "large_agent_output_handling",
         passed,
-        f"Handled {file_size / 1024:.1f}KB output file" if passed else "Failed with large output",
+        f"Handled {file_size / 1024:.1f}KB output file"
+        if passed
+        else "Failed with large output",
         duration,
         "high",
     )
@@ -656,10 +673,14 @@ def test_summary_from_malformed_json():
 
         # Create malformed JSON
         with open(test_output, "w") as f:
-            f.write('{"task_id": "malformed", "status": "complete", "data": }')  # Invalid
+            f.write(
+                '{"task_id": "malformed", "status": "complete", "data": }'
+            )  # Invalid
 
         # Try to generate summary
-        code, stdout, stderr = run_registry_cmd("generate-summary", ["malformed-test", test_output])
+        code, stdout, stderr = run_registry_cmd(
+            "generate-summary", ["malformed-test", test_output]
+        )
 
         # Should fail gracefully, not crash
         passed = code != 0 or "error" in stdout.lower() or "failed" in stdout.lower()
@@ -719,7 +740,9 @@ def test_duplicate_summary_prevention():
     record_result(
         "duplicate_summary_prevention",
         passed,
-        "Summary regeneration handled correctly" if passed else "Summary handling failed",
+        "Summary regeneration handled correctly"
+        if passed
+        else "Summary handling failed",
         duration,
         "low",
     )
@@ -736,7 +759,9 @@ def test_batch_exceeding_max_size():
     start = time.time()
 
     # Try to record a batch with 5 agents (exceeds recommended 2-3)
-    code, stdout, stderr = run_registry_cmd("record-batch", ["oversized-batch", "5", "120.0"])
+    code, stdout, stderr = run_registry_cmd(
+        "record-batch", ["oversized-batch", "5", "120.0"]
+    )
 
     # Should still work but maybe log warning
     passed = code == 0
@@ -815,7 +840,9 @@ def test_metrics_file_corruption_recovery():
             f.write("not valid json {{{")
 
         # Try to record batch (should handle corruption)
-        code, stdout, stderr = run_registry_cmd("record-batch", ["recovery-batch", "2", "30.0"])
+        code, stdout, stderr = run_registry_cmd(
+            "record-batch", ["recovery-batch", "2", "30.0"]
+        )
 
         # Should either recover or fail gracefully
         passed = code == 0 or code != -2  # -2 would be crash
@@ -831,7 +858,9 @@ def test_metrics_file_corruption_recovery():
     record_result(
         "metrics_file_corruption_recovery",
         passed,
-        "Recovered from metrics corruption" if passed else "Crashed on metrics corruption",
+        "Recovered from metrics corruption"
+        if passed
+        else "Crashed on metrics corruption",
         duration,
         "high",
     )
@@ -853,7 +882,9 @@ def test_context_check_rapid_calls():
         code, stdout, stderr = run_hook("check_context_usage.sh")
         if code != 0:
             failures += 1
-            errors.append(f"Run {i + 1}: code={code}, stderr={stderr[:100] if stderr else 'none'}")
+            errors.append(
+                f"Run {i + 1}: code={code}, stderr={stderr[:100] if stderr else 'none'}"
+            )
         time.sleep(0.1)  # 100ms between calls to avoid resource contention
 
     # Log errors for debugging
@@ -882,7 +913,13 @@ def test_context_thresholds_output():
 
     try:
         result = json.loads(stdout)
-        required_fields = ["ok", "warning_level", "estimated_tokens", "max_tokens", "percentage"]
+        required_fields = [
+            "ok",
+            "warning_level",
+            "estimated_tokens",
+            "max_tokens",
+            "percentage",
+        ]
         has_all_fields = all(field in result for field in required_fields)
         passed = code == 0 and has_all_fields
     except:
@@ -892,7 +929,9 @@ def test_context_thresholds_output():
     record_result(
         "context_thresholds_output",
         passed,
-        "Context output has all required fields" if passed else "Missing required fields",
+        "Context output has all required fields"
+        if passed
+        else "Missing required fields",
         duration,
         "medium",
     )
@@ -957,7 +996,9 @@ def generate_report(results: dict[str, Any]) -> str:
     failed = total - passed
 
     critical_failures = [
-        k for k, v in results.items() if not v["passed"] and v.get("severity") == "critical"
+        k
+        for k, v in results.items()
+        if not v["passed"] and v.get("severity") == "critical"
     ]
     high_failures = [
         k for k, v in results.items() if not v["passed"] and v.get("severity") == "high"
@@ -1008,9 +1049,7 @@ def generate_report(results: dict[str, Any]) -> str:
         report += "\n"
 
     if not critical_failures and not high_failures:
-        report += (
-            "**All critical and high-severity tests passed.** The configuration appears robust.\n"
-        )
+        report += "**All critical and high-severity tests passed.** The configuration appears robust.\n"
 
     return report
 
@@ -1049,7 +1088,9 @@ if __name__ == "__main__":
         log("\nFailed Tests:")
         for name, result in results.items():
             if not result["passed"]:
-                log(f"  - {name} [{result.get('severity', 'medium')}]: {result['details']}")
+                log(
+                    f"  - {name} [{result.get('severity', 'medium')}]: {result['details']}"
+                )
 
     # Exit with appropriate code
     sys.exit(0 if failed == 0 else 1)

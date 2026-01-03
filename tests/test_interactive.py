@@ -358,11 +358,9 @@ class TestInteractiveOdsBuilder:
 
     def test_chaining(self, builder):
         """Test method chaining."""
-        result = (
-            builder
-            .add_dropdown("B2:B100", DropdownList.categories())
-            .add_conditional_format("E2:E100", ConditionalFormat.over_budget_warning())
-        )
+        result = builder.add_dropdown(
+            "B2:B100", DropdownList.categories()
+        ).add_conditional_format("E2:E100", ConditionalFormat.over_budget_warning())
 
         assert result is builder
 

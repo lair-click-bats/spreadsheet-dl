@@ -34,8 +34,18 @@ if TYPE_CHECKING:
 def month_name(month: int) -> str:
     """Get month name from number (1-12)."""
     months = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
     ]
     if 1 <= month <= 12:
         return months[month - 1]
@@ -45,8 +55,18 @@ def month_name(month: int) -> str:
 def month_abbrev(month: int) -> str:
     """Get abbreviated month name from number (1-12)."""
     abbrevs = [
-        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
     ]
     if 1 <= month <= 12:
         return abbrevs[month - 1]
@@ -154,7 +174,7 @@ class ExpressionEvaluator:
     """
 
     # Pattern for ${...} expressions
-    EXPR_PATTERN = re.compile(r'\$\{([^}]+)\}')
+    EXPR_PATTERN = re.compile(r"\$\{([^}]+)\}")
 
     def __init__(
         self,
@@ -233,7 +253,10 @@ class ExpressionEvaluator:
             return self._call_function(expr)
 
         # Handle arithmetic expressions
-        if any(op in expr for op in [" + ", " - ", " * ", " / ", " > ", " < ", " == ", " != "]):
+        if any(
+            op in expr
+            for op in [" + ", " - ", " * ", " / ", " > ", " < ", " == ", " != "]
+        ):
             return self._evaluate_arithmetic(expr)
 
         # Simple variable lookup
@@ -349,7 +372,7 @@ class ExpressionEvaluator:
         # Parse function name and arguments
         paren_idx = expr.index("(")
         func_name = expr[:paren_idx].strip()
-        args_str = expr[paren_idx + 1:-1]
+        args_str = expr[paren_idx + 1 : -1]
 
         if func_name not in self._functions:
             # Unknown function, return as-is
@@ -363,7 +386,9 @@ class ExpressionEvaluator:
             for arg in self._split_args(args_str):
                 arg = arg.strip()
                 # Try to evaluate as expression or variable
-                if (arg.startswith('"') and arg.endswith('"')) or (arg.startswith("'") and arg.endswith("'")):
+                if (arg.startswith('"') and arg.endswith('"')) or (
+                    arg.startswith("'") and arg.endswith("'")
+                ):
                     args.append(arg[1:-1])
                 else:
                     # Try as variable or literal
@@ -433,7 +458,20 @@ class ExpressionEvaluator:
         resolved: list[str] = []
 
         for token in tokens:
-            if token in ("+", "-", "*", "/", ">", "<", "==", "!=", ">=", "<=", "and", "or"):
+            if token in (
+                "+",
+                "-",
+                "*",
+                "/",
+                ">",
+                "<",
+                "==",
+                "!=",
+                ">=",
+                "<=",
+                "and",
+                "or",
+            ):
                 resolved.append(token)
             else:
                 value = self._get_variable(token)
@@ -625,13 +663,15 @@ class TemplateRenderer:
         # Render columns
         rendered_columns: list[dict[str, Any]] = []
         for col in sheet.columns:
-            rendered_columns.append({
-                "name": str(expr_eval.evaluate(col.name)),
-                "width": col.width,
-                "type": col.type,
-                "style": col.style,
-                "hidden": col.hidden,
-            })
+            rendered_columns.append(
+                {
+                    "name": str(expr_eval.evaluate(col.name)),
+                    "width": col.width,
+                    "type": col.type,
+                    "style": col.style,
+                    "hidden": col.hidden,
+                }
+            )
 
         # Render rows
         rendered_rows: list[RenderedRow] = []
@@ -770,11 +810,13 @@ class TemplateRenderer:
             if i % 2 == 1 and row.alternate_style:
                 style = row.alternate_style
 
-            rows.append(RenderedRow(
-                cells=rendered_cells,
-                style=style,
-                height=row.height,
-            ))
+            rows.append(
+                RenderedRow(
+                    cells=rendered_cells,
+                    style=style,
+                    height=row.height,
+                )
+            )
 
         return rows
 

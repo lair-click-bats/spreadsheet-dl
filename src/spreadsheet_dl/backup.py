@@ -381,9 +381,7 @@ class BackupManager:
             if metadata.original_path:
                 target_path = Path(metadata.original_path)
             else:
-                raise RestoreError(
-                    "No target path specified and original path unknown"
-                )
+                raise RestoreError("No target path specified and original path unknown")
         else:
             target_path = Path(target_path)
 
@@ -475,7 +473,9 @@ class BackupManager:
                     pass
 
                 # Find the actual backup file
-                possible_path = Path(str(metadata_path).replace(self.METADATA_SUFFIX, ""))
+                possible_path = Path(
+                    str(metadata_path).replace(self.METADATA_SUFFIX, "")
+                )
                 if possible_path.exists():
                     backup_path = possible_path
                 else:
@@ -729,6 +729,7 @@ def backup_decorator(
         def edit_budget(ods_file: Path, changes: dict) -> None:
             ...
     """
+
     def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
         def wrapper(*args: Any, **kwargs: Any) -> Any:
             # Try to get file path from kwargs or args

@@ -11,9 +11,12 @@ from spreadsheet_dl.builder import (
     CellRef,
     CellSpec,
     ColumnSpec,
+    EmptySheetError,
     FormulaBuilder,
     FormulaDependencyGraph,
     NamedRange,
+    NoRowSelectedError,
+    NoSheetSelectedError,
     RangeRef,
     RowSpec,
     SheetRef,
@@ -882,7 +885,7 @@ class TestSpreadsheetBuilder:
     def test_add_column_without_sheet_raises(self) -> None:
         """Test adding column without sheet raises error."""
         builder = SpreadsheetBuilder(theme=None)
-        with pytest.raises(ValueError, match="No sheet selected"):
+        with pytest.raises(NoSheetSelectedError):
             builder.column("Test")
 
     def test_add_columns(self) -> None:
@@ -936,7 +939,7 @@ class TestSpreadsheetBuilder:
         """Test adding cell without row raises error."""
         builder = SpreadsheetBuilder(theme=None)
         builder.sheet("Test")
-        with pytest.raises(ValueError, match="No row selected"):
+        with pytest.raises(NoRowSelectedError):
             builder.cell("Value")
 
     def test_add_cell_with_formula(self) -> None:
@@ -1103,19 +1106,19 @@ class TestSpreadsheetBuilderAdvanced:
 
         builder = SpreadsheetBuilder(theme=None)
         chart = ChartBuilder().column_chart().build()
-        with pytest.raises(ValueError, match="No sheet selected"):
+        with pytest.raises(NoSheetSelectedError):
             builder.chart(chart)
 
     def test_freeze_without_sheet_raises(self) -> None:
         """Test freeze without sheet raises error (line 1228)."""
         builder = SpreadsheetBuilder(theme=None)
-        with pytest.raises(ValueError, match="No sheet selected"):
+        with pytest.raises(NoSheetSelectedError):
             builder.freeze(rows=1)
 
     def test_print_area_without_sheet_raises(self) -> None:
         """Test print_area without sheet raises error (lines 1243-1246)."""
         builder = SpreadsheetBuilder(theme=None)
-        with pytest.raises(ValueError, match="No sheet selected"):
+        with pytest.raises(NoSheetSelectedError):
             builder.print_area("A1:D50")
 
     def test_print_area(self) -> None:
@@ -1128,7 +1131,7 @@ class TestSpreadsheetBuilderAdvanced:
     def test_protect_without_sheet_raises(self) -> None:
         """Test protect without sheet raises error (lines 1266-1274)."""
         builder = SpreadsheetBuilder(theme=None)
-        with pytest.raises(ValueError, match="No sheet selected"):
+        with pytest.raises(NoSheetSelectedError):
             builder.protect(password="secret")
 
     def test_protect_with_all_options(self) -> None:
@@ -1144,19 +1147,19 @@ class TestSpreadsheetBuilderAdvanced:
     def test_header_row_without_sheet_raises(self) -> None:
         """Test header_row without sheet raises error (line 1334)."""
         builder = SpreadsheetBuilder(theme=None)
-        with pytest.raises(ValueError, match="No sheet selected"):
+        with pytest.raises(NoSheetSelectedError):
             builder.header_row()
 
     def test_row_without_sheet_raises(self) -> None:
         """Test row without sheet raises error (line 1356)."""
         builder = SpreadsheetBuilder(theme=None)
-        with pytest.raises(ValueError, match="No sheet selected"):
+        with pytest.raises(NoSheetSelectedError):
             builder.row()
 
     def test_data_rows_without_sheet_raises(self) -> None:
         """Test data_rows without sheet raises error (line 1381)."""
         builder = SpreadsheetBuilder(theme=None)
-        with pytest.raises(ValueError, match="No sheet selected"):
+        with pytest.raises(NoSheetSelectedError):
             builder.data_rows(5)
 
     def test_data_rows_with_alternate_styles(self) -> None:
@@ -1172,7 +1175,7 @@ class TestSpreadsheetBuilderAdvanced:
     def test_total_row_without_sheet_raises(self) -> None:
         """Test total_row without sheet raises error (line 1418)."""
         builder = SpreadsheetBuilder(theme=None)
-        with pytest.raises(ValueError, match="No sheet selected"):
+        with pytest.raises(NoSheetSelectedError):
             builder.total_row()
 
     def test_total_row_with_values(self) -> None:
@@ -1204,20 +1207,20 @@ class TestSpreadsheetBuilderAdvanced:
     def test_formula_row_without_sheet_raises(self) -> None:
         """Test formula_row without sheet raises error (line 1462)."""
         builder = SpreadsheetBuilder(theme=None)
-        with pytest.raises(ValueError, match="No sheet selected"):
+        with pytest.raises(NoSheetSelectedError):
             builder.formula_row(["of:=SUM([.A1:A10])"])
 
     def test_cells_without_row_raises(self) -> None:
         """Test cells without row raises error (line 1527)."""
         builder = SpreadsheetBuilder(theme=None)
         builder.sheet("Test")
-        with pytest.raises(ValueError, match="No row selected"):
+        with pytest.raises(NoRowSelectedError):
             builder.cells("A", "B", "C")
 
     def test_conditional_format_without_sheet_raises(self) -> None:
         """Test conditional_format without sheet raises error (lines 1547-1550)."""
         builder = SpreadsheetBuilder(theme=None)
-        with pytest.raises(ValueError, match="No sheet selected"):
+        with pytest.raises(NoSheetSelectedError):
             builder.conditional_format("format1")
 
     def test_conditional_format(self) -> None:
@@ -1231,7 +1234,7 @@ class TestSpreadsheetBuilderAdvanced:
     def test_validation_without_sheet_raises(self) -> None:
         """Test validation without sheet raises error (lines 1562-1565)."""
         builder = SpreadsheetBuilder(theme=None)
-        with pytest.raises(ValueError, match="No sheet selected"):
+        with pytest.raises(NoSheetSelectedError):
             builder.validation("val1")
 
     def test_validation(self) -> None:

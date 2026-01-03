@@ -4,6 +4,10 @@ Command-line interface for finance tracker.
 Provides CLI commands for generating budgets, analyzing spending,
 creating reports, and managing finances.
 
+New in v4.0.0:
+    - FR-EXT-001: Plugin system framework (plugin command)
+    - FR-EXT-005: Custom category management (category command)
+
 New in v0.6.0 (Phase 3: Enhanced Features):
     - FR-CORE-004: Account management (account command)
     - FR-CURR-001: Multi-currency support (currency command)
@@ -164,6 +168,10 @@ Examples:
   spreadsheet-dl visualize budget.ods -o dashboard.html
   spreadsheet-dl account add "Primary Checking" --type checking
   spreadsheet-dl account list
+  spreadsheet-dl category add "Pet Care" --color "#795548"
+  spreadsheet-dl category list
+  spreadsheet-dl plugin list
+  spreadsheet-dl plugin enable my_plugin
   spreadsheet-dl banks --list
   spreadsheet-dl templates
   spreadsheet-dl themes
@@ -594,6 +602,70 @@ For more information, visit: https://github.com/lair-click-bats/spreadsheet-dl
     )
     account_networth.add_argument("--json", action="store_true", help="Output as JSON")
 
+    # Category command (NEW - v4.0 FR-EXT-005)
+    category_parser = subparsers.add_parser(
+        "category",
+        help="Manage expense categories",
+        description="Add, edit, delete, and list expense categories.",
+    )
+    category_subparsers = category_parser.add_subparsers(dest="category_action")
+
+    # Category add
+    category_add = category_subparsers.add_parser("add", help="Add a custom category")
+    category_add.add_argument("name", help="Category name")
+    category_add.add_argument("--color", default="#6B7280", help="Color (hex code)")
+    category_add.add_argument("--icon", help="Icon name or emoji")
+    category_add.add_argument("--description", help="Category description")
+    category_add.add_argument("--parent", help="Parent category name")
+    category_add.add_argument(
+        "--budget", type=float, default=0, help="Default monthly budget"
+    )
+
+    # Category list
+    category_list = category_subparsers.add_parser("list", help="List all categories")
+    category_list.add_argument(
+        "--custom-only", action="store_true", help="Show only custom categories"
+    )
+    category_list.add_argument(
+        "--include-hidden", action="store_true", help="Include hidden categories"
+    )
+    category_list.add_argument("--json", action="store_true", help="Output as JSON")
+
+    # Category update
+    category_update = category_subparsers.add_parser("update", help="Update a category")
+    category_update.add_argument("name", help="Category name to update")
+    category_update.add_argument("--color", help="New color (hex code)")
+    category_update.add_argument("--icon", help="New icon")
+    category_update.add_argument("--description", help="New description")
+    category_update.add_argument("--rename", help="Rename category to this name")
+    category_update.add_argument(
+        "--hide", action="store_true", help="Hide category from lists"
+    )
+    category_update.add_argument(
+        "--unhide", action="store_true", help="Unhide category"
+    )
+    category_update.add_argument("--budget", type=float, help="New default budget")
+
+    # Category delete
+    category_delete = category_subparsers.add_parser(
+        "delete", help="Delete a custom category"
+    )
+    category_delete.add_argument("name", help="Category name to delete")
+    category_delete.add_argument(
+        "--force", action="store_true", help="Force delete even if has sub-categories"
+    )
+
+    # Category search
+    category_search = category_subparsers.add_parser("search", help="Search categories")
+    category_search.add_argument("query", help="Search query")
+    category_search.add_argument("--json", action="store_true", help="Output as JSON")
+
+    # Category suggest
+    category_suggest = category_subparsers.add_parser(
+        "suggest", help="Suggest category for expense description"
+    )
+    category_suggest.add_argument("description", help="Expense description")
+
     # Banks command (NEW - Phase 3 FR-IMPORT-002)
     banks_parser = subparsers.add_parser(
         "banks",
@@ -728,6 +800,36 @@ For more information, visit: https://github.com/lair-click-bats/spreadsheet-dl
         help="Path for configuration file",
     )
 
+    # Plugin command (NEW - v4.0 FR-EXT-001)
+    plugin_parser = subparsers.add_parser(
+        "plugin",
+        help="Manage plugins",
+        description="Manage SpreadsheetDL plugins for extensibility.",
+    )
+    plugin_subparsers = plugin_parser.add_subparsers(dest="plugin_action")
+
+    # Plugin list
+    plugin_list = plugin_subparsers.add_parser("list", help="List all plugins")
+    plugin_list.add_argument(
+        "--enabled-only", action="store_true", help="Show only enabled plugins"
+    )
+    plugin_list.add_argument("--json", action="store_true", help="Output as JSON")
+
+    # Plugin enable
+    plugin_enable = plugin_subparsers.add_parser("enable", help="Enable a plugin")
+    plugin_enable.add_argument("name", help="Plugin name to enable")
+    plugin_enable.add_argument(
+        "--config", type=str, help="Plugin configuration (JSON string)"
+    )
+
+    # Plugin disable
+    plugin_disable = plugin_subparsers.add_parser("disable", help="Disable a plugin")
+    plugin_disable.add_argument("name", help="Plugin name to disable")
+
+    # Plugin info
+    plugin_info = plugin_subparsers.add_parser("info", help="Show plugin information")
+    plugin_info.add_argument("name", help="Plugin name")
+
     args = parser.parse_args()
 
     if args.command is None:
@@ -759,6 +861,8 @@ For more information, visit: https://github.com/lair-click-bats/spreadsheet-dl
             return _cmd_visualize(args)
         elif args.command == "account":
             return _cmd_account(args)
+        elif args.command == "category":
+            return _cmd_category(args)
         elif args.command == "banks":
             return _cmd_banks(args)
         elif args.command == "currency":
@@ -771,6 +875,8 @@ For more information, visit: https://github.com/lair-click-bats/spreadsheet-dl
             return _cmd_themes(args)
         elif args.command == "config":
             return _cmd_config(args)
+        elif args.command == "plugin":
+            return _cmd_plugin(args)
     except OperationCancelledError:
         print("Operation cancelled.", file=sys.stderr)
         return 1
@@ -843,7 +949,10 @@ def _validate_date(date_str: str) -> date:
 
 def _cmd_generate(args: argparse.Namespace) -> int:
     """Handle generate command."""
-    from spreadsheet_dl.ods_generator import OdsGenerator, create_monthly_budget
+    from spreadsheet_dl.domains.finance.ods_generator import (
+        OdsGenerator,
+        create_monthly_budget,
+    )
     from spreadsheet_dl.templates.professional import (
         get_template,
     )
@@ -936,7 +1045,7 @@ def _cmd_generate(args: argparse.Namespace) -> int:
 
 def _cmd_analyze(args: argparse.Namespace) -> int:
     """Handle analyze command."""
-    from spreadsheet_dl.budget_analyzer import BudgetAnalyzer
+    from spreadsheet_dl.domains.finance.budget_analyzer import BudgetAnalyzer
 
     if not args.file.exists():
         print(f"Error: File not found: {args.file}", file=sys.stderr)
@@ -990,7 +1099,7 @@ def _cmd_analyze(args: argparse.Namespace) -> int:
 
 def _cmd_report(args: argparse.Namespace) -> int:
     """Handle report command."""
-    from spreadsheet_dl.report_generator import ReportGenerator
+    from spreadsheet_dl.domains.finance.report_generator import ReportGenerator
 
     if not args.file.exists():
         print(f"Error: File not found: {args.file}", file=sys.stderr)
@@ -1019,9 +1128,9 @@ def _cmd_expense(args: argparse.Namespace) -> int:
     Implements:
         - FR-CORE-003: Expense append functionality (fixes Gap G-02)
     """
-    from spreadsheet_dl.csv_import import TransactionCategorizer
+    from spreadsheet_dl.domains.finance.csv_import import TransactionCategorizer
     from spreadsheet_dl.ods_editor import OdsEditor
-    from spreadsheet_dl.ods_generator import (
+    from spreadsheet_dl.domains.finance.ods_generator import (
         ExpenseCategory,
         ExpenseEntry,
         OdsGenerator,
@@ -1124,9 +1233,9 @@ def _cmd_expense(args: argparse.Namespace) -> int:
 
 def _cmd_import(args: argparse.Namespace) -> int:
     """Handle CSV import."""
-    from spreadsheet_dl.bank_formats import BankFormatRegistry
-    from spreadsheet_dl.csv_import import import_bank_csv
-    from spreadsheet_dl.ods_generator import OdsGenerator
+    from spreadsheet_dl.domains.finance.bank_formats import BankFormatRegistry
+    from spreadsheet_dl.domains.finance.csv_import import import_bank_csv
+    from spreadsheet_dl.domains.finance.ods_generator import OdsGenerator
 
     skip_confirm = getattr(args, "yes", False) or getattr(args, "force", False)
 
@@ -1352,7 +1461,7 @@ def _cmd_upload(args: argparse.Namespace) -> int:
 
 def _cmd_dashboard(args: argparse.Namespace) -> int:
     """Handle dashboard command."""
-    from spreadsheet_dl.analytics import generate_dashboard
+    from spreadsheet_dl.domains.finance.analytics import generate_dashboard
 
     if not args.file.exists():
         print(f"Error: File not found: {args.file}", file=sys.stderr)
@@ -1456,7 +1565,7 @@ def _cmd_visualize(args: argparse.Namespace) -> int:
         print(f"Dashboard created: {output_path}")
     else:
         # For specific chart types, we'd need budget data
-        from spreadsheet_dl.budget_analyzer import BudgetAnalyzer
+        from spreadsheet_dl.domains.finance.budget_analyzer import BudgetAnalyzer
 
         analyzer = BudgetAnalyzer(args.file)
         by_category = analyzer.get_category_breakdown()
@@ -1498,7 +1607,7 @@ def _cmd_account(args: argparse.Namespace) -> int:
     """
     from decimal import Decimal
 
-    from spreadsheet_dl.accounts import AccountManager, AccountType
+    from spreadsheet_dl.domains.finance.accounts import AccountManager, AccountType
 
     # Get data file path
     config_dir = Path.home() / ".config" / "spreadsheet-dl"
@@ -1637,6 +1746,167 @@ def _cmd_account(args: argparse.Namespace) -> int:
         return 0
 
 
+def _cmd_category(args: argparse.Namespace) -> int:
+    """
+    Handle category command.
+
+    Implements:
+        FR-EXT-005: Custom Category Support
+    """
+    from spreadsheet_dl.domains.finance.categories import Category, CategoryManager
+
+    manager = CategoryManager()
+
+    if args.category_action == "add":
+        try:
+            cat = Category(
+                name=args.name,
+                color=args.color,
+                icon=args.icon or "",
+                description=args.description or "",
+                parent=args.parent,
+                budget_default=args.budget,
+            )
+            manager.add_category(cat)
+            manager.save()
+
+            print(f"Category created: {cat.name}")
+            print(f"  Color: {cat.color}")
+            if cat.parent:
+                print(f"  Parent: {cat.parent}")
+            if cat.budget_default:
+                print(f"  Default budget: ${cat.budget_default:,.2f}")
+            return 0
+        except ValueError as e:
+            print(f"Error: {e}", file=sys.stderr)
+            return 1
+
+    elif args.category_action == "list":
+        categories = manager.list_categories(
+            include_hidden=getattr(args, "include_hidden", False),
+            custom_only=getattr(args, "custom_only", False),
+        )
+
+        if getattr(args, "json", False):
+            print(json.dumps([c.to_dict() for c in categories], indent=2))
+            return 0
+
+        print("Expense Categories")
+        print("=" * 60)
+
+        custom = [c for c in categories if c.is_custom]
+        standard = [c for c in categories if not c.is_custom]
+
+        if standard:
+            print("\nStandard Categories:")
+            print("-" * 40)
+            for cat in standard:
+                hidden = " (hidden)" if cat.is_hidden else ""
+                print(f"  {cat.name}{hidden}")
+                print(f"    Color: {cat.color}")
+
+        if custom:
+            print("\nCustom Categories:")
+            print("-" * 40)
+            for cat in custom:
+                hidden = " (hidden)" if cat.is_hidden else ""
+                print(f"  {cat.name}{hidden}")
+                print(f"    Color: {cat.color}")
+                if cat.description:
+                    print(f"    Description: {cat.description}")
+                if cat.parent:
+                    print(f"    Parent: {cat.parent}")
+
+        print()
+        print(f"Total: {len(categories)} categories")
+        return 0
+
+    elif args.category_action == "update":
+        try:
+            is_hidden = None
+            if getattr(args, "hide", False):
+                is_hidden = True
+            elif getattr(args, "unhide", False):
+                is_hidden = False
+
+            cat = manager.update_category(
+                args.name,
+                color=args.color,
+                icon=args.icon,
+                description=args.description,
+                new_name=args.rename,
+                is_hidden=is_hidden,
+                budget_default=args.budget,
+            )
+            manager.save()
+
+            print(f"Category updated: {cat.name}")
+            return 0
+        except (KeyError, ValueError) as e:
+            print(f"Error: {e}", file=sys.stderr)
+            return 1
+
+    elif args.category_action == "delete":
+        try:
+            skip_confirm = getattr(args, "force", False)
+            if not skip_confirm:
+                if not confirm_action(f"Delete category '{args.name}'?", default=False):
+                    raise OperationCancelledError("Category deletion")
+
+            result = manager.delete_category(
+                args.name, force=getattr(args, "force", False)
+            )
+            if result:
+                manager.save()
+                print(f"Category deleted: {args.name}")
+            else:
+                print(f"Category not found: {args.name}")
+                return 1
+            return 0
+        except ValueError as e:
+            print(f"Error: {e}", file=sys.stderr)
+            return 1
+
+    elif args.category_action == "search":
+        results = manager.search_categories(args.query)
+
+        if getattr(args, "json", False):
+            print(json.dumps([c.to_dict() for c in results], indent=2))
+            return 0
+
+        if not results:
+            print(f"No categories found matching: {args.query}")
+            return 0
+
+        print(f"Categories matching '{args.query}':")
+        for cat in results:
+            custom_label = " (custom)" if cat.is_custom else ""
+            print(f"  {cat.name}{custom_label}")
+        return 0
+
+    elif args.category_action == "suggest":
+        cat = manager.suggest_category(args.description)
+        if cat:
+            print(f"Suggested category: {cat.name}")
+            print(f"  Color: {cat.color}")
+        else:
+            print("No suggestion available")
+        return 0
+
+    else:
+        print("Usage: spreadsheet-dl category <add|list|update|delete|search|suggest>")
+        print("\nManage expense categories.")
+        print("\nExamples:")
+        print("  spreadsheet-dl category add 'Pet Care' --color '#795548'")
+        print("  spreadsheet-dl category list")
+        print("  spreadsheet-dl category list --custom-only")
+        print("  spreadsheet-dl category update 'Pet Care' --color '#8B4513'")
+        print("  spreadsheet-dl category delete 'Pet Care'")
+        print("  spreadsheet-dl category search pet")
+        print("  spreadsheet-dl category suggest 'vet bill for dog'")
+        return 0
+
+
 def _cmd_banks(args: argparse.Namespace) -> int:
     """
     Handle banks command.
@@ -1644,7 +1914,10 @@ def _cmd_banks(args: argparse.Namespace) -> int:
     Implements:
         FR-IMPORT-002: Extended bank formats
     """
-    from spreadsheet_dl.bank_formats import BankFormatRegistry, count_formats
+    from spreadsheet_dl.domains.finance.bank_formats import (
+        BankFormatRegistry,
+        count_formats,
+    )
 
     registry = BankFormatRegistry()
 
@@ -1706,7 +1979,7 @@ def _cmd_currency(args: argparse.Namespace) -> int:
     Implements:
         FR-CURR-001: Multi-currency support
     """
-    from spreadsheet_dl.currency import (
+    from spreadsheet_dl.domains.finance.currency import (
         CurrencyConverter,
         get_currency,
         list_currencies,
@@ -1781,8 +2054,8 @@ def _cmd_currency(args: argparse.Namespace) -> int:
 
 def _cmd_alerts(args: argparse.Namespace) -> int:
     """Handle alerts command."""
-    from spreadsheet_dl.alerts import AlertMonitor, AlertSeverity
-    from spreadsheet_dl.budget_analyzer import BudgetAnalyzer
+    from spreadsheet_dl.domains.finance.alerts import AlertMonitor, AlertSeverity
+    from spreadsheet_dl.domains.finance.budget_analyzer import BudgetAnalyzer
 
     if not args.file.exists():
         print(f"Error: File not found: {args.file}", file=sys.stderr)
@@ -1975,6 +2248,120 @@ def _cmd_config(args: argparse.Namespace) -> int:
     print("  NO_COLOR            - Disable colored output")
 
     return 0
+
+
+def _cmd_plugin(args: argparse.Namespace) -> int:
+    """
+    Handle plugin command.
+
+    Implements:
+        FR-EXT-001: Plugin management CLI
+    """
+    from spreadsheet_dl.plugins import get_plugin_manager
+
+    manager = get_plugin_manager()
+
+    if args.plugin_action == "list":
+        plugins = manager.list_plugins(
+            enabled_only=getattr(args, "enabled_only", False)
+        )
+
+        if getattr(args, "json", False):
+            print(json.dumps(plugins, indent=2))
+            return 0
+
+        if not plugins:
+            print("No plugins found.")
+            print("\nTo add plugins:")
+            print("  1. Create a plugin implementing PluginInterface")
+            print("  2. Place it in ~/.spreadsheet-dl/plugins/ or ./plugins/")
+            print("  3. Run: spreadsheet-dl plugin list")
+            return 0
+
+        print("SpreadsheetDL Plugins")
+        print("=" * 60)
+        print()
+
+        enabled_plugins = [p for p in plugins if p["enabled"]]
+        disabled_plugins = [p for p in plugins if not p["enabled"]]
+
+        if enabled_plugins:
+            print("Enabled Plugins:")
+            print("-" * 40)
+            for p in enabled_plugins:
+                print(f"  ✓ {p['name']} v{p['version']}")
+                if p["description"]:
+                    print(f"    {p['description']}")
+                if p["author"]:
+                    print(f"    Author: {p['author']}")
+                print()
+
+        if disabled_plugins:
+            print("Disabled Plugins:")
+            print("-" * 40)
+            for p in disabled_plugins:
+                print(f"    {p['name']} v{p['version']}")
+                if p["description"]:
+                    print(f"    {p['description']}")
+                if p["author"]:
+                    print(f"    Author: {p['author']}")
+                print()
+
+        print(f"Total: {len(plugins)} plugin(s)")
+        return 0
+
+    elif args.plugin_action == "enable":
+        try:
+            # Parse config if provided
+            config = None
+            if hasattr(args, "config") and args.config:
+                config = json.loads(args.config)
+
+            manager.enable(args.name, config)
+            print(f"Enabled plugin: {args.name}")
+            return 0
+        except ValueError as e:
+            print(f"Error: {e}", file=sys.stderr)
+            return 1
+        except json.JSONDecodeError as e:
+            print(f"Error: Invalid JSON config: {e}", file=sys.stderr)
+            return 1
+
+    elif args.plugin_action == "disable":
+        manager.disable(args.name)
+        print(f"Disabled plugin: {args.name}")
+        return 0
+
+    elif args.plugin_action == "info":
+        plugin = manager.get_plugin(args.name)
+        if plugin:
+            enabled_plugins = [
+                p["name"] for p in manager.list_plugins(enabled_only=True)
+            ]
+            is_enabled = plugin.name in enabled_plugins
+
+            print(f"Plugin: {plugin.name}")
+            print("=" * 40)
+            print(f"  Version:     {plugin.version}")
+            print(f"  Author:      {plugin.author or 'N/A'}")
+            print(f"  Description: {plugin.description or 'N/A'}")
+            print(f"  Status:      {'Enabled' if is_enabled else 'Disabled'}")
+        else:
+            print(f"Plugin not found: {args.name}", file=sys.stderr)
+            return 1
+        return 0
+
+    else:
+        print("Usage: spreadsheet-dl plugin <list|enable|disable|info>")
+        print("\nManage plugins for extending SpreadsheetDL.")
+        print("\nExamples:")
+        print("  spreadsheet-dl plugin list")
+        print("  spreadsheet-dl plugin list --enabled-only")
+        print("  spreadsheet-dl plugin enable my_plugin")
+        print('  spreadsheet-dl plugin enable my_plugin --config \'{"key":"value"}\'')
+        print("  spreadsheet-dl plugin disable my_plugin")
+        print("  spreadsheet-dl plugin info my_plugin")
+        return 0
 
 
 if __name__ == "__main__":

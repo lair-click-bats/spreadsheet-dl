@@ -197,7 +197,9 @@ class TestBackupManager:
         assert restored_path == Path(backup_info.metadata.original_path)
         assert restored_path.read_bytes() == original_content
 
-    def test_restore_backup_with_verification(self, backup_manager, sample_file, temp_dir):
+    def test_restore_backup_with_verification(
+        self, backup_manager, sample_file, temp_dir
+    ):
         """Test backup restoration with verification."""
         backup_info = backup_manager.create_backup(sample_file)
 

@@ -63,7 +63,9 @@ def load_yaml(file_path: Path) -> dict[str, Any]:
         with open(file_path) as f:
             return yaml.safe_load(f) or {}
     except ImportError:
-        logger.warning("PyYAML not installed. Using basic YAML parsing (limited support).")
+        logger.warning(
+            "PyYAML not installed. Using basic YAML parsing (limited support)."
+        )
         return _basic_yaml_parse(file_path)
 
 
@@ -169,7 +171,9 @@ def atomic_write(file_path: Path, content: str) -> None:
         raise
 
 
-def generate_settings(dry_run: bool = False, output: str | None = None) -> dict[str, Any]:
+def generate_settings(
+    dry_run: bool = False, output: str | None = None
+) -> dict[str, Any]:
     """Generate settings.json from coding-standards.yaml.
 
     Args:
@@ -294,11 +298,16 @@ def main() -> None:
         description="Generate settings.json from coding-standards.yaml"
     )
     parser.add_argument(
-        "--dry-run", action="store_true", help="Show what would be generated without writing"
+        "--dry-run",
+        action="store_true",
+        help="Show what would be generated without writing",
     )
     parser.add_argument("--output", "-o", help="Alternative output path")
     parser.add_argument(
-        "--validate", "-v", action="store_true", help="Validate settings.json is in sync"
+        "--validate",
+        "-v",
+        action="store_true",
+        help="Validate settings.json is in sync",
     )
     args = parser.parse_args()
 

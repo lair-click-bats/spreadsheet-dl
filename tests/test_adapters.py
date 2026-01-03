@@ -35,7 +35,6 @@ from spreadsheet_dl.adapters import (
 )
 from spreadsheet_dl.builder import CellSpec, ColumnSpec, RowSpec, SheetSpec
 
-
 # ==============================================================================
 # Fixtures
 # ==============================================================================

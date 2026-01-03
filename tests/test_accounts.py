@@ -423,15 +423,9 @@ class TestAccountManager:
         manager = AccountManager()
         account = manager.add_account(name="Test", account_type=AccountType.CHECKING)
 
-        manager.add_transaction(
-            account.id, date(2024, 1, 10), "Tx 1", Decimal("-10")
-        )
-        manager.add_transaction(
-            account.id, date(2024, 1, 15), "Tx 2", Decimal("-20")
-        )
-        manager.add_transaction(
-            account.id, date(2024, 1, 20), "Tx 3", Decimal("-30")
-        )
+        manager.add_transaction(account.id, date(2024, 1, 10), "Tx 1", Decimal("-10"))
+        manager.add_transaction(account.id, date(2024, 1, 15), "Tx 2", Decimal("-20"))
+        manager.add_transaction(account.id, date(2024, 1, 20), "Tx 3", Decimal("-30"))
 
         all_tx = manager.get_transactions(account.id)
         assert len(all_tx) == 3
@@ -597,9 +591,7 @@ class TestAccountManager:
                 account_type=AccountType.CHECKING,
                 balance=Decimal("1000"),
             )
-            manager1.add_transaction(
-                acc.id, date.today(), "Test", Decimal("-50")
-            )
+            manager1.add_transaction(acc.id, date.today(), "Test", Decimal("-50"))
 
             # Load in new manager
             manager2 = AccountManager(data_file=data_file)

@@ -183,11 +183,18 @@ def main() -> None:
     total_removed = coord_stats["removed"] + archive_removed
 
     if total_archived > 0 or total_removed > 0:
-        log_info(f"Cleanup complete: {total_archived} archived, {total_removed} removed")
+        log_info(
+            f"Cleanup complete: {total_archived} archived, {total_removed} removed"
+        )
 
     # Always succeed - cleanup is best-effort
     print(
-        json.dumps({"ok": True, "cleanup": {"archived": total_archived, "removed": total_removed}})
+        json.dumps(
+            {
+                "ok": True,
+                "cleanup": {"archived": total_archived, "removed": total_removed},
+            }
+        )
     )
     sys.exit(0)
 

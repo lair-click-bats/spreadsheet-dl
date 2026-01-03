@@ -666,7 +666,7 @@ class TrainingDataExporter:
         Returns:
             Path to exported file.
         """
-        from spreadsheet_dl.budget_analyzer import BudgetAnalyzer
+        from spreadsheet_dl.domains.finance.budget_analyzer import BudgetAnalyzer
 
         # Load transactions from ODS
         analyzer = BudgetAnalyzer(ods_path)

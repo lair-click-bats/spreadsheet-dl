@@ -2997,7 +2997,6 @@ class TestMCPServerWithMockedBudgetAnalyzer:
         self, server: MCPServer, tmp_path: Path
     ) -> None:
         """Test add_expense with valid category."""
-        from decimal import Decimal
 
         test_file = tmp_path / "budget.ods"
         test_file.write_bytes(b"test")
@@ -3685,6 +3684,7 @@ class TestMCPServerMainCLI:
     def test_main_cli_argument_parsing(self) -> None:
         """Test main function argument parsing."""
         from unittest.mock import MagicMock
+
         from spreadsheet_dl.mcp_server import main
 
         with (

@@ -42,7 +42,9 @@ class HiddenRowsColumns:
     """
 
     hidden_rows: list[int] = field(default_factory=list)  # 1-based row numbers
-    hidden_columns: list[str | int] = field(default_factory=list)  # Column letters or 1-based numbers
+    hidden_columns: list[str | int] = field(
+        default_factory=list
+    )  # Column letters or 1-based numbers
 
     def hide_row(self, row: int) -> None:
         """Hide a row (1-based index)."""
@@ -352,7 +354,9 @@ class AutoFilter:
     """
 
     range: str  # Range to filter
-    column_filters: dict[int, FilterCriteria] = field(default_factory=dict)  # 0-based column index
+    column_filters: dict[int, FilterCriteria] = field(
+        default_factory=dict
+    )  # 0-based column index
 
     def set_filter(self, column: int, criteria: FilterCriteria) -> None:
         """Set filter for a column (0-based index)."""

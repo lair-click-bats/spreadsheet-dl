@@ -73,7 +73,9 @@ def parse_hook_input() -> dict[str, Any]:
 
 def get_project_dir(input_data: dict[str, Any]) -> Path:
     """Extract project directory from hook input."""
-    project_dir = input_data.get("project_dir") or os.environ.get("CLAUDE_PROJECT_DIR", ".")
+    project_dir = input_data.get("project_dir") or os.environ.get(
+        "CLAUDE_PROJECT_DIR", "."
+    )
     return Path(project_dir)
 
 
@@ -109,7 +111,9 @@ def is_in_protected_dir(filepath: Path, project_dir: Path) -> bool:
     return False
 
 
-def validate_write_location(input_data: dict[str, Any], project_dir: Path) -> tuple[bool, str]:
+def validate_write_location(
+    input_data: dict[str, Any], project_dir: Path
+) -> tuple[bool, str]:
     """
     Validate if a Write tool is creating a file in an appropriate location.
 

@@ -35,7 +35,9 @@ class TestOdsEditor:
         with pytest.raises(OdsReadError) as exc_info:
             OdsEditor(nonexistent)
         # Check the error message mentions file not found
-        assert "not found" in str(exc_info.value).lower() or "File not found" in str(exc_info.value)
+        assert "not found" in str(exc_info.value).lower() or "File not found" in str(
+            exc_info.value
+        )
 
     def test_get_sheet_names(self, sample_budget_file: Path) -> None:
         """Test getting sheet names from document."""
@@ -106,6 +108,7 @@ class TestOdsEditorAppend:
 
         # Check content was added
         from odf.table import TableRow
+
         rows = sheet.getElementsByType(TableRow)
         assert len(rows) >= 2  # Header + at least 1 data row
 

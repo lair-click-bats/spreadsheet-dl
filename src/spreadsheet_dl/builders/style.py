@@ -581,14 +581,25 @@ class StyleBuilder:
             weight=self._font_weight or base_font.weight,
             color=self._font_color or base_font.color,
             italic=self._italic or base_font.italic,
-            underline=self._underline if self._underline != UnderlineStyle.NONE else base_font.underline,
-            strikethrough=self._strikethrough if self._strikethrough != StrikethroughStyle.NONE else base_font.strikethrough,
+            underline=self._underline
+            if self._underline != UnderlineStyle.NONE
+            else base_font.underline,
+            strikethrough=self._strikethrough
+            if self._strikethrough != StrikethroughStyle.NONE
+            else base_font.strikethrough,
             letter_spacing=self._letter_spacing or base_font.letter_spacing,
         )
 
         # Build borders
         borders = None
-        if any([self._border_top, self._border_bottom, self._border_left, self._border_right]):
+        if any(
+            [
+                self._border_top,
+                self._border_bottom,
+                self._border_left,
+                self._border_right,
+            ]
+        ):
             borders = Borders(
                 top=self._border_top,
                 bottom=self._border_bottom,
@@ -597,29 +608,45 @@ class StyleBuilder:
             )
 
         # Convert BorderEdge to Border for backward compatibility
-        border_top = Border(
-            width=self._border_top.width,
-            style=self._border_top.style,
-            color=self._border_top.color,
-        ) if self._border_top else None
+        border_top = (
+            Border(
+                width=self._border_top.width,
+                style=self._border_top.style,
+                color=self._border_top.color,
+            )
+            if self._border_top
+            else None
+        )
 
-        border_bottom = Border(
-            width=self._border_bottom.width,
-            style=self._border_bottom.style,
-            color=self._border_bottom.color,
-        ) if self._border_bottom else None
+        border_bottom = (
+            Border(
+                width=self._border_bottom.width,
+                style=self._border_bottom.style,
+                color=self._border_bottom.color,
+            )
+            if self._border_bottom
+            else None
+        )
 
-        border_left = Border(
-            width=self._border_left.width,
-            style=self._border_left.style,
-            color=self._border_left.color,
-        ) if self._border_left else None
+        border_left = (
+            Border(
+                width=self._border_left.width,
+                style=self._border_left.style,
+                color=self._border_left.color,
+            )
+            if self._border_left
+            else None
+        )
 
-        border_right = Border(
-            width=self._border_right.width,
-            style=self._border_right.style,
-            color=self._border_right.color,
-        ) if self._border_right else None
+        border_right = (
+            Border(
+                width=self._border_right.width,
+                style=self._border_right.style,
+                color=self._border_right.color,
+            )
+            if self._border_right
+            else None
+        )
 
         return CellStyle(
             name=self.name,
@@ -683,12 +710,7 @@ def currency_style(
 
 def percentage_style(name: str = "percentage", decimals: int = 0) -> CellStyle:
     """Create a percentage style."""
-    return (
-        StyleBuilder(name)
-        .align_right()
-        .percentage(decimal_places=decimals)
-        .build()
-    )
+    return StyleBuilder(name).align_right().percentage(decimal_places=decimals).build()
 
 
 def total_row_style(

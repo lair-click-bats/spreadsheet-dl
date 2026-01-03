@@ -390,4 +390,7 @@ class TestConvenienceFunctions:
         assert "recommendation" in comparison
 
         # Avalanche should save more interest in this case
-        assert comparison["avalanche"]["total_interest"] <= comparison["snowball"]["total_interest"]
+        assert (
+            comparison["avalanche"]["total_interest"]
+            <= comparison["snowball"]["total_interest"]
+        )

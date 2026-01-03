@@ -38,14 +38,18 @@ def print_header(text: str) -> None:
 
 def print_test(name: str, passed: bool, details: str = "") -> None:
     status = (
-        f"{Colors.GREEN}✓ PASS{Colors.RESET}" if passed else f"{Colors.RED}✗ FAIL{Colors.RESET}"
+        f"{Colors.GREEN}✓ PASS{Colors.RESET}"
+        if passed
+        else f"{Colors.RED}✗ FAIL{Colors.RESET}"
     )
     print(f"  {status} {name}")
     if details and not passed:
         print(f"    {Colors.YELLOW}{details}{Colors.RESET}")
 
 
-def run_hook(hook_path: Path, input_data: dict, project_dir: Path) -> tuple[int, str, str]:
+def run_hook(
+    hook_path: Path, input_data: dict, project_dir: Path
+) -> tuple[int, str, str]:
     """Run a hook script with given input and return exit code, stdout, stderr."""
     env = os.environ.copy()
     env["CLAUDE_PROJECT_DIR"] = str(project_dir)
@@ -100,7 +104,9 @@ class TestCleanupStaleFiles:
 
             # Test 3: Old coordination files should be archived
             archive_dir = project_dir / ".claude" / "agent-outputs" / "archive"
-            old_file_archived = not (project_dir / ".coordination" / "old_swarm.json").exists()
+            old_file_archived = not (
+                project_dir / ".coordination" / "old_swarm.json"
+            ).exists()
             print_test("Archives old coordination files (>7 days)", old_file_archived)
             self.results.append(("Archives old files", old_file_archived, ""))
 
@@ -110,7 +116,9 @@ class TestCleanupStaleFiles:
             self.results.append(("Keeps recent files", recent_file_kept, ""))
 
             # Test 5: Empty files should be removed
-            empty_file_removed = not (project_dir / ".coordination" / "empty.json").exists()
+            empty_file_removed = not (
+                project_dir / ".coordination" / "empty.json"
+            ).exists()
             print_test("Removes empty files", empty_file_removed)
             self.results.append(("Removes empty files", empty_file_removed, ""))
 
@@ -180,7 +188,9 @@ class TestValidateFileLocations:
             # Test 3: Intermediate file in src should warn
             input_data = {
                 "tool_name": "Write",
-                "tool_input": {"file_path": str(project_dir / "src" / "ANALYSIS_NOTES.md")},
+                "tool_input": {
+                    "file_path": str(project_dir / "src" / "ANALYSIS_NOTES.md")
+                },
             }
             exit_code, stdout, stderr = run_hook(self.hook, input_data, project_dir)
             output = json.loads(stdout)
@@ -191,7 +201,9 @@ class TestValidateFileLocations:
             # Test 4: Intermediate file in .coordination should pass
             input_data = {
                 "tool_name": "Write",
-                "tool_input": {"file_path": str(project_dir / ".coordination" / "ANALYSIS.md")},
+                "tool_input": {
+                    "file_path": str(project_dir / ".coordination" / "ANALYSIS.md")
+                },
             }
             exit_code, stdout, stderr = run_hook(self.hook, input_data, project_dir)
             test4_pass = exit_code == 0 and "warning" not in stdout.lower()

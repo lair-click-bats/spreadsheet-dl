@@ -31,7 +31,6 @@ from spreadsheet_dl.streaming import (
     stream_write,
 )
 
-
 # ==============================================================================
 # Fixtures
 # ==============================================================================
@@ -918,7 +917,7 @@ class TestODSParsing:
         """
         # Create ODS with date cell
         from odf.opendocument import OpenDocumentSpreadsheet
-        from odf.table import Table, TableRow, TableCell
+        from odf.table import Table, TableCell, TableRow
         from odf.text import P
 
         doc = OpenDocumentSpreadsheet()

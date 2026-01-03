@@ -11,7 +11,10 @@ from dataclasses import dataclass, field
 from decimal import Decimal
 from typing import Any
 
-from spreadsheet_dl.ods_generator import BudgetAllocation, ExpenseCategory
+from spreadsheet_dl.domains.finance.ods_generator import (
+    BudgetAllocation,
+    ExpenseCategory,
+)
 
 
 @dataclass

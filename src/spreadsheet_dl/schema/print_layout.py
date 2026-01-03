@@ -507,9 +507,7 @@ class PageSetup:
         is_row_break: bool = True,
     ) -> None:
         """Add a manual page break."""
-        self.page_breaks.append(
-            PageBreak(position=position, is_row_break=is_row_break)
-        )
+        self.page_breaks.append(PageBreak(position=position, is_row_break=is_row_break))
 
     def effective_dimensions(self) -> tuple[float, float]:
         """
@@ -708,7 +706,9 @@ class PrintPresets:
                 footer=0.75,
             ),
             header=HeaderFooter(
-                left=HeaderFooterContent(text=header_text, bold=True, font_size=12) if header_text else None,
+                left=HeaderFooterContent(text=header_text, bold=True, font_size=12)
+                if header_text
+                else None,
             ),
             footer=HeaderFooter(
                 center=HeaderFooterContent(text="Thank you for your business"),
@@ -751,7 +751,9 @@ class PrintPresets:
             orientation=PageOrientation.PORTRAIT,
             margins=PageMargins.normal(),
             header=HeaderFooter(
-                left=HeaderFooterContent(text=f"Employee: {employee_name}" if employee_name else ""),
+                left=HeaderFooterContent(
+                    text=f"Employee: {employee_name}" if employee_name else ""
+                ),
                 center=HeaderFooterContent(text="Expense Report", bold=True),
                 right=HeaderFooterContent(text="&[Tab]"),
             ),

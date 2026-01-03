@@ -20,7 +20,6 @@ from decimal import Decimal
 from pathlib import Path
 
 import pytest
-import yaml
 
 from spreadsheet_dl.builder import (
     CellSpec,
@@ -31,13 +30,11 @@ from spreadsheet_dl.builder import (
     SheetSpec,
 )
 from spreadsheet_dl.charts import (
-    AxisConfig,
     ChartPosition,
     ChartSize,
     ChartSpec,
     ChartTitle,
     ChartType,
-    DataLabelConfig,
     DataSeries,
     LegendConfig,
     LegendPosition,
@@ -50,7 +47,6 @@ from spreadsheet_dl.serialization import (
     load_definition,
     save_definition,
 )
-
 
 # ==============================================================================
 # Fixtures

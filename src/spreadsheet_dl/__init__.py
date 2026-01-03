@@ -1,23 +1,44 @@
 """
-SpreadsheetDL - Universal spreadsheet definition language with LLM-optimized MCP server.
+SpreadsheetDL - The Spreadsheet Definition Language for Python
 
-This package provides a comprehensive toolkit for creating professional-quality
-spreadsheets (ODS, XLSX, CSV) with complete formatting control, type-safe APIs,
-declarative YAML-based theming, and an MCP server for AI integration.
+A universal spreadsheet definition language with declarative API, multi-format export,
+domain-specific templates, and native MCP server for AI integration.
 
-v4.0.0 - SpreadsheetDL (Universal Spreadsheet Definition Language)
-===================================================================
+**Key Features:**
+- Declarative Builder API (define what, not how)
+- Type-Safe Formulas (60+ functions, circular reference detection)
+- Theme System (YAML-based, 5 built-in themes)
+- Multi-Format Export (ODS, XLSX, PDF from single definition)
+- Domain Plugins (finance, science, engineering - more coming)
+- MCP Server (native integration with Claude)
 
-New in v4.0.0:
-- Universal spreadsheet definition format (SpreadsheetDL)
-- LLM-optimized MCP server with 145+ tools
-- Multi-format support (ODS, XLSX, CSV, PDF)
-- Theme variants (light, dark, high-contrast)
-- Streaming I/O for 100k+ rows (TASK-401)
-- Round-trip serialization (TASK-402)
-- Format adapters (TASK-403)
-- Chart rendering to ODS (TASK-231)
-- 34 core model types with frozen dataclasses
+**Why SpreadsheetDL?**
+- vs openpyxl/xlsxwriter: Declarative, not imperative
+- vs pandas: Full spreadsheet model, not just data export
+- vs all: Only tool with domain-aware templates and MCP server
+
+v4.0.0 - Universal Spreadsheet Definition Language
+===================================================
+
+Core Platform:
+- Declarative builder API with fluent, chainable methods
+- Type-safe formula builder with circular reference detection
+- YAML-based theme system (5 built-in themes)
+- Chart builder (60+ chart types)
+- Multi-format export (ODS native, XLSX, PDF)
+- Advanced formatting (conditional, validation, named ranges, merging)
+- Template engine with schema-driven composition
+- MCP server with 8 tools (145+ planned)
+- Streaming I/O for 100k+ rows
+- Round-trip editing (read, modify, write ODS)
+- Performance optimization with caching and lazy loading
+
+Domain Plugins:
+- Finance: Budgets, financial statements, invoices, bank import, analytics
+- Data Science (planned): Experiments, datasets, analysis, A/B tests
+- Engineering (planned): BOMs, calculations, schedules
+- Manufacturing (planned): OEE, quality control, production
+- More domains coming - see roadmap
 
 Legacy Features (from v2.0.0):
 - FR-SCHEMA-*: Extended schema with Color, Font, Border, Typography, Print Layout
@@ -82,7 +103,7 @@ __version__ = "4.0.0"
 __author__ = "jallen"
 
 # Account Management (NEW in v0.6.0 - Phase 3)
-from spreadsheet_dl.accounts import (
+from spreadsheet_dl.domains.finance.accounts import (
     Account,
     AccountManager,
     AccountTransaction,
@@ -130,13 +151,13 @@ from spreadsheet_dl.ai_training import (
     TrainingDataset,
     export_training_data,
 )
-from spreadsheet_dl.alerts import (
+from spreadsheet_dl.domains.finance.alerts import (
     Alert,
     AlertConfig,
     AlertMonitor,
     check_budget_alerts,
 )
-from spreadsheet_dl.analytics import (
+from spreadsheet_dl.domains.finance.analytics import (
     AnalyticsDashboard,
     generate_dashboard,
 )
@@ -149,7 +170,7 @@ from spreadsheet_dl.backup import (
 )
 
 # Extended Bank Formats (NEW in v0.6.0 - Phase 3)
-from spreadsheet_dl.bank_formats import (
+from spreadsheet_dl.domains.finance.bank_formats import (
     BUILTIN_FORMATS,
     BankFormatDefinition,
     BankFormatRegistry,
@@ -159,7 +180,7 @@ from spreadsheet_dl.bank_formats import (
     get_format,
     list_formats,
 )
-from spreadsheet_dl.budget_analyzer import BudgetAnalyzer
+from spreadsheet_dl.domains.finance.budget_analyzer import BudgetAnalyzer
 
 # Builder API (NEW in v0.4.0)
 from spreadsheet_dl.builder import (
@@ -174,6 +195,15 @@ from spreadsheet_dl.builder import (
     SpreadsheetBuilder,
     create_spreadsheet,
     formula,
+)
+
+# Custom Categories (NEW in v4.0.0 - FR-EXT-005)
+from spreadsheet_dl.domains.finance.categories import (
+    Category,
+    CategoryManager,
+    StandardCategory,
+    category_from_string,
+    get_category_manager,
 )
 
 # ============================================================================
@@ -222,14 +252,14 @@ from spreadsheet_dl.config import (
     get_config,
     init_config_file,
 )
-from spreadsheet_dl.csv_import import (
+from spreadsheet_dl.domains.finance.csv_import import (
     CSVImporter,
     TransactionCategorizer,
     import_bank_csv,
 )
 
 # Multi-Currency Support (NEW in v0.6.0 - Phase 3)
-from spreadsheet_dl.currency import (
+from spreadsheet_dl.domains.finance.currency import (
     CURRENCIES,
     Currency,
     CurrencyCode,
@@ -268,7 +298,7 @@ from spreadsheet_dl.export import (
 )
 
 # Goals and Debt Payoff (NEW in v0.7.0 - Phase 4)
-from spreadsheet_dl.goals import (
+from spreadsheet_dl.domains.finance.goals import (
     Debt,
     DebtPayoffMethod,
     DebtPayoffPlan,
@@ -321,7 +351,7 @@ from spreadsheet_dl.ods_editor import (
     OdsEditor,
     append_expense_to_file,
 )
-from spreadsheet_dl.ods_generator import (
+from spreadsheet_dl.domains.finance.ods_generator import (
     BudgetAllocation,
     ExpenseCategory,
     ExpenseEntry,
@@ -329,8 +359,25 @@ from spreadsheet_dl.ods_generator import (
     create_monthly_budget,
 )
 
+# Performance Optimization (NEW in v4.0.0 - TASK-503)
+from spreadsheet_dl.performance import (
+    BatchProcessor,
+    BatchResult,
+    Benchmark,
+    BenchmarkResult,
+    FileCache,
+    Lazy,
+    LazyProperty,
+    LRUCache,
+    batch_process,
+    cached,
+    clear_cache,
+    get_cache,
+    timed,
+)
+
 # Plaid Integration (NEW in v1.0.0 - Phase 5)
-from spreadsheet_dl.plaid_integration import (
+from spreadsheet_dl.domains.finance.plaid_integration import (
     PlaidAccount,
     PlaidClient,
     PlaidConfig,
@@ -340,14 +387,14 @@ from spreadsheet_dl.plaid_integration import (
 )
 
 # Recurring expenses (Enhanced in Phase 4)
-from spreadsheet_dl.recurring import (
+from spreadsheet_dl.domains.finance.recurring import (
     RecurrenceFrequency,
     RecurringExpense,
     RecurringExpenseManager,
 )
 
 # Bill Reminders (NEW in v0.7.0 - Phase 4)
-from spreadsheet_dl.reminders import (
+from spreadsheet_dl.domains.finance.reminders import (
     BillReminder,
     BillReminderManager,
     ReminderFrequency,
@@ -360,7 +407,7 @@ from spreadsheet_dl.renderer import (
     OdsRenderer,
     render_sheets,
 )
-from spreadsheet_dl.report_generator import ReportGenerator
+from spreadsheet_dl.domains.finance.report_generator import ReportGenerator
 
 # Schema Extensions (NEW in v2.0.0 - FR-SCHEMA-*, FR-FORMAT-*, FR-ADV-*)
 from spreadsheet_dl.schema.advanced import (
@@ -450,7 +497,7 @@ from spreadsheet_dl.templates import (
 )
 
 # Financial Statement Templates (NEW in v2.0.0 - FR-PROF-*)
-from spreadsheet_dl.templates.financial_statements import (
+from spreadsheet_dl.domains.finance.templates.financial_statements import (
     BalanceSheetTemplate,
     CashFlowStatementTemplate,
     EquityStatementTemplate,
@@ -458,7 +505,7 @@ from spreadsheet_dl.templates.financial_statements import (
 )
 
 # Professional Templates (NEW in v2.0.0 - FR-PROF-*)
-from spreadsheet_dl.templates.professional import (
+from spreadsheet_dl.domains.finance.templates.professional import (
     CashFlowTrackerTemplate,
     EnterpriseBudgetTemplate,
     ExpenseReportTemplate,
@@ -509,6 +556,10 @@ __all__ = [
     "BalanceSheetTemplate",
     "BankFormatDefinition",
     "BankFormatRegistry",
+    "BatchProcessor",
+    "BatchResult",
+    "Benchmark",
+    "BenchmarkResult",
     "BillReminder",
     "BillReminderManager",
     "BudgetAllocation",
@@ -517,6 +568,8 @@ __all__ = [
     "CSVImporter",
     "CashFlowStatementTemplate",
     "CashFlowTrackerTemplate",
+    "Category",
+    "CategoryManager",
     "CellComment",
     "CellRef",
     "CellRelationship",
@@ -569,6 +622,7 @@ __all__ = [
     "ExpenseReportTemplate",
     "ExportFormat",
     "ExportOptions",
+    "FileCache",
     "FileEncryptor",
     "FileError",
     "FilterCriteria",
@@ -592,6 +646,9 @@ __all__ = [
     "InteractiveOdsBuilder",
     "InvoiceTemplate",
     "JsonAdapter",
+    "LRUCache",
+    "Lazy",
+    "LazyProperty",
     "LegendConfig",
     "LegendPosition",
     "Length",
@@ -663,6 +720,7 @@ __all__ = [
     "SpreadsheetBuilder",
     "SpreadsheetDecoder",
     "SpreadsheetEncoder",
+    "StandardCategory",
     "StreamingCell",
     "StreamingReader",
     "StreamingRow",
@@ -692,10 +750,14 @@ __all__ = [
     "add_interactive_features",
     "append_expense_to_file",
     "auto_backup",
+    "batch_process",
     "budget_comparison_chart",
+    "cached",
+    "category_from_string",
     "chart",
     "check_budget_alerts",
     "check_password_strength",
+    "clear_cache",
     "compare_payoff_methods",
     "convert",
     "count_formats",
@@ -724,6 +786,8 @@ __all__ = [
     "generate_fish_completions",
     "generate_password",
     "generate_zsh_completions",
+    "get_cache",
+    "get_category_manager",
     "get_config",
     "get_currency",
     "get_default_accounts",
@@ -745,6 +809,7 @@ __all__ = [
     "spending_pie_chart",
     "stream_read",
     "stream_write",
+    "timed",
     "trend_line_chart",
     "upload_budget",
 ]

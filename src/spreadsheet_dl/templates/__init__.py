@@ -11,7 +11,7 @@ Provides ready-to-use templates for common financial documents
 with professional formatting, built-in formulas, and validation.
 """
 
-from spreadsheet_dl.templates.financial_statements import (
+from spreadsheet_dl.domains.finance.templates.financial_statements import (
     FINANCIAL_STATEMENT_TEMPLATES,
     BalanceSheetTemplate,
     CashFlowStatementTemplate,
@@ -20,7 +20,7 @@ from spreadsheet_dl.templates.financial_statements import (
     get_financial_template,
     list_financial_templates,
 )
-from spreadsheet_dl.templates.professional import (
+from spreadsheet_dl.domains.finance.templates.professional import (
     PROFESSIONAL_TEMPLATES,
     BudgetCategory,
     CashFlowTrackerTemplate,

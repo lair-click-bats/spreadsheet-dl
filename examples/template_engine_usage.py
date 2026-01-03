@@ -16,8 +16,6 @@ variable substitution, similar to Jinja2 but optimized for spreadsheets.
 
 import sys
 from datetime import date
-from pathlib import Path
-from typing import Any
 
 # ============================================================================
 # Example 1: Basic Template Loading
@@ -384,7 +382,7 @@ sheets:
     renderer = TemplateRenderer()
     try:
         result = renderer.render(template, {"title": "My Report"})
-        print(f"   ✓ Template rendered successfully")
+        print("   ✓ Template rendered successfully")
         print(f"   Sheets: {len(result.sheets)}")
         for sheet in result.sheets:
             print(f"     • {sheet.name}: {len(sheet.rows)} rows")
@@ -565,8 +563,8 @@ sheets:
 
     try:
         result = renderer.render(template, variables)
-        print(f"   ✓ Template rendered successfully")
-        print(f"\n   Generated spreadsheet:")
+        print("   ✓ Template rendered successfully")
+        print("\n   Generated spreadsheet:")
         print(f"     Name: {result.name}")
         print(f"     Sheets: {len(result.sheets)}")
 
@@ -821,7 +819,7 @@ def example_custom_template() -> None:
     renderer = TemplateRenderer()
     result = renderer.render(template, test_vars)
 
-    print(f"   ✓ Template rendered")
+    print("   ✓ Template rendered")
     print(f"   Sheet name: {result.sheets[0].name}")
     print(f"   Rows generated: {len(result.sheets[0].rows)}")
 

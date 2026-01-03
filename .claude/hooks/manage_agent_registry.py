@@ -172,7 +172,9 @@ def cleanup_old_agents(days: int = 30) -> None:
 
         if completed_at:
             try:
-                completed_date = datetime.fromisoformat(completed_at.replace("Z", "+00:00"))
+                completed_date = datetime.fromisoformat(
+                    completed_at.replace("Z", "+00:00")
+                )
                 if completed_date.tzinfo is None:
                     age_days = (now.replace(tzinfo=None) - completed_date).days
                 else:
@@ -409,7 +411,9 @@ def save_metrics(metrics: dict[str, Any]) -> None:
         json.dump(metrics, f, indent=2)
 
 
-def record_batch_completion(batch_id: str, agent_count: int, duration_seconds: float) -> None:
+def record_batch_completion(
+    batch_id: str, agent_count: int, duration_seconds: float
+) -> None:
     """Record completion of a batch."""
     metrics = load_metrics()
     metrics["batches_executed"] += 1
@@ -516,7 +520,9 @@ def main():
         print("  status <agent_id>")
         print("  list [status_filter]")
         print("  cleanup [days]")
-        print("  compact                            - Remove all completed/failed agents")
+        print(
+            "  compact                            - Remove all completed/failed agents"
+        )
         print("  summary")
         print("")
         print("Enhancement Commands (v2.0):")

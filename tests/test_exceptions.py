@@ -453,7 +453,9 @@ class TestNetworkErrors:
 
     def test_connection_error(self) -> None:
         """Test ConnectionError."""
-        error = ConnectionError("https://cloud.example.com", reason="DNS resolution failed")
+        error = ConnectionError(
+            "https://cloud.example.com", reason="DNS resolution failed"
+        )
         assert error.error_code == "FT-NET-601"
         assert error.url == "https://cloud.example.com"
         assert error.reason == "DNS resolution failed"
@@ -585,7 +587,9 @@ class TestExtensionErrors:
 
     def test_plugin_version_error(self) -> None:
         """Test PluginVersionError."""
-        error = PluginVersionError("my-plugin", required_version="2.0", actual_version="1.5")
+        error = PluginVersionError(
+            "my-plugin", required_version="2.0", actual_version="1.5"
+        )
         assert error.error_code == "FT-EXT-903"
         assert error.plugin_name == "my-plugin"
         assert error.required_version == "2.0"
@@ -762,6 +766,6 @@ class TestErrorCodeUniqueness:
         ]
 
         for cls in exception_classes:
-            assert pattern.match(
-                cls.error_code
-            ), f"{cls.__name__} has invalid error code format: {cls.error_code}"
+            assert pattern.match(cls.error_code), (
+                f"{cls.__name__} has invalid error code format: {cls.error_code}"
+            )

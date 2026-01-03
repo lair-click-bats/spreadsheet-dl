@@ -134,9 +134,7 @@ class TestHeaderFooter:
 
     def test_non_empty_header(self):
         """Test non-empty header."""
-        header = HeaderFooter(
-            center=HeaderFooterContent(text="Title")
-        )
+        header = HeaderFooter(center=HeaderFooterContent(text="Title"))
         assert header.is_empty() is False
 
     def test_simple_factory(self):
@@ -330,47 +328,26 @@ class TestPageSetupBuilder:
 
     def test_basic_builder(self):
         """Test basic builder usage."""
-        setup = (
-            PageSetupBuilder()
-            .a4()
-            .portrait()
-            .build()
-        )
+        setup = PageSetupBuilder().a4().portrait().build()
         assert setup.size == PageSize.A4
         assert setup.orientation == PageOrientation.PORTRAIT
 
     def test_landscape_with_margins(self):
         """Test landscape with custom margins."""
-        setup = (
-            PageSetupBuilder()
-            .letter()
-            .landscape()
-            .narrow_margins()
-            .build()
-        )
+        setup = PageSetupBuilder().letter().landscape().narrow_margins().build()
         assert setup.size == PageSize.LETTER
         assert setup.orientation == PageOrientation.LANDSCAPE
         assert setup.margins.top == 1.27
 
     def test_scaling(self):
         """Test scaling options."""
-        setup = (
-            PageSetupBuilder()
-            .a4()
-            .fit_to_width(2)
-            .build()
-        )
+        setup = PageSetupBuilder().a4().fit_to_width(2).build()
         assert setup.scale_mode == PrintScale.FIT_TO_WIDTH
         assert setup.fit_to_pages_wide == 2
 
     def test_fit_to_page(self):
         """Test fit to page."""
-        setup = (
-            PageSetupBuilder()
-            .tabloid()
-            .fit_to_page()
-            .build()
-        )
+        setup = PageSetupBuilder().tabloid().fit_to_page().build()
         assert setup.scale_mode == PrintScale.FIT_TO_PAGE
         assert setup.fit_to_pages_wide == 1
         assert setup.fit_to_pages_tall == 1
@@ -393,11 +370,7 @@ class TestPageSetupBuilder:
     def test_print_area_and_repeat(self):
         """Test print area and repeat configuration."""
         setup = (
-            PageSetupBuilder()
-            .a4()
-            .print_area("A1:G100")
-            .repeat_header_row(2)
-            .build()
+            PageSetupBuilder().a4().print_area("A1:G100").repeat_header_row(2).build()
         )
         assert setup.print_area is not None
         assert setup.print_area.range == "A1:G100"
@@ -419,23 +392,14 @@ class TestPageSetupBuilder:
 
     def test_custom_size(self):
         """Test custom paper size."""
-        setup = (
-            PageSetupBuilder()
-            .custom_size(200.0, 300.0)
-            .build()
-        )
+        setup = PageSetupBuilder().custom_size(200.0, 300.0).build()
         assert setup.size == PageSize.CUSTOM
         assert setup.custom_width == 200.0
         assert setup.custom_height == 300.0
 
     def test_percentage_scale(self):
         """Test percentage scaling."""
-        setup = (
-            PageSetupBuilder()
-            .a4()
-            .scale(75)
-            .build()
-        )
+        setup = PageSetupBuilder().a4().scale(75).build()
         assert setup.scale_mode == PrintScale.PERCENTAGE
         assert setup.scale_percentage == 75
 

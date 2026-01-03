@@ -171,25 +171,31 @@ class FontPairing:
     description: str = ""
 
     # Core fonts
-    primary: FontDefinition = field(default_factory=lambda: FontDefinition(
-        name="primary",
-        family="Liberation Sans",
-        fallback=["Arial", "Helvetica", "sans-serif"],
-        role=FontRole.BODY,
-    ))
-    heading: FontDefinition = field(default_factory=lambda: FontDefinition(
-        name="heading",
-        family="Liberation Sans",
-        fallback=["Arial", "Helvetica", "sans-serif"],
-        role=FontRole.HEADING,
-        weight=FontWeight.BOLD,
-    ))
-    monospace: FontDefinition = field(default_factory=lambda: FontDefinition(
-        name="monospace",
-        family="Liberation Mono",
-        fallback=["Consolas", "Monaco", "Courier New", "monospace"],
-        role=FontRole.CODE,
-    ))
+    primary: FontDefinition = field(
+        default_factory=lambda: FontDefinition(
+            name="primary",
+            family="Liberation Sans",
+            fallback=["Arial", "Helvetica", "sans-serif"],
+            role=FontRole.BODY,
+        )
+    )
+    heading: FontDefinition = field(
+        default_factory=lambda: FontDefinition(
+            name="heading",
+            family="Liberation Sans",
+            fallback=["Arial", "Helvetica", "sans-serif"],
+            role=FontRole.HEADING,
+            weight=FontWeight.BOLD,
+        )
+    )
+    monospace: FontDefinition = field(
+        default_factory=lambda: FontDefinition(
+            name="monospace",
+            family="Liberation Mono",
+            fallback=["Consolas", "Monaco", "Courier New", "monospace"],
+            role=FontRole.CODE,
+        )
+    )
 
     # Optional additional fonts
     accent: FontDefinition | None = None
@@ -468,18 +474,18 @@ class Typography:
 
         # Calculate sizes relative to base
         sizes_config = [
-            ("xs", -2),    # 2 steps down
-            ("sm", -1),    # 1 step down
-            ("base", 0),   # Base size
-            ("lg", 1),     # 1 step up
-            ("xl", 2),     # 2 steps up
-            ("2xl", 3),    # 3 steps up
-            ("3xl", 4),    # 4 steps up
-            ("4xl", 5),    # 5 steps up
+            ("xs", -2),  # 2 steps down
+            ("sm", -1),  # 1 step down
+            ("base", 0),  # Base size
+            ("lg", 1),  # 1 step up
+            ("xl", 2),  # 2 steps up
+            ("2xl", 3),  # 3 steps up
+            ("3xl", 4),  # 4 steps up
+            ("4xl", 5),  # 5 steps up
         ]
 
         for name, steps in sizes_config:
-            size = self.base_size * (ratio ** steps)
+            size = self.base_size * (ratio**steps)
             # Round to 1 decimal place
             size = round(size, 1)
 
@@ -647,7 +653,9 @@ class Typography:
                 "normal": self.line_height_normal,
                 "relaxed": self.line_height_relaxed,
             },
-            "headings": {f"h{level}": hs.to_dict() for level, hs in self.headings.items()},
+            "headings": {
+                f"h{level}": hs.to_dict() for level, hs in self.headings.items()
+            },
         }
 
 
@@ -678,7 +686,9 @@ def get_font_pairing(name: str) -> FontPairing:
         KeyError: If pairing not found
     """
     if name not in FONT_PAIRINGS:
-        raise KeyError(f"Unknown font pairing: {name}. Available: {list(FONT_PAIRINGS.keys())}")
+        raise KeyError(
+            f"Unknown font pairing: {name}. Available: {list(FONT_PAIRINGS.keys())}"
+        )
     return FONT_PAIRINGS[name]
 
 
@@ -696,7 +706,9 @@ def get_typography(name: str) -> Typography:
         KeyError: If preset not found
     """
     if name not in TYPOGRAPHY_PRESETS:
-        raise KeyError(f"Unknown typography: {name}. Available: {list(TYPOGRAPHY_PRESETS.keys())}")
+        raise KeyError(
+            f"Unknown typography: {name}. Available: {list(TYPOGRAPHY_PRESETS.keys())}"
+        )
     return TYPOGRAPHY_PRESETS[name]
 
 

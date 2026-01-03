@@ -240,9 +240,7 @@ class TestExpenseReportTemplate:
 
     def test_custom_categories(self):
         """Test custom expense categories."""
-        template = ExpenseReportTemplate(
-            categories=["Travel", "Supplies", "Software"]
-        )
+        template = ExpenseReportTemplate(categories=["Travel", "Supplies", "Software"])
         assert len(template.categories) == 3
         assert "Software" in template.categories
 

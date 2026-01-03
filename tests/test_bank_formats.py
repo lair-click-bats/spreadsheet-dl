@@ -277,8 +277,12 @@ class TestBankFormatRegistry:
             csv_path = Path(tmpdir) / "chase.csv"
             with open(csv_path, "w", newline="") as f:
                 writer = csv.writer(f)
-                writer.writerow(["Posting Date", "Description", "Amount", "Type", "Balance"])
-                writer.writerow(["01/15/2024", "COFFEE SHOP", "-5.00", "Debit", "1000.00"])
+                writer.writerow(
+                    ["Posting Date", "Description", "Amount", "Type", "Balance"]
+                )
+                writer.writerow(
+                    ["01/15/2024", "COFFEE SHOP", "-5.00", "Debit", "1000.00"]
+                )
 
             registry = BankFormatRegistry()
             detected = registry.detect_format(csv_path)
@@ -292,14 +296,19 @@ class TestBankFormatRegistry:
             csv_path = Path(tmpdir) / "capital_one.csv"
             with open(csv_path, "w", newline="") as f:
                 writer = csv.writer(f)
-                writer.writerow(["Transaction Date", "Transaction Description", "Debit", "Credit"])
+                writer.writerow(
+                    ["Transaction Date", "Transaction Description", "Debit", "Credit"]
+                )
                 writer.writerow(["2024-01-15", "PURCHASE", "50.00", ""])
 
             registry = BankFormatRegistry()
             detected = registry.detect_format(csv_path)
 
             assert detected is not None
-            assert "capital" in detected.id.lower() or "capital" in detected.institution.lower()
+            assert (
+                "capital" in detected.id.lower()
+                or "capital" in detected.institution.lower()
+            )
 
     def test_validate_format(self) -> None:
         """Test format validation."""
@@ -416,22 +425,26 @@ class TestFormatBuilder:
             csv_path = Path(tmpdir) / "sample.csv"
             with open(csv_path, "w", newline="") as f:
                 writer = csv.writer(f)
-                writer.writerow([
-                    "Transaction Date",
-                    "Description",
-                    "Debit",
-                    "Credit",
-                    "Balance",
-                    "Category",
-                ])
-                writer.writerow([
-                    "2024-01-15",
-                    "Coffee Shop",
-                    "5.00",
-                    "",
-                    "1000.00",
-                    "Dining",
-                ])
+                writer.writerow(
+                    [
+                        "Transaction Date",
+                        "Description",
+                        "Debit",
+                        "Credit",
+                        "Balance",
+                        "Category",
+                    ]
+                )
+                writer.writerow(
+                    [
+                        "2024-01-15",
+                        "Coffee Shop",
+                        "5.00",
+                        "",
+                        "1000.00",
+                        "Dining",
+                    ]
+                )
 
             builder = FormatBuilder()
             builder.from_csv_headers(csv_path)

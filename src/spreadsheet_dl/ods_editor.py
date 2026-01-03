@@ -26,7 +26,7 @@ from spreadsheet_dl.exceptions import OdsReadError, OdsWriteError, SheetNotFound
 if TYPE_CHECKING:
     from odf.opendocument import OpenDocumentSpreadsheet
 
-    from spreadsheet_dl.ods_generator import ExpenseEntry
+    from spreadsheet_dl.domains.finance.ods_generator import ExpenseEntry
 
 
 class OdsEditor:

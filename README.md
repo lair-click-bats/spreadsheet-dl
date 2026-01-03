@@ -1,75 +1,189 @@
 # SpreadsheetDL
 
-**Current Version: v4.0.0-alpha.1** - Universal Spreadsheet Definition Language
+[![Version](https://img.shields.io/badge/version-4.0.0--alpha.1-blue.svg)](https://github.com/USER/spreadsheet-dl/releases)
+[![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Tests](https://img.shields.io/badge/tests-662%20passing-brightgreen.svg)](tests/)
+[![Coverage](https://img.shields.io/badge/coverage-97%25-brightgreen.svg)](tests/)
+[![MCP](https://img.shields.io/badge/MCP-native%20server-purple.svg)](docs/api/mcp_server.md)
 
-Family financial tracking with ODS spreadsheets for Nextcloud and Collabora Office.
+**The Spreadsheet Definition Language for Python**
+
+Define complex spreadsheets in Python or YAML, export to ODS/XLSX/PDF. Built-in domain plugins for finance, science, and engineering. Native MCP server for Claude integration.
+
+---
 
 ## Overview
 
-This project provides Python tools for creating, analyzing, and reporting on family budget spreadsheets in ODS format. Designed for seamless integration with:
+SpreadsheetDL is a universal spreadsheet definition language that lets you create professional spreadsheets programmatically using a declarative, high-level API.
 
-- **Nextcloud** - Self-hosted file sync and storage with WebDAV upload
-- **Collabora Office** - Online document editing in Nextcloud
-- **Mobile Editing** - iOS/Android via Nextcloud app
-- **Claude Code** - Optional LLM integration via LibreOffice MCP
+**Key Features:**
+
+- 📝 **Declarative API** - Define structure, formulas, and styling in code (not cell-by-cell imperative)
+- 🎨 **Theme System** - 5 built-in themes (default, corporate, minimal, dark, high_contrast)
+- 📊 **Chart Builder** - 60+ chart types with fluent API
+- ⚡ **Type-Safe Formulas** - FormulaBuilder with circular reference detection
+- 🔧 **Domain Plugins** - Pre-built templates for finance, science, engineering (more coming)
+- 🌍 **Multi-Format Export** - ODS, XLSX, PDF from single definition
+- 🤖 **MCP Server** - Native integration with Claude for AI-powered spreadsheet generation
+
+### Why SpreadsheetDL?
+
+**vs openpyxl/xlsxwriter** (imperative, Excel-only):
+
+- ✅ Declarative (define what, not how)
+- ✅ Multi-format (ODS, XLSX, PDF)
+- ✅ Domain-aware (finance, science, engineering templates)
+- ✅ Theme system (consistent styling)
+- ✅ MCP server (AI integration)
+
+**Use Cases Across Domains:**
+
+- 💰 **Finance**: Budgets, financial statements, invoices, expense reports
+- 🔬 **Data Science**: Experiment logs, dataset catalogs, analysis reports, A/B test results
+- ⚙️ **Electrical Engineering**: BOMs, pin maps, power budgets, signal routing tables
+- 🔧 **Mechanical Engineering**: Design calculations, tolerance stack-ups, material specs
+- 🏭 **Manufacturing**: OEE dashboards, quality control charts, production schedules
+- 🧬 **Biology**: Plate layouts (96/384-well), qPCR results, cell culture tracking
+- 📚 **Education**: Gradebooks, attendance, rubrics
 
 ## Features
 
-### Core Features
+### Core Platform (v4.0.0)
 
-- Generate structured budget spreadsheets with formulas
-- Analyze spending with pandas
-- Generate reports in text, Markdown, or JSON
-- Mobile-friendly ODS files
-- CLI and Python API
+- ✅ **Declarative Builder API** - Define spreadsheets using fluent, chainable methods
+- ✅ **Type-Safe Formulas** - FormulaBuilder with 60+ functions, circular reference detection
+- ✅ **Theme System** - YAML-based themes (5 built-in: default, corporate, minimal, dark, high_contrast)
+- ✅ **Chart Builder** - 60+ chart types (column, bar, line, area, pie, scatter, combo, sparklines)
+- ✅ **Multi-Format Export** - ODS (native), XLSX, PDF from single definition
+- ✅ **Advanced Formatting** - Conditional formatting, data validation, named ranges, cell merging
+- ✅ **Template Engine** - Schema-driven template system with component composition
+- ✅ **MCP Server** - Native server with 8 tools (145+ planned), Claude Desktop integration
+- ✅ **Streaming I/O** - Handle 100k+ row spreadsheets efficiently
+- ✅ **Round-Trip Editing** - Read, modify, and write existing ODS files
+- ✅ **CLI & Python API** - Both command-line and programmatic interfaces
 
-### Professional Spreadsheet System (v4.0.0)
+### Domain Plugins (Official)
 
-- **Enterprise-grade formatting** - Professional templates for business and personal use
-- **Advanced template system** - Business, financial, and custom templates
-- **Professional styling** - Headers, footers, conditional formatting
-- **Multi-sheet workbooks** - Complex spreadsheet structures
-- **Formula validation** - Type-safe formula construction
+#### 💰 Finance Domain
 
-### Declarative DSL (v0.4.0)
+- **Templates**: Monthly budget, financial statements (income, balance sheet, cash flow, equity), invoices, expense reports
+- **Formulas**: NPV, IRR, PMT, PV, FV (financial functions)
+- **Importers**: Bank CSV (50+ banks), Plaid API integration
+- **Utils**: Account management, budget analytics, alerts, recurring expenses, goals tracking
+- **Features**: WebDAV upload (Nextcloud), multi-currency support, auto-categorization
 
-- **YAML Theme System** - Define visual styles in YAML files
-- **5 Built-in Themes** - default, corporate, minimal, dark, high_contrast
-- **Fluent Builder API** - Chainable spreadsheet construction
-- **FormulaBuilder** - Type-safe ODF formula generation
-- **Theme Inheritance** - Extend and customize themes
-- **CLI Theme Support** - `--theme` flag for all generation commands
+#### 🔬 Data Science Domain (Planned - Phase 1)
 
-### Integration Features (v0.2.0)
+- **Templates**: Experiment log, dataset catalog, analysis report, A/B test results, model comparison
+- **Formulas**: Statistical tests (TTEST, FTEST, ZTEST), ML metrics (confusion matrix, F1, precision, recall)
+- **Importers**: Scientific CSV, MLflow experiment import
+- **Utils**: Plotting helpers, statistical utilities
 
-- **WebDAV Upload** - Direct upload to Nextcloud
-- **Bank CSV Import** - Import from Chase, Bank of America, Capital One, and more
-- **Auto-Categorization** - Automatic transaction categorization with ML-like patterns
-- **Analytics Dashboard** - Comprehensive budget analytics and insights
-- **Alert System** - Configurable budget alerts and notifications
-- **Recurring Expenses** - Track and auto-generate recurring payments
-- **Budget Templates** - Pre-built templates (50/30/20, Family, FIRE, and more)
-- **Quick Expense CLI** - Add expenses from command line
+#### ⚙️ Engineering Domain (Planned - Phase 2)
+
+- **Electrical**: BOM, pin mapping, power budget, signal routing
+- **Mechanical**: Design calculations, tolerance stack-up, material properties
+- **Civil**: Load calculations, construction schedules, cost estimates
+
+#### 🏭 Manufacturing Domain (Planned - Phase 3)
+
+- **Templates**: OEE dashboard, quality control charts (SPC), production schedules
+- **Formulas**: OEE, Cpk, DPMO, control limits
+- **Importers**: SCADA data connectors
+
+See [Domain Analysis](.coordination/2026-01-03-comprehensive-domain-analysis.md) for full roadmap (12 domains planned).
+
+## Documentation
+
+### User Guides
+
+- **[Getting Started](docs/getting-started.md)** - Installation through first budget
+- **[User Guide](docs/user-guide.md)** - Complete user documentation
+- **[CLI Reference](docs/cli.md)** - All command-line options
+- **[Best Practices](docs/best-practices.md)** - Tips and recommendations
+
+### Tutorials
+
+Learn SpreadsheetDL step-by-step:
+
+1. **[Create a Budget](docs/tutorials/01-create-budget.md)** - Set up your first monthly budget
+2. **[Track Expenses](docs/tutorials/02-track-expenses.md)** - Daily expense tracking workflow
+3. **[Import Bank Data](docs/tutorials/03-import-bank-data.md)** - Automate from CSV exports
+4. **[Create Reports](docs/tutorials/04-create-reports.md)** - Generate comprehensive reports
+5. **[Use MCP Tools](docs/tutorials/05-use-mcp-tools.md)** - AI-powered operations with Claude
+6. **[Customize Themes](docs/tutorials/06-customize-themes.md)** - Create custom visual themes
+
+### Technical Documentation
+
+- **[Architecture](docs/ARCHITECTURE.md)** - System design and structure
+- **[API Reference](docs/api/)** - Complete Python API docs
+- **[MCP Integration](docs/MCP_INTEGRATION.md)** - Model Context Protocol setup
+- **[Error Codes](docs/error-codes.md)** - Error handling reference
+
+### Examples
+
+Working code examples in the [`examples/`](examples/) directory:
+
+- `example_budget.py` - Create a sample budget programmatically
+- `example_import.py` - Import and process bank CSV
+- `example_report.py` - Generate custom reports
+- `example_chart.py` - Create charts programmatically
+- `example_mcp.py` - Use MCP server from Python
 
 ## Quick Start
+
+> **New to SpreadsheetDL?** Start with the [Getting Started Guide](docs/getting-started.md) for a beginner-friendly introduction!
 
 ### Installation
 
 ```bash
-# Clone the repository
-cd ~/development/spreadsheet-dl
+# Install from GitHub (PyPI coming soon)
+pip install git+https://github.com/USER/spreadsheet-dl.git
 
-# Set up Python environment with uv
-uv sync
-
-# Install dev dependencies
+# Or clone for development
+git clone https://github.com/USER/spreadsheet-dl.git
+cd spreadsheet-dl
 uv sync --dev
 
-# Install with theme support (requires PyYAML)
-uv sync --extra config
+# Install with specific domain plugins (when available)
+pip install spreadsheet-dl[finance]         # Finance domain only
+pip install spreadsheet-dl[science]         # Data science domain
+pip install spreadsheet-dl[all]             # All official domains
 ```
 
-### CLI Commands
+**Next Steps:**
+
+- 📖 **[Getting Started Guide](docs/getting-started.md)** - Your first budget in 5 minutes
+- 🎓 **[Tutorials](docs/tutorials/)** - Step-by-step learning path
+- 📚 **[Best Practices](docs/best-practices.md)** - Tips for effective use
+
+### Quick Example (Universal Builder API)
+
+```python
+from spreadsheet_dl import create_spreadsheet, formula
+
+# Create a simple spreadsheet
+builder = create_spreadsheet(theme="default")
+
+# Add a data sheet
+builder.sheet("Sales Data") \
+    .column("Month", width="3cm", type="text") \
+    .column("Revenue", width="3cm", type="currency") \
+    .column("Expenses", width="3cm", type="currency") \
+    .column("Profit", width="3cm", type="currency") \
+    .header_row(style="header_primary") \
+    .row().cell("January").cell(15000).cell(8000).cell(formula=formula().subtract("B2", "C2")) \
+    .row().cell("February").cell(18000).cell(9500).cell(formula=formula().subtract("B3", "C3")) \
+    .row().cell("March").cell(22000).cell(11000).cell(formula=formula().subtract("B4", "C4"))
+
+# Save to multiple formats
+builder.save("sales_report.ods")     # Native ODS
+builder.export("sales_report.xlsx")  # Excel format
+builder.export("sales_report.pdf")   # PDF for distribution
+```
+
+### Finance Domain Example (CLI)
 
 ```bash
 # Create a budget (with optional template and theme)
@@ -508,6 +622,16 @@ uv run mypy src/
 - Use `.gitignore` patterns for personal data
 - Use Nextcloud app passwords, not main password
 - Keep ODS files in encrypted storage when possible
+
+## Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for:
+
+- Development setup and workflow
+- Coding standards and style guide
+- Testing requirements
+- Commit message format (conventional commits)
+- **Branding guidelines** - See [BRANDING.md](BRANDING.md) for official naming, terminology, and brand voice
 
 ## License
 
