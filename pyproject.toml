@@ -1,12 +1,12 @@
 [project]
 name = "finance-tracker"
-version = "2.0.0"
-description = "Professional spreadsheet system with enterprise-grade formatting and templates"
+version = "4.0.0-alpha.1"
+description = "Universal spreadsheet definition format with LLM-optimized MCP server"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
 authors = [{ name = "jallen" }]
-keywords = ["finance", "ods", "spreadsheet", "nextcloud", "collabora", "budget", "plaid", "mcp"]
+keywords = ["spreadsheet", "ods", "xlsx", "mcp", "llm", "claude", "yaml", "template", "finance", "budget"]
 
 dependencies = [
     "odfpy>=1.4.1",
