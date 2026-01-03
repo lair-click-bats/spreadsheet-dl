@@ -146,3 +146,35 @@ conditional_formats:
       - condition: ">= 0.85"
         style: cell_warning
       - default: cell_normal
+
+# Theme variants (GAP-THEME-016, TASK-122)
+variants:
+  dark:
+    description: "Dark mode variant with inverted colors for reduced eye strain"
+    colors:
+      # Inverted neutrals for dark backgrounds
+      neutral_100: "#1E1E1E" # Dark background
+      neutral_200: "#2D2D2D" # Slightly lighter alternate
+      neutral_300: "#404040" # Border color
+      neutral_800: "#E0E0E0" # Light text
+      neutral_900: "#FFFFFF" # White text
+
+      # Adjusted primary colors for dark theme (slightly desaturated)
+      primary: "#5A8FE8"
+      primary_light: "#7BA7F0"
+      primary_dark: "#3F6BB3"
+
+      # Adjusted accent colors
+      secondary: "#F5A059"
+
+      # Success colors (slightly less saturated for dark background)
+      success: "#81C55F"
+      success_bg: "#2A4420"
+
+      # Warning colors
+      warning: "#FFD633"
+      warning_bg: "#4D3D0D"
+
+      # Danger colors
+      danger: "#E84545"
+      danger_bg: "#4D1A1A"

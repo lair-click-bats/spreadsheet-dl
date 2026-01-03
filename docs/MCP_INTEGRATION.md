@@ -1,96 +1,157 @@
-# LibreOffice MCP Server Integration
+# SpreadsheetDL MCP Server Integration (v4.0)
 
-This guide covers setting up the LibreOffice MCP server for natural language
-interaction with budget spreadsheets via Claude Code.
+This guide covers the native SpreadsheetDL MCP server for natural language
+interaction with spreadsheets via Claude Desktop, Claude CLI, and other
+MCP-compatible clients.
+
+**Version 4.0** introduces a comprehensive MCP server with 145+ tools for
+complete spreadsheet manipulation through AI assistants.
 
 ## Prerequisites
 
-- Node.js 18+ installed
-- LibreOffice installed (for ODS support)
-- Claude Code (Claude Desktop or CLI)
+- Python 3.12+ installed
+- SpreadsheetDL v4.0+ installed (`pip install spreadsheet-dl`)
+- Claude Desktop or Claude CLI (or any MCP-compatible client)
 
 ## Installation
 
-### 1. Install the MCP Server
+### 1. Install SpreadsheetDL
 
 ```bash
-npx -y @smithery/cli install @patrup/mcp-libre --client claude
+pip install spreadsheet-dl
+# or with uv
+uv add spreadsheet-dl
 ```
 
-This installs the LibreOffice MCP server and configures it for Claude.
+### 2. Configure MCP Server
 
-### 2. Verify Configuration
-
-Check your Claude configuration file:
+Add the SpreadsheetDL MCP server to your Claude configuration:
 
 **For Claude Desktop**: `~/.claude/claude_desktop_config.json`
 **For Claude CLI**: `~/.claude.json` or project `.mcp.json`
 
-Should contain:
-
 ```json
 {
   "mcpServers": {
-    "libreoffice": {
+    "spreadsheet-dl": {
       "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "@patrup/mcp-libre"],
+      "command": "python",
+      "args": ["-m", "spreadsheet_dl.mcp_server"],
       "env": {
-        "LIBREOFFICE_PATH": "/usr/bin/libreoffice"
+        "SPREADSHEET_DL_ALLOWED_PATHS": "~/Documents,~/Downloads,."
       }
     }
   }
 }
 ```
 
-### 3. Verify LibreOffice Path
+### 3. Verify Installation
 
-Find your LibreOffice installation:
+Test the MCP server to ensure it's working:
 
 ```bash
-# Linux
-which libreoffice
-# Usually: /usr/bin/libreoffice
+# List all 145+ available tools
+python -m spreadsheet_dl.mcp_server --list-tools
 
-# macOS
-ls /Applications/LibreOffice.app/Contents/MacOS/soffice
-
-# Windows
-where libreoffice
+# Should output 13 categories with 145 total tools
 ```
 
-Update the `LIBREOFFICE_PATH` environment variable accordingly.
+### 4. Security Configuration
+
+The MCP server enforces path restrictions for security. Configure allowed paths:
+
+```bash
+# Via environment variable
+export SPREADSHEET_DL_ALLOWED_PATHS="/path/to/spreadsheets:/another/path"
+
+# Via configuration file (~/.spreadsheet-dl/config.json)
+{
+  "mcp_server": {
+    "allowed_paths": ["/path/to/spreadsheets", "/another/path"],
+    "rate_limit_per_minute": 120,
+    "enable_audit_log": true
+  }
+}
+```
 
 ## Usage Examples
 
-### Reading Budget Data
+### Cell Operations
 
 ```
-Claude: "Read my budget file at ~/Documents/budget_2025_01.ods"
+User: "Get the value from cell A1 in Sheet1 of report.ods"
+Claude: Uses cell_get tool to retrieve value
+
+User: "Set cell B5 in Sheet1 to the formula =SUM(B1:B4)"
+Claude: Uses cell_set with type="formula"
+
+User: "Find all cells containing 'Total' in the spreadsheet"
+Claude: Uses cell_find to search across sheets
 ```
 
-### Analyzing Spending
+### Style Operations
 
 ```
-Claude: "What categories have I spent the most in this month?"
+User: "Make cells A1:E1 bold with dark blue background"
+Claude: Uses cell_font to set bold, color_set_background for fill
+
+User: "Apply the 'header' style to row 1"
+Claude: Uses style_apply with range A1:Z1
+
+User: "Create a new style called 'highlight' with yellow background and red text"
+Claude: Uses style_create to define custom style
 ```
 
-### Getting Summaries
+### Structure Operations
 
 ```
-Claude: "Summarize my spending for January and compare to budget"
+User: "Insert 3 rows above row 5"
+Claude: Uses row_insert with position=5, count=3
+
+User: "Hide columns D through F"
+Claude: Uses column_hide with range D:F
+
+User: "Freeze the first row and first column"
+Claude: Uses freeze_set with rows=1, columns=1
 ```
 
-### Checking Alerts
+### Charts and Visualizations
 
 ```
-Claude: "Am I over budget in any category?"
+User: "Create a column chart of sales data in A1:B10"
+Claude: Uses chart_create with type="column"
+
+User: "Add a pie chart showing category breakdown"
+Claude: Uses chart_create with appropriate data range
+
+User: "Create sparklines in column E showing trends from columns A-D"
+Claude: Uses sparkline_create for each row
 ```
 
-### Creating Visualizations
+### Data Analysis
 
 ```
-Claude: "Create a pie chart of my spending by category"
+User: "Sort the data by column B in descending order"
+Claude: Uses query_sort with column=B, order=desc
+
+User: "Find all values greater than 1000 in column C"
+Claude: Uses query_filter with condition >1000
+
+User: "Calculate the sum of all values in the Amount column"
+Claude: Uses query_aggregate with function=SUM
+```
+
+### Multi-Format Operations
+
+```
+User: "Export this spreadsheet to Excel format"
+Claude: Uses export_xlsx to convert
+
+User: "Import data from data.csv into a new sheet"
+Claude: Uses import_csv to load data
+
+User: "Convert this ODS file to PDF"
+Claude: Uses export_pdf for document export
 ```
 
 ## Advanced Configuration

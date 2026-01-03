@@ -136,9 +136,13 @@ class ValueType(Enum):
 # ============================================================================
 
 
-@dataclass
+@dataclass(frozen=True)
 class ColorScalePoint:
-    """A point on a color scale."""
+    """
+    A point on a color scale.
+
+    Implements GAP-001: Missing frozen=True on value objects
+    """
 
     value_type: ValueType
     value: float | str | None = None  # None for min/max
@@ -156,12 +160,13 @@ class ColorScalePoint:
         return result
 
 
-@dataclass
+@dataclass(frozen=True)
 class ColorScale:
     """
     Color scale configuration for gradient-style conditional formatting.
 
     Implements FR-COND-003: Color Scales
+    Implements GAP-001: Missing frozen=True on value objects
 
     Examples:
         # Two-color scale (red to green)
@@ -188,7 +193,7 @@ class ColorScale:
     """
 
     type: ColorScaleType
-    points: list[ColorScalePoint] = field(default_factory=list)
+    points: tuple[ColorScalePoint, ...] = field(default_factory=tuple)
 
     @classmethod
     def two_color(
@@ -203,10 +208,10 @@ class ColorScale:
         """Create a two-color scale."""
         return cls(
             type=ColorScaleType.TWO_COLOR,
-            points=[
+            points=(
                 ColorScalePoint(min_type, min_value, min_color),
                 ColorScalePoint(max_type, max_value, max_color),
-            ],
+            ),
         )
 
     @classmethod
@@ -225,11 +230,11 @@ class ColorScale:
         """Create a three-color scale."""
         return cls(
             type=ColorScaleType.THREE_COLOR,
-            points=[
+            points=(
                 ColorScalePoint(min_type, min_value, min_color),
                 ColorScalePoint(mid_type, mid_value, mid_color),
                 ColorScalePoint(max_type, max_value, max_color),
-            ],
+            ),
         )
 
     @classmethod
@@ -281,12 +286,13 @@ class ColorScale:
 # ============================================================================
 
 
-@dataclass
+@dataclass(frozen=True)
 class DataBar:
     """
     Data bar configuration for bar-style conditional formatting.
 
     Implements FR-COND-004: Data Bars
+    Implements GAP-001: Missing frozen=True on value objects
 
     Examples:
         # Default blue bars
@@ -370,9 +376,13 @@ class DataBar:
 # ============================================================================
 
 
-@dataclass
+@dataclass(frozen=True)
 class IconSetThreshold:
-    """A threshold for icon set rules."""
+    """
+    A threshold for icon set rules.
+
+    Implements GAP-001: Missing frozen=True on value objects
+    """
 
     value_type: ValueType
     value: float | str
@@ -380,12 +390,13 @@ class IconSetThreshold:
     gte: bool = True  # Greater than or equal (vs greater than)
 
 
-@dataclass
+@dataclass(frozen=True)
 class IconSet:
     """
     Icon set configuration.
 
     Implements FR-COND-005: Icon Sets
+    Implements GAP-001: Missing frozen=True on value objects
 
     Examples:
         # Three arrows
@@ -408,7 +419,7 @@ class IconSet:
     """
 
     icon_set: IconSetType
-    thresholds: list[IconSetThreshold] = field(default_factory=list)
+    thresholds: tuple[IconSetThreshold, ...] = field(default_factory=tuple)
     show_value: bool = True
     reverse: bool = False
 
@@ -417,10 +428,10 @@ class IconSet:
         """Create three arrows icon set with default thresholds."""
         return cls(
             icon_set=IconSetType.THREE_ARROWS,
-            thresholds=[
+            thresholds=(
                 IconSetThreshold(ValueType.PERCENT, 67, 0),
                 IconSetThreshold(ValueType.PERCENT, 33, 1),
-            ],
+            ),
             reverse=reverse,
         )
 
@@ -429,10 +440,10 @@ class IconSet:
         """Create three traffic lights icon set."""
         return cls(
             icon_set=IconSetType.THREE_TRAFFIC_LIGHTS_1,
-            thresholds=[
+            thresholds=(
                 IconSetThreshold(ValueType.PERCENT, 67, 0),
                 IconSetThreshold(ValueType.PERCENT, 33, 1),
-            ],
+            ),
         )
 
     @classmethod
@@ -440,12 +451,12 @@ class IconSet:
         """Create five ratings (stars) icon set."""
         return cls(
             icon_set=IconSetType.FIVE_RATINGS,
-            thresholds=[
+            thresholds=(
                 IconSetThreshold(ValueType.PERCENT, 80, 0),
                 IconSetThreshold(ValueType.PERCENT, 60, 1),
                 IconSetThreshold(ValueType.PERCENT, 40, 2),
                 IconSetThreshold(ValueType.PERCENT, 20, 3),
-            ],
+            ),
         )
 
     def to_dict(self) -> dict[str, Any]:

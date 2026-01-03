@@ -14,14 +14,23 @@ from typing import Any
 from spreadsheet_dl.schema.styles import (
     Border,
     BorderStyle,
+    CellFill,
     Color,
     ColorPalette,
     Font,
     FontWeight,
+    GradientFill,
+    GradientStop,
+    GradientType,
+    PatternFill,
+    PatternType,
+    StrikethroughStyle,
     StyleDefinition,
     TextAlign,
     Theme,
     ThemeSchema,
+    ThemeVariant,
+    UnderlineStyle,
     VerticalAlign,
 )
 from spreadsheet_dl.schema.validation import (
@@ -225,6 +234,9 @@ class ThemeLoader:
         # Parse conditional formats
         conditional_formats = data.get("conditional_formats", {})
 
+        # Parse variants (GAP-THEME-016)
+        variants = self._parse_variants(data.get("variants", {}))
+
         return Theme(
             meta=meta,
             colors=colors,
@@ -232,6 +244,7 @@ class ThemeLoader:
             base_styles=base_styles,
             styles=styles,
             conditional_formats=conditional_formats,
+            variants=variants,
         )
 
     def _parse_colors(self, data: dict[str, str]) -> ColorPalette:
@@ -299,6 +312,41 @@ class ThemeLoader:
 
         return fonts
 
+    def _parse_variants(self, data: dict[str, Any]) -> dict[str, ThemeVariant]:
+        """
+        Parse theme variants from YAML data.
+
+        Implements GAP-THEME-016: Theme variants missing
+
+        Args:
+            data: Variants dictionary from YAML
+
+        Returns:
+            Dictionary of ThemeVariant objects
+        """
+        variants: dict[str, ThemeVariant] = {}
+
+        for name, variant_data in data.items():
+            if not isinstance(variant_data, dict):
+                continue
+
+            description = variant_data.get("description", "")
+
+            # Parse variant colors
+            variant_colors: dict[str, Color] = {}
+            colors_data = variant_data.get("colors", {})
+            for color_name, color_value in colors_data.items():
+                if isinstance(color_value, str):
+                    variant_colors[color_name] = Color(color_value)
+
+            variants[name] = ThemeVariant(
+                name=name,
+                description=description,
+                colors=variant_colors,
+            )
+
+        return variants
+
     def _parse_styles(
         self,
         data: dict[str, Any],
@@ -357,7 +405,34 @@ class ThemeLoader:
                 style.italic = bool(style_data["italic"])
 
             if "underline" in style_data:
-                style.underline = bool(style_data["underline"])
+                # Parse as UnderlineStyle enum (GAP-THEME-005)
+                underline_val = style_data["underline"]
+                if isinstance(underline_val, bool):
+                    # Backward compatibility: bool -> enum
+                    style.underline = (
+                        UnderlineStyle.SINGLE if underline_val else UnderlineStyle.NONE
+                    )
+                elif isinstance(underline_val, str):
+                    with contextlib.suppress(ValueError):
+                        style.underline = UnderlineStyle(underline_val)
+
+            if "strikethrough" in style_data:
+                # Parse strikethrough (GAP-THEME-006)
+                strikethrough_val = style_data["strikethrough"]
+                if isinstance(strikethrough_val, bool):
+                    # Backward compatibility: bool -> enum
+                    style.strikethrough = (
+                        StrikethroughStyle.SINGLE
+                        if strikethrough_val
+                        else StrikethroughStyle.NONE
+                    )
+                elif isinstance(strikethrough_val, str):
+                    with contextlib.suppress(ValueError):
+                        style.strikethrough = StrikethroughStyle(strikethrough_val)
+
+            if "letter_spacing" in style_data:
+                # Parse letter_spacing (GAP-THEME-004)
+                style.letter_spacing = style_data["letter_spacing"]
 
             if "text_align" in style_data:
                 with contextlib.suppress(ValueError):
@@ -367,11 +442,44 @@ class ThemeLoader:
                 with contextlib.suppress(ValueError):
                     style.vertical_align = VerticalAlign(style_data["vertical_align"])
 
+            # Alignment properties (GAP-THEME-009, 010, 011, 012)
+            if "text_rotation" in style_data:
+                style.text_rotation = int(style_data["text_rotation"])
+
+            if "wrap_text" in style_data:
+                style.wrap_text = bool(style_data["wrap_text"])
+
+            if "shrink_to_fit" in style_data:
+                style.shrink_to_fit = bool(style_data["shrink_to_fit"])
+
+            if "indent" in style_data:
+                style.indent = int(style_data["indent"])
+
             # Background
             if "background_color" in style_data:
                 style.background_color = self._resolve_color(
                     style_data["background_color"], colors
                 )
+
+            # Fill (pattern or gradient)
+            if "fill" in style_data:
+                fill_data = style_data["fill"]
+                if isinstance(fill_data, dict):
+                    if "pattern_type" in fill_data:
+                        # Pattern fill
+                        pattern_fill = self._parse_pattern_fill(fill_data, colors)
+                        style.fill = CellFill(pattern=pattern_fill)
+                    elif "type" in fill_data and fill_data["type"] in (
+                        "linear",
+                        "radial",
+                    ):
+                        # Gradient fill
+                        gradient_fill = self._parse_gradient_fill(fill_data, colors)
+                        style.fill = CellFill(gradient=gradient_fill)
+                    elif "solid_color" in fill_data:
+                        # Solid fill
+                        color = self._resolve_color(fill_data["solid_color"], colors)
+                        style.fill = CellFill(solid_color=color)
 
             # Borders
             for border_name in [
@@ -454,6 +562,82 @@ class ThemeLoader:
             )
 
         return Border()
+
+    def _parse_pattern_fill(
+        self, value: dict[str, Any], colors: ColorPalette
+    ) -> PatternFill:
+        """
+        Parse pattern fill from YAML data.
+
+        Implements GAP-THEME-001: PatternFill not parsed from YAML
+
+        Args:
+            value: Pattern fill specification dict
+            colors: Color palette for color resolution
+
+        Returns:
+            PatternFill object
+        """
+        pattern_type_str = value.get("pattern_type", "solid")
+        try:
+            pattern_type = PatternType(pattern_type_str)
+        except ValueError:
+            pattern_type = PatternType.SOLID
+
+        foreground = self._resolve_color(
+            value.get("foreground_color", "#000000"), colors
+        )
+        background = self._resolve_color(
+            value.get("background_color", "#FFFFFF"), colors
+        )
+
+        return PatternFill(
+            pattern_type=pattern_type,
+            foreground_color=foreground,
+            background_color=background,
+        )
+
+    def _parse_gradient_fill(
+        self, value: dict[str, Any], colors: ColorPalette
+    ) -> GradientFill:
+        """
+        Parse gradient fill from YAML data.
+
+        Implements GAP-THEME-002: GradientFill not parsed from YAML
+
+        Args:
+            value: Gradient fill specification dict
+            colors: Color palette for color resolution
+
+        Returns:
+            GradientFill object
+        """
+        gradient_type_str = value.get("type", "linear")
+        try:
+            gradient_type = GradientType(gradient_type_str)
+        except ValueError:
+            gradient_type = GradientType.LINEAR
+
+        angle = float(value.get("angle", 0.0))
+        center_x = float(value.get("center_x", 0.5))
+        center_y = float(value.get("center_y", 0.5))
+
+        # Parse gradient stops
+        stops_data = value.get("stops", [])
+        stops: list[GradientStop] = []
+        for stop_data in stops_data:
+            if isinstance(stop_data, dict):
+                position = float(stop_data.get("position", 0.0))
+                color = self._resolve_color(stop_data.get("color", "#FFFFFF"), colors)
+                stops.append(GradientStop(position=position, color=color))
+
+        return GradientFill(
+            type=gradient_type,
+            angle=angle,
+            center_x=center_x,
+            center_y=center_y,
+            stops=tuple(stops),
+        )
 
     def _merge_themes(self, parent: Theme, child: Theme) -> Theme:
         """

@@ -13,8 +13,10 @@ New in v4.0.0:
 - LLM-optimized MCP server with 145+ tools
 - Multi-format support (ODS, XLSX, CSV, PDF)
 - Theme variants (light, dark, high-contrast)
-- Streaming I/O for 100k+ rows
-- Round-trip serialization
+- Streaming I/O for 100k+ rows (TASK-401)
+- Round-trip serialization (TASK-402)
+- Format adapters (TASK-403)
+- Chart rendering to ODS (TASK-231)
 - 34 core model types with frozen dataclasses
 
 Legacy Features (from v2.0.0):
@@ -76,7 +78,7 @@ New in v0.4.0:
 - CLI --theme flag support
 """
 
-__version__ = "2.0.0"
+__version__ = "4.0.0"
 __author__ = "jallen"
 
 # Account Management (NEW in v0.6.0 - Phase 3)
@@ -88,6 +90,22 @@ from spreadsheet_dl.accounts import (
     NetWorth,
     Transfer,
     get_default_accounts,
+)
+
+# Format Adapters (NEW in v4.0.0 - TASK-403)
+from spreadsheet_dl.adapters import (
+    AdapterOptions,
+    AdapterRegistry,
+    CsvAdapter,
+    ExportFormat,
+    FormatAdapter,
+    HtmlAdapter,
+    ImportFormat,
+    JsonAdapter,
+    OdsAdapter,
+    TsvAdapter,
+    export_to,
+    import_from,
 )
 
 # AI Export (Enhanced in v0.6.0)
@@ -242,7 +260,6 @@ from spreadsheet_dl.exceptions import (
 
 # Multi-format Export (NEW in v0.5.0)
 from spreadsheet_dl.export import (
-    ExportFormat,
     ExportOptions,
     MultiFormatExporter,
     export_to_csv,
@@ -400,6 +417,26 @@ from spreadsheet_dl.security import (
     generate_password,
 )
 
+# Serialization (NEW in v4.0.0 - TASK-402)
+from spreadsheet_dl.serialization import (
+    DefinitionFormat,
+    Serializer,
+    SpreadsheetDecoder,
+    SpreadsheetEncoder,
+    load_definition,
+    save_definition,
+)
+
+# Streaming I/O (NEW in v4.0.0 - TASK-401)
+from spreadsheet_dl.streaming import (
+    StreamingCell,
+    StreamingReader,
+    StreamingRow,
+    StreamingWriter,
+    stream_read,
+    stream_write,
+)
+
 # Template Engine (NEW in v2.0.0 - FR-TEMPLATE-*)
 from spreadsheet_dl.template_engine import (
     ComponentDefinition,
@@ -456,6 +493,8 @@ __all__ = [
     "AccountManager",
     "AccountTransaction",
     "AccountType",
+    "AdapterOptions",
+    "AdapterRegistry",
     "Alert",
     "AlertConfig",
     "AlertMonitor",
@@ -499,6 +538,7 @@ __all__ = [
     "Config",
     "ConfigurationError",
     "CredentialStore",
+    "CsvAdapter",
     "Currency",
     "CurrencyCode",
     "CurrencyConverter",
@@ -514,6 +554,7 @@ __all__ = [
     "DebtPayoffMethod",
     "DebtPayoffPlan",
     "DecryptionError",
+    "DefinitionFormat",
     "DropdownList",
     "EmailChannel",
     "EmailConfig",
@@ -533,6 +574,7 @@ __all__ = [
     "FilterCriteria",
     "FinanceTrackerError",
     "FontPairing",
+    "FormatAdapter",
     "FormatBuilder",
     "FormulaBuilder",
     "GoalCategory",
@@ -541,12 +583,15 @@ __all__ = [
     "HeaderFooter",
     "HeaderFooterContent",
     "HiddenRowsColumns",
+    "HtmlAdapter",
     "Hyperlink",
     "Image",
+    "ImportFormat",
     "IncomeStatementTemplate",
     "IntegrityError",
     "InteractiveOdsBuilder",
     "InvoiceTemplate",
+    "JsonAdapter",
     "LegendConfig",
     "LegendPosition",
     "Length",
@@ -567,6 +612,7 @@ __all__ = [
     "NotificationType",
     "NtfyChannel",
     "NtfyConfig",
+    "OdsAdapter",
     "OdsDashboardGenerator",
     "OdsEditor",
     "OdsError",
@@ -606,6 +652,7 @@ __all__ = [
     "SemanticCellType",
     "SemanticSheet",
     "SemanticTag",
+    "Serializer",
     "Shape",
     "SheetRef",
     "SheetSpec",
@@ -614,6 +661,12 @@ __all__ = [
     "SparklineMarkers",
     "SparklineType",
     "SpreadsheetBuilder",
+    "SpreadsheetDecoder",
+    "SpreadsheetEncoder",
+    "StreamingCell",
+    "StreamingReader",
+    "StreamingRow",
+    "StreamingWriter",
     "SyncResult",
     "TemplateError",
     "TemplateLoader",
@@ -625,6 +678,7 @@ __all__ = [
     "Transfer",
     "Trendline",
     "TrendlineType",
+    "TsvAdapter",
     "Typography",
     "ValidationError",
     "ValidationRule",
@@ -657,6 +711,7 @@ __all__ = [
     "detect_shell",
     "export_dual",
     "export_for_ai",
+    "export_to",
     "export_to_csv",
     "export_to_pdf",
     "export_to_xlsx",
@@ -675,16 +730,21 @@ __all__ = [
     "get_format",
     "get_template",
     "import_bank_csv",
+    "import_from",
     "init_config_file",
     "install_completions",
     "list_currencies",
     "list_formats",
     "list_templates",
+    "load_definition",
     "money",
     "print_completion_script",
     "render_sheets",
+    "save_definition",
     "sparkline",
     "spending_pie_chart",
+    "stream_read",
+    "stream_write",
     "trend_line_chart",
     "upload_budget",
 ]

@@ -1,13 +1,17 @@
 """
 Schema validation utilities.
 
-Provides validation functions for themes, styles, and colors
+Implements:
+    - GAP-FORMULA-006: Formula syntax validation (TASK-203)
+
+Provides validation functions for themes, styles, colors, and formulas
 to catch configuration errors early.
 """
 
 from __future__ import annotations
 
 import re
+from dataclasses import dataclass
 from typing import Any
 
 from spreadsheet_dl.schema.styles import (
@@ -164,7 +168,16 @@ def validate_font_weight(
     try:
         return FontWeight.from_name(value)
     except (ValueError, KeyError):
-        valid_names = ["thin", "light", "normal", "medium", "semibold", "bold", "extrabold", "black"]
+        valid_names = [
+            "thin",
+            "light",
+            "normal",
+            "medium",
+            "semibold",
+            "bold",
+            "extrabold",
+            "black",
+        ]
         valid_values = [w.value for w in FontWeight]
         raise SchemaValidationError(  # noqa: B904
             f"must be one of: {', '.join(valid_names)} or numeric values: {', '.join(valid_values)}",
@@ -443,3 +456,345 @@ def validate_yaml_data(data: dict[str, Any]) -> list[str]:
     check_color_refs(data.get("styles", {}), "styles")
 
     return warnings
+
+
+# ============================================================================
+# Formula Validation (TASK-203: GAP-FORMULA-006)
+# ============================================================================
+
+
+class FormulaValidationError(Exception):
+    """
+    Error raised when formula validation fails.
+
+    Implements GAP-FORMULA-006: Formula syntax validation (TASK-203)
+
+    Attributes:
+        formula: The formula that failed validation
+        position: Character position where error occurred (if applicable)
+        message: Description of the validation failure
+    """
+
+    def __init__(
+        self,
+        message: str,
+        formula: str | None = None,
+        position: int | None = None,
+    ) -> None:
+        self.formula = formula
+        self.position = position
+        self.message = message
+        super().__init__(self._format_message())
+
+    def _format_message(self) -> str:
+        parts = [self.message]
+        if self.formula:
+            parts.append(f"in formula: {self.formula!r}")
+        if self.position is not None:
+            parts.append(f"at position {self.position}")
+        return " ".join(parts)
+
+
+@dataclass
+class FormulaValidationResult:
+    """
+    Result of formula validation.
+
+    Attributes:
+        is_valid: Whether the formula is valid
+        errors: List of validation error messages
+        warnings: List of validation warnings
+    """
+
+    is_valid: bool
+    errors: list[str]
+    warnings: list[str]
+
+
+# Known ODF/Excel function names (subset of most common ones)
+KNOWN_FUNCTIONS = {
+    # Mathematical
+    "SUM",
+    "SUMIF",
+    "SUMIFS",
+    "AVERAGE",
+    "AVERAGEIF",
+    "AVERAGEIFS",
+    "COUNT",
+    "COUNTA",
+    "COUNTIF",
+    "COUNTIFS",
+    "COUNTBLANK",
+    "MAX",
+    "MIN",
+    "ROUND",
+    "ROUNDUP",
+    "ROUNDDOWN",
+    "ABS",
+    "SQRT",
+    "POWER",
+    "MOD",
+    "PRODUCT",
+    # Financial
+    "PMT",
+    "PV",
+    "FV",
+    "NPV",
+    "IRR",
+    "NPER",
+    "RATE",
+    # Logical
+    "IF",
+    "IFERROR",
+    "IFNA",
+    "AND",
+    "OR",
+    "NOT",
+    "ISBLANK",
+    "ISERROR",
+    "ISNUMBER",
+    "ISTEXT",
+    # Lookup
+    "VLOOKUP",
+    "HLOOKUP",
+    "INDEX",
+    "MATCH",
+    "OFFSET",
+    "INDIRECT",
+    # Text
+    "CONCATENATE",
+    "CONCAT",
+    "TEXT",
+    "LEFT",
+    "RIGHT",
+    "MID",
+    "LEN",
+    "TRIM",
+    "UPPER",
+    "LOWER",
+    "PROPER",
+    "FIND",
+    "SEARCH",
+    "SUBSTITUTE",
+    # Date/Time
+    "TODAY",
+    "NOW",
+    "DATE",
+    "YEAR",
+    "MONTH",
+    "DAY",
+    "WEEKDAY",
+    "WEEKNUM",
+    "EOMONTH",
+    "DATEDIF",
+    # Statistical
+    "MEDIAN",
+    "STDEV",
+    "STDEVP",
+    "VAR",
+    "PERCENTILE",
+}
+
+# Regex patterns for formula validation
+CELL_REF_PATTERN = re.compile(r"\$?[A-Z]+\$?[0-9]+")
+RANGE_REF_PATTERN = re.compile(r"\$?[A-Z]+\$?[0-9]+:\$?[A-Z]+\$?[0-9]+")
+FUNCTION_PATTERN = re.compile(r"([A-Z]+)\s*\(")
+
+
+class FormulaValidator:
+    """
+    Validates ODF formula syntax.
+
+    Implements GAP-FORMULA-006: Formula syntax validation (TASK-203)
+
+    Provides validation for:
+    - Parentheses matching
+    - Function name validation
+    - Cell reference validation
+    - Basic syntax errors
+    """
+
+    def __init__(self, strict: bool = False) -> None:
+        """
+        Initialize formula validator.
+
+        Args:
+            strict: If True, treat warnings as errors
+        """
+        self.strict = strict
+
+    def validate(self, formula: str) -> FormulaValidationResult:
+        """
+        Validate a formula.
+
+        Args:
+            formula: Formula string (with or without "of:=" prefix)
+
+        Returns:
+            FormulaValidationResult with validation outcome
+        """
+        errors: list[str] = []
+        warnings: list[str] = []
+
+        if not formula:
+            errors.append("Formula is empty")
+            return FormulaValidationResult(False, errors, warnings)
+
+        # Strip ODF prefix if present
+        formula_body = formula
+        if formula.startswith("of:="):
+            formula_body = formula[4:]
+        elif formula.startswith("="):
+            formula_body = formula[1:]
+
+        # Validate parentheses
+        paren_error = self._validate_parentheses(formula_body)
+        if paren_error:
+            errors.append(paren_error)
+
+        # Validate function names
+        func_errors, func_warnings = self._validate_functions(formula_body)
+        errors.extend(func_errors)
+        warnings.extend(func_warnings)
+
+        # Validate cell references
+        ref_warnings = self._validate_cell_references(formula_body)
+        warnings.extend(ref_warnings)
+
+        # Check for common mistakes
+        common_errors = self._check_common_mistakes(formula_body)
+        errors.extend(common_errors)
+
+        is_valid = len(errors) == 0 and (not self.strict or len(warnings) == 0)
+        return FormulaValidationResult(is_valid, errors, warnings)
+
+    def _validate_parentheses(self, formula: str) -> str | None:
+        """
+        Validate parentheses matching.
+
+        Args:
+            formula: Formula body (without prefix)
+
+        Returns:
+            Error message if invalid, None if valid
+        """
+        stack: list[tuple[str, int]] = []
+        in_string = False
+        escape_next = False
+
+        for i, char in enumerate(formula):
+            if escape_next:
+                escape_next = False
+                continue
+
+            if char == "\\":
+                escape_next = True
+                continue
+
+            if char == '"':
+                in_string = not in_string
+                continue
+
+            if in_string:
+                continue
+
+            if char in "([{":
+                stack.append((char, i))
+            elif char in ")]}":
+                if not stack:
+                    return f"Unmatched closing '{char}' at position {i}"
+                opening, pos = stack.pop()
+                pairs = {"(": ")", "[": "]", "{": "}"}
+                if pairs.get(opening) != char:
+                    return f"Mismatched parenthesis: '{opening}' at {pos} closed by '{char}' at {i}"
+
+        if stack:
+            opening, pos = stack[0]
+            return f"Unclosed '{opening}' at position {pos}"
+
+        return None
+
+    def _validate_functions(self, formula: str) -> tuple[list[str], list[str]]:
+        """
+        Validate function names.
+
+        Args:
+            formula: Formula body
+
+        Returns:
+            Tuple of (errors, warnings)
+        """
+        errors: list[str] = []
+        warnings: list[str] = []
+
+        # Find all function calls
+        matches = FUNCTION_PATTERN.finditer(formula)
+        for match in matches:
+            func_name = match.group(1).upper()
+            if func_name not in KNOWN_FUNCTIONS:
+                warnings.append(f"Unknown function: {func_name}")
+
+        return errors, warnings
+
+    def _validate_cell_references(self, formula: str) -> list[str]:
+        """
+        Validate cell references.
+
+        Args:
+            formula: Formula body
+
+        Returns:
+            List of warnings
+        """
+        warnings: list[str] = []
+
+        # Find cell references
+        matches = CELL_REF_PATTERN.finditer(formula)
+        for match in matches:
+            ref = match.group(0)
+            # Extract column and row
+            col = ""
+            row = ""
+            for char in ref:
+                if char.isalpha():
+                    col += char
+                elif char.isdigit():
+                    row += char
+
+            # Basic sanity checks
+            col_clean = col.replace("$", "")
+            if len(col_clean) > 3:  # XFD is max column
+                warnings.append(f"Suspicious column reference: {ref}")
+
+            if row:
+                row_num = int(row.replace("$", ""))
+                if row_num > 1048576:  # Excel max rows
+                    warnings.append(f"Row number exceeds maximum: {ref}")
+
+        return warnings
+
+    def _check_common_mistakes(self, formula: str) -> list[str]:
+        """
+        Check for common formula mistakes.
+
+        Args:
+            formula: Formula body
+
+        Returns:
+            List of errors
+        """
+        errors: list[str] = []
+
+        # Check for empty function calls
+        if re.search(r"[A-Z]+\(\s*\)", formula):
+            errors.append("Empty function call detected")
+
+        # Check for double operators
+        if re.search(r"[+\-*/]{2,}", formula):
+            errors.append("Double operator detected (e.g., ++, --)")
+
+        # Check for division by zero literal
+        if re.search(r"/\s*0\s*(?:[+\-*/;)]|$)", formula):
+            errors.append("Division by zero literal detected")
+
+        return errors

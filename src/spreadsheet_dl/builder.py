@@ -5,16 +5,19 @@ Implements:
     - FR-BUILDER-001: Extended SpreadsheetBuilder
     - FR-BUILDER-004: ChartBuilder (via charts module)
     - FR-BUILDER-005: Formula Builder Enhancement
+    - GAP-FORMULA-001: Circular reference detection (TASK-204)
 
 Provides a declarative, chainable API for building spreadsheets:
 - SpreadsheetBuilder: Main builder for creating sheets
 - SheetBuilder: Builder for individual sheets
 - FormulaBuilder: Type-safe formula construction
 - ChartBuilder: Fluent chart creation (from charts module)
+- FormulaDependencyGraph: Circular reference detection
 """
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Self
@@ -31,10 +34,12 @@ if TYPE_CHECKING:
 # ============================================================================
 
 
-@dataclass
+@dataclass(slots=True)
 class CellSpec:
     """
     Specification for a single cell.
+
+    Implements GAP-002: Missing __slots__ declarations
 
     Attributes:
         value: Cell value (string, number, date, etc.)
@@ -61,10 +66,12 @@ class CellSpec:
         return self.value is None and self.formula is None
 
 
-@dataclass
+@dataclass(slots=True)
 class RowSpec:
     """
     Specification for a row.
+
+    Implements GAP-002: Missing __slots__ declarations
 
     Attributes:
         cells: List of cell specifications
@@ -77,10 +84,12 @@ class RowSpec:
     height: str | None = None
 
 
-@dataclass
+@dataclass(slots=True)
 class ColumnSpec:
     """
     Specification for a column.
+
+    Implements GAP-002: Missing __slots__ declarations
 
     Attributes:
         name: Column header name
@@ -101,12 +110,13 @@ class ColumnSpec:
     sparkline: Any = None  # Sparkline from charts module
 
 
-@dataclass
+@dataclass(slots=True)
 class SheetSpec:
     """
     Specification for a sheet.
 
     Implements FR-BUILDER-001: Extended sheet properties
+    Implements GAP-002: Missing __slots__ declarations
 
     Attributes:
         name: Sheet name
@@ -341,6 +351,20 @@ class FormulaBuilder:
     def sheet(self, name: str) -> SheetRef:
         """Create sheet reference for cross-sheet formulas."""
         return SheetRef(name)
+
+    def named_range(self, name: str) -> str:
+        """
+        Reference a named range in a formula.
+
+        Implements GAP-FORMULA-005: Named range integration (TASK-202)
+
+        Args:
+            name: Named range name
+
+        Returns:
+            ODF named range reference
+        """
+        return f"[{name}]"
 
     def _format_ref(self, ref: CellRef | RangeRef | str) -> str:
         """Format a reference for formula use."""
@@ -612,7 +636,9 @@ class FormulaBuilder:
         Returns:
             ODF formula string
         """
-        return f"{self.PREFIX}NPV({self._format_value(rate)};{self._format_ref(values)})"
+        return (
+            f"{self.PREFIX}NPV({self._format_value(rate)};{self._format_ref(values)})"
+        )
 
     def irr(
         self,
@@ -827,7 +853,7 @@ class FormulaBuilder:
         """
         # Strip prefix from match_formula if present
         if match_formula.startswith(self.PREFIX):
-            match_formula = match_formula[len(self.PREFIX):]
+            match_formula = match_formula[len(self.PREFIX) :]
         return f"{self.PREFIX}INDEX({self._format_ref(return_range)};{match_formula})"
 
     def offset(
@@ -902,11 +928,15 @@ class FormulaBuilder:
         """Create PROPER formula (title case)."""
         return f"{self.PREFIX}PROPER({self._format_value(text)})"
 
-    def find(self, find_text: str, within_text: CellRef | str, start_num: int = 1) -> str:
+    def find(
+        self, find_text: str, within_text: CellRef | str, start_num: int = 1
+    ) -> str:
         """Create FIND formula (case-sensitive)."""
         return f'{self.PREFIX}FIND("{find_text}";{self._format_value(within_text)};{start_num})'
 
-    def search(self, find_text: str, within_text: CellRef | str, start_num: int = 1) -> str:
+    def search(
+        self, find_text: str, within_text: CellRef | str, start_num: int = 1
+    ) -> str:
         """Create SEARCH formula (case-insensitive)."""
         return f'{self.PREFIX}SEARCH("{find_text}";{self._format_value(within_text)};{start_num})'
 
@@ -1000,7 +1030,7 @@ class FormulaBuilder:
         """
         # Remove existing prefix if present
         if formula.startswith(self.PREFIX):
-            formula = formula[len(self.PREFIX):]
+            formula = formula[len(self.PREFIX) :]
         return f"{self.PREFIX}{{{formula}}}"
 
 
@@ -1152,7 +1182,9 @@ class SpreadsheetBuilder:
         Returns:
             Self for chaining
         """
-        sheet_name = sheet or (self._current_sheet.name if self._current_sheet else None)
+        sheet_name = sheet or (
+            self._current_sheet.name if self._current_sheet else None
+        )
         self._named_ranges.append(
             NamedRange(
                 name=name,
@@ -1391,7 +1423,11 @@ class SpreadsheetBuilder:
                 row.cells.append(CellSpec(value=value, style=style))
         elif formulas:
             for formula in formulas:
-                if formula and not formula.startswith("=") and not formula.startswith("of:"):
+                if (
+                    formula
+                    and not formula.startswith("=")
+                    and not formula.startswith("of:")
+                ):
                     # Treat as value, not formula
                     row.cells.append(CellSpec(value=formula, style=style))
                 else:
@@ -1593,6 +1629,8 @@ class SpreadsheetBuilder:
         """
         Generate and save the ODS file.
 
+        Implements TASK-202: Export named ranges to ODS
+
         Args:
             path: Output file path
 
@@ -1602,7 +1640,7 @@ class SpreadsheetBuilder:
         from spreadsheet_dl.renderer import OdsRenderer
 
         renderer = OdsRenderer(self._get_theme())
-        return renderer.render(self._sheets, Path(path))
+        return renderer.render(self._sheets, Path(path), self._named_ranges)
 
 
 # ============================================================================
@@ -1631,3 +1669,194 @@ def formula() -> FormulaBuilder:
         FormulaBuilder instance
     """
     return FormulaBuilder()
+
+
+# ============================================================================
+# Circular Reference Detection (TASK-204: GAP-FORMULA-001)
+# ============================================================================
+
+
+class CircularReferenceError(Exception):
+    """
+    Error raised when circular references are detected in formulas.
+
+    Implements GAP-FORMULA-001: Circular reference detection (TASK-204)
+
+    Attributes:
+        cell: The cell that contains the circular reference
+        cycle: List of cells forming the circular dependency
+    """
+
+    def __init__(self, cell: str, cycle: list[str]) -> None:
+        self.cell = cell
+        self.cycle = cycle
+        super().__init__(self._format_message())
+
+    def _format_message(self) -> str:
+        cycle_str = " -> ".join(self.cycle)
+        return f"Circular reference detected at {self.cell}: {cycle_str}"
+
+
+class FormulaDependencyGraph:
+    """
+    Tracks formula dependencies and detects circular references.
+
+    Implements GAP-FORMULA-001: Circular reference detection (TASK-204)
+
+    This class builds a directed graph of formula dependencies
+    and can detect cycles (circular references).
+    """
+
+    # Pattern to find cell references in formulas
+    CELL_REF_PATTERN = re.compile(r"\[\.([A-Z]+[0-9]+)\]")
+    SHEET_REF_PATTERN = re.compile(r"\[([^.]+)\.([A-Z]+[0-9]+)\]")
+
+    def __init__(self) -> None:
+        """Initialize empty dependency graph."""
+        self._dependencies: dict[str, set[str]] = {}
+        self._formulas: dict[str, str] = {}
+
+    def add_cell(
+        self, cell_ref: str, formula: str | None, sheet: str = "Sheet1"
+    ) -> None:
+        """
+        Add a cell and its formula to the dependency graph.
+
+        Args:
+            cell_ref: Cell reference (e.g., "A2")
+            formula: Formula string (None if no formula)
+            sheet: Sheet name
+        """
+        full_ref = f"{sheet}.{cell_ref}"
+
+        # Initialize dependencies for this cell
+        if full_ref not in self._dependencies:
+            self._dependencies[full_ref] = set()
+
+        if formula:
+            self._formulas[full_ref] = formula
+            # Extract cell references from formula
+            deps = self._extract_dependencies(formula, sheet)
+            self._dependencies[full_ref] = deps
+
+    def _extract_dependencies(self, formula: str, current_sheet: str) -> set[str]:
+        """
+        Extract cell references from a formula.
+
+        Args:
+            formula: Formula string
+            current_sheet: Current sheet name
+
+        Returns:
+            Set of cell references (with sheet prefix)
+        """
+        deps: set[str] = set()
+
+        # Find same-sheet references like [.A2]
+        for match in self.CELL_REF_PATTERN.finditer(formula):
+            cell = match.group(1)
+            deps.add(f"{current_sheet}.{cell}")
+
+        # Find cross-sheet references like [Sheet2.A5]
+        for match in self.SHEET_REF_PATTERN.finditer(formula):
+            sheet = match.group(1).strip("'")  # Remove quotes if present
+            cell = match.group(2)
+            deps.add(f"{sheet}.{cell}")
+
+        return deps
+
+    def detect_circular_references(self) -> list[tuple[str, list[str]]]:
+        """
+        Detect all circular references in the dependency graph.
+
+        Returns:
+            List of (cell, cycle) tuples for each circular reference found
+        """
+        circular_refs: list[tuple[str, list[str]]] = []
+        visited: set[str] = set()
+        rec_stack: set[str] = set()
+        path: list[str] = []
+
+        def dfs(cell: str) -> bool:
+            """
+            Depth-first search to detect cycles.
+
+            Args:
+                cell: Current cell being visited
+
+            Returns:
+                True if cycle detected, False otherwise
+            """
+            visited.add(cell)
+            rec_stack.add(cell)
+            path.append(cell)
+
+            # Visit all dependencies
+            for dep in self._dependencies.get(cell, set()):
+                if dep not in visited:
+                    if dfs(dep):
+                        return True
+                elif dep in rec_stack:
+                    # Found a cycle - extract the circular path
+                    cycle_start_idx = path.index(dep)
+                    cycle = path[cycle_start_idx:] + [dep]
+                    circular_refs.append((cell, cycle))
+                    return True
+
+            path.pop()
+            rec_stack.remove(cell)
+            return False
+
+        # Check all cells for circular references
+        for cell in self._dependencies:
+            if cell not in visited:
+                path.clear()
+                dfs(cell)
+
+        return circular_refs
+
+    def validate(self) -> None:
+        """
+        Validate the dependency graph and raise error if circular references found.
+
+        Raises:
+            CircularReferenceError: If circular references are detected
+        """
+        circular_refs = self.detect_circular_references()
+        if circular_refs:
+            cell, cycle = circular_refs[0]  # Report first circular reference
+            raise CircularReferenceError(cell, cycle)
+
+    def get_dependencies(self, cell_ref: str, sheet: str = "Sheet1") -> set[str]:
+        """
+        Get all cells that the given cell depends on.
+
+        Args:
+            cell_ref: Cell reference
+            sheet: Sheet name
+
+        Returns:
+            Set of cell references (with sheet prefix)
+        """
+        full_ref = f"{sheet}.{cell_ref}"
+        return self._dependencies.get(full_ref, set())
+
+    def get_dependents(self, cell_ref: str, sheet: str = "Sheet1") -> set[str]:
+        """
+        Get all cells that depend on the given cell.
+
+        Args:
+            cell_ref: Cell reference
+            sheet: Sheet name
+
+        Returns:
+            Set of cell references (with sheet prefix)
+        """
+        full_ref = f"{sheet}.{cell_ref}"
+        dependents: set[str] = set()
+
+        for cell, deps in self._dependencies.items():
+            if full_ref in deps:
+                dependents.add(cell)
+
+        return dependents

@@ -27,7 +27,6 @@ import sys
 from pathlib import Path
 from typing import Any
 
-
 # Patterns that indicate intermediate/analysis files
 INTERMEDIATE_PATTERNS = [
     r".*ANALYSIS.*\.md$",

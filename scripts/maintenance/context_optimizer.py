@@ -29,7 +29,6 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-
 # Thresholds for recommendations
 LARGE_FILE_THRESHOLD = 100 * 1024  # 100KB
 OLD_FILE_DAYS = 7
@@ -293,7 +292,7 @@ def generate_report(analysis: dict[str, Any]) -> str:
                 lines.append(f"   {suggestion['description']}")
             if "command" in suggestion:
                 lines.append(f"   Command: {suggestion['command']}")
-            if "files" in suggestion and suggestion["files"]:
+            if suggestion.get("files"):
                 lines.append(f"   Files: {', '.join(suggestion['files'][:5])}")
         lines.append("")
 
@@ -361,7 +360,7 @@ def main():
                 print(f"{i}. {s['action']}")
                 if "description" in s:
                     print(f"   {s['description']}")
-                if "files" in s and s["files"]:
+                if s.get("files"):
                     print(f"   Affected: {len(s['files'])} files")
         else:
             print("No optimization suggestions.")

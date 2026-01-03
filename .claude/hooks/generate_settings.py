@@ -17,7 +17,7 @@ import os
 import shutil
 import sys
 import tempfile
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -204,7 +204,7 @@ def generate_settings(dry_run: bool = False, output: str | None = None) -> dict[
             # Mark as generated
             "_generated": {
                 "source": "coding-standards.yaml",
-                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "timestamp": datetime.now(UTC).isoformat(),
                 "version": "1.0.0",
             },
         }

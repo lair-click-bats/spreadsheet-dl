@@ -140,10 +140,12 @@ class ChartTitle:
     position: str = "top"
 
 
-@dataclass
+@dataclass(slots=True)
 class AxisConfig:
     """
     Axis configuration (FR-CHART-002).
+
+    Implements GAP-002: Missing __slots__ declarations
 
     Attributes:
         axis_type: Type of axis (category, value, secondary_value)
@@ -252,10 +254,12 @@ class Trendline:
     dash_style: str = "solid"
 
 
-@dataclass
+@dataclass(slots=True)
 class DataSeries:
     """
     Chart data series configuration (FR-CHART-005).
+
+    Implements GAP-002: Missing __slots__ declarations
 
     Attributes:
         name: Series name (for legend)
@@ -396,10 +400,12 @@ class Sparkline:
 # ============================================================================
 
 
-@dataclass
+@dataclass(slots=True)
 class ChartSpec:
     """
     Complete chart specification (FR-CHART-001, FR-CHART-002).
+
+    Implements GAP-002: Missing __slots__ declarations
 
     This is the output of ChartBuilder and contains all configuration
     needed to render a chart.
@@ -676,7 +682,9 @@ class ChartBuilder:
         Returns:
             Self for chaining
         """
-        pos_enum = DataLabelPosition(position) if isinstance(position, str) else position
+        pos_enum = (
+            DataLabelPosition(position) if isinstance(position, str) else position
+        )
         self._spec.data_labels = DataLabelConfig(
             show_value=show_value,
             show_percentage=show_percentage,
@@ -830,7 +838,9 @@ class ChartBuilder:
         Returns:
             Self for chaining
         """
-        pos_enum = LegendPosition(position) if position != "none" else LegendPosition.NONE
+        pos_enum = (
+            LegendPosition(position) if position != "none" else LegendPosition.NONE
+        )
         self._spec.legend = LegendConfig(
             position=pos_enum,
             visible=visible and position != "none",
@@ -1372,8 +1382,7 @@ def trend_line_chart(
         builder.series_trendline("linear", display_equation=True)
 
     return (
-        builder
-        .legend(visible=False)
+        builder.legend(visible=False)
         .axis("value", gridlines=True)
         .position(position)
         .size(500, 300)

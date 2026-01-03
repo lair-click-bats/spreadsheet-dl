@@ -9,12 +9,12 @@ Version: 1.0.0
 
 import json
 import os
+import shutil
 import subprocess
 import sys
 import time
-import shutil
-from typing import Dict, List, Any, Tuple
 from datetime import datetime
+from typing import Any
 
 # Configuration
 PROJECT_DIR = os.path.abspath(os.environ.get("CLAUDE_PROJECT_DIR", "."))
@@ -26,7 +26,7 @@ CHECKPOINTS_DIR = f"{PROJECT_DIR}/.coordination/checkpoints"
 OUTPUTS_DIR = f"{PROJECT_DIR}/.claude/agent-outputs"
 
 # Test results
-RESULTS: Dict[str, Dict[str, Any]] = {}
+RESULTS: dict[str, dict[str, Any]] = {}
 
 
 def log(msg: str, level: str = "INFO") -> None:
@@ -35,7 +35,7 @@ def log(msg: str, level: str = "INFO") -> None:
     print(f"[{timestamp}] [{level}] {msg}")
 
 
-def run_hook(hook_name: str, args: List[str] = None) -> Tuple[int, str, str]:
+def run_hook(hook_name: str, args: list[str] = None) -> tuple[int, str, str]:
     """Run a hook script and return exit code, stdout, stderr."""
     hook_path = f"{HOOKS_DIR}/{hook_name}"
     cmd = [hook_path] + (args or [])
@@ -52,7 +52,7 @@ def run_hook(hook_name: str, args: List[str] = None) -> Tuple[int, str, str]:
         return -2, "", str(e)
 
 
-def run_registry_cmd(cmd: str, args: List[str] = None) -> Tuple[int, str, str]:
+def run_registry_cmd(cmd: str, args: list[str] = None) -> tuple[int, str, str]:
     """Run a manage_agent_registry.py command."""
     script_path = f"{HOOKS_DIR}/manage_agent_registry.py"
     full_cmd = ["python3", script_path, cmd] + (args or [])
@@ -489,7 +489,7 @@ def test_checkpoint_with_large_state():
             passed = code2 == 0 and "RESTORED" in stdout2
 
             # Verify state integrity
-            with open(state_file, "r") as f:
+            with open(state_file) as f:
                 restored = json.load(f)
             passed = passed and len(restored.get("data", "")) == 100000
         else:
@@ -903,7 +903,7 @@ def test_context_thresholds_output():
 # =============================================================================
 
 
-def run_all_tests() -> Dict[str, Any]:
+def run_all_tests() -> dict[str, Any]:
     """Run all stress tests and return results."""
     log("=" * 60)
     log("ORCHESTRATION STRESS TEST SUITE")
@@ -950,7 +950,7 @@ def run_all_tests() -> Dict[str, Any]:
     return RESULTS
 
 
-def generate_report(results: Dict[str, Any]) -> str:
+def generate_report(results: dict[str, Any]) -> str:
     """Generate a markdown report from test results."""
     total = len(results)
     passed = sum(1 for r in results.values() if r["passed"])

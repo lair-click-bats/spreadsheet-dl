@@ -232,12 +232,13 @@ CSS_NAMED_COLORS: dict[str, str] = {
 }
 
 
-@dataclass
+@dataclass(frozen=True)
 class Color:
     """
     Color specification supporting hex, RGB, HSL values and manipulation.
 
     Implements FR-SCHEMA-001: Extended Color Dataclass
+    Implements GAP-001: Missing frozen=True on value objects
 
     Examples:
         # Multiple creation methods
@@ -259,18 +260,20 @@ class Color:
     value: str
 
     def __post_init__(self) -> None:
-        """Validate color value."""
+        """Validate and normalize color value."""
         if self.value.startswith("#"):
             if not HEX_COLOR_PATTERN.match(self.value):
                 raise ValueError(f"Invalid hex color: {self.value}")
-            # Normalize to 6 or 8 character hex
+            # Normalize to 6 or 8 character hex (use object.__setattr__ for frozen dataclass)
             val = self.value[1:]
+            normalized: str
             if len(val) == 3:
-                self.value = f"#{val[0]*2}{val[1]*2}{val[2]*2}"
+                normalized = f"#{val[0] * 2}{val[1] * 2}{val[2] * 2}"
             elif len(val) == 4:
-                self.value = f"#{val[0]*2}{val[1]*2}{val[2]*2}{val[3]*2}"
+                normalized = f"#{val[0] * 2}{val[1] * 2}{val[2] * 2}{val[3] * 2}"
             else:
-                self.value = f"#{val.upper()}"
+                normalized = f"#{val.upper()}"
+            object.__setattr__(self, "value", normalized)
 
     @classmethod
     def from_hex(cls, hex_code: str) -> Color:
@@ -556,6 +559,8 @@ class ColorPalette:
     Implements FR-THEME-001: Color Palette Management
 
     Provides semantic color naming for consistent theming.
+
+    Note: Not frozen to allow dynamic color updates via set() method.
     """
 
     # Primary colors
@@ -655,12 +660,13 @@ class ColorPalette:
 # ============================================================================
 
 
-@dataclass
+@dataclass(frozen=True)
 class Font:
     """
     Comprehensive font specification with full typographic control.
 
     Implements FR-SCHEMA-003: Font Dataclass Enhancement
+    Implements GAP-001: Missing frozen=True on value objects
 
     Examples:
         font = Font(
@@ -784,12 +790,13 @@ class Font:
 # ============================================================================
 
 
-@dataclass
+@dataclass(frozen=True)
 class BorderEdge:
     """
     Single border edge specification.
 
     Implements FR-SCHEMA-004: Border Edge and Borders Dataclass
+    Implements GAP-001: Missing frozen=True on value objects
     """
 
     style: BorderStyle = BorderStyle.NONE
@@ -828,10 +835,12 @@ class BorderEdge:
 
 
 # Keep Border for backward compatibility
-@dataclass
+@dataclass(frozen=True)
 class Border:
     """
     Border specification (backward compatible).
+
+    Implements GAP-001: Missing frozen=True on value objects
 
     Examples:
         Border()  # 1px solid black
@@ -880,6 +889,8 @@ class Borders:
     Complete borders specification with per-side control.
 
     Implements FR-SCHEMA-004: Border Edge and Borders Dataclass
+
+    Note: Not frozen as it's a container object, not a value object.
 
     Examples:
         # Per-side control
@@ -997,20 +1008,25 @@ class Borders:
 # ============================================================================
 
 
-@dataclass
+@dataclass(frozen=True)
 class GradientStop:
-    """A color stop in a gradient."""
+    """
+    A color stop in a gradient.
+
+    Implements GAP-001: Missing frozen=True on value objects
+    """
 
     position: float  # 0.0 to 1.0
     color: Color
 
 
-@dataclass
+@dataclass(frozen=True)
 class PatternFill:
     """
     Pattern fill specification.
 
     Implements FR-SCHEMA-005: Cell Fill Dataclass
+    Implements GAP-001: Missing frozen=True on value objects
     """
 
     pattern_type: PatternType = PatternType.SOLID
@@ -1018,27 +1034,29 @@ class PatternFill:
     background_color: Color = field(default_factory=lambda: Color("#FFFFFF"))
 
 
-@dataclass
+@dataclass(frozen=True)
 class GradientFill:
     """
     Gradient fill specification.
 
     Implements FR-SCHEMA-005: Cell Fill Dataclass
+    Implements GAP-001: Missing frozen=True on value objects
     """
 
     type: GradientType = GradientType.LINEAR
     angle: float = 0.0  # For linear gradients (degrees)
     center_x: float = 0.5  # For radial gradients
     center_y: float = 0.5  # For radial gradients
-    stops: list[GradientStop] = field(default_factory=list)
+    stops: tuple[GradientStop, ...] = field(default_factory=tuple)
 
 
-@dataclass
+@dataclass(frozen=True)
 class CellFill:
     """
     Cell background fill specification.
 
     Implements FR-SCHEMA-005: Cell Fill Dataclass
+    Implements GAP-001: Missing frozen=True on value objects
 
     Supports solid colors, patterns, and gradients.
 
@@ -1097,12 +1115,13 @@ class CellFill:
 # ============================================================================
 
 
-@dataclass
+@dataclass(frozen=True)
 class NumberFormat:
     """
     Number format specification with ODF format code generation.
 
     Implements FR-SCHEMA-006: Number Format Dataclass
+    Implements GAP-001: Missing frozen=True on value objects
 
     Examples:
         # Currency with accounting format
@@ -1313,6 +1332,8 @@ class StyleDefinition:
         - FR-SCHEMA-007: Complete CellStyle Dataclass
         - FR-SCHEMA-010: Style Composition System
 
+    Note: Not frozen as it's a mutable configuration object used during theme loading.
+
     Used as building blocks for CellStyle. Supports inheritance
     via 'extends' and composition via 'includes'.
     """
@@ -1368,6 +1389,8 @@ class CellStyle:
     Complete cell style definition with all properties resolved.
 
     Implements FR-SCHEMA-007: Complete CellStyle Dataclass
+
+    Note: Not frozen as it needs to support with_overrides() and merge_with() operations.
 
     This is the final style used for rendering, with inheritance
     already applied.
@@ -1437,60 +1460,50 @@ class CellStyle:
         Returns:
             New CellStyle with overrides applied
         """
-        # Copy current values
+        # Extract font-related overrides
+        font_family = kwargs.get("font_family", self.font.family)
+        font_size = kwargs.get("font_size", self.font.size)
+        font_weight = kwargs.get("font_weight", self.font.weight)
+        font_color = kwargs.get("font_color", self.font.color)
+        italic = kwargs.get("italic", self.font.italic)
+        underline = kwargs.get("underline", self.font.underline)
+
+        # Create new font with overrides (Font is frozen)
         new_font = Font(
-            family=self.font.family,
-            fallback=self.font.fallback.copy(),
-            size=self.font.size,
-            weight=self.font.weight,
-            color=self.font.color,
-            italic=self.font.italic,
-            underline=self.font.underline,
+            family=font_family,
+            fallback=self.font.fallback,  # Tuples are immutable, no need to copy
+            size=font_size,
+            weight=font_weight,
+            color=font_color,
+            italic=italic,
+            underline=underline,
             strikethrough=self.font.strikethrough,
             letter_spacing=self.font.letter_spacing,
         )
 
+        # Create result with all values
         result = CellStyle(
             name=kwargs.get("name", f"{self.name}_override"),
             font=new_font,
-            text_align=self.text_align,
-            vertical_align=self.vertical_align,
-            text_rotation=self.text_rotation,
-            wrap_text=self.wrap_text,
-            shrink_to_fit=self.shrink_to_fit,
-            indent=self.indent,
-            background_color=self.background_color,
-            fill=self.fill,
-            border_top=self.border_top,
-            border_bottom=self.border_bottom,
-            border_left=self.border_left,
-            border_right=self.border_right,
-            borders=self.borders,
-            padding=self.padding,
-            number_format=self.number_format,
-            date_format=self.date_format,
-            locked=self.locked,
-            hidden=self.hidden,
+            text_align=kwargs.get("text_align", self.text_align),
+            vertical_align=kwargs.get("vertical_align", self.vertical_align),
+            text_rotation=kwargs.get("text_rotation", self.text_rotation),
+            wrap_text=kwargs.get("wrap_text", self.wrap_text),
+            shrink_to_fit=kwargs.get("shrink_to_fit", self.shrink_to_fit),
+            indent=kwargs.get("indent", self.indent),
+            background_color=kwargs.get("background_color", self.background_color),
+            fill=kwargs.get("fill", self.fill),
+            border_top=kwargs.get("border_top", self.border_top),
+            border_bottom=kwargs.get("border_bottom", self.border_bottom),
+            border_left=kwargs.get("border_left", self.border_left),
+            border_right=kwargs.get("border_right", self.border_right),
+            borders=kwargs.get("borders", self.borders),
+            padding=kwargs.get("padding", self.padding),
+            number_format=kwargs.get("number_format", self.number_format),
+            date_format=kwargs.get("date_format", self.date_format),
+            locked=kwargs.get("locked", self.locked),
+            hidden=kwargs.get("hidden", self.hidden),
         )
-
-        # Apply overrides
-        for key, value in kwargs.items():
-            if key == "name":
-                result.name = value
-            elif key == "font_family":
-                result.font.family = value
-            elif key == "font_size":
-                result.font.size = value
-            elif key == "font_weight":
-                result.font.weight = value
-            elif key == "font_color":
-                result.font.color = value
-            elif key == "italic":
-                result.font.italic = value
-            elif key == "underline":
-                result.font.underline = value
-            elif hasattr(result, key):
-                setattr(result, key, value)
 
         return result
 
@@ -1592,10 +1605,12 @@ class CellStyle:
 # ============================================================================
 
 
-@dataclass
+@dataclass(frozen=True)
 class ThemeSchema:
     """
     Theme metadata schema.
+
+    Implements GAP-001: Missing frozen=True on value objects
 
     Contains theme identification and inheritance information.
     """
@@ -1605,6 +1620,33 @@ class ThemeSchema:
     description: str = ""
     author: str = ""
     extends: str | None = None
+
+
+@dataclass
+class ThemeVariant:
+    """
+    Theme variant configuration for alternate color schemes.
+
+    Implements GAP-THEME-016: Theme variants missing
+
+    Allows defining alternate color palettes (dark mode, high contrast, etc.)
+    that can be switched at runtime while keeping the same style definitions.
+
+    Examples:
+        # Define dark mode variant
+        dark = ThemeVariant(
+            name="dark",
+            colors={
+                "primary": Color("#6B8DD6"),
+                "neutral_900": Color("#FFFFFF"),  # Inverted
+                "neutral_100": Color("#1A1A1A"),  # Inverted
+            }
+        )
+    """
+
+    name: str
+    description: str = ""
+    colors: dict[str, Color] = field(default_factory=dict)
 
 
 @dataclass
@@ -1633,6 +1675,10 @@ class Theme:
     base_styles: dict[str, StyleDefinition] = field(default_factory=dict)
     styles: dict[str, StyleDefinition] = field(default_factory=dict)
     conditional_formats: dict[str, Any] = field(default_factory=dict)
+    variants: dict[str, ThemeVariant] = field(default_factory=dict)
+
+    # Active variant (None for base theme)
+    _active_variant: str | None = field(default=None, repr=False)
 
     # Cache for resolved styles
     _resolved_cache: dict[str, CellStyle] = field(default_factory=dict, repr=False)
@@ -1652,19 +1698,71 @@ class Theme:
         """Theme description."""
         return self.meta.description
 
+    @property
+    def active_variant(self) -> str | None:
+        """Get active variant name."""
+        return self._active_variant
+
+    def set_variant(self, variant_name: str | None) -> None:
+        """
+        Switch to a different theme variant.
+
+        Implements GAP-THEME-016: Theme variants missing
+
+        Args:
+            variant_name: Variant name (e.g., "dark", "high_contrast") or None for base theme
+
+        Raises:
+            KeyError: If variant not found
+        """
+        if variant_name is not None and variant_name not in self.variants:
+            raise KeyError(f"Unknown variant: {variant_name}")
+
+        self._active_variant = variant_name
+        # Clear cache when variant changes
+        self.clear_cache()
+
+    def get_variant(self, variant_name: str) -> ThemeVariant:
+        """
+        Get a theme variant by name.
+
+        Args:
+            variant_name: Variant name
+
+        Returns:
+            ThemeVariant
+
+        Raises:
+            KeyError: If variant not found
+        """
+        if variant_name not in self.variants:
+            raise KeyError(f"Unknown variant: {variant_name}")
+        return self.variants[variant_name]
+
+    def list_variants(self) -> list[str]:
+        """List available variant names."""
+        return list(self.variants.keys())
+
     def get_color(self, name: str) -> Color:
         """
-        Get color by name.
+        Get color by name, with variant override support.
 
         Args:
             name: Color name from palette
 
         Returns:
-            Color instance
+            Color instance (from active variant if available, otherwise base palette)
 
         Raises:
             KeyError: If color not found
         """
+        # Check active variant first
+        if self._active_variant is not None:
+            variant = self.variants.get(self._active_variant)
+            if variant and name in variant.colors:
+                return variant.colors[name]
+
+        # Fall back to base palette
         color = self.colors.get(name)
         if color is None:
             raise KeyError(f"Unknown color: {name}")
