@@ -33,7 +33,7 @@ from spreadsheet_dl.plaid_integration import (
 class TestPlaidConfig:
     """Tests for PlaidConfig."""
 
-    def test_default_environment(self):
+    def test_default_environment(self) -> None:
         """Test default environment is sandbox."""
         config = PlaidConfig(
             client_id="test_client",
@@ -41,7 +41,7 @@ class TestPlaidConfig:
         )
         assert config.environment == PlaidEnvironment.SANDBOX
 
-    def test_base_url_sandbox(self):
+    def test_base_url_sandbox(self) -> None:
         """Test sandbox URL."""
         config = PlaidConfig(
             client_id="test",
@@ -50,7 +50,7 @@ class TestPlaidConfig:
         )
         assert config.base_url == "https://sandbox.plaid.com"
 
-    def test_base_url_production(self):
+    def test_base_url_production(self) -> None:
         """Test production URL."""
         config = PlaidConfig(
             client_id="test",
@@ -59,7 +59,7 @@ class TestPlaidConfig:
         )
         assert config.base_url == "https://production.plaid.com"
 
-    def test_default_products(self):
+    def test_default_products(self) -> None:
         """Test default products include transactions."""
         config = PlaidConfig(
             client_id="test",
@@ -72,7 +72,7 @@ class TestPlaidClient:
     """Tests for PlaidClient sandbox mode."""
 
     @pytest.fixture
-    def client(self):
+    def client(self) -> PlaidClient:
         """Create a test client."""
         config = PlaidConfig(
             client_id="test_client_id",
@@ -81,7 +81,7 @@ class TestPlaidClient:
         )
         return PlaidClient(config)
 
-    def test_create_link_token(self, client):
+    def test_create_link_token(self, client: PlaidClient) -> None:
         """Test link token creation in sandbox."""
         token = client.create_link_token("user_123")
 
@@ -90,7 +90,7 @@ class TestPlaidClient:
         assert not token.is_expired
         assert token.expiration > datetime.now()
 
-    def test_exchange_public_token(self, client):
+    def test_exchange_public_token(self, client: PlaidClient) -> None:
         """Test public token exchange in sandbox."""
         access = client.exchange_public_token("public-sandbox-test")
 
@@ -100,7 +100,7 @@ class TestPlaidClient:
         assert access.status == LinkStatus.CONNECTED
         assert len(access.accounts) > 0
 
-    def test_get_accounts(self, client):
+    def test_get_accounts(self, client: PlaidClient) -> None:
         """Test account retrieval in sandbox."""
         accounts = client.get_accounts("access-sandbox-test")
 
@@ -114,7 +114,7 @@ class TestPlaidClient:
         assert first.name
         assert first.type in ("depository", "credit")
 
-    def test_get_balances(self, client):
+    def test_get_balances(self, client: PlaidClient) -> None:
         """Test balance retrieval in sandbox."""
         accounts = client.get_balances("access-sandbox-test")
 
@@ -123,7 +123,7 @@ class TestPlaidClient:
             assert account.current_balance is not None
             assert isinstance(account.current_balance, Decimal)
 
-    def test_sync_transactions(self, client):
+    def test_sync_transactions(self, client: PlaidClient) -> None:
         """Test transaction sync in sandbox."""
         result = client.sync_transactions("access-sandbox-test")
 
@@ -132,7 +132,7 @@ class TestPlaidClient:
         assert result.added >= 0
         assert isinstance(result.transactions, list)
 
-    def test_get_transactions(self, client):
+    def test_get_transactions(self, client: PlaidClient) -> None:
         """Test transaction retrieval in sandbox."""
         start = date.today() - timedelta(days=30)
         end = date.today()
@@ -149,7 +149,7 @@ class TestPlaidClient:
             assert isinstance(tx.amount, Decimal)
             assert isinstance(tx.date, date)
 
-    def test_search_institutions(self, client):
+    def test_search_institutions(self, client: PlaidClient) -> None:
         """Test institution search in sandbox."""
         results = client.search_institutions("Chase")
 
@@ -160,7 +160,7 @@ class TestPlaidClient:
         assert isinstance(inst, PlaidInstitution)
         assert "chase" in inst.name.lower()
 
-    def test_search_institutions_no_match(self, client):
+    def test_search_institutions_no_match(self, client: PlaidClient) -> None:
         """Test institution search with no results."""
         results = client.search_institutions("NonExistentBank12345")
         assert results == []
@@ -169,7 +169,7 @@ class TestPlaidClient:
 class TestPlaidAccount:
     """Tests for PlaidAccount."""
 
-    def test_to_dict(self):
+    def test_to_dict(self) -> None:
         """Test account serialization."""
         account = PlaidAccount(
             account_id="acc_123",
@@ -195,7 +195,7 @@ class TestPlaidAccount:
 class TestPlaidTransaction:
     """Tests for PlaidTransaction."""
 
-    def test_to_dict(self):
+    def test_to_dict(self) -> None:
         """Test transaction serialization."""
         tx = PlaidTransaction(
             transaction_id="tx_123",
@@ -231,7 +231,7 @@ class TestPlaidSyncManager:
         )
         return PlaidSyncManager(config, data_dir=tmp_path)
 
-    def test_add_connection(self, manager):
+    def test_add_connection(self, manager) -> None:
         """Test adding a connection."""
         access = AccessToken(
             access_token="access-test",
@@ -248,7 +248,7 @@ class TestPlaidSyncManager:
         assert len(connections) == 1
         assert connections[0]["item_id"] == "item-test"
 
-    def test_remove_connection(self, manager):
+    def test_remove_connection(self, manager) -> None:
         """Test removing a connection."""
         access = AccessToken(
             access_token="access-test",
@@ -266,7 +266,7 @@ class TestPlaidSyncManager:
         assert result is True
         assert len(manager.list_connections()) == 0
 
-    def test_sync_all(self, manager):
+    def test_sync_all(self, manager) -> None:
         """Test syncing all connections."""
         access = AccessToken(
             access_token="access-sync-test",
@@ -283,7 +283,7 @@ class TestPlaidSyncManager:
         assert "item-sync" in results
         assert results["item-sync"].status == SyncStatus.COMPLETED
 
-    def test_convert_to_expenses(self, manager):
+    def test_convert_to_expenses(self, manager) -> None:
         """Test converting Plaid transactions to expenses."""
         transactions = [
             PlaidTransaction(
@@ -317,13 +317,13 @@ class TestPlaidSyncManager:
 class TestPlaidErrors:
     """Tests for Plaid error handling."""
 
-    def test_connection_error(self):
+    def test_connection_error(self) -> None:
         """Test connection error."""
         error = PlaidConnectionError("Failed to connect")
         assert error.error_code == "FT-PLAID-1801"
         assert "connect" in str(error).lower()
 
-    def test_auth_error(self):
+    def test_auth_error(self) -> None:
         """Test auth error with institution."""
         error = PlaidAuthError(
             "Authentication failed",

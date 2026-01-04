@@ -18,7 +18,7 @@ from spreadsheet_dl import (
 )
 
 
-def main():
+def main() -> None:
     """Create a sample monthly budget."""
 
     # Define budget allocations for the month

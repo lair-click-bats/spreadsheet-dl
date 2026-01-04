@@ -28,14 +28,14 @@ from spreadsheet_dl.exceptions import FileError
 
 
 @pytest.fixture
-def temp_dir():
+def temp_dir() -> Path:
     """Create a temporary directory for testing."""
     with tempfile.TemporaryDirectory() as tmpdir:
         yield Path(tmpdir)
 
 
 @pytest.fixture
-def sample_file(temp_dir):
+def sample_file(temp_dir: Path) -> Path:
     """Create a sample file for testing."""
     file_path = temp_dir / "sample.ods"
     content = b"Sample ODS file content for testing backup functionality."
@@ -44,7 +44,7 @@ def sample_file(temp_dir):
 
 
 @pytest.fixture
-def backup_manager(temp_dir):
+def backup_manager(temp_dir: Path) -> BackupManager:
     """Create a BackupManager with test directory."""
     backup_dir = temp_dir / "backups"
     return BackupManager(backup_dir=backup_dir)
@@ -53,7 +53,7 @@ def backup_manager(temp_dir):
 class TestBackupMetadata:
     """Tests for BackupMetadata class."""
 
-    def test_to_json_and_from_json(self):
+    def test_to_json_and_from_json(self) -> None:
         """Test serialization round-trip."""
         metadata = BackupMetadata(
             original_path="/path/to/file.ods",
@@ -80,7 +80,7 @@ class TestBackupMetadata:
         assert restored.user == metadata.user
         assert restored.extra == metadata.extra
 
-    def test_from_file(self, temp_dir):
+    def test_from_file(self, temp_dir: Path) -> None:
         """Test loading metadata from file."""
         metadata = BackupMetadata(
             original_filename="test.ods",
@@ -97,14 +97,14 @@ class TestBackupMetadata:
 class TestBackupManager:
     """Tests for BackupManager class."""
 
-    def test_init_creates_backup_dir(self, temp_dir):
+    def test_init_creates_backup_dir(self, temp_dir: Path) -> None:
         """Test that initialization creates backup directory."""
         backup_dir = temp_dir / "new_backups"
         manager = BackupManager(backup_dir=backup_dir)
         assert backup_dir.exists()
         assert manager.backup_dir == backup_dir
 
-    def test_create_backup_basic(self, backup_manager, sample_file):
+    def test_create_backup_basic(self, backup_manager: BackupManager, sample_file: Path) -> None:
         """Test basic backup creation."""
         backup_info = backup_manager.create_backup(sample_file, BackupReason.MANUAL)
 
@@ -113,7 +113,7 @@ class TestBackupManager:
         assert backup_info.metadata.original_filename == sample_file.name
         assert backup_info.metadata.reason == BackupReason.MANUAL.value
 
-    def test_create_backup_with_gzip(self, backup_manager, sample_file):
+    def test_create_backup_with_gzip(self, backup_manager: BackupManager, sample_file: Path) -> None:
         """Test backup with gzip compression."""
         backup_info = backup_manager.create_backup(sample_file, BackupReason.MANUAL)
 
@@ -125,7 +125,7 @@ class TestBackupManager:
             content = f.read()
         assert content == sample_file.read_bytes()
 
-    def test_create_backup_without_compression(self, temp_dir, sample_file):
+    def test_create_backup_without_compression(self, temp_dir: Path, sample_file: Path) -> None:
         """Test backup without compression."""
         backup_dir = temp_dir / "backups_uncompressed"
         manager = BackupManager(
@@ -142,7 +142,7 @@ class TestBackupManager:
         content = backup_info.backup_path.read_bytes()
         assert content == sample_file.read_bytes()
 
-    def test_create_backup_with_extra_metadata(self, backup_manager, sample_file):
+    def test_create_backup_with_extra_metadata(self, backup_manager: BackupManager, sample_file: Path) -> None:
         """Test backup with extra metadata."""
         extra = {"operation": "import", "row_count": 100}
         backup_info = backup_manager.create_backup(
@@ -153,12 +153,12 @@ class TestBackupManager:
 
         assert backup_info.metadata.extra == extra
 
-    def test_create_backup_file_not_found(self, backup_manager, temp_dir):
+    def test_create_backup_file_not_found(self, backup_manager: BackupManager, temp_dir: Path) -> None:
         """Test backup of non-existent file raises error."""
         with pytest.raises(FileError):
             backup_manager.create_backup(temp_dir / "nonexistent.ods")
 
-    def test_create_backup_content_hash(self, backup_manager, sample_file):
+    def test_create_backup_content_hash(self, backup_manager: BackupManager, sample_file: Path) -> None:
         """Test that content hash is computed correctly."""
         import hashlib
 
@@ -167,7 +167,7 @@ class TestBackupManager:
 
         assert backup_info.metadata.content_hash == expected_hash
 
-    def test_restore_backup_basic(self, backup_manager, sample_file, temp_dir):
+    def test_restore_backup_basic(self, backup_manager: BackupManager, sample_file: Path, temp_dir: Path) -> None:
         """Test basic backup restoration."""
         original_content = sample_file.read_bytes()
         backup_info = backup_manager.create_backup(sample_file)
@@ -183,7 +183,7 @@ class TestBackupManager:
         assert restored_path.exists()
         assert restored_path.read_bytes() == original_content
 
-    def test_restore_backup_to_original_path(self, backup_manager, sample_file):
+    def test_restore_backup_to_original_path(self, backup_manager: BackupManager, sample_file: Path) -> None:
         """Test restoring to original path."""
         original_content = sample_file.read_bytes()
         backup_info = backup_manager.create_backup(sample_file)
@@ -197,9 +197,7 @@ class TestBackupManager:
         assert restored_path == Path(backup_info.metadata.original_path)
         assert restored_path.read_bytes() == original_content
 
-    def test_restore_backup_with_verification(
-        self, backup_manager, sample_file, temp_dir
-    ):
+    def test_restore_backup_with_verification(self, backup_manager: BackupManager, sample_file: Path, temp_dir: Path) -> None:
         """Test backup restoration with verification."""
         backup_info = backup_manager.create_backup(sample_file)
 
@@ -208,9 +206,7 @@ class TestBackupManager:
 
         assert restored_path.exists()
 
-    def test_restore_backup_overwrite_protection(
-        self, backup_manager, sample_file, temp_dir
-    ):
+    def test_restore_backup_overwrite_protection(self, backup_manager: BackupManager, sample_file: Path, temp_dir: Path) -> None:
         """Test that restore doesn't overwrite existing files by default."""
         backup_info = backup_manager.create_backup(sample_file)
         existing_file = temp_dir / "existing.ods"
@@ -219,7 +215,7 @@ class TestBackupManager:
         with pytest.raises(RestoreError):
             backup_manager.restore_backup(backup_info, existing_file)
 
-    def test_restore_backup_with_overwrite(self, backup_manager, sample_file, temp_dir):
+    def test_restore_backup_with_overwrite(self, backup_manager: BackupManager, sample_file: Path, temp_dir: Path) -> None:
         """Test restore with overwrite enabled."""
         original_content = sample_file.read_bytes()
         backup_info = backup_manager.create_backup(sample_file)
@@ -233,17 +229,17 @@ class TestBackupManager:
 
         assert restored.read_bytes() == original_content
 
-    def test_restore_backup_not_found(self, backup_manager, temp_dir):
+    def test_restore_backup_not_found(self, backup_manager: BackupManager, temp_dir: Path) -> None:
         """Test restore of non-existent backup raises error."""
         with pytest.raises(BackupNotFoundError):
             backup_manager.restore_backup(temp_dir / "nonexistent.bak.gz")
 
-    def test_list_backups_empty(self, backup_manager):
+    def test_list_backups_empty(self, backup_manager: BackupManager) -> None:
         """Test listing backups when none exist."""
         backups = backup_manager.list_backups()
         assert backups == []
 
-    def test_list_backups_multiple(self, backup_manager, sample_file):
+    def test_list_backups_multiple(self, backup_manager: BackupManager, sample_file: Path) -> None:
         """Test listing multiple backups."""
         backup_manager.create_backup(sample_file, BackupReason.MANUAL)
         backup_manager.create_backup(sample_file, BackupReason.AUTO_BEFORE_EDIT)
@@ -252,7 +248,7 @@ class TestBackupManager:
         backups = backup_manager.list_backups()
         assert len(backups) == 3
 
-    def test_list_backups_sorted_newest_first(self, backup_manager, sample_file):
+    def test_list_backups_sorted_newest_first(self, backup_manager: BackupManager, sample_file: Path) -> None:
         """Test that backups are sorted by creation time."""
         backup_manager.create_backup(sample_file)
         backup_manager.create_backup(sample_file)
@@ -263,7 +259,7 @@ class TestBackupManager:
         for i in range(len(backups) - 1):
             assert backups[i].created >= backups[i + 1].created
 
-    def test_list_backups_filter_by_file(self, backup_manager, temp_dir):
+    def test_list_backups_filter_by_file(self, backup_manager: BackupManager, temp_dir: Path) -> None:
         """Test filtering backups by file."""
         file1 = temp_dir / "file1.ods"
         file2 = temp_dir / "file2.ods"
@@ -280,7 +276,7 @@ class TestBackupManager:
         assert len(backups_file1) == 2
         assert len(backups_file2) == 1
 
-    def test_verify_backup_valid(self, backup_manager, sample_file):
+    def test_verify_backup_valid(self, backup_manager: BackupManager, sample_file: Path) -> None:
         """Test verification of valid backup."""
         backup_info = backup_manager.create_backup(sample_file)
         result = backup_manager.verify_backup(backup_info)
@@ -292,7 +288,7 @@ class TestBackupManager:
         assert result["size_valid"] is True
         assert len(result["issues"]) == 0
 
-    def test_verify_backup_corrupted(self, backup_manager, sample_file):
+    def test_verify_backup_corrupted(self, backup_manager: BackupManager, sample_file: Path) -> None:
         """Test verification of corrupted backup."""
         backup_info = backup_manager.create_backup(sample_file)
 
@@ -305,7 +301,7 @@ class TestBackupManager:
         assert result["valid"] is False
         assert result["hash_valid"] is False
 
-    def test_verify_backup_missing_file(self, backup_manager, sample_file):
+    def test_verify_backup_missing_file(self, backup_manager: BackupManager, sample_file: Path) -> None:
         """Test verification when backup file is missing."""
         backup_info = backup_manager.create_backup(sample_file)
         backup_info.backup_path.unlink()
@@ -315,7 +311,7 @@ class TestBackupManager:
         assert result["valid"] is False
         assert result["file_exists"] is False
 
-    def test_cleanup_old_backups(self, backup_manager, sample_file):
+    def test_cleanup_old_backups(self, backup_manager: BackupManager, sample_file: Path) -> None:
         """Test cleanup of old backups."""
         # Create a backup
         backup_info = backup_manager.create_backup(sample_file)
@@ -333,7 +329,7 @@ class TestBackupManager:
         assert not backup_info.backup_path.exists()
         assert not backup_info.metadata_path.exists()
 
-    def test_cleanup_old_backups_dry_run(self, backup_manager, sample_file):
+    def test_cleanup_old_backups_dry_run(self, backup_manager: BackupManager, sample_file: Path) -> None:
         """Test cleanup dry run doesn't delete files."""
         backup_info = backup_manager.create_backup(sample_file)
 
@@ -351,7 +347,7 @@ class TestBackupManager:
         assert backup_info.backup_path.exists()
         assert backup_info.metadata_path.exists()
 
-    def test_get_backup_stats(self, backup_manager, sample_file):
+    def test_get_backup_stats(self, backup_manager: BackupManager, sample_file: Path) -> None:
         """Test getting backup statistics."""
         backup_manager.create_backup(sample_file, BackupReason.MANUAL)
         backup_manager.create_backup(sample_file, BackupReason.AUTO_BEFORE_EDIT)
@@ -368,7 +364,7 @@ class TestBackupManager:
 class TestAutoBackup:
     """Tests for auto_backup function."""
 
-    def test_auto_backup_existing_file(self, temp_dir):
+    def test_auto_backup_existing_file(self, temp_dir: Path) -> None:
         """Test auto backup of existing file."""
         file_path = temp_dir / "test.ods"
         file_path.write_bytes(b"test content")
@@ -381,7 +377,7 @@ class TestAutoBackup:
         assert backup_info is not None
         assert backup_info.backup_path.exists()
 
-    def test_auto_backup_nonexistent_file(self, temp_dir):
+    def test_auto_backup_nonexistent_file(self, temp_dir: Path) -> None:
         """Test auto backup of non-existent file returns None."""
         file_path = temp_dir / "nonexistent.ods"
         backup_dir = temp_dir / "backups"
@@ -395,7 +391,7 @@ class TestAutoBackup:
 class TestBackupDecorator:
     """Tests for backup_decorator."""
 
-    def test_decorator_creates_backup(self, temp_dir):
+    def test_decorator_creates_backup(self, temp_dir: Path) -> None:
         """Test that decorated function creates backup."""
         file_path = temp_dir / "test.ods"
         file_path.write_bytes(b"original content")
@@ -419,7 +415,7 @@ class TestBackupDecorator:
 class TestBackupReason:
     """Tests for BackupReason enum."""
 
-    def test_all_reasons_have_values(self):
+    def test_all_reasons_have_values(self) -> None:
         """Test all backup reasons have string values."""
         for reason in BackupReason:
             assert isinstance(reason.value, str)
@@ -429,7 +425,7 @@ class TestBackupReason:
 class TestBackupCompression:
     """Tests for BackupCompression enum."""
 
-    def test_compression_options(self):
+    def test_compression_options(self) -> None:
         """Test available compression options."""
         assert BackupCompression.NONE.value == "none"
         assert BackupCompression.GZIP.value == "gzip"

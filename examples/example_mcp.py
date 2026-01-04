@@ -11,7 +11,7 @@ from pathlib import Path
 from spreadsheet_dl import MCPConfig, MCPServer
 
 
-def main():
+def main() -> None:
     """Start MCP server and demonstrate basic usage."""
 
     print("SpreadsheetDL MCP Server Example")

@@ -40,14 +40,14 @@ except ImportError:
 
 
 @pytest.fixture
-def temp_dir():
+def temp_dir() -> Path:
     """Create a temporary directory for testing."""
     with tempfile.TemporaryDirectory() as tmpdir:
         yield Path(tmpdir)
 
 
 @pytest.fixture
-def sample_sheet_data():
+def sample_sheet_data() -> dict:
     """Create sample sheet data for testing."""
     return SheetData(
         name="Budget",
@@ -64,13 +64,13 @@ def sample_sheet_data():
 class TestExportFormat:
     """Tests for ExportFormat enum."""
 
-    def test_all_formats_have_values(self):
+    def test_all_formats_have_values(self) -> None:
         """Test all export formats have string values."""
         for fmt in ExportFormat:
             assert isinstance(fmt.value, str)
             assert len(fmt.value) > 0
 
-    def test_format_values(self):
+    def test_format_values(self) -> None:
         """Test specific format values."""
         assert ExportFormat.XLSX.value == "xlsx"
         assert ExportFormat.CSV.value == "csv"
@@ -81,7 +81,7 @@ class TestExportFormat:
 class TestExportOptions:
     """Tests for ExportOptions class."""
 
-    def test_default_options(self):
+    def test_default_options(self) -> None:
         """Test default option values."""
         options = ExportOptions()
 
@@ -91,7 +91,7 @@ class TestExportOptions:
         assert options.csv_delimiter == ","
         assert options.csv_encoding == "utf-8"
 
-    def test_custom_options(self):
+    def test_custom_options(self) -> None:
         """Test custom option values."""
         options = ExportOptions(
             include_headers=False,
@@ -107,15 +107,15 @@ class TestExportOptions:
 class TestSheetData:
     """Tests for SheetData class."""
 
-    def test_row_count(self, sample_sheet_data):
+    def test_row_count(self, sample_sheet_data) -> None:
         """Test row count property."""
         assert sample_sheet_data.row_count == 4
 
-    def test_column_count(self, sample_sheet_data):
+    def test_column_count(self, sample_sheet_data) -> None:
         """Test column count property."""
         assert sample_sheet_data.column_count == 4
 
-    def test_empty_sheet(self):
+    def test_empty_sheet(self) -> None:
         """Test empty sheet properties."""
         sheet = SheetData(name="Empty")
         assert sheet.row_count == 0
@@ -125,18 +125,18 @@ class TestSheetData:
 class TestMultiFormatExporter:
     """Tests for MultiFormatExporter class."""
 
-    def test_init_defaults(self):
+    def test_init_defaults(self) -> None:
         """Test default initialization."""
         exporter = MultiFormatExporter()
         assert exporter.options.include_headers is True
 
-    def test_init_custom_options(self):
+    def test_init_custom_options(self) -> None:
         """Test initialization with custom options."""
         options = ExportOptions(include_headers=False)
         exporter = MultiFormatExporter(options)
         assert exporter.options.include_headers is False
 
-    def test_export_file_not_found(self, temp_dir):
+    def test_export_file_not_found(self, temp_dir: Path) -> None:
         """Test export with non-existent file."""
         exporter = MultiFormatExporter()
 
@@ -147,7 +147,7 @@ class TestMultiFormatExporter:
                 ExportFormat.XLSX,
             )
 
-    def test_export_unsupported_format(self, temp_dir):
+    def test_export_unsupported_format(self, temp_dir: Path) -> None:
         """Test export with unsupported format."""
         exporter = MultiFormatExporter()
 
@@ -158,7 +158,7 @@ class TestMultiFormatExporter:
         with pytest.raises(FormatNotSupportedError):
             exporter.export(ods_file, temp_dir / "output.xyz", "xyz")
 
-    def test_export_format_string(self, temp_dir):
+    def test_export_format_string(self, temp_dir: Path) -> None:
         """Test export accepts format as string."""
         exporter = MultiFormatExporter()
 
@@ -175,7 +175,7 @@ class TestMultiFormatExporter:
 class TestExportXLSX:
     """Tests for XLSX export functionality."""
 
-    def test_export_xlsx_requires_openpyxl(self, temp_dir, sample_sheet_data):
+    def test_export_xlsx_requires_openpyxl(self, temp_dir: Path, sample_sheet_data) -> None:
         """Test that XLSX export requires openpyxl."""
         exporter = MultiFormatExporter()
 
@@ -196,7 +196,7 @@ class TestExportXLSX:
         not HAS_OPENPYXL,
         reason="openpyxl required",
     )
-    def test_export_xlsx_content(self, temp_dir, sample_sheet_data):
+    def test_export_xlsx_content(self, temp_dir: Path, sample_sheet_data) -> None:
         """Test XLSX export content."""
         from openpyxl import load_workbook
 
@@ -215,7 +215,7 @@ class TestExportXLSX:
 class TestExportCSV:
     """Tests for CSV export functionality."""
 
-    def test_export_csv_single_sheet(self, temp_dir, sample_sheet_data):
+    def test_export_csv_single_sheet(self, temp_dir: Path, sample_sheet_data) -> None:
         """Test CSV export for single sheet."""
         exporter = MultiFormatExporter()
         output_path = temp_dir / "output.csv"
@@ -233,7 +233,7 @@ class TestExportCSV:
         assert rows[0][0] == "Category"
         assert float(rows[1][1]) == 1500.00
 
-    def test_export_csv_custom_delimiter(self, temp_dir, sample_sheet_data):
+    def test_export_csv_custom_delimiter(self, temp_dir: Path, sample_sheet_data) -> None:
         """Test CSV export with custom delimiter."""
         options = ExportOptions(csv_delimiter=";")
         exporter = MultiFormatExporter(options)
@@ -246,7 +246,7 @@ class TestExportCSV:
 
         assert ";" in content
 
-    def test_export_csv_multiple_sheets(self, temp_dir):
+    def test_export_csv_multiple_sheets(self, temp_dir: Path) -> None:
         """Test CSV export for multiple sheets."""
         sheet1 = SheetData(name="Sheet1", rows=[["A", "B"], ["1", "2"]])
         sheet2 = SheetData(name="Sheet2", rows=[["C", "D"], ["3", "4"]])
@@ -269,7 +269,7 @@ class TestExportCSV:
 class TestExportPDF:
     """Tests for PDF export functionality."""
 
-    def test_export_pdf_requires_reportlab(self, temp_dir, sample_sheet_data):
+    def test_export_pdf_requires_reportlab(self, temp_dir: Path, sample_sheet_data) -> None:
         """Test that PDF export requires reportlab."""
         exporter = MultiFormatExporter()
 
@@ -286,7 +286,7 @@ class TestExportPDF:
                 exporter._export_pdf([sample_sheet_data], temp_dir / "output.pdf")
             assert "reportlab" in str(exc_info.value)
 
-    def test_export_pdf_options(self, temp_dir):
+    def test_export_pdf_options(self, temp_dir: Path) -> None:
         """Test PDF export with custom options."""
         options = ExportOptions(
             pdf_page_size="a4",
@@ -303,7 +303,7 @@ class TestExportPDF:
 class TestExportJSON:
     """Tests for JSON export functionality."""
 
-    def test_export_json(self, temp_dir, sample_sheet_data):
+    def test_export_json(self, temp_dir: Path, sample_sheet_data) -> None:
         """Test JSON export."""
         exporter = MultiFormatExporter()
         output_path = temp_dir / "output.json"
@@ -320,7 +320,7 @@ class TestExportJSON:
         assert len(data["sheets"]) == 1
         assert data["sheets"][0]["name"] == "Budget"
 
-    def test_export_json_decimal_serialization(self, temp_dir):
+    def test_export_json_decimal_serialization(self, temp_dir: Path) -> None:
         """Test that Decimal values are serialized correctly."""
         sheet = SheetData(
             name="Test",
@@ -339,7 +339,7 @@ class TestExportJSON:
         # Decimal should be converted to float
         assert data["sheets"][0]["data"][1]["Amount"] == 123.45
 
-    def test_export_json_date_serialization(self, temp_dir):
+    def test_export_json_date_serialization(self, temp_dir: Path) -> None:
         """Test that date values are serialized correctly."""
         sheet = SheetData(
             name="Test",
@@ -361,7 +361,7 @@ class TestExportJSON:
 class TestExportBatch:
     """Tests for batch export functionality."""
 
-    def test_export_batch(self, temp_dir, sample_budget_file):
+    def test_export_batch(self, temp_dir: Path, sample_budget_file) -> None:
         """Test batch export to multiple formats."""
         exporter = MultiFormatExporter()
 
@@ -383,7 +383,7 @@ class TestExportBatch:
 class TestConvenienceFunctions:
     """Tests for convenience export functions."""
 
-    def test_export_to_xlsx_not_found(self, temp_dir):
+    def test_export_to_xlsx_not_found(self, temp_dir: Path) -> None:
         """Test export_to_xlsx with non-existent file."""
         with pytest.raises(FileError):
             export_to_xlsx(
@@ -391,7 +391,7 @@ class TestConvenienceFunctions:
                 temp_dir / "output.xlsx",
             )
 
-    def test_export_to_csv_not_found(self, temp_dir):
+    def test_export_to_csv_not_found(self, temp_dir: Path) -> None:
         """Test export_to_csv with non-existent file."""
         with pytest.raises(FileError):
             export_to_csv(
@@ -399,7 +399,7 @@ class TestConvenienceFunctions:
                 temp_dir / "output.csv",
             )
 
-    def test_export_to_pdf_not_found(self, temp_dir):
+    def test_export_to_pdf_not_found(self, temp_dir: Path) -> None:
         """Test export_to_pdf with non-existent file."""
         with pytest.raises(FileError):
             export_to_pdf(
@@ -411,18 +411,18 @@ class TestConvenienceFunctions:
 class TestExportExceptions:
     """Tests for export exceptions."""
 
-    def test_multi_export_error_base(self):
+    def test_multi_export_error_base(self) -> None:
         """Test MultiExportError base class."""
         error = MultiExportError("Test error")
         assert "FT-MXP-1300" in error.error_code
 
-    def test_format_not_supported_error(self):
+    def test_format_not_supported_error(self) -> None:
         """Test FormatNotSupportedError."""
         error = FormatNotSupportedError("xyz")
         assert "FT-MXP-1301" in error.error_code
         assert "xyz" in str(error)
 
-    def test_export_dependency_error(self):
+    def test_export_dependency_error(self) -> None:
         """Test ExportDependencyError."""
         error = ExportDependencyError("XLSX", "openpyxl", "pip install openpyxl")
         assert "FT-MXP-1302" in error.error_code

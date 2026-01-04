@@ -162,6 +162,7 @@ class TestDataValidationBuilder:
             .warning_alert("Unusual", "Value seems high")
             .build()
         )
+        assert validation.error_alert is not None
         assert validation.error_alert.style == ErrorAlertStyle.WARNING
 
     def test_allow_blank_default(self) -> None:
@@ -661,7 +662,9 @@ class TestStyleBuilder:
     def test_percentage_format(self) -> None:
         """Test percentage format shortcut."""
         style = StyleBuilder("test").percentage(decimal_places=1).build()
+        assert style.number_format is not None
         assert style.number_format.category == NumberFormatCategory.PERCENTAGE
+        assert style.number_format is not None
         assert style.number_format.decimal_places == 1
 
     def test_text_wrap(self) -> None:
@@ -725,12 +728,14 @@ class TestStyleConvenienceFunctions:
         style = currency_style()
         assert style.name == "currency"
         assert style.text_align == TextAlign.RIGHT
+        assert style.number_format is not None
         assert style.number_format.category == NumberFormatCategory.CURRENCY
 
     def test_percentage_style(self) -> None:
         """Test percentage_style preset."""
         style = percentage_style()
         assert style.name == "percentage"
+        assert style.number_format is not None
         assert style.number_format.category == NumberFormatCategory.PERCENTAGE
 
     def test_total_row_style(self) -> None:

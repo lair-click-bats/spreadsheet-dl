@@ -229,6 +229,7 @@ class TestChartConfiguration:
             .category_axis(title="Items", reversed=True)
             .build()
         )
+        assert spec.category_axis is not None
         assert spec.category_axis.reversed is True
 
     def test_category_axis_with_format_code(self) -> None:
@@ -236,6 +237,7 @@ class TestChartConfiguration:
         spec = (
             ChartBuilder().column_chart().category_axis(format_code="MMM YYYY").build()
         )
+        assert spec.category_axis is not None
         assert spec.category_axis.format_code == "MMM YYYY"
 
     def test_value_axis_method(self) -> None:
@@ -255,6 +257,7 @@ class TestChartConfiguration:
     def test_value_axis_with_format_code(self) -> None:
         """Test value axis with number format."""
         spec = ChartBuilder().column_chart().value_axis(format_code="$#,##0").build()
+        assert spec.value_axis is not None
         assert spec.value_axis.format_code == "$#,##0"
 
     def test_secondary_axis_configuration(self) -> None:
@@ -272,16 +275,19 @@ class TestChartConfiguration:
     def test_axis_with_interval(self) -> None:
         """Test axis with major interval setting."""
         spec = ChartBuilder().column_chart().axis("value", interval=50).build()
+        assert spec.value_axis is not None
         assert spec.value_axis.major_interval == 50
 
     def test_axis_with_gridlines_disabled(self) -> None:
         """Test axis with gridlines disabled."""
         spec = ChartBuilder().column_chart().axis("value", gridlines=False).build()
+        assert spec.value_axis is not None
         assert spec.value_axis.major_gridlines is False
 
     def test_axis_logarithmic(self) -> None:
         """Test axis with logarithmic scale."""
         spec = ChartBuilder().scatter_chart().axis("value", logarithmic=True).build()
+        assert spec.value_axis is not None
         assert spec.value_axis.logarithmic is True
 
     def test_data_labels(self) -> None:
@@ -299,16 +305,19 @@ class TestChartConfiguration:
     def test_data_labels_with_category(self) -> None:
         """Test data labels showing category."""
         spec = ChartBuilder().pie_chart().data_labels(show_category=True).build()
+        assert spec.data_labels is not None
         assert spec.data_labels.show_category is True
 
     def test_data_labels_with_series(self) -> None:
         """Test data labels showing series name."""
         spec = ChartBuilder().column_chart().data_labels(show_series=True).build()
+        assert spec.data_labels is not None
         assert spec.data_labels.show_series is True
 
     def test_data_labels_position_inside(self) -> None:
         """Test data labels with inside position."""
         spec = ChartBuilder().column_chart().data_labels(position="inside").build()
+        assert spec.data_labels is not None
         assert spec.data_labels.position == DataLabelPosition.INSIDE
 
     def test_data_labels_with_format_code(self) -> None:
@@ -319,6 +328,7 @@ class TestChartConfiguration:
             .data_labels(show_value=True, format_code="$#,##0")
             .build()
         )
+        assert spec.data_labels is not None
         assert spec.data_labels.format_code == "$#,##0"
 
 
@@ -507,6 +517,7 @@ class TestChartStyling:
     def test_plot_area_border_width(self) -> None:
         """Test plot area border width."""
         spec = ChartBuilder().column_chart().plot_area(border_width="2pt").build()
+        assert spec.plot_area is not None
         assert spec.plot_area.border_width == "2pt"
 
     def test_3d_effects(self) -> None:
@@ -657,10 +668,15 @@ class TestSparklines:
             )
             .build()
         )
+        assert spark.markers is not None
         assert spark.markers.high == "#00B050"
+        assert spark.markers is not None
         assert spark.markers.low == "#FF0000"
+        assert spark.markers is not None
         assert spark.markers.first == "#FFC000"
+        assert spark.markers is not None
         assert spark.markers.last == "#7030A0"
+        assert spark.markers is not None
         assert spark.markers.negative == "#C00000"
 
     def test_sparkline_axis_range(self) -> None:
@@ -725,6 +741,7 @@ class TestConvenienceFunctions:
             actual_values="Sheet.C2:C13",
             title="Custom Title",
         )
+        assert spec.title is not None
         assert spec.title.text == "Custom Title"
 
     def test_budget_comparison_chart_custom_position(self) -> None:
@@ -754,6 +771,7 @@ class TestConvenienceFunctions:
             values="Data.B2:B10",
             title="Monthly Expenses",
         )
+        assert spec.title is not None
         assert spec.title.text == "Monthly Expenses"
 
     def test_spending_pie_chart_custom_position(self) -> None:
@@ -793,6 +811,7 @@ class TestConvenienceFunctions:
             values="Data.B2:B24",
             title="Revenue Trend",
         )
+        assert spec.title is not None
         assert spec.title.text == "Revenue Trend"
 
     def test_trend_line_chart_custom_position(self) -> None:
@@ -1086,10 +1105,12 @@ class TestChartBuilderChaining:
 
         # Verify all settings
         assert spec.chart_type == ChartType.COLUMN
+        assert spec.title is not None
         assert spec.title.text == "Monthly Budget vs Actual"
         assert spec.categories == "Budget.A2:A13"
         assert len(spec.series) == 2
         assert spec.legend.position == LegendPosition.BOTTOM
+        assert spec.value_axis is not None
         assert spec.value_axis.title == "Amount ($)"
         assert spec.position.cell == "F2"
         assert spec.size.width == 500
@@ -1153,6 +1174,7 @@ class TestSparklineBuilderChaining:
         assert spark.type == SparklineType.LINE
         assert spark.color == "#4472C4"
         assert spark.negative_color == "#FF0000"
+        assert spark.markers is not None
         assert spark.markers.high == "#00B050"
         assert spark.min_axis == 0
         assert spark.same_scale is True

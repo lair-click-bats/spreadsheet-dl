@@ -11,7 +11,7 @@ from pathlib import Path
 from spreadsheet_dl import BudgetAnalyzer, ReportGenerator
 
 
-def main():
+def main() -> None:
     """Generate reports from budget file."""
 
     # For this example, ensure you have a budget file

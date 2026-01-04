@@ -881,7 +881,9 @@ class TestSpreadsheetBuilder:
         """Test adding columns."""
         builder = SpreadsheetBuilder(theme=None)
         builder.sheet("Test").column("Date", width="2.5cm", type="date")
+        assert builder._current_sheet is not None
         assert len(builder._current_sheet.columns) == 1
+        assert builder._current_sheet is not None
         assert builder._current_sheet.columns[0].name == "Date"
 
     def test_add_column_without_sheet_raises(self) -> None:
@@ -897,44 +899,53 @@ class TestSpreadsheetBuilder:
         builder.column("Date", width="2.5cm", type="date")
         builder.column("Amount", width="3cm", type="currency")
         builder.column("Notes", width="5cm", type="string")
+        assert builder._current_sheet is not None
         assert len(builder._current_sheet.columns) == 3
 
     def test_header_row(self) -> None:
         """Test adding header row."""
         builder = SpreadsheetBuilder(theme=None)
         builder.sheet("Test").column("A").column("B").header_row()
+        assert builder._current_sheet is not None
         assert len(builder._current_sheet.rows) == 1
+        assert builder._current_sheet is not None
         assert len(builder._current_sheet.rows[0].cells) == 2
 
     def test_header_row_with_style(self) -> None:
         """Test adding header row with style."""
         builder = SpreadsheetBuilder(theme=None)
         builder.sheet("Test").column("A").column("B").header_row(style="header_primary")
+        assert builder._current_sheet is not None
         assert builder._current_sheet.rows[0].style == "header_primary"
 
     def test_data_rows(self) -> None:
         """Test adding empty data rows."""
         builder = SpreadsheetBuilder(theme=None)
         builder.sheet("Test").column("A").column("B").data_rows(5)
+        assert builder._current_sheet is not None
         assert len(builder._current_sheet.rows) == 5
 
     def test_add_row(self) -> None:
         """Test adding a row."""
         builder = SpreadsheetBuilder(theme=None)
         builder.sheet("Test").row()
+        assert builder._current_sheet is not None
         assert len(builder._current_sheet.rows) == 1
 
     def test_add_row_with_style(self) -> None:
         """Test adding a row with style."""
         builder = SpreadsheetBuilder(theme=None)
         builder.sheet("Test").row(style="total_row")
+        assert builder._current_sheet is not None
         assert builder._current_sheet.rows[0].style == "total_row"
 
     def test_add_cell(self) -> None:
         """Test adding a cell."""
         builder = SpreadsheetBuilder(theme=None)
         builder.sheet("Test").row().cell("Value")
+        assert builder._current_row is not None
         assert len(builder._current_row.cells) == 1
+        assert builder._current_row is not None
         assert builder._current_row.cells[0].value == "Value"
 
     def test_add_cell_without_row_raises(self) -> None:
@@ -948,18 +959,21 @@ class TestSpreadsheetBuilder:
         """Test adding cell with formula."""
         builder = SpreadsheetBuilder(theme=None)
         builder.sheet("Test").row().cell(formula="of:=SUM([.A1:A10])")
+        assert builder._current_row is not None
         assert builder._current_row.cells[0].formula == "of:=SUM([.A1:A10])"
 
     def test_add_cell_with_style(self) -> None:
         """Test adding cell with style."""
         builder = SpreadsheetBuilder(theme=None)
         builder.sheet("Test").row().cell("Header", style="header")
+        assert builder._current_row is not None
         assert builder._current_row.cells[0].style == "header"
 
     def test_add_cells(self) -> None:
         """Test adding multiple cells."""
         builder = SpreadsheetBuilder(theme=None)
         builder.sheet("Test").row().cells("A", "B", "C")
+        assert builder._current_row is not None
         assert len(builder._current_row.cells) == 3
 
     def test_formula_row(self) -> None:
@@ -967,7 +981,9 @@ class TestSpreadsheetBuilder:
         builder = SpreadsheetBuilder(theme=None)
         formulas = ["of:=SUM([.A1:A10])", None, "of:=COUNT([.C1:C10])"]
         builder.sheet("Test").column("A").column("B").column("C").formula_row(formulas)
+        assert builder._current_sheet is not None
         assert len(builder._current_sheet.rows) == 1
+        assert builder._current_sheet is not None
         assert builder._current_sheet.rows[0].cells[0].formula == formulas[0]
 
     def test_total_row(self) -> None:
@@ -977,13 +993,16 @@ class TestSpreadsheetBuilder:
         builder.column("Item").column("Amount", type="currency")
         builder.header_row()
         builder.total_row(formulas=[None, "of:=SUM([.B2:B100])"])
+        assert builder._current_sheet is not None
         assert len(builder._current_sheet.rows) == 2
 
     def test_freeze(self) -> None:
         """Test setting freeze panes."""
         builder = SpreadsheetBuilder(theme=None)
         builder.sheet("Test").freeze(rows=1, cols=2)
+        assert builder._current_sheet is not None
         assert builder._current_sheet.freeze_rows == 1
+        assert builder._current_sheet is not None
         assert builder._current_sheet.freeze_cols == 2
 
     def test_build(self) -> None:
@@ -1100,6 +1119,7 @@ class TestSpreadsheetBuilderAdvanced:
             .build()
         )
         builder.chart(chart)
+        assert builder._current_sheet is not None
         assert len(builder._current_sheet.charts) == 1
 
     def test_chart_without_sheet_raises(self) -> None:
@@ -1128,6 +1148,7 @@ class TestSpreadsheetBuilderAdvanced:
         builder = SpreadsheetBuilder(theme=None)
         builder.sheet("Test")
         builder.print_area("A1:D50")
+        assert builder._current_sheet is not None
         assert builder._current_sheet.print_area == "A1:D50"
 
     def test_protect_without_sheet_raises(self) -> None:
@@ -1141,9 +1162,13 @@ class TestSpreadsheetBuilderAdvanced:
         builder = SpreadsheetBuilder(theme=None)
         builder.sheet("Test")
         builder.protect(password="secret", edit_cells=True, edit_objects=True)
+        assert builder._current_sheet is not None
         assert builder._current_sheet.protection["enabled"] is True
+        assert builder._current_sheet is not None
         assert builder._current_sheet.protection["password"] == "secret"
+        assert builder._current_sheet is not None
         assert builder._current_sheet.protection["edit_cells"] is True
+        assert builder._current_sheet is not None
         assert builder._current_sheet.protection["edit_objects"] is True
 
     def test_header_row_without_sheet_raises(self) -> None:
@@ -1169,9 +1194,13 @@ class TestSpreadsheetBuilderAdvanced:
         builder = SpreadsheetBuilder(theme=None)
         builder.sheet("Test").column("A").column("B")
         builder.data_rows(5, alternate_styles=["even", "odd"])
+        assert builder._current_sheet is not None
         assert len(builder._current_sheet.rows) == 5
+        assert builder._current_sheet is not None
         assert builder._current_sheet.rows[0].style == "even"
+        assert builder._current_sheet is not None
         assert builder._current_sheet.rows[1].style == "odd"
+        assert builder._current_sheet is not None
         assert builder._current_sheet.rows[2].style == "even"
 
     def test_total_row_without_sheet_raises(self) -> None:
@@ -1185,8 +1214,11 @@ class TestSpreadsheetBuilderAdvanced:
         builder = SpreadsheetBuilder(theme=None)
         builder.sheet("Test").column("A").column("B").column("C")
         builder.total_row(values=["Total", 100, 200])
+        assert builder._current_sheet is not None
         assert len(builder._current_sheet.rows) == 1
+        assert builder._current_sheet is not None
         assert builder._current_sheet.rows[0].cells[0].value == "Total"
+        assert builder._current_sheet is not None
         assert builder._current_sheet.rows[0].cells[1].value == 100
 
     def test_total_row_with_text_in_formulas(self) -> None:
@@ -1195,7 +1227,9 @@ class TestSpreadsheetBuilderAdvanced:
         builder.sheet("Test").column("A").column("B")
         builder.total_row(formulas=["Total", "of:=SUM([.B2:B10])"])
         # First item is text (no = or of: prefix), second is formula
+        assert builder._current_sheet is not None
         assert builder._current_sheet.rows[0].cells[0].value == "Total"
+        assert builder._current_sheet is not None
         assert builder._current_sheet.rows[0].cells[1].formula == "of:=SUM([.B2:B10])"
 
     def test_total_row_empty(self) -> None:
@@ -1203,7 +1237,9 @@ class TestSpreadsheetBuilderAdvanced:
         builder = SpreadsheetBuilder(theme=None)
         builder.sheet("Test").column("A").column("B").column("C")
         builder.total_row()
+        assert builder._current_sheet is not None
         assert len(builder._current_sheet.rows) == 1
+        assert builder._current_sheet is not None
         assert len(builder._current_sheet.rows[0].cells) == 3
 
     def test_formula_row_without_sheet_raises(self) -> None:
@@ -1230,7 +1266,9 @@ class TestSpreadsheetBuilderAdvanced:
         builder = SpreadsheetBuilder(theme=None)
         builder.sheet("Test")
         builder.conditional_format("highlight_red")
+        assert builder._current_sheet is not None
         assert len(builder._current_sheet.conditional_formats) == 1
+        assert builder._current_sheet is not None
         assert builder._current_sheet.conditional_formats[0] == "highlight_red"
 
     def test_validation_without_sheet_raises(self) -> None:
@@ -1244,7 +1282,9 @@ class TestSpreadsheetBuilderAdvanced:
         builder = SpreadsheetBuilder(theme=None)
         builder.sheet("Test")
         builder.validation("list_validation")
+        assert builder._current_sheet is not None
         assert len(builder._current_sheet.validations) == 1
+        assert builder._current_sheet is not None
         assert builder._current_sheet.validations[0] == "list_validation"
 
 

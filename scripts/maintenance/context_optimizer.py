@@ -319,7 +319,7 @@ def generate_report(analysis: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(
         description="Analyze project for context optimization opportunities"
     )

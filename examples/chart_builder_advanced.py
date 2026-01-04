@@ -95,6 +95,7 @@ def example_column_charts() -> None:
     )
 
     print(f"   Chart type: {chart.chart_type.name}")
+    assert chart.data_labels is not None
     print(f"   Shows percentages: {chart.data_labels.show_percentage}")
 
     print("\n✓ Column charts created")
@@ -253,7 +254,9 @@ def example_pie_charts() -> None:
     )
 
     print(f"   Chart type: {chart.chart_type.name}")
+    assert chart.data_labels is not None
     print(f"   Shows percentages: {chart.data_labels.show_percentage}")
+    assert chart.data_labels is not None
     print(f"   Shows categories: {chart.data_labels.show_category}")
 
     # 2. Pie chart with values

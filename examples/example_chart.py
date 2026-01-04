@@ -12,7 +12,7 @@ from pathlib import Path
 from spreadsheet_dl import ChartType, chart, create_spreadsheet
 
 
-def main():
+def main() -> None:
     """Create budget with charts."""
 
     # Create spreadsheet

@@ -242,7 +242,7 @@ def summarize_json_file(
     return summary
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(
         description="Extract key metrics from large JSON files"
     )

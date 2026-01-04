@@ -488,6 +488,7 @@ class TestMCPServer:
         }
 
         response = server.handle_message(message)
+        assert response is not None
 
         assert response["jsonrpc"] == "2.0"
         assert response["id"] == 1
@@ -519,6 +520,7 @@ class TestMCPServer:
         }
 
         response = server.handle_message(message)
+        assert response is not None
 
         assert response["jsonrpc"] == "2.0"
         assert response["id"] == 2
@@ -542,6 +544,7 @@ class TestMCPServer:
         }
 
         response = server.handle_message(message)
+        assert response is not None
 
         assert "error" in response
         assert response["error"]["code"] == -32601
@@ -560,6 +563,7 @@ class TestMCPServer:
         }
 
         response = server.handle_message(message)
+        assert response is not None
 
         assert response["jsonrpc"] == "2.0"
         assert "result" in response
@@ -584,6 +588,7 @@ class TestMCPServer:
         }
 
         response = server.handle_message(message)
+        assert response is not None
 
         assert "error" in response or response["result"]["isError"] is True
 
@@ -1290,6 +1295,7 @@ class TestMCPServerMessageProtocol:
         }
 
         response = server.handle_message(message)
+        assert response is not None
 
         assert "error" in response
 
@@ -1319,6 +1325,7 @@ class TestMCPServerMessageProtocol:
         }
 
         response = server.handle_message(message)
+        assert response is not None
 
         assert "result" in response
         assert "content" in response["result"]
@@ -1463,6 +1470,7 @@ class TestMCPServerIntegrationToolCalls:
         }
 
         response = server.handle_message(message)
+        assert response is not None
         assert response["jsonrpc"] == "2.0"
         assert "result" in response
         assert "content" in response["result"]
@@ -1488,6 +1496,7 @@ class TestMCPServerIntegrationToolCalls:
         }
 
         response = server.handle_message(message)
+        assert response is not None
         assert response["jsonrpc"] == "2.0"
         assert "result" in response
 
@@ -1511,6 +1520,7 @@ class TestMCPServerIntegrationToolCalls:
         }
 
         response = server.handle_message(message)
+        assert response is not None
         assert "result" in response
 
     def test_cell_copy_via_message(self, server: MCPServer, tmp_path: Path) -> None:
@@ -1534,6 +1544,7 @@ class TestMCPServerIntegrationToolCalls:
         }
 
         response = server.handle_message(message)
+        assert response is not None
         assert "result" in response
 
     def test_cell_move_via_message(self, server: MCPServer, tmp_path: Path) -> None:
@@ -1557,6 +1568,7 @@ class TestMCPServerIntegrationToolCalls:
         }
 
         response = server.handle_message(message)
+        assert response is not None
         assert "result" in response
 
     def test_cell_batch_get_via_message(
@@ -1581,6 +1593,7 @@ class TestMCPServerIntegrationToolCalls:
         }
 
         response = server.handle_message(message)
+        assert response is not None
         assert "result" in response
 
     def test_cell_batch_set_via_message(
@@ -1605,6 +1618,7 @@ class TestMCPServerIntegrationToolCalls:
         }
 
         response = server.handle_message(message)
+        assert response is not None
         assert "result" in response
 
     def test_cell_find_via_message(self, server: MCPServer, tmp_path: Path) -> None:
@@ -1628,6 +1642,7 @@ class TestMCPServerIntegrationToolCalls:
         }
 
         response = server.handle_message(message)
+        assert response is not None
         assert "result" in response
 
     def test_cell_replace_via_message(self, server: MCPServer, tmp_path: Path) -> None:
@@ -1652,6 +1667,7 @@ class TestMCPServerIntegrationToolCalls:
         }
 
         response = server.handle_message(message)
+        assert response is not None
         assert "result" in response
 
     def test_cell_merge_via_message(self, server: MCPServer, tmp_path: Path) -> None:
@@ -1674,6 +1690,7 @@ class TestMCPServerIntegrationToolCalls:
         }
 
         response = server.handle_message(message)
+        assert response is not None
         assert "result" in response
 
     def test_cell_unmerge_via_message(self, server: MCPServer, tmp_path: Path) -> None:
@@ -1696,6 +1713,7 @@ class TestMCPServerIntegrationToolCalls:
         }
 
         response = server.handle_message(message)
+        assert response is not None
         assert "result" in response
 
     def test_style_tools_via_message(self, server: MCPServer, tmp_path: Path) -> None:
@@ -1732,6 +1750,7 @@ class TestMCPServerIntegrationToolCalls:
             }
 
             response = server.handle_message(message)
+            assert response is not None
             assert "result" in response, f"Tool {tool_name} failed"
 
     def test_structure_tools_via_message(
@@ -1770,6 +1789,7 @@ class TestMCPServerIntegrationToolCalls:
             }
 
             response = server.handle_message(message)
+            assert response is not None
             assert "result" in response, f"Tool {tool_name} failed"
 
     def test_advanced_tools_via_message(
@@ -1805,6 +1825,7 @@ class TestMCPServerIntegrationToolCalls:
             }
 
             response = server.handle_message(message)
+            assert response is not None
             assert "result" in response, f"Tool {tool_name} failed"
 
     def test_rate_limit_exceeded_via_message(
@@ -1822,6 +1843,7 @@ class TestMCPServerIntegrationToolCalls:
         }
 
         response = server.handle_message(message)
+        assert response is not None
         assert "error" in response
         assert response["error"]["code"] == -32000
         assert "rate limit" in response["error"]["message"].lower()
@@ -1843,6 +1865,7 @@ class TestMCPServerIntegrationToolCalls:
         }
 
         response = server.handle_message(message)
+        assert response is not None
         assert "error" in response
         assert response["error"]["code"] == -32603
 
@@ -2940,6 +2963,7 @@ class TestMCPServerExceptionHandling:
 
         # This should not crash, should return error response
         response = server.handle_message(message)
+        assert response is not None
         # Either error in response or isError in result
         assert "error" in response or response.get("result", {}).get("isError") is True
 

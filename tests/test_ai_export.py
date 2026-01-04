@@ -113,13 +113,13 @@ def sample_ods(temp_dir):
 class TestSemanticCellType:
     """Tests for SemanticCellType enum."""
 
-    def test_all_types_have_values(self):
+    def test_all_types_have_values(self) -> None:
         """Test all semantic types have string values."""
         for cell_type in SemanticCellType:
             assert isinstance(cell_type.value, str)
             assert len(cell_type.value) > 0
 
-    def test_financial_types_exist(self):
+    def test_financial_types_exist(self) -> None:
         """Test that all financial semantic types exist."""
         financial_types = [
             SemanticCellType.BUDGET_AMOUNT,
@@ -136,7 +136,7 @@ class TestSemanticCellType:
 class TestSemanticCell:
     """Tests for SemanticCell class."""
 
-    def test_to_dict_basic(self):
+    def test_to_dict_basic(self) -> None:
         """Test basic serialization."""
         cell = SemanticCell(
             row=1,
@@ -154,7 +154,7 @@ class TestSemanticCell:
         assert result["display"] == "Test"
         assert result["type"] == "text"
 
-    def test_to_dict_with_formula(self):
+    def test_to_dict_with_formula(self) -> None:
         """Test serialization with formula."""
         cell = SemanticCell(
             row=5,
@@ -172,7 +172,7 @@ class TestSemanticCell:
         assert result["formula"] == "=SUM(B2:B4)"
         assert result["formula_meaning"] == "Calculates the total of B2 to B4"
 
-    def test_to_dict_decimal_serialization(self):
+    def test_to_dict_decimal_serialization(self) -> None:
         """Test that Decimal values are serialized as float."""
         cell = SemanticCell(
             row=1,
@@ -187,7 +187,7 @@ class TestSemanticCell:
         assert result["value"] == 123.45
         assert isinstance(result["value"], float)
 
-    def test_to_dict_date_serialization(self):
+    def test_to_dict_date_serialization(self) -> None:
         """Test that date values are serialized as ISO string."""
         cell = SemanticCell(
             row=1,
@@ -205,7 +205,7 @@ class TestSemanticCell:
 class TestSemanticSheet:
     """Tests for SemanticSheet class."""
 
-    def test_to_dict(self):
+    def test_to_dict(self) -> None:
         """Test sheet serialization."""
         sheet = SemanticSheet(
             name="Budget",
@@ -225,7 +225,7 @@ class TestSemanticSheet:
 class TestAIExportMetadata:
     """Tests for AIExportMetadata class."""
 
-    def test_to_dict(self):
+    def test_to_dict(self) -> None:
         """Test metadata serialization."""
         metadata = AIExportMetadata(
             source_file="/path/to/budget.ods",
@@ -243,7 +243,7 @@ class TestAIExportMetadata:
 class TestAIExporter:
     """Tests for AIExporter class."""
 
-    def test_init_defaults(self):
+    def test_init_defaults(self) -> None:
         """Test default initialization."""
         exporter = AIExporter()
 
@@ -251,7 +251,7 @@ class TestAIExporter:
         assert exporter.include_formulas is True
         assert exporter.include_context is True
 
-    def test_init_custom(self):
+    def test_init_custom(self) -> None:
         """Test custom initialization."""
         exporter = AIExporter(
             include_empty_cells=True,
@@ -263,7 +263,7 @@ class TestAIExporter:
         assert exporter.include_formulas is False
         assert exporter.include_context is False
 
-    def test_get_column_letter(self):
+    def test_get_column_letter(self) -> None:
         """Test column number to letter conversion."""
         exporter = AIExporter()
 
@@ -273,7 +273,7 @@ class TestAIExporter:
         assert exporter._get_column_letter(27) == "AA"
         assert exporter._get_column_letter(28) == "AB"
 
-    def test_infer_sheet_purpose(self):
+    def test_infer_sheet_purpose(self) -> None:
         """Test sheet purpose inference."""
         exporter = AIExporter()
 
@@ -281,21 +281,21 @@ class TestAIExporter:
         assert "expense" in exporter._infer_sheet_purpose("Expenses").lower()
         assert "income" in exporter._infer_sheet_purpose("Income Sources").lower()
 
-    def test_describe_formula_sum(self):
+    def test_describe_formula_sum(self) -> None:
         """Test formula description for SUM."""
         exporter = AIExporter()
 
         desc = exporter._describe_formula("=SUM([.B2:.B10])")
         assert "total" in desc.lower() or "sum" in desc.lower()
 
-    def test_describe_formula_average(self):
+    def test_describe_formula_average(self) -> None:
         """Test formula description for AVERAGE."""
         exporter = AIExporter()
 
         desc = exporter._describe_formula("=AVERAGE([.C2:.C5])")
         assert "average" in desc.lower()
 
-    def test_export_to_json_file_not_found(self, temp_dir):
+    def test_export_to_json_file_not_found(self, temp_dir: Path) -> None:
         """Test export with non-existent file."""
         exporter = AIExporter()
 
@@ -306,7 +306,7 @@ class TestAIExporter:
         not HAS_ODFPY,
         reason="odfpy required for full ODS testing",
     )
-    def test_export_to_json_with_file(self, sample_ods, temp_dir):
+    def test_export_to_json_with_file(self, sample_ods, temp_dir: Path) -> None:
         """Test export to JSON with actual ODS file."""
         exporter = AIExporter()
         output_path = temp_dir / "export.json"
@@ -328,7 +328,7 @@ class TestAIExporter:
         not HAS_ODFPY,
         reason="odfpy required for full ODS testing",
     )
-    def test_export_dual(self, sample_ods, temp_dir):
+    def test_export_dual(self, sample_ods, temp_dir: Path) -> None:
         """Test dual export functionality."""
         exporter = AIExporter()
 
@@ -339,7 +339,7 @@ class TestAIExporter:
         assert ods_output.suffix == ".ods"
         assert json_output.suffix == ".json"
 
-    def test_generate_ai_instructions(self):
+    def test_generate_ai_instructions(self) -> None:
         """Test AI instructions generation."""
         exporter = AIExporter()
         sheets = [SemanticSheet(name="Budget", purpose="Budget tracking")]
@@ -350,7 +350,7 @@ class TestAIExporter:
         assert "semantic_types" in instructions
         assert "analysis_suggestions" in instructions
 
-    def test_infer_business_context(self):
+    def test_infer_business_context(self) -> None:
         """Test business context inference."""
         exporter = AIExporter()
         sheets = [
@@ -368,12 +368,12 @@ class TestAIExporter:
 class TestConvenienceFunctions:
     """Tests for convenience functions."""
 
-    def test_export_for_ai_not_found(self, temp_dir):
+    def test_export_for_ai_not_found(self, temp_dir: Path) -> None:
         """Test export_for_ai with non-existent file."""
         with pytest.raises(FileError):
             export_for_ai(temp_dir / "nonexistent.ods")
 
-    def test_export_dual_not_found(self, temp_dir):
+    def test_export_dual_not_found(self, temp_dir: Path) -> None:
         """Test export_dual with non-existent file."""
         with pytest.raises(FileError):
             export_dual(temp_dir / "nonexistent.ods")
@@ -382,17 +382,17 @@ class TestConvenienceFunctions:
 class TestExportExceptions:
     """Tests for export exceptions."""
 
-    def test_export_error_base(self):
+    def test_export_error_base(self) -> None:
         """Test ExportError base class."""
         error = ExportError("Test error")
         assert "FT-EXP-1200" in error.error_code
 
-    def test_dual_export_error(self):
+    def test_dual_export_error(self) -> None:
         """Test DualExportError."""
         error = DualExportError("Export failed")
         assert "FT-EXP-1201" in error.error_code
 
-    def test_consistency_error(self):
+    def test_consistency_error(self) -> None:
         """Test ConsistencyError."""
         issues = ["Sheet count mismatch", "Missing column"]
         error = ConsistencyError(issues)

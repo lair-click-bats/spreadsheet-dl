@@ -12,6 +12,7 @@ Implements:
 
 from __future__ import annotations
 
+from pathlib import Path
 import json
 
 import pytest
@@ -54,7 +55,7 @@ from spreadsheet_dl.domains.data_science import (
 class TestDataScienceDomainPlugin:
     """Test DataScienceDomainPlugin."""
 
-    def test_plugin_metadata(self):
+    def test_plugin_metadata(self) -> None:
         """Test plugin metadata is correct."""
         plugin = DataScienceDomainPlugin()
         metadata = plugin.metadata
@@ -64,7 +65,7 @@ class TestDataScienceDomainPlugin:
         assert "data science" in metadata.description.lower()
         assert "data-science" in metadata.tags
 
-    def test_plugin_initialization(self):
+    def test_plugin_initialization(self) -> None:
         """Test plugin initializes correctly."""
         plugin = DataScienceDomainPlugin()
         plugin.initialize()
@@ -89,14 +90,14 @@ class TestDataScienceDomainPlugin:
         assert "mlflow" in plugin.list_importers()
         assert "jupyter" in plugin.list_importers()
 
-    def test_plugin_validation(self):
+    def test_plugin_validation(self) -> None:
         """Test plugin validates correctly."""
         plugin = DataScienceDomainPlugin()
         plugin.initialize()
 
         assert plugin.validate() is True
 
-    def test_plugin_cleanup(self):
+    def test_plugin_cleanup(self) -> None:
         """Test plugin cleanup doesn't error."""
         plugin = DataScienceDomainPlugin()
         plugin.initialize()
@@ -111,7 +112,7 @@ class TestDataScienceDomainPlugin:
 class TestExperimentLogTemplate:
     """Test ExperimentLogTemplate."""
 
-    def test_template_metadata(self):
+    def test_template_metadata(self) -> None:
         """Test template metadata."""
         template = ExperimentLogTemplate()
         metadata = template.metadata
@@ -120,7 +121,7 @@ class TestExperimentLogTemplate:
         assert metadata.category == "data_science"
         assert "ml" in metadata.tags
 
-    def test_template_generation(self):
+    def test_template_generation(self) -> None:
         """Test template generates spreadsheet."""
         template = ExperimentLogTemplate(
             project_name="Test Project",
@@ -132,7 +133,7 @@ class TestExperimentLogTemplate:
         assert builder is not None
         # Should not raise errors during generation
 
-    def test_template_with_hyperparams(self):
+    def test_template_with_hyperparams(self) -> None:
         """Test template with hyperparameters."""
         template = ExperimentLogTemplate(
             include_hyperparams=True,
@@ -145,7 +146,7 @@ class TestExperimentLogTemplate:
 class TestDatasetCatalogTemplate:
     """Test DatasetCatalogTemplate."""
 
-    def test_template_metadata(self):
+    def test_template_metadata(self) -> None:
         """Test template metadata."""
         template = DatasetCatalogTemplate()
         metadata = template.metadata
@@ -153,7 +154,7 @@ class TestDatasetCatalogTemplate:
         assert metadata.name == "Dataset Catalog"
         assert "datasets" in metadata.tags
 
-    def test_template_generation(self):
+    def test_template_generation(self) -> None:
         """Test template generates spreadsheet."""
         template = DatasetCatalogTemplate(
             organization="Test Org",
@@ -166,7 +167,7 @@ class TestDatasetCatalogTemplate:
 class TestAnalysisReportTemplate:
     """Test AnalysisReportTemplate."""
 
-    def test_template_metadata(self):
+    def test_template_metadata(self) -> None:
         """Test template metadata."""
         template = AnalysisReportTemplate()
         metadata = template.metadata
@@ -174,7 +175,7 @@ class TestAnalysisReportTemplate:
         assert metadata.name == "Analysis Report"
         assert "statistics" in metadata.tags
 
-    def test_template_generation(self):
+    def test_template_generation(self) -> None:
         """Test template generates spreadsheet."""
         template = AnalysisReportTemplate(
             analysis_name="Test Analysis",
@@ -184,7 +185,7 @@ class TestAnalysisReportTemplate:
 
         assert builder is not None
 
-    def test_template_with_correlation(self):
+    def test_template_with_correlation(self) -> None:
         """Test template with correlation matrix."""
         template = AnalysisReportTemplate(
             include_correlation=True,
@@ -197,7 +198,7 @@ class TestAnalysisReportTemplate:
 class TestABTestResultsTemplate:
     """Test ABTestResultsTemplate."""
 
-    def test_template_metadata(self):
+    def test_template_metadata(self) -> None:
         """Test template metadata."""
         template = ABTestResultsTemplate()
         metadata = template.metadata
@@ -205,7 +206,7 @@ class TestABTestResultsTemplate:
         assert metadata.name == "A/B Test Results"
         assert "ab-test" in metadata.tags
 
-    def test_template_generation(self):
+    def test_template_generation(self) -> None:
         """Test template generates spreadsheet."""
         template = ABTestResultsTemplate(
             test_name="Homepage Test",
@@ -215,7 +216,7 @@ class TestABTestResultsTemplate:
 
         assert builder is not None
 
-    def test_template_default_variants(self):
+    def test_template_default_variants(self) -> None:
         """Test template with default variants."""
         template = ABTestResultsTemplate()
 
@@ -227,7 +228,7 @@ class TestABTestResultsTemplate:
 class TestModelComparisonTemplate:
     """Test ModelComparisonTemplate."""
 
-    def test_template_metadata(self):
+    def test_template_metadata(self) -> None:
         """Test template metadata."""
         template = ModelComparisonTemplate()
         metadata = template.metadata
@@ -235,7 +236,7 @@ class TestModelComparisonTemplate:
         assert metadata.name == "Model Comparison"
         assert "models" in metadata.tags
 
-    def test_template_generation(self):
+    def test_template_generation(self) -> None:
         """Test template generates spreadsheet."""
         template = ModelComparisonTemplate(
             project_name="Image Classification",
@@ -245,7 +246,7 @@ class TestModelComparisonTemplate:
 
         assert builder is not None
 
-    def test_template_with_confusion_matrix(self):
+    def test_template_with_confusion_matrix(self) -> None:
         """Test template with confusion matrices."""
         template = ModelComparisonTemplate(
             include_confusion_matrix=True,
@@ -263,7 +264,7 @@ class TestModelComparisonTemplate:
 class TestTTestFormula:
     """Test TTestFormula."""
 
-    def test_formula_metadata(self):
+    def test_formula_metadata(self) -> None:
         """Test formula metadata."""
         formula = TTestFormula()
         metadata = formula.metadata
@@ -272,21 +273,21 @@ class TestTTestFormula:
         assert metadata.category == "statistical"
         assert len(metadata.arguments) == 4
 
-    def test_formula_build_two_args(self):
+    def test_formula_build_two_args(self) -> None:
         """Test formula building with two args."""
         formula = TTestFormula()
         result = formula.build("A1:A10", "B1:B10")
 
         assert result == "TTEST(A1:A10;B1:B10;2;1)"
 
-    def test_formula_build_all_args(self):
+    def test_formula_build_all_args(self) -> None:
         """Test formula building with all args."""
         formula = TTestFormula()
         result = formula.build("A1:A10", "B1:B10", 1, 2)
 
         assert result == "TTEST(A1:A10;B1:B10;1;2)"
 
-    def test_formula_validation_error(self):
+    def test_formula_validation_error(self) -> None:
         """Test formula validation fails with insufficient args."""
         formula = TTestFormula()
 
@@ -297,7 +298,7 @@ class TestTTestFormula:
 class TestFTestFormula:
     """Test FTestFormula."""
 
-    def test_formula_metadata(self):
+    def test_formula_metadata(self) -> None:
         """Test formula metadata."""
         formula = FTestFormula()
         metadata = formula.metadata
@@ -305,7 +306,7 @@ class TestFTestFormula:
         assert metadata.name == "FTEST"
         assert metadata.category == "statistical"
 
-    def test_formula_build(self):
+    def test_formula_build(self) -> None:
         """Test formula building."""
         formula = FTestFormula()
         result = formula.build("A1:A10", "B1:B10")
@@ -316,21 +317,21 @@ class TestFTestFormula:
 class TestZTestFormula:
     """Test ZTestFormula."""
 
-    def test_formula_metadata(self):
+    def test_formula_metadata(self) -> None:
         """Test formula metadata."""
         formula = ZTestFormula()
         metadata = formula.metadata
 
         assert metadata.name == "ZTEST"
 
-    def test_formula_build_without_sigma(self):
+    def test_formula_build_without_sigma(self) -> None:
         """Test formula without sigma."""
         formula = ZTestFormula()
         result = formula.build("A1:A10", 50)
 
         assert result == "ZTEST(A1:A10;50)"
 
-    def test_formula_build_with_sigma(self):
+    def test_formula_build_with_sigma(self) -> None:
         """Test formula with sigma."""
         formula = ZTestFormula()
         result = formula.build("A1:A10", 50, 5)
@@ -341,14 +342,14 @@ class TestZTestFormula:
 class TestChiSquareTestFormula:
     """Test ChiSquareTestFormula."""
 
-    def test_formula_metadata(self):
+    def test_formula_metadata(self) -> None:
         """Test formula metadata."""
         formula = ChiSquareTestFormula()
         metadata = formula.metadata
 
         assert metadata.name == "CHISQ_TEST"
 
-    def test_formula_build(self):
+    def test_formula_build(self) -> None:
         """Test formula building."""
         formula = ChiSquareTestFormula()
         result = formula.build("A1:B5", "D1:E5")
@@ -365,7 +366,7 @@ class TestChiSquareTestFormula:
 class TestAccuracyFormula:
     """Test AccuracyFormula."""
 
-    def test_formula_metadata(self):
+    def test_formula_metadata(self) -> None:
         """Test formula metadata."""
         formula = AccuracyFormula()
         metadata = formula.metadata
@@ -373,14 +374,14 @@ class TestAccuracyFormula:
         assert metadata.name == "ACCURACY"
         assert metadata.category == "ml_metrics"
 
-    def test_formula_build(self):
+    def test_formula_build(self) -> None:
         """Test formula building."""
         formula = AccuracyFormula()
         result = formula.build(85, 90, 10, 15)
 
         assert result == "(85+90)/(85+90+10+15)"
 
-    def test_formula_with_cell_refs(self):
+    def test_formula_with_cell_refs(self) -> None:
         """Test formula with cell references."""
         formula = AccuracyFormula()
         result = formula.build("A1", "A2", "A3", "A4")
@@ -391,14 +392,14 @@ class TestAccuracyFormula:
 class TestPrecisionFormula:
     """Test PrecisionFormula."""
 
-    def test_formula_metadata(self):
+    def test_formula_metadata(self) -> None:
         """Test formula metadata."""
         formula = PrecisionFormula()
         metadata = formula.metadata
 
         assert metadata.name == "PRECISION"
 
-    def test_formula_build(self):
+    def test_formula_build(self) -> None:
         """Test formula building."""
         formula = PrecisionFormula()
         result = formula.build(85, 10)
@@ -409,14 +410,14 @@ class TestPrecisionFormula:
 class TestRecallFormula:
     """Test RecallFormula."""
 
-    def test_formula_metadata(self):
+    def test_formula_metadata(self) -> None:
         """Test formula metadata."""
         formula = RecallFormula()
         metadata = formula.metadata
 
         assert metadata.name == "RECALL"
 
-    def test_formula_build(self):
+    def test_formula_build(self) -> None:
         """Test formula building."""
         formula = RecallFormula()
         result = formula.build(85, 15)
@@ -427,14 +428,14 @@ class TestRecallFormula:
 class TestF1ScoreFormula:
     """Test F1ScoreFormula."""
 
-    def test_formula_metadata(self):
+    def test_formula_metadata(self) -> None:
         """Test formula metadata."""
         formula = F1ScoreFormula()
         metadata = formula.metadata
 
         assert metadata.name == "F1SCORE"
 
-    def test_formula_build(self):
+    def test_formula_build(self) -> None:
         """Test formula building."""
         formula = F1ScoreFormula()
         result = formula.build(0.9, 0.85)
@@ -445,14 +446,14 @@ class TestF1ScoreFormula:
 class TestConfusionMatrixMetricFormula:
     """Test ConfusionMatrixMetricFormula."""
 
-    def test_formula_metadata(self):
+    def test_formula_metadata(self) -> None:
         """Test formula metadata."""
         formula = ConfusionMatrixMetricFormula()
         metadata = formula.metadata
 
         assert metadata.name == "CONFUSION_MATRIX_METRIC"
 
-    def test_formula_build_accuracy(self):
+    def test_formula_build_accuracy(self) -> None:
         """Test accuracy extraction."""
         formula = ConfusionMatrixMetricFormula()
         result = formula.build("A1:B2", "accuracy")
@@ -460,14 +461,14 @@ class TestConfusionMatrixMetricFormula:
         assert "INDEX" in result
         assert "accuracy" in result.lower() or "A1:B2" in result
 
-    def test_formula_build_precision(self):
+    def test_formula_build_precision(self) -> None:
         """Test precision extraction."""
         formula = ConfusionMatrixMetricFormula()
         result = formula.build("A1:B2", "precision")
 
         assert "INDEX" in result
 
-    def test_formula_invalid_metric(self):
+    def test_formula_invalid_metric(self) -> None:
         """Test invalid metric name."""
         formula = ConfusionMatrixMetricFormula()
 
@@ -483,35 +484,35 @@ class TestConfusionMatrixMetricFormula:
 class TestDataFunctionFormulas:
     """Test data function formulas."""
 
-    def test_average_formula(self):
+    def test_average_formula(self) -> None:
         """Test AverageFormula."""
         formula = AverageFormula()
         result = formula.build("A1:A10")
 
         assert result == "AVERAGE(A1:A10)"
 
-    def test_median_formula(self):
+    def test_median_formula(self) -> None:
         """Test MedianFormula."""
         formula = MedianFormula()
         result = formula.build("A1:A10")
 
         assert result == "MEDIAN(A1:A10)"
 
-    def test_stdev_formula(self):
+    def test_stdev_formula(self) -> None:
         """Test StdevFormula."""
         formula = StdevFormula()
         result = formula.build("A1:A10")
 
         assert result == "STDEV(A1:A10)"
 
-    def test_variance_formula(self):
+    def test_variance_formula(self) -> None:
         """Test VarianceFormula."""
         formula = VarianceFormula()
         result = formula.build("A1:A10")
 
         assert result == "VAR(A1:A10)"
 
-    def test_correlation_formula(self):
+    def test_correlation_formula(self) -> None:
         """Test CorrelationFormula."""
         formula = CorrelationFormula()
         result = formula.build("A1:A10", "B1:B10")
@@ -527,7 +528,7 @@ class TestDataFunctionFormulas:
 class TestScientificCSVImporter:
     """Test ScientificCSVImporter."""
 
-    def test_importer_metadata(self):
+    def test_importer_metadata(self) -> None:
         """Test importer metadata."""
         importer = ScientificCSVImporter()
         metadata = importer.metadata
@@ -535,7 +536,7 @@ class TestScientificCSVImporter:
         assert metadata.name == "Scientific CSV Importer"
         assert "csv" in metadata.supported_formats
 
-    def test_validate_source_valid(self, tmp_path):
+    def test_validate_source_valid(self, tmp_path: Path) -> None:
         """Test source validation with valid file."""
         csv_file = tmp_path / "test.csv"
         csv_file.write_text("header1,header2\nvalue1,value2\n")
@@ -543,12 +544,12 @@ class TestScientificCSVImporter:
         importer = ScientificCSVImporter()
         assert importer.validate_source(csv_file) is True
 
-    def test_validate_source_invalid(self):
+    def test_validate_source_invalid(self) -> None:
         """Test source validation with invalid file."""
         importer = ScientificCSVImporter()
         assert importer.validate_source("/nonexistent/file.csv") is False
 
-    def test_import_csv_basic(self, tmp_path):
+    def test_import_csv_basic(self, tmp_path: Path) -> None:
         """Test basic CSV import."""
         csv_file = tmp_path / "test.csv"
         csv_file.write_text("name,age,score\nAlice,25,95.5\nBob,30,87.2\n")
@@ -563,7 +564,7 @@ class TestScientificCSVImporter:
         assert result.data[0]["age"] == 25  # Should be int
         assert result.data[0]["score"] == 95.5  # Should be float
 
-    def test_import_csv_scientific_notation(self, tmp_path):
+    def test_import_csv_scientific_notation(self, tmp_path: Path) -> None:
         """Test CSV import with scientific notation."""
         csv_file = tmp_path / "test.csv"
         csv_file.write_text("measurement,value\nsmall,1.23e-5\nlarge,4.56E+10\n")
@@ -576,7 +577,7 @@ class TestScientificCSVImporter:
         assert abs(result.data[0]["value"] - 1.23e-5) < 1e-10
         assert isinstance(result.data[1]["value"], float)
 
-    def test_import_empty_file(self, tmp_path):
+    def test_import_empty_file(self, tmp_path: Path) -> None:
         """Test import of empty CSV."""
         csv_file = tmp_path / "empty.csv"
         csv_file.write_text("")
@@ -591,7 +592,7 @@ class TestScientificCSVImporter:
 class TestMLflowImporter:
     """Test MLflowImporter."""
 
-    def test_importer_metadata(self):
+    def test_importer_metadata(self) -> None:
         """Test importer metadata."""
         importer = MLflowImporter()
         metadata = importer.metadata
@@ -599,7 +600,7 @@ class TestMLflowImporter:
         assert metadata.name == "MLflow Importer"
         assert "json" in metadata.supported_formats
 
-    def test_validate_source_valid(self, tmp_path):
+    def test_validate_source_valid(self, tmp_path: Path) -> None:
         """Test source validation."""
         json_file = tmp_path / "runs.json"
         json_file.write_text("{}")
@@ -607,7 +608,7 @@ class TestMLflowImporter:
         importer = MLflowImporter()
         assert importer.validate_source(json_file) is True
 
-    def test_import_single_run(self, tmp_path):
+    def test_import_single_run(self, tmp_path: Path) -> None:
         """Test import single MLflow run."""
         run_data = {
             "run_id": "abc123",
@@ -629,7 +630,7 @@ class TestMLflowImporter:
         assert result.data[0]["run_id"] == "abc123"
         assert result.data[0]["metrics"]["accuracy"] == 0.92
 
-    def test_import_multiple_runs(self, tmp_path):
+    def test_import_multiple_runs(self, tmp_path: Path) -> None:
         """Test import multiple MLflow runs."""
         runs_data = [
             {
@@ -655,7 +656,7 @@ class TestMLflowImporter:
         assert result.success is True
         assert result.records_imported == 2
 
-    def test_import_invalid_json(self, tmp_path):
+    def test_import_invalid_json(self, tmp_path: Path) -> None:
         """Test import with invalid JSON."""
         json_file = tmp_path / "invalid.json"
         json_file.write_text("not valid json{")
@@ -670,7 +671,7 @@ class TestMLflowImporter:
 class TestJupyterMetadataImporter:
     """Test JupyterMetadataImporter."""
 
-    def test_importer_metadata(self):
+    def test_importer_metadata(self) -> None:
         """Test importer metadata."""
         importer = JupyterMetadataImporter()
         metadata = importer.metadata
@@ -678,7 +679,7 @@ class TestJupyterMetadataImporter:
         assert metadata.name == "Jupyter Metadata Importer"
         assert "ipynb" in metadata.supported_formats
 
-    def test_validate_source_valid(self, tmp_path):
+    def test_validate_source_valid(self, tmp_path: Path) -> None:
         """Test source validation."""
         nb_file = tmp_path / "notebook.ipynb"
         nb_file.write_text("{}")
@@ -686,7 +687,7 @@ class TestJupyterMetadataImporter:
         importer = JupyterMetadataImporter()
         assert importer.validate_source(nb_file) is True
 
-    def test_import_basic_notebook(self, tmp_path):
+    def test_import_basic_notebook(self, tmp_path: Path) -> None:
         """Test import basic notebook."""
         notebook = {
             "nbformat": 4,
@@ -720,7 +721,7 @@ class TestJupyterMetadataImporter:
         assert result.data["kernel"] == "Python 3"
         assert len(result.data["headers"]) == 2
 
-    def test_import_empty_notebook(self, tmp_path):
+    def test_import_empty_notebook(self, tmp_path: Path) -> None:
         """Test import empty notebook."""
         notebook = {
             "nbformat": 4,
@@ -746,22 +747,22 @@ class TestJupyterMetadataImporter:
 class TestUtilities:
     """Test utility functions."""
 
-    def test_format_scientific_notation(self):
+    def test_format_scientific_notation(self) -> None:
         """Test scientific notation formatting."""
         result = format_scientific_notation(0.00012345, 2)
         assert result == "1.23e-04"
 
-    def test_parse_scientific_notation(self):
+    def test_parse_scientific_notation(self) -> None:
         """Test scientific notation parsing."""
         result = parse_scientific_notation("1.23e-04")
         assert abs(result - 0.000123) < 1e-10
 
-    def test_parse_scientific_notation_invalid(self):
+    def test_parse_scientific_notation_invalid(self) -> None:
         """Test parsing invalid notation."""
         with pytest.raises(ValueError, match="Invalid scientific notation"):
             parse_scientific_notation("not a number")
 
-    def test_calculate_confusion_matrix_metrics(self):
+    def test_calculate_confusion_matrix_metrics(self) -> None:
         """Test confusion matrix metrics calculation."""
         metrics = calculate_confusion_matrix_metrics(85, 90, 10, 15)
 
@@ -769,14 +770,14 @@ class TestUtilities:
         assert abs(metrics["precision"] - (85 / 95)) < 0.001
         assert abs(metrics["recall"] - (85 / 100)) < 0.001
 
-    def test_calculate_confusion_matrix_zero_division(self):
+    def test_calculate_confusion_matrix_zero_division(self) -> None:
         """Test metrics with zero values."""
         metrics = calculate_confusion_matrix_metrics(0, 0, 0, 0)
 
         assert metrics["accuracy"] == 0.0
         assert metrics["precision"] == 0.0
 
-    def test_infer_data_type(self):
+    def test_infer_data_type(self) -> None:
         """Test data type inference."""
         assert infer_data_type(123) == "number"
         assert infer_data_type(45.67) == "number"
@@ -792,7 +793,7 @@ class TestUtilities:
 class TestIntegration:
     """Integration tests for data science domain."""
 
-    def test_plugin_template_integration(self):
+    def test_plugin_template_integration(self) -> None:
         """Test plugin can retrieve and use templates."""
         plugin = DataScienceDomainPlugin()
         plugin.initialize()
@@ -807,7 +808,7 @@ class TestIntegration:
 
         assert builder is not None
 
-    def test_plugin_formula_integration(self):
+    def test_plugin_formula_integration(self) -> None:
         """Test plugin can retrieve and use formulas."""
         plugin = DataScienceDomainPlugin()
         plugin.initialize()
@@ -822,7 +823,7 @@ class TestIntegration:
 
         assert "TTEST" in result
 
-    def test_plugin_importer_integration(self):
+    def test_plugin_importer_integration(self) -> None:
         """Test plugin can retrieve and use importers."""
         plugin = DataScienceDomainPlugin()
         plugin.initialize()

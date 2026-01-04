@@ -22,7 +22,7 @@ from spreadsheet_dl.templates.professional import (
 class TestTemplateMetadata:
     """Tests for TemplateMetadata."""
 
-    def test_basic_metadata(self):
+    def test_basic_metadata(self) -> None:
         """Test basic metadata creation."""
         meta = TemplateMetadata(
             name="test-template",
@@ -33,7 +33,7 @@ class TestTemplateMetadata:
         assert meta.version == "1.0.0"
         assert meta.category == "finance"
 
-    def test_metadata_with_tags(self):
+    def test_metadata_with_tags(self) -> None:
         """Test metadata with tags."""
         meta = TemplateMetadata(
             name="budget",
@@ -46,13 +46,13 @@ class TestTemplateMetadata:
 class TestBudgetCategory:
     """Tests for BudgetCategory."""
 
-    def test_basic_category(self):
+    def test_basic_category(self) -> None:
         """Test basic category."""
         category = BudgetCategory(name="Personnel")
         assert category.name == "Personnel"
         assert category.subcategories == []
 
-    def test_category_with_subcategories(self):
+    def test_category_with_subcategories(self) -> None:
         """Test category with subcategories."""
         category = BudgetCategory(
             name="Personnel",
@@ -65,7 +65,7 @@ class TestBudgetCategory:
 class TestEnterpriseBudgetTemplate:
     """Tests for EnterpriseBudgetTemplate (FR-PROF-001)."""
 
-    def test_default_initialization(self):
+    def test_default_initialization(self) -> None:
         """Test default initialization."""
         template = EnterpriseBudgetTemplate()
         assert template.fiscal_year == 2024
@@ -73,12 +73,12 @@ class TestEnterpriseBudgetTemplate:
         assert template.departments[0] == "General"
         assert template.currency_symbol == "$"
 
-    def test_custom_fiscal_year(self):
+    def test_custom_fiscal_year(self) -> None:
         """Test custom fiscal year."""
         template = EnterpriseBudgetTemplate(fiscal_year=2025)
         assert template.fiscal_year == 2025
 
-    def test_custom_departments(self):
+    def test_custom_departments(self) -> None:
         """Test custom departments."""
         template = EnterpriseBudgetTemplate(
             departments=["Engineering", "Sales", "Marketing"]
@@ -86,7 +86,7 @@ class TestEnterpriseBudgetTemplate:
         assert len(template.departments) == 3
         assert "Engineering" in template.departments
 
-    def test_default_categories(self):
+    def test_default_categories(self) -> None:
         """Test default categories are created."""
         template = EnterpriseBudgetTemplate()
         assert len(template.categories) > 0
@@ -94,7 +94,7 @@ class TestEnterpriseBudgetTemplate:
         assert "Personnel" in category_names
         assert "Operations" in category_names
 
-    def test_custom_categories(self):
+    def test_custom_categories(self) -> None:
         """Test custom categories."""
         template = EnterpriseBudgetTemplate(
             categories=[
@@ -105,7 +105,7 @@ class TestEnterpriseBudgetTemplate:
         assert len(template.categories) == 2
         assert template.categories[0].name == "Custom1"
 
-    def test_months_property(self):
+    def test_months_property(self) -> None:
         """Test months property."""
         template = EnterpriseBudgetTemplate()
         months = template.months
@@ -113,12 +113,12 @@ class TestEnterpriseBudgetTemplate:
         assert months[0] == "Jan"
         assert months[11] == "Dec"
 
-    def test_include_quarterly_flag(self):
+    def test_include_quarterly_flag(self) -> None:
         """Test include_quarterly flag."""
         template = EnterpriseBudgetTemplate(include_quarterly=True)
         assert template.include_quarterly is True
 
-    def test_include_variance_flag(self):
+    def test_include_variance_flag(self) -> None:
         """Test include_variance flag."""
         template = EnterpriseBudgetTemplate(include_variance=True)
         assert template.include_variance is True
@@ -127,19 +127,19 @@ class TestEnterpriseBudgetTemplate:
 class TestCashFlowTrackerTemplate:
     """Tests for CashFlowTrackerTemplate (FR-PROF-002)."""
 
-    def test_default_initialization(self):
+    def test_default_initialization(self) -> None:
         """Test default initialization."""
         template = CashFlowTrackerTemplate()
         assert template.periods == 12
         assert template.period_type == "monthly"
         assert template.opening_balance == 0.0
 
-    def test_custom_start_date(self):
+    def test_custom_start_date(self) -> None:
         """Test custom start date."""
         template = CashFlowTrackerTemplate(start_date="2025-01-01")
         assert template.start_date == "2025-01-01"
 
-    def test_weekly_periods(self):
+    def test_weekly_periods(self) -> None:
         """Test weekly period type."""
         template = CashFlowTrackerTemplate(
             period_type="weekly",
@@ -148,35 +148,35 @@ class TestCashFlowTrackerTemplate:
         assert template.period_type == "weekly"
         assert template.periods == 52
 
-    def test_opening_balance(self):
+    def test_opening_balance(self) -> None:
         """Test opening balance."""
         template = CashFlowTrackerTemplate(opening_balance=50000.00)
         assert template.opening_balance == 50000.00
 
-    def test_default_operating_inflows(self):
+    def test_default_operating_inflows(self) -> None:
         """Test default operating inflows."""
         template = CashFlowTrackerTemplate()
         assert "Sales Revenue" in template.operating_inflows
 
-    def test_default_operating_outflows(self):
+    def test_default_operating_outflows(self) -> None:
         """Test default operating outflows."""
         template = CashFlowTrackerTemplate()
         assert "Payroll" in template.operating_outflows
         assert "Rent/Lease" in template.operating_outflows
 
-    def test_default_investing_activities(self):
+    def test_default_investing_activities(self) -> None:
         """Test default investing activities."""
         template = CashFlowTrackerTemplate()
         assert "Asset Sales" in template.investing_inflows
         assert "Equipment Purchases" in template.investing_outflows
 
-    def test_default_financing_activities(self):
+    def test_default_financing_activities(self) -> None:
         """Test default financing activities."""
         template = CashFlowTrackerTemplate()
         assert "Loan Proceeds" in template.financing_inflows
         assert "Loan Payments" in template.financing_outflows
 
-    def test_include_projections(self):
+    def test_include_projections(self) -> None:
         """Test include projections flag."""
         template = CashFlowTrackerTemplate(include_projections=True)
         assert template.include_projections is True
@@ -185,13 +185,13 @@ class TestCashFlowTrackerTemplate:
 class TestInvoiceTemplate:
     """Tests for InvoiceTemplate (FR-PROF-003)."""
 
-    def test_default_initialization(self):
+    def test_default_initialization(self) -> None:
         """Test default initialization."""
         template = InvoiceTemplate()
         assert template.company_name == "Your Company"
         assert template.invoice_number == "INV-001"
 
-    def test_custom_company_info(self):
+    def test_custom_company_info(self) -> None:
         """Test custom company information."""
         template = InvoiceTemplate(
             company_name="ACME Corp",
@@ -202,12 +202,12 @@ class TestInvoiceTemplate:
         assert template.company_name == "ACME Corp"
         assert template.company_address == "123 Main St"
 
-    def test_custom_invoice_number(self):
+    def test_custom_invoice_number(self) -> None:
         """Test custom invoice number."""
         template = InvoiceTemplate(invoice_number="INV-2024-001")
         assert template.invoice_number == "INV-2024-001"
 
-    def test_tax_rate(self):
+    def test_tax_rate(self) -> None:
         """Test tax rate."""
         template = InvoiceTemplate(tax_rate=0.08)
         assert template.tax_rate == 0.08
@@ -216,13 +216,13 @@ class TestInvoiceTemplate:
 class TestExpenseReportTemplate:
     """Tests for ExpenseReportTemplate."""
 
-    def test_default_initialization(self):
+    def test_default_initialization(self) -> None:
         """Test default initialization."""
         template = ExpenseReportTemplate()
         assert template.employee_name == ""
         assert template.department == ""
 
-    def test_custom_employee_info(self):
+    def test_custom_employee_info(self) -> None:
         """Test custom employee information."""
         template = ExpenseReportTemplate(
             employee_name="John Doe",
@@ -231,14 +231,14 @@ class TestExpenseReportTemplate:
         assert template.employee_name == "John Doe"
         assert template.department == "Engineering"
 
-    def test_default_categories(self):
+    def test_default_categories(self) -> None:
         """Test default expense categories."""
         template = ExpenseReportTemplate()
         assert "Travel" in template.categories
         assert "Meals" in template.categories
         assert "Lodging" in template.categories
 
-    def test_custom_categories(self):
+    def test_custom_categories(self) -> None:
         """Test custom expense categories."""
         template = ExpenseReportTemplate(categories=["Travel", "Supplies", "Software"])
         assert len(template.categories) == 3
@@ -248,7 +248,7 @@ class TestExpenseReportTemplate:
 class TestTemplateRegistry:
     """Tests for template registry."""
 
-    def test_list_templates(self):
+    def test_list_templates(self) -> None:
         """Test listing available templates."""
         templates = list_templates()
         assert "enterprise_budget" in templates
@@ -256,17 +256,17 @@ class TestTemplateRegistry:
         assert "invoice" in templates
         assert "expense_report" in templates
 
-    def test_get_template(self):
+    def test_get_template(self) -> None:
         """Test getting template by name."""
         template_class = get_template("enterprise_budget")
         assert template_class is EnterpriseBudgetTemplate
 
-    def test_get_nonexistent_template(self):
+    def test_get_nonexistent_template(self) -> None:
         """Test getting nonexistent template."""
         template_class = get_template("nonexistent")
         assert template_class is None
 
-    def test_professional_templates_dict(self):
+    def test_professional_templates_dict(self) -> None:
         """Test PROFESSIONAL_TEMPLATES dictionary."""
         assert len(PROFESSIONAL_TEMPLATES) >= 4
         assert "enterprise_budget" in PROFESSIONAL_TEMPLATES
@@ -277,7 +277,7 @@ class TestTemplateIntegration:
     """Integration tests for templates with builder."""
 
     @pytest.mark.skip(reason="Requires full builder implementation")
-    def test_enterprise_budget_generate(self):
+    def test_enterprise_budget_generate(self) -> None:
         """Test generating enterprise budget spreadsheet."""
         template = EnterpriseBudgetTemplate(
             fiscal_year=2024,
@@ -287,7 +287,7 @@ class TestTemplateIntegration:
         # Would verify builder state
 
     @pytest.mark.skip(reason="Requires full builder implementation")
-    def test_cash_flow_generate(self):
+    def test_cash_flow_generate(self) -> None:
         """Test generating cash flow spreadsheet."""
         template = CashFlowTrackerTemplate(
             start_date="2024-01-01",
@@ -298,7 +298,7 @@ class TestTemplateIntegration:
         # Would verify builder state
 
     @pytest.mark.skip(reason="Requires full builder implementation")
-    def test_invoice_generate(self):
+    def test_invoice_generate(self) -> None:
         """Test generating invoice spreadsheet."""
         template = InvoiceTemplate(
             company_name="Test Corp",

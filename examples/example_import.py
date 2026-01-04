@@ -11,7 +11,7 @@ from pathlib import Path
 from spreadsheet_dl import OdsGenerator, import_bank_csv
 
 
-def main():
+def main() -> None:
     """Import bank CSV and create budget."""
 
     # For this example, we'll create a sample CSV first

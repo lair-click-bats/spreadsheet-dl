@@ -618,6 +618,7 @@ class TestSerializer:
         # Check chart data is preserved
         assert isinstance(result, (ChartSpec, dict))
         if isinstance(result, ChartSpec):
+            assert result.title is not None
             assert result.title.text == "Sales Chart"
             assert result.chart_type == ChartType.COLUMN
 

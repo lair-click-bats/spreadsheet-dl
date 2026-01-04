@@ -159,7 +159,7 @@ def output_sizes(batches: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(
         description="Process files in batches to reduce context overhead"
     )
