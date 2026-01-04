@@ -4,25 +4,19 @@
 
 Command-line interface for SpreadsheetDL finance tracker. Provides comprehensive CLI commands for generating budgets, analyzing spending, creating reports, managing finances, and extending functionality through plugins.
 
-**New in v4.0.0:**
+**Features (v4.0.0 stable):**
 
-- FR-EXT-001: Plugin system framework (plugin command)
-- FR-EXT-005: Custom category management (category command)
-
-**New in v0.6.0 (Phase 3):**
-
-- FR-CORE-004: Account management (account command)
-- FR-CURR-001: Multi-currency support (currency command)
-- FR-IMPORT-002: Extended bank formats (50+ supported)
-- FR-REPORT-003: Interactive visualization (visualize command)
-- FR-AI-001/003: Enhanced AI export with semantic tagging
-
-**New in v0.5.0:**
-
-- FR-UX-004: Confirmation prompts for destructive operations
-- DR-STORE-002: Backup/restore functionality
-- FR-EXPORT-001: Multi-format export (xlsx, csv, pdf)
-- FR-DUAL-001/002: Dual export (ODS + JSON for AI)
+- Plugin system framework with hot-reload (plugin command)
+- Custom category management (category command)
+- Account management with balance tracking (account command)
+- Multi-currency support for 30+ currencies (currency command)
+- Extended bank import formats (50+ supported)
+- Interactive Chart.js visualization (visualize command)
+- Enhanced AI export with semantic tagging
+- Confirmation prompts for destructive operations
+- Backup/restore functionality with compression
+- Multi-format export (ODS, XLSX, CSV, PDF, AI-JSON)
+- Dual export capability for LLM workflows
 
 ## Key Functions
 
@@ -400,7 +394,7 @@ spreadsheet-dl category search pet
 spreadsheet-dl category suggest "vet bill for dog"
 ```
 
-### account - Manage Accounts (NEW in v0.6.0)
+### account - Manage Accounts
 
 Manage financial accounts, balances, and transfers.
 
@@ -431,7 +425,7 @@ spreadsheet-dl account transfer "Checking" "Savings" 500
 spreadsheet-dl account net-worth
 ```
 
-### visualize - Generate Interactive Charts (NEW in v0.6.0)
+### visualize - Generate Interactive Charts
 
 Generate interactive HTML charts and dashboards.
 
@@ -563,7 +557,7 @@ try:
 except OperationCancelledError:
     print("Operation cancelled.", file=sys.stderr)
     sys.exit(1)
-except FinanceTrackerError as e:
+except SpreadsheetDLError as e:
     print(f"Error [{e.error_code}]: {e.message}", file=sys.stderr)
     sys.exit(1)
 except KeyboardInterrupt:

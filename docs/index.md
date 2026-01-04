@@ -19,9 +19,28 @@ SpreadsheetDL is a universal spreadsheet definition language that lets you creat
 
 ## Guides
 
+### Getting Started
+
+- [Installation Guide](installation.md) - Quick setup instructions
+- [Getting Started](getting-started.md) - Your first spreadsheet
+- [User Guide](user-guide.md) - Comprehensive usage guide
+
+### Core Guides
+
+- [Integration Guide](guides/integration.md) - **NEW** How modules work together, data flow, integration patterns
+- [Performance Guide](guides/performance.md) - **NEW** Benchmarks, optimization techniques, best practices
+- [Cookbook](guides/cookbook.md) - **NEW** 25+ practical recipes for common tasks
+- [Troubleshooting Guide](guides/troubleshooting.md) - Common issues and solutions
+- [Migration Guide](guides/migration-guide.md) - Upgrading from older versions
+
+### Advanced Guides
+
 - [Builder API Reference](api/builder.md) - Fluent API for spreadsheet construction
 - [Theme Creation Guide](guides/theme-creation.md) - Create custom visual themes
 - [Template Creation Guide](guides/template-creation.md) - Build reusable templates
+- [Style Composition Guide](guides/style-composition.md) - Advanced styling techniques
+- [Best Practices Guide](guides/best-practices.md) - Development best practices
+- [Plugin Development Guide](guides/plugin-development.md) - Create custom plugins
 
 ## Features
 
@@ -162,7 +181,7 @@ builder.save("budget.ods")
 # Generate budget
 uv run spreadsheet-dl generate -o ./budgets/
 
-# Add expense (NEW in v0.4.1 - actually writes to file!)
+# Add expense (directly modifies ODS files)
 uv run spreadsheet-dl expense 25.50 "Lunch" -c "Dining Out"
 
 # Analyze budget

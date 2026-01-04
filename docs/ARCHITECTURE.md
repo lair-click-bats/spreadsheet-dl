@@ -27,7 +27,7 @@ spreadsheet-dl/
 │       ├── report_generator.py   # Report generation
 │       ├── cli.py                # Command-line interface
 │       │
-│       # v2.0.0 Professional Features
+│       # Professional Features
 │       ├── charts.py             # Chart builder (FR-CHART-*)
 │       ├── template_engine.py    # Template system (FR-TEMPLATE-*)
 │       ├── builder.py            # Fluent builder API (FR-BUILDER-*)
@@ -131,7 +131,7 @@ Enterprise-ready document templates.
 - `CashFlowStatementTemplate` - Statement of cash flows
 - `EquityStatementTemplate` - Equity changes
 
-### 4. Interactive ODS Features (NEW in v1.0.0)
+### 4. Interactive ODS Features
 
 Enhanced interactivity within ODS spreadsheets.
 
@@ -544,10 +544,7 @@ custom_rule = ValidationRule(
 
 SpreadsheetDL follows semantic versioning:
 
-- **v4.0.0**: First public release - Universal spreadsheet definition language with MCP server, 9 domain plugins
-- **v2.0.0**: Professional Spreadsheet System with templates, charts, and enterprise features
-- **v0.5.0**: Backup/Export Features
-- **v0.4.x**: Builder API and Security
+- **v4.0.0**: First public release - Universal spreadsheet definition language with MCP server, 9 domain plugins, professional templates and charts
 
 ## Related Documentation
 

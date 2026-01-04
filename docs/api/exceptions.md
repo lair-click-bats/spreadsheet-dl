@@ -22,7 +22,7 @@ Custom exceptions for SpreadsheetDL finance tracker. Provides a comprehensive hi
 
 ## Key Classes
 
-### FinanceTrackerError
+### SpreadsheetDLError
 
 Base exception for all finance tracker errors. Provides structured error information including machine-readable error codes, human-readable summaries, detailed explanations, actionable suggestions, and contextual information.
 
@@ -45,9 +45,9 @@ Initialize the exception.
 **Example:**
 
 ```python
-from spreadsheet_dl.exceptions import FinanceTrackerError, ErrorContext
+from spreadsheet_dl.exceptions import SpreadsheetDLError, ErrorContext
 
-raise FinanceTrackerError(
+raise SpreadsheetDLError(
     "Operation failed",
     details="Database connection could not be established",
     suggestion="Check your database configuration",
@@ -86,7 +86,7 @@ Property that returns documentation URL for this error.
 try:
     # Operation
     pass
-except FinanceTrackerError as e:
+except SpreadsheetDLError as e:
     print(e.format_error())
     print(f"See: {e.doc_url}")
     print(json.dumps(e.to_dict(), indent=2))
@@ -292,14 +292,14 @@ raise HookError(
 ### Basic Exception Handling
 
 ```python
-from spreadsheet_dl.exceptions import FinanceTrackerError, FileNotFoundError
+from spreadsheet_dl.exceptions import SpreadsheetDLError, FileNotFoundError
 
 try:
     generate_budget("budget.ods")
 except FileNotFoundError as e:
     print(f"Error: {e.message}")
     print(f"Suggestion: {e.suggestion}")
-except FinanceTrackerError as e:
+except SpreadsheetDLError as e:
     print(f"[{e.error_code}] {e.message}")
     if e.details:
         print(f"Details: {e.details}")
@@ -324,12 +324,12 @@ except InvalidAmountError as e:
 ### JSON Error Response
 
 ```python
-from spreadsheet_dl.exceptions import FinanceTrackerError
+from spreadsheet_dl.exceptions import SpreadsheetDLError
 import json
 
 try:
     process_budget()
-except FinanceTrackerError as e:
+except SpreadsheetDLError as e:
     error_response = {
         "success": False,
         "error": e.to_dict()
@@ -340,11 +340,11 @@ except FinanceTrackerError as e:
 ### Custom Exception with Context
 
 ```python
-from spreadsheet_dl.exceptions import FinanceTrackerError, ErrorContext
+from spreadsheet_dl.exceptions import SpreadsheetDLError, ErrorContext
 
 def validate_budget_file(file_path):
     if not file_path.exists():
-        raise FinanceTrackerError(
+        raise SpreadsheetDLError(
             f"Budget file not found: {file_path}",
             error_code="FT-VAL-410",
             details="The specified budget file does not exist",
@@ -357,7 +357,7 @@ def validate_budget_file(file_path):
 
 ```python
 from spreadsheet_dl.exceptions import (
-    FinanceTrackerError,
+    SpreadsheetDLError,
     ValidationError,
     InvalidAmountError
 )
@@ -370,7 +370,7 @@ except InvalidAmountError as e:
 except ValidationError as e:
     # Handle any validation error
     print(f"Validation failed: {e.message}")
-except FinanceTrackerError as e:
+except SpreadsheetDLError as e:
     # Handle any finance tracker error
     print(f"Operation failed: {e.message}")
 ```
@@ -387,7 +387,7 @@ def main():
     except OperationCancelledError:
         print("Operation cancelled.", file=sys.stderr)
         return 1
-    except FinanceTrackerError as e:
+    except SpreadsheetDLError as e:
         print(e.format_error(use_color=not args.no_color), file=sys.stderr)
         return 1
     except KeyboardInterrupt:

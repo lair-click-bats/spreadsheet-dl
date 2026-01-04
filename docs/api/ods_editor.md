@@ -2,7 +2,7 @@
 
 Module for editing existing ODS spreadsheets.
 
-**New in v0.4.1**: Implements FR-CORE-003 - expense append functionality.
+**Feature**: Implements FR-CORE-003 - expense append functionality (stable in v4.0.0).
 
 ## Module Contents
 

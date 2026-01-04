@@ -1081,7 +1081,7 @@ config = MCPConfig(
 Base exception for MCP server errors.
 
 ```python
-class MCPError(FinanceTrackerError):
+class MCPError(SpreadsheetDLError):
     error_code = "FT-MCP-1900"
 ```
 

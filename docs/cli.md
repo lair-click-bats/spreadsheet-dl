@@ -65,7 +65,7 @@ spreadsheet-dl generate -t family --theme corporate -o ./budgets/
 
 Add a quick expense entry to a budget file.
 
-**New in v0.4.1**: Now actually writes to ODS files!
+**Feature**: Directly modifies ODS files (added in v0.4.1, stable in v4.0.0)
 
 ```bash
 spreadsheet-dl expense AMOUNT DESCRIPTION [OPTIONS]

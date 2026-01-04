@@ -364,9 +364,7 @@ def func(items: Sequence[ExpenseEntry]) -> None: ...
 
 ## Version History
 
-- **v4.0.0**: Universal spreadsheet definition language, streaming I/O, format adapters, performance optimization
-- **v2.0.0**: Professional templates, charts, conditional formatting
-- **v0.7.0**: Goals, debt payoff, bill reminders, shell completions
-- **v0.6.0**: Account management, multi-currency, visualization
-- **v0.5.0**: Backup, multi-format export, AI export
-- **v0.4.0**: Builder API, themes, security
+- **v4.0.0**: Universal Spreadsheet Definition Language with MCP server integration, 10+ domain plugins, streaming I/O, multi-format adapters, comprehensive performance optimization
+- **Pre-4.0**: Professional templates, charts, conditional formatting, goals tracking, account management, multi-currency support, backup/restore, builder API, themes, security features
+
+For detailed version history and migration guides, see [CHANGELOG.md](../CHANGELOG.md) and [Migration Guide](../guides/migration-guide.md)

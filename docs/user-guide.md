@@ -97,7 +97,7 @@ See [Visual Themes](#visual-themes) for all options.
 
 ## Adding Expenses
 
-### Quick Expense Entry (NEW in v0.4.1)
+### Quick Expense Entry
 
 Add expenses directly from the command line:
 

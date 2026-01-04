@@ -148,7 +148,7 @@ Each module documentation follows a consistent structure:
 ## Files Created
 
 Total API documentation files: 44 markdown files
-Location: `/home/lair-click-bats/development/spreadsheet-dl/docs/api/`
+Location: `docs/api/` (relative to project root)
 
 ## Recommendations for Ongoing Maintenance
 

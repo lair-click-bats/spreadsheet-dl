@@ -218,7 +218,7 @@ for fmt, path in results.items():
 ### MultiExportError
 
 ```python
-class MultiExportError(FinanceTrackerError):
+class MultiExportError(SpreadsheetDLError):
     """Base exception for multi-format export errors."""
     error_code = "FT-MXP-1300"
 ```
