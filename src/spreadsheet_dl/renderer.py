@@ -863,7 +863,11 @@ class OdsRenderer:
         chart_spec: ChartSpec,
     ) -> Any:
         """
-        Create an ODF chart series element.
+        Create an ODF chart series element with color styling.
+
+        Implements:
+            FR-CHART-004: Chart Styling
+            FUTURE-005: Chart series color application
 
         Args:
             series: DataSeries specification
@@ -871,7 +875,7 @@ class OdsRenderer:
             chart_spec: Parent chart specification
 
         Returns:
-            ODF chart:series element
+            ODF chart:series element with applied color style
         """
         # Create series element
         series_elem = odfchart.Series()
@@ -889,16 +893,120 @@ class OdsRenderer:
         # Categories are typically handled at the PlotArea level
         # For now, we skip this and rely on the data structure
 
-        # Apply color if specified
+        # Apply color via ODF style
         if series.color or chart_spec.color_palette:
             color = series.color
             if not color and chart_spec.color_palette:
                 color = chart_spec.color_palette[index % len(chart_spec.color_palette)]
+
             if color:
-                # Color would be applied via style
-                pass
+                self._apply_series_color(series_elem, color, index)
 
         return series_elem
+
+    def _apply_series_color(
+        self,
+        series_elem: Any,
+        color: str,
+        index: int,
+    ) -> None:
+        """
+        Apply color styling to a chart series element.
+
+        Implements:
+            FR-CHART-004: Chart Styling
+            FUTURE-005: Chart series color application via ODS styles
+
+        Creates an ODF style with graphic properties for fill and stroke colors,
+        adds it to the document's automatic styles, and applies it to the series.
+
+        Args:
+            series_elem: ODF chart:series element
+            color: Hex color code (e.g., "#FF0000" or "FF0000")
+            index: Series index for unique style naming
+        """
+        # Normalize color to hex format with #
+        normalized_color = self._normalize_hex_color(color)
+
+        # Create unique style name
+        style_name = f"chart-series-{index}"
+
+        # Create chart style with graphic properties
+        chart_style = Style(name=style_name, family="chart")
+
+        # Create graphic properties for fill and stroke colors
+        graphic_props = GraphicProperties()
+        graphic_props.setAttribute("fillcolor", normalized_color)
+        graphic_props.setAttribute("strokecolor", normalized_color)
+
+        # Add graphic properties to style
+        chart_style.addElement(graphic_props)
+
+        # Add style to document's automatic styles
+        if hasattr(self, "doc") and self.doc:
+            self.doc.automaticstyles.addElement(chart_style)
+
+        # Apply style to series element
+        series_elem.setAttribute("stylename", style_name)
+
+    def _normalize_hex_color(self, color: str) -> str:
+        """
+        Normalize color to ODF hex format (#RRGGBB).
+
+        Implements:
+            FR-CHART-004: Chart Styling
+
+        Args:
+            color: Color string (hex with or without #, or named color)
+
+        Returns:
+            Normalized hex color with # prefix
+
+        Examples:
+            >>> _normalize_hex_color("FF0000")
+            "#FF0000"
+            >>> _normalize_hex_color("#ff0000")
+            "#FF0000"
+            >>> _normalize_hex_color("red")
+            "#FF0000"
+        """
+        # Remove any whitespace
+        color = color.strip()
+
+        # Handle named colors
+        named_colors = {
+            "red": "#FF0000",
+            "green": "#00FF00",
+            "blue": "#0000FF",
+            "yellow": "#FFFF00",
+            "orange": "#FFA500",
+            "purple": "#800080",
+            "pink": "#FFC0CB",
+            "brown": "#A52A2A",
+            "gray": "#808080",
+            "grey": "#808080",
+            "black": "#000000",
+            "white": "#FFFFFF",
+            "cyan": "#00FFFF",
+            "magenta": "#FF00FF",
+            "lime": "#00FF00",
+            "navy": "#000080",
+            "teal": "#008080",
+            "olive": "#808000",
+            "maroon": "#800000",
+            "aqua": "#00FFFF",
+        }
+
+        color_lower = color.lower()
+        if color_lower in named_colors:
+            return named_colors[color_lower]
+
+        # Ensure # prefix
+        if not color.startswith("#"):
+            color = f"#{color}"
+
+        # Normalize to uppercase
+        return color.upper()
 
     # =========================================================================
     # Conditional Format Rendering (TASK-211)
