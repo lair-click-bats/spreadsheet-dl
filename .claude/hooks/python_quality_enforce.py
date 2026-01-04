@@ -140,7 +140,7 @@ def validate_python_file(file_path: str, project_root: str) -> int:
     )
 
     # Step 3: Check for remaining errors
-    returncode, stdout, stderr = run_command(
+    _returncode, stdout, _stderr = run_command(
         [
             "uv",
             "run",
@@ -178,7 +178,7 @@ def validate_python_file(file_path: str, project_root: str) -> int:
     if critical:
         filename = path.name
         print(f"\n❌ CRITICAL ERRORS in {filename}:", file=sys.stderr)
-        print(f"Cannot proceed until these are fixed:\n", file=sys.stderr)
+        print("Cannot proceed until these are fixed:\n", file=sys.stderr)
 
         for error in critical[:10]:
             print(format_error(error), file=sys.stderr)
@@ -190,7 +190,7 @@ def validate_python_file(file_path: str, project_root: str) -> int:
             )
 
         print(
-            f"\nSuggestion: Review the code and fix these errors before writing.",
+            "\nSuggestion: Review the code and fix these errors before writing.",
             file=sys.stderr,
         )
         return 2  # BLOCK the operation

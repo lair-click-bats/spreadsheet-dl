@@ -122,9 +122,9 @@ def validate_python_types(file_path: str, project_root: str) -> int:
 
     if strict_mode:
         print(f"\n❌ TYPE ERRORS in {filename}:", file=sys.stderr)
-        print(f"Cannot proceed until these are fixed:\n", file=sys.stderr)
+        print("Cannot proceed until these are fixed:\n", file=sys.stderr)
     else:
-        print(f"\nℹ Type hints in {filename}:", file=sys.stderr)
+        print(f"\n[i] Type hints in {filename}:", file=sys.stderr)
 
     # Show first N errors
     for error in errors[:MAX_ERRORS_DISPLAY]:
@@ -136,13 +136,13 @@ def validate_python_types(file_path: str, project_root: str) -> int:
 
     if strict_mode:
         print(
-            f"\nSuggestion: Fix type errors or disable MYPY_STRICT mode.",
+            "\nSuggestion: Fix type errors or disable MYPY_STRICT mode.",
             file=sys.stderr,
         )
         return 2  # BLOCK in strict mode
     else:
         print(
-            f"\nNote: These are informational. Set MYPY_STRICT=1 to block on type errors.",
+            "\nNote: These are informational. Set MYPY_STRICT=1 to block on type errors.",
             file=sys.stderr,
         )
         return 0  # INFO mode - don't block

@@ -9,7 +9,6 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
-from typing import Any
 
 # ANSI color codes for output
 GREEN = "\033[92m"
@@ -108,7 +107,7 @@ if __name__ == "__main__":
     main()
 ''')
 
-    exit_code, stdout, stderr = run_hook(str(test_file), hook)
+    exit_code, _stdout, _stderr = run_hook(str(test_file), hook)
 
     if exit_code == 0:
         results.add_pass("Python: Clean file", "Passed as expected")
@@ -129,7 +128,7 @@ def hello() -> None:
     print("Hello")
 ''')
 
-    exit_code, stdout, stderr = run_hook(str(test_file), hook)
+    exit_code, _stdout, _stderr = run_hook(str(test_file), hook)
 
     # Unused imports should be auto-fixed by ruff check --fix
     if exit_code == 0:
@@ -155,7 +154,7 @@ def foo() -> None:
     print(undefined_variable)
 ''')
 
-    exit_code, stdout, stderr = run_hook(str(test_file), hook)
+    exit_code, _stdout, stderr = run_hook(str(test_file), hook)
 
     if exit_code == 2:
         if "F821" in stderr or "Undefined name" in stderr:
@@ -180,7 +179,7 @@ def foo()  # Missing colon
     print("Hello")
 ''')
 
-    exit_code, stdout, stderr = run_hook(str(test_file), hook)
+    exit_code, _stdout, stderr = run_hook(str(test_file), hook)
 
     if exit_code == 2:
         if "E999" in stderr or "SyntaxError" in stderr:
@@ -202,7 +201,7 @@ def foo(  ):
     return   x
 ''')
 
-    exit_code, stdout, stderr = run_hook(str(test_file), hook)
+    exit_code, _stdout, _stderr = run_hook(str(test_file), hook)
 
     # Should auto-format and pass
     if exit_code == 0:
@@ -234,7 +233,7 @@ main() {
 main "$@"
 """)
 
-    exit_code, stdout, stderr = run_hook(str(test_file), hook)
+    exit_code, _stdout, _stderr = run_hook(str(test_file), hook)
 
     if exit_code == 0:
         results.add_pass("Shell: Clean script", "Passed as expected")
@@ -252,7 +251,7 @@ cd /tmp  # Using cd without checking if it succeeds
 rm -rf "$DIR"/*  # Variable might be empty
 """)
 
-    exit_code, stdout, stderr = run_hook(str(test_file), hook)
+    exit_code, _stdout, _stderr = run_hook(str(test_file), hook)
 
     # Shellcheck may or may not catch these depending on configuration
     # Accept either blocking or passing as valid
@@ -281,7 +280,7 @@ config:
     - three
 """)
 
-    exit_code, stdout, stderr = run_hook(str(test_file), hook)
+    exit_code, _stdout, _stderr = run_hook(str(test_file), hook)
 
     if exit_code == 0:
         results.add_pass("YAML: Clean file", "Passed as expected")
@@ -299,7 +298,7 @@ config:
   port: 8080
 """)
 
-    exit_code, stdout, stderr = run_hook(str(test_file), hook)
+    exit_code, _stdout, _stderr = run_hook(str(test_file), hook)
 
     # Could be auto-fixed by prettier or blocked by yamllint
     if exit_code == 0:
@@ -323,7 +322,7 @@ def test_json_clean(results: TestResult, hook: str, temp_dir: Path):
 }
 """)
 
-    exit_code, stdout, stderr = run_hook(str(test_file), hook)
+    exit_code, _stdout, _stderr = run_hook(str(test_file), hook)
 
     if exit_code == 0:
         results.add_pass("JSON: Clean file", "Passed as expected")
@@ -340,7 +339,7 @@ def test_json_syntax_error(results: TestResult, hook: str, temp_dir: Path):
 }
 """)
 
-    exit_code, stdout, stderr = run_hook(str(test_file), hook)
+    exit_code, _stdout, stderr = run_hook(str(test_file), hook)
 
     if exit_code == 2:
         if "json" in stderr.lower() or "syntax" in stderr.lower():
@@ -375,7 +374,7 @@ Some content here.
 More content.
 """)
 
-    exit_code, stdout, stderr = run_hook(str(test_file), hook)
+    exit_code, _stdout, _stderr = run_hook(str(test_file), hook)
 
     if exit_code == 0:
         results.add_pass("Markdown: Clean file", "Passed as expected")
@@ -392,7 +391,7 @@ def test_excluded_directory(results: TestResult, hook: str, temp_dir: Path):
 x = undefined_name
 """)
 
-    exit_code, stdout, stderr = run_hook(str(test_file), hook)
+    exit_code, _stdout, _stderr = run_hook(str(test_file), hook)
 
     if exit_code == 0:
         results.add_pass("Excluded: .venv directory", "Skipped as expected")
@@ -408,7 +407,7 @@ def test_unknown_file_type(results: TestResult, hook: str, temp_dir: Path):
     test_file = temp_dir / "test.xyz"
     test_file.write_text("random content")
 
-    exit_code, stdout, stderr = run_hook(str(test_file), hook)
+    exit_code, _stdout, _stderr = run_hook(str(test_file), hook)
 
     if exit_code == 0:
         results.add_pass("Unknown: .xyz file", "Allowed as expected")
@@ -428,7 +427,7 @@ def foo(x,y):
     return x+y
 ''')
 
-    exit_code, stdout, stderr = run_hook(str(test_file), hook)
+    exit_code, _stdout, stderr = run_hook(str(test_file), hook)
 
     # Should auto-fix import ordering and formatting
     if exit_code == 0:

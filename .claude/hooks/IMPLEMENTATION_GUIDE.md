@@ -61,7 +61,8 @@ All issues must be fixed before proceeding.
 **Enables strict enforcement immediately for ALL new code**:
 
 ```bash
-cd /home/lair-click-bats/development/spreadsheet-dl
+# Navigate to your project root
+cd /path/to/your/project
 
 # Backup current settings
 cp .claude/settings.json .claude/settings.backup.json

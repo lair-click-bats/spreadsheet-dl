@@ -26,7 +26,6 @@ import json
 import subprocess
 import sys
 from pathlib import Path
-from typing import Any
 
 # Maximum issues to display before truncating
 MAX_DISPLAY = 20
@@ -211,7 +210,7 @@ def validate_json(file_path: Path, project_root: str) -> tuple[bool, list[str]]:
     except json.JSONDecodeError as e:
         errors.append(f"[json] Line {e.lineno}: {e.msg}")
     except Exception as e:
-        errors.append(f"[json] {str(e)}")
+        errors.append(f"[json] {e!s}")
 
     # If valid, auto-format with prettier
     if not errors:
@@ -285,7 +284,7 @@ def validate_file(file_path: str, project_root: str) -> int:
 
     # BLOCK - issues found
     print(f"\n❌ QUALITY ISSUES in {filename}:", file=sys.stderr)
-    print(f"All issues must be fixed before proceeding.\n", file=sys.stderr)
+    print("All issues must be fixed before proceeding.\n", file=sys.stderr)
 
     # Display errors (truncate if too many)
     for error in errors[:MAX_DISPLAY]:
@@ -296,11 +295,11 @@ def validate_file(file_path: str, project_root: str) -> int:
         print(f"\n  ... and {remaining} more issues", file=sys.stderr)
 
     print(
-        f"\n💡 Suggestion: Fix all issues above, then try writing again.",
+        "\n💡 Suggestion: Fix all issues above, then try writing again.",
         file=sys.stderr,
     )
     print(
-        f"   Most issues can be auto-fixed - the tool will attempt this first.",
+        "   Most issues can be auto-fixed - the tool will attempt this first.",
         file=sys.stderr,
     )
 
