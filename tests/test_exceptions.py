@@ -27,7 +27,6 @@ from spreadsheet_dl.exceptions import (
     FilePermissionError,
     FileReadError,
     FileWriteError,
-    FinanceTrackerError,  # Deprecated alias
     FormattingError,
     FormulaError,
     HookError,
@@ -673,17 +672,6 @@ class TestExceptionHierarchy:
             except SpreadsheetDLError as e:
                 assert e.message == "test"
 
-    def test_finance_tracker_error_deprecated_alias(self) -> None:
-        """Test FinanceTrackerError is a deprecated alias for SpreadsheetDLError."""
-        assert issubclass(FinanceTrackerError, SpreadsheetDLError)
-
-        # Test that using the deprecated alias raises a warning
-        with pytest.warns(
-            DeprecationWarning, match="FinanceTrackerError is deprecated"
-        ):
-            error = FinanceTrackerError("Test message")
-            assert error.message == "Test message"
-
 
 class TestErrorCodeUniqueness:
     """Tests to ensure all error codes are unique."""
@@ -691,9 +679,8 @@ class TestErrorCodeUniqueness:
     def test_all_error_codes_are_unique(self) -> None:
         """Test that concrete exception classes have unique error codes.
 
-        Note: FinanceTrackerError (base) and UnknownError share FT-GEN-001 by design.
-        UnknownError is the concrete representation of an unknown error type.
-        Base exception classes may share codes with their primary concrete subclass.
+        Note: Base exception classes may share codes with their primary concrete subclass.
+        For example, UnknownError is the concrete representation of the base error type.
         """
         # Only test concrete (leaf) exception classes that should have unique codes
         # Exclude abstract base classes that may share codes with their concrete subclasses

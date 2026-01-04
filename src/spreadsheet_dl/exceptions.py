@@ -1503,27 +1503,3 @@ class WeakPasswordError(SecurityError):
             suggestion="Use a stronger password with at least 12 characters, mixed case, numbers, and symbols.",
             **kwargs,
         )
-
-
-# =============================================================================
-# Backward Compatibility (Deprecated)
-# =============================================================================
-
-
-class FinanceTrackerError(SpreadsheetDLError):
-    """
-    Deprecated: Use SpreadsheetDLError instead.
-
-    This alias is provided for backward compatibility and will be removed in v5.0.0.
-    """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        import warnings
-
-        warnings.warn(
-            "FinanceTrackerError is deprecated and will be removed in v5.0.0. "
-            "Use SpreadsheetDLError instead.",
-            DeprecationWarning,
-            stacklevel=2,
-        )
-        super().__init__(*args, **kwargs)

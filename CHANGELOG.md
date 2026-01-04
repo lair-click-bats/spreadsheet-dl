@@ -141,6 +141,14 @@ except NoSheetSelectedError as e:
 - Streaming I/O for memory-efficient large file handling
 - Benchmark utilities for performance monitoring
 
+---
+
+## Pre-Public Release Development History
+
+The following versions (v0.1.0 through v2.0.0) represent internal development iterations prior to the first public release (v4.0.0). These entries are preserved for historical reference.
+
+---
+
 ## [2.0.0] - 2025-12-29
 
 ### Added

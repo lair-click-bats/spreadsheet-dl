@@ -11,7 +11,7 @@ from decimal import Decimal
 
 import pytest
 
-from spreadsheet_dl.plaid_integration import (
+from spreadsheet_dl import (
     AccessToken,
     LinkStatus,
     LinkToken,

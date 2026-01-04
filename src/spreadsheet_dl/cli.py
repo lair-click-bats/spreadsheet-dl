@@ -1,16 +1,14 @@
 """
 Command-line interface for SpreadsheetDL.
 
-BACKWARD COMPATIBILITY WRAPPER
--------------------------------
-This module is kept for backward compatibility. The actual CLI implementation
-has been modularized into the _cli/ package:
+PUBLIC API ENTRY POINT
+----------------------
+This module is the public API entry point for the CLI functionality.
+Implementation is modularized in the _cli package:
 
     - _cli/utils.py: Validation, confirmation, and utility functions
     - _cli/commands.py: Command handler implementations
     - _cli/app.py: Main application setup and argument parsing
-
-All imports are re-exported from the _cli package to maintain 100% API compatibility.
 
 New in v4.0.0:
     - FR-EXT-001: Plugin system framework (plugin command)

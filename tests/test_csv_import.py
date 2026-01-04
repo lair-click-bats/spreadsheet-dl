@@ -7,13 +7,13 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from spreadsheet_dl.csv_import import (
+from spreadsheet_dl import (
     BANK_FORMATS,
     CSVImporter,
     TransactionCategorizer,
     import_bank_csv,
 )
-from spreadsheet_dl.ods_generator import ExpenseCategory
+from spreadsheet_dl import ExpenseCategory
 
 if TYPE_CHECKING:
     from pathlib import Path

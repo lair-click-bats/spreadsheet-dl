@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from spreadsheet_dl.ods_generator import (
+from spreadsheet_dl import (
     BudgetAllocation,
     ExpenseCategory,
     ExpenseEntry,

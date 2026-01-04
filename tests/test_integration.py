@@ -8,21 +8,21 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from spreadsheet_dl.alerts import check_budget_alerts
-from spreadsheet_dl.analytics import AnalyticsDashboard, generate_dashboard
-from spreadsheet_dl.budget_analyzer import BudgetAnalyzer
-from spreadsheet_dl.ods_generator import (
+from spreadsheet_dl import check_budget_alerts
+from spreadsheet_dl import AnalyticsDashboard, generate_dashboard
+from spreadsheet_dl import BudgetAnalyzer
+from spreadsheet_dl import (
     BudgetAllocation,
     ExpenseCategory,
     ExpenseEntry,
     OdsGenerator,
 )
-from spreadsheet_dl.recurring import (
+from spreadsheet_dl import (
     RecurrenceFrequency,
     RecurringExpense,
     RecurringExpenseManager,
 )
-from spreadsheet_dl.report_generator import ReportGenerator
+from spreadsheet_dl import ReportGenerator
 
 if TYPE_CHECKING:
     from pathlib import Path

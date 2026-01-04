@@ -14,7 +14,7 @@ from pathlib import Path
 
 import pytest
 
-from spreadsheet_dl.accounts import (
+from spreadsheet_dl import (
     Account,
     AccountManager,
     AccountTransaction,

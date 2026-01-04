@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from spreadsheet_dl.alerts import (
+from spreadsheet_dl import (
     Alert,
     AlertConfig,
     AlertMonitor,
@@ -16,8 +16,8 @@ from spreadsheet_dl.alerts import (
     AlertType,
     check_budget_alerts,
 )
-from spreadsheet_dl.budget_analyzer import BudgetAnalyzer
-from spreadsheet_dl.ods_generator import (
+from spreadsheet_dl import BudgetAnalyzer
+from spreadsheet_dl import (
     BudgetAllocation,
     ExpenseCategory,
     ExpenseEntry,

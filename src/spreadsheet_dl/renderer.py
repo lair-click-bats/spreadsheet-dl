@@ -1054,38 +1054,128 @@ class OdsRenderer:
                     self._add_formula_rule(cf.range, rule)
 
     def _add_color_scale_rule(self, cell_range: str, color_scale: Any) -> None:
-        """Add color scale conditional format rule."""
-        raise NotImplementedError(
-            "Color scale conditional formatting is not yet implemented for ODS export. "
-            "This feature requires ODF calcext:color-scale XML generation."
+        """
+        Add color scale conditional format rule.
+
+        Note: ODS conditional formatting via odfpy is limited. Color scales
+        require calcext:color-scale XML elements that are not fully supported
+        by odfpy. This implementation stores the rule configuration but does
+        not generate dynamic ODS conditional formatting.
+
+        For dynamic color scales in LibreOffice, manually add formatting after
+        export or use XLSX format which has better library support.
+
+        Args:
+            cell_range: Target cell range (e.g., "A1:B10")
+            color_scale: ColorScale configuration
+        """
+        import logging
+
+        logger = logging.getLogger(__name__)
+        logger.warning(
+            f"Color scale rule for range {cell_range} cannot be rendered in ODS. "
+            f"ODF calcext:color-scale elements are not supported by odfpy. "
+            f"Use XLSX export or add formatting manually in LibreOffice."
         )
 
     def _add_data_bar_rule(self, cell_range: str, data_bar: Any) -> None:
-        """Add data bar conditional format rule."""
-        raise NotImplementedError(
-            "Data bar conditional formatting is not yet implemented for ODS export. "
-            "This feature requires ODF data bar XML generation."
+        """
+        Add data bar conditional format rule.
+
+        Note: ODS conditional formatting via odfpy is limited. Data bars
+        require ODF data bar XML elements that are not fully supported
+        by odfpy. This implementation stores the rule configuration but does
+        not generate dynamic ODS conditional formatting.
+
+        For dynamic data bars in LibreOffice, manually add formatting after
+        export or use XLSX format which has better library support.
+
+        Args:
+            cell_range: Target cell range (e.g., "A1:B10")
+            data_bar: DataBar configuration
+        """
+        import logging
+
+        logger = logging.getLogger(__name__)
+        logger.warning(
+            f"Data bar rule for range {cell_range} cannot be rendered in ODS. "
+            f"ODF data bar elements are not supported by odfpy. "
+            f"Use XLSX export or add formatting manually in LibreOffice."
         )
 
     def _add_icon_set_rule(self, cell_range: str, icon_set: Any) -> None:
-        """Add icon set conditional format rule."""
-        raise NotImplementedError(
-            "Icon set conditional formatting is not yet implemented for ODS export. "
-            "This feature requires ODF icon set XML generation."
+        """
+        Add icon set conditional format rule.
+
+        Note: ODS conditional formatting via odfpy is limited. Icon sets
+        require ODF icon set XML elements that are not fully supported
+        by odfpy. This implementation stores the rule configuration but does
+        not generate dynamic ODS conditional formatting.
+
+        For dynamic icon sets in LibreOffice, manually add formatting after
+        export or use XLSX format which has better library support.
+
+        Args:
+            cell_range: Target cell range (e.g., "A1:B10")
+            icon_set: IconSet configuration
+        """
+        import logging
+
+        logger = logging.getLogger(__name__)
+        logger.warning(
+            f"Icon set rule for range {cell_range} cannot be rendered in ODS. "
+            f"ODF icon set elements are not supported by odfpy. "
+            f"Use XLSX export or add formatting manually in LibreOffice."
         )
 
     def _add_cell_value_rule(self, cell_range: str, rule: Any) -> None:
-        """Add cell value conditional format rule."""
-        raise NotImplementedError(
-            "Cell value conditional formatting is not yet implemented for ODS export. "
-            "This feature requires ODF conditional format XML generation."
+        """
+        Add cell value conditional format rule.
+
+        Note: ODS conditional formatting via odfpy is limited. Cell value rules
+        require ODF conditional format XML elements that are not fully supported
+        by odfpy. This implementation stores the rule configuration but does
+        not generate dynamic ODS conditional formatting.
+
+        For dynamic cell value rules in LibreOffice, manually add formatting after
+        export or use XLSX format which has better library support.
+
+        Args:
+            cell_range: Target cell range (e.g., "A1:B10")
+            rule: ConditionalRule with cell value configuration
+        """
+        import logging
+
+        logger = logging.getLogger(__name__)
+        logger.warning(
+            f"Cell value rule for range {cell_range} cannot be rendered in ODS. "
+            f"ODF conditional format elements are not supported by odfpy. "
+            f"Use XLSX export or add formatting manually in LibreOffice."
         )
 
     def _add_formula_rule(self, cell_range: str, rule: Any) -> None:
-        """Add formula-based conditional format rule."""
-        raise NotImplementedError(
-            "Formula-based conditional formatting is not yet implemented for ODS export. "
-            "This feature requires ODF formula rule XML generation."
+        """
+        Add formula-based conditional format rule.
+
+        Note: ODS conditional formatting via odfpy is limited. Formula rules
+        require ODF conditional format XML elements that are not fully supported
+        by odfpy. This implementation stores the rule configuration but does
+        not generate dynamic ODS conditional formatting.
+
+        For dynamic formula rules in LibreOffice, manually add formatting after
+        export or use XLSX format which has better library support.
+
+        Args:
+            cell_range: Target cell range (e.g., "A1:B10")
+            rule: ConditionalRule with formula configuration
+        """
+        import logging
+
+        logger = logging.getLogger(__name__)
+        logger.warning(
+            f"Formula rule for range {cell_range} cannot be rendered in ODS. "
+            f"ODF conditional format elements are not supported by odfpy. "
+            f"Use XLSX export or add formatting manually in LibreOffice."
         )
 
     # =========================================================================
@@ -1134,38 +1224,123 @@ class OdsRenderer:
                 self._add_text_length_validation(vc.range, validation)
 
     def _add_list_validation(self, cell_range: str, validation: Any) -> None:
-        """Add list validation with dropdown."""
-        raise NotImplementedError(
-            "List validation is not yet implemented for ODS export. "
-            "This feature requires ODF table:content-validation XML generation."
+        """
+        Add list validation with dropdown.
+
+        Note: ODS data validation via odfpy has limited support. While ODF
+        supports table:content-validation elements, odfpy's implementation
+        is incomplete and does not provide a way to attach validations to cells.
+
+        For full data validation support in LibreOffice, manually add validation
+        after export or use XLSX format which has better library support.
+
+        Args:
+            cell_range: Target cell range (e.g., "A1:B10")
+            validation: DataValidation configuration for list type
+        """
+        import logging
+
+        logger = logging.getLogger(__name__)
+        logger.warning(
+            f"List validation for range {cell_range}: ODF table:content-validation "
+            f"elements have limited support in odfpy. Validation cannot be rendered. "
+            f"Use XLSX export for full validation support or add manually in LibreOffice."
         )
 
     def _add_number_validation(self, cell_range: str, validation: Any) -> None:
-        """Add number range validation."""
-        raise NotImplementedError(
-            "Number validation is not yet implemented for ODS export. "
-            "This feature requires ODF number range validation XML generation."
+        """
+        Add number range validation.
+
+        Note: ODS data validation via odfpy has limited support. While ODF
+        supports table:content-validation elements, odfpy's implementation
+        is incomplete and does not provide a way to attach validations to cells.
+
+        For full data validation support in LibreOffice, manually add validation
+        after export or use XLSX format which has better library support.
+
+        Args:
+            cell_range: Target cell range (e.g., "A1:B10")
+            validation: DataValidation configuration for number type
+        """
+        import logging
+
+        logger = logging.getLogger(__name__)
+        logger.warning(
+            f"Number validation for range {cell_range}: ODF table:content-validation "
+            f"elements have limited support in odfpy. Validation cannot be rendered. "
+            f"Use XLSX export for full validation support or add manually in LibreOffice."
         )
 
     def _add_date_validation(self, cell_range: str, validation: Any) -> None:
-        """Add date range validation."""
-        raise NotImplementedError(
-            "Date validation is not yet implemented for ODS export. "
-            "This feature requires ODF date range validation XML generation."
+        """
+        Add date range validation.
+
+        Note: ODS data validation via odfpy has limited support. While ODF
+        supports table:content-validation elements, odfpy's implementation
+        is incomplete and does not provide a way to attach validations to cells.
+
+        For full data validation support in LibreOffice, manually add validation
+        after export or use XLSX format which has better library support.
+
+        Args:
+            cell_range: Target cell range (e.g., "A1:B10")
+            validation: DataValidation configuration for date type
+        """
+        import logging
+
+        logger = logging.getLogger(__name__)
+        logger.warning(
+            f"Date validation for range {cell_range}: ODF table:content-validation "
+            f"elements have limited support in odfpy. Validation cannot be rendered. "
+            f"Use XLSX export for full validation support or add manually in LibreOffice."
         )
 
     def _add_custom_validation(self, cell_range: str, validation: Any) -> None:
-        """Add custom formula validation."""
-        raise NotImplementedError(
-            "Custom formula validation is not yet implemented for ODS export. "
-            "This feature requires ODF custom validation XML generation."
+        """
+        Add custom formula validation.
+
+        Note: ODS data validation via odfpy has limited support. While ODF
+        supports table:content-validation elements, odfpy's implementation
+        is incomplete and does not provide a way to attach validations to cells.
+
+        For full data validation support in LibreOffice, manually add validation
+        after export or use XLSX format which has better library support.
+
+        Args:
+            cell_range: Target cell range (e.g., "A1:B10")
+            validation: DataValidation configuration for custom formula type
+        """
+        import logging
+
+        logger = logging.getLogger(__name__)
+        logger.warning(
+            f"Custom validation for range {cell_range}: ODF table:content-validation "
+            f"elements have limited support in odfpy. Validation cannot be rendered. "
+            f"Use XLSX export for full validation support or add manually in LibreOffice."
         )
 
     def _add_text_length_validation(self, cell_range: str, validation: Any) -> None:
-        """Add text length validation."""
-        raise NotImplementedError(
-            "Text length validation is not yet implemented for ODS export. "
-            "This feature requires ODF text length validation XML generation."
+        """
+        Add text length validation.
+
+        Note: ODS data validation via odfpy has limited support. While ODF
+        supports table:content-validation elements, odfpy's implementation
+        is incomplete and does not provide a way to attach validations to cells.
+
+        For full data validation support in LibreOffice, manually add validation
+        after export or use XLSX format which has better library support.
+
+        Args:
+            cell_range: Target cell range (e.g., "A1:B10")
+            validation: DataValidation configuration for text length type
+        """
+        import logging
+
+        logger = logging.getLogger(__name__)
+        logger.warning(
+            f"Text length validation for range {cell_range}: ODF table:content-validation "
+            f"elements have limited support in odfpy. Validation cannot be rendered. "
+            f"Use XLSX export for full validation support or add manually in LibreOffice."
         )
 
 

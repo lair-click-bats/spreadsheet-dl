@@ -8,12 +8,12 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from spreadsheet_dl.analytics import (
+from spreadsheet_dl import (
     AnalyticsDashboard,
     generate_dashboard,
 )
-from spreadsheet_dl.budget_analyzer import BudgetAnalyzer
-from spreadsheet_dl.ods_generator import (
+from spreadsheet_dl import BudgetAnalyzer
+from spreadsheet_dl import (
     BudgetAllocation,
     ExpenseCategory,
     ExpenseEntry,

@@ -13,8 +13,8 @@ from pathlib import Path
 
 import pytest
 
-from spreadsheet_dl.ods_generator import ExpenseCategory
-from spreadsheet_dl.reminders import (
+from spreadsheet_dl import ExpenseCategory
+from spreadsheet_dl import (
     COMMON_BILLS,
     BillReminder,
     BillReminderManager,

@@ -12,7 +12,7 @@ from pathlib import Path
 
 import pytest
 
-from spreadsheet_dl.bank_formats import (
+from spreadsheet_dl import (
     BUILTIN_FORMATS,
     BankFormatDefinition,
     BankFormatRegistry,

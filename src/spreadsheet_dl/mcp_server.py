@@ -1,21 +1,15 @@
 """
 MCP (Model Context Protocol) server for SpreadsheetDL.
 
-BACKWARD COMPATIBILITY WRAPPER
-===============================
+PUBLIC API ENTRY POINT
+======================
 
-This module has been refactored into a modular package structure at
-`spreadsheet_dl._mcp/`. This file now serves as a backward compatibility
-wrapper, re-exporting all public APIs from the new modular implementation.
+This module is the public API entry point for MCP server functionality.
+Implementation is modularized in the _mcp package.
 
-All functionality remains 100% compatible. Imports from this module will
-continue to work without changes:
+Usage:
 
     from spreadsheet_dl.mcp_server import MCPServer, create_mcp_server, main
-
-New code should import from the modular package:
-
-    from spreadsheet_dl._mcp import MCPServer, create_mcp_server, main
 
 Package Structure (spreadsheet_dl/_mcp/):
     - cli.py: Command-line interface and server creation helpers
@@ -43,7 +37,7 @@ Features:
     - Spending trend analysis
     - Period comparison
     - Real-time budget queries
-    - 145+ MCP tools across all categories
+    - 144 MCP tools across all categories (49 implemented, 95 documented stubs)
 
 Security:
     - File access restrictions (configurable paths)
