@@ -401,5 +401,4 @@ Priority areas for full implementation:
 
 ## Version History
 
-- **v1.1.0** (2026-01-03): Added 95 new tools across 7 categories
-- **v1.0.0**: Initial release with 49 tools
+- **v4.0.0** (2026-01-04): First public release with 144 MCP tools across 7 categories

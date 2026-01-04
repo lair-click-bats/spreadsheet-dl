@@ -53,7 +53,7 @@ SpreadsheetDL is a universal spreadsheet definition language that lets you creat
 - ✅ **Multi-Format Export** - ODS (native), XLSX, PDF from single definition
 - ✅ **Advanced Formatting** - Conditional formatting, data validation, named ranges, cell merging
 - ✅ **Template Engine** - Schema-driven template system with component composition
-- ✅ **MCP Server** - Native server with 8 tools (145+ planned), Claude Desktop integration
+- ✅ **MCP Server** - Native server with 144 tools (49 implemented, 95 planned), Claude Desktop integration
 - ✅ **Streaming I/O** - Handle 100k+ row spreadsheets efficiently
 - ✅ **Round-Trip Editing** - Read, modify, and write existing ODS files
 - ✅ **CLI & Python API** - Both command-line and programmatic interfaces

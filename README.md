@@ -1,10 +1,10 @@
 # SpreadsheetDL
 
-[![Version](https://img.shields.io/badge/version-4.0.0-blue.svg)](https://github.com/lair-click-bats/spreadsheet-dl/releases)
+[![Version](https://img.shields.io/badge/version-4.0.0-blue.svg)](https://github.com/spreadsheet-dl/spreadsheet-dl/releases)
 [![First Release](https://img.shields.io/badge/🎉-first%20public%20release-gold.svg)](CHANGELOG.md)
 [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-2,181%20passing-brightgreen.svg)](tests/)
+[![Tests](https://img.shields.io/badge/tests-3,206%20passing-brightgreen.svg)](tests/)
 [![Coverage](https://img.shields.io/badge/coverage-71%25-brightgreen.svg)](tests/)
 [![MCP](https://img.shields.io/badge/MCP-8%20tools-purple.svg)](docs/api/mcp_server.md)
 
@@ -61,7 +61,7 @@ SpreadsheetDL is a universal spreadsheet definition language that lets you creat
 - ✅ **Multi-Format Export** - ODS (native), XLSX, PDF from single definition
 - ✅ **Advanced Formatting** - Conditional formatting, data validation, named ranges, cell merging
 - ✅ **Template Engine** - Schema-driven template system with component composition
-- ✅ **MCP Server** - Native server with 8 tools (145+ planned), Claude Desktop integration
+- ✅ **MCP Server** - Native server with 144 tools (49 implemented, 95 planned), Claude Desktop integration
 - ✅ **Streaming I/O** - Handle 100k+ row spreadsheets efficiently
 - ✅ **Round-Trip Editing** - Read, modify, and write existing ODS files
 - ✅ **CLI & Python API** - Both command-line and programmatic interfaces
@@ -132,6 +132,23 @@ Working code examples in the [`examples/`](examples/) directory:
 - `example_chart.py` - Create charts programmatically
 - `example_mcp.py` - Use MCP server from Python
 
+## Known Limitations
+
+### ODS Format Advanced Features
+
+Some advanced conditional formatting features are not yet implemented for ODS export:
+
+- Color scale conditional formatting
+- Data bar conditional formatting
+- Icon set conditional formatting
+- Advanced cell value rules
+
+These features will raise `NotImplementedError` with clear error messages. They are planned for future releases and work correctly in XLSX export.
+
+### MCP Server Tools
+
+Of the 144 MCP tools, 49 are fully implemented and 95 are documented stubs that return "not yet implemented" messages. See [MCP Tools Extended](docs/mcp-tools-extended.md) for detailed status.
+
 ## Quick Start
 
 > **New to SpreadsheetDL?** Start with the [Getting Started Guide](docs/getting-started.md) for a beginner-friendly introduction!
@@ -140,10 +157,10 @@ Working code examples in the [`examples/`](examples/) directory:
 
 ```bash
 # Install from GitHub (PyPI coming soon)
-pip install git+https://github.com/lair-click-bats/spreadsheet-dl.git
+pip install git+https://github.com/spreadsheet-dl/spreadsheet-dl.git
 
 # Or clone for development
-git clone https://github.com/lair-click-bats/spreadsheet-dl.git
+git clone https://github.com/spreadsheet-dl/spreadsheet-dl.git
 cd spreadsheet-dl
 uv sync --dev
 
@@ -529,7 +546,7 @@ spreadsheet-dl/
 │           ├── minimal.yaml
 │           ├── dark.yaml
 │           └── high_contrast.yaml
-├── tests/                        # Test suite (250+ tests)
+├── tests/                        # Test suite (3,206 tests)
 ├── examples/                     # Usage examples
 ├── docs/                         # Documentation
 ├── pyproject.toml               # Project configuration
@@ -644,7 +661,7 @@ See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
 
 ### Recent Releases
 
-- **v4.0.0** (2026-01-04) - First public release: Universal spreadsheet definition language with MCP server, 9 domain plugins, 2,637 tests
+- **v4.0.0** (2026-01-04) - First public release: Universal spreadsheet definition language with MCP server, 9 domain plugins, 3,206 tests
 - **v2.0.0** (2025-12-29) - Professional spreadsheet system with enterprise formatting
 - **v0.4.1** (2025-12-15) - Expense append functionality and comprehensive error codes
 - **v0.4.0** (2025-12-10) - Declarative DSL with themes and fluent builder API

@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [4.0.0] - 2026-01-04 - 🎉 First Public Release
 
-**Note:** This is the first public release of SpreadsheetDL. The v4.0.0 version number reflects extensive private development and refinement through multiple major iterations. This version represents a mature, production-ready codebase with comprehensive testing (2,181 tests, 71% coverage) and complete documentation.
+**Note:** This is the first public release of SpreadsheetDL. The v4.0.0 version number reflects extensive private development and refinement through multiple major iterations. This version represents a mature, production-ready codebase with comprehensive testing (3,206 tests, 71% coverage) and complete documentation.
 
 **Highlights:**
 
@@ -127,7 +127,7 @@ except NoSheetSelectedError as e:
 
 ### Tests
 
-- **2,181 tests passing** (3.4x increase from v2.0)
+- **3,206 tests passing** (5.0x increase from v2.0)
 - **71% overall test coverage**, **97%+ on core modules**
 - Zero test failures (14 intentional skips)
 - Core module coverage: builder.py (99%), charts.py (99%), renderer.py (95%), mcp_server.py (69%)
@@ -223,11 +223,4 @@ except NoSheetSelectedError as e:
 
 ---
 
-[4.0.0]: https://github.com/lair-click-bats/spreadsheet-dl/releases/tag/v4.0.0
-[4.0.0-alpha.1]: https://github.com/lair-click-bats/spreadsheet-dl/compare/v2.0.0...v4.0.0-alpha.1
-[2.0.0]: https://github.com/lair-click-bats/spreadsheet-dl/compare/v0.4.1...v2.0.0
-[0.4.1]: https://github.com/lair-click-bats/spreadsheet-dl/compare/v0.4.0...v0.4.1
-[0.4.0]: https://github.com/lair-click-bats/spreadsheet-dl/compare/v0.3.0...v0.4.0
-[0.3.0]: https://github.com/lair-click-bats/spreadsheet-dl/compare/v0.2.0...v0.3.0
-[0.2.0]: https://github.com/lair-click-bats/spreadsheet-dl/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/lair-click-bats/spreadsheet-dl/releases/tag/v0.1.0
+[4.0.0]: https://github.com/spreadsheet-dl/spreadsheet-dl/releases/tag/v4.0.0

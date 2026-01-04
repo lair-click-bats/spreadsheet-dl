@@ -93,13 +93,13 @@ from spreadsheet_dl.cli import main
 
 ## Migration Status
 
-### Completed (v4.0.0-alpha)
+### Completed (v4.0.0)
 
 - ✅ Created modular package structure
 - ✅ Extracted MCP configuration, exceptions, models, and registry
 - ✅ Set up backward-compatible re-exports
 - ✅ Added public package namespace access
-- ✅ All 2,661 tests passing
+- ✅ All 3,206 tests passing
 - ✅ Zero regressions
 
 ### Planned (Future Releases)

@@ -10,7 +10,7 @@ The MCP Server provides a native implementation of the Model Context Protocol, e
 
 **Features:**
 
-- 145+ tools across 5 categories
+- 144 tools across 5 categories
 - Budget analysis and financial operations
 - Complete spreadsheet manipulation (cells, styles, structure)
 - Advanced features (charts, validation, conditional formatting)

@@ -136,7 +136,7 @@ test(mcp): increase coverage to 95%
 ### Testing
 
 - Write tests for all new features
-- Maintain or improve test coverage (currently 97%)
+- Maintain or improve test coverage (currently 71%)
 - Use descriptive test names that explain the scenario
 - Follow the existing test structure
 

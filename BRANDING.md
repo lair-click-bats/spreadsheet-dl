@@ -412,8 +412,8 @@ builder.sheet("Budget").header_row(style="header_primary")
 [![Version](https://img.shields.io/badge/version-4.0.0-blue.svg)](releases)
 [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-662%20passing-brightgreen.svg)](tests/)
-[![Coverage](https://img.shields.io/badge/coverage-97%25-brightgreen.svg)](tests/)
+[![Tests](https://img.shields.io/badge/tests-3,206%20passing-brightgreen.svg)](tests/)
+[![Coverage](https://img.shields.io/badge/coverage-71%25-brightgreen.svg)](tests/)
 [![MCP](https://img.shields.io/badge/MCP-native%20server-purple.svg)](docs/api/mcp_server.md)
 ```
 

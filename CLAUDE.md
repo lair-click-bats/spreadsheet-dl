@@ -190,21 +190,20 @@ Manual compaction with focus:
 - Validation tests map to acceptance criteria
 - Dependencies verified before implementation
 
-## Pre-Release Policy (v4.0.0-alpha)
+## Versioning Policy
 
-**CRITICAL: Backwards compatibility is NOT a concern before v4.0.0 release.**
+SpreadsheetDL follows [Semantic Versioning 2.0.0](https://semver.org/):
 
-Since SpreadsheetDL has not been released to PyPI yet:
+- **MAJOR** (x.0.0) - Breaking changes to public API
+- **MINOR** (4.x.0) - New features, backwards compatible
+- **PATCH** (4.0.x) - Bug fixes, backwards compatible
 
-- ✅ **Breaking changes are ALLOWED** - Perfect the API without constraints
-- ✅ **Refactor freely** - Rename modules, classes, functions for clarity
-- ✅ **Restructure packages** - Move code to optimal locations
-- ✅ **Change signatures** - Improve function/method signatures
-- ✅ **Remove dead code** - Delete anything unused or unclear
+**Compatibility Commitment:**
 
-**Goal:** Ship v4.0.0 with the BEST possible API, not constrained by alpha-phase decisions.
-
-**Post-v4.0.0:** Follow semantic versioning strictly (breaking changes only in major versions).
+- Public API stability guaranteed within major versions
+- Deprecation warnings provided one minor version before removal
+- Breaking changes only in major version releases
+- Internal APIs (prefixed with `_`) may change in minor versions
 
 ## Anti-Patterns
 
@@ -217,7 +216,6 @@ Never:
 - Direct worker-to-worker communication
 - Hardcoded routing tables
 - Commit without conventional format
-- Maintain backwards compatibility pre-v4.0.0 (we want the BEST API, not backwards compatible API)
 
 ## Coordination
 
