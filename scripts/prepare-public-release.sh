@@ -21,7 +21,7 @@ echo "4. Tag as v4.0.0"
 echo ""
 echo "WARNING: This rewrites git history!"
 echo ""
-read -p "Are you SURE you want to continue? (type 'yes' to proceed): " confirm
+read -r -p "Are you SURE you want to continue? (type 'yes' to proceed): " confirm
 
 if [ "$confirm" != "yes" ]; then
     echo "Aborted."

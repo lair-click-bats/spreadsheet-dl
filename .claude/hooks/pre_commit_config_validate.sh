@@ -50,7 +50,9 @@ STAGED_ORCH_FILES=$(git diff --cached --name-only 2>/dev/null | grep -E "\.claud
 
 if [[ -n "$STAGED_ORCH_FILES" ]]; then
   echo -e "  ${YELLOW}Orchestration files modified:${NC}"
-  echo "$STAGED_ORCH_FILES" | sed 's/^/    /'
+  while IFS= read -r file; do
+    echo "    $file"
+  done <<< "$STAGED_ORCH_FILES"
 
   # Run hook tests if orchestration files changed
   echo "  Running hook tests..."

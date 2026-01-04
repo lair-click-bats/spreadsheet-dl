@@ -259,7 +259,11 @@ log "Restoring checkpoint: $TASK_ID (format: $OUTPUT_FORMAT)"
 # Update manifest status
 if [ -f "$CHECKPOINT_PATH/manifest.json" ]; then
     tmp_file=$(mktemp)
-    jq --arg ts "$(get_iso_timestamp)" '.status = "restored" | .last_restored = $ts' "$CHECKPOINT_PATH/manifest.json" > "$tmp_file" 2>/dev/null && mv "$tmp_file" "$CHECKPOINT_PATH/manifest.json" || true
+    if jq --arg ts "$(get_iso_timestamp)" '.status = "restored" | .last_restored = $ts' "$CHECKPOINT_PATH/manifest.json" > "$tmp_file" 2>/dev/null; then
+        mv "$tmp_file" "$CHECKPOINT_PATH/manifest.json" || true
+    else
+        rm -f "$tmp_file"
+    fi
 fi
 
 # Output based on format
