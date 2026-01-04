@@ -2,18 +2,20 @@
 
 First off, thank you for considering contributing to SpreadsheetDL! It's people like you that make SpreadsheetDL such a great tool.
 
-## Pre-Release Status (IMPORTANT)
+## Versioning and Compatibility
 
-**SpreadsheetDL v4.0.0 is currently in alpha and has NOT been released to PyPI.**
+SpreadsheetDL follows [Semantic Versioning](https://semver.org/) (SemVer):
 
-This means:
+- **MAJOR** version for incompatible API changes
+- **MINOR** version for backwards-compatible functionality additions
+- **PATCH** version for backwards-compatible bug fixes
 
-- ✅ **Breaking changes are welcome** - We're perfecting the API before public release
-- ✅ **Refactoring encouraged** - Improve code structure, naming, organization
-- ✅ **No backwards compatibility needed** - We can change anything to make it better
-- ✅ **Focus on quality** - Goal is the BEST possible v4.0.0, not backwards compatible alpha
+**Stability Commitment:**
 
-**After v4.0.0 release:** We'll follow semantic versioning strictly.
+- ✅ **Backwards compatibility** - Maintained within major versions
+- ✅ **Deprecation warnings** - Added before removing features
+- ✅ **Migration guides** - Provided for major version upgrades
+- ✅ **Semantic versioning** - Strictly followed for all releases
 
 ## Code of Conduct
 
