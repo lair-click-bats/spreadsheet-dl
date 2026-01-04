@@ -160,7 +160,8 @@ class SimpsonIndexFormula(BaseFormula):
         inverse = args[1] if len(args) > 1 else 0
 
         # Simpson's D = SUM(pi^2) where pi = ni/N
-        # Or D = SUM(ni(ni-1)) / (N(N-1))
+        # Simpson's diversity index = 1 - D (default)
+        # Or inverse D = 1/D (Simpson's reciprocal index)
         # Simplified: SUMPRODUCT((range/SUM(range))^2)
 
         d_formula = f"SUMPRODUCT(({abundance_range}/SUM({abundance_range}))^2)"
@@ -169,7 +170,8 @@ class SimpsonIndexFormula(BaseFormula):
             # Return 1/D (Simpson's reciprocal index)
             return f"1/({d_formula})"
         else:
-            return d_formula
+            # Return 1-D (Simpson's diversity index, default)
+            return f"1-{d_formula}"
 
 
 @dataclass(slots=True, frozen=True)
