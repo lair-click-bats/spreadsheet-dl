@@ -10,7 +10,10 @@ and other educational computations.
 
 from __future__ import annotations
 
-from typing import Sequence
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 # Grade point mappings (standard 4.0 scale)
 GRADE_POINTS = {

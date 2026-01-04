@@ -11,7 +11,10 @@ unit conversions, and data processing.
 from __future__ import annotations
 
 import math
-from typing import Sequence
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 # Molecular weights for unit conversions (g/mol)
 MOLECULAR_WEIGHTS = {
@@ -102,7 +105,7 @@ def calculate_aqi(pm25: float) -> int:
         if bp_lo <= pm25 <= bp_hi:
             # Linear interpolation
             aqi = ((i_hi - i_lo) / (bp_hi - bp_lo)) * (pm25 - bp_lo) + i_lo
-            return int(round(aqi))
+            return round(aqi)
 
     # Above highest breakpoint
     if pm25 > 500.4:

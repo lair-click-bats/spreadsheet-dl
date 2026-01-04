@@ -7,6 +7,7 @@ Implements:
 
 from __future__ import annotations
 
+import contextlib
 import csv
 import json
 from dataclasses import dataclass
@@ -17,7 +18,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 
 @dataclass
-class AssessmentResultsImporter(BaseImporter):
+class AssessmentResultsImporter(BaseImporter[list[dict[str, Any]]]):
     """
     Assessment and quiz results importer.
 
@@ -56,7 +57,7 @@ class AssessmentResultsImporter(BaseImporter):
             category="education",
         )
 
-    def import_data(self, source: str | Path) -> ImportResult:
+    def import_data(self, source: str | Path) -> ImportResult[list[dict[str, Any]]]:
         """
         Import assessment results from file.
 
@@ -216,10 +217,8 @@ class AssessmentResultsImporter(BaseImporter):
         # Maximum points
         for key in ["max", "max_points", "Max Points", "total"]:
             if key in row:
-                try:
+                with contextlib.suppress(ValueError, TypeError):
                     record["max_points"] = float(row[key])
-                except (ValueError, TypeError):
-                    pass
                 break
 
         # Question/item responses

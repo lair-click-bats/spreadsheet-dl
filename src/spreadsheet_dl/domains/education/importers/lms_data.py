@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import csv
 import json
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -17,7 +17,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 
 @dataclass
-class LMSDataImporter(BaseImporter):
+class LMSDataImporter(BaseImporter[list[dict[str, Any]]]):
     """
     Learning Management System data importer.
 
@@ -58,7 +58,7 @@ class LMSDataImporter(BaseImporter):
             category="education",
         )
 
-    def import_data(self, source: str | Path) -> ImportResult:
+    def import_data(self, source: str | Path) -> ImportResult[list[dict[str, Any]]]:
         """
         Import LMS data from file.
 
@@ -204,16 +204,21 @@ class LMSDataImporter(BaseImporter):
         }
 
         for key, value in record.items():
-            # Apply mapping if exists
+            # Apply mapping if exists, handling None keys gracefully
+            if key is None:
+                continue
             normalized_key = field_mappings.get(key, key.lower().replace(" ", "_"))
             normalized[normalized_key] = value
 
         # Combine first/last name if needed
-        if "first_name" in normalized and "last_name" in normalized:
-            if "name" not in normalized:
-                normalized["name"] = (
-                    f"{normalized['last_name']}, {normalized['first_name']}"
-                )
+        if (
+            "first_name" in normalized
+            and "last_name" in normalized
+            and "name" not in normalized
+        ):
+            normalized["name"] = (
+                f"{normalized['last_name']}, {normalized['first_name']}"
+            )
 
         return normalized
 

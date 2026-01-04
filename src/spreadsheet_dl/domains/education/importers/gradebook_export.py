@@ -16,7 +16,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 
 @dataclass
-class GradebookExportImporter(BaseImporter):
+class GradebookExportImporter(BaseImporter[list[dict[str, Any]]]):
     """
     Gradebook export importer.
 
@@ -55,7 +55,7 @@ class GradebookExportImporter(BaseImporter):
             category="education",
         )
 
-    def import_data(self, source: str | Path) -> ImportResult:
+    def import_data(self, source: str | Path) -> ImportResult[list[dict[str, Any]]]:
         """
         Import gradebook data from file.
 

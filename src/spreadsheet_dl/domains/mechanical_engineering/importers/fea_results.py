@@ -192,11 +192,15 @@ class FEAResultsImporter(BaseImporter[list[dict[str, Any]]]):
                             or "0"
                         )
 
-                        def get_float(*keys: str, default: float = 0.0) -> float:
+                        def get_float(
+                            *keys: str,
+                            default: float = 0.0,
+                            row_data: dict[str, Any] = row,
+                        ) -> float:
                             for key in keys:
-                                if row.get(key):
+                                if row_data.get(key):
                                     try:
-                                        return float(row[key])
+                                        return float(row_data[key])
                                     except ValueError:
                                         continue
                             return default

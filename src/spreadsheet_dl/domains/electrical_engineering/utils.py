@@ -9,10 +9,8 @@ from __future__ import annotations
 
 import math
 import re
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from collections.abc import Sequence
+from collections.abc import Sequence
+from typing import Any
 
 
 def parse_si_prefix(value: str) -> float:
@@ -271,7 +269,9 @@ def calculate_characteristic_impedance(
     return math.sqrt(inductance_per_length / capacitance_per_length)
 
 
-def group_by_value(components: Sequence[dict]) -> dict[str, list[dict]]:
+def group_by_value(
+    components: Sequence[dict[str, Any]],
+) -> dict[str, list[dict[str, Any]]]:
     """
     Group components by value (for BOM consolidation).
 
@@ -291,7 +291,7 @@ def group_by_value(components: Sequence[dict]) -> dict[str, list[dict]]:
         >>> len(grouped["10k"])
         2
     """
-    groups: dict[str, list[dict]] = {}
+    groups: dict[str, list[dict[str, Any]]] = {}
     for comp in components:
         value = comp.get("value", "")
         if value not in groups:

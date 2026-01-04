@@ -184,11 +184,11 @@ class KiCadBOMImporter(BaseImporter[list[dict[str, Any]]]):
                 components.append(
                     KiCadComponent(
                         ref=ref,
-                        value=value_elem.text if value_elem is not None else "",
-                        footprint=footprint_elem.text
+                        value=(value_elem.text or "") if value_elem is not None else "",
+                        footprint=(footprint_elem.text or "")
                         if footprint_elem is not None
                         else "",
-                        datasheet=datasheet_elem.text
+                        datasheet=(datasheet_elem.text or "")
                         if datasheet_elem is not None
                         else "",
                         quantity=1,

@@ -17,7 +17,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 
 @dataclass
-class SensorNetworkImporter(BaseImporter):
+class SensorNetworkImporter(BaseImporter[list[dict[str, Any]]]):
     """
     IoT sensor network data importer.
 
@@ -48,7 +48,7 @@ class SensorNetworkImporter(BaseImporter):
             category="environmental",
         )
 
-    def import_data(self, source: str | Path) -> ImportResult:
+    def import_data(self, source: str | Path) -> ImportResult[list[dict[str, Any]]]:
         """Import sensor data from file."""
         source_path = Path(source)
         data: list[dict[str, Any]] = []

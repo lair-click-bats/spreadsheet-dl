@@ -163,12 +163,87 @@ def reverse_complement(sequence: str) -> str:
     return complement_dna(sequence)[::-1]
 
 
+def calculate_od_to_concentration(
+    od: float, molecule_type: str = "DNA", dilution_factor: float = 1.0
+) -> float:
+    """
+    Convert OD (optical density) reading to nucleic acid concentration.
+
+    Args:
+        od: Optical density at 260nm (A260)
+        molecule_type: Type of nucleic acid ("DNA", "RNA", or "oligo")
+        dilution_factor: Sample dilution factor (default 1.0)
+
+    Returns:
+        Concentration in ug/mL
+
+    Example:
+        >>> calculate_od_to_concentration(1.0, "DNA")
+        50.0
+        >>> calculate_od_to_concentration(1.0, "RNA")
+        40.0
+    """
+    # Extinction coefficients (ug/mL per A260 unit)
+    coefficients = {
+        "DNA": 50.0,  # Double-stranded DNA
+        "RNA": 40.0,  # Single-stranded RNA
+        "OLIGO": 33.0,  # Single-stranded oligonucleotides
+        "SSDNA": 33.0,  # Single-stranded DNA
+    }
+
+    coeff = coefficients.get(molecule_type.upper(), 50.0)
+    return od * coeff * dilution_factor
+
+
+def calculate_dilution(dilution_factor: int, steps: int) -> int:
+    """
+    Calculate total dilution from serial dilution steps.
+
+    Args:
+        dilution_factor: Dilution factor per step (e.g., 10 for 1:10 dilution)
+        steps: Number of dilution steps
+
+    Returns:
+        Total dilution factor
+
+    Example:
+        >>> calculate_dilution(10, 3)
+        1000
+        >>> calculate_dilution(2, 5)
+        32
+    """
+    return int(dilution_factor**steps)
+
+
+def format_scientific_notation(value: float, precision: int = 2) -> str:
+    """
+    Format a number in scientific notation.
+
+    Args:
+        value: Numeric value to format
+        precision: Number of decimal places (default 2)
+
+    Returns:
+        Formatted string in scientific notation
+
+    Example:
+        >>> format_scientific_notation(0.00123)
+        '1.23e-03'
+        >>> format_scientific_notation(1234567)
+        '1.23e+06'
+    """
+    return f"{value:.{precision}e}"
+
+
 __all__ = [
+    "calculate_dilution",
     "calculate_gc_content",
     "calculate_melting_temp",
-    "normalize_sequence",
+    "calculate_od_to_concentration",
+    "complement_dna",
+    "format_scientific_notation",
     "is_valid_dna",
     "is_valid_rna",
-    "complement_dna",
+    "normalize_sequence",
     "reverse_complement",
 ]

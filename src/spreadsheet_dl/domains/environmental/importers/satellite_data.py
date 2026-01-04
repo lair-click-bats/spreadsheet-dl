@@ -17,7 +17,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 
 @dataclass
-class SatelliteDataImporter(BaseImporter):
+class SatelliteDataImporter(BaseImporter[list[dict[str, Any]]]):
     """
     Remote sensing / satellite data importer.
 
@@ -49,7 +49,7 @@ class SatelliteDataImporter(BaseImporter):
             category="environmental",
         )
 
-    def import_data(self, source: str | Path) -> ImportResult:
+    def import_data(self, source: str | Path) -> ImportResult[list[dict[str, Any]]]:
         """Import satellite data from file."""
         source_path = Path(source)
         data: list[dict[str, Any]] = []
@@ -139,17 +139,19 @@ class SatelliteDataImporter(BaseImporter):
             content = json.load(f)
 
         # Handle GeoJSON format
-        if content.get("type") == "FeatureCollection":
+        if isinstance(content, dict) and content.get("type") == "FeatureCollection":
             for feature in content.get("features", []):
                 record = self._parse_geojson_feature(feature)
                 data.append(record)
         elif isinstance(content, list):
             for item in content:
-                data.append(self._normalize_record(item))
+                if isinstance(item, dict):
+                    data.append(self._normalize_record(item))
         elif isinstance(content, dict):
             if "data" in content:
                 for item in content["data"]:
-                    data.append(self._normalize_record(item))
+                    if isinstance(item, dict):
+                        data.append(self._normalize_record(item))
             else:
                 data.append(self._normalize_record(content))
 

@@ -194,19 +194,27 @@ class MaterialDatabaseImporter(BaseImporter[list[dict[str, Any]]]):
                             warnings.append(f"Skipping row {row_num}: No material name")
                             continue
 
-                        def get_float(*keys: str, default: float = 0.0) -> float:
+                        def get_float(
+                            *keys: str,
+                            default: float = 0.0,
+                            row_data: dict[str, Any] = row,
+                        ) -> float:
                             for key in keys:
-                                if row.get(key):
+                                if row_data.get(key):
                                     try:
-                                        return float(row[key])
+                                        return float(row_data[key])
                                     except ValueError:
                                         continue
                             return default
 
-                        def get_str(*keys: str, default: str = "") -> str:
+                        def get_str(
+                            *keys: str,
+                            default: str = "",
+                            row_data: dict[str, Any] = row,
+                        ) -> str:
                             for key in keys:
-                                if row.get(key):
-                                    return str(row[key])
+                                if row_data.get(key):
+                                    return str(row_data[key])
                             return default
 
                         materials.append(

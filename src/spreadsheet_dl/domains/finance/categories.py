@@ -125,10 +125,7 @@ class Category:
         query_lower = query.lower()
         if query_lower in self.name.lower():
             return True
-        for alias in self.aliases:
-            if query_lower in alias.lower():
-                return True
-        return False
+        return any(query_lower in alias.lower() for alias in self.aliases)
 
 
 # Default colors for categories
@@ -492,7 +489,7 @@ class CategoryManager:
 
         return self.get_category("Miscellaneous")
 
-    def get_category_tree(self) -> dict[str, list[Category]]:
+    def get_category_tree(self) -> dict[str | None, list[Category]]:
         """
         Get categories organized as a tree by parent.
 
@@ -500,7 +497,7 @@ class CategoryManager:
             Dictionary mapping parent names to child categories.
             None key contains root categories.
         """
-        tree: dict[str, list[Category]] = {None: []}  # type: ignore[dict-item]
+        tree: dict[str | None, list[Category]] = {None: []}
         for cat in self._categories.values():
             if cat.is_hidden:
                 continue
@@ -590,7 +587,7 @@ class CategoryManager:
                 data["custom_categories"].append(cat.to_dict())
             else:
                 # Save overrides for standard categories
-                overrides = {}
+                overrides: dict[str, Any] = {}
                 std_color = CATEGORY_COLORS.get(cat.name, "#6B7280")
                 if cat.color != std_color:
                     overrides["color"] = cat.color

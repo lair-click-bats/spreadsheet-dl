@@ -8,6 +8,7 @@ Implements:
 from __future__ import annotations
 
 import csv
+from collections.abc import Sequence
 from pathlib import Path
 from typing import Any
 
@@ -173,7 +174,7 @@ class GenericComponentCSVImporter(BaseImporter[list[dict[str, Any]]]):
                         f"Auto-detected column mapping: {self._column_mapping}"
                     )
 
-                for row_num, row in enumerate(reader, start=2):
+                for _row_num, row in enumerate(reader, start=2):
                     component: dict[str, Any] = {}
 
                     # Apply column mapping
@@ -207,7 +208,7 @@ class GenericComponentCSVImporter(BaseImporter[list[dict[str, Any]]]):
 
         return components
 
-    def _auto_detect_mapping(self, fieldnames: list[str]) -> dict[str, str]:
+    def _auto_detect_mapping(self, fieldnames: Sequence[str]) -> dict[str, str]:
         """
         Auto-detect column mapping from CSV headers.
 

@@ -16,7 +16,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 
 @dataclass
-class LabResultsImporter(BaseImporter):
+class LabResultsImporter(BaseImporter[list[dict[str, Any]]]):
     """
     Laboratory analysis results importer.
 
@@ -47,7 +47,7 @@ class LabResultsImporter(BaseImporter):
             category="environmental",
         )
 
-    def import_data(self, source: str | Path) -> ImportResult:
+    def import_data(self, source: str | Path) -> ImportResult[list[dict[str, Any]]]:
         """Import lab results from file."""
         source_path = Path(source)
         data: list[dict[str, Any]] = []

@@ -1849,9 +1849,10 @@ def _cmd_category(args: argparse.Namespace) -> int:
     elif args.category_action == "delete":
         try:
             skip_confirm = getattr(args, "force", False)
-            if not skip_confirm:
-                if not confirm_action(f"Delete category '{args.name}'?", default=False):
-                    raise OperationCancelledError("Category deletion")
+            if not skip_confirm and not confirm_action(
+                f"Delete category '{args.name}'?", default=False
+            ):
+                raise OperationCancelledError("Category deletion")
 
             result = manager.delete_category(
                 args.name, force=getattr(args, "force", False)
@@ -1885,10 +1886,10 @@ def _cmd_category(args: argparse.Namespace) -> int:
         return 0
 
     elif args.category_action == "suggest":
-        cat = manager.suggest_category(args.description)
-        if cat:
-            print(f"Suggested category: {cat.name}")
-            print(f"  Color: {cat.color}")
+        suggested_cat: Category | None = manager.suggest_category(args.description)
+        if suggested_cat is not None:
+            print(f"Suggested category: {suggested_cat.name}")
+            print(f"  Color: {suggested_cat.color}")
         else:
             print("No suggestion available")
         return 0
@@ -2335,10 +2336,10 @@ def _cmd_plugin(args: argparse.Namespace) -> int:
     elif args.plugin_action == "info":
         plugin = manager.get_plugin(args.name)
         if plugin:
-            enabled_plugins = [
+            enabled_plugin_names: list[str] = [
                 p["name"] for p in manager.list_plugins(enabled_only=True)
             ]
-            is_enabled = plugin.name in enabled_plugins
+            is_enabled = plugin.name in enabled_plugin_names
 
             print(f"Plugin: {plugin.name}")
             print("=" * 40)
