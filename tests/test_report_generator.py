@@ -13,8 +13,6 @@ from spreadsheet_dl import (
     ExpenseCategory,
     ExpenseEntry,
     OdsGenerator,
-)
-from spreadsheet_dl import (
     ReportConfig,
     ReportGenerator,
     generate_monthly_report,

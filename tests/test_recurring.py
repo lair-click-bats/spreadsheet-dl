@@ -8,9 +8,9 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from spreadsheet_dl import ExpenseCategory
 from spreadsheet_dl import (
     COMMON_RECURRING,
+    ExpenseCategory,
     RecurrenceFrequency,
     RecurringExpense,
     RecurringExpenseManager,

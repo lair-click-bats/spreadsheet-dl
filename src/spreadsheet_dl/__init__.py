@@ -202,6 +202,8 @@ from spreadsheet_dl.domains.finance.alerts import (
     Alert,
     AlertConfig,
     AlertMonitor,
+    AlertSeverity,
+    AlertType,
     check_budget_alerts,
 )
 from spreadsheet_dl.domains.finance.analytics import (
@@ -220,7 +222,10 @@ from spreadsheet_dl.domains.finance.bank_formats import (
     get_format,
     list_formats,
 )
-from spreadsheet_dl.domains.finance.budget_analyzer import BudgetAnalyzer
+from spreadsheet_dl.domains.finance.budget_analyzer import (
+    BudgetAnalyzer,
+    analyze_budget,
+)
 
 # Custom Categories
 from spreadsheet_dl.domains.finance.categories import (
@@ -231,6 +236,7 @@ from spreadsheet_dl.domains.finance.categories import (
     get_category_manager,
 )
 from spreadsheet_dl.domains.finance.csv_import import (
+    BANK_FORMATS,
     CSVImporter,
     TransactionCategorizer,
     import_bank_csv,
@@ -275,30 +281,50 @@ from spreadsheet_dl.domains.finance.ods_generator import (
 
 # Plaid Integration
 from spreadsheet_dl.domains.finance.plaid_integration import (
+    AccessToken,
+    LinkStatus,
+    LinkToken,
     PlaidAccount,
+    PlaidAPIError,
+    PlaidAuthError,
     PlaidClient,
     PlaidConfig,
+    PlaidConnectionError,
+    PlaidEnvironment,
+    PlaidError,
+    PlaidInstitution,
+    PlaidProduct,
+    PlaidRateLimitError,
+    PlaidSyncError,
     PlaidSyncManager,
     PlaidTransaction,
     SyncResult,
+    SyncStatus,
 )
 
 # Recurring expenses (Enhanced in Phase 4)
 from spreadsheet_dl.domains.finance.recurring import (
+    COMMON_RECURRING,
     RecurrenceFrequency,
     RecurringExpense,
     RecurringExpenseManager,
+    create_common_recurring,
 )
 
 # Bill Reminders
 from spreadsheet_dl.domains.finance.reminders import (
+    COMMON_BILLS,
     BillReminder,
     BillReminderManager,
     ReminderFrequency,
     ReminderStatus,
     create_bill_from_template,
 )
-from spreadsheet_dl.domains.finance.report_generator import ReportGenerator
+from spreadsheet_dl.domains.finance.report_generator import (
+    ReportConfig,
+    ReportGenerator,
+    generate_monthly_report,
+)
 
 # Financial Statement Templates
 from spreadsheet_dl.domains.finance.templates.financial_statements import (
@@ -509,10 +535,14 @@ from spreadsheet_dl.webdav_upload import (
 
 __all__ = [  # noqa: RUF022  # Intentionally organized by category, not alphabetically
     # Constants (uppercase first)
+    "BANK_FORMATS",
     "BUILTIN_FORMATS",
     "CATEGORY_COLORS",
+    "COMMON_BILLS",
+    "COMMON_RECURRING",
     "CURRENCIES",
     # Classes (alphabetical)
+    "AccessToken",
     "AIExporter",
     "Account",
     "AccountManager",
@@ -523,6 +553,8 @@ __all__ = [  # noqa: RUF022  # Intentionally organized by category, not alphabet
     "Alert",
     "AlertConfig",
     "AlertMonitor",
+    "AlertSeverity",
+    "AlertType",
     "AnalyticsDashboard",
     "AnonymizationConfig",
     "AnonymizationLevel",
@@ -630,6 +662,8 @@ __all__ = [  # noqa: RUF022  # Intentionally organized by category, not alphabet
     "LegendPosition",
     "Length",
     "LengthUnit",
+    "LinkStatus",
+    "LinkToken",
     "MCPConfig",
     "MCPServer",
     "MCPTool",
@@ -663,8 +697,17 @@ __all__ = [  # noqa: RUF022  # Intentionally organized by category, not alphabet
     "PageSetupBuilder",
     "PageSize",
     "PlaidAccount",
+    "PlaidAPIError",
+    "PlaidAuthError",
     "PlaidClient",
     "PlaidConfig",
+    "PlaidConnectionError",
+    "PlaidEnvironment",
+    "PlaidError",
+    "PlaidInstitution",
+    "PlaidProduct",
+    "PlaidRateLimitError",
+    "PlaidSyncError",
     "PlaidSyncManager",
     "PlaidTransaction",
     "PlotAreaStyle",
@@ -678,6 +721,7 @@ __all__ = [  # noqa: RUF022  # Intentionally organized by category, not alphabet
     "ReminderFrequency",
     "ReminderStatus",
     "RepeatConfig",
+    "ReportConfig",
     "ReportGenerator",
     "RowSpec",
     "SavingsGoal",
@@ -704,6 +748,7 @@ __all__ = [  # noqa: RUF022  # Intentionally organized by category, not alphabet
     "StreamingRow",
     "StreamingWriter",
     "SyncResult",
+    "SyncStatus",
     "TemplateError",
     "TemplateLoader",
     "TemplateRenderer",
@@ -726,6 +771,7 @@ __all__ = [  # noqa: RUF022  # Intentionally organized by category, not alphabet
     "__version__",
     # Functions (alphabetical)
     "add_interactive_features",
+    "analyze_budget",
     "append_expense_to_file",
     "auto_backup",
     "batch_process",
@@ -741,6 +787,7 @@ __all__ = [  # noqa: RUF022  # Intentionally organized by category, not alphabet
     "count_formats",
     "create_bill_from_template",
     "create_budget_dashboard",
+    "create_common_recurring",
     "create_debt_payoff_plan",
     "create_emergency_fund",
     "create_mcp_server",
@@ -762,6 +809,7 @@ __all__ = [  # noqa: RUF022  # Intentionally organized by category, not alphabet
     "generate_budget_dashboard",
     "generate_dashboard",
     "generate_fish_completions",
+    "generate_monthly_report",
     "generate_password",
     "generate_zsh_completions",
     "get_cache",

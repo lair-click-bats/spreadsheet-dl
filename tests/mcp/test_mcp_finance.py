@@ -659,7 +659,7 @@ class TestMCPServerReportGeneration:
         test_file.write_bytes(b"test")
 
         with patch(
-            "spreadsheet_dl.budget_analyzer.BudgetAnalyzer",
+            "spreadsheet_dl.domains.finance.budget_analyzer.BudgetAnalyzer",
             side_effect=Exception("Test error"),
         ):
             recommendations = server._generate_recommendations(test_file)

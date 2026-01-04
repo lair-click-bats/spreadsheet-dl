@@ -13,7 +13,7 @@ from pathlib import Path
 
 import pytest
 
-from spreadsheet_dl.goals import (
+from spreadsheet_dl import (
     Debt,
     DebtPayoffMethod,
     DebtPayoffPlan,

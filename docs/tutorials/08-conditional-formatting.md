@@ -22,6 +22,7 @@ SpreadsheetDL provides comprehensive conditional formatting support through the 
 - Works perfectly for static data or reports generated from known data
 
 For dynamic conditional formatting, either:
+
 - Use XLSX format (future support)
 - Manually add conditional formatting rules in LibreOffice after export
 
@@ -500,6 +501,7 @@ budget_fmt = (
 ## Example Gallery
 
 See [Example Gallery](../examples/gallery.md) for complete working examples of:
+
 - Budget variance tracking
 - Sales performance dashboards
 - Project status reports

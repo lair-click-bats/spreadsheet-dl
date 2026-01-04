@@ -10,10 +10,10 @@ import pytest
 from spreadsheet_dl import (
     BANK_FORMATS,
     CSVImporter,
+    ExpenseCategory,
     TransactionCategorizer,
     import_bank_csv,
 )
-from spreadsheet_dl import ExpenseCategory
 
 if TYPE_CHECKING:
     from pathlib import Path

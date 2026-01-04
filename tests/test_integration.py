@@ -8,21 +8,20 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from spreadsheet_dl import check_budget_alerts
-from spreadsheet_dl import AnalyticsDashboard, generate_dashboard
-from spreadsheet_dl import BudgetAnalyzer
 from spreadsheet_dl import (
+    AnalyticsDashboard,
     BudgetAllocation,
+    BudgetAnalyzer,
     ExpenseCategory,
     ExpenseEntry,
     OdsGenerator,
-)
-from spreadsheet_dl import (
     RecurrenceFrequency,
     RecurringExpense,
     RecurringExpenseManager,
+    ReportGenerator,
+    check_budget_alerts,
+    generate_dashboard,
 )
-from spreadsheet_dl import ReportGenerator
 
 if TYPE_CHECKING:
     from pathlib import Path

@@ -13,11 +13,11 @@ from pathlib import Path
 
 import pytest
 
-from spreadsheet_dl import ExpenseCategory
 from spreadsheet_dl import (
     COMMON_BILLS,
     BillReminder,
     BillReminderManager,
+    ExpenseCategory,
     ReminderFrequency,
     ReminderStatus,
     create_bill_from_template,

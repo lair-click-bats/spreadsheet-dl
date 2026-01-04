@@ -14,14 +14,12 @@ from spreadsheet_dl import (
     AlertMonitor,
     AlertSeverity,
     AlertType,
-    check_budget_alerts,
-)
-from spreadsheet_dl import BudgetAnalyzer
-from spreadsheet_dl import (
     BudgetAllocation,
+    BudgetAnalyzer,
     ExpenseCategory,
     ExpenseEntry,
     OdsGenerator,
+    check_budget_alerts,
 )
 
 if TYPE_CHECKING:

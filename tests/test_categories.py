@@ -12,7 +12,7 @@ from pathlib import Path
 
 import pytest
 
-from spreadsheet_dl.categories import (
+from spreadsheet_dl import (
     Category,
     CategoryManager,
     StandardCategory,

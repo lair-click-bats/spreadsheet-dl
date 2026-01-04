@@ -8,12 +8,13 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from spreadsheet_dl import BudgetAnalyzer, analyze_budget
 from spreadsheet_dl import (
     BudgetAllocation,
+    BudgetAnalyzer,
     ExpenseCategory,
     ExpenseEntry,
     OdsGenerator,
+    analyze_budget,
 )
 
 if TYPE_CHECKING:

@@ -82,7 +82,7 @@ class TestMCPServerToolHandlers:
     def test_handle_spending_trends(self, server: MCPServer, tmp_path: Path) -> None:
         """Test get_spending_trends handler."""
         with patch(
-            "spreadsheet_dl.budget_analyzer.BudgetAnalyzer", create=True
+            "spreadsheet_dl.domains.finance.budget_analyzer.BudgetAnalyzer", create=True
         ) as MockAnalyzer:
             mock_analyzer = MockAnalyzer.return_value
             mock_analyzer.get_trends.return_value = {

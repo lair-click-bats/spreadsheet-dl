@@ -10,14 +10,12 @@ import pytest
 
 from spreadsheet_dl import (
     AnalyticsDashboard,
-    generate_dashboard,
-)
-from spreadsheet_dl import BudgetAnalyzer
-from spreadsheet_dl import (
     BudgetAllocation,
+    BudgetAnalyzer,
     ExpenseCategory,
     ExpenseEntry,
     OdsGenerator,
+    generate_dashboard,
 )
 
 if TYPE_CHECKING:
