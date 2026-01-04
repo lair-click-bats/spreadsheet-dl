@@ -36,15 +36,12 @@ from spreadsheet_dl.domains.biology import (
     SpeciesRichnessFormula,
 )
 from spreadsheet_dl.domains.biology.utils import (
+    calculate_dilution,
     calculate_gc_content,
     calculate_melting_temp,
-    complement_dna,
-    is_valid_dna,
-    is_valid_rna,
-    normalize_sequence,
-    reverse_complement,
+    calculate_od_to_concentration,
+    format_scientific_notation,
 )
-
 
 # ============================================================================
 # Plugin Tests
@@ -368,12 +365,12 @@ def test_plate_reader_importer_csv() -> None:
     assert importer.metadata.name == "Plate Reader Importer"
     assert "csv" in importer.metadata.supported_formats
 
-    # Create test CSV file
+    # Create test CSV file in plate layout format
     with tempfile.NamedTemporaryFile(mode="w", suffix=".csv", delete=False) as f:
-        f.write("Well,Absorbance,Sample\n")
-        f.write("A1,0.125,Standard 1\n")
-        f.write("A2,0.250,Standard 2\n")
-        f.write("A3,0.500,Standard 3\n")
+        f.write("Plate Reader - Absorbance 450nm\n")
+        f.write(",1,2,3,4,5,6,7,8,9,10,11,12\n")
+        f.write("A,0.125,0.250,0.500,,,,,,,,,\n")
+        f.write("B,,,,,,,,,,,\n")
         csv_path = Path(f.name)
 
     try:
@@ -381,7 +378,8 @@ def test_plate_reader_importer_csv() -> None:
 
         assert result.success is True
         assert result.records_imported == 3
-        assert len(result.data) == 3
+        assert "wells" in result.data
+        assert len(result.data["wells"]) == 3
     finally:
         csv_path.unlink()
 

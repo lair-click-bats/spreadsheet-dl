@@ -142,7 +142,7 @@ def test_grade_average_exclude_zeros() -> None:
     formula = GradeAverageFormula()
 
     result = formula.build("A1:A10", "TRUE")
-    assert 'AVERAGEIF(A1:A10;"<>0")' == result
+    assert result == 'AVERAGEIF(A1:A10;"<>0")'
 
 
 def test_weighted_grade_formula() -> None:
@@ -627,7 +627,8 @@ def test_grade_curve_default_method() -> None:
 
 def test_lms_importer_canvas_format() -> None:
     """Test LMS importer with Canvas-style format."""
-    importer = LMSDataImporter(lms_type="canvas")
+    # Use 'platform' parameter (not 'lms_type') to match implementation
+    importer = LMSDataImporter(platform="canvas")
 
     # Create Canvas-style CSV
     with tempfile.NamedTemporaryFile(mode="w", suffix=".csv", delete=False) as f:

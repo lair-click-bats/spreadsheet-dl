@@ -801,7 +801,7 @@ Steel,300
 
 def test_principal_stresses_3d_with_shear() -> None:
     """Test 3D principal stress calculation with shear stresses."""
-    sigma_1, sigma_2, sigma_3 = principal_stresses_3d(
+    sigma_1, _sigma_2, sigma_3 = principal_stresses_3d(
         100, 50, 25, tau_xy=10, tau_yz=5, tau_xz=5
     )
 

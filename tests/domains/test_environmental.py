@@ -355,7 +355,7 @@ def test_environmental_impact_score_formula() -> None:
 
     # Magnitude * Duration * Reversibility / 1.25
     result = formula.build("3", "4", "2")
-    assert "(3*4*2*1)/1.25" == result
+    assert result == "(3*4*2*1)/1.25"
 
 
 def test_environmental_impact_score_with_probability() -> None:
@@ -363,7 +363,7 @@ def test_environmental_impact_score_with_probability() -> None:
     formula = EnvironmentalImpactScoreFormula()
 
     result = formula.build("3", "4", "2", "0.8")
-    assert "(3*4*2*0.8)/1.25" == result
+    assert result == "(3*4*2*0.8)/1.25"
 
 
 # ============================================================================

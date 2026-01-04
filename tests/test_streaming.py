@@ -16,7 +16,7 @@ Implements comprehensive coverage for TASK-401: Streaming I/O
 
 from __future__ import annotations
 
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 import pytest
 
@@ -30,6 +30,9 @@ from spreadsheet_dl.streaming import (
     stream_read,
     stream_write,
 )
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 # ==============================================================================
 # Fixtures
@@ -333,7 +336,7 @@ class TestStreamingReader:
         """Test streaming large file efficiently."""
         with StreamingReader(large_ods_file) as reader:
             count = 0
-            for row in reader.rows("LargeData"):
+            for _row in reader.rows("LargeData"):
                 count += 1
                 if count == 100:
                     break  # Don't need to read all
@@ -637,23 +640,25 @@ class TestIntegration:
         output_file = tmp_path / "processed.ods"
 
         # Read and process in chunks
-        with StreamingReader(large_ods_file) as reader:
-            with StreamingWriter(output_file, chunk_size=100) as writer:
-                writer.start_sheet("Processed", columns=["Item", "Double"])
+        with (
+            StreamingReader(large_ods_file) as reader,
+            StreamingWriter(output_file, chunk_size=100) as writer,
+        ):
+            writer.start_sheet("Processed", columns=["Item", "Double"])
 
-                for row in reader.rows("LargeData"):
-                    # Process row (e.g., double the quantity)
-                    if len(row.cells) >= 2:
-                        item = row.cells[0].value
-                        quantity = row.cells[1].value
-                        if quantity is not None:
-                            try:
-                                doubled = float(quantity) * 2
-                                writer.write_row([item, doubled])
-                            except (ValueError, TypeError):
-                                pass
+            for row in reader.rows("LargeData"):
+                # Process row (e.g., double the quantity)
+                if len(row.cells) >= 2:
+                    item = row.cells[0].value
+                    quantity = row.cells[1].value
+                    if quantity is not None:
+                        try:
+                            doubled = float(quantity) * 2
+                            writer.write_row([item, doubled])
+                        except (ValueError, TypeError):
+                            pass
 
-                writer.end_sheet()
+            writer.end_sheet()
 
         assert output_file.exists()
 
@@ -661,22 +666,24 @@ class TestIntegration:
         """Test filtering rows while streaming."""
         output_file = tmp_path / "filtered.ods"
 
-        with StreamingReader(large_ods_file) as reader:
-            with StreamingWriter(output_file) as writer:
-                writer.start_sheet("Filtered")
+        with (
+            StreamingReader(large_ods_file) as reader,
+            StreamingWriter(output_file) as writer,
+        ):
+            writer.start_sheet("Filtered")
 
-                for row in reader.rows("LargeData"):
-                    # Only write rows where quantity is even
-                    if len(row.cells) >= 2 and row.cells[1].value is not None:
-                        try:
-                            qty = float(row.cells[1].value)
-                            if int(qty) % 2 == 0:
-                                values = [cell.value for cell in row.cells]
-                                writer.write_row(values)
-                        except (ValueError, TypeError):
-                            pass
+            for row in reader.rows("LargeData"):
+                # Only write rows where quantity is even
+                if len(row.cells) >= 2 and row.cells[1].value is not None:
+                    try:
+                        qty = float(row.cells[1].value)
+                        if int(qty) % 2 == 0:
+                            values = [cell.value for cell in row.cells]
+                            writer.write_row(values)
+                    except (ValueError, TypeError):
+                        pass
 
-                writer.end_sheet()
+            writer.end_sheet()
 
         # Verify filtered output exists
         with StreamingReader(output_file) as reader:

@@ -13,8 +13,8 @@ from pathlib import Path
 import pytest
 
 from spreadsheet_dl.domains.civil_engineering import (
-    BearingCapacityFormula,
     BeamDeflectionFormula,
+    BearingCapacityFormula,
     BuildingCodesImporter,
     CivilEngineeringDomainPlugin,
     ConcreteMix,
@@ -660,7 +660,7 @@ def test_importer_validation() -> None:
 
 def test_bearing_capacity_zero_phi() -> None:
     """Test bearing capacity with zero friction angle."""
-    Nc, Nq, Ng = bearing_capacity_factors(0.0)
+    Nc, _Nq, _Ng = bearing_capacity_factors(0.0)
 
     # For phi=0 (purely cohesive soil), Nc should be around 5.14
     assert abs(Nc - 5.14) < 0.01

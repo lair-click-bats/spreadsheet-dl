@@ -6,6 +6,7 @@ Tests IR-MCP-002: Native MCP Server.
 
 from __future__ import annotations
 
+import contextlib
 import json
 import logging
 from pathlib import Path
@@ -2960,7 +2961,9 @@ class TestMCPServerWithMockedBudgetAnalyzer:
         test_file = tmp_path / "budget.ods"
         test_file.write_bytes(b"test")
 
-        with patch("spreadsheet_dl.budget_analyzer.BudgetAnalyzer") as MockAnalyzer:
+        with patch(
+            "spreadsheet_dl.domains.finance.budget_analyzer.BudgetAnalyzer"
+        ) as MockAnalyzer:
             mock_summary = MagicMock()
             mock_summary.total_budget = Decimal("1000")
             mock_summary.total_spent = Decimal("500")
@@ -3073,7 +3076,9 @@ class TestMCPServerWithMockedBudgetAnalyzer:
         test_file.write_bytes(b"test")
 
         with (
-            patch("spreadsheet_dl.report_generator.ReportGenerator") as MockReportGen,
+            patch(
+                "spreadsheet_dl.domains.finance.report_generator.ReportGenerator"
+            ) as MockReportGen,
             patch.object(
                 server,
                 "_generate_recommendations",
@@ -3120,7 +3125,9 @@ class TestMCPServerWithMockedBudgetAnalyzer:
         test_file = tmp_path / "budget.ods"
         test_file.write_bytes(b"test")
 
-        with patch("spreadsheet_dl.budget_analyzer.BudgetAnalyzer") as MockAnalyzer:
+        with patch(
+            "spreadsheet_dl.domains.finance.budget_analyzer.BudgetAnalyzer"
+        ) as MockAnalyzer:
             # Test over budget scenario
             mock_summary = MagicMock()
             mock_summary.total_remaining = Decimal("-100")
@@ -3172,7 +3179,9 @@ class TestMCPServerQueryBudgetCategoryMatching:
         test_file = tmp_path / "budget.ods"
         test_file.write_bytes(b"test")
 
-        with patch("spreadsheet_dl.budget_analyzer.BudgetAnalyzer") as MockAnalyzer:
+        with patch(
+            "spreadsheet_dl.domains.finance.budget_analyzer.BudgetAnalyzer"
+        ) as MockAnalyzer:
             mock_summary = MagicMock()
             mock_summary.total_spent = Decimal("500")
             mock_summary.total_budget = Decimal("1000")
@@ -3208,7 +3217,9 @@ class TestMCPServerQueryBudgetCategoryMatching:
         test_file = tmp_path / "budget.ods"
         test_file.write_bytes(b"test")
 
-        with patch("spreadsheet_dl.budget_analyzer.BudgetAnalyzer") as MockAnalyzer:
+        with patch(
+            "spreadsheet_dl.domains.finance.budget_analyzer.BudgetAnalyzer"
+        ) as MockAnalyzer:
             mock_summary = MagicMock()
             mock_summary.total_spent = Decimal("500")
             mock_summary.total_budget = Decimal("1000")
@@ -3241,7 +3252,9 @@ class TestMCPServerQueryBudgetCategoryMatching:
         test_file = tmp_path / "budget.ods"
         test_file.write_bytes(b"test")
 
-        with patch("spreadsheet_dl.budget_analyzer.BudgetAnalyzer") as MockAnalyzer:
+        with patch(
+            "spreadsheet_dl.domains.finance.budget_analyzer.BudgetAnalyzer"
+        ) as MockAnalyzer:
             mock_summary = MagicMock()
             mock_summary.total_spent = Decimal("500")
             mock_summary.total_budget = Decimal("1000")
@@ -3274,7 +3287,9 @@ class TestMCPServerQueryBudgetCategoryMatching:
         test_file = tmp_path / "budget.ods"
         test_file.write_bytes(b"test")
 
-        with patch("spreadsheet_dl.budget_analyzer.BudgetAnalyzer") as MockAnalyzer:
+        with patch(
+            "spreadsheet_dl.domains.finance.budget_analyzer.BudgetAnalyzer"
+        ) as MockAnalyzer:
             mock_summary = MagicMock()
             mock_summary.total_spent = Decimal("1100")
             mock_summary.total_budget = Decimal("1000")
@@ -3322,7 +3337,9 @@ class TestMCPServerSpendingTrends:
         test_file = tmp_path / "budget.ods"
         test_file.write_bytes(b"test")
 
-        with patch("spreadsheet_dl.budget_analyzer.BudgetAnalyzer") as MockAnalyzer:
+        with patch(
+            "spreadsheet_dl.domains.finance.budget_analyzer.BudgetAnalyzer"
+        ) as MockAnalyzer:
             # Create mock expenses DataFrame
             mock_expenses = pd.DataFrame(
                 {
@@ -3357,7 +3374,9 @@ class TestMCPServerSpendingTrends:
         test_file = tmp_path / "budget.ods"
         test_file.write_bytes(b"test")
 
-        with patch("spreadsheet_dl.budget_analyzer.BudgetAnalyzer") as MockAnalyzer:
+        with patch(
+            "spreadsheet_dl.domains.finance.budget_analyzer.BudgetAnalyzer"
+        ) as MockAnalyzer:
             # Create mock expenses DataFrame with Date column
             mock_expenses = pd.DataFrame(
                 {
@@ -3405,7 +3424,9 @@ class TestMCPServerComparePeriods:
         test_file = tmp_path / "budget.ods"
         test_file.write_bytes(b"test")
 
-        with patch("spreadsheet_dl.budget_analyzer.BudgetAnalyzer") as MockAnalyzer:
+        with patch(
+            "spreadsheet_dl.domains.finance.budget_analyzer.BudgetAnalyzer"
+        ) as MockAnalyzer:
             # Create mock DataFrames for two periods
             p1_expenses = pd.DataFrame({"Amount": [100.0, 50.0, 75.0]})
             p2_expenses = pd.DataFrame({"Amount": [150.0, 100.0, 50.0]})
@@ -3442,7 +3463,9 @@ class TestMCPServerComparePeriods:
         test_file = tmp_path / "budget.ods"
         test_file.write_bytes(b"test")
 
-        with patch("spreadsheet_dl.budget_analyzer.BudgetAnalyzer") as MockAnalyzer:
+        with patch(
+            "spreadsheet_dl.domains.finance.budget_analyzer.BudgetAnalyzer"
+        ) as MockAnalyzer:
             # Empty first period, non-empty second
             p1_expenses = pd.DataFrame({"Amount": []})
             p2_expenses = pd.DataFrame({"Amount": [100.0, 50.0]})
@@ -3482,8 +3505,12 @@ class TestMCPServerReportGeneration:
         test_file.write_bytes(b"test")
 
         with (
-            patch("spreadsheet_dl.report_generator.ReportGenerator") as MockReportGen,
-            patch("spreadsheet_dl.budget_analyzer.BudgetAnalyzer") as MockAnalyzer,
+            patch(
+                "spreadsheet_dl.domains.finance.report_generator.ReportGenerator"
+            ) as MockReportGen,
+            patch(
+                "spreadsheet_dl.domains.finance.budget_analyzer.BudgetAnalyzer"
+            ) as MockAnalyzer,
         ):
             mock_gen = MockReportGen.return_value
             mock_gen.generate_visualization_data.return_value = {
@@ -3522,8 +3549,12 @@ class TestMCPServerReportGeneration:
         test_file.write_bytes(b"test")
 
         with (
-            patch("spreadsheet_dl.report_generator.ReportGenerator") as MockReportGen,
-            patch("spreadsheet_dl.budget_analyzer.BudgetAnalyzer") as MockAnalyzer,
+            patch(
+                "spreadsheet_dl.domains.finance.report_generator.ReportGenerator"
+            ) as MockReportGen,
+            patch(
+                "spreadsheet_dl.domains.finance.budget_analyzer.BudgetAnalyzer"
+            ) as MockAnalyzer,
         ):
             mock_gen = MockReportGen.return_value
             mock_gen.generate_markdown_report.return_value = "# Budget Report"
@@ -3557,7 +3588,9 @@ class TestMCPServerReportGeneration:
         test_file = tmp_path / "budget.ods"
         test_file.write_bytes(b"test")
 
-        with patch("spreadsheet_dl.report_generator.ReportGenerator") as MockReportGen:
+        with patch(
+            "spreadsheet_dl.domains.finance.report_generator.ReportGenerator"
+        ) as MockReportGen:
             mock_gen = MockReportGen.return_value
             mock_gen.generate_text_report.return_value = "Budget Report Text"
 
@@ -3579,7 +3612,9 @@ class TestMCPServerReportGeneration:
         test_file = tmp_path / "budget.ods"
         test_file.write_bytes(b"test")
 
-        with patch("spreadsheet_dl.budget_analyzer.BudgetAnalyzer") as MockAnalyzer:
+        with patch(
+            "spreadsheet_dl.domains.finance.budget_analyzer.BudgetAnalyzer"
+        ) as MockAnalyzer:
             mock_analyzer = MockAnalyzer.return_value
 
             # Scenario 1: Over budget
@@ -3654,8 +3689,8 @@ class TestMCPServerReportGeneration:
         test_file.write_bytes(b"test")
 
         with (
-            patch("spreadsheet_dl.budget_analyzer.BudgetAnalyzer") as MockAnalyzer,
-            patch("spreadsheet_dl.alerts.AlertMonitor") as MockMonitor,
+            patch("spreadsheet_dl.domains.finance.budget_analyzer.BudgetAnalyzer"),
+            patch("spreadsheet_dl.domains.finance.alerts.AlertMonitor") as MockMonitor,
         ):
             mock_alert = MagicMock()
             mock_alert.message = "Over budget"
@@ -3696,10 +3731,8 @@ class TestMCPServerMainCLI:
             mock_create.return_value = mock_server
             mock_server.run.side_effect = KeyboardInterrupt()
 
-            try:
+            with contextlib.suppress(KeyboardInterrupt):
                 main()
-            except KeyboardInterrupt:
-                pass
 
             mock_create.assert_called_once()
             mock_logging.assert_called_once()
@@ -3720,10 +3753,8 @@ class TestMCPServerMainCLI:
             mock_create.return_value = mock_server
             mock_server.run.side_effect = KeyboardInterrupt()
 
-            try:
+            with contextlib.suppress(KeyboardInterrupt):
                 main()
-            except KeyboardInterrupt:
-                pass
 
             call_kwargs = mock_logging.call_args[1]
             assert call_kwargs["level"] == logging.INFO

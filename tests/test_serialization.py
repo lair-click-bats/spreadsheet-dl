@@ -202,7 +202,7 @@ class TestSpreadsheetEncoder:
         config = TestConfig(name="test", path=Path("/data/file.txt"))
 
         # Encode via JSON which will trigger _encode_value recursively
-        encoder = SpreadsheetEncoder()
+        SpreadsheetEncoder()
         result = json.dumps(config, cls=SpreadsheetEncoder)
         data = json.loads(result)
 

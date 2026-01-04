@@ -3,9 +3,7 @@
 from __future__ import annotations
 
 import time
-from pathlib import Path
-
-import pytest
+from typing import TYPE_CHECKING
 
 from spreadsheet_dl.performance import (
     BatchProcessor,
@@ -20,6 +18,11 @@ from spreadsheet_dl.performance import (
     get_cache,
     timed,
 )
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+    import pytest
 
 # =============================================================================
 # LRUCache Tests
@@ -253,7 +256,7 @@ class TestLazy:
 
         assert "not loaded" in repr(lazy)
 
-        lazy.value  # Load it
+        _ = lazy.value  # Load it
 
         assert "test" in repr(lazy)
 

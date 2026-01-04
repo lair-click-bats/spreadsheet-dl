@@ -70,7 +70,7 @@ class TestVAL101_DataclassImprovements:
         modules = [styles, conditional, advanced]
 
         for module in modules:
-            for name, obj in inspect.getmembers(module):
+            for _name, obj in inspect.getmembers(module):
                 if not dataclasses.is_dataclass(obj):
                     continue
 
@@ -100,18 +100,18 @@ class TestVAL101_DataclassImprovements:
             return field.default_factory()  # type: ignore
 
         # Return type-appropriate defaults
-        if field.type == str or "str" in str(field.type):
+        if field.type is str or "str" in str(field.type):
             return "test"
-        if field.type == int or "int" in str(field.type):
+        if field.type is int or "int" in str(field.type):
             return 0
-        if field.type == float or "float" in str(field.type):
+        if field.type is float or "float" in str(field.type):
             return 0.0
-        if field.type == bool or "bool" in str(field.type):
+        if field.type is bool or "bool" in str(field.type):
             return False
 
         # For enums, use first value
         if hasattr(field.type, "__members__"):
-            return list(field.type.__members__.values())[0]
+            return next(iter(field.type.__members__.values()))
 
         return None
 

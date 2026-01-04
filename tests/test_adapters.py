@@ -15,7 +15,7 @@ from __future__ import annotations
 
 from datetime import date, datetime
 from decimal import Decimal
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 import pytest
 
@@ -34,6 +34,9 @@ from spreadsheet_dl.adapters import (
     import_from,
 )
 from spreadsheet_dl.builder import CellSpec, ColumnSpec, RowSpec, SheetSpec
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 # ==============================================================================
 # Fixtures

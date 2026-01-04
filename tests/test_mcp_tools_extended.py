@@ -6,11 +6,14 @@ Tests TASK-501: Expansion from 49 to 145 MCP tools.
 
 from __future__ import annotations
 
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 import pytest
 
 from spreadsheet_dl.mcp_server import MCPServer, MCPToolResult
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 @pytest.fixture
