@@ -1,19 +1,8 @@
 """
 MCP tool handlers organized by category.
 
-PLACEHOLDER: Tool handlers will be fully modularized in a future phase.
-
-For now, all tool handlers remain as methods within the MCPServer class
-in server.py. This package structure is prepared for future extraction
-of individual tool categories into separate modules.
-
-Planned structure:
-    - budget.py: Budget analysis tools
-    - cell.py: Cell manipulation tools
-    - style.py: Style and formatting tools
-    - structure.py: Row/column/sheet structure tools
-    - chart.py: Chart creation tools
-    - advanced.py: Advanced features (validation, workbook ops, data import/export)
+This package provides the foundation for organizing MCP tool handlers.
+Currently, tool handlers are implemented as methods within the MCPServer class.
 """
 
 from __future__ import annotations

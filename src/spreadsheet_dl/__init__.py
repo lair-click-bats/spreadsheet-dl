@@ -28,7 +28,7 @@ Core Platform:
 - Multi-format export (ODS native, XLSX, PDF)
 - Advanced formatting (conditional, validation, named ranges, merging)
 - Template engine with schema-driven composition
-- MCP server with 8 tools (145+ planned)
+- MCP server with 144 tools (49 implemented, 95 planned)
 - Streaming I/O for 100k+ rows
 - Round-trip editing (read, modify, write ODS)
 - Performance optimization with caching and lazy loading
@@ -70,10 +70,10 @@ For complete feature history and migration guides, see CHANGELOG.md
 __version__ = "4.0.0"
 __author__ = "lair-click-bats"
 
-# Account Management (NEW in v0.6.0 - Phase 3)
-# Format Adapters (NEW in v4.0.0 - TASK-403)
+# Account Management
+# Format Adapters
 # =============================================================================
-# Modular Packages (NEW in v4.0.0) - Public namespace access
+# Modular Packages - Public namespace access
 # =============================================================================
 # Import packages for users who want to access modular structure
 # Example: from spreadsheet_dl import mcp_pkg; config = mcp_pkg.MCPConfig()
@@ -95,7 +95,7 @@ from spreadsheet_dl.adapters import (
     import_from,
 )
 
-# AI Export (Enhanced in v0.6.0)
+# AI Export
 from spreadsheet_dl.ai_export import (
     AIExporter,
     CellRelationship,
@@ -107,7 +107,7 @@ from spreadsheet_dl.ai_export import (
     export_for_ai,
 )
 
-# AI Training Data Export (NEW in v1.0.0 - Phase 5)
+# AI Training Data Export
 from spreadsheet_dl.ai_training import (
     AnonymizationConfig,
     AnonymizationLevel,
@@ -118,14 +118,14 @@ from spreadsheet_dl.ai_training import (
     export_training_data,
 )
 
-# Backup (NEW in v0.5.0)
+# Backup
 from spreadsheet_dl.backup import (
     BackupManager,
     BackupReason,
     auto_backup,
 )
 
-# Builder API (NEW in v0.4.0)
+# Builder API
 from spreadsheet_dl.builder import (
     CellRef,
     CellSpec,
@@ -143,7 +143,7 @@ from spreadsheet_dl.builder import (
 # ============================================================================
 # v2.0.0 Professional Spreadsheet System (95 new requirements)
 # ============================================================================
-# Charts (NEW in v2.0.0 - FR-CHART-*)
+# Charts
 from spreadsheet_dl.charts import (
     AxisConfig,
     AxisType,
@@ -172,7 +172,7 @@ from spreadsheet_dl.charts import (
     trend_line_chart,
 )
 
-# Shell Completions (NEW in v0.7.0 - Phase 4)
+# Shell Completions
 from spreadsheet_dl.completions import (
     detect_shell,
     generate_bash_completions,
@@ -206,7 +206,7 @@ from spreadsheet_dl.domains.finance.analytics import (
     generate_dashboard,
 )
 
-# Extended Bank Formats (NEW in v0.6.0 - Phase 3)
+# Extended Bank Formats
 from spreadsheet_dl.domains.finance.bank_formats import (
     BUILTIN_FORMATS,
     BankFormatDefinition,
@@ -219,7 +219,7 @@ from spreadsheet_dl.domains.finance.bank_formats import (
 )
 from spreadsheet_dl.domains.finance.budget_analyzer import BudgetAnalyzer
 
-# Custom Categories (NEW in v4.0.0 - FR-EXT-005)
+# Custom Categories
 from spreadsheet_dl.domains.finance.categories import (
     Category,
     CategoryManager,
@@ -233,7 +233,7 @@ from spreadsheet_dl.domains.finance.csv_import import (
     import_bank_csv,
 )
 
-# Multi-Currency Support (NEW in v0.6.0 - Phase 3)
+# Multi-Currency Support
 from spreadsheet_dl.domains.finance.currency import (
     CURRENCIES,
     Currency,
@@ -249,7 +249,7 @@ from spreadsheet_dl.domains.finance.currency import (
     money,
 )
 
-# Goals and Debt Payoff (NEW in v0.7.0 - Phase 4)
+# Goals and Debt Payoff
 from spreadsheet_dl.domains.finance.goals import (
     Debt,
     DebtPayoffMethod,
@@ -270,7 +270,7 @@ from spreadsheet_dl.domains.finance.ods_generator import (
     create_monthly_budget,
 )
 
-# Plaid Integration (NEW in v1.0.0 - Phase 5)
+# Plaid Integration
 from spreadsheet_dl.domains.finance.plaid_integration import (
     PlaidAccount,
     PlaidClient,
@@ -287,7 +287,7 @@ from spreadsheet_dl.domains.finance.recurring import (
     RecurringExpenseManager,
 )
 
-# Bill Reminders (NEW in v0.7.0 - Phase 4)
+# Bill Reminders
 from spreadsheet_dl.domains.finance.reminders import (
     BillReminder,
     BillReminderManager,
@@ -297,7 +297,7 @@ from spreadsheet_dl.domains.finance.reminders import (
 )
 from spreadsheet_dl.domains.finance.report_generator import ReportGenerator
 
-# Financial Statement Templates (NEW in v2.0.0 - FR-PROF-*)
+# Financial Statement Templates
 from spreadsheet_dl.domains.finance.templates.financial_statements import (
     BalanceSheetTemplate,
     CashFlowStatementTemplate,
@@ -305,7 +305,7 @@ from spreadsheet_dl.domains.finance.templates.financial_statements import (
     IncomeStatementTemplate,
 )
 
-# Professional Templates (NEW in v2.0.0 - FR-PROF-*)
+# Professional Templates
 from spreadsheet_dl.domains.finance.templates.professional import (
     CashFlowTrackerTemplate,
     EnterpriseBudgetTemplate,
@@ -318,7 +318,6 @@ from spreadsheet_dl.exceptions import (
     DecryptionError,
     EncryptionError,
     FileError,
-    FinanceTrackerError,  # Deprecated, use SpreadsheetDLError
     IntegrityError,
     OdsError,
     OperationCancelledError,
@@ -328,7 +327,7 @@ from spreadsheet_dl.exceptions import (
     WebDAVError,
 )
 
-# Multi-format Export (NEW in v0.5.0)
+# Multi-format Export
 from spreadsheet_dl.export import (
     ExportOptions,
     MultiFormatExporter,
@@ -340,7 +339,7 @@ from spreadsheet_dl.interactive import (
     DashboardGenerator as OdsDashboardGenerator,
 )
 
-# Interactive ODS Features (NEW in v1.0.0 - Phase 5)
+# Interactive ODS Features
 from spreadsheet_dl.interactive import (
     DashboardKPI,
     DropdownList,
@@ -350,7 +349,7 @@ from spreadsheet_dl.interactive import (
     generate_budget_dashboard,
 )
 
-# MCP Server (NEW in v1.0.0 - Phase 5)
+# MCP Server
 from spreadsheet_dl.mcp_server import (
     MCPConfig,
     MCPServer,
@@ -359,7 +358,7 @@ from spreadsheet_dl.mcp_server import (
     create_mcp_server,
 )
 
-# Notifications (NEW in v0.7.0 - Phase 4)
+# Notifications
 from spreadsheet_dl.notifications import (
     EmailChannel,
     EmailConfig,
@@ -372,13 +371,13 @@ from spreadsheet_dl.notifications import (
     NtfyConfig,
 )
 
-# ODS Editor (NEW in v0.4.1)
+# ODS Editor
 from spreadsheet_dl.ods_editor import (
     OdsEditor,
     append_expense_to_file,
 )
 
-# Performance Optimization (NEW in v4.0.0 - TASK-503)
+# Performance Optimization
 from spreadsheet_dl.performance import (
     BatchProcessor,
     BatchResult,
@@ -395,13 +394,13 @@ from spreadsheet_dl.performance import (
     timed,
 )
 
-# Renderer (NEW in v0.4.0)
+# Renderer
 from spreadsheet_dl.renderer import (
     OdsRenderer,
     render_sheets,
 )
 
-# Schema Extensions (NEW in v2.0.0 - FR-SCHEMA-*, FR-FORMAT-*, FR-ADV-*)
+# Schema Extensions
 from spreadsheet_dl.schema.advanced import (
     AutoFilter,
     CellComment,
@@ -446,7 +445,7 @@ from spreadsheet_dl.schema.units import (
     LengthUnit,
 )
 
-# Security (NEW in v0.4.2)
+# Security
 from spreadsheet_dl.security import (
     CredentialStore,
     EncryptionMetadata,
@@ -456,7 +455,7 @@ from spreadsheet_dl.security import (
     generate_password,
 )
 
-# Serialization (NEW in v4.0.0 - TASK-402)
+# Serialization
 from spreadsheet_dl.serialization import (
     DefinitionFormat,
     Serializer,
@@ -466,7 +465,7 @@ from spreadsheet_dl.serialization import (
     save_definition,
 )
 
-# Streaming I/O (NEW in v4.0.0 - TASK-401)
+# Streaming I/O
 from spreadsheet_dl.streaming import (
     StreamingCell,
     StreamingReader,
@@ -476,7 +475,7 @@ from spreadsheet_dl.streaming import (
     stream_write,
 )
 
-# Template Engine (NEW in v2.0.0 - FR-TEMPLATE-*)
+# Template Engine
 from spreadsheet_dl.template_engine import (
     ComponentDefinition,
     TemplateLoader,
@@ -488,7 +487,7 @@ from spreadsheet_dl.templates import (
     list_templates,
 )
 
-# Interactive Visualization (NEW in v0.6.0 - Phase 3)
+# Interactive Visualization
 from spreadsheet_dl.visualization import (
     CATEGORY_COLORS,
     ChartConfig,
@@ -602,7 +601,6 @@ __all__ = [  # noqa: RUF022  # Intentionally organized by category, not alphabet
     "FileEncryptor",
     "FileError",
     "FilterCriteria",
-    "FinanceTrackerError",
     "FontPairing",
     "FormatAdapter",
     "FormatBuilder",

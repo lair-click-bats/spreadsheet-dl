@@ -449,13 +449,9 @@ class TestVAL301_MCPTools:
 
     def test_mcp_tool_registry_works(self) -> None:
         """VAL-301-C1: MCP tool registry works."""
-        # Check if MCP server module exists
-        try:
-            from spreadsheet_dl import mcp_server
+        from spreadsheet_dl import mcp_server
 
-            assert mcp_server is not None
-        except ImportError:
-            pytest.skip("MCP server module not yet implemented")
+        assert mcp_server is not None
 
     def test_all_cell_tools_functional(self) -> None:
         """VAL-301-C2: All cell tools functional (if implemented)."""
@@ -533,13 +529,9 @@ class TestVAL401_NewCapabilities:
 
     def test_streaming_handles_large_files(self) -> None:
         """VAL-401-C1: Streaming handles 100k+ rows (if implemented)."""
-        # Placeholder for streaming tests
-        try:
-            from spreadsheet_dl import streaming
+        from spreadsheet_dl import streaming
 
-            assert streaming is not None
-        except ImportError:
-            pytest.skip("Streaming module not yet implemented")
+        assert streaming is not None
 
     def test_roundtrip_preserves_fidelity(self) -> None:
         """VAL-401-C2: Round-trip preserves 95%+ fidelity (if implemented)."""
@@ -548,13 +540,9 @@ class TestVAL401_NewCapabilities:
 
     def test_format_adapters_work_correctly(self) -> None:
         """VAL-401-C3: Format adapters work correctly (if implemented)."""
-        # Placeholder for adapter tests
-        try:
-            from spreadsheet_dl import adapters
+        from spreadsheet_dl import adapters
 
-            assert adapters is not None
-        except ImportError:
-            pytest.skip("Adapters module not yet implemented")
+        assert adapters is not None
 
 
 class TestOverallValidation:

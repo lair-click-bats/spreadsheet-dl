@@ -8,6 +8,7 @@ Implements:
 from __future__ import annotations
 
 import json
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -179,12 +180,17 @@ class JupyterMetadataImporter(BaseImporter[dict[str, Any]]):
                     and "iopub.status.idle" in execution
                 ):
                     try:
-                        _start = execution["iopub.execute_input"]
-                        _end = execution["iopub.status.idle"]
-                        # Parse ISO format timestamps (simplified)
-                        # This is a placeholder - actual implementation would parse properly
-                        total_execution_time += 1.0  # Placeholder
-                    except (KeyError, ValueError):
+                        start_str = execution["iopub.execute_input"]
+                        end_str = execution["iopub.status.idle"]
+                        # Parse ISO format timestamps
+                        start_time = datetime.fromisoformat(
+                            start_str.replace("Z", "+00:00")
+                        )
+                        end_time = datetime.fromisoformat(
+                            end_str.replace("Z", "+00:00")
+                        )
+                        total_execution_time += (end_time - start_time).total_seconds()
+                    except (KeyError, ValueError, AttributeError):
                         pass
 
         # Extract markdown headers

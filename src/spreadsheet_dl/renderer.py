@@ -1055,29 +1055,38 @@ class OdsRenderer:
 
     def _add_color_scale_rule(self, cell_range: str, color_scale: Any) -> None:
         """Add color scale conditional format rule."""
-        # ODF color scale implementation
-        # This creates calcext:color-scale elements
-        pass  # Placeholder - full ODF XML generation would go here
+        raise NotImplementedError(
+            "Color scale conditional formatting is not yet implemented for ODS export. "
+            "This feature requires ODF calcext:color-scale XML generation."
+        )
 
     def _add_data_bar_rule(self, cell_range: str, data_bar: Any) -> None:
         """Add data bar conditional format rule."""
-        # ODF data bar implementation
-        pass  # Placeholder - full ODF XML generation would go here
+        raise NotImplementedError(
+            "Data bar conditional formatting is not yet implemented for ODS export. "
+            "This feature requires ODF data bar XML generation."
+        )
 
     def _add_icon_set_rule(self, cell_range: str, icon_set: Any) -> None:
         """Add icon set conditional format rule."""
-        # ODF icon set implementation
-        pass  # Placeholder - full ODF XML generation would go here
+        raise NotImplementedError(
+            "Icon set conditional formatting is not yet implemented for ODS export. "
+            "This feature requires ODF icon set XML generation."
+        )
 
     def _add_cell_value_rule(self, cell_range: str, rule: Any) -> None:
         """Add cell value conditional format rule."""
-        # ODF cell value rule implementation
-        pass  # Placeholder - full ODF XML generation would go here
+        raise NotImplementedError(
+            "Cell value conditional formatting is not yet implemented for ODS export. "
+            "This feature requires ODF conditional format XML generation."
+        )
 
     def _add_formula_rule(self, cell_range: str, rule: Any) -> None:
         """Add formula-based conditional format rule."""
-        # ODF formula rule implementation
-        pass  # Placeholder - full ODF XML generation would go here
+        raise NotImplementedError(
+            "Formula-based conditional formatting is not yet implemented for ODS export. "
+            "This feature requires ODF formula rule XML generation."
+        )
 
     # =========================================================================
     # Data Validation Rendering (TASK-221)
@@ -1126,28 +1135,38 @@ class OdsRenderer:
 
     def _add_list_validation(self, cell_range: str, validation: Any) -> None:
         """Add list validation with dropdown."""
-        # ODF list validation implementation
-        pass  # Placeholder - full ODF XML generation would go here
+        raise NotImplementedError(
+            "List validation is not yet implemented for ODS export. "
+            "This feature requires ODF table:content-validation XML generation."
+        )
 
     def _add_number_validation(self, cell_range: str, validation: Any) -> None:
         """Add number range validation."""
-        # ODF number validation implementation
-        pass  # Placeholder - full ODF XML generation would go here
+        raise NotImplementedError(
+            "Number validation is not yet implemented for ODS export. "
+            "This feature requires ODF number range validation XML generation."
+        )
 
     def _add_date_validation(self, cell_range: str, validation: Any) -> None:
         """Add date range validation."""
-        # ODF date validation implementation
-        pass  # Placeholder - full ODF XML generation would go here
+        raise NotImplementedError(
+            "Date validation is not yet implemented for ODS export. "
+            "This feature requires ODF date range validation XML generation."
+        )
 
     def _add_custom_validation(self, cell_range: str, validation: Any) -> None:
         """Add custom formula validation."""
-        # ODF custom validation implementation
-        pass  # Placeholder - full ODF XML generation would go here
+        raise NotImplementedError(
+            "Custom formula validation is not yet implemented for ODS export. "
+            "This feature requires ODF custom validation XML generation."
+        )
 
     def _add_text_length_validation(self, cell_range: str, validation: Any) -> None:
         """Add text length validation."""
-        # ODF text length validation implementation
-        pass  # Placeholder - full ODF XML generation would go here
+        raise NotImplementedError(
+            "Text length validation is not yet implemented for ODS export. "
+            "This feature requires ODF text length validation XML generation."
+        )
 
 
 def render_sheets(
