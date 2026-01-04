@@ -164,7 +164,7 @@ class CourseGradebookTemplate(BaseTemplate):
 
         # Student rows
         hw_start_col = 4  # D column (1-indexed in formula)
-        hw_end_col = hw_start_col + self.num_assignments - 1
+        hw_start_col + self.num_assignments - 1
 
         for row_num in range(3, 3 + self.num_students):
             builder.row()

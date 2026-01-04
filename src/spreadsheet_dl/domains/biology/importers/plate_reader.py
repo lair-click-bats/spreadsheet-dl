@@ -144,7 +144,7 @@ class PlateReaderImporter(BaseImporter[dict[str, Any]]):
             lines = f.readlines()
 
             # Try to detect metadata in header
-            for i, line in enumerate(lines[:10]):
+            for _i, line in enumerate(lines[:10]):
                 if "wavelength" in line.lower():
                     match = re.search(r"(\d+)\s*nm", line, re.IGNORECASE)
                     if match:
@@ -166,7 +166,7 @@ class PlateReaderImporter(BaseImporter[dict[str, Any]]):
             # Parse plate data
             reader = csv.reader(lines[data_start_idx:], delimiter=",")
 
-            for row_idx, row in enumerate(reader):
+            for _row_idx, row in enumerate(reader):
                 if len(row) < 2:
                     continue
 

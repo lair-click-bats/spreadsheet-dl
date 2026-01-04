@@ -30,19 +30,19 @@ from spreadsheet_dl.domains.education.formulas.statistics import (
 )
 
 __all__ = [
-    # Grades
-    "GradeAverageFormula",
-    "GradeCurveFormula",
-    "WeightedGradeFormula",
-    # Statistics
-    "CorrelationFormula",
-    "PercentileRankFormula",
-    "StandardDeviationFormula",
     # Learning
     "AttendanceRateFormula",
     "BloomTaxonomyLevelFormula",
     "CompletionRateFormula",
+    # Statistics
+    "CorrelationFormula",
+    # Grades
+    "GradeAverageFormula",
+    "GradeCurveFormula",
     "LearningGainFormula",
     "MasteryLevelFormula",
+    "PercentileRankFormula",
     "ReadabilityScoreFormula",
+    "StandardDeviationFormula",
+    "WeightedGradeFormula",
 ]

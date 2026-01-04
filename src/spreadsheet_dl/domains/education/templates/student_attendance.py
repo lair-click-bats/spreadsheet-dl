@@ -162,24 +162,19 @@ class StudentAttendanceTemplate(BaseTemplate):
             day_range = f"{first_day_col}{row_num}:{last_day_col}{row_num}"
 
             # Present count
-            builder.cell(
-                f'=COUNTIF({day_range};"P")+COUNTIF({day_range};"p")'
-            )
+            builder.cell(f'=COUNTIF({day_range};"P")+COUNTIF({day_range};"p")')
 
             # Absent count
-            builder.cell(
-                f'=COUNTIF({day_range};"A")+COUNTIF({day_range};"a")'
-            )
+            builder.cell(f'=COUNTIF({day_range};"A")+COUNTIF({day_range};"a")')
 
             # Tardy count
-            builder.cell(
-                f'=COUNTIF({day_range};"T")+COUNTIF({day_range};"t")'
-            )
+            builder.cell(f'=COUNTIF({day_range};"T")+COUNTIF({day_range};"t")')
 
             # Attendance rate
             present_col = chr(ord("C") + self.num_days)
             builder.cell(
-                f"=IF(COUNTA({day_range})=0;0;{present_col}{row_num}/COUNTA({day_range})*100)")
+                f"=IF(COUNTA({day_range})=0;0;{present_col}{row_num}/COUNTA({day_range})*100)"
+            )
 
         # Summary section
         builder.row()  # Blank row
@@ -195,7 +190,8 @@ class StudentAttendanceTemplate(BaseTemplate):
         for i in range(self.num_days):
             col = chr(ord("C") + i)
             builder.cell(
-                f'=COUNTIF({col}4:{col}{3 + self.num_students};"P")+COUNTIF({col}4:{col}{3 + self.num_students};"p")')
+                f'=COUNTIF({col}4:{col}{3 + self.num_students};"P")+COUNTIF({col}4:{col}{3 + self.num_students};"p")'
+            )
 
         builder.row()
         builder.cell("Absent:", style="label")
@@ -204,7 +200,8 @@ class StudentAttendanceTemplate(BaseTemplate):
         for i in range(self.num_days):
             col = chr(ord("C") + i)
             builder.cell(
-                f'=COUNTIF({col}4:{col}{3 + self.num_students};"A")+COUNTIF({col}4:{col}{3 + self.num_students};"a")')
+                f'=COUNTIF({col}4:{col}{3 + self.num_students};"A")+COUNTIF({col}4:{col}{3 + self.num_students};"a")'
+            )
 
         builder.row()
         builder.cell("Rate %:", style="label")
@@ -215,7 +212,8 @@ class StudentAttendanceTemplate(BaseTemplate):
             present_row = 5 + self.num_students
             total_students = self.num_students
             builder.cell(
-                f"=IF(COUNTA({col}4:{col}{3 + self.num_students})=0;0;{col}{present_row}/{total_students}*100)")
+                f"=IF(COUNTA({col}4:{col}{3 + self.num_students})=0;0;{col}{present_row}/{total_students}*100)"
+            )
 
         return builder
 

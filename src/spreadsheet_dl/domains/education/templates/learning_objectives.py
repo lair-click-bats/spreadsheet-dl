@@ -143,14 +143,6 @@ class LearningObjectivesTemplate(BaseTemplate):
         builder.cell("Status")
 
         # Bloom's taxonomy reference
-        bloom_levels = {
-            1: "Remember",
-            2: "Understand",
-            3: "Apply",
-            4: "Analyze",
-            5: "Evaluate",
-            6: "Create",
-        }
 
         # Default objectives
         default_objectives = self.objectives or [
@@ -198,11 +190,10 @@ class LearningObjectivesTemplate(BaseTemplate):
         builder.cell(f"={self.num_objectives}")
         builder.cell("Covered:", style="label")
         builder.cell(
-            f'=COUNTIF(G5:G{4 + self.num_objectives};"Covered")+COUNTIF(G5:G{4 + self.num_objectives};"Assessed")')
-        builder.cell("Remaining:", style="label")
-        builder.cell(
-            f"=B{5 + self.num_objectives + 1}-D{5 + self.num_objectives + 1}"
+            f'=COUNTIF(G5:G{4 + self.num_objectives};"Covered")+COUNTIF(G5:G{4 + self.num_objectives};"Assessed")'
         )
+        builder.cell("Remaining:", style="label")
+        builder.cell(f"=B{5 + self.num_objectives + 1}-D{5 + self.num_objectives + 1}")
         builder.cell("")
 
         builder.row()  # Blank row

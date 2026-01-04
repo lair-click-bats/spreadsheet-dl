@@ -36,21 +36,21 @@ from spreadsheet_dl.domains.data_science.formulas.statistical import (
 )
 
 __all__ = [
-    # Statistical
-    "ChiSquareTestFormula",
-    "FTestFormula",
-    "TTestFormula",
-    "ZTestFormula",
     # ML Metrics
     "AccuracyFormula",
-    "ConfusionMatrixMetricFormula",
-    "F1ScoreFormula",
-    "PrecisionFormula",
-    "RecallFormula",
     # Data Functions
     "AverageFormula",
+    # Statistical
+    "ChiSquareTestFormula",
+    "ConfusionMatrixMetricFormula",
     "CorrelationFormula",
+    "F1ScoreFormula",
+    "FTestFormula",
     "MedianFormula",
+    "PrecisionFormula",
+    "RecallFormula",
     "StdevFormula",
+    "TTestFormula",
     "VarianceFormula",
+    "ZTestFormula",
 ]

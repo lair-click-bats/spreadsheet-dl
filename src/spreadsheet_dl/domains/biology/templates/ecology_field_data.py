@@ -34,14 +34,15 @@ class EcologyFieldDataTemplate(BaseTemplate):
 
     Example:
         >>> template = EcologyFieldDataTemplate(
-        ...     survey_name="Forest Biodiversity Study",
-        ...     location="Oak Ridge Trail",
+        ...     site_name="Forest Biodiversity Study",
+        ...     num_species=50,
         ... )
         >>> builder = template.generate()
         >>> builder.save("field_data.ods")
     """
 
-    survey_name: str = "Ecological Survey"
+    site_name: str = "Ecological Survey Site"
+    num_species: int = 20
     location: str = ""
     date: str = ""
     observers: str = ""
@@ -82,10 +83,10 @@ class EcologyFieldDataTemplate(BaseTemplate):
         builder = SpreadsheetBuilder(theme=self.theme)
 
         builder.workbook_properties(
-            title=f"Field Data - {self.survey_name}",
+            title=f"Field Data - {self.site_name}",
             author=self.observers or "Field Team",
             subject="Ecological Survey",
-            description=f"Field observations for {self.survey_name}",
+            description=f"Field observations for {self.site_name}",
             keywords=["ecology", "field-data", "biodiversity"],
         )
 
@@ -99,8 +100,8 @@ class EcologyFieldDataTemplate(BaseTemplate):
         builder.cell("SURVEY INFORMATION", colspan=2)
 
         builder.row()
-        builder.cell("Survey Name:")
-        builder.cell(self.survey_name)
+        builder.cell("Site Name:")
+        builder.cell(self.site_name)
 
         builder.row()
         builder.cell("Location:")

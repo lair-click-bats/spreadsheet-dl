@@ -7,7 +7,7 @@ Implements:
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from spreadsheet_dl.domains.base import BaseTemplate, TemplateMetadata
@@ -42,7 +42,7 @@ class OEETrackingTemplate(BaseTemplate):
     """
 
     equipment_name: str = "Equipment"
-    shifts: list[str] = field(default_factory=lambda: ["Shift A", "Shift B"])
+    num_shifts: int = 2
     theme: str = "default"
 
     @property

@@ -44,7 +44,7 @@ class LessonPlanTemplate(BaseTemplate):
     lesson_title: str = "Lesson Plan"
     subject: str = ""
     grade_level: str = ""
-    duration: str = "50 minutes"
+    duration_minutes: int = 50
     date: str = ""
     teacher: str = ""
     objectives: list[str] = field(default_factory=list)
@@ -138,7 +138,7 @@ class LessonPlanTemplate(BaseTemplate):
         builder.cell("Grade Level:", style="label")
         builder.cell(self.grade_level or "[Enter Grade Level]")
         builder.cell("Duration:", style="label")
-        builder.cell(self.duration)
+        builder.cell(f"{self.duration_minutes} minutes")
 
         builder.row()
         builder.cell("Teacher:", style="label")

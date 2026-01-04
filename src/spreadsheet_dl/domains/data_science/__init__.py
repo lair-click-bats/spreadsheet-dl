@@ -81,35 +81,35 @@ from spreadsheet_dl.domains.data_science.utils import (
 )
 
 __all__ = [
-    # Plugin
-    "DataScienceDomainPlugin",
     # Templates
     "ABTestResultsTemplate",
-    "AnalysisReportTemplate",
-    "DatasetCatalogTemplate",
-    "ExperimentLogTemplate",
-    "ModelComparisonTemplate",
-    # Formulas - Statistical
-    "ChiSquareTestFormula",
-    "FTestFormula",
-    "TTestFormula",
-    "ZTestFormula",
     # Formulas - ML Metrics
     "AccuracyFormula",
-    "ConfusionMatrixMetricFormula",
-    "F1ScoreFormula",
-    "PrecisionFormula",
-    "RecallFormula",
+    "AnalysisReportTemplate",
     # Formulas - Data Functions
     "AverageFormula",
+    # Formulas - Statistical
+    "ChiSquareTestFormula",
+    "ConfusionMatrixMetricFormula",
     "CorrelationFormula",
-    "MedianFormula",
-    "StdevFormula",
-    "VarianceFormula",
+    # Plugin
+    "DataScienceDomainPlugin",
+    "DatasetCatalogTemplate",
+    "ExperimentLogTemplate",
+    "F1ScoreFormula",
+    "FTestFormula",
     # Importers
     "JupyterMetadataImporter",
     "MLflowImporter",
+    "MedianFormula",
+    "ModelComparisonTemplate",
+    "PrecisionFormula",
+    "RecallFormula",
     "ScientificCSVImporter",
+    "StdevFormula",
+    "TTestFormula",
+    "VarianceFormula",
+    "ZTestFormula",
     # Utils
     "calculate_confusion_matrix_metrics",
     "format_scientific_notation",

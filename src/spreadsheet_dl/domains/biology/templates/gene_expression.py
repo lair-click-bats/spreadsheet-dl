@@ -7,7 +7,7 @@ Implements:
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from spreadsheet_dl.domains.base import BaseTemplate, TemplateMetadata
@@ -34,15 +34,15 @@ class GeneExpressionTemplate(BaseTemplate):
 
     Example:
         >>> template = GeneExpressionTemplate(
-        ...     target_genes=["GAPDH", "ACTB"],
-        ...     reference_gene="18S",
+        ...     experiment_name="Stress Response",
+        ...     num_genes=20,
         ... )
         >>> builder = template.generate()
         >>> builder.save("gene_expression.ods")
     """
 
     experiment_name: str = "Gene Expression Analysis"
-    target_genes: list[str] = field(default_factory=lambda: ["Gene1", "Gene2"])
+    num_genes: int = 10
     reference_gene: str = "GAPDH"
     control_sample: str = "Control"
     theme: str = "default"
@@ -66,6 +66,15 @@ class GeneExpressionTemplate(BaseTemplate):
             version="1.0.0",
             author="SpreadsheetDL Team",
         )
+
+    def validate(self) -> bool:
+        """
+        Validate template parameters.
+
+        Returns:
+            True if parameters are valid, False otherwise
+        """
+        return self.num_genes > 0
 
     def generate(self) -> SpreadsheetBuilder:
         """
@@ -129,7 +138,8 @@ class GeneExpressionTemplate(BaseTemplate):
                     builder.cell("")
 
             # Target genes
-            for gene in self.target_genes:
+            for gene_idx in range(self.num_genes):
+                gene = f"Gene{gene_idx + 1}"
                 for rep in range(1, 4):
                     builder.row()
                     builder.cell(sample)
@@ -170,7 +180,8 @@ class GeneExpressionTemplate(BaseTemplate):
 
         # Add analysis rows for each sample and gene
         for idx, sample in enumerate(samples, start=2):
-            for gene in self.target_genes:
+            for gene_idx in range(self.num_genes):
+                gene = f"Gene{gene_idx + 1}"
                 builder.row()
                 builder.cell(sample)
                 builder.cell(gene)
@@ -204,7 +215,8 @@ class GeneExpressionTemplate(BaseTemplate):
         builder.cell("Significance")
 
         # Add summary rows
-        for gene in self.target_genes:
+        for gene_idx in range(self.num_genes):
+            gene = f"Gene{gene_idx + 1}"
             for sample in samples[1:]:  # Exclude control
                 builder.row()
                 builder.cell(gene)

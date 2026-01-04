@@ -179,9 +179,7 @@ class WaterQualityAnalysisTemplate(BaseTemplate):
         builder.row()
         builder.cell("Average", colspan=2, style="label")
         for col in ["C", "D", "E", "F", "G", "H", "I"]:
-            builder.cell(
-                f"=AVERAGE({col}3:{col}{2 + self.num_samples})"
-            )
+            builder.cell(f"=AVERAGE({col}3:{col}{2 + self.num_samples})")
         builder.cell("")
 
         if self.include_standards:

@@ -33,14 +33,14 @@ class AssessmentRubricTemplate(BaseTemplate):
 
     Example:
         >>> template = AssessmentRubricTemplate(
-        ...     assessment_name="Research Paper Rubric",
+        ...     assignment_name="Research Paper Rubric",
         ...     num_criteria=5,
         ... )
         >>> builder = template.generate()
         >>> builder.save("rubric.ods")
     """
 
-    assessment_name: str = "Assessment Rubric"
+    assignment_name: str = "Assessment Rubric"
     subject: str = ""
     grade_level: str = ""
     num_criteria: int = 5
@@ -98,11 +98,11 @@ class AssessmentRubricTemplate(BaseTemplate):
 
         # Set workbook properties
         builder.workbook_properties(
-            title=f"Rubric - {self.assessment_name}",
+            title=f"Rubric - {self.assignment_name}",
             author="Instructor",
             subject="Assessment Rubric",
-            description=f"Scoring rubric for {self.assessment_name}",
-            keywords=["rubric", "assessment", "grading", self.assessment_name],
+            description=f"Scoring rubric for {self.assignment_name}",
+            keywords=["rubric", "assessment", "grading", self.assignment_name],
         )
 
         # Create rubric sheet
@@ -133,7 +133,7 @@ class AssessmentRubricTemplate(BaseTemplate):
 
         # Header
         builder.row(style="header_primary")
-        builder.cell(f"RUBRIC: {self.assessment_name}", colspan=self.num_levels + 3)
+        builder.cell(f"RUBRIC: {self.assignment_name}", colspan=self.num_levels + 3)
 
         # Subheader with assessment info
         builder.row()
@@ -203,9 +203,7 @@ class AssessmentRubricTemplate(BaseTemplate):
 
         # Total score formula
         score_col = chr(ord("B") + self.num_levels + 1)  # Score column
-        builder.cell(
-            f"=SUM({score_col}5:{score_col}{4 + self.num_criteria})"
-        )
+        builder.cell(f"=SUM({score_col}5:{score_col}{4 + self.num_criteria})")
 
         builder.row()  # Blank row
 
@@ -224,7 +222,8 @@ class AssessmentRubricTemplate(BaseTemplate):
             builder.cell("")
         pct_row = total_row + 2
         builder.cell(
-            f'=IF({score_col}{pct_row}>=90;"A";IF({score_col}{pct_row}>=80;"B";IF({score_col}{pct_row}>=70;"C";IF({score_col}{pct_row}>=60;"D";"F"))))')
+            f'=IF({score_col}{pct_row}>=90;"A";IF({score_col}{pct_row}>=80;"B";IF({score_col}{pct_row}>=70;"C";IF({score_col}{pct_row}>=60;"D";"F"))))'
+        )
 
         builder.row()  # Blank row
 

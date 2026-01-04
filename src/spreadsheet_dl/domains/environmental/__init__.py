@@ -29,26 +29,11 @@ Example:
 """
 
 # Plugin
-from spreadsheet_dl.domains.environmental.plugin import EnvironmentalDomainPlugin
-
 # Formulas - Air Quality
 from spreadsheet_dl.domains.environmental.formulas.air_quality import (
     AQICalculationFormula,
     EmissionRateFormula,
     PollutionIndexFormula,
-)
-
-# Formulas - Water Quality
-from spreadsheet_dl.domains.environmental.formulas.water_quality import (
-    BODCalculationFormula,
-    WaterQualityIndexFormula,
-)
-
-# Formulas - Ecology
-from spreadsheet_dl.domains.environmental.formulas.ecology import (
-    ShannonDiversityFormula,
-    SimpsonIndexFormula,
-    SpeciesRichnessFormula,
 )
 
 # Formulas - Carbon
@@ -59,12 +44,26 @@ from spreadsheet_dl.domains.environmental.formulas.carbon import (
     SustainabilityScoreFormula,
 )
 
+# Formulas - Ecology
+from spreadsheet_dl.domains.environmental.formulas.ecology import (
+    ShannonDiversityFormula,
+    SimpsonIndexFormula,
+    SpeciesRichnessFormula,
+)
+
+# Formulas - Water Quality
+from spreadsheet_dl.domains.environmental.formulas.water_quality import (
+    BODCalculationFormula,
+    WaterQualityIndexFormula,
+)
+
 # Importers
 from spreadsheet_dl.domains.environmental.importers import (
     LabResultsImporter,
     SatelliteDataImporter,
     SensorNetworkImporter,
 )
+from spreadsheet_dl.domains.environmental.plugin import EnvironmentalDomainPlugin
 
 # Templates
 from spreadsheet_dl.domains.environmental.templates import (
@@ -90,34 +89,34 @@ from spreadsheet_dl.domains.environmental.utils import (
 )
 
 __all__ = [
-    # Plugin
-    "EnvironmentalDomainPlugin",
-    # Templates
-    "AirQualityMonitoringTemplate",
-    "BiodiversityAssessmentTemplate",
-    "CarbonFootprintTemplate",
-    "EnvironmentalImpactTemplate",
-    "WaterQualityAnalysisTemplate",
     # Formulas - Air Quality
     "AQICalculationFormula",
-    "EmissionRateFormula",
-    "PollutionIndexFormula",
+    # Templates
+    "AirQualityMonitoringTemplate",
     # Formulas - Water Quality
     "BODCalculationFormula",
-    "WaterQualityIndexFormula",
+    "BiodiversityAssessmentTemplate",
+    # Formulas - Carbon
+    "CarbonEquivalentFormula",
+    "CarbonFootprintTemplate",
+    "EcologicalFootprintFormula",
+    "EmissionRateFormula",
+    # Plugin
+    "EnvironmentalDomainPlugin",
+    "EnvironmentalImpactScoreFormula",
+    "EnvironmentalImpactTemplate",
+    # Importers
+    "LabResultsImporter",
+    "PollutionIndexFormula",
+    "SatelliteDataImporter",
+    "SensorNetworkImporter",
     # Formulas - Ecology
     "ShannonDiversityFormula",
     "SimpsonIndexFormula",
     "SpeciesRichnessFormula",
-    # Formulas - Carbon
-    "CarbonEquivalentFormula",
-    "EcologicalFootprintFormula",
-    "EnvironmentalImpactScoreFormula",
     "SustainabilityScoreFormula",
-    # Importers
-    "LabResultsImporter",
-    "SatelliteDataImporter",
-    "SensorNetworkImporter",
+    "WaterQualityAnalysisTemplate",
+    "WaterQualityIndexFormula",
     # Utils
     "calculate_aqi",
     "calculate_bod",

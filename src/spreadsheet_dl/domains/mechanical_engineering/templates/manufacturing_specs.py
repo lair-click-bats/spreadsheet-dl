@@ -124,7 +124,7 @@ class ManufacturingSpecsTemplate(BaseTemplate):
         builder.cell("Notes")
 
         # Feature specification rows
-        for i in range(self.num_features):
+        for _i in range(self.num_features):
             builder.row()
             builder.cell("", style="input")  # Feature
             builder.cell("", style="input")  # Dimension type (OD, ID, Length, etc.)

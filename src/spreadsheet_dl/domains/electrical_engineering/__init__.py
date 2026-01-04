@@ -87,32 +87,32 @@ from spreadsheet_dl.domains.electrical_engineering.templates.test_procedure impo
 )
 
 __all__ = [
-    # Plugin
-    "ElectricalEngineeringDomainPlugin",
     # Templates
     "BOMTemplate",
-    "PinMappingTemplate",
-    "PowerBudgetTemplate",
-    "SignalRoutingTemplate",
-    "TestProcedureTemplate",
-    # Power Formulas
-    "PowerDissipationFormula",
-    "VoltageDropFormula",
-    "CurrentCalcFormula",
-    "ThermalResistanceFormula",
-    # Impedance Formulas
-    "ParallelResistanceFormula",
-    "SeriesResistanceFormula",
-    "CapacitanceFormula",
-    "InductanceFormula",
-    # Signal Formulas
-    "SignalToNoiseRatioFormula",
     "BandwidthFormula",
-    "RiseTimeFormula",
-    "PropagationDelayFormula",
+    "CapacitanceFormula",
+    "CurrentCalcFormula",
+    "EagleBOMImporter",
+    # Plugin
+    "ElectricalEngineeringDomainPlugin",
+    "GenericComponentCSVImporter",
+    "InductanceFormula",
     # Importers
     "KiCadBOMImporter",
     "KiCadComponent",
-    "EagleBOMImporter",
-    "GenericComponentCSVImporter",
+    # Impedance Formulas
+    "ParallelResistanceFormula",
+    "PinMappingTemplate",
+    "PowerBudgetTemplate",
+    # Power Formulas
+    "PowerDissipationFormula",
+    "PropagationDelayFormula",
+    "RiseTimeFormula",
+    "SeriesResistanceFormula",
+    "SignalRoutingTemplate",
+    # Signal Formulas
+    "SignalToNoiseRatioFormula",
+    "TestProcedureTemplate",
+    "ThermalResistanceFormula",
+    "VoltageDropFormula",
 ]

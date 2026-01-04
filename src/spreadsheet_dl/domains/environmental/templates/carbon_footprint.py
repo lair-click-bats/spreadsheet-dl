@@ -40,8 +40,8 @@ class CarbonFootprintTemplate(BaseTemplate):
         >>> builder.save("carbon_footprint.ods")
     """
 
-    organization: str = "Organization"
-    reporting_year: str = "2024"
+    organization_name: str = "Organization"
+    reporting_year: int = 2024
     include_offsets: bool = True
     theme: str = "default"
 
@@ -59,7 +59,7 @@ class CarbonFootprintTemplate(BaseTemplate):
 
     def validate(self) -> bool:
         """Validate template parameters."""
-        return len(self.organization) > 0
+        return len(self.organization_name) > 0
 
     def generate(self) -> SpreadsheetBuilder:
         """Generate the carbon footprint spreadsheet."""
@@ -68,10 +68,10 @@ class CarbonFootprintTemplate(BaseTemplate):
         builder = SpreadsheetBuilder(theme=self.theme)
 
         builder.workbook_properties(
-            title=f"Carbon Footprint - {self.organization}",
+            title=f"Carbon Footprint - {self.organization_name}",
             author="Sustainability Team",
             subject="Carbon Emissions",
-            description=f"Carbon footprint for {self.organization}",
+            description=f"Carbon footprint for {self.organization_name}",
             keywords=["carbon", "emissions", "sustainability"],
         )
 
@@ -89,7 +89,8 @@ class CarbonFootprintTemplate(BaseTemplate):
 
         builder.row(style="header_primary")
         builder.cell(
-            f"CARBON FOOTPRINT: {self.organization} ({self.reporting_year})", colspan=6
+            f"CARBON FOOTPRINT: {self.organization_name} ({self.reporting_year})",
+            colspan=6,
         )
 
         builder.row(style="header_secondary")

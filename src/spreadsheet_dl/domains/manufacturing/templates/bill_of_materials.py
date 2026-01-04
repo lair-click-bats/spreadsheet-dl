@@ -44,6 +44,7 @@ class BillOfMaterialsTemplate(BaseTemplate):
     """
 
     product_name: str = "Product"
+    num_components: int = 10
     include_cost_rollup: bool = True
     theme: str = "default"
 

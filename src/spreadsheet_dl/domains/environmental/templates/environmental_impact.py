@@ -42,7 +42,7 @@ class EnvironmentalImpactTemplate(BaseTemplate):
 
     project_name: str = "Environmental Impact Assessment"
     project_phase: str = "Construction"
-    num_impacts: int = 20
+    num_impact_factors: int = 20
     include_mitigation: bool = True
     theme: str = "default"
 
@@ -60,7 +60,7 @@ class EnvironmentalImpactTemplate(BaseTemplate):
 
     def validate(self) -> bool:
         """Validate template parameters."""
-        return self.num_impacts > 0
+        return self.num_impact_factors > 0
 
     def generate(self) -> SpreadsheetBuilder:
         """Generate the environmental impact assessment spreadsheet."""
@@ -108,7 +108,7 @@ class EnvironmentalImpactTemplate(BaseTemplate):
         builder.cell("Rating")
 
         # Impact rows
-        for i in range(1, self.num_impacts + 1):
+        for i in range(1, self.num_impact_factors + 1):
             row_num = i + 2
             builder.row()
             builder.cell(f"IMP-{i:03d}")
@@ -140,11 +140,11 @@ class EnvironmentalImpactTemplate(BaseTemplate):
         builder.row(style="header_secondary")
         builder.cell("SUMMARY", colspan=10)
 
-        summary_start = 3 + self.num_impacts + 2
+        3 + self.num_impact_factors + 2
 
         builder.row()
         builder.cell("Total Impacts Identified", colspan=4, style="label")
-        builder.cell(f"=COUNTA(B3:B{2 + self.num_impacts})")
+        builder.cell(f"=COUNTA(B3:B{2 + self.num_impact_factors})")
         builder.cell("")
         builder.cell("")
         builder.cell("")
@@ -153,7 +153,7 @@ class EnvironmentalImpactTemplate(BaseTemplate):
 
         builder.row()
         builder.cell("Critical Impacts", colspan=4, style="label")
-        builder.cell(f'=COUNTIF(J3:J{2 + self.num_impacts};"Critical")')
+        builder.cell(f'=COUNTIF(J3:J{2 + self.num_impact_factors};"Critical")')
         builder.cell("")
         builder.cell("")
         builder.cell("")
@@ -162,7 +162,7 @@ class EnvironmentalImpactTemplate(BaseTemplate):
 
         builder.row()
         builder.cell("Major Impacts", colspan=4, style="label")
-        builder.cell(f'=COUNTIF(J3:J{2 + self.num_impacts};"Major")')
+        builder.cell(f'=COUNTIF(J3:J{2 + self.num_impact_factors};"Major")')
         builder.cell("")
         builder.cell("")
         builder.cell("")
@@ -171,7 +171,7 @@ class EnvironmentalImpactTemplate(BaseTemplate):
 
         builder.row()
         builder.cell("Average Significance Score", colspan=4, style="label")
-        builder.cell(f"=AVERAGE(I3:I{2 + self.num_impacts})")
+        builder.cell(f"=AVERAGE(I3:I{2 + self.num_impact_factors})")
         builder.cell("")
         builder.cell("")
         builder.cell("")
@@ -201,7 +201,7 @@ class EnvironmentalImpactTemplate(BaseTemplate):
             builder.cell("Status")
 
             # Placeholder rows
-            for i in range(1, min(self.num_impacts + 1, 21)):
+            for i in range(1, min(self.num_impact_factors + 1, 21)):
                 builder.row()
                 builder.cell(f"IMP-{i:03d}")
                 builder.cell("")

@@ -28,20 +28,11 @@ Example:
 """
 
 # Plugin
-from spreadsheet_dl.domains.education.plugin import EducationDomainPlugin
-
 # Formulas - Grade Calculations
 from spreadsheet_dl.domains.education.formulas.grades import (
     GradeAverageFormula,
     GradeCurveFormula,
     WeightedGradeFormula,
-)
-
-# Formulas - Statistics
-from spreadsheet_dl.domains.education.formulas.statistics import (
-    CorrelationFormula,
-    PercentileRankFormula,
-    StandardDeviationFormula,
 )
 
 # Formulas - Learning Metrics
@@ -54,12 +45,20 @@ from spreadsheet_dl.domains.education.formulas.learning import (
     ReadabilityScoreFormula,
 )
 
+# Formulas - Statistics
+from spreadsheet_dl.domains.education.formulas.statistics import (
+    CorrelationFormula,
+    PercentileRankFormula,
+    StandardDeviationFormula,
+)
+
 # Importers
 from spreadsheet_dl.domains.education.importers import (
     AssessmentResultsImporter,
     GradebookExportImporter,
     LMSDataImporter,
 )
+from spreadsheet_dl.domains.education.plugin import EducationDomainPlugin
 
 # Templates
 from spreadsheet_dl.domains.education.templates import (
@@ -83,33 +82,33 @@ from spreadsheet_dl.domains.education.utils import (
 )
 
 __all__ = [
-    # Plugin
-    "EducationDomainPlugin",
+    # Importers
+    "AssessmentResultsImporter",
     # Templates
     "AssessmentRubricTemplate",
-    "CourseGradebookTemplate",
-    "LearningObjectivesTemplate",
-    "LessonPlanTemplate",
-    "StudentAttendanceTemplate",
-    # Formulas - Grades
-    "GradeAverageFormula",
-    "GradeCurveFormula",
-    "WeightedGradeFormula",
-    # Formulas - Statistics
-    "CorrelationFormula",
-    "PercentileRankFormula",
-    "StandardDeviationFormula",
     # Formulas - Learning
     "AttendanceRateFormula",
     "BloomTaxonomyLevelFormula",
     "CompletionRateFormula",
-    "LearningGainFormula",
-    "MasteryLevelFormula",
-    "ReadabilityScoreFormula",
-    # Importers
-    "AssessmentResultsImporter",
+    # Formulas - Statistics
+    "CorrelationFormula",
+    "CourseGradebookTemplate",
+    # Plugin
+    "EducationDomainPlugin",
+    # Formulas - Grades
+    "GradeAverageFormula",
+    "GradeCurveFormula",
     "GradebookExportImporter",
     "LMSDataImporter",
+    "LearningGainFormula",
+    "LearningObjectivesTemplate",
+    "LessonPlanTemplate",
+    "MasteryLevelFormula",
+    "PercentileRankFormula",
+    "ReadabilityScoreFormula",
+    "StandardDeviationFormula",
+    "StudentAttendanceTemplate",
+    "WeightedGradeFormula",
     # Utils
     "calculate_attendance_rate",
     "calculate_gpa",

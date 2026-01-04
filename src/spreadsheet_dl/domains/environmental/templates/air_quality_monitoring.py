@@ -174,9 +174,7 @@ class AirQualityMonitoringTemplate(BaseTemplate):
         builder.row()
         builder.cell("Average", style="label")
         for col in ["B", "C", "D", "E", "F", "G", "H"]:
-            builder.cell(
-                f"=AVERAGE({col}3:{col}{2 + self.num_readings})"
-            )
+            builder.cell(f"=AVERAGE({col}3:{col}{2 + self.num_readings})")
         builder.cell("")
 
         # Maximum row

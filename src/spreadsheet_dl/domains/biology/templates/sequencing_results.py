@@ -42,6 +42,7 @@ class SequencingResultsTemplate(BaseTemplate):
     """
 
     project_name: str = "Sequencing Project"
+    num_samples: int = 10
     sequencing_type: str = "Illumina"  # Illumina, Nanopore, PacBio, etc.
     analysis_date: str = ""
     theme: str = "default"

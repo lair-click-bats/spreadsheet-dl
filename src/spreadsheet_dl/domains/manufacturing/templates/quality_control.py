@@ -41,7 +41,8 @@ class QualityControlTemplate(BaseTemplate):
         >>> builder.save("quality_control.ods")
     """
 
-    product_line: str = "Product Line"
+    product_name: str = "Product"
+    num_measurements: int = 20
     spec_limits: tuple[float, float] = (90.0, 110.0)  # (LSL, USL)
     include_spc: bool = True
     theme: str = "default"
@@ -66,6 +67,22 @@ class QualityControlTemplate(BaseTemplate):
             author="SpreadsheetDL Team",
         )
 
+    def validate(self) -> bool:
+        """
+        Validate template configuration.
+
+        Returns:
+            True if configuration is valid
+
+        Implements:
+            TASK-C005: Template validation
+        """
+        if self.num_measurements <= 0:
+            return False
+        if self.spec_limits[0] >= self.spec_limits[1]:
+            return False
+        return True
+
     def generate(self) -> SpreadsheetBuilder:
         """
         Generate the quality control spreadsheet.
@@ -82,11 +99,11 @@ class QualityControlTemplate(BaseTemplate):
 
         # Set workbook properties
         builder.workbook_properties(
-            title=f"Quality Control - {self.product_line}",
+            title=f"Quality Control - {self.product_name}",
             author="Quality Assurance",
             subject="Quality Control",
-            description=f"Quality control and SPC for {self.product_line}",
-            keywords=["quality", "spc", "control", self.product_line],
+            description=f"Quality control and SPC for {self.product_name}",
+            keywords=["quality", "spc", "control", self.product_name],
         )
 
         # Create inspection data sheet

@@ -341,8 +341,8 @@ class PopulationGrowthFormula(BaseFormula):
 
 
 __all__ = [
+    "PopulationGrowthFormula",
     "ShannonDiversityFormula",
     "SimpsonIndexFormula",
     "SpeciesRichnessFormula",
-    "PopulationGrowthFormula",
 ]

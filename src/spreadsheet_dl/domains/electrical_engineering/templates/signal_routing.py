@@ -126,7 +126,7 @@ class SignalRoutingTemplate(BaseTemplate):
             builder.cell("", style="input")  # Notes
 
         # Summary section
-        summary_row = self.num_signals + 4
+        self.num_signals + 4
         builder.row()  # Blank row
 
         builder.row(style="section_header")

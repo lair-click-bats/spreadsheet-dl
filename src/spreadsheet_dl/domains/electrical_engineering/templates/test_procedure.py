@@ -113,7 +113,7 @@ class TestProcedureTemplate(BaseTemplate):
 
         # Test step rows
         for i in range(self.num_test_steps):
-            row_num = i + 3
+            i + 3
             builder.row()
             builder.cell(f"STEP-{i + 1:03d}")  # Auto-numbered step
             builder.cell("", style="input")  # Description
@@ -127,7 +127,7 @@ class TestProcedureTemplate(BaseTemplate):
             builder.cell("", style="input")  # Notes
 
         # Summary section
-        summary_start = self.num_test_steps + 4
+        self.num_test_steps + 4
         builder.row()  # Blank row
 
         builder.row(style="section_header")

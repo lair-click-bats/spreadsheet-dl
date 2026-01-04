@@ -30,19 +30,19 @@ from spreadsheet_dl.domains.electrical_engineering.formulas.signal import (
 )
 
 __all__ = [
-    # Power formulas
-    "PowerDissipationFormula",
-    "VoltageDropFormula",
+    "BandwidthFormula",
+    "CapacitanceFormula",
     "CurrentCalcFormula",
-    "ThermalResistanceFormula",
+    "InductanceFormula",
     # Impedance formulas
     "ParallelResistanceFormula",
+    # Power formulas
+    "PowerDissipationFormula",
+    "PropagationDelayFormula",
+    "RiseTimeFormula",
     "SeriesResistanceFormula",
-    "CapacitanceFormula",
-    "InductanceFormula",
     # Signal formulas
     "SignalToNoiseRatioFormula",
-    "BandwidthFormula",
-    "RiseTimeFormula",
-    "PropagationDelayFormula",
+    "ThermalResistanceFormula",
+    "VoltageDropFormula",
 ]

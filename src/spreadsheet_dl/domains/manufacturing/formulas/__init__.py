@@ -27,17 +27,17 @@ from spreadsheet_dl.domains.manufacturing.formulas.quality import (
 __all__ = [
     # Production formulas
     "CapacityUtilizationFormula",
-    "CycleTimeFormula",
-    "TaktTimeFormula",
-    "ThroughputFormula",
     # Quality formulas
     "ControlLimitsFormula",
+    "CycleTimeFormula",
     "DefectRateFormula",
-    "FirstPassYieldFormula",
-    "ProcessCapabilityFormula",
     # Inventory formulas
     "EOQFormula",
+    "FirstPassYieldFormula",
     "InventoryTurnoverFormula",
+    "ProcessCapabilityFormula",
     "ReorderPointFormula",
     "SafetyStockFormula",
+    "TaktTimeFormula",
+    "ThroughputFormula",
 ]

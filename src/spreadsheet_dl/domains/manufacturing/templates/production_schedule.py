@@ -7,7 +7,7 @@ Implements:
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from spreadsheet_dl.domains.base import BaseTemplate, TemplateMetadata
@@ -42,11 +42,14 @@ class ProductionScheduleTemplate(BaseTemplate):
     """
 
     facility_name: str = "Production Facility"
-    planning_periods: list[str] = field(
-        default_factory=lambda: ["Week 1", "Week 2", "Week 3", "Week 4"]
-    )
+    num_products: int = 10
     include_capacity_analysis: bool = True
     theme: str = "default"
+
+    @property
+    def planning_periods(self) -> list[str]:
+        """Generate default planning periods."""
+        return ["Week 1", "Week 2", "Week 3", "Week 4"]
 
     @property
     def metadata(self) -> TemplateMetadata:
@@ -67,6 +70,10 @@ class ProductionScheduleTemplate(BaseTemplate):
             version="1.0.0",
             author="SpreadsheetDL Team",
         )
+
+    def validate(self) -> bool:
+        """Validate template parameters."""
+        return self.num_products > 0
 
     def generate(self) -> SpreadsheetBuilder:
         """

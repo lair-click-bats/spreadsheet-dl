@@ -360,7 +360,7 @@ class DilutionFactorFormula(BaseFormula):
 
 __all__ = [
     "BradfordAssayFormula",
+    "DilutionFactorFormula",
     "EnzymeActivityFormula",
     "MichaelisMentenFormula",
-    "DilutionFactorFormula",
 ]

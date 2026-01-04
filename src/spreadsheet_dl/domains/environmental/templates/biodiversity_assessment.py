@@ -112,7 +112,8 @@ class BiodiversityAssessmentTemplate(BaseTemplate):
 
             # Proportion formula
             builder.cell(
-                f"=IF(SUM(D$3:D${2 + self.num_species})=0;0;D{row_num}/SUM(D$3:D${2 + self.num_species}))")
+                f"=IF(SUM(D$3:D${2 + self.num_species})=0;0;D{row_num}/SUM(D$3:D${2 + self.num_species}))"
+            )
 
             builder.cell("")  # Status
 
@@ -139,7 +140,8 @@ class BiodiversityAssessmentTemplate(BaseTemplate):
         builder.cell("Shannon Index (H')", colspan=3, style="label")
         # Shannon: H' = -SUM(pi * ln(pi))
         builder.cell(
-            f"=-SUMPRODUCT(IF(E3:E{2 + self.num_species}>0;E3:E{2 + self.num_species}*LN(E3:E{2 + self.num_species});0))")
+            f"=-SUMPRODUCT(IF(E3:E{2 + self.num_species}>0;E3:E{2 + self.num_species}*LN(E3:E{2 + self.num_species});0))"
+        )
         builder.cell("")
         builder.cell("")
 
@@ -147,7 +149,8 @@ class BiodiversityAssessmentTemplate(BaseTemplate):
         builder.cell("Simpson Index (1-D)", colspan=3, style="label")
         # Simpson: 1 - SUM(pi^2)
         builder.cell(
-            f"=1-SUMPRODUCT(E3:E{2 + self.num_species};E3:E{2 + self.num_species})")
+            f"=1-SUMPRODUCT(E3:E{2 + self.num_species};E3:E{2 + self.num_species})"
+        )
         builder.cell("")
         builder.cell("")
 
@@ -156,8 +159,7 @@ class BiodiversityAssessmentTemplate(BaseTemplate):
         # Evenness: H' / ln(S)
         richness_cell = f"D{stats_start + 1}"
         shannon_cell = f"D{stats_start + 2}"
-        builder.cell(
-            f"=IF({richness_cell}>1;{shannon_cell}/LN({richness_cell});0)")
+        builder.cell(f"=IF({richness_cell}>1;{shannon_cell}/LN({richness_cell});0)")
         builder.cell("")
         builder.cell("")
 

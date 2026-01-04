@@ -24,9 +24,9 @@ from spreadsheet_dl.domains.biology.templates.sequencing_results import (
 )
 
 __all__ = [
-    "ExperimentProtocolTemplate",
-    "PlateReaderDataTemplate",
-    "GeneExpressionTemplate",
     "EcologyFieldDataTemplate",
+    "ExperimentProtocolTemplate",
+    "GeneExpressionTemplate",
+    "PlateReaderDataTemplate",
     "SequencingResultsTemplate",
 ]

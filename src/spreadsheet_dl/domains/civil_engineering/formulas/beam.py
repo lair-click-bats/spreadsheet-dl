@@ -82,7 +82,7 @@ class BeamDeflectionFormula(BaseFormula):
             ODF formula string: (5*w*L^4)/(384*E*I)
         """
         self.validate_arguments(args)
-        w, L, E, I = args
+        w, L, E, I = args  # noqa: E741 - I is standard notation for moment of inertia
         return f"(5*{w}*{L}^4)/(384*{E}*{I})"
 
 
@@ -154,7 +154,7 @@ class ShearStressFormula(BaseFormula):
             ODF formula string: V*Q/(I*b)
         """
         self.validate_arguments(args)
-        V, Q, I, b = args
+        V, Q, I, b = args  # noqa: E741 - I is standard notation for moment of inertia
         return f"{V}*{Q}/({I}*{b})"
 
 

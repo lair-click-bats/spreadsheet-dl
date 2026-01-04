@@ -43,6 +43,7 @@ class InventoryManagementTemplate(BaseTemplate):
     """
 
     warehouse_name: str = "Warehouse"
+    num_items: int = 50
     include_eoq: bool = True
     theme: str = "default"
 

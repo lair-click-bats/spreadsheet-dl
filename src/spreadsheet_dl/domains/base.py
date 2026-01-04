@@ -42,11 +42,11 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from pathlib import Path
-from typing import TYPE_CHECKING, Any, ClassVar, Generic, TypeVar
+from typing import TYPE_CHECKING, Any, ClassVar, TypeVar
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Sequence
+    from pathlib import Path
 
     from spreadsheet_dl.builder import FormulaBuilder, SpreadsheetBuilder
 
@@ -927,9 +927,11 @@ class BaseFormula(ABC):
     # Integration with FormulaBuilder
     # ========================================================================
 
-    def register_with_builder(self, builder: FormulaBuilder) -> None:
+    def register_with_builder(self, builder: FormulaBuilder) -> None:  # noqa: B027
         """
         Register this formula with a FormulaBuilder instance.
+
+        Optional method for subclasses to implement custom registration logic.
 
         Args:
             builder: FormulaBuilder instance
@@ -938,8 +940,8 @@ class BaseFormula(ABC):
             >>> formula = PMTFormula()
             >>> formula.register_with_builder(formula_builder)
         """
-        # This would be implemented to integrate with actual FormulaBuilder
-        # For now, it's a placeholder for future integration
+        # Default implementation: no-op
+        # Subclasses can override to implement custom registration logic
         pass
 
 
@@ -967,7 +969,7 @@ class ImporterMetadata:
 
 
 @dataclass(slots=True)
-class ImportResult(Generic[T]):
+class ImportResult[T]:
     """
     Result of an import operation.
 
@@ -988,7 +990,7 @@ class ImportResult(Generic[T]):
     metadata: dict[str, Any] = field(default_factory=dict)
 
 
-class BaseImporter(ABC, Generic[T]):
+class BaseImporter[T](ABC):
     """
     Abstract base class for domain-specific data importers.
 
@@ -1194,18 +1196,18 @@ class BaseImporter(ABC, Generic[T]):
 __all__ = [
     # Plugin Infrastructure
     "BaseDomainPlugin",
-    "PluginMetadata",
-    "PluginDependency",
-    "PluginStatus",
-    # Template System
-    "BaseTemplate",
-    "TemplateMetadata",
     # Formula System
     "BaseFormula",
-    "FormulaMetadata",
-    "FormulaArgument",
     # Importer System
     "BaseImporter",
-    "ImporterMetadata",
+    # Template System
+    "BaseTemplate",
+    "FormulaArgument",
+    "FormulaMetadata",
     "ImportResult",
+    "ImporterMetadata",
+    "PluginDependency",
+    "PluginMetadata",
+    "PluginStatus",
+    "TemplateMetadata",
 ]

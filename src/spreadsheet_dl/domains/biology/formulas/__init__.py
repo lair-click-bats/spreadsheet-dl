@@ -27,19 +27,19 @@ from spreadsheet_dl.domains.biology.formulas.molecular import (
 )
 
 __all__ = [
+    # Biochemistry
+    "BradfordAssayFormula",
     # Molecular Biology
     "ConcentrationFormula",
+    "DilutionFactorFormula",
+    "EnzymeActivityFormula",
     "FoldChangeFormula",
     "GCContentFormula",
     "MeltingTempFormula",
-    # Biochemistry
-    "BradfordAssayFormula",
-    "EnzymeActivityFormula",
     "MichaelisMentenFormula",
-    "DilutionFactorFormula",
+    "PopulationGrowthFormula",
     # Ecology
     "ShannonDiversityFormula",
     "SimpsonIndexFormula",
     "SpeciesRichnessFormula",
-    "PopulationGrowthFormula",
 ]

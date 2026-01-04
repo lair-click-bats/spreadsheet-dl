@@ -41,10 +41,10 @@ class PlateReaderDataTemplate(BaseTemplate):
         >>> builder.save("plate_data.ods")
     """
 
-    plate_type: str = "96-well"  # "96-well" or "384-well"
+    assay_name: str = "Plate Reader Assay"
+    plate_format: int = 96  # 96 or 384
     read_type: str = "absorbance"  # "absorbance" or "fluorescence"
     wavelength: int = 450  # nm
-    experiment_name: str = "Plate Reader Assay"
     theme: str = "default"
 
     @property
@@ -67,6 +67,15 @@ class PlateReaderDataTemplate(BaseTemplate):
             author="SpreadsheetDL Team",
         )
 
+    def validate(self) -> bool:
+        """
+        Validate template parameters.
+
+        Returns:
+            True if parameters are valid, False otherwise
+        """
+        return self.plate_format in (96, 384)
+
     def generate(self) -> SpreadsheetBuilder:
         """
         Generate the plate reader data spreadsheet.
@@ -82,19 +91,19 @@ class PlateReaderDataTemplate(BaseTemplate):
         builder = SpreadsheetBuilder(theme=self.theme)
 
         builder.workbook_properties(
-            title=f"Plate Data - {self.experiment_name}",
+            title=f"Plate Data - {self.assay_name}",
             author="Lab Team",
             subject="Microplate Assay",
-            description=f"{self.read_type.title()} data from {self.plate_type} plate",
-            keywords=["plate", "assay", self.read_type, self.plate_type],
+            description=f"{self.read_type.title()} data from {self.plate_format}-well plate",
+            keywords=["plate", "assay", self.read_type, str(self.plate_format)],
         )
 
         # Create plate layout sheet
         builder.sheet("Plate Layout")
 
         # Determine plate dimensions
-        rows = 8 if self.plate_type == "96-well" else 16
-        cols = 12 if self.plate_type == "96-well" else 24
+        rows = 8 if self.plate_format == 96 else 16
+        cols = 12 if self.plate_format == 96 else 24
 
         # Header
         builder.column("", width="60pt")
@@ -147,7 +156,7 @@ class PlateReaderDataTemplate(BaseTemplate):
             builder.cell(f"A{i + 1}")
             builder.cell("")
             builder.cell("")
-            builder.cell("=C{}-blank_value".format(i + 2))
+            builder.cell(f"=C{i + 2}-blank_value")
             builder.cell("")
             builder.cell("")
             builder.cell("")

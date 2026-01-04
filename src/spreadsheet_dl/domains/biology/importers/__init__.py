@@ -12,7 +12,7 @@ from spreadsheet_dl.domains.biology.importers.genbank import GenBankImporter
 from spreadsheet_dl.domains.biology.importers.plate_reader import PlateReaderImporter
 
 __all__ = [
-    "PlateReaderImporter",
     "FASTAImporter",
     "GenBankImporter",
+    "PlateReaderImporter",
 ]

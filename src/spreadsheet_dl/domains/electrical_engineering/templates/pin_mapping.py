@@ -105,7 +105,7 @@ class PinMappingTemplate(BaseTemplate):
 
         # Pin mapping rows
         for i in range(self.num_pins):
-            row_num = i + 3
+            i + 3
             builder.row()
             builder.cell("", style="input")  # IC Name
             builder.cell("", style="input")  # Pin Number
@@ -117,7 +117,7 @@ class PinMappingTemplate(BaseTemplate):
             builder.cell("", style="input")  # Notes
 
         # Summary section
-        summary_row = self.num_pins + 4
+        self.num_pins + 4
         builder.row()  # Blank row
 
         builder.row(style="section_header")

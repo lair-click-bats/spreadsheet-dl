@@ -72,9 +72,12 @@ from spreadsheet_dl.domains.biology.templates.sequencing_results import (
 
 # Utils
 from spreadsheet_dl.domains.biology.utils import (
+    calculate_dilution,
     calculate_gc_content,
     calculate_melting_temp,
+    calculate_od_to_concentration,
     complement_dna,
+    format_scientific_notation,
     is_valid_dna,
     is_valid_rna,
     normalize_sequence,
@@ -110,9 +113,12 @@ __all__ = [
     "SimpsonIndexFormula",
     "SpeciesRichnessFormula",
     # Utils
+    "calculate_dilution",
     "calculate_gc_content",
     "calculate_melting_temp",
+    "calculate_od_to_concentration",
     "complement_dna",
+    "format_scientific_notation",
     "is_valid_dna",
     "is_valid_rna",
     "normalize_sequence",
