@@ -32,6 +32,8 @@ from spreadsheet_dl.domains.finance.alerts import (
     Alert,
     AlertConfig,
     AlertMonitor,
+    AlertSeverity,
+    AlertType,
     check_budget_alerts,
 )
 
@@ -169,6 +171,8 @@ __all__ = [
     "Alert",
     "AlertConfig",
     "AlertMonitor",
+    "AlertSeverity",
+    "AlertType",
     # Classes - Analytics
     "AnalyticsDashboard",
     # Classes - Templates

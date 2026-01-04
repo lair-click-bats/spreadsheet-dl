@@ -1,8 +1,7 @@
 """
 Plaid API integration for bank synchronization.
 
-Provides direct bank connection and transaction sync via Plaid or similar
-bank aggregation services.
+Provides direct bank connection and transaction sync via Plaid bank aggregation service.
 
 Requirements implemented:
     - FR-IMPORT-003: Bank API Integration (Gap G-17)
@@ -14,22 +13,28 @@ Features:
     - Secure credential storage via CredentialStore
     - Multiple institution support
     - Transaction categorization
+    - Production Plaid API support (requires plaid-python library)
+    - Sandbox mode for testing without credentials
+    - Rate limiting and error handling
+    - Automatic pagination for large transaction sets
 
-**EXPERIMENTAL STATUS**:
-    This module contains API client stub methods that are not yet implemented.
-    The following methods raise NotImplementedError:
-        - PlaidClient._api_create_link_token
-        - PlaidClient._api_exchange_token
-        - PlaidClient._api_get_accounts
-        - PlaidClient._api_get_balances
-        - PlaidClient._api_sync_transactions
-        - PlaidClient._api_get_transactions
-        - PlaidClient._api_refresh_transactions
-        - PlaidClient._api_search_institutions
+Installation:
+    For production use with real Plaid API:
+        pip install spreadsheet-dl[plaid]
 
-    These stubs define the interface for production Plaid API integration.
-    Full implementation requires adding HTTP client (requests/httpx) and
-    handling Plaid API authentication, rate limiting, and error responses.
+    This installs the plaid-python library (>=16.0.0)
+
+Usage:
+    Sandbox mode (no credentials needed):
+        config = PlaidConfig(
+            client_id="test",
+            secret="test",
+            environment=PlaidEnvironment.SANDBOX
+        )
+
+    Production mode (requires Plaid account):
+        config = PlaidConfig.from_env()  # Reads PLAID_CLIENT_ID, PLAID_SECRET
+        client = PlaidClient(config)
 """
 
 from __future__ import annotations
@@ -46,11 +51,11 @@ from typing import Any
 
 from spreadsheet_dl.exceptions import (
     ConfigurationError,
-    FinanceTrackerError,
+    SpreadsheetDLError,
 )
 
 
-class PlaidError(FinanceTrackerError):
+class PlaidError(SpreadsheetDLError):
     """Base exception for Plaid integration errors."""
 
     error_code = "FT-PLAID-1800"
@@ -95,6 +100,41 @@ class PlaidSyncError(PlaidError):
     """Raised when transaction sync fails."""
 
     error_code = "FT-PLAID-1803"
+
+
+class PlaidAPIError(PlaidError):
+    """Raised when Plaid API returns an error."""
+
+    error_code = "FT-PLAID-1804"
+
+    def __init__(
+        self,
+        message: str,
+        error_type: str | None = None,
+        error_code: str | None = None,
+        **kwargs: Any,
+    ) -> None:
+        self.plaid_error_type = error_type
+        self.plaid_error_code = error_code
+        super().__init__(message, **kwargs)
+
+
+class PlaidRateLimitError(PlaidError):
+    """Raised when rate limit is exceeded."""
+
+    error_code = "FT-PLAID-1805"
+
+    def __init__(
+        self,
+        message: str = "Plaid API rate limit exceeded",
+        retry_after: int | None = None,
+        **kwargs: Any,
+    ) -> None:
+        self.retry_after = retry_after
+        suggestion = "Wait before retrying."
+        if retry_after:
+            suggestion = f"Wait {retry_after} seconds before retrying."
+        super().__init__(message, suggestion=suggestion, **kwargs)
 
 
 class PlaidEnvironment(Enum):
@@ -449,15 +489,33 @@ class PlaidClient:
     - Fetching account information
     - Syncing transactions
     - Managing connected items
+    - Searching financial institutions
 
-    Note: This is a reference implementation that simulates Plaid API behavior.
-    For production use, install the official `plaid-python` package.
+    Supports both sandbox mode (for testing) and production mode (requires plaid-python).
 
-    Example:
-        >>> config = PlaidConfig.from_env()
+    Sandbox mode works without any external dependencies and simulates Plaid API responses.
+    Production mode requires the plaid-python library and valid Plaid API credentials.
+
+    Example (Sandbox):
+        >>> config = PlaidConfig(
+        ...     client_id="test",
+        ...     secret="test",
+        ...     environment=PlaidEnvironment.SANDBOX
+        ... )
         >>> client = PlaidClient(config)
         >>> link_token = client.create_link_token("user123")
-        >>> # User completes Plaid Link flow...
+        >>> access = client.exchange_public_token("public-test-token")
+        >>> transactions = client.get_transactions(
+        ...     access.access_token,
+        ...     date.today() - timedelta(days=30),
+        ...     date.today()
+        ... )
+
+    Example (Production):
+        >>> config = PlaidConfig.from_env()  # Reads environment variables
+        >>> client = PlaidClient(config)
+        >>> link_token = client.create_link_token("user123")
+        >>> # User completes Plaid Link flow in frontend...
         >>> access = client.exchange_public_token(public_token)
         >>> result = client.sync_transactions(access.access_token)
     """
@@ -476,7 +534,100 @@ class PlaidClient:
         """
         self.config = config
         self.credential_store = credential_store
-        self._http_client: Any = None
+        self._plaid_client: Any = None
+        self._rate_limit_remaining: int | None = None
+        self._rate_limit_reset: datetime | None = None
+
+    def _get_plaid_client(self) -> Any:
+        """
+        Get or create the Plaid API client.
+
+        Returns:
+            Configured Plaid API client.
+
+        Raises:
+            PlaidConnectionError: If plaid-python is not installed.
+        """
+        if self._plaid_client is not None:
+            return self._plaid_client
+
+        try:
+            import plaid
+            from plaid.api import plaid_api
+            from plaid.api_client import ApiClient
+            from plaid.configuration import Configuration
+        except ImportError as e:
+            raise PlaidConnectionError(
+                "plaid-python library not installed. "
+                "Install with: pip install plaid-python"
+            ) from e
+
+        # Map environment to Plaid SDK environment
+        env_map = {
+            PlaidEnvironment.SANDBOX: plaid.Environment.Sandbox,
+            PlaidEnvironment.DEVELOPMENT: plaid.Environment.Development,
+            PlaidEnvironment.PRODUCTION: plaid.Environment.Production,
+        }
+
+        configuration = Configuration(
+            host=env_map[self.config.environment],
+            api_key={
+                "clientId": self.config.client_id,
+                "secret": self.config.secret,
+            },
+        )
+
+        api_client = ApiClient(configuration)
+        self._plaid_client = plaid_api.PlaidApi(api_client)
+
+        return self._plaid_client
+
+    def _handle_api_error(self, error: Exception) -> None:
+        """
+        Handle Plaid API errors and convert to appropriate exceptions.
+
+        Args:
+            error: The API error to handle.
+
+        Raises:
+            PlaidRateLimitError: If rate limit exceeded.
+            PlaidAuthError: If authentication failed.
+            PlaidAPIError: For other API errors.
+        """
+        try:
+            from plaid.exceptions import ApiException
+        except ImportError:
+            raise PlaidConnectionError("plaid-python library not installed") from error
+
+        if not isinstance(error, ApiException):
+            raise PlaidConnectionError(str(error)) from error
+
+        # Parse error response
+        error_dict = error.body if hasattr(error, "body") else {}
+        error_type = error_dict.get("error_type", "UNKNOWN")
+        error_code = error_dict.get("error_code", "UNKNOWN")
+        error_message = error_dict.get("error_message", str(error))
+
+        # Handle rate limiting
+        if error.status == 429 or error_code == "RATE_LIMIT_EXCEEDED":
+            retry_after = None
+            if hasattr(error, "headers") and "Retry-After" in error.headers:
+                from contextlib import suppress
+
+                with suppress(ValueError, TypeError):
+                    retry_after = int(error.headers["Retry-After"])
+            raise PlaidRateLimitError(error_message, retry_after=retry_after)
+
+        # Handle authentication errors
+        if error_type in ("ITEM_ERROR", "INVALID_CREDENTIALS"):
+            raise PlaidAuthError(error_message)
+
+        # Generic API error
+        raise PlaidAPIError(
+            error_message,
+            error_type=error_type,
+            error_code=error_code,
+        )
 
     def create_link_token(
         self,
@@ -941,29 +1092,273 @@ class PlaidClient:
         return [inst for inst in all_institutions if query_lower in inst.name.lower()]
 
     # =========================================================================
-    # Production API Methods (stubs)
+    # Production API Methods
+    # =========================================================================
+    # These methods implement production Plaid API integration using the
+    # plaid-python library. They are called automatically when the client
+    # is configured for production or development environments.
     # =========================================================================
 
     def _api_create_link_token(self, request_data: dict[str, Any]) -> LinkToken:
-        """Make API call to create link token."""
-        # Would use requests or httpx to call Plaid API
-        raise NotImplementedError("Production API not implemented")
+        """
+        Make API call to create link token.
+
+        Args:
+            request_data: Link token request parameters
+
+        Returns:
+            LinkToken object
+
+        Raises:
+            PlaidConnectionError: If API call fails
+            PlaidAPIError: If API returns an error
+        """
+        try:
+            from plaid.model.country_code import CountryCode
+            from plaid.model.link_token_create_request import LinkTokenCreateRequest
+            from plaid.model.link_token_create_request_user import (
+                LinkTokenCreateRequestUser,
+            )
+            from plaid.model.products import Products
+        except ImportError as e:
+            raise PlaidConnectionError("plaid-python library not installed") from e
+
+        client = self._get_plaid_client()
+
+        try:
+            # Convert request data to Plaid SDK format
+            user = LinkTokenCreateRequestUser(
+                client_user_id=request_data["user"]["client_user_id"]
+            )
+
+            # Convert product strings to Products enum
+            products = []
+            for product_str in request_data["products"]:
+                products.append(Products(product_str))
+
+            # Convert country codes to CountryCode enum
+            country_codes = []
+            for code in request_data["country_codes"]:
+                country_codes.append(CountryCode(code))
+
+            # Build request
+            request = LinkTokenCreateRequest(
+                user=user,
+                client_name="SpreadsheetDL",
+                products=products,
+                country_codes=country_codes,
+                language=request_data.get("language", "en"),
+            )
+
+            # Add optional webhook
+            if "webhook" in request_data:
+                request.webhook = request_data["webhook"]
+
+            # Make API call
+            response = client.link_token_create(request)
+
+            # Convert response to LinkToken
+            return LinkToken(
+                link_token=response.link_token,
+                expiration=response.expiration,
+                request_id=response.request_id,
+            )
+
+        except Exception as e:
+            self._handle_api_error(e)
+            raise  # Should not reach here, but satisfies type checker
 
     def _api_exchange_token(self, public_token: str) -> AccessToken:
-        """Make API call to exchange public token."""
-        raise NotImplementedError("Production API not implemented")
+        """
+        Make API call to exchange public token.
+
+        Args:
+            public_token: Public token from Plaid Link
+
+        Returns:
+            AccessToken object
+
+        Raises:
+            PlaidAuthError: If token exchange fails
+            PlaidAPIError: If API returns an error
+        """
+        try:
+            from plaid.model.country_code import CountryCode
+            from plaid.model.institutions_get_by_id_request import (
+                InstitutionsGetByIdRequest,
+            )
+            from plaid.model.item_get_request import ItemGetRequest
+            from plaid.model.item_public_token_exchange_request import (
+                ItemPublicTokenExchangeRequest,
+            )
+        except ImportError as e:
+            raise PlaidConnectionError("plaid-python library not installed") from e
+
+        client = self._get_plaid_client()
+
+        try:
+            # Exchange public token for access token
+            exchange_request = ItemPublicTokenExchangeRequest(public_token=public_token)
+            exchange_response = client.item_public_token_exchange(exchange_request)
+
+            access_token = exchange_response.access_token
+            item_id = exchange_response.item_id
+
+            # Get item details to fetch institution ID
+            item_request = ItemGetRequest(access_token=access_token)
+            item_response = client.item_get(item_request)
+            institution_id = item_response.item.institution_id
+
+            # Get institution details
+            inst_request = InstitutionsGetByIdRequest(
+                institution_id=institution_id,
+                country_codes=[CountryCode("US")],
+            )
+            inst_response = client.institutions_get_by_id(inst_request)
+            inst_data = inst_response.institution
+
+            institution = PlaidInstitution(
+                institution_id=inst_data.institution_id,
+                name=inst_data.name,
+                products=[p.value for p in inst_data.products],
+                logo_url=getattr(inst_data, "logo", None),
+                primary_color=getattr(inst_data, "primary_color", None),
+                url=getattr(inst_data, "url", None),
+            )
+
+            # Get accounts
+            accounts = self._api_get_accounts(access_token)
+
+            return AccessToken(
+                access_token=access_token,
+                item_id=item_id,
+                institution=institution,
+                accounts=accounts,
+                status=LinkStatus.CONNECTED,
+                last_sync=datetime.now(),
+            )
+
+        except Exception as e:
+            self._handle_api_error(e)
+            raise
 
     def _api_get_accounts(self, access_token: str) -> list[PlaidAccount]:
-        """Make API call to get accounts."""
-        raise NotImplementedError("Production API not implemented")
+        """
+        Make API call to get accounts.
+
+        Args:
+            access_token: Plaid access token
+
+        Returns:
+            List of PlaidAccount objects
+
+        Raises:
+            PlaidConnectionError: If API call fails
+            PlaidAPIError: If API returns an error
+        """
+        try:
+            from plaid.model.accounts_get_request import AccountsGetRequest
+        except ImportError as e:
+            raise PlaidConnectionError("plaid-python library not installed") from e
+
+        client = self._get_plaid_client()
+
+        try:
+            request = AccountsGetRequest(access_token=access_token)
+            response = client.accounts_get(request)
+
+            accounts = []
+            for acc in response.accounts:
+                account = PlaidAccount(
+                    account_id=acc.account_id,
+                    name=acc.name,
+                    official_name=getattr(acc, "official_name", None),
+                    type=acc.type.value,
+                    subtype=acc.subtype.value if acc.subtype else "other",
+                    mask=getattr(acc, "mask", None),
+                    current_balance=Decimal(str(acc.balances.current))
+                    if acc.balances.current is not None
+                    else None,
+                    available_balance=Decimal(str(acc.balances.available))
+                    if acc.balances.available is not None
+                    else None,
+                    currency=acc.balances.iso_currency_code or "USD",
+                )
+                accounts.append(account)
+
+            return accounts
+
+        except Exception as e:
+            self._handle_api_error(e)
+            raise
 
     def _api_get_balances(
         self,
         access_token: str,
         account_ids: list[str] | None,
     ) -> list[PlaidAccount]:
-        """Make API call to get balances."""
-        raise NotImplementedError("Production API not implemented")
+        """
+        Make API call to get balances.
+
+        Args:
+            access_token: Plaid access token
+            account_ids: Optional list of account IDs to filter
+
+        Returns:
+            List of PlaidAccount objects with balances
+
+        Raises:
+            PlaidConnectionError: If API call fails
+            PlaidAPIError: If API returns an error
+        """
+        try:
+            from plaid.model.accounts_balance_get_request import (
+                AccountsBalanceGetRequest,
+            )
+            from plaid.model.accounts_balance_get_request_options import (
+                AccountsBalanceGetRequestOptions,
+            )
+        except ImportError as e:
+            raise PlaidConnectionError("plaid-python library not installed") from e
+
+        client = self._get_plaid_client()
+
+        try:
+            # Build request with optional account filtering
+            if account_ids:
+                options = AccountsBalanceGetRequestOptions(account_ids=account_ids)
+                request = AccountsBalanceGetRequest(
+                    access_token=access_token, options=options
+                )
+            else:
+                request = AccountsBalanceGetRequest(access_token=access_token)
+
+            response = client.accounts_balance_get(request)
+
+            accounts = []
+            for acc in response.accounts:
+                account = PlaidAccount(
+                    account_id=acc.account_id,
+                    name=acc.name,
+                    official_name=getattr(acc, "official_name", None),
+                    type=acc.type.value,
+                    subtype=acc.subtype.value if acc.subtype else "other",
+                    mask=getattr(acc, "mask", None),
+                    current_balance=Decimal(str(acc.balances.current))
+                    if acc.balances.current is not None
+                    else None,
+                    available_balance=Decimal(str(acc.balances.available))
+                    if acc.balances.available is not None
+                    else None,
+                    currency=acc.balances.iso_currency_code or "USD",
+                )
+                accounts.append(account)
+
+            return accounts
+
+        except Exception as e:
+            self._handle_api_error(e)
+            raise
 
     def _api_sync_transactions(
         self,
@@ -971,8 +1366,68 @@ class PlaidClient:
         cursor: str | None,
         count: int,
     ) -> SyncResult:
-        """Make API call to sync transactions."""
-        raise NotImplementedError("Production API not implemented")
+        """
+        Make API call to sync transactions.
+
+        Args:
+            access_token: Plaid access token
+            cursor: Sync cursor for incremental updates
+            count: Number of transactions to fetch
+
+        Returns:
+            SyncResult with transactions and updated cursor
+
+        Raises:
+            PlaidSyncError: If sync fails
+            PlaidAPIError: If API returns an error
+        """
+        try:
+            from plaid.model.transactions_sync_request import TransactionsSyncRequest
+        except ImportError as e:
+            raise PlaidConnectionError("plaid-python library not installed") from e
+
+        client = self._get_plaid_client()
+
+        try:
+            request = TransactionsSyncRequest(access_token=access_token, count=count)
+            if cursor:
+                request.cursor = cursor
+
+            response = client.transactions_sync(request)
+
+            # Convert transactions
+            transactions = []
+            for tx in response.added:
+                transaction = PlaidTransaction(
+                    transaction_id=tx.transaction_id,
+                    account_id=tx.account_id,
+                    amount=Decimal(str(tx.amount)),
+                    date=tx.date,
+                    name=tx.name,
+                    merchant_name=getattr(tx, "merchant_name", None),
+                    category=list(tx.category) if tx.category else [],
+                    pending=tx.pending,
+                    payment_channel=tx.payment_channel.value
+                    if tx.payment_channel
+                    else "other",
+                    location=tx.location.to_dict() if tx.location else {},
+                    iso_currency_code=tx.iso_currency_code or "USD",
+                )
+                transactions.append(transaction)
+
+            return SyncResult(
+                status=SyncStatus.COMPLETED,
+                added=len(response.added),
+                modified=len(response.modified),
+                removed=len(response.removed),
+                transactions=transactions,
+                next_cursor=response.next_cursor,
+                has_more=response.has_more,
+            )
+
+        except Exception as e:
+            self._handle_api_error(e)
+            raise
 
     def _api_get_transactions(
         self,
@@ -981,20 +1436,181 @@ class PlaidClient:
         end_date: date,
         account_ids: list[str] | None,
     ) -> list[PlaidTransaction]:
-        """Make API call to get transactions."""
-        raise NotImplementedError("Production API not implemented")
+        """
+        Make API call to get transactions.
+
+        Args:
+            access_token: Plaid access token
+            start_date: Start date for transaction range
+            end_date: End date for transaction range
+            account_ids: Optional list of account IDs to filter
+
+        Returns:
+            List of PlaidTransaction objects
+
+        Raises:
+            PlaidConnectionError: If API call fails
+            PlaidAPIError: If API returns an error
+        """
+        try:
+            from plaid.model.transactions_get_request import TransactionsGetRequest
+            from plaid.model.transactions_get_request_options import (
+                TransactionsGetRequestOptions,
+            )
+        except ImportError as e:
+            raise PlaidConnectionError("plaid-python library not installed") from e
+
+        client = self._get_plaid_client()
+
+        try:
+            # Build request with optional account filtering
+            if account_ids:
+                options = TransactionsGetRequestOptions(account_ids=account_ids)
+                request = TransactionsGetRequest(
+                    access_token=access_token,
+                    start_date=start_date,
+                    end_date=end_date,
+                    options=options,
+                )
+            else:
+                request = TransactionsGetRequest(
+                    access_token=access_token,
+                    start_date=start_date,
+                    end_date=end_date,
+                )
+
+            # Paginate through all results
+            all_transactions = []
+            offset = 0
+            has_more = True
+
+            while has_more:
+                if account_ids:
+                    options.offset = offset
+                else:
+                    options = TransactionsGetRequestOptions(offset=offset)
+                    request.options = options
+
+                response = client.transactions_get(request)
+
+                for tx in response.transactions:
+                    transaction = PlaidTransaction(
+                        transaction_id=tx.transaction_id,
+                        account_id=tx.account_id,
+                        amount=Decimal(str(tx.amount)),
+                        date=tx.date,
+                        name=tx.name,
+                        merchant_name=getattr(tx, "merchant_name", None),
+                        category=list(tx.category) if tx.category else [],
+                        pending=tx.pending,
+                        payment_channel=tx.payment_channel.value
+                        if tx.payment_channel
+                        else "other",
+                        location=tx.location.to_dict() if tx.location else {},
+                        iso_currency_code=tx.iso_currency_code or "USD",
+                    )
+                    all_transactions.append(transaction)
+
+                offset += len(response.transactions)
+                has_more = offset < response.total_transactions
+
+            return all_transactions
+
+        except Exception as e:
+            self._handle_api_error(e)
+            raise
 
     def _api_refresh_transactions(self, access_token: str) -> bool:
-        """Make API call to refresh transactions."""
-        raise NotImplementedError("Production API not implemented")
+        """
+        Make API call to refresh transactions.
+
+        Args:
+            access_token: Plaid access token
+
+        Returns:
+            True if refresh was successful
+
+        Raises:
+            PlaidConnectionError: If API call fails
+            PlaidAPIError: If API returns an error
+        """
+        try:
+            from plaid.model.transactions_refresh_request import (
+                TransactionsRefreshRequest,
+            )
+        except ImportError as e:
+            raise PlaidConnectionError("plaid-python library not installed") from e
+
+        client = self._get_plaid_client()
+
+        try:
+            request = TransactionsRefreshRequest(access_token=access_token)
+            client.transactions_refresh(request)
+            return True
+
+        except Exception as e:
+            self._handle_api_error(e)
+            raise
 
     def _api_search_institutions(
         self,
         query: str,
         country_codes: list[str] | None,
     ) -> list[PlaidInstitution]:
-        """Make API call to search institutions."""
-        raise NotImplementedError("Production API not implemented")
+        """
+        Make API call to search institutions.
+
+        Args:
+            query: Search query string
+            country_codes: List of country codes to search
+
+        Returns:
+            List of matching institutions
+
+        Raises:
+            PlaidConnectionError: If API call fails
+            PlaidAPIError: If API returns an error
+        """
+        try:
+            from plaid.model.country_code import CountryCode
+            from plaid.model.institutions_search_request import (
+                InstitutionsSearchRequest,
+            )
+        except ImportError as e:
+            raise PlaidConnectionError("plaid-python library not installed") from e
+
+        client = self._get_plaid_client()
+
+        try:
+            # Convert country codes
+            countries = []
+            for code in country_codes or ["US"]:
+                countries.append(CountryCode(code))
+
+            request = InstitutionsSearchRequest(
+                query=query,
+                country_codes=countries,
+            )
+
+            response = client.institutions_search(request)
+
+            institutions = []
+            for inst in response.institutions:
+                institution = PlaidInstitution(
+                    institution_id=inst.institution_id,
+                    name=inst.name,
+                    products=[p.value for p in inst.products],
+                    logo_url=getattr(inst, "logo", None),
+                    primary_color=getattr(inst, "primary_color", None),
+                    url=getattr(inst, "url", None),
+                )
+                institutions.append(institution)
+
+            return institutions
+
+        except Exception as e:
+            self._handle_api_error(e)
+            raise
 
 
 class PlaidSyncManager:

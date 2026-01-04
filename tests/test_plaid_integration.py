@@ -29,6 +29,8 @@ from spreadsheet_dl.plaid_integration import (
     SyncStatus,
 )
 
+pytestmark = [pytest.mark.integration, pytest.mark.finance]
+
 
 class TestPlaidConfig:
     """Tests for PlaidConfig."""
@@ -222,7 +224,7 @@ class TestPlaidSyncManager:
     """Tests for PlaidSyncManager."""
 
     @pytest.fixture
-    def manager(self, tmp_path):
+    def manager(self, tmp_path) -> PlaidSyncManager:  # type: ignore[no-untyped-def]
         """Create a test sync manager."""
         config = PlaidConfig(
             client_id="test",
@@ -231,7 +233,7 @@ class TestPlaidSyncManager:
         )
         return PlaidSyncManager(config, data_dir=tmp_path)
 
-    def test_add_connection(self, manager) -> None:
+    def test_add_connection(self, manager: PlaidSyncManager) -> None:
         """Test adding a connection."""
         access = AccessToken(
             access_token="access-test",
@@ -248,7 +250,7 @@ class TestPlaidSyncManager:
         assert len(connections) == 1
         assert connections[0]["item_id"] == "item-test"
 
-    def test_remove_connection(self, manager) -> None:
+    def test_remove_connection(self, manager: PlaidSyncManager) -> None:
         """Test removing a connection."""
         access = AccessToken(
             access_token="access-test",
@@ -266,7 +268,7 @@ class TestPlaidSyncManager:
         assert result is True
         assert len(manager.list_connections()) == 0
 
-    def test_sync_all(self, manager) -> None:
+    def test_sync_all(self, manager: PlaidSyncManager) -> None:
         """Test syncing all connections."""
         access = AccessToken(
             access_token="access-sync-test",
@@ -283,7 +285,7 @@ class TestPlaidSyncManager:
         assert "item-sync" in results
         assert results["item-sync"].status == SyncStatus.COMPLETED
 
-    def test_convert_to_expenses(self, manager) -> None:
+    def test_convert_to_expenses(self, manager: PlaidSyncManager) -> None:
         """Test converting Plaid transactions to expenses."""
         transactions = [
             PlaidTransaction(
