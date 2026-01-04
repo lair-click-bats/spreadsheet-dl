@@ -1,11 +1,14 @@
 # SpreadsheetDL
 
-[![Version](https://img.shields.io/badge/version-4.0.0--alpha.1-blue.svg)](https://github.com/USER/spreadsheet-dl/releases)
+[![Version](https://img.shields.io/badge/version-4.0.0-blue.svg)](https://github.com/USER/spreadsheet-dl/releases)
+[![First Release](https://img.shields.io/badge/🎉-first%20public%20release-gold.svg)](CHANGELOG.md)
 [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-662%20passing-brightgreen.svg)](tests/)
-[![Coverage](https://img.shields.io/badge/coverage-97%25-brightgreen.svg)](tests/)
-[![MCP](https://img.shields.io/badge/MCP-native%20server-purple.svg)](docs/api/mcp_server.md)
+[![Tests](https://img.shields.io/badge/tests-2,181%20passing-brightgreen.svg)](tests/)
+[![Coverage](https://img.shields.io/badge/coverage-71%25-brightgreen.svg)](tests/)
+[![MCP](https://img.shields.io/badge/MCP-144%20tools-purple.svg)](docs/api/mcp_server.md)
+
+> **🎉 First Public Release (v4.0.0)** - This version represents extensive private development through multiple major iterations. The codebase is production-ready with comprehensive testing, complete documentation, and 9 domain plugins.
 
 **The Spreadsheet Definition Language for Python**
 

@@ -65,9 +65,9 @@ See [Domain Analysis](.coordination/2026-01-03-comprehensive-domain-analysis.md)
 
 ## Version
 
-Current version: **v4.0.0-alpha.1**
+Current version: **v4.0.0** 🎉 _First Public Release_
 
-### What's New in v4.0.0-alpha.1
+### What's New in v4.0.0
 
 - **Template Engine** - Define spreadsheets declaratively in YAML
   - Variable substitution with `${...}` syntax

@@ -409,7 +409,7 @@ builder.sheet("Budget").header_row(style="header_primary")
 ### GitHub README Badges
 
 ```markdown
-[![Version](https://img.shields.io/badge/version-4.0.0--alpha.1-blue.svg)](releases)
+[![Version](https://img.shields.io/badge/version-4.0.0-blue.svg)](releases)
 [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-662%20passing-brightgreen.svg)](tests/)
