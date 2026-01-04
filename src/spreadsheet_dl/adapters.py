@@ -3,28 +3,34 @@ Format adapters for spreadsheet export/import.
 
 Implements:
     - TASK-403: Format adapters (FR-EXPORT-001)
+    - FUTURE-001: HTML import from HTML tables
 
 Provides adapter interfaces for converting between SpreadsheetDL's
 internal representation and various file formats.
 
-**Known Limitations:**
-    - HTML import: Not yet implemented (HTMLAdapter.from_format raises NotImplementedError)
-      HTML export is fully supported. Import requires parsing HTML tables which is planned
-      for a future release.
+**HTML Import:**
+    HTML import is now fully supported with BeautifulSoup4 and lxml.
+    Features include:
+    - Parse HTML tables to SheetSpec
+    - Handle <thead>, <tbody>, <tfoot>
+    - Handle <th> vs <td> cells
+    - Handle colspan/rowspan attributes
+    - CSS selector filtering
+    - Auto-detect data types
 """
 
 from __future__ import annotations
 
+import re
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from datetime import date, datetime
 from decimal import Decimal
 from enum import Enum
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, ClassVar
+from typing import Any, ClassVar
 
-if TYPE_CHECKING:
-    from spreadsheet_dl.builder import SheetSpec
+from spreadsheet_dl.builder import SheetSpec
 
 
 class ExportFormat(Enum):
@@ -77,6 +83,28 @@ class AdapterOptions:
     date_format: str = "%Y-%m-%d"
     decimal_places: int = 2
     sheet_names: list[str] | None = None
+
+
+@dataclass
+class HTMLImportOptions(AdapterOptions):
+    """
+    Configuration options for HTML import.
+
+    Implements FUTURE-001: HTML import from HTML tables
+
+    Attributes:
+        table_selector: CSS selector for table elements (None for all tables)
+        header_row: First row is header (auto-detect from <th> if None)
+        skip_empty_rows: Skip rows with all empty cells
+        trim_whitespace: Trim leading/trailing whitespace from cells
+        detect_types: Auto-detect cell data types (int, float, date)
+    """
+
+    table_selector: str | None = None
+    header_row: bool | None = None  # None = auto-detect
+    skip_empty_rows: bool = True
+    trim_whitespace: bool = True
+    detect_types: bool = True
 
 
 class FormatAdapter(ABC):
@@ -479,8 +507,325 @@ class HtmlAdapter(FormatAdapter):
         input_path: Path,
         options: AdapterOptions | None = None,
     ) -> list[SheetSpec]:
-        """Import from HTML format (not implemented)."""
-        raise NotImplementedError("HTML import is not yet supported")
+        """Import from HTML format.
+
+        Implements FUTURE-001: HTML import from HTML tables
+
+        Parses HTML tables using BeautifulSoup4 and converts them to SheetSpec.
+        Handles thead/tbody/tfoot, th/td cells, colspan/rowspan attributes.
+
+        Args:
+            input_path: Path to HTML file
+            options: Import options (HTMLImportOptions recommended)
+
+        Returns:
+            List of SheetSpec, one per table found
+
+        Raises:
+            ImportError: If beautifulsoup4 or lxml are not installed
+            ValueError: If HTML file is invalid or contains no tables
+        """
+        try:
+            from bs4 import BeautifulSoup
+        except ImportError as e:
+            raise ImportError(
+                "HTML import requires beautifulsoup4 and lxml. "
+                "Install with: pip install 'spreadsheet-dl[html]'"
+            ) from e
+
+        # Use HTMLImportOptions if provided, otherwise default AdapterOptions
+        if options is None:
+            options = HTMLImportOptions()
+        elif not isinstance(options, HTMLImportOptions):
+            # Convert AdapterOptions to HTMLImportOptions with defaults
+            html_opts = HTMLImportOptions()
+            # Copy common fields
+            for field_name in [
+                "include_headers",
+                "encoding",
+                "date_format",
+                "sheet_names",
+            ]:
+                if hasattr(options, field_name):
+                    setattr(html_opts, field_name, getattr(options, field_name))
+            options = html_opts
+
+        # Read and parse HTML
+        html_content = Path(input_path).read_text(encoding=options.encoding)
+        soup = BeautifulSoup(html_content, "lxml")
+
+        # Find tables
+        if options.table_selector:
+            tables = soup.select(options.table_selector)
+        else:
+            tables = soup.find_all("table")
+
+        if not tables:
+            raise ValueError(
+                f"No HTML tables found in {input_path}. "
+                f"Selector: {options.table_selector or 'table'}"
+            )
+
+        sheets = []
+        for idx, table in enumerate(tables):
+            sheet_name = self._extract_table_name(table, idx)
+
+            # Skip if not in sheet_names filter
+            if options.sheet_names and sheet_name not in options.sheet_names:
+                continue
+
+            sheet = self._parse_table(table, sheet_name, options)
+            if sheet:
+                sheets.append(sheet)
+
+        return sheets
+
+    def _extract_table_name(self, table: Any, index: int) -> str:
+        """Extract table name from heading or generate default.
+
+        Args:
+            table: BeautifulSoup table element
+            index: Table index in document
+
+        Returns:
+            Sheet name
+        """
+        # Look for preceding h1-h6 heading
+        prev = table.find_previous(["h1", "h2", "h3", "h4", "h5", "h6"])
+        if prev and prev.get_text(strip=True):
+            name = prev.get_text(strip=True)
+            # Sanitize sheet name
+            name = re.sub(r"[^\w\s-]", "", name)[:31]  # ODS 31 char limit
+            return name or f"Table_{index + 1}"
+
+        # Check for caption element
+        caption = table.find("caption")
+        if caption and caption.get_text(strip=True):
+            name = caption.get_text(strip=True)
+            name = re.sub(r"[^\w\s-]", "", name)[:31]
+            return name or f"Table_{index + 1}"
+
+        return f"Table_{index + 1}"
+
+    def _parse_table(
+        self, table: Any, sheet_name: str, options: HTMLImportOptions
+    ) -> SheetSpec | None:
+        """Parse HTML table to SheetSpec.
+
+        Args:
+            table: BeautifulSoup table element
+            sheet_name: Name for the sheet
+            options: Import options
+
+        Returns:
+            SheetSpec or None if table is empty
+        """
+        from spreadsheet_dl.builder import CellSpec, ColumnSpec, RowSpec
+
+        # Extract all rows (from thead, tbody, tfoot)
+        all_rows = []
+        for section in ["thead", "tbody", "tfoot"]:
+            section_elem = table.find(section)
+            if section_elem:
+                all_rows.extend(section_elem.find_all("tr"))
+
+        # If no sections, get rows directly from table
+        if not all_rows:
+            all_rows = table.find_all("tr", recursive=False)
+
+        if not all_rows:
+            return None
+
+        # Parse table to 2D grid, handling colspan/rowspan
+        grid = self._build_cell_grid(all_rows, options)
+
+        if not grid:
+            return None
+
+        # Detect headers
+        has_header = self._detect_header_row(all_rows, options)
+
+        # Build columns
+        columns = []
+        if has_header and grid:
+            header_row = grid[0]
+            for cell_value in header_row:
+                col_name = str(cell_value) if cell_value else ""
+                columns.append(ColumnSpec(name=col_name))
+            # Remove header from grid
+            grid = grid[1:]
+        else:
+            # Generate column names
+            max_cols = max(len(row) for row in grid) if grid else 0
+            for i in range(max_cols):
+                columns.append(ColumnSpec(name=f"Column_{i + 1}"))
+
+        # Build rows
+        rows = []
+        for row_data in grid:
+            # Skip empty rows if requested
+            if options.skip_empty_rows and all(
+                cell is None or str(cell).strip() == "" for cell in row_data
+            ):
+                continue
+
+            cells = []
+            for cell_value in row_data:
+                # Type detection
+                typed_value = (
+                    self._detect_type(cell_value, options)
+                    if options.detect_types
+                    else cell_value
+                )
+                cells.append(CellSpec(value=typed_value))
+
+            if cells:
+                rows.append(RowSpec(cells=cells))
+
+        if not rows:
+            return None
+
+        return SheetSpec(name=sheet_name, columns=columns, rows=rows)
+
+    def _build_cell_grid(
+        self, rows: list[Any], options: HTMLImportOptions
+    ) -> list[list[Any]]:
+        """Build 2D cell grid, handling colspan/rowspan.
+
+        Args:
+            rows: List of BeautifulSoup <tr> elements
+            options: Import options
+
+        Returns:
+            2D list of cell values
+        """
+        # First pass: determine grid dimensions
+        max_cols = 0
+        rowspan_tracker: dict[tuple[int, int], int] = {}  # (row, col) -> remaining span
+
+        grid: list[list[Any]] = []
+
+        for row_idx, row in enumerate(rows):
+            cells = row.find_all(["td", "th"])
+            grid.append([])
+
+            col_idx = 0
+            for cell in cells:
+                # Skip columns occupied by previous rowspans
+                while (row_idx, col_idx) in rowspan_tracker:
+                    grid[row_idx].append(None)  # Placeholder for spanned cell
+                    col_idx += 1
+
+                # Get cell value
+                cell_text = cell.get_text(strip=options.trim_whitespace)
+
+                # Get colspan/rowspan
+                colspan = int(cell.get("colspan", 1))
+                rowspan = int(cell.get("rowspan", 1))
+
+                # Add cell and colspan placeholders
+                grid[row_idx].append(cell_text)
+                for _ in range(colspan - 1):
+                    col_idx += 1
+                    grid[row_idx].append(None)
+
+                # Track rowspan
+                if rowspan > 1:
+                    for r in range(1, rowspan):
+                        for c in range(colspan):
+                            rowspan_tracker[
+                                (row_idx + r, col_idx - colspan + 1 + c)
+                            ] = rowspan - r
+
+                col_idx += 1
+
+            max_cols = max(max_cols, len(grid[row_idx]))
+
+        # Normalize row lengths
+        for row in grid:
+            while len(row) < max_cols:
+                row.append(None)
+
+        return grid
+
+    def _detect_header_row(self, rows: list[Any], options: HTMLImportOptions) -> bool:
+        """Detect if first row should be treated as header.
+
+        Args:
+            rows: List of BeautifulSoup <tr> elements
+            options: Import options
+
+        Returns:
+            True if first row is header
+        """
+        if options.header_row is not None:
+            return options.header_row
+
+        # Auto-detect: check if first row is in <thead> or uses <th>
+        if not rows:
+            return False
+
+        first_row = rows[0]
+
+        # Check if in thead
+        if first_row.find_parent("thead"):
+            return True
+
+        # Check if uses <th> cells
+        th_cells = first_row.find_all("th")
+        td_cells = first_row.find_all("td")
+
+        # If row has more <th> than <td>, treat as header
+        return len(th_cells) > len(td_cells)
+
+    def _detect_type(self, value: Any, options: HTMLImportOptions) -> Any:
+        """Detect and convert cell value type.
+
+        Args:
+            value: Raw cell value
+            options: Import options
+
+        Returns:
+            Typed value (int, float, date, or str)
+        """
+        if value is None:
+            return None
+
+        text = str(value).strip()
+        if not text:
+            return None
+
+        # Try integer
+        try:
+            if text.isdigit() or (text.startswith("-") and text[1:].isdigit()):
+                return int(text)
+        except ValueError:
+            pass
+
+        # Try float
+        try:
+            if "." in text or "e" in text.lower():
+                return float(text)
+        except ValueError:
+            pass
+
+        # Try date (common formats)
+        date_patterns = [
+            (r"^\d{4}-\d{2}-\d{2}$", "%Y-%m-%d"),  # ISO format
+            (r"^\d{2}/\d{2}/\d{4}$", "%m/%d/%Y"),  # US format
+            (r"^\d{2}-\d{2}-\d{4}$", "%m-%d-%Y"),  # US format with dashes
+            (r"^\d{4}/\d{2}/\d{2}$", "%Y/%m/%d"),  # ISO with slashes
+        ]
+
+        for pattern, fmt in date_patterns:
+            if re.match(pattern, text):
+                try:
+                    return datetime.strptime(text, fmt).date()
+                except ValueError:
+                    pass
+
+        # Return as string
+        return text
 
     def _escape_html(self, text: str) -> str:
         """Escape HTML special characters."""

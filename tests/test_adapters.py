@@ -15,7 +15,7 @@ from __future__ import annotations
 
 from datetime import date, datetime
 from decimal import Decimal
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import pytest
 
@@ -41,6 +41,9 @@ if TYPE_CHECKING:
 # ==============================================================================
 # Fixtures
 # ==============================================================================
+
+
+pytestmark = [pytest.mark.unit]
 
 
 @pytest.fixture
@@ -576,17 +579,6 @@ class TestHtmlAdapter:
         content = output_path.read_text()
         assert "<td></td>" in content  # None becomes empty cell
 
-    def test_import_not_implemented(self, tmp_path: Path) -> None:
-        """Test HTML import raises NotImplementedError."""
-        adapter = HtmlAdapter()
-        html_file = tmp_path / "test.html"
-        html_file.write_text("<html></html>")
-
-        with pytest.raises(
-            NotImplementedError, match="HTML import is not yet supported"
-        ):
-            adapter.import_file(html_file)
-
 
 # ==============================================================================
 # OdsAdapter Tests
@@ -756,10 +748,10 @@ class TestAdapterRegistry:
             def file_extension(self) -> str:
                 return ".testcustom"
 
-            def export(self, sheets, output_path, options=None):
+            def export(self, sheets: Any, output_path: Any, options: Any = None) -> Any:
                 return output_path
 
-            def import_file(self, input_path, options=None):
+            def import_file(self, input_path: Any, options: Any = None) -> Any:
                 return []
 
         # Store original adapters to restore later
@@ -936,14 +928,14 @@ class TestFormatAdapterAbstract:
     def test_format_adapter_cannot_instantiate(self) -> None:
         """Test that FormatAdapter cannot be instantiated directly."""
         with pytest.raises(TypeError, match="abstract"):
-            FormatAdapter()  # type: ignore
+            FormatAdapter()  # type: ignore[abstract]
 
     def test_all_subclasses_implement_interface(self) -> None:
         """Test all subclasses properly implement the interface."""
         subclasses = [CsvAdapter, TsvAdapter, JsonAdapter, HtmlAdapter, OdsAdapter]
 
         for subclass in subclasses:
-            adapter = subclass()
+            adapter = subclass()  # type: ignore[abstract]
             # All these should work without raising
             assert isinstance(adapter.format_name, str)
             assert isinstance(adapter.file_extension, str)
