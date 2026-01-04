@@ -30,6 +30,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Self
 
+from spreadsheet_dl.exceptions import FinanceTrackerError
+
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
@@ -42,7 +44,7 @@ if TYPE_CHECKING:
 # ============================================================================
 
 
-class BuilderError(Exception):
+class BuilderError(FinanceTrackerError):
     """Base exception for builder errors with actionable messages."""
 
     pass
@@ -2305,7 +2307,7 @@ def formula() -> FormulaBuilder:
 # ============================================================================
 
 
-class CircularReferenceError(Exception):
+class CircularReferenceError(FinanceTrackerError):
     """
     Error raised when circular references are detected in formulas.
 

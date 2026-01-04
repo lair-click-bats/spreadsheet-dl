@@ -168,7 +168,7 @@ class ScienceDomainPlugin(BaseDomainPlugin):
             description="Scientific analysis and experiment tracking",
             author="Your Name",
             license="MIT",
-            homepage="https://github.com/yourusername/spreadsheet-dl-science",
+            homepage="https://github.com/lair-click-bats/spreadsheet-dl-science",
             tags=("science", "experiments", "statistics", "data"),
             min_spreadsheet_dl_version="4.0.0",
         )
@@ -1162,10 +1162,10 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/spreadsheet-dl-science"
+Homepage = "https://github.com/lair-click-bats/spreadsheet-dl-science"
 Documentation = "https://spreadsheet-dl-science.readthedocs.io"
-Repository = "https://github.com/yourusername/spreadsheet-dl-science"
-Issues = "https://github.com/yourusername/spreadsheet-dl-science/issues"
+Repository = "https://github.com/lair-click-bats/spreadsheet-dl-science"
+Issues = "https://github.com/lair-click-bats/spreadsheet-dl-science/issues"
 
 [build-system]
 requires = ["hatchling"]

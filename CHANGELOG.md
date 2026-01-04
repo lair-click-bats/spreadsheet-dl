@@ -223,11 +223,11 @@ except NoSheetSelectedError as e:
 
 ---
 
-[4.0.0]: https://github.com/your-org/spreadsheet-dl/releases/tag/v4.0.0
-[4.0.0-alpha.1]: https://github.com/your-org/spreadsheet-dl/compare/v2.0.0...v4.0.0-alpha.1
-[2.0.0]: https://github.com/your-org/spreadsheet-dl/compare/v0.4.1...v2.0.0
-[0.4.1]: https://github.com/your-org/spreadsheet-dl/compare/v0.4.0...v0.4.1
-[0.4.0]: https://github.com/your-org/spreadsheet-dl/compare/v0.3.0...v0.4.0
-[0.3.0]: https://github.com/your-org/spreadsheet-dl/compare/v0.2.0...v0.3.0
-[0.2.0]: https://github.com/your-org/spreadsheet-dl/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/your-org/spreadsheet-dl/releases/tag/v0.1.0
+[4.0.0]: https://github.com/lair-click-bats/spreadsheet-dl/releases/tag/v4.0.0
+[4.0.0-alpha.1]: https://github.com/lair-click-bats/spreadsheet-dl/compare/v2.0.0...v4.0.0-alpha.1
+[2.0.0]: https://github.com/lair-click-bats/spreadsheet-dl/compare/v0.4.1...v2.0.0
+[0.4.1]: https://github.com/lair-click-bats/spreadsheet-dl/compare/v0.4.0...v0.4.1
+[0.4.0]: https://github.com/lair-click-bats/spreadsheet-dl/compare/v0.3.0...v0.4.0
+[0.3.0]: https://github.com/lair-click-bats/spreadsheet-dl/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/lair-click-bats/spreadsheet-dl/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/lair-click-bats/spreadsheet-dl/releases/tag/v0.1.0

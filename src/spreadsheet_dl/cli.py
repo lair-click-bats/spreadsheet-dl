@@ -1,8 +1,8 @@
 """
-Command-line interface for finance tracker.
+Command-line interface for SpreadsheetDL.
 
-Provides CLI commands for generating budgets, analyzing spending,
-creating reports, and managing finances.
+Provides CLI commands for creating spreadsheets, managing templates,
+generating reports, and working with domain-specific features.
 
 New in v4.0.0:
     - FR-EXT-001: Plugin system framework (plugin command)

@@ -62,7 +62,7 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 
 ```bash
 # Clone your fork
-git clone https://github.com/YOUR-USERNAME/spreadsheet-dl.git
+git clone https://github.com/lair-click-bats/spreadsheet-dl.git
 cd spreadsheet-dl
 
 # Install dependencies

@@ -97,6 +97,10 @@ logs/
 # Generated outputs
 output/
 
+# Claude Code work files
+coverage.json
+active_work.json
+
 # =============================================================================
 # LaTeX Generated Files
 # =============================================================================

@@ -14,6 +14,22 @@ Features:
     - Secure credential storage via CredentialStore
     - Multiple institution support
     - Transaction categorization
+
+**EXPERIMENTAL STATUS**:
+    This module contains API client stub methods that are not yet implemented.
+    The following methods raise NotImplementedError:
+        - PlaidClient._api_create_link_token
+        - PlaidClient._api_exchange_token
+        - PlaidClient._api_get_accounts
+        - PlaidClient._api_get_balances
+        - PlaidClient._api_sync_transactions
+        - PlaidClient._api_get_transactions
+        - PlaidClient._api_refresh_transactions
+        - PlaidClient._api_search_institutions
+
+    These stubs define the interface for production Plaid API integration.
+    Full implementation requires adding HTTP client (requests/httpx) and
+    handling Plaid API authentication, rate limiting, and error responses.
 """
 
 from __future__ import annotations

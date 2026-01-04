@@ -52,15 +52,15 @@ spreadsheet-dl generate
 
 ### When to Use Which Form
 
-| Context                 | Form           | Example                           |
-| ----------------------- | -------------- | --------------------------------- |
-| **Marketing copy**      | SpreadsheetDL  | "SpreadsheetDL is the..."         |
-| **Documentation prose** | SpreadsheetDL  | "Using SpreadsheetDL, you can..." |
-| **Package names**       | spreadsheet-dl | `pip install spreadsheet-dl`      |
-| **Python imports**      | spreadsheet_dl | `import spreadsheet_dl`           |
-| **CLI commands**        | spreadsheet-dl | `spreadsheet-dl generate`         |
-| **File names**          | spreadsheet-dl | `spreadsheet-dl-guide.md`         |
-| **URLs**                | spreadsheet-dl | `github.com/USER/spreadsheet-dl`  |
+| Context                 | Form           | Example                                     |
+| ----------------------- | -------------- | ------------------------------------------- |
+| **Marketing copy**      | SpreadsheetDL  | "SpreadsheetDL is the..."                   |
+| **Documentation prose** | SpreadsheetDL  | "Using SpreadsheetDL, you can..."           |
+| **Package names**       | spreadsheet-dl | `pip install spreadsheet-dl`                |
+| **Python imports**      | spreadsheet_dl | `import spreadsheet_dl`                     |
+| **CLI commands**        | spreadsheet-dl | `spreadsheet-dl generate`                   |
+| **File names**          | spreadsheet-dl | `spreadsheet-dl-guide.md`                   |
+| **URLs**                | spreadsheet-dl | `github.com/lair-click-bats/spreadsheet-dl` |
 
 ---
 
@@ -385,7 +385,7 @@ builder.sheet("Budget").header_row(style="header_primary")
 
 **Twitter/X (280 chars):**
 
-> 🧮 SpreadsheetDL v4.0 is here! Define spreadsheets as code, export to ODS/XLSX/PDF. Built-in domains for finance, science, & engineering. Native MCP server for Claude integration. Try it: github.com/USER/spreadsheet-dl
+> 🧮 SpreadsheetDL v4.0 is here! Define spreadsheets as code, export to ODS/XLSX/PDF. Built-in domains for finance, science, & engineering. Native MCP server for Claude integration. Try it: github.com/lair-click-bats/spreadsheet-dl
 
 **LinkedIn (Professional):**
 

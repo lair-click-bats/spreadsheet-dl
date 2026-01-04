@@ -30,6 +30,14 @@ from spreadsheet_dl.export import (
     export_to_xlsx,
 )
 
+# Check if openpyxl is available
+try:
+    import openpyxl  # noqa: F401
+
+    HAS_OPENPYXL = True
+except ImportError:
+    HAS_OPENPYXL = False
+
 
 @pytest.fixture
 def temp_dir():
@@ -185,7 +193,7 @@ class TestExportXLSX:
             assert "openpyxl" in str(exc_info.value)
 
     @pytest.mark.skipif(
-        True,  # Skip unless openpyxl is confirmed available
+        not HAS_OPENPYXL,
         reason="openpyxl required",
     )
     def test_export_xlsx_content(self, temp_dir, sample_sheet_data):

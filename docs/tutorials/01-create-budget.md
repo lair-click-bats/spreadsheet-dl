@@ -12,7 +12,7 @@ Learn how to create a comprehensive monthly budget from scratch using Spreadshee
 
 ## Prerequisites
 
-- SpreadsheetDL installed (`pip install git+https://github.com/USER/spreadsheet-dl.git`)
+- SpreadsheetDL installed (`pip install git+https://github.com/lair-click-bats/spreadsheet-dl.git`)
 - Basic understanding of budgeting concepts
 - Text editor or Python IDE
 

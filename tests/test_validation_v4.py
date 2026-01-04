@@ -88,9 +88,20 @@ class TestVAL101_DataclassImprovements:
 
     def test_all_existing_tests_pass(self) -> None:
         """VAL-101-C2: All existing tests pass (checked by pytest run)."""
-        # This is verified by the overall test suite passing
-        # Individual test count verified in test session
-        assert True
+        # This test verifies that the test suite runs successfully
+        # We check that key dataclass modules are importable and functional
+        import dataclasses
+
+        from spreadsheet_dl.schema import styles
+
+        # Verify key classes can be instantiated
+        color = styles.Color("#FF0000")
+        assert dataclasses.is_dataclass(color)
+        assert color.value == "#FF0000"
+
+        font = styles.Font(family="Arial")
+        assert dataclasses.is_dataclass(font)
+        assert font.family == "Arial"
 
     def _get_default_value(self, field: dataclasses.Field[Any]) -> Any:
         """Get a default value for a field for testing."""
@@ -200,15 +211,75 @@ class TestVAL121_ThemeVariantSupport:
 
     def test_variant_switching_works(self) -> None:
         """VAL-121-C2: Variant switching works (if implemented)."""
-        # This is a placeholder for variant switching tests
-        # Implementation may not be complete yet
-        assert True  # Mark as passing for now
+        from spreadsheet_dl.schema.styles import Color, Theme, ThemeSchema, ThemeVariant
+
+        # Create a theme with a variant
+        theme = Theme(
+            meta=ThemeSchema(name="test"),
+            variants={
+                "dark": ThemeVariant(
+                    name="dark",
+                    description="Dark mode",
+                    colors={"primary": Color("#AABBCC")},
+                )
+            },
+        )
+
+        # Verify default has no active variant
+        assert theme.active_variant is None
+
+        # Switch to dark variant
+        theme.set_variant("dark")
+        assert theme.active_variant == "dark"
+
+        # Switch back to base
+        theme.set_variant(None)
+        assert theme.active_variant is None
+
+        # Verify invalid variant raises error
+        with pytest.raises(KeyError):
+            theme.set_variant("nonexistent")
 
     def test_dark_mode_renders_correctly(self) -> None:
         """VAL-121-C3: Dark mode renders correctly (if implemented)."""
-        # This is a placeholder for dark mode rendering tests
-        # Implementation may not be complete yet
-        assert True  # Mark as passing for now
+        from spreadsheet_dl.schema.styles import (
+            Color,
+            ColorPalette,
+            Theme,
+            ThemeSchema,
+            ThemeVariant,
+        )
+
+        # Create theme with dark mode variant
+        base_palette = ColorPalette()
+        base_palette.set("background", Color("#FFFFFF"))
+        base_palette.set("text", Color("#000000"))
+
+        theme = Theme(
+            meta=ThemeSchema(name="test"),
+            colors=base_palette,
+            variants={
+                "dark": ThemeVariant(
+                    name="dark",
+                    description="Dark mode",
+                    colors={
+                        "background": Color("#1A1A1A"),
+                        "text": Color("#FFFFFF"),
+                    },
+                )
+            },
+        )
+
+        # Test base theme colors
+        assert theme.get_color("background").value == "#FFFFFF"
+        assert theme.get_color("text").value == "#000000"
+
+        # Switch to dark mode
+        theme.set_variant("dark")
+
+        # Verify colors are overridden
+        assert theme.get_color("background").value == "#1A1A1A"
+        assert theme.get_color("text").value == "#FFFFFF"
 
 
 class TestVAL201_BuilderImprovements:
@@ -227,18 +298,81 @@ class TestVAL201_BuilderImprovements:
 
     def test_named_ranges_work_in_formulas(self) -> None:
         """VAL-201-C2: Named ranges work in formulas (if implemented)."""
-        # Placeholder - implementation may not be complete
-        assert True
+        from spreadsheet_dl.builder import NamedRange, RangeRef
+
+        # Create a named range
+        named_range = NamedRange(
+            name="SalesData",
+            range=RangeRef("A2", "A10", sheet="Sheet1"),
+            scope="workbook",
+        )
+
+        # Verify named range properties
+        assert named_range.name == "SalesData"
+        assert named_range.range.start == "A2"
+        assert named_range.range.end == "A10"
+        assert named_range.range.sheet == "Sheet1"
+        assert named_range.scope == "workbook"
+
+        # Verify it can be used in formulas (format check)
+        range_str = str(named_range.range)
+        assert "A2:A10" in range_str
 
     def test_formula_validation_catches_errors(self) -> None:
         """VAL-201-C3: Formula validation catches errors (if implemented)."""
-        # Placeholder - implementation may not be complete
-        assert True
+        from spreadsheet_dl.schema.validation import FormulaValidator
+
+        validator = FormulaValidator(strict=False)
+
+        # Test valid formula
+        result = validator.validate("of:=SUM([.A1:.A10])")
+        assert result.is_valid
+
+        # Test formula with mismatched parentheses
+        result = validator.validate("of:=SUM([.A1:.A10]")
+        assert not result.is_valid
+        assert len(result.errors) > 0
+        assert "Unclosed" in result.errors[0] or "Unmatched" in result.errors[0]
+
+        # Test empty formula
+        result = validator.validate("")
+        assert not result.is_valid
+        assert "empty" in result.errors[0].lower()
+
+        # Test formula with invalid syntax
+        result = validator.validate("of:=SUM((A1:A10)")
+        assert not result.is_valid
 
     def test_circular_references_detected(self) -> None:
         """VAL-201-C4: Circular references detected (if implemented)."""
-        # Placeholder - implementation may not be complete
-        assert True
+        from spreadsheet_dl.builder import (
+            CircularReferenceError,
+            FormulaDependencyGraph,
+        )
+
+        # Create dependency graph
+        graph = FormulaDependencyGraph()
+
+        # Add cells without circular reference
+        graph.add_cell("A1", "of:=10", "Sheet1")
+        graph.add_cell("A2", "of:=[.A1]*2", "Sheet1")
+        graph.add_cell("A3", "of:=[.A2]+5", "Sheet1")
+
+        # Should have no circular references
+        circular_refs = graph.detect_circular_references()
+        assert len(circular_refs) == 0
+
+        # Add a circular reference: A4 -> A5 -> A4
+        graph.add_cell("A4", "of:=[.A5]+1", "Sheet1")
+        graph.add_cell("A5", "of:=[.A4]*2", "Sheet1")
+
+        # Should detect circular reference
+        circular_refs = graph.detect_circular_references()
+        assert len(circular_refs) > 0
+
+        # Verify that validation raises error
+        with pytest.raises(CircularReferenceError):
+            graph.validate()
 
 
 class TestVAL211_Rendering:
@@ -276,8 +410,31 @@ class TestVAL231_Charts:
 
     def test_sparklines_render_in_cells(self) -> None:
         """VAL-231-C2: Sparklines render in cells (if implemented)."""
-        # Placeholder for sparkline tests
-        assert True
+        from spreadsheet_dl.charts import Sparkline, SparklineMarkers, SparklineType
+
+        # Create a line sparkline
+        sparkline = Sparkline(
+            type=SparklineType.LINE,
+            data_range="Sheet1.A1:A10",
+            color="#4472C4",
+            markers=SparklineMarkers(high="#00FF00", low="#FF0000"),
+        )
+
+        # Verify sparkline properties
+        assert sparkline.type == SparklineType.LINE
+        assert sparkline.data_range == "Sheet1.A1:A10"
+        assert sparkline.color == "#4472C4"
+        assert sparkline.markers is not None
+        assert sparkline.markers.high == "#00FF00"
+        assert sparkline.markers.low == "#FF0000"
+
+        # Test column sparkline
+        column_sparkline = Sparkline(type=SparklineType.COLUMN, data_range="B1:B10")
+        assert column_sparkline.type == SparklineType.COLUMN
+
+        # Test win/loss sparkline
+        winloss = Sparkline(type=SparklineType.WIN_LOSS, data_range="C1:C10")
+        assert winloss.type == SparklineType.WIN_LOSS
 
 
 class TestVAL301_MCPTools:
@@ -295,23 +452,73 @@ class TestVAL301_MCPTools:
 
     def test_all_cell_tools_functional(self) -> None:
         """VAL-301-C2: All cell tools functional (if implemented)."""
-        # Placeholder for cell tool tests
-        assert True
+        from spreadsheet_dl.mcp_server import MCPConfig, MCPServer
+
+        # Create MCP server
+        config = MCPConfig(allowed_paths=["/tmp"])
+        server = MCPServer(config)
+
+        # Verify cell operation tools are registered
+        all_tools = server._tools
+        cell_tools = [name for name in all_tools if "cell" in all_tools[name].name]
+
+        # Should have multiple cell tools
+        assert len(cell_tools) > 0
+
+        # Verify registry has cell_operations category
+        registry_tools = server._registry.get_tools_by_category("cell_operations")
+        assert len(registry_tools) > 0
 
     def test_all_style_tools_functional(self) -> None:
         """VAL-301-C3: All style tools functional (if implemented)."""
-        # Placeholder for style tool tests
-        assert True
+        from spreadsheet_dl.mcp_server import MCPConfig, MCPServer
+
+        # Create MCP server
+        config = MCPConfig(allowed_paths=["/tmp"])
+        server = MCPServer(config)
+
+        # Verify style operation tools exist
+        style_tools = server._registry.get_tools_by_category("style_operations")
+        assert len(style_tools) > 0
+
+        # Verify at least one style tool is registered
+        all_tools = server._tools
+        style_tool_names = [t.name for t in style_tools]
+        assert any(name in all_tools for name in style_tool_names)
 
     def test_all_structure_tools_functional(self) -> None:
         """VAL-301-C4: All structure tools functional (if implemented)."""
-        # Placeholder for structure tool tests
-        assert True
+        from spreadsheet_dl.mcp_server import MCPConfig, MCPServer
+
+        # Create MCP server
+        config = MCPConfig(allowed_paths=["/tmp"])
+        server = MCPServer(config)
+
+        # Verify structure operation tools exist
+        structure_tools = server._registry.get_tools_by_category("structure_operations")
+        assert len(structure_tools) > 0
+
+        # Verify at least one structure tool is registered
+        all_tools = server._tools
+        structure_tool_names = [t.name for t in structure_tools]
+        assert any(name in all_tools for name in structure_tool_names)
 
     def test_all_advanced_tools_functional(self) -> None:
         """VAL-301-C5: All advanced tools functional (if implemented)."""
-        # Placeholder for advanced tool tests
-        assert True
+        from spreadsheet_dl.mcp_server import MCPConfig, MCPServer
+
+        # Create MCP server
+        config = MCPConfig(allowed_paths=["/tmp"])
+        server = MCPServer(config)
+
+        # Verify advanced operation tools exist
+        advanced_tools = server._registry.get_tools_by_category("advanced_operations")
+        assert len(advanced_tools) > 0
+
+        # Verify at least one advanced tool is registered
+        all_tools = server._tools
+        advanced_tool_names = [t.name for t in advanced_tools]
+        assert any(name in all_tools for name in advanced_tool_names)
 
 
 class TestVAL401_NewCapabilities:

@@ -565,8 +565,11 @@ class TestFormulaBuilderDateTimeFunctions:
 
     def test_edate_formula(self) -> None:
         """Test EDATE formula."""
-        # EDATE is not implemented - skip
-        pytest.skip("EDATE formula not implemented")
+        f = FormulaBuilder()
+        formula_str = f.edate(f.cell("A1"), 3)
+        assert "EDATE" in formula_str
+        assert "[.A1]" in formula_str
+        assert ";3" in formula_str
 
     def test_eomonth_formula(self) -> None:
         """Test EOMONTH formula."""

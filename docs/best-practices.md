@@ -586,4 +586,4 @@ if __name__ == "__main__":
 - [Installation Guide](installation.md)
 - [CLI Reference](cli.md)
 - [API Reference](api/)
-- [GitHub Issues](https://github.com/USER/spreadsheet-dl/issues)
+- [GitHub Issues](https://github.com/lair-click-bats/spreadsheet-dl/issues)

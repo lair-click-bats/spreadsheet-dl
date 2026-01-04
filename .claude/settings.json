@@ -40,17 +40,7 @@
       "Write(**/*credentials*)",
       "Read(.env*)",
       "Read(**/credentials*)",
-      "Bash(pip:*)",
-      "Read(./__pycache__/**)",
-      "Read(./.venv/**)",
-      "Read(./.ruff_cache/**)",
-      "Read(./.mypy_cache/**)",
-      "Read(./.pytest_cache/**)",
-      "Read(./dist/**)",
-      "Read(./*.egg-info/**)",
-      "Read(./.coverage)",
-      "Read(./htmlcov/**)",
-      "Read(./.tox/**)"
+      "Bash(pip:*)"
     ],
     "defaultMode": "bypassPermissions"
   },

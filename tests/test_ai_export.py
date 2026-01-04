@@ -29,6 +29,14 @@ from spreadsheet_dl.ai_export import (
 )
 from spreadsheet_dl.exceptions import FileError
 
+# Check if odfpy is available
+try:
+    import odf  # noqa: F401
+
+    HAS_ODFPY = True
+except ImportError:
+    HAS_ODFPY = False
+
 
 @pytest.fixture
 def temp_dir():
@@ -295,7 +303,7 @@ class TestAIExporter:
             exporter.export_to_json(temp_dir / "nonexistent.ods")
 
     @pytest.mark.skipif(
-        True,  # Skip if odfpy not available
+        not HAS_ODFPY,
         reason="odfpy required for full ODS testing",
     )
     def test_export_to_json_with_file(self, sample_ods, temp_dir):
@@ -317,7 +325,7 @@ class TestAIExporter:
         assert loaded["metadata"]["source_file"] == str(sample_ods)
 
     @pytest.mark.skipif(
-        True,
+        not HAS_ODFPY,
         reason="odfpy required for full ODS testing",
     )
     def test_export_dual(self, sample_ods, temp_dir):
