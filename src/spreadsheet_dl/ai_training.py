@@ -29,13 +29,13 @@ from enum import Enum
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, ClassVar
 
-from spreadsheet_dl.exceptions import FinanceTrackerError, ValidationError
+from spreadsheet_dl.exceptions import SpreadsheetDLError, ValidationError
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
 
 
-class AnonymizationError(FinanceTrackerError):
+class AnonymizationError(SpreadsheetDLError):
     """Raised when anonymization fails."""
 
     error_code = "FT-ANON-2000"
@@ -69,7 +69,11 @@ class PIIPattern:
     flags: int = re.IGNORECASE
 
     def compile(self) -> re.Pattern[str]:
-        """Compile the regex pattern."""
+        """Compile the regex pattern.
+
+        Note: Pattern is hardcoded or explicitly set by config, not user-provided.
+        Safe from ReDoS as patterns are controlled by application developers.
+        """
         return re.compile(self.pattern, self.flags)
 
 

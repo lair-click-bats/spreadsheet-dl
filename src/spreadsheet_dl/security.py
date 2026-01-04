@@ -1,5 +1,5 @@
 """
-Security module for finance tracker.
+Security module for SpreadsheetDL.
 
 Provides data encryption at rest, secure key management, and audit logging
 for protecting sensitive financial data.
@@ -33,23 +33,23 @@ from spreadsheet_dl.exceptions import (
     DecryptionError,
     EncryptionError,
     FileError,
-    FinanceTrackerError,
     IntegrityError,
+    SpreadsheetDLError,
 )
 
 __all__ = [
-    "AuditEvent",
-    "AuditLogger",
+    "AuditLogEntry",
+    "CredentialStore",
     "DecryptionError",
-    "EncryptedData",
     "EncryptionAlgorithm",
     "EncryptionError",
-    "Encryptor",
+    "EncryptionMetadata",
+    "FileEncryptor",
     "IntegrityError",
     "KeyDerivationFunction",
-    "SecureKeyManager",
-    "SecurityConfig",
-    "secure_delete",
+    "SecurityAuditLog",
+    "check_password_strength",
+    "generate_password",
 ]
 
 
@@ -461,7 +461,7 @@ class FileEncryptor:
 
             return metadata
 
-        except FinanceTrackerError:
+        except SpreadsheetDLError:
             self.audit_log.log_action(
                 "encrypt",
                 str(input_path),
@@ -549,7 +549,7 @@ class FileEncryptor:
                 details={"error": "integrity_check_failed"},
             )
             raise
-        except FinanceTrackerError:
+        except SpreadsheetDLError:
             self.audit_log.log_action(
                 "decrypt",
                 str(input_path),
@@ -597,7 +597,7 @@ class FileEncryptor:
             magic = f.read(len(self.MAGIC_BYTES))
             if magic != self.MAGIC_BYTES:
                 raise DecryptionError(
-                    "Invalid file format - not an encrypted finance tracker file"
+                    "Invalid file format - not an encrypted SpreadsheetDL file"
                 )
 
             version = int.from_bytes(f.read(2), "big")

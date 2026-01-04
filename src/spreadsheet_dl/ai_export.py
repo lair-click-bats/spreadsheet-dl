@@ -1,5 +1,5 @@
 """
-AI-friendly export module for finance tracker.
+AI-friendly export module for SpreadsheetDL.
 
 Provides dual export functionality that generates both human-readable ODS files
 and AI-consumable JSON files with semantic metadata, enabling LLM integration
@@ -32,7 +32,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, ClassVar
 
-from spreadsheet_dl.exceptions import FileError, FinanceTrackerError
+from spreadsheet_dl.exceptions import FileError, SpreadsheetDLError
 
 
 class SemanticCellType(Enum):
@@ -129,7 +129,7 @@ class SemanticTag(Enum):
     PROJECTED = "projected"
 
 
-class ExportError(FinanceTrackerError):
+class ExportError(SpreadsheetDLError):
     """Base exception for export errors."""
 
     error_code = "FT-EXP-1200"
@@ -509,7 +509,7 @@ class AIExporter:
             return export_data
 
         except Exception as e:
-            if isinstance(e, FinanceTrackerError):
+            if isinstance(e, SpreadsheetDLError):
                 raise
             raise DualExportError(f"Failed to export: {e}") from e
 
@@ -577,7 +577,7 @@ class AIExporter:
             if json_output.exists():
                 json_output.unlink()
 
-            if isinstance(e, FinanceTrackerError):
+            if isinstance(e, SpreadsheetDLError):
                 raise
             raise DualExportError(f"Dual export failed: {e}") from e
 

@@ -177,6 +177,7 @@ class PluginHook:
                 result = callback(*args, **kwargs)
                 results.append(result)
             except Exception as e:
+                # Intentionally broad: plugin callbacks can raise any exception
                 # Log error but don't break other plugins
                 print(f"Plugin hook error for {event}: {e}")
         return results
@@ -237,6 +238,7 @@ class PluginLoader:
                         ):
                             plugins.append(obj)
             except Exception as e:
+                # Intentionally broad: plugin modules can have any import/execution errors
                 print(f"Failed to load plugin {py_file}: {e}")
 
         return plugins

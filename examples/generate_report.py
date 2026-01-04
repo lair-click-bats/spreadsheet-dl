@@ -104,7 +104,10 @@ def example_convenience_function(ods_path: Path) -> None:
     # Return as string
     report = generate_monthly_report(ods_path, format="text")
     print("Generated report string (first 500 chars):")
-    print(report[:500])
+    if isinstance(report, str):
+        print(report[:500])
+    else:
+        print(f"Unexpected type: {type(report)}")
     print("...")
     print()
 

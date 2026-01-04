@@ -557,7 +557,7 @@ def example_error_handling() -> None:
     try:
         # This should fail - path not in allowed list
         result = server._handle_analyze_budget(
-            file_path="/home/user/secret/budget.ods",
+            file_path="/home/user/private/budget.ods",
             analysis_type="summary",
         )
         print(f"   Result: {result.content[0]['text']}")

@@ -1,5 +1,5 @@
 """
-Backup and restore module for finance tracker.
+Backup and restore module for SpreadsheetDL.
 
 Provides automated backup creation before destructive operations,
 backup management with configurable retention, and restore functionality
@@ -30,7 +30,7 @@ from typing import TYPE_CHECKING, Any
 
 from spreadsheet_dl.exceptions import (
     FileError,
-    FinanceTrackerError,
+    SpreadsheetDLError,
 )
 
 if TYPE_CHECKING:
@@ -56,7 +56,7 @@ class BackupCompression(Enum):
 
 
 # Exception classes for backup module
-class BackupError(FinanceTrackerError):
+class BackupError(SpreadsheetDLError):
     """Base exception for backup-related errors."""
 
     error_code = "FT-BAK-1100"
@@ -194,7 +194,7 @@ class BackupInfo:
 
 class BackupManager:
     """
-    Manage backups for finance tracker files.
+    Manage backups for SpreadsheetDL files.
 
     Provides automatic and manual backup creation, retention management,
     and restore functionality with integrity verification.
@@ -323,9 +323,10 @@ class BackupManager:
                 created=datetime.now(),
             )
 
-        except Exception as e:
-            if isinstance(e, FinanceTrackerError):
-                raise
+        except SpreadsheetDLError:
+            raise
+        except (OSError, ValueError, gzip.BadGzipFile) as e:
+            # OSError: File I/O errors, ValueError: JSON/encoding errors, gzip errors
             raise BackupError(f"Failed to create backup: {e}") from e
 
     def restore_backup(
@@ -420,9 +421,10 @@ class BackupManager:
 
             return target_path
 
-        except Exception as e:
-            if isinstance(e, FinanceTrackerError):
-                raise
+        except SpreadsheetDLError:
+            raise
+        except (OSError, ValueError, gzip.BadGzipFile, KeyError) as e:
+            # OSError: File I/O errors, ValueError: JSON/encoding, gzip errors, KeyError: metadata
             raise RestoreError(f"Failed to restore backup: {e}") from e
 
     def list_backups(
@@ -464,13 +466,6 @@ class BackupManager:
                         and metadata.original_path != str(file_path.absolute())
                     ):
                         continue
-
-                # Determine backup file path
-                backup_path = metadata_path.with_suffix("").with_suffix("")
-                if metadata.compression == BackupCompression.GZIP.value:
-                    pass
-                else:
-                    pass
 
                 # Find the actual backup file
                 possible_path = Path(
@@ -589,7 +584,8 @@ class BackupManager:
         except gzip.BadGzipFile:
             issues.append("Backup file is not valid gzip data")
             result["valid"] = False
-        except Exception as e:
+        except (OSError, ValueError, KeyError) as e:
+            # OSError: File I/O, ValueError: JSON/hash, KeyError: metadata fields
             issues.append(f"Verification error: {e}")
             result["valid"] = False
 

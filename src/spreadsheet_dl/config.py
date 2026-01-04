@@ -1,5 +1,5 @@
 """
-Configuration management for finance tracker.
+Configuration management for SpreadsheetDL.
 
 Supports configuration from:
 1. YAML config file (~/.spreadsheet-dl.yaml or ~/.config/spreadsheet-dl/config.yaml)

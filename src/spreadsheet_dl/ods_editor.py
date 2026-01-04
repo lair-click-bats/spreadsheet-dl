@@ -60,7 +60,8 @@ class OdsEditor:
 
         try:
             self._doc = load(str(self.file_path))
-        except Exception as e:
+        except (OSError, ValueError, AttributeError, KeyError) as e:
+            # OSError: File I/O, ValueError: malformed XML/ZIP, AttributeError: missing attrs, KeyError: missing elements
             raise OdsReadError(
                 f"Failed to load ODS file: {e}", "ODS_LOAD_FAILED"
             ) from e
@@ -186,7 +187,8 @@ class OdsEditor:
 
         except SheetNotFoundError:
             raise
-        except Exception as e:
+        except (AttributeError, ValueError, TypeError) as e:
+            # AttributeError: missing DOM methods, ValueError: invalid data, TypeError: type mismatches
             raise OdsWriteError(
                 f"Failed to append expense: {e}", "EXPENSE_APPEND_FAILED"
             ) from e
@@ -257,7 +259,8 @@ class OdsEditor:
         try:
             self._doc.save(str(save_path))
             return save_path
-        except Exception as e:
+        except (OSError, ValueError, AttributeError) as e:
+            # OSError: File I/O, ValueError: serialization, AttributeError: missing methods
             raise OdsWriteError(f"Failed to save document: {e}", "SAVE_FAILED") from e
 
     # =========================================================================

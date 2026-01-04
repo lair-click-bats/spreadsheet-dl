@@ -19,26 +19,26 @@ def main() -> None:
 
     # Configure MCP server
     config = MCPConfig(
-        port=3000,
-        host="localhost",
-        enable_write=True,
-        enable_ai_analysis=True,
-        spreadsheet_dir=Path("output").absolute(),
+        name="spreadsheet-dl",
+        version="1.0.0",
+        allowed_paths=[Path("output").absolute()],
+        rate_limit_per_minute=60,
+        enable_audit_log=True,
     )
 
     print("\nConfiguration:")
-    print(f"  Port: {config.port}")
-    print(f"  Host: {config.host}")
-    print(f"  Write enabled: {config.enable_write}")
-    print(f"  AI analysis: {config.enable_ai_analysis}")
-    print(f"  Spreadsheet directory: {config.spreadsheet_dir}")
+    print(f"  Name: {config.name}")
+    print(f"  Version: {config.version}")
+    print(f"  Allowed paths: {config.allowed_paths}")
+    print(f"  Rate limit: {config.rate_limit_per_minute}/min")
+    print(f"  Audit log: {config.enable_audit_log}")
 
     # Create server
     server = MCPServer(config)
 
     print("\nAvailable tools:")
-    for tool in server.get_available_tools():
-        print(f"  - {tool.name}: {tool.description}")
+    for tool_name, tool in server._tools.items():
+        print(f"  - {tool_name}: {tool.description}")
 
     print("\n" + "=" * 50)
     print("MCP Server Setup Complete!")

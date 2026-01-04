@@ -1,5 +1,5 @@
 """
-Custom exceptions for finance tracker.
+Custom exceptions for SpreadsheetDL.
 
 Provides a comprehensive hierarchy of exceptions with error codes,
 actionable guidance, and contextual information for better error handling
@@ -68,9 +68,9 @@ class ErrorContext:
         return result
 
 
-class FinanceTrackerError(Exception):
+class SpreadsheetDLError(Exception):
     """
-    Base exception for all finance tracker errors.
+    Base exception for all SpreadsheetDL errors.
 
     Provides structured error information including:
     - Machine-readable error code
@@ -205,7 +205,7 @@ class FinanceTrackerError(Exception):
 # =============================================================================
 
 
-class UnknownError(FinanceTrackerError):
+class UnknownError(SpreadsheetDLError):
     """Unknown or unexpected error."""
 
     error_code = "FT-GEN-001"
@@ -224,7 +224,7 @@ class UnknownError(FinanceTrackerError):
         self.original_error = original_error
 
 
-class OperationCancelledError(FinanceTrackerError):
+class OperationCancelledError(SpreadsheetDLError):
     """User cancelled the operation."""
 
     error_code = "FT-GEN-002"
@@ -238,7 +238,7 @@ class OperationCancelledError(FinanceTrackerError):
         )
 
 
-class NotImplementedFeatureError(FinanceTrackerError):
+class NotImplementedFeatureError(SpreadsheetDLError):
     """Feature is not yet implemented."""
 
     error_code = "FT-GEN-003"
@@ -257,7 +257,7 @@ class NotImplementedFeatureError(FinanceTrackerError):
 # =============================================================================
 
 
-class FileError(FinanceTrackerError):
+class FileError(SpreadsheetDLError):
     """Base exception for file-related errors."""
 
     error_code = "FT-FILE-100"
@@ -415,7 +415,7 @@ class FileReadError(FileError):
 # =============================================================================
 
 
-class OdsError(FinanceTrackerError):
+class OdsError(SpreadsheetDLError):
     """Base exception for ODS file errors."""
 
     error_code = "FT-ODS-200"
@@ -512,8 +512,8 @@ class InvalidOdsStructureError(OdsError):
         super().__init__(
             f"Invalid ODS file structure: {issue}",
             context=context,
-            details="The ODS file does not have the expected structure for a finance tracker budget.",
-            suggestion="Use 'generate' command to create a new valid budget file.",
+            details="The ODS file does not have the expected structure for a SpreadsheetDL document.",
+            suggestion="Use 'generate' command to create a new valid file.",
             **kwargs,
         )
 
@@ -548,7 +548,7 @@ class FormulaError(OdsError):
 # =============================================================================
 
 
-class CSVImportError(FinanceTrackerError):
+class CSVImportError(SpreadsheetDLError):
     """Base exception for CSV import errors."""
 
     error_code = "FT-CSV-300"
@@ -674,7 +674,7 @@ class CSVEncodingError(CSVImportError):
 # =============================================================================
 
 
-class ValidationError(FinanceTrackerError):
+class ValidationError(SpreadsheetDLError):
     """Base exception for data validation errors."""
 
     error_code = "FT-VAL-400"
@@ -807,7 +807,7 @@ class RequiredFieldError(ValidationError):
 # =============================================================================
 
 
-class ConfigurationError(FinanceTrackerError):
+class ConfigurationError(SpreadsheetDLError):
     """Base exception for configuration errors."""
 
     error_code = "FT-CFG-500"
@@ -912,7 +912,7 @@ class ConfigMigrationError(ConfigurationError):
 # =============================================================================
 
 
-class WebDAVError(FinanceTrackerError):
+class WebDAVError(SpreadsheetDLError):
     """Base exception for WebDAV errors."""
 
     error_code = "FT-NET-600"
@@ -1055,7 +1055,7 @@ class TimeoutError(WebDAVError):
 # =============================================================================
 
 
-class TemplateError(FinanceTrackerError):
+class TemplateError(SpreadsheetDLError):
     """Base exception for template errors."""
 
     error_code = "FT-TMPL-700"
@@ -1194,7 +1194,7 @@ class CircularInheritanceError(TemplateError):
 # =============================================================================
 
 
-class FormattingError(FinanceTrackerError):
+class FormattingError(SpreadsheetDLError):
     """Base exception for formatting errors."""
 
     error_code = "FT-FMT-800"
@@ -1287,7 +1287,7 @@ class LocaleError(FormattingError):
 # =============================================================================
 
 
-class ExtensionError(FinanceTrackerError):
+class ExtensionError(SpreadsheetDLError):
     """Base exception for extension/plugin errors."""
 
     error_code = "FT-EXT-900"
@@ -1386,7 +1386,7 @@ class HookError(ExtensionError):
 # =============================================================================
 
 
-class SecurityError(FinanceTrackerError):
+class SecurityError(SpreadsheetDLError):
     """Base exception for security-related errors."""
 
     error_code = "FT-SEC-1000"
@@ -1503,3 +1503,27 @@ class WeakPasswordError(SecurityError):
             suggestion="Use a stronger password with at least 12 characters, mixed case, numbers, and symbols.",
             **kwargs,
         )
+
+
+# =============================================================================
+# Backward Compatibility (Deprecated)
+# =============================================================================
+
+
+class FinanceTrackerError(SpreadsheetDLError):
+    """
+    Deprecated: Use SpreadsheetDLError instead.
+
+    This alias is provided for backward compatibility and will be removed in v5.0.0.
+    """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        import warnings
+
+        warnings.warn(
+            "FinanceTrackerError is deprecated and will be removed in v5.0.0. "
+            "Use SpreadsheetDLError instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        super().__init__(*args, **kwargs)

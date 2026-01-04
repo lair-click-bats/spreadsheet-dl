@@ -99,7 +99,7 @@ def main() -> None:
     )
 
     # Print summary
-    total_budget = sum(a.amount for a in allocations)
+    total_budget = sum(a.monthly_budget for a in allocations)
     total_spent = sum(e.amount for e in expenses)
 
     print("Budget created successfully!")

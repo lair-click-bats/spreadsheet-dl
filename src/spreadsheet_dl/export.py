@@ -1,5 +1,5 @@
 """
-Multi-format export module for finance tracker.
+Multi-format export module for SpreadsheetDL.
 
 Provides export functionality to multiple formats including Excel (XLSX),
 CSV, and PDF while preserving formatting where possible.
@@ -27,7 +27,7 @@ from typing import Any
 
 from spreadsheet_dl.exceptions import (
     FileError,
-    FinanceTrackerError,
+    SpreadsheetDLError,
 )
 from spreadsheet_dl.progress import BatchProgress
 
@@ -41,7 +41,7 @@ class ExportFormat(Enum):
     JSON = "json"
 
 
-class MultiExportError(FinanceTrackerError):
+class MultiExportError(SpreadsheetDLError):
     """Base exception for multi-format export errors."""
 
     error_code = "FT-MXP-1300"

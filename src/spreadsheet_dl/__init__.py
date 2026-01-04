@@ -53,50 +53,18 @@ Legacy Features (from v2.0.0):
 - FR-PRINT-*: Print layout optimization with page setup, headers/footers, breaks
 - FR-ADV-*: Advanced features (named ranges, comments, filters, hyperlinks, images)
 
-New in v0.7.0 (Phase 4: Advanced Features):
-- FR-GOAL-001: Savings goals with progress tracking
-- FR-GOAL-002: Debt payoff with snowball/avalanche methods
-- FR-RECUR-002: Bill reminders with due date tracking
-- IR-CAL-001: Calendar integration with ICS export
-- IR-NOTIF-001: Notification system (email, ntfy.sh)
-- FR-UX-009: Shell completions for Bash, Zsh, Fish
+Major Features (v4.0.0):
+- Universal Spreadsheet Definition Language with declarative DSL
+- Multi-format export (ODS, XLSX, CSV, PDF, AI-friendly JSON)
+- MCP server integration for LLM workflows
+- 10+ domain-specific plugins (finance, science, engineering, data science)
+- Professional templates with theme system
+- Advanced formulas, charts, and conditional formatting
+- Security features (encryption, credential management)
+- Backup/restore with compression
+- Plugin architecture with hot-reload support
 
-New in v0.6.0 (Phase 3: Enhanced Features):
-- FR-CORE-004: Account management with balance tracking and transfers
-- FR-CURR-001: Multi-currency support with 30+ currencies
-- FR-IMPORT-002: Extended bank formats (50+ banks supported)
-- FR-REPORT-003: Interactive visualization with Chart.js dashboards
-- FR-AI-001: Enhanced AI export with cell relationships
-- FR-AI-003: Semantic cell tagging for LLM integration
-
-New in v0.5.0:
-- DR-STORE-002: Backup/restore functionality with compression
-- FR-DUAL-001/002: Dual export (ODS + AI-friendly JSON)
-- FR-EXPORT-001: Multi-format export (XLSX, CSV, PDF)
-- FR-UX-004: Confirmation prompts for destructive operations
-- BackupManager for automatic and manual backups
-- AIExporter for LLM-friendly JSON export
-- MultiFormatExporter for XLSX/CSV/PDF export
-
-New in v0.4.2:
-- FR-SEC-001: Data encryption at rest (AES-256)
-- Security module with FileEncryptor, CredentialStore
-- Password strength checking and generation
-- Security audit logging
-
-New in v0.4.1:
-- FR-CORE-003: Expense append functionality (fixes Gap G-02)
-- FR-UX-003: Comprehensive error code system
-- OdsEditor module for modifying existing ODS files
-- CLI --dry-run flag for expense command
-
-New in v0.4.0:
-- Declarative DSL for themes and styling
-- YAML-based theme definitions
-- Fluent Builder API for spreadsheet construction
-- Type-safe FormulaBuilder
-- 5 built-in themes (default, corporate, minimal, dark, high_contrast)
-- CLI --theme flag support
+For complete feature history and migration guides, see CHANGELOG.md
 """
 
 __version__ = "4.0.0"
@@ -104,6 +72,14 @@ __author__ = "lair-click-bats"
 
 # Account Management (NEW in v0.6.0 - Phase 3)
 # Format Adapters (NEW in v4.0.0 - TASK-403)
+# =============================================================================
+# Modular Packages (NEW in v4.0.0) - Public namespace access
+# =============================================================================
+# Import packages for users who want to access modular structure
+# Example: from spreadsheet_dl import mcp_pkg; config = mcp_pkg.MCPConfig()
+from spreadsheet_dl import _builder as builder_pkg  # noqa: F401
+from spreadsheet_dl import _cli as cli_pkg  # noqa: F401
+from spreadsheet_dl import _mcp as mcp_pkg  # noqa: F401
 from spreadsheet_dl.adapters import (
     AdapterOptions,
     AdapterRegistry,
@@ -342,10 +318,11 @@ from spreadsheet_dl.exceptions import (
     DecryptionError,
     EncryptionError,
     FileError,
-    FinanceTrackerError,
+    FinanceTrackerError,  # Deprecated, use SpreadsheetDLError
     IntegrityError,
     OdsError,
     OperationCancelledError,
+    SpreadsheetDLError,
     TemplateError,
     ValidationError,
     WebDAVError,
@@ -528,7 +505,7 @@ from spreadsheet_dl.webdav_upload import (
     upload_budget,
 )
 
-__all__ = [
+__all__ = [  # noqa: RUF022  # Intentionally organized by category, not alphabetically
     # Constants (uppercase first)
     "BUILTIN_FORMATS",
     "CATEGORY_COLORS",
@@ -718,6 +695,7 @@ __all__ = [
     "SparklineType",
     "SpreadsheetBuilder",
     "SpreadsheetDecoder",
+    "SpreadsheetDLError",
     "SpreadsheetEncoder",
     "StandardCategory",
     "StreamingCell",
