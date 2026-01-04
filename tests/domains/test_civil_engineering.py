@@ -133,7 +133,7 @@ def test_plugin_cleanup() -> None:
 
 
 def test_beam_deflection_formula() -> None:
-    """Test beam deflection formula: δ = (5×w×L⁴)/(384×E×I)."""
+    """Test beam deflection formula: delta = (5*w*L⁴)/(384*E*I)."""
     formula = BeamDeflectionFormula()
 
     # Test metadata
@@ -151,7 +151,7 @@ def test_beam_deflection_formula() -> None:
 
 
 def test_shear_stress_formula() -> None:
-    """Test shear stress formula: τ = V×Q/(I×b)."""
+    """Test shear stress formula: tau = V*Q/(I*b)."""
     formula = ShearStressFormula()
 
     assert formula.metadata.name == "SHEAR_STRESS"
@@ -161,7 +161,7 @@ def test_shear_stress_formula() -> None:
 
 
 def test_moment_formula() -> None:
-    """Test moment formula: M = w×L²/8."""
+    """Test moment formula: M = w*L²/8."""
     formula = MomentFormula()
 
     assert formula.metadata.name == "MOMENT"
@@ -187,7 +187,7 @@ def test_bearing_capacity_formula() -> None:
 
 
 def test_settlement_formula() -> None:
-    """Test settlement formula: S = (H×Δσ)/E_s."""
+    """Test settlement formula: S = (H*Deltasigma)/E_s."""
     formula = SettlementFormula()
 
     assert formula.metadata.name == "SETTLEMENT"
@@ -197,7 +197,7 @@ def test_settlement_formula() -> None:
 
 
 def test_soil_pressure_formula() -> None:
-    """Test soil pressure formula: σ = P/A."""
+    """Test soil pressure formula: sigma = P/A."""
     formula = SoilPressureFormula()
 
     assert formula.metadata.name == "SOIL_PRESSURE"
@@ -222,7 +222,7 @@ def test_concrete_strength_formula() -> None:
 
 
 def test_reinforcement_ratio_formula() -> None:
-    """Test reinforcement ratio formula: ρ = A_s/(b×d)."""
+    """Test reinforcement ratio formula: rho = A_s/(b*d)."""
     formula = ReinforcementRatioFormula()
 
     assert formula.metadata.name == "REINFORCEMENT_RATIO"
@@ -232,7 +232,7 @@ def test_reinforcement_ratio_formula() -> None:
 
 
 def test_crack_width_formula() -> None:
-    """Test crack width formula: w = s_r×ε_m."""
+    """Test crack width formula: w = s_r*epsilon_m."""
     formula = CrackWidthFormula()
 
     assert formula.metadata.name == "CRACK_WIDTH"
@@ -247,7 +247,7 @@ def test_crack_width_formula() -> None:
 
 
 def test_dead_load_formula() -> None:
-    """Test dead load formula: DL = ρ×V×g."""
+    """Test dead load formula: DL = rho*V*g."""
     formula = DeadLoadFormula()
 
     assert formula.metadata.name == "DEAD_LOAD"
@@ -262,7 +262,7 @@ def test_dead_load_formula() -> None:
 
 
 def test_live_load_formula() -> None:
-    """Test live load formula: LL = q×A."""
+    """Test live load formula: LL = q*A."""
     formula = LiveLoadFormula()
 
     assert formula.metadata.name == "LIVE_LOAD"
@@ -272,7 +272,7 @@ def test_live_load_formula() -> None:
 
 
 def test_wind_load_formula() -> None:
-    """Test wind load formula: W = q×G×C_p×A."""
+    """Test wind load formula: W = q*G*C_p*A."""
     formula = WindLoadFormula()
 
     assert formula.metadata.name == "WIND_LOAD"
@@ -282,7 +282,7 @@ def test_wind_load_formula() -> None:
 
 
 def test_seismic_load_formula() -> None:
-    """Test seismic load formula: F = C_s×W."""
+    """Test seismic load formula: F = C_s*W."""
     formula = SeismicLoadFormula()
 
     assert formula.metadata.name == "SEISMIC_LOAD"
@@ -592,7 +592,7 @@ def test_beam_self_weight() -> None:
 
     # Weight should be positive
     assert weight > 0
-    # Roughly 0.3m × 0.5m × 2400 kg/m³ × 9.81 / 1000 = 3.53 kN/m
+    # Roughly 0.3m * 0.5m * 2400 kg/m³ * 9.81 / 1000 = 3.53 kN/m
     assert 3.0 < weight < 4.0
 
 

@@ -186,12 +186,12 @@ class QualityControlTemplate(BaseTemplate):
         metrics = [
             ("Sample Count", "=COUNTA('Inspection Data'.A2:A21)", "Count of samples"),
             ("Mean (X̄)", "=AVERAGE('Inspection Data'.D2:D21)", "Average measurement"),
-            ("Std Dev (σ)", "=STDEV('Inspection Data'.D2:D21)", "Standard deviation"),
-            ("Upper Control Limit (UCL)", "=B4+(3*B5)", "Mean + 3σ"),
-            ("Lower Control Limit (LCL)", "=B4-(3*B5)", "Mean - 3σ"),
+            ("Std Dev (sigma)", "=STDEV('Inspection Data'.D2:D21)", "Standard deviation"),
+            ("Upper Control Limit (UCL)", "=B4+(3*B5)", "Mean + 3sigma"),
+            ("Lower Control Limit (LCL)", "=B4-(3*B5)", "Mean - 3sigma"),
             ("Specification LSL", f"={self.spec_limits[0]}", "Lower spec limit"),
             ("Specification USL", f"={self.spec_limits[1]}", "Upper spec limit"),
-            ("Process Capability (Cp)", "=(B8-B7)/(6*B5)", "(USL-LSL)/(6σ)"),
+            ("Process Capability (Cp)", "=(B8-B7)/(6*B5)", "(USL-LSL)/(6sigma)"),
             (
                 "Defect Count",
                 "=COUNTIF('Inspection Data'.G2:G21,\"Fail\")",

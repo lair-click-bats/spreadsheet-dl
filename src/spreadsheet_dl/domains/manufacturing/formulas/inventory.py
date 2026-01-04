@@ -258,7 +258,7 @@ class SafetyStockFormula(BaseFormula):
 
         z_score, demand_stddev, lead_time = args
 
-        # Formula: Z * σ * SQRT(LT)
+        # Formula: Z * sigma * SQRT(LT)
         return f"{z_score}*{demand_stddev}*SQRT({lead_time})"
 
 

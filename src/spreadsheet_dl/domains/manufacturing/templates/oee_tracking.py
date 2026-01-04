@@ -28,7 +28,7 @@ class OEETrackingTemplate(BaseTemplate):
     - Availability calculation (uptime / planned time)
     - Performance calculation (actual / ideal cycle time)
     - Quality calculation (good units / total units)
-    - Overall OEE (Availability × Performance × Quality)
+    - Overall OEE (Availability * Performance * Quality)
     - Downtime tracking and categorization
     - Loss analysis (availability, performance, quality losses)
 

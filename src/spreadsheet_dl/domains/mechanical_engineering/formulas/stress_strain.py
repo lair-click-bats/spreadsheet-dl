@@ -16,7 +16,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 @dataclass(slots=True, frozen=True)
 class StressFormula(BaseFormula):
     """
-    Stress formula: σ = F / A.
+    Stress formula: sigma = F / A.
 
     Calculates normal stress given force and area.
 
@@ -36,7 +36,7 @@ class StressFormula(BaseFormula):
         return FormulaMetadata(
             name="STRESS",
             category="mechanical_engineering",
-            description="Calculate normal stress from force and area: σ = F / A",
+            description="Calculate normal stress from force and area: sigma = F / A",
             arguments=(
                 FormulaArgument(
                     name="force",
@@ -76,7 +76,7 @@ class StressFormula(BaseFormula):
 @dataclass(slots=True, frozen=True)
 class StrainFormula(BaseFormula):
     """
-    Strain formula: ε = ΔL / L.
+    Strain formula: epsilon = DeltaL / L.
 
     Calculates engineering strain given elongation and original length.
 
@@ -96,13 +96,13 @@ class StrainFormula(BaseFormula):
         return FormulaMetadata(
             name="STRAIN",
             category="mechanical_engineering",
-            description="Calculate engineering strain: ε = ΔL / L",
+            description="Calculate engineering strain: epsilon = DeltaL / L",
             arguments=(
                 FormulaArgument(
                     name="elongation",
                     type="number",
                     required=True,
-                    description="Change in length (ΔL) in mm",
+                    description="Change in length (DeltaL) in mm",
                 ),
                 FormulaArgument(
                     name="original_length",
@@ -136,7 +136,7 @@ class StrainFormula(BaseFormula):
 @dataclass(slots=True, frozen=True)
 class YoungsModulusFormula(BaseFormula):
     """
-    Young's Modulus formula: E = σ / ε.
+    Young's Modulus formula: E = sigma / epsilon.
 
     Calculates Young's modulus (elastic modulus) from stress and strain.
 
@@ -156,19 +156,19 @@ class YoungsModulusFormula(BaseFormula):
         return FormulaMetadata(
             name="YOUNGS_MODULUS",
             category="mechanical_engineering",
-            description="Calculate Young's modulus (elastic modulus): E = σ / ε",
+            description="Calculate Young's modulus (elastic modulus): E = sigma / epsilon",
             arguments=(
                 FormulaArgument(
                     name="stress",
                     type="number",
                     required=True,
-                    description="Normal stress (σ) in MPa",
+                    description="Normal stress (sigma) in MPa",
                 ),
                 FormulaArgument(
                     name="strain",
                     type="number",
                     required=True,
-                    description="Engineering strain (ε) dimensionless",
+                    description="Engineering strain (epsilon) dimensionless",
                 ),
             ),
             return_type="number",

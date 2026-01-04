@@ -29,8 +29,8 @@ class StressAnalysisTemplate(BaseTemplate):
 
     Features:
         - Multiple load cases (axial, bending, torsion)
-        - Stress components (σx, σy, τxy)
-        - Principal stress calculations (σ1, σ2)
+        - Stress components (sigmax, sigmay, tauxy)
+        - Principal stress calculations (sigma1, sigma2)
         - von Mises equivalent stress
         - Safety factor calculations
         - Yield strength comparison
@@ -86,11 +86,11 @@ class StressAnalysisTemplate(BaseTemplate):
 
         # Define columns
         builder.column("Load Case", width="80pt", style="text")
-        builder.column("σx (MPa)", width="80pt", type="number")
-        builder.column("σy (MPa)", width="80pt", type="number")
-        builder.column("τxy (MPa)", width="80pt", type="number")
-        builder.column("σ1 (MPa)", width="90pt", type="number")
-        builder.column("σ2 (MPa)", width="90pt", type="number")
+        builder.column("sigmax (MPa)", width="80pt", type="number")
+        builder.column("sigmay (MPa)", width="80pt", type="number")
+        builder.column("tauxy (MPa)", width="80pt", type="number")
+        builder.column("sigma1 (MPa)", width="90pt", type="number")
+        builder.column("sigma2 (MPa)", width="90pt", type="number")
         builder.column("von Mises (MPa)", width="110pt", type="number")
         builder.column("Safety Factor", width="100pt", type="number")
         builder.column("Status", width="80pt", style="text")
@@ -104,11 +104,11 @@ class StressAnalysisTemplate(BaseTemplate):
         # Header row
         builder.row(style="header_secondary")
         builder.cell("Load Case")
-        builder.cell("σx (MPa)")
-        builder.cell("σy (MPa)")
-        builder.cell("τxy (MPa)")
-        builder.cell("σ1 (MPa)")
-        builder.cell("σ2 (MPa)")
+        builder.cell("sigmax (MPa)")
+        builder.cell("sigmay (MPa)")
+        builder.cell("tauxy (MPa)")
+        builder.cell("sigma1 (MPa)")
+        builder.cell("sigma2 (MPa)")
         builder.cell("von Mises (MPa)")
         builder.cell("Safety Factor")
         builder.cell("Status")
@@ -118,23 +118,23 @@ class StressAnalysisTemplate(BaseTemplate):
             row_num = i + 3
             builder.row()
             builder.cell(f"Case {i + 1}", style="input")
-            builder.cell(0, style="input")  # σx
-            builder.cell(0, style="input")  # σy
-            builder.cell(0, style="input")  # τxy
+            builder.cell(0, style="input")  # sigmax
+            builder.cell(0, style="input")  # sigmay
+            builder.cell(0, style="input")  # tauxy
 
-            # Principal stress σ1 = (σx + σy)/2 + SQRT(((σx - σy)/2)^2 + τxy^2)
+            # Principal stress sigma1 = (sigmax + sigmay)/2 + SQRT(((sigmax - sigmay)/2)^2 + tauxy^2)
             builder.cell(
                 f"=(B{row_num}+C{row_num})/2+SQRT(POWER((B{row_num}-C{row_num})/2;2)+POWER(D{row_num};2))",
                 style="number",
             )
 
-            # Principal stress σ2 = (σx + σy)/2 - SQRT(((σx - σy)/2)^2 + τxy^2)
+            # Principal stress sigma2 = (sigmax + sigmay)/2 - SQRT(((sigmax - sigmay)/2)^2 + tauxy^2)
             builder.cell(
                 f"=(B{row_num}+C{row_num})/2-SQRT(POWER((B{row_num}-C{row_num})/2;2)+POWER(D{row_num};2))",
                 style="number",
             )
 
-            # von Mises stress = SQRT(σx^2 + σy^2 - σx*σy + 3*τxy^2)
+            # von Mises stress = SQRT(sigmax^2 + sigmay^2 - sigmax*sigmay + 3*tauxy^2)
             builder.cell(
                 f"=SQRT(POWER(B{row_num};2)+POWER(C{row_num};2)-B{row_num}*C{row_num}+3*POWER(D{row_num};2))",
                 style="number",
@@ -185,16 +185,16 @@ class StressAnalysisTemplate(BaseTemplate):
 
         builder.row()
         builder.cell(
-            "σx, σy = Normal stresses in x and y directions (tension positive)",
+            "sigmax, sigmay = Normal stresses in x and y directions (tension positive)",
             colspan=9,
         )
 
         builder.row()
-        builder.cell("τxy = Shear stress in xy plane", colspan=9)
+        builder.cell("tauxy = Shear stress in xy plane", colspan=9)
 
         builder.row()
         builder.cell(
-            "σ1, σ2 = Principal stresses (maximum and minimum normal stresses)",
+            "sigma1, sigma2 = Principal stresses (maximum and minimum normal stresses)",
             colspan=9,
         )
 

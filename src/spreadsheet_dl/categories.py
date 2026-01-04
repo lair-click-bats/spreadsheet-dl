@@ -9,4 +9,20 @@ Implements:
 """
 
 # Re-export everything from the new location
-from spreadsheet_dl.domains.finance.categories import *  # noqa: F403
+from spreadsheet_dl.domains.finance.categories import (
+    CATEGORY_COLORS,
+    Category,
+    CategoryManager,
+    StandardCategory,
+    category_from_string,
+    get_category_manager,
+)
+
+__all__ = [
+    "CATEGORY_COLORS",
+    "Category",
+    "CategoryManager",
+    "StandardCategory",
+    "category_from_string",
+    "get_category_manager",
+]

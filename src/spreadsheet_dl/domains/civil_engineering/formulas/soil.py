@@ -16,7 +16,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 @dataclass(slots=True, frozen=True)
 class BearingCapacityFormula(BaseFormula):
     """
-    Bearing capacity formula: q_ult = c×N_c + γ×D×N_q + 0.5×γ×B×N_γ.
+    Bearing capacity formula: q_ult = c*N_c + gamma*D*N_q + 0.5*gamma*B*N_gamma.
 
     Calculates ultimate bearing capacity of soil using Terzaghi's equation.
 
@@ -36,7 +36,7 @@ class BearingCapacityFormula(BaseFormula):
         return FormulaMetadata(
             name="BEARING_CAPACITY",
             category="civil_engineering",
-            description="Calculate ultimate bearing capacity: q_ult = c×N_c + γ×D×N_q + 0.5×γ×B×N_γ",
+            description="Calculate ultimate bearing capacity: q_ult = c*N_c + gamma*D*N_q + 0.5*gamma*B*N_gamma",
             arguments=(
                 FormulaArgument(
                     name="c",
@@ -78,7 +78,7 @@ class BearingCapacityFormula(BaseFormula):
                     name="Ngamma",
                     type="number",
                     required=True,
-                    description="Bearing capacity factor N_γ",
+                    description="Bearing capacity factor N_gamma",
                 ),
             ),
             return_type="number",
@@ -106,7 +106,7 @@ class BearingCapacityFormula(BaseFormula):
 @dataclass(slots=True, frozen=True)
 class SettlementFormula(BaseFormula):
     """
-    Settlement formula: S = (H×Δσ)/E_s.
+    Settlement formula: S = (H*delta_sigma)/E_s.
 
     Calculates soil settlement under applied stress.
 
@@ -126,7 +126,7 @@ class SettlementFormula(BaseFormula):
         return FormulaMetadata(
             name="SETTLEMENT",
             category="civil_engineering",
-            description="Calculate soil settlement: S = (H×Δσ)/E_s",
+            description="Calculate soil settlement: S = (H*delta_sigma)/E_s",
             arguments=(
                 FormulaArgument(
                     name="H",
@@ -172,7 +172,7 @@ class SettlementFormula(BaseFormula):
 @dataclass(slots=True, frozen=True)
 class SoilPressureFormula(BaseFormula):
     """
-    Soil pressure formula: σ = P/A.
+    Soil pressure formula: sigma = P/A.
 
     Calculates soil bearing pressure under applied load.
 
@@ -192,7 +192,7 @@ class SoilPressureFormula(BaseFormula):
         return FormulaMetadata(
             name="SOIL_PRESSURE",
             category="civil_engineering",
-            description="Calculate soil bearing pressure: σ = P/A",
+            description="Calculate soil bearing pressure: sigma = P/A",
             arguments=(
                 FormulaArgument(
                     name="P",

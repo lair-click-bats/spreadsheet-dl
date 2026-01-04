@@ -166,7 +166,7 @@ def calculate_series_resistance(resistances: Sequence[float]) -> float:
 
 def calculate_power_dissipation(voltage: float, current: float) -> float:
     """
-    Calculate power dissipation: P = V × I.
+    Calculate power dissipation: P = V * I.
 
     Args:
         voltage: Voltage in volts

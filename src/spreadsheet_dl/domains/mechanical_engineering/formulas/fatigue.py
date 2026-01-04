@@ -16,7 +16,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 @dataclass(slots=True, frozen=True)
 class FatigueLifeFormula(BaseFormula):
     """
-    Fatigue Life formula (S-N curve): N = C / (Δσ)^m.
+    Fatigue Life formula (S-N curve): N = C / (Deltasigma)^m.
 
     Calculates number of cycles to failure given stress range and S-N curve parameters.
 
@@ -36,7 +36,7 @@ class FatigueLifeFormula(BaseFormula):
         return FormulaMetadata(
             name="FATIGUE_LIFE",
             category="mechanical_engineering",
-            description="Calculate fatigue life using S-N curve: N = C / (Δσ)^m",
+            description="Calculate fatigue life using S-N curve: N = C / (Deltasigma)^m",
             arguments=(
                 FormulaArgument(
                     name="constant_c",
@@ -48,7 +48,7 @@ class FatigueLifeFormula(BaseFormula):
                     name="stress_range",
                     type="number",
                     required=True,
-                    description="Stress range (Δσ) in MPa",
+                    description="Stress range (Deltasigma) in MPa",
                 ),
                 FormulaArgument(
                     name="exponent_m",
@@ -82,7 +82,7 @@ class FatigueLifeFormula(BaseFormula):
 @dataclass(slots=True, frozen=True)
 class SafetyFactorFormula(BaseFormula):
     """
-    Safety Factor formula: SF = σ_yield / σ_applied.
+    Safety Factor formula: SF = sigma_yield / sigma_applied.
 
     Calculates safety factor given yield strength and applied stress.
 
@@ -102,19 +102,19 @@ class SafetyFactorFormula(BaseFormula):
         return FormulaMetadata(
             name="SAFETY_FACTOR",
             category="mechanical_engineering",
-            description="Calculate safety factor: SF = σ_yield / σ_applied",
+            description="Calculate safety factor: SF = sigma_yield / sigma_applied",
             arguments=(
                 FormulaArgument(
                     name="yield_strength",
                     type="number",
                     required=True,
-                    description="Material yield strength (σ_yield) in MPa",
+                    description="Material yield strength (sigma_yield) in MPa",
                 ),
                 FormulaArgument(
                     name="applied_stress",
                     type="number",
                     required=True,
-                    description="Applied stress (σ_applied) in MPa",
+                    description="Applied stress (sigma_applied) in MPa",
                 ),
             ),
             return_type="number",
@@ -142,7 +142,7 @@ class SafetyFactorFormula(BaseFormula):
 @dataclass(slots=True, frozen=True)
 class StressConcentrationFormula(BaseFormula):
     """
-    Stress Concentration formula: σ_max = K_t × σ_nominal.
+    Stress Concentration formula: sigma_max = K_t * sigma_nominal.
 
     Calculates maximum stress at a discontinuity given stress concentration factor
     and nominal stress.
@@ -163,7 +163,7 @@ class StressConcentrationFormula(BaseFormula):
         return FormulaMetadata(
             name="STRESS_CONCENTRATION",
             category="mechanical_engineering",
-            description="Calculate maximum stress at discontinuity: σ_max = K_t × σ_nominal",
+            description="Calculate maximum stress at discontinuity: sigma_max = K_t * sigma_nominal",
             arguments=(
                 FormulaArgument(
                     name="kt_factor",
@@ -175,7 +175,7 @@ class StressConcentrationFormula(BaseFormula):
                     name="nominal_stress",
                     type="number",
                     required=True,
-                    description="Nominal stress (σ_nominal) in MPa",
+                    description="Nominal stress (sigma_nominal) in MPa",
                 ),
             ),
             return_type="number",

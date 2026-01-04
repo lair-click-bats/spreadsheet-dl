@@ -127,10 +127,10 @@ class MaterialTakeoffTemplate(BaseTemplate):
             builder.cell(0, style="input")  # Area
             builder.cell(1, style="input")  # Quantity
             builder.cell(0, style="input")  # Unit weight
-            # Total weight = Quantity × Unit Weight
+            # Total weight = Quantity * Unit Weight
             builder.cell(f"=G{row_num}*H{row_num}", style="number")
             builder.cell(0, style="input")  # Unit cost
-            # Total cost = Quantity × Unit Cost
+            # Total cost = Quantity * Unit Cost
             builder.cell(f"=G{row_num}*J{row_num}", style="number")
 
         # Summary totals

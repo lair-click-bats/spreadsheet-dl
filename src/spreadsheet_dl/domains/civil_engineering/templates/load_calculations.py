@@ -28,7 +28,7 @@ class LoadCalculationsTemplate(BaseTemplate):
         - Columns: Load Type, Description, Dead Load (kN), Live Load (kN),
           Wind Load (kN), Seismic Load (kN), Total Load, Safety Factor,
           Design Load
-        - Auto-calculation: Total = sum of all loads, Design = Total × SF
+        - Auto-calculation: Total = sum of all loads, Design = Total * SF
         - Load combinations per ASCE 7 / Eurocode
         - Summary section with governing load combination
         - Conditional formatting for critical loads
@@ -125,7 +125,7 @@ class LoadCalculationsTemplate(BaseTemplate):
             # Total = sum of all loads
             builder.cell(f"=SUM(C{row_num}:F{row_num})", style="number")
             builder.cell(1.5, style="input")  # Default safety factor
-            # Design load = Total × SF
+            # Design load = Total * SF
             builder.cell(f"=G{row_num}*H{row_num}", style="number")
 
         # Summary section

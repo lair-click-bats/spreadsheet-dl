@@ -14,7 +14,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 class SignalToNoiseRatioFormula(BaseFormula):
     """
-    Signal-to-noise ratio formula: SNR = 10 × log10(S/N).
+    Signal-to-noise ratio formula: SNR = 10 * log10(S/N).
 
     Calculates SNR in decibels given signal and noise power.
 
@@ -34,7 +34,7 @@ class SignalToNoiseRatioFormula(BaseFormula):
         return FormulaMetadata(
             name="SIGNAL_TO_NOISE_RATIO",
             category="electrical_engineering",
-            description="Calculate SNR in decibels: SNR = 10 × log10(S/N)",
+            description="Calculate SNR in decibels: SNR = 10 * log10(S/N)",
             arguments=(
                 FormulaArgument(
                     name="signal_power",
@@ -126,7 +126,7 @@ class BandwidthFormula(BaseFormula):
 
 class RiseTimeFormula(BaseFormula):
     """
-    Rise time formula: t_r = 2.2 × R × C.
+    Rise time formula: t_r = 2.2 * R * C.
 
     Calculates rise time from resistance and capacitance (RC circuit).
 
@@ -146,7 +146,7 @@ class RiseTimeFormula(BaseFormula):
         return FormulaMetadata(
             name="RISE_TIME",
             category="electrical_engineering",
-            description="Calculate rise time from RC: t_r = 2.2 × R × C",
+            description="Calculate rise time from RC: t_r = 2.2 * R * C",
             arguments=(
                 FormulaArgument(
                     name="capacitance",

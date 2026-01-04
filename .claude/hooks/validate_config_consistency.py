@@ -281,7 +281,7 @@ def main():
 
     # Print results
     if result["info"]:
-        print("ℹ️  Information:")
+        print("i  Information:")
         for msg in result["info"]:
             print(f"   {msg}")
         print()

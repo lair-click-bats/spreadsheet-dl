@@ -16,7 +16,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 @dataclass(slots=True, frozen=True)
 class ThermalExpansionFormula(BaseFormula):
     """
-    Thermal Expansion formula: ΔL = α × L × ΔT.
+    Thermal Expansion formula: DeltaL = alpha * L * DeltaT.
 
     Calculates linear thermal expansion given coefficient of thermal expansion,
     original length, and temperature change.
@@ -37,13 +37,13 @@ class ThermalExpansionFormula(BaseFormula):
         return FormulaMetadata(
             name="THERMAL_EXPANSION",
             category="mechanical_engineering",
-            description="Calculate linear thermal expansion: ΔL = α × L × ΔT",
+            description="Calculate linear thermal expansion: DeltaL = alpha * L * DeltaT",
             arguments=(
                 FormulaArgument(
                     name="cte",
                     type="number",
                     required=True,
-                    description="Coefficient of thermal expansion (α) in 1/°C",
+                    description="Coefficient of thermal expansion (alpha) in 1/°C",
                 ),
                 FormulaArgument(
                     name="length",
@@ -55,7 +55,7 @@ class ThermalExpansionFormula(BaseFormula):
                     name="temp_change",
                     type="number",
                     required=True,
-                    description="Temperature change (ΔT) in °C",
+                    description="Temperature change (DeltaT) in °C",
                 ),
             ),
             return_type="number",
@@ -83,7 +83,7 @@ class ThermalExpansionFormula(BaseFormula):
 @dataclass(slots=True, frozen=True)
 class ThermalStressFormula(BaseFormula):
     """
-    Thermal Stress formula: σ = E × α × ΔT.
+    Thermal Stress formula: sigma = E * alpha * DeltaT.
 
     Calculates thermal stress in a constrained member given Young's modulus,
     coefficient of thermal expansion, and temperature change.
@@ -104,7 +104,7 @@ class ThermalStressFormula(BaseFormula):
         return FormulaMetadata(
             name="THERMAL_STRESS",
             category="mechanical_engineering",
-            description="Calculate thermal stress in constrained member: σ = E × α × ΔT",
+            description="Calculate thermal stress in constrained member: sigma = E * alpha * DeltaT",
             arguments=(
                 FormulaArgument(
                     name="youngs_modulus",
@@ -116,13 +116,13 @@ class ThermalStressFormula(BaseFormula):
                     name="cte",
                     type="number",
                     required=True,
-                    description="Coefficient of thermal expansion (α) in 1/°C",
+                    description="Coefficient of thermal expansion (alpha) in 1/°C",
                 ),
                 FormulaArgument(
                     name="temp_change",
                     type="number",
                     required=True,
-                    description="Temperature change (ΔT) in °C",
+                    description="Temperature change (DeltaT) in °C",
                 ),
             ),
             return_type="number",

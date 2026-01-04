@@ -121,7 +121,7 @@ class ConcreteMixTemplate(BaseTemplate):
         builder.row()
         builder.cell("Cement (OPC)", style="text")
         builder.cell(3.15, style="input")  # Typical SG for cement
-        builder.cell("=B4*1000", style="number")  # Density = SG × 1000
+        builder.cell("=B4*1000", style="number")  # Density = SG * 1000
         builder.cell(350, style="input")  # Weight
         builder.cell("=D4/C4", style="number")  # Volume = Weight / Density
         builder.cell("", style="number")  # Will calc later
@@ -270,7 +270,7 @@ class ConcreteMixTemplate(BaseTemplate):
                 style="number",
             )
             builder.cell(0.0, colspan=2, style="input")  # User enters actual
-            # Achievement = (Actual / Target) × 100%
+            # Achievement = (Actual / Target) * 100%
             curr_row = builder._current_row  # Get current row number
             builder.cell(
                 f"=E{curr_row}/C{curr_row}",

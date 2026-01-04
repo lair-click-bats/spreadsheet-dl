@@ -9,4 +9,28 @@ Implements:
 """
 
 # Re-export everything from the new location
-from spreadsheet_dl.domains.finance.goals import *  # noqa: F403
+from spreadsheet_dl.domains.finance.goals import (
+    Debt,
+    DebtPayoffMethod,
+    DebtPayoffPlan,
+    GoalCategory,
+    GoalManager,
+    GoalStatus,
+    SavingsGoal,
+    compare_payoff_methods,
+    create_debt_payoff_plan,
+    create_emergency_fund,
+)
+
+__all__ = [
+    "Debt",
+    "DebtPayoffMethod",
+    "DebtPayoffPlan",
+    "GoalCategory",
+    "GoalManager",
+    "GoalStatus",
+    "SavingsGoal",
+    "compare_payoff_methods",
+    "create_debt_payoff_plan",
+    "create_emergency_fund",
+]

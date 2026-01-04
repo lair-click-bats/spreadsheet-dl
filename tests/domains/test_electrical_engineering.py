@@ -108,7 +108,7 @@ def test_plugin_cleanup() -> None:
 
 
 def test_power_dissipation_formula() -> None:
-    """Test power dissipation formula: P = V × I."""
+    """Test power dissipation formula: P = V * I."""
     formula = PowerDissipationFormula()
 
     # Test metadata
@@ -125,7 +125,7 @@ def test_power_dissipation_formula() -> None:
 
 
 def test_voltage_drop_formula() -> None:
-    """Test voltage drop formula: V = I × R × (length/1000)."""
+    """Test voltage drop formula: V = I * R * (length/1000)."""
     formula = VoltageDropFormula()
 
     assert formula.metadata.name == "VOLTAGE_DROP"
@@ -145,7 +145,7 @@ def test_current_calc_formula() -> None:
 
 
 def test_thermal_resistance_formula() -> None:
-    """Test thermal resistance formula: θ = ΔT / P."""
+    """Test thermal resistance formula: θ = DeltaT / P."""
     formula = ThermalResistanceFormula()
 
     assert formula.metadata.name == "THERMAL_RESISTANCE"
@@ -198,7 +198,7 @@ def test_series_resistance_formula() -> None:
 
 
 def test_capacitance_formula() -> None:
-    """Test capacitance formula: C = 1 / (2π × f × X_C)."""
+    """Test capacitance formula: C = 1 / (2pi * f * X_C)."""
     formula = CapacitanceFormula()
 
     assert formula.metadata.name == "CAPACITANCE"
@@ -208,7 +208,7 @@ def test_capacitance_formula() -> None:
 
 
 def test_inductance_formula() -> None:
-    """Test inductance formula: L = X_L / (2π × f)."""
+    """Test inductance formula: L = X_L / (2pi * f)."""
     formula = InductanceFormula()
 
     assert formula.metadata.name == "INDUCTANCE"
@@ -223,7 +223,7 @@ def test_inductance_formula() -> None:
 
 
 def test_signal_to_noise_ratio_formula() -> None:
-    """Test SNR formula: SNR = 10 × log10(S/N)."""
+    """Test SNR formula: SNR = 10 * log10(S/N)."""
     formula = SignalToNoiseRatioFormula()
 
     assert formula.metadata.name == "SIGNAL_TO_NOISE_RATIO"
@@ -243,7 +243,7 @@ def test_bandwidth_formula() -> None:
 
 
 def test_rise_time_formula() -> None:
-    """Test rise time formula: t_r = 2.2 × R × C."""
+    """Test rise time formula: t_r = 2.2 * R * C."""
     formula = RiseTimeFormula()
 
     assert formula.metadata.name == "RISE_TIME"
@@ -507,7 +507,7 @@ def test_calculate_series_resistance_util() -> None:
 
 def test_calculate_power_dissipation_util() -> None:
     """Test power dissipation calculation utility."""
-    # P = V × I
+    # P = V * I
     result = calculate_power_dissipation(5.0, 0.1)
     assert abs(result - 0.5) < 0.001
 

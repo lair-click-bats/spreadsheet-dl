@@ -76,7 +76,7 @@ class ConcreteStrengthFormula(BaseFormula):
 @dataclass(slots=True, frozen=True)
 class ReinforcementRatioFormula(BaseFormula):
     """
-    Reinforcement ratio formula: ρ = A_s/(b×d).
+    Reinforcement ratio formula: rho = A_s/(b*d).
 
     Calculates reinforcement ratio for concrete beam design.
 
@@ -96,7 +96,7 @@ class ReinforcementRatioFormula(BaseFormula):
         return FormulaMetadata(
             name="REINFORCEMENT_RATIO",
             category="civil_engineering",
-            description="Calculate reinforcement ratio: ρ = A_s/(b×d)",
+            description="Calculate reinforcement ratio: rho = A_s/(b*d)",
             arguments=(
                 FormulaArgument(
                     name="As",
@@ -142,7 +142,7 @@ class ReinforcementRatioFormula(BaseFormula):
 @dataclass(slots=True, frozen=True)
 class CrackWidthFormula(BaseFormula):
     """
-    Crack width formula: w = s_r×ε_m.
+    Crack width formula: w = s_r*epsilon_m.
 
     Calculates maximum crack width in reinforced concrete.
 
@@ -162,7 +162,7 @@ class CrackWidthFormula(BaseFormula):
         return FormulaMetadata(
             name="CRACK_WIDTH",
             category="civil_engineering",
-            description="Calculate crack width: w = s_r×ε_m",
+            description="Calculate crack width: w = s_r*epsilon_m",
             arguments=(
                 FormulaArgument(
                     name="sr",

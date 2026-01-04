@@ -16,7 +16,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 @dataclass(slots=True, frozen=True)
 class BeamDeflectionFormula(BaseFormula):
     """
-    Beam deflection formula: δ = (5×w×L⁴)/(384×E×I).
+    Beam deflection formula: delta = (5*w*L^4)/(384*E*I).
 
     Calculates maximum deflection of a simply supported beam with
     uniformly distributed load.
@@ -37,7 +37,7 @@ class BeamDeflectionFormula(BaseFormula):
         return FormulaMetadata(
             name="BEAM_DEFLECTION",
             category="civil_engineering",
-            description="Calculate beam deflection: δ = (5×w×L⁴)/(384×E×I)",
+            description="Calculate beam deflection: delta = (5*w*L^4)/(384*E*I)",
             arguments=(
                 FormulaArgument(
                     name="w",
@@ -89,7 +89,7 @@ class BeamDeflectionFormula(BaseFormula):
 @dataclass(slots=True, frozen=True)
 class ShearStressFormula(BaseFormula):
     """
-    Shear stress formula: τ = V×Q/(I×b).
+    Shear stress formula: tau = V*Q/(I*b).
 
     Calculates shear stress in a beam cross-section.
 
@@ -109,7 +109,7 @@ class ShearStressFormula(BaseFormula):
         return FormulaMetadata(
             name="SHEAR_STRESS",
             category="civil_engineering",
-            description="Calculate shear stress: τ = V×Q/(I×b)",
+            description="Calculate shear stress: tau = V*Q/(I*b)",
             arguments=(
                 FormulaArgument(
                     name="V",
@@ -161,7 +161,7 @@ class ShearStressFormula(BaseFormula):
 @dataclass(slots=True, frozen=True)
 class MomentFormula(BaseFormula):
     """
-    Bending moment formula: M = w×L²/8.
+    Bending moment formula: M = w*L^2/8.
 
     Calculates maximum bending moment for simply supported beam
     with uniformly distributed load.
@@ -182,7 +182,7 @@ class MomentFormula(BaseFormula):
         return FormulaMetadata(
             name="MOMENT",
             category="civil_engineering",
-            description="Calculate bending moment: M = w×L²/8",
+            description="Calculate bending moment: M = w*L^2/8",
             arguments=(
                 FormulaArgument(
                     name="w",

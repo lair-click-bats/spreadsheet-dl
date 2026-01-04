@@ -534,8 +534,8 @@ def beam_self_weight(
     """
     # Convert to meters
     area = (width / 1000) * (height / 1000)  # m²
-    # Weight = Area × Length × Density × g / Length
-    # = Area × Density × g
+    # Weight = Area * Length * Density * g / Length
+    # = Area * Density * g
     g = 9.81  # m/s²
     return area * density * g / 1000  # kN/m
 

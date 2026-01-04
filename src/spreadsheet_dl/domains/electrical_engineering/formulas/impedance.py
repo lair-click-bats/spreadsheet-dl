@@ -152,7 +152,7 @@ class SeriesResistanceFormula(BaseFormula):
 
 class CapacitanceFormula(BaseFormula):
     """
-    Capacitance formula: C = 1 / (2π × f × X_C).
+    Capacitance formula: C = 1 / (2*pi * f * X_C).
 
     Calculates capacitance from frequency and capacitive reactance.
 
@@ -172,7 +172,7 @@ class CapacitanceFormula(BaseFormula):
         return FormulaMetadata(
             name="CAPACITANCE",
             category="electrical_engineering",
-            description="Calculate capacitance from frequency and reactance: C = 1 / (2π × f × X_C)",
+            description="Calculate capacitance from frequency and reactance: C = 1 / (2*pi * f * X_C)",
             arguments=(
                 FormulaArgument(
                     name="frequency",
@@ -211,7 +211,7 @@ class CapacitanceFormula(BaseFormula):
 
 class InductanceFormula(BaseFormula):
     """
-    Inductance formula: L = X_L / (2π × f).
+    Inductance formula: L = X_L / (2*pi * f).
 
     Calculates inductance from frequency and inductive reactance.
 
@@ -231,7 +231,7 @@ class InductanceFormula(BaseFormula):
         return FormulaMetadata(
             name="INDUCTANCE",
             category="electrical_engineering",
-            description="Calculate inductance from frequency and reactance: L = X_L / (2π × f)",
+            description="Calculate inductance from frequency and reactance: L = X_L / (2*pi * f)",
             arguments=(
                 FormulaArgument(
                     name="frequency",

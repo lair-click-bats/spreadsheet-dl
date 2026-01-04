@@ -16,7 +16,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 @dataclass(slots=True, frozen=True)
 class DeadLoadFormula(BaseFormula):
     """
-    Dead load formula: DL = ρ×V×g.
+    Dead load formula: DL = rho*V*g.
 
     Calculates dead load from material density and volume.
 
@@ -36,7 +36,7 @@ class DeadLoadFormula(BaseFormula):
         return FormulaMetadata(
             name="DEAD_LOAD",
             category="civil_engineering",
-            description="Calculate dead load: DL = ρ×V×g (result in kN)",
+            description="Calculate dead load: DL = rho*V*g (result in kN)",
             arguments=(
                 FormulaArgument(
                     name="rho",
@@ -84,7 +84,7 @@ class DeadLoadFormula(BaseFormula):
 @dataclass(slots=True, frozen=True)
 class LiveLoadFormula(BaseFormula):
     """
-    Live load formula: LL = q×A.
+    Live load formula: LL = q*A.
 
     Calculates live load from load intensity and area.
 
@@ -104,7 +104,7 @@ class LiveLoadFormula(BaseFormula):
         return FormulaMetadata(
             name="LIVE_LOAD",
             category="civil_engineering",
-            description="Calculate live load: LL = q×A",
+            description="Calculate live load: LL = q*A",
             arguments=(
                 FormulaArgument(
                     name="q",
@@ -144,7 +144,7 @@ class LiveLoadFormula(BaseFormula):
 @dataclass(slots=True, frozen=True)
 class WindLoadFormula(BaseFormula):
     """
-    Wind load formula: W = q×G×C_p×A.
+    Wind load formula: W = q*G*C_p*A.
 
     Calculates wind load using design wind pressure and coefficients.
 
@@ -164,7 +164,7 @@ class WindLoadFormula(BaseFormula):
         return FormulaMetadata(
             name="WIND_LOAD",
             category="civil_engineering",
-            description="Calculate wind load: W = q×G×C_p×A",
+            description="Calculate wind load: W = q*G*C_p*A",
             arguments=(
                 FormulaArgument(
                     name="q",
@@ -216,7 +216,7 @@ class WindLoadFormula(BaseFormula):
 @dataclass(slots=True, frozen=True)
 class SeismicLoadFormula(BaseFormula):
     """
-    Seismic load formula: F = C_s×W.
+    Seismic load formula: F = C_s*W.
 
     Calculates seismic base shear using seismic coefficient and weight.
 
@@ -236,7 +236,7 @@ class SeismicLoadFormula(BaseFormula):
         return FormulaMetadata(
             name="SEISMIC_LOAD",
             category="civil_engineering",
-            description="Calculate seismic load: F = C_s×W",
+            description="Calculate seismic load: F = C_s*W",
             arguments=(
                 FormulaArgument(
                     name="Cs",

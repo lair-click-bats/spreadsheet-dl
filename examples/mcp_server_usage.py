@@ -412,9 +412,9 @@ def example_budget_analysis() -> None:
         print(f"   Total Alerts: {data['total_alerts']}")
         for alert in data["alerts"]:
             severity_symbol = {
-                "info": "ℹ️",
-                "warning": "⚠️",
-                "critical": "🚨",
+                "info": "i",
+                "warning": "!",
+                "critical": "!!",
             }.get(alert["severity"], "•")
             print(f"   {severity_symbol} {alert['message']}")
     else:

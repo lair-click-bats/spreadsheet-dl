@@ -14,7 +14,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 class PowerDissipationFormula(BaseFormula):
     """
-    Power dissipation formula: P = V × I.
+    Power dissipation formula: P = V * I.
 
     Calculates power dissipation given voltage and current.
 
@@ -34,7 +34,7 @@ class PowerDissipationFormula(BaseFormula):
         return FormulaMetadata(
             name="POWER_DISSIPATION",
             category="electrical_engineering",
-            description="Calculate power dissipation from voltage and current: P = V × I",
+            description="Calculate power dissipation from voltage and current: P = V * I",
             arguments=(
                 FormulaArgument(
                     name="voltage",
@@ -73,7 +73,7 @@ class PowerDissipationFormula(BaseFormula):
 
 class VoltageDropFormula(BaseFormula):
     """
-    Voltage drop formula: V = I × R × (length/1000).
+    Voltage drop formula: V = I * R * (length/1000).
 
     Calculates voltage drop in a conductor given current, resistance, and length.
 
@@ -93,7 +93,7 @@ class VoltageDropFormula(BaseFormula):
         return FormulaMetadata(
             name="VOLTAGE_DROP",
             category="electrical_engineering",
-            description="Calculate voltage drop: V = I × R × (length/1000)",
+            description="Calculate voltage drop: V = I * R * (length/1000)",
             arguments=(
                 FormulaArgument(
                     name="current",

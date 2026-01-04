@@ -9,4 +9,42 @@ Implements:
 """
 
 # Re-export everything from the new location
-from spreadsheet_dl.domains.finance.plaid_integration import *  # noqa: F403
+from spreadsheet_dl.domains.finance.plaid_integration import (
+    AccessToken,
+    LinkStatus,
+    LinkToken,
+    PlaidAccount,
+    PlaidAuthError,
+    PlaidClient,
+    PlaidConfig,
+    PlaidConnectionError,
+    PlaidEnvironment,
+    PlaidError,
+    PlaidInstitution,
+    PlaidProduct,
+    PlaidSyncError,
+    PlaidSyncManager,
+    PlaidTransaction,
+    SyncResult,
+    SyncStatus,
+)
+
+__all__ = [
+    "AccessToken",
+    "LinkStatus",
+    "LinkToken",
+    "PlaidAccount",
+    "PlaidAuthError",
+    "PlaidClient",
+    "PlaidConfig",
+    "PlaidConnectionError",
+    "PlaidEnvironment",
+    "PlaidError",
+    "PlaidInstitution",
+    "PlaidProduct",
+    "PlaidSyncError",
+    "PlaidSyncManager",
+    "PlaidTransaction",
+    "SyncResult",
+    "SyncStatus",
+]

@@ -16,7 +16,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 @dataclass(slots=True, frozen=True)
 class MomentOfInertiaFormula(BaseFormula):
     """
-    Moment of Inertia formula for rectangular cross-section: I = b × h³ / 12.
+    Moment of Inertia formula for rectangular cross-section: I = b * h³ / 12.
 
     Calculates second moment of area for bending calculations.
 
@@ -36,7 +36,7 @@ class MomentOfInertiaFormula(BaseFormula):
         return FormulaMetadata(
             name="MOMENT_OF_INERTIA",
             category="mechanical_engineering",
-            description="Calculate second moment of area for rectangular section: I = b × h³ / 12",
+            description="Calculate second moment of area for rectangular section: I = b * h³ / 12",
             arguments=(
                 FormulaArgument(
                     name="width",
@@ -76,7 +76,7 @@ class MomentOfInertiaFormula(BaseFormula):
 @dataclass(slots=True, frozen=True)
 class BendingStressFormula(BaseFormula):
     """
-    Bending Stress formula: σ = M × y / I.
+    Bending Stress formula: sigma = M * y / I.
 
     Calculates bending stress in a beam given bending moment, distance from
     neutral axis, and moment of inertia.
@@ -97,7 +97,7 @@ class BendingStressFormula(BaseFormula):
         return FormulaMetadata(
             name="BENDING_STRESS",
             category="mechanical_engineering",
-            description="Calculate bending stress: σ = M × y / I",
+            description="Calculate bending stress: sigma = M * y / I",
             arguments=(
                 FormulaArgument(
                     name="moment",
@@ -143,7 +143,7 @@ class BendingStressFormula(BaseFormula):
 @dataclass(slots=True, frozen=True)
 class TorsionalStressFormula(BaseFormula):
     """
-    Torsional Stress formula: τ = T × r / J.
+    Torsional Stress formula: tau = T * r / J.
 
     Calculates torsional shear stress in a shaft given torque, radius,
     and polar moment of inertia.
@@ -164,7 +164,7 @@ class TorsionalStressFormula(BaseFormula):
         return FormulaMetadata(
             name="TORSIONAL_STRESS",
             category="mechanical_engineering",
-            description="Calculate torsional shear stress: τ = T × r / J",
+            description="Calculate torsional shear stress: tau = T * r / J",
             arguments=(
                 FormulaArgument(
                     name="torque",

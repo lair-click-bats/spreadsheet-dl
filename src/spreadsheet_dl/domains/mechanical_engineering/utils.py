@@ -147,8 +147,8 @@ def von_mises_stress(
         >>> von_mises_stress(100, 50, 0, 25)
         91.855...
     """
-    # von Mises: sqrt(σx² + σy² + σz² - σx*σy - σy*σz - σz*σx + 3(τxy² + τyz² + τxz²))
-    # For 2D plane stress (σz=0): sqrt(σx² + σy² - σx*σy + 3*τxy²)
+    # von Mises: sqrt(sigmax² + sigmay² + sigmaz² - sigmax*sigmay - sigmay*sigmaz - sigmaz*sigmax + 3(tauxy² + tauyz² + tauxz²))
+    # For 2D plane stress (sigmaz=0): sqrt(sigmax² + sigmay² - sigmax*sigmay + 3*tauxy²)
     return math.sqrt(
         sigma_x**2
         + sigma_y**2

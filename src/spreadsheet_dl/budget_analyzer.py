@@ -9,4 +9,18 @@ Implements:
 """
 
 # Re-export everything from the new location
-from spreadsheet_dl.domains.finance.budget_analyzer import *  # noqa: F403
+from spreadsheet_dl.domains.finance.budget_analyzer import (
+    BudgetAnalyzer,
+    BudgetSummary,
+    CategorySpending,
+    SpendingTrend,
+    analyze_budget,
+)
+
+__all__ = [
+    "BudgetAnalyzer",
+    "BudgetSummary",
+    "CategorySpending",
+    "SpendingTrend",
+    "analyze_budget",
+]

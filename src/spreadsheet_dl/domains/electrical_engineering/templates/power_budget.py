@@ -27,7 +27,7 @@ class PowerBudgetTemplate(BaseTemplate):
     Features:
         - Columns: Component, Supply Voltage, Current (mA), Power (mW),
           % of Total, Status (OK/Warning/Critical), Notes
-        - Auto-calculation: Power = Voltage × Current
+        - Auto-calculation: Power = Voltage * Current
         - Total power consumption
         - Chart: Power distribution pie chart
         - Conditional formatting: Red for >80% budget, yellow for >60%
@@ -118,7 +118,7 @@ class PowerBudgetTemplate(BaseTemplate):
             builder.cell(0, style="input")  # Current (mA)
             builder.cell(
                 f"=B{row_num}*C{row_num}", style="number"
-            )  # Power = V × I (mW)
+            )  # Power = V * I (mW)
             builder.cell(f"=D{row_num}/D{total_row}", style="percentage")  # % of total
             # Status: OK if <60%, Warning if 60-80%, Critical if >80%
             builder.cell(

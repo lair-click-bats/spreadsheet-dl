@@ -9,4 +9,18 @@ Implements:
 """
 
 # Re-export everything from the new location
-from spreadsheet_dl.domains.finance.analytics import *  # noqa: F403
+from spreadsheet_dl.domains.finance.analytics import (
+    AnalyticsDashboard,
+    CategoryInsight,
+    DashboardData,
+    TrendData,
+    generate_dashboard,
+)
+
+__all__ = [
+    "AnalyticsDashboard",
+    "CategoryInsight",
+    "DashboardData",
+    "TrendData",
+    "generate_dashboard",
+]
