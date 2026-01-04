@@ -141,7 +141,7 @@ class EnvironmentalDomainPlugin(BaseDomainPlugin):
             description=("Environmental monitoring templates, formulas, and importers"),
             author="SpreadsheetDL Team",
             license="MIT",
-            homepage="https://github.com/spreadsheet-dl/spreadsheet-dl",
+            homepage="https://github.com/lair-click-bats/spreadsheet-dl",
             tags=(
                 "environmental",
                 "monitoring",

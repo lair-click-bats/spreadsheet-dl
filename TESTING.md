@@ -75,6 +75,6 @@ uv run pytest -m "not requires_files"
 
 ## Statistics
 
-- Total: 2,661 tests
-- Unit: 2,370 tests (89%)
-- Integration: 291 tests (11%)
+- Total: 3,206 tests
+- Unit: 2,915 tests (91%)
+- Integration: 291 tests (9%)

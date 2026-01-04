@@ -223,4 +223,4 @@ except NoSheetSelectedError as e:
 
 ---
 
-[4.0.0]: https://github.com/spreadsheet-dl/spreadsheet-dl/releases/tag/v4.0.0
+[4.0.0]: https://github.com/lair-click-bats/spreadsheet-dl/releases/tag/v4.0.0

@@ -35,7 +35,7 @@ Modern finance applications must serve two distinct audiences with different nee
 ### FR-AI-001: AI-Optimized Data Export
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL provide AI/LLM-optimized exports that preserve all semantic meaning:
 
@@ -166,7 +166,7 @@ The system SHALL provide AI/LLM-optimized exports that preserve all semantic mea
 ### FR-AI-002: Natural Language Formula Descriptions
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL generate and maintain natural language descriptions for all formulas:
 
@@ -202,7 +202,7 @@ The system SHALL generate and maintain natural language descriptions for all for
 ### FR-AI-003: Semantic Cell Tagging
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL tag every cell with semantic meaning:
 
@@ -234,7 +234,7 @@ The system SHALL tag every cell with semantic meaning:
 ### FR-AI-004: LLM-Friendly Diff Format
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL generate human and AI-readable diffs of spreadsheet changes:
 
@@ -289,7 +289,7 @@ The system SHALL generate human and AI-readable diffs of spreadsheet changes:
 ### FR-AI-005: Conversational Query Interface
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL support natural language questions about budgets:
 
@@ -349,7 +349,7 @@ The system SHALL support natural language questions about budgets:
 ### FR-AI-006: Visual + Semantic Dual Export
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL generate paired outputs for every budget:
 
@@ -378,7 +378,7 @@ The system SHALL generate paired outputs for every budget:
 ### FR-AI-007: Formatting Metadata Export
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL export all formatting as structured metadata:
 
@@ -414,7 +414,7 @@ The system SHALL export all formatting as structured metadata:
 ### FR-AI-008: Context-Aware Data Serialization
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL include comprehensive context with every export:
 
@@ -543,7 +543,7 @@ The system SHALL provide a native MCP server for AI/LLM integration:
 ### FR-AI-010: AI Training Data Export
 
 **Priority:** P3 (Low)
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL support privacy-preserving AI training data export:
 
@@ -567,7 +567,7 @@ The system SHALL support privacy-preserving AI training data export:
 ### FR-AI-011: Bidirectional AI Sync
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL allow AI assistants to update budgets:
 
@@ -622,7 +622,7 @@ The system SHALL generate visually optimized ODS files for human viewing:
 ### FR-HUMAN-002: Interactive Features
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL support interactive features in ODS:
 
@@ -660,7 +660,7 @@ The system SHALL include a dashboard sheet in ODS:
 ### FR-DUAL-001: Simultaneous Export
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 
 When generating a budget, the system SHALL simultaneously create:
 
@@ -673,7 +673,7 @@ When generating a budget, the system SHALL simultaneously create:
 ### FR-DUAL-002: Export Command
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 
 CLI command: `spreadsheet-dl export-dual <ods-file>`
 
@@ -706,7 +706,7 @@ Ready for AI/LLM consumption!
 ### FR-DUAL-003: Import from AI Format
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL import from AI-optimized JSON to create ODS:
 
@@ -725,7 +725,7 @@ CLI: `spreadsheet-dl import-ai <json-file> --output <ods-file>`
 ### FR-DUAL-004: Consistency Validation
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL validate consistency between paired formats:
 
@@ -799,7 +799,7 @@ No API or interface exists for natural language interaction.
 
 ---
 
-#### G-AI-05: MCP Server Not Implemented
+#### G-AI-05: MCP Server (Planned)
 
 **Severity:** Medium
 **Impact:** No native integration with Claude or other AI assistants

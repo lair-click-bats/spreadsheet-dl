@@ -53,11 +53,11 @@ The SpreadsheetDL requirements documentation has undergone comprehensive analysi
 
 ### By Implementation Status
 
-| Status          | Count | Percentage |
-| --------------- | ----- | ---------- |
-| Implemented     | 28    | 22%        |
-| Partial         | 9     | 7%         |
-| Not Implemented | 88    | 70%        |
+| Status      | Count | Percentage |
+| ----------- | ----- | ---------- |
+| Implemented | 28    | 22%        |
+| Partial     | 9     | 7%         |
+| Planned     | 88    | 70%        |
 
 ---
 

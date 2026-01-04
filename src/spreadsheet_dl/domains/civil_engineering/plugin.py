@@ -115,7 +115,7 @@ class CivilEngineeringDomainPlugin(BaseDomainPlugin):
             description="Civil engineering templates, formulas, and importers for structural design and construction",
             author="SpreadsheetDL Team",
             license="MIT",
-            homepage="https://github.com/spreadsheet-dl/spreadsheet-dl",
+            homepage="https://github.com/lair-click-bats/spreadsheet-dl",
             tags=(
                 "civil-engineering",
                 "structural",

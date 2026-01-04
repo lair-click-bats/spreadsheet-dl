@@ -109,7 +109,7 @@ class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
             description="Electrical engineering templates, formulas, and importers for hardware/PCB design",
             author="SpreadsheetDL Team",
             license="MIT",
-            homepage="https://github.com/spreadsheet-dl/spreadsheet-dl",
+            homepage="https://github.com/lair-click-bats/spreadsheet-dl",
             tags=(
                 "electrical-engineering",
                 "electronics",

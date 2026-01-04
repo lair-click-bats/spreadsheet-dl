@@ -135,7 +135,7 @@ class EducationDomainPlugin(BaseDomainPlugin):
             ),
             author="SpreadsheetDL Team",
             license="MIT",
-            homepage="https://github.com/spreadsheet-dl/spreadsheet-dl",
+            homepage="https://github.com/lair-click-bats/spreadsheet-dl",
             tags=("education", "gradebook", "assessment", "curriculum", "learning"),
             min_spreadsheet_dl_version="4.0.0",
         )

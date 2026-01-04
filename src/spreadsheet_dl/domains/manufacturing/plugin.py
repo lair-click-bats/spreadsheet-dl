@@ -108,7 +108,7 @@ class ManufacturingDomainPlugin(BaseDomainPlugin):
             description="Manufacturing templates, formulas, and importers for production planning and quality control",
             author="SpreadsheetDL Team",
             license="MIT",
-            homepage="https://github.com/spreadsheet-dl/spreadsheet-dl",
+            homepage="https://github.com/lair-click-bats/spreadsheet-dl",
             tags=("manufacturing", "production", "quality-control", "inventory", "oee"),
             min_spreadsheet_dl_version="4.0.0",
         )

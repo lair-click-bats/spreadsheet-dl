@@ -108,7 +108,7 @@ assert c1.is_wcag_aa(Color("#FFFFFF"))  # True if ratio >= 4.5
 ### FR-SCHEMA-002: Length Value Object
 
 **Priority:** P0 (Critical)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** None
 **Gap ID:** G-SCHEMA-01
 
@@ -243,7 +243,7 @@ underline = Borders.horizontal(BorderStyle.DOUBLE)
 ### FR-SCHEMA-005: Cell Fill Dataclass
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-SCHEMA-001
 **Gap ID:** G-FMT-04
 
@@ -574,7 +574,7 @@ styles:
 ### FR-SCHEMA-012: Schema Migration System
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-SCHEMA-008
 **Gap ID:** G-CFG-01
 
@@ -712,7 +712,7 @@ fonts:
 ### FR-THEME-003: Typography Hierarchy
 
 **Priority:** P0 (Critical)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-THEME-002
 **Gap ID:** G-THEME-02
 
@@ -895,7 +895,7 @@ for t in themes:
 ### FR-THEME-007: Theme Composition
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-THEME-005
 **Gap ID:** G-THEME-05
 
@@ -936,7 +936,7 @@ colors:
 ### FR-THEME-008: Runtime Theme Switching
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-THEME-006
 **Gap ID:** G-THEME-06
 
@@ -979,7 +979,7 @@ for theme in ["corporate", "minimal", "startup"]:
 ### FR-THEME-009: Theme Export Formats
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-THEME-006
 **Gap ID:** G-THEME-07
 
@@ -1307,7 +1307,7 @@ styles:
 ### FR-FORMAT-006: Cell Protection
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-SCHEMA-007
 **Gap ID:** G-ADV-01
 
@@ -1347,7 +1347,7 @@ styles:
 ### FR-FORMAT-007: Print Layout Control
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** None
 **Gap ID:** G-FMT-04
 
@@ -1395,7 +1395,7 @@ sheets:
 ### FR-FORMAT-008: Headers and Footers
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-FORMAT-007
 **Gap ID:** G-PRINT-01
 
@@ -1477,7 +1477,7 @@ sheets:
 ### FR-FORMAT-010: Hidden Rows and Columns
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** None
 **Gap ID:** G-ADV-02
 
@@ -1601,7 +1601,7 @@ sheets:
 ### FR-FORMAT-013: Named Ranges
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** None
 **Gap ID:** G-ADV-05
 
@@ -1645,7 +1645,7 @@ formulas:
 ### FR-FORMAT-014: Cell Comments
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** None
 **Gap ID:** G-ADV-06
 
@@ -1683,7 +1683,7 @@ cells:
 ### FR-FORMAT-015: Outline Groups
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** None
 **Gap ID:** G-ADV-07
 
@@ -1821,7 +1821,7 @@ conditional_formats:
 ### FR-COND-003: Color Scales
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-SCHEMA-001
 **Gap ID:** G-COND-03
 
@@ -1866,7 +1866,7 @@ conditional_formats:
 ### FR-COND-004: Data Bars
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-SCHEMA-001
 **Gap ID:** G-COND-04
 
@@ -1911,7 +1911,7 @@ conditional_formats:
 ### FR-COND-005: Icon Sets
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** None
 **Gap ID:** G-COND-05
 
@@ -1954,7 +1954,7 @@ conditional_formats:
 ### FR-COND-006: Top/Bottom Rules
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-COND-001
 **Gap ID:** G-COND-06
 
@@ -1997,7 +1997,7 @@ conditional_formats:
 ### FR-COND-007: Date-Based Rules
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-COND-001
 **Gap ID:** G-COND-07
 
@@ -2041,7 +2041,7 @@ conditional_formats:
 ### FR-COND-008: Duplicate/Unique Detection
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-COND-001
 **Gap ID:** G-COND-08
 
@@ -2080,7 +2080,7 @@ conditional_formats:
 ### FR-VALID-001: List Validation (Dropdowns)
 
 **Priority:** P0 (Critical)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** None
 **Gap ID:** G-VALID-01
 
@@ -2125,7 +2125,7 @@ columns:
 ### FR-VALID-002: Number Range Validation
 
 **Priority:** P0 (Critical)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** None
 **Gap ID:** G-VALID-02
 
@@ -2168,7 +2168,7 @@ columns:
 ### FR-VALID-003: Date Range Validation
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** None
 **Gap ID:** G-VALID-03
 
@@ -2206,7 +2206,7 @@ columns:
 ### FR-VALID-004: Text Length Validation
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** None
 **Gap ID:** G-VALID-04
 
@@ -2241,7 +2241,7 @@ columns:
 ### FR-VALID-005: Custom Formula Validation
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** None
 **Gap ID:** G-VALID-05
 
@@ -2275,7 +2275,7 @@ columns:
 ### FR-VALID-006: Input Messages and Error Alerts
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-VALID-001 through FR-VALID-005
 **Gap ID:** G-VALID-06
 
@@ -2321,7 +2321,7 @@ columns:
 ### FR-CHART-001: Chart Type Support
 
 **Priority:** P0 (Critical)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** None
 **Gap ID:** G-CHART-01
 
@@ -2371,7 +2371,7 @@ sheets:
 ### FR-CHART-002: Chart Configuration
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-CHART-001
 **Gap ID:** G-CHART-02
 
@@ -2426,7 +2426,7 @@ charts:
 ### FR-CHART-003: Sparklines
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** None
 **Gap ID:** G-CHART-03
 
@@ -2467,7 +2467,7 @@ columns:
 ### FR-CHART-004: Chart Styling
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-CHART-001, FR-THEME-001
 **Gap ID:** G-CHART-04
 
@@ -2508,7 +2508,7 @@ charts:
 ### FR-CHART-005: Chart Data Ranges
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-CHART-001
 **Gap ID:** G-CHART-05
 
@@ -2549,7 +2549,7 @@ charts:
 ### FR-CHART-006: Chart Positioning
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-CHART-001
 **Gap ID:** G-CHART-06
 
@@ -2589,7 +2589,7 @@ charts:
 ### FR-CHART-007: Trendlines
 
 **Priority:** P3 (Low)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-CHART-001
 **Gap ID:** G-CHART-07
 
@@ -2735,7 +2735,7 @@ sheets:
 ### FR-TEMPLATE-003: Conditional Content
 
 **Priority:** P0 (Critical)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-TEMPLATE-002
 **Gap ID:** G-TMPL-03
 
@@ -2781,7 +2781,7 @@ sheets:
 ### FR-TEMPLATE-004: Template Inheritance
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-TEMPLATE-001
 **Gap ID:** G-TMPL-04
 
@@ -2824,7 +2824,7 @@ blocks:
 ### FR-TEMPLATE-005: Component Library
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-TEMPLATE-001
 **Gap ID:** G-TMPL-05
 
@@ -2874,7 +2874,7 @@ sheets:
 ### FR-TEMPLATE-006: Template Versioning
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-TEMPLATE-001
 **Gap ID:** G-CFG-03
 
@@ -2913,7 +2913,7 @@ meta:
 ### FR-TEMPLATE-007: Template Sharing
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-TEMPLATE-001
 **Gap ID:** G-CFG-04
 
@@ -2956,7 +2956,7 @@ result = import_template(
 ### FR-TEMPLATE-008: Template Preview
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-TEMPLATE-001
 **Gap ID:** G-TMPL-06
 
@@ -3001,7 +3001,7 @@ with open("preview.html", "w") as f:
 ### FR-TEMPLATE-009: Template Validation
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-TEMPLATE-001
 **Gap ID:** G-TMPL-07
 
@@ -3169,7 +3169,7 @@ builder.sheet("Budget") \
 ### FR-BUILDER-002: DataValidationBuilder
 
 **Priority:** P0 (Critical)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-VALID-001 through FR-VALID-006
 **Gap ID:** G-BUILDER-02
 
@@ -3220,7 +3220,7 @@ builder.sheet("Expenses") \
 ### FR-BUILDER-003: ConditionalFormatBuilder
 
 **Priority:** P0 (Critical)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-COND-001 through FR-COND-008
 **Gap ID:** G-BUILDER-03
 
@@ -3273,7 +3273,7 @@ builder.sheet("Budget") \
 ### FR-BUILDER-004: ChartBuilder
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-CHART-001 through FR-CHART-007
 **Gap ID:** G-BUILDER-04
 
@@ -3368,7 +3368,7 @@ total = f.sumifs(
 ### FR-BUILDER-006: StyleBuilder
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-SCHEMA-007
 **Gap ID:** G-BUILDER-06
 
@@ -3556,7 +3556,7 @@ with builder.stream_to("huge_report.ods") as stream:
 ### FR-PROF-001: Enterprise Budget Template
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-TEMPLATE-001
 **Gap ID:** G-PROF-01
 
@@ -3581,7 +3581,7 @@ The system SHALL provide an enterprise-grade budget template with departmental b
 ### FR-PROF-002: Cash Flow Tracker Template
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-TEMPLATE-001
 **Gap ID:** G-PROF-02
 
@@ -3606,7 +3606,7 @@ The system SHALL provide a cash flow tracking template with forecasting.
 ### FR-PROF-003: Invoice/Expense Report Template
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-TEMPLATE-001
 **Gap ID:** G-PROF-03
 
@@ -3631,7 +3631,7 @@ The system SHALL provide invoice and expense report templates.
 ### FR-PROF-004: Financial Statement Templates
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-TEMPLATE-001
 **Gap ID:** G-PROF-04
 
@@ -3656,7 +3656,7 @@ The system SHALL provide financial statement templates (income statement, balanc
 ### FR-PROF-005: Dashboard Template
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-TEMPLATE-001, FR-CHART-001
 **Gap ID:** G-PROF-05
 
@@ -3681,7 +3681,7 @@ The system SHALL provide dashboard templates for financial KPIs.
 ### FR-PROF-006: Custom Template Creation Guide
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-TEMPLATE-001
 **Gap ID:** G-PROF-06
 
@@ -3708,7 +3708,7 @@ The system SHALL provide comprehensive documentation for custom template creatio
 ### FR-PRINT-001: Page Setup Configuration
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-FORMAT-007
 **Gap ID:** G-PRINT-01
 
@@ -3729,7 +3729,7 @@ The system SHALL provide comprehensive page setup for print optimization.
 ### FR-PRINT-002: Print Area Management
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-PRINT-001
 **Gap ID:** G-PRINT-02
 
@@ -3749,7 +3749,7 @@ The system SHALL support print area definition and management.
 ### FR-PRINT-003: Repeat Headers
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-PRINT-001
 **Gap ID:** G-PRINT-03
 
@@ -3768,7 +3768,7 @@ The system SHALL support repeating rows and columns on each printed page.
 ### FR-PRINT-004: Page Breaks
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-PRINT-001
 **Gap ID:** G-PRINT-04
 
@@ -3788,7 +3788,7 @@ The system SHALL support page break management.
 ### FR-PRINT-005: Print Styles
 
 **Priority:** P3 (Low)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-PRINT-001
 **Gap ID:** G-PRINT-05
 
@@ -3810,7 +3810,7 @@ The system SHALL support print-specific styling.
 ### FR-ADV-001: Sheet Protection
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-FORMAT-006
 **Gap ID:** G-ADV-01
 
@@ -3830,7 +3830,7 @@ The system SHALL support sheet-level protection with password option.
 ### FR-ADV-002: Workbook Protection
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-ADV-001
 **Gap ID:** G-ADV-02
 
@@ -3849,7 +3849,7 @@ The system SHALL support workbook-level protection.
 ### FR-ADV-003: Auto-Filter
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** None
 **Gap ID:** G-ADV-03
 
@@ -3868,7 +3868,7 @@ The system SHALL support auto-filter configuration on data ranges.
 ### FR-ADV-004: Data Tables
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** None
 **Gap ID:** G-ADV-04
 
@@ -3889,7 +3889,7 @@ The system SHALL support structured table/list formatting.
 ### FR-ADV-005: Cell Hyperlinks
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** None
 **Gap ID:** G-ADV-05
 
@@ -3910,7 +3910,7 @@ The system SHALL support hyperlinks in cells.
 ### FR-ADV-006: Images and Objects
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** None
 **Gap ID:** G-ADV-06
 
@@ -3951,7 +3951,7 @@ The system SHALL support comprehensive document properties.
 ### FR-ADV-008: Multi-Language Support
 
 **Priority:** P3 (Low)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-THEME-001
 **Gap ID:** G-ADV-08
 
@@ -3973,7 +3973,7 @@ The system SHALL support multi-language templates and localization.
 ### DOC-PROF-001: Complete API Reference
 
 **Priority:** P0 (Critical)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** All implementation requirements
 **Gap ID:** D-01
 
@@ -3994,7 +3994,7 @@ The system SHALL provide complete API reference documentation.
 ### DOC-PROF-002: Theme Creation Guide
 
 **Priority:** P0 (Critical)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-THEME-\*
 **Gap ID:** D-02
 
@@ -4016,7 +4016,7 @@ The system SHALL provide a comprehensive theme creation guide.
 ### DOC-PROF-003: Template Creation Guide
 
 **Priority:** P0 (Critical)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-TEMPLATE-\*
 **Gap ID:** D-03
 
@@ -4037,7 +4037,7 @@ The system SHALL provide a comprehensive template creation guide.
 ### DOC-PROF-004: Style Composition Guide
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-SCHEMA-010
 **Gap ID:** D-04
 
@@ -4057,7 +4057,7 @@ The system SHALL provide a guide for style composition and inheritance.
 ### DOC-PROF-005: Best Practices Documentation
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** All implementation requirements
 **Gap ID:** D-05
 
@@ -4078,7 +4078,7 @@ The system SHALL provide best practices documentation.
 ### DOC-PROF-006: Migration Guide
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** All implementation requirements
 **Gap ID:** D-06
 
@@ -4098,7 +4098,7 @@ The system SHALL provide a migration guide from v1.0.0.
 ### DOC-PROF-007: Example Gallery
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** FR-PROF-\*
 **Gap ID:** D-07
 
@@ -4118,7 +4118,7 @@ The system SHALL provide an example gallery with working samples.
 ### DOC-PROF-008: Troubleshooting Guide
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Depends On:** All implementation requirements
 **Gap ID:** D-08
 

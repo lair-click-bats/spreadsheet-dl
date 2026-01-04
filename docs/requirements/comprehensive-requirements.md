@@ -302,7 +302,7 @@ The system SHALL:
 #### FR-CORE-004: Account Management
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL:
 
@@ -342,7 +342,7 @@ The system SHALL:
 #### FR-IMPORT-002: Extended Bank Support
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL:
 
@@ -360,7 +360,7 @@ The system SHALL:
 #### FR-IMPORT-003: Bank API Integration
 
 **Priority:** P3 (Low)
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL:
 
@@ -437,7 +437,7 @@ The system SHALL:
 #### FR-REPORT-003: Interactive Visualization
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL:
 
@@ -477,7 +477,7 @@ The system SHALL:
 #### FR-RECUR-002: Bill Reminders
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL:
 
@@ -498,7 +498,7 @@ The system SHALL:
 #### FR-GOAL-001: Savings Goals
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL:
 
@@ -517,7 +517,7 @@ The system SHALL:
 #### FR-GOAL-002: Debt Payoff
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL:
 
@@ -538,7 +538,7 @@ The system SHALL:
 #### FR-CURR-001: Currency Handling
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL:
 
@@ -559,7 +559,7 @@ The system SHALL:
 #### FR-SEC-001: Data Encryption
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL:
 
@@ -821,7 +821,7 @@ The system SHALL:
 
 #### IR-NC-002: Bidirectional Sync
 
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL:
 
@@ -845,7 +845,7 @@ The system SHALL:
 
 #### IR-MCP-002: Native MCP Server
 
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHOULD:
 
@@ -858,7 +858,7 @@ The system SHOULD:
 
 #### IR-CAL-001: Bill Due Dates
 
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL:
 
@@ -871,7 +871,7 @@ The system SHALL:
 
 #### IR-NOTIF-001: Alert Notifications
 
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL:
 
@@ -1040,7 +1040,7 @@ The system SHALL:
 
 #### AUTO-CI-002: Release Automation
 
-**Status:** Not Implemented
+**Status:** Planned
 
 The system SHALL:
 
@@ -1143,7 +1143,7 @@ Run 'spreadsheet-dl guide' for interactive tutorial.
 #### FR-UX-002: Progress Indicators
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Dependencies:** FR-UX-005 (Color Output)
 
 The system SHALL:
@@ -1220,7 +1220,7 @@ Documentation: https://docs.spreadsheet-dl.io/errors/FT-CSV-001
 #### FR-UX-004: Confirmation Prompts
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Dependencies:** None
 
 The system SHALL:
@@ -1289,7 +1289,7 @@ The system SHALL:
 #### FR-UX-006: Interactive Mode
 
 **Priority:** P3 (Low)
-**Status:** Not Implemented
+**Status:** Planned
 **Dependencies:** FR-UX-001
 
 The system SHALL:
@@ -1335,7 +1335,7 @@ The system SHALL:
 #### FR-UX-008: Tutorial System
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Dependencies:** FR-UX-006
 
 The system SHALL:
@@ -1357,7 +1357,7 @@ The system SHALL:
 #### FR-UX-009: Shell Completions
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Dependencies:** None
 
 The system SHALL:
@@ -1427,7 +1427,7 @@ The system SHALL:
 #### FR-UX-012: Screen Reader Support
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Dependencies:** FR-UX-010
 
 The system SHALL:
@@ -1477,7 +1477,7 @@ The system SHALL (for interactive mode):
 #### FR-EXT-001: Plugin System Framework
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Dependencies:** NFR-MAINT-002
 
 The system SHALL:
@@ -1527,7 +1527,7 @@ class MyPlugin(Plugin):
 #### FR-EXT-002: Plugin Discovery and Management
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Dependencies:** FR-EXT-001
 
 The system SHALL:
@@ -1549,7 +1549,7 @@ The system SHALL:
 #### FR-EXT-003: Plugin API Documentation
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Dependencies:** FR-EXT-001
 
 The system SHALL:
@@ -1573,7 +1573,7 @@ The system SHALL:
 #### FR-EXT-004: Event Hook System
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Dependencies:** FR-EXT-001
 
 The system SHALL provide hooks for:
@@ -1626,7 +1626,7 @@ HOOKS = {
 #### FR-EXT-005: Custom Category Support
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Dependencies:** None
 
 The system SHALL:
@@ -1673,7 +1673,7 @@ categories:
 #### FR-EXT-006: Custom Formula Support
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Dependencies:** None
 
 The system SHALL:
@@ -1715,7 +1715,7 @@ formulas:
 #### FR-EXT-007: Integration API
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Dependencies:** FR-EXT-001
 
 The system SHALL:
@@ -1877,7 +1877,7 @@ Configuration (resolved):
 #### FR-TMPL-002: Config Schema Validation
 
 **Priority:** P1 (High)
-**Status:** Not Implemented
+**Status:** Planned
 **Dependencies:** None
 
 The system SHALL:
@@ -1935,7 +1935,7 @@ The system SHALL:
 #### FR-TMPL-003: Config Migration
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Dependencies:** FR-TMPL-002
 
 The system SHALL:
@@ -2059,7 +2059,7 @@ Use with: spreadsheet-dl generate --template=my_custom_budget
 #### FR-TMPL-006: Template Versioning
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Dependencies:** FR-TMPL-005
 
 The system SHALL:
@@ -2081,7 +2081,7 @@ The system SHALL:
 #### FR-TMPL-007: Template Sharing
 
 **Priority:** P3 (Low)
-**Status:** Not Implemented
+**Status:** Planned
 **Dependencies:** FR-TMPL-005
 
 The system SHALL:
@@ -2323,7 +2323,7 @@ formatting:
 #### FR-FMT-002: Negative Number Formatting
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Dependencies:** FR-FMT-001
 
 The system SHALL:
@@ -2424,7 +2424,7 @@ formatting:
 #### FR-FMT-005: Time Zone Handling
 
 **Priority:** P3 (Low)
-**Status:** Not Implemented
+**Status:** Planned
 **Dependencies:** FR-FMT-004
 
 The system SHALL:
@@ -2502,7 +2502,7 @@ conditional_formats:
 #### FR-FMT-007: Data Bars and Icons
 
 **Priority:** P3 (Low)
-**Status:** Not Implemented
+**Status:** Planned
 **Dependencies:** FR-FMT-006
 
 The system SHALL:
@@ -2526,7 +2526,7 @@ The system SHALL:
 #### FR-FMT-008: Print Layout Configuration
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Dependencies:** None
 
 The system SHALL:
@@ -2573,7 +2573,7 @@ formatting:
 #### FR-FMT-009: Export Format Preservation
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Dependencies:** FR-EXPORT-001
 
 The system SHALL:
@@ -2607,7 +2607,7 @@ The system SHALL:
 #### FR-FMT-010: Locale Support
 
 **Priority:** P2 (Medium)
-**Status:** Not Implemented
+**Status:** Planned
 **Dependencies:** FR-FMT-001, FR-FMT-004
 
 The system SHALL:
@@ -2659,7 +2659,7 @@ formatting:
 #### FR-FMT-011: Multi-Language Support
 
 **Priority:** P3 (Low)
-**Status:** Not Implemented
+**Status:** Planned
 **Dependencies:** FR-FMT-010
 
 The system SHALL:

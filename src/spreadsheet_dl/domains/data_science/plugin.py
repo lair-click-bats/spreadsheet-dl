@@ -110,7 +110,7 @@ class DataScienceDomainPlugin(BaseDomainPlugin):
             description="Data science templates, formulas, and importers for ML/DS workflows",
             author="SpreadsheetDL Team",
             license="MIT",
-            homepage="https://github.com/spreadsheet-dl/spreadsheet-dl",
+            homepage="https://github.com/lair-click-bats/spreadsheet-dl",
             tags=("data-science", "machine-learning", "statistics", "analytics"),
             min_spreadsheet_dl_version="4.0.0",
         )

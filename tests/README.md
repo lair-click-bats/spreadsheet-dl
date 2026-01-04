@@ -4,8 +4,8 @@ Comprehensive test suite for SpreadsheetDL with organized pytest markers for sel
 
 ## Test Statistics
 
-- **Total Tests**: ~2,661 tests
-- **Unit Tests**: ~2,370 tests (fast, isolated)
+- **Total Tests**: ~3,206 tests
+- **Unit Tests**: ~2,915 tests (fast, isolated)
 - **Integration Tests**: ~291 tests (slower, multi-component)
 - **Finance Tests**: ~272 tests
 - **MCP Tests**: ~346 tests

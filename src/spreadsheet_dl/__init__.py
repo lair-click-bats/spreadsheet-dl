@@ -35,9 +35,12 @@ Core Platform:
 
 Domain Plugins:
 - Finance: Budgets, financial statements, invoices, bank import, analytics
-- Data Science (planned): Experiments, datasets, analysis, A/B tests
-- Engineering (planned): BOMs, calculations, schedules
-- Manufacturing (planned): OEE, quality control, production
+- Data Science: Experiments, datasets, analysis, A/B tests
+- Engineering: Electrical, mechanical, civil - BOMs, calculations, schedules
+- Manufacturing: OEE, quality control, production
+- Biology: Plate layouts, qPCR results, cell culture tracking
+- Education: Gradebooks, attendance, rubrics
+- Environmental: Monitoring templates and data import
 - More domains coming - see roadmap
 
 Legacy Features (from v2.0.0):

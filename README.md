@@ -1,6 +1,6 @@
 # SpreadsheetDL
 
-[![Version](https://img.shields.io/badge/version-4.0.0-blue.svg)](https://github.com/spreadsheet-dl/spreadsheet-dl/releases)
+[![Version](https://img.shields.io/badge/version-4.0.0-blue.svg)](https://github.com/lair-click-bats/spreadsheet-dl/releases)
 [![First Release](https://img.shields.io/badge/🎉-first%20public%20release-gold.svg)](CHANGELOG.md)
 [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
@@ -157,10 +157,10 @@ Of the 144 MCP tools, 49 are fully implemented and 95 are documented stubs that 
 
 ```bash
 # Install from GitHub (PyPI coming soon)
-pip install git+https://github.com/spreadsheet-dl/spreadsheet-dl.git
+pip install git+https://github.com/lair-click-bats/spreadsheet-dl.git
 
 # Or clone for development
-git clone https://github.com/spreadsheet-dl/spreadsheet-dl.git
+git clone https://github.com/lair-click-bats/spreadsheet-dl.git
 cd spreadsheet-dl
 uv sync --dev
 
