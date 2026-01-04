@@ -2,237 +2,33 @@
 
 **Implements: DOC-PROF-006: Migration Guide | TASK-502: v4.0 Documentation**
 
-This guide helps you migrate from older versions of spreadsheet-dl
-and from other spreadsheet tools to the universal SpreadsheetDL v4.0.
+This guide helps you migrate from other spreadsheet tools (openpyxl, pandas, Excel VBA) to the universal SpreadsheetDL v4.0.
+
+Future versions of this guide will include migration instructions when upgrading between major versions of SpreadsheetDL.
 
 ## Table of Contents
 
-1. [Version Migration](#version-migration)
-   - [From v2.0 to v4.0](#from-v20-to-v40) **NEW**
-   - [From v1.x to v2.0](#from-v1x-to-v20)
+1. [Future Version Migration](#future-version-migration)
 2. [Migrating from Basic API to Builder API](#migrating-from-basic-api-to-builder-api)
 3. [Migrating from openpyxl](#migrating-from-openpyxl)
 4. [Migrating from pandas](#migrating-from-pandas)
 5. [Migrating from Excel VBA](#migrating-from-excel-vba)
 6. [Migrating Themes](#migrating-themes)
-7. [Using the MCP Server](#using-the-mcp-server) **NEW**
+7. [Using the MCP Server](#using-the-mcp-server)
 
-## Version Migration
+## Future Version Migration
 
-### From v2.0 to v4.0
+SpreadsheetDL v4.0.0 is the first public release. This section will be updated with migration guides when future versions are released.
 
-Version 4.0 introduces universal spreadsheet definition language with:
+### Breaking Changes Policy
 
-- **145+ MCP Tools**: AI-driven spreadsheet manipulation
-- **Multi-Format Support**: ODS, XLSX, CSV, PDF export
-- **Theme Variants**: Light, dark, high-contrast themes
-- **Streaming I/O**: Handle 100k+ row files
-- **Round-Trip Import**: Import ODS/XLSX back to SpreadsheetDL
-- **Format Adapters**: Pluggable export system
+SpreadsheetDL follows [Semantic Versioning](https://semver.org/):
 
-#### Breaking Changes
+- **Major versions** (v5.0, v6.0, etc.) may include breaking changes
+- **Minor versions** (v4.1, v4.2, etc.) add features without breaking existing code
+- **Patch versions** (v4.0.1, v4.0.2, etc.) fix bugs without breaking existing code
 
-| v2.0            | v4.0                         | Notes                                 |
-| --------------- | ---------------------------- | ------------------------------------- |
-| `Theme(...)`    | `Theme(..., variants={...})` | Theme variants support                |
-| ODS-only export | Multi-format adapters        | `export_ods()`, `export_xlsx()`, etc. |
-| In-memory only  | Streaming support            | `StreamingWriter` for large files     |
-| One-way export  | Round-trip capable           | `import_ods()`, `import_xlsx()`       |
-
-#### Migration Steps
-
-**1. Update Theme Definitions with Variants**
-
-```python
-# v2.0 - Single theme
-from spreadsheet_dl.schema.styles import Theme
-
-theme = Theme(
-    name="corporate",
-    colors={"primary": "#1E3A8A", "secondary": "#60A5FA"},
-)
-
-# v4.0 - Theme with variants
-from spreadsheet_dl.schema.styles import Theme, ThemeVariant
-
-theme = Theme(
-    name="corporate",
-    colors={"primary": "#1E3A8A", "secondary": "#60A5FA"},
-    variants={
-        "dark": ThemeVariant(
-            colors={"primary": "#60A5FA", "secondary": "#1E3A8A"},
-        ),
-        "high_contrast": ThemeVariant(
-            colors={"primary": "#000000", "secondary": "#FFFFFF"},
-        ),
-    }
-)
-
-# Switch variants at runtime
-theme.set_variant("dark")
-```
-
-**2. Use Multi-Format Export**
-
-```python
-# v2.0 - ODS only
-builder.save("report.ods")
-
-# v4.0 - Multiple formats
-from spreadsheet_dl.adapters import OdsAdapter, XlsxAdapter, CsvAdapter
-
-builder.save("report.ods")  # Still works
-builder.export_xlsx("report.xlsx")  # Export to Excel
-builder.export_csv("report.csv")  # Export to CSV
-builder.export_pdf("report.pdf")  # Export to PDF
-
-# Or use adapters directly
-adapter = XlsxAdapter()
-adapter.export(builder.spec, "report.xlsx")
-```
-
-**3. Handle Large Files with Streaming**
-
-```python
-# v2.0 - In-memory only (limited to ~50k rows)
-builder = SpreadsheetBuilder()
-for row in large_dataset:  # May cause OOM
-    builder.row().cell(row[0]).cell(row[1])
-builder.save("large.ods")
-
-# v4.0 - Streaming for large files
-from spreadsheet_dl.streaming import StreamingWriter
-
-with StreamingWriter("large.ods") as writer:
-    writer.write_header(["Column1", "Column2"])
-    for row in large_dataset:  # Handles 100k+ rows
-        writer.write_row([row[0], row[1]])
-```
-
-**4. Import Existing Spreadsheets**
-
-```python
-# v4.0 - NEW: Round-trip import
-from spreadsheet_dl.roundtrip import import_ods, import_xlsx
-
-# Import ODS to SpreadsheetBuilder
-builder = import_ods("existing.ods")
-builder.sheet("Sheet1").row().cell("New Data")
-builder.save("modified.ods")
-
-# Import XLSX
-builder = import_xlsx("excel_file.xlsx")
-builder.export_ods("converted.ods")
-```
-
-**5. Use MCP Server for AI Integration**
-
-```python
-# v4.0 - NEW: MCP Server
-from spreadsheet_dl.mcp_server import MCPServer, MCPConfig
-
-# Start MCP server for Claude Desktop integration
-config = MCPConfig(
-    allowed_paths=[Path("~/Documents")],
-    rate_limit_per_minute=120,
-)
-server = MCPServer(config)
-server.run()  # Exposes 145+ tools to Claude
-```
-
-#### Compatibility Notes
-
-- **v2.0 code continues to work** in v4.0 with no changes required
-- **Themes are backward compatible** - variants are optional
-- **ODS export unchanged** - same file format and quality
-- **New features are opt-in** - streaming, import, adapters are optional
-
-### From v1.x to v2.0
-
-Version 2.0 introduces the professional spreadsheet system with:
-
-- Theme-based styling
-- Builder pattern API
-- Professional templates
-- Enhanced formula support
-
-#### Breaking Changes
-
-| v1.x                          | v2.0                           | Notes           |
-| ----------------------------- | ------------------------------ | --------------- |
-| `ODSGenerator.create_sheet()` | `SpreadsheetBuilder().sheet()` | Builder pattern |
-| `add_row(values)`             | `builder.row().cell()...`      | Fluent API      |
-| Inline styles                 | Theme-based styles             | Style names     |
-
-#### Migration Steps
-
-**1. Replace ODSGenerator with SpreadsheetBuilder**
-
-```python
-# v1.x - Old way
-from spreadsheet_dl.ods_generator import ODSGenerator
-
-gen = ODSGenerator()
-gen.create_sheet("Budget")
-gen.add_row(["Category", "Amount"])
-gen.add_row(["Housing", 1500])
-gen.save("budget.ods")
-
-# v2.0 - New way
-from spreadsheet_dl.builder import SpreadsheetBuilder
-
-builder = SpreadsheetBuilder(theme="default")
-builder.sheet("Budget")
-builder.column("Category")
-builder.column("Amount", type="currency")
-builder.header_row()
-builder.row().cell("Housing").cell(1500)
-builder.save("budget.ods")
-```
-
-**2. Convert Inline Styles to Theme Styles**
-
-```python
-# v1.x - Inline styles
-gen.add_row(
-    ["Total", 5000],
-    style={
-        "font_weight": "bold",
-        "background": "#D9E2F3",
-    }
-)
-
-# v2.0 - Named styles
-builder.row(style="total")
-builder.cell("Total")
-builder.cell(5000, style="currency_total")
-```
-
-**3. Update Formula Syntax**
-
-```python
-# v1.x - String formulas
-gen.add_cell(formula="=SUM(B2:B10)")
-
-# v2.0 - Formula builder (optional, strings still work)
-from spreadsheet_dl.builder import formula
-
-builder.cell(formula().sum("B2:B10").build())
-# or
-builder.cell("=SUM(B2:B10)")  # Still supported
-```
-
-### From v2.0 to v2.1
-
-Minor version with backward compatibility.
-
-New features:
-
-- Print layout configuration
-- Professional templates
-- Enhanced validation
-
-No breaking changes - existing code continues to work.
+When a new major version is released, this guide will provide detailed migration instructions.
 
 ## Migrating from Basic API to Builder API
 
