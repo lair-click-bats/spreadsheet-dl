@@ -329,7 +329,8 @@ class LazyProperty[T]:
 
     def __get__(self, obj: Any, objtype: type | None = None) -> T:
         if obj is None:
-            # Return descriptor itself when accessed from class (not instance)
+            # Descriptor protocol: Return self when accessed from class
+            # Type checker expects T but self is valid for this use case
             return self  # type: ignore[return-value]
 
         if obj in self._cache:
@@ -429,6 +430,7 @@ class BatchProcessor[T]:
                 results.append(result)
                 success_count += 1
             except Exception as e:
+                # Intentionally broad: user-provided processor can raise any exception
                 errors.append((i, e))
                 error_count += 1
                 if self._on_error == "stop":
