@@ -208,7 +208,7 @@ class TorsionalStressFormula(BaseFormula):
 
 
 __all__ = [
-    "MomentOfInertiaFormula",
     "BendingStressFormula",
+    "MomentOfInertiaFormula",
     "TorsionalStressFormula",
 ]

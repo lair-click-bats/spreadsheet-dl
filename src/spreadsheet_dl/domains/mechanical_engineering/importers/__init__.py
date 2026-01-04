@@ -1,0 +1,22 @@
+"""
+Importers for mechanical engineering domain.
+
+Implements:
+    REQ-C003-011: Mechanical engineering importer modules
+"""
+
+from spreadsheet_dl.domains.mechanical_engineering.importers.cad_metadata import (
+    CADMetadataImporter,
+)
+from spreadsheet_dl.domains.mechanical_engineering.importers.fea_results import (
+    FEAResultsImporter,
+)
+from spreadsheet_dl.domains.mechanical_engineering.importers.material_db import (
+    MaterialDatabaseImporter,
+)
+
+__all__ = [
+    "CADMetadataImporter",
+    "FEAResultsImporter",
+    "MaterialDatabaseImporter",
+]

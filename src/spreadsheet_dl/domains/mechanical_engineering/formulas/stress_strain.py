@@ -194,7 +194,7 @@ class YoungsModulusFormula(BaseFormula):
 
 
 __all__ = [
-    "StressFormula",
     "StrainFormula",
+    "StressFormula",
     "YoungsModulusFormula",
 ]

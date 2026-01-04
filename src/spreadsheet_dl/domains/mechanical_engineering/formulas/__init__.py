@@ -16,8 +16,8 @@ from spreadsheet_dl.domains.mechanical_engineering.formulas.moment import (
     TorsionalStressFormula,
 )
 from spreadsheet_dl.domains.mechanical_engineering.formulas.stress_strain import (
-    StressFormula,
     StrainFormula,
+    StressFormula,
     YoungsModulusFormula,
 )
 from spreadsheet_dl.domains.mechanical_engineering.formulas.thermal import (
@@ -26,19 +26,15 @@ from spreadsheet_dl.domains.mechanical_engineering.formulas.thermal import (
 )
 
 __all__ = [
-    # Stress/Strain
-    "StressFormula",
-    "StrainFormula",
-    "YoungsModulusFormula",
-    # Moment
-    "MomentOfInertiaFormula",
     "BendingStressFormula",
-    "TorsionalStressFormula",
-    # Thermal
+    "FatigueLifeFormula",
+    "MomentOfInertiaFormula",
+    "SafetyFactorFormula",
+    "StrainFormula",
+    "StressConcentrationFormula",
+    "StressFormula",
     "ThermalExpansionFormula",
     "ThermalStressFormula",
-    # Fatigue
-    "FatigueLifeFormula",
-    "SafetyFactorFormula",
-    "StressConcentrationFormula",
+    "TorsionalStressFormula",
+    "YoungsModulusFormula",
 ]

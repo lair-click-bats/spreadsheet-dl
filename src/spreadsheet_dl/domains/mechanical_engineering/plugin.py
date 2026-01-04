@@ -37,8 +37,8 @@ from spreadsheet_dl.domains.mechanical_engineering.formulas.moment import (
     TorsionalStressFormula,
 )
 from spreadsheet_dl.domains.mechanical_engineering.formulas.stress_strain import (
-    StressFormula,
     StrainFormula,
+    StressFormula,
     YoungsModulusFormula,
 )
 from spreadsheet_dl.domains.mechanical_engineering.formulas.thermal import (
