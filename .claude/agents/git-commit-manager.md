@@ -176,6 +176,16 @@ git commit -m "docs(productivity): add Cal Newport deep work notes"
 
 ### Commit Execution
 
+**IMPORTANT: DO NOT include Claude as co-author**
+
+Never add the following to commit messages:
+
+- `Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>`
+- `🤖 Generated with [Claude Code](https://claude.com/claude-code)`
+- Any other Claude attribution or co-author lines
+
+Commit messages should only include the conventional commit format with optional body/footer.
+
 ```bash
 # Use heredoc for clean formatting
 git commit -m "$(cat <<'EOF'
@@ -269,6 +279,7 @@ Route to **knowledge-researcher** when:
 - All changes reviewed and categorized
 - Atomic commits (one logical change each)
 - Conventional commit format verified
+- No Claude co-author attribution in commit messages
 - No broken links or formatting issues
 - Pushed to remote successfully
 - Summary report provided
