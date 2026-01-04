@@ -49,17 +49,18 @@ SpreadsheetDL is a universal spreadsheet definition language that lets you creat
 - **Utils**: Account management, budget analytics, alerts, recurring expenses
 - **Features**: WebDAV upload (Nextcloud), multi-currency support, auto-categorization
 
-#### 🔬 Data Science Domain (Planned - Phase 1)
+#### 🔬 Data Science Domain
 
-- **Templates**: Experiment log, dataset catalog, analysis report, A/B test results
-- **Formulas**: Statistical tests (TTEST, FTEST), ML metrics (F1, precision, recall)
-- **Importers**: Scientific CSV, MLflow experiment import
+- **Templates**: Experiment log, dataset catalog, analysis report, A/B test results, model comparison
+- **Formulas**: Statistical tests (TTEST, FTEST, ZTEST), ML metrics (confusion matrix, F1, precision, recall)
+- **Importers**: Scientific CSV, MLflow experiment import, Jupyter notebook
+- **Utils**: Plotting helpers, statistical utilities
 
-#### ⚙️ Engineering Domain (Planned - Phase 2)
+#### ⚙️ Engineering Domains
 
-- **Electrical**: BOM, pin mapping, power budget, signal routing
-- **Mechanical**: Design calculations, tolerance stack-up, material properties
-- **Civil**: Load calculations, construction schedules, cost estimates
+- **Electrical**: BOM, pin mapping, power budget, signal routing, component importers
+- **Mechanical**: Stress analysis, tolerance stack-up, material properties, CAD metadata, FEA results
+- **Civil**: Load calculations, structural analysis, concrete mix design, survey data, building codes
 
 ## Version
 
