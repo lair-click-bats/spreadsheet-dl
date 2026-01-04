@@ -13,8 +13,8 @@ from spreadsheet_dl.domains.finance.csv_import import (
     BANK_FORMATS,
     DEFAULT_CATEGORY_RULES,
     BankFormat,
-    CSVImporter,
     CategoryRule,
+    CSVImporter,
     TransactionCategorizer,
     import_bank_csv,
 )
