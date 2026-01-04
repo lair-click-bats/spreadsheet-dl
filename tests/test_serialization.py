@@ -167,10 +167,10 @@ class TestSpreadsheetEncoder:
 
     def test_encode_path(self) -> None:
         """Test encoding Path values."""
-        p = Path("/tmp/test.txt")
+        p = Path("test_data/test.txt")
         result = json.dumps(p, cls=SpreadsheetEncoder)
         data = json.loads(result)
-        assert data["_path"] == "/tmp/test.txt"
+        assert data["_path"] == "test_data/test.txt"
 
     def test_encode_path_via_default_method(self) -> None:
         """Test encoding Path via default method path.
@@ -330,10 +330,10 @@ class TestSpreadsheetDecoder:
 
     def test_decode_path(self) -> None:
         """Test decoding Path values."""
-        data = {"_path": "/tmp/test.txt"}
+        data = {"_path": "test_data/test.txt"}
         result = SpreadsheetDecoder.decode(data)
         assert isinstance(result, Path)
-        assert str(result) == "/tmp/test.txt"
+        assert str(result) == "test_data/test.txt"
 
     def test_decode_nested_structures(self) -> None:
         """Test decoding nested structures."""

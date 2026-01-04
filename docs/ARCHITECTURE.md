@@ -67,7 +67,7 @@ spreadsheet-dl/
 
 ## Core Components
 
-### 1. Template Engine System (NEW in v2.0.0)
+### 1. Template Engine System
 
 The template engine provides declarative spreadsheet creation using YAML schemas.
 
@@ -86,7 +86,7 @@ The template engine provides declarative spreadsheet creation using YAML schemas
 - Conditional sections
 - Loop constructs for data arrays
 
-### 2. Chart Builder (NEW in v2.0.0)
+### 2. Chart Builder
 
 Comprehensive chart creation with all major chart types.
 
@@ -113,7 +113,7 @@ Comprehensive chart creation with all major chart types.
 - `DataLabelConfig` - Data labels
 - `Trendline` - Trend lines and projections
 
-### 3. Professional Templates (NEW in v2.0.0)
+### 3. Professional Templates
 
 Enterprise-ready document templates.
 
@@ -205,7 +205,7 @@ Data protection and credential management.
 - Secure password generation
 - Audit trail logging
 
-### 7. Print Layout System (NEW in v2.0.0)
+### 7. Print Layout System
 
 Professional print output configuration.
 
@@ -224,7 +224,7 @@ Professional print output configuration.
 - Page breaks
 - Repeat rows/columns
 
-### 8. Schema Extensions (NEW in v2.0.0)
+### 8. Schema Extensions
 
 Enhanced data types and structures.
 
@@ -544,10 +544,8 @@ custom_rule = ValidationRule(
 
 SpreadsheetDL follows semantic versioning:
 
-- **v2.0.0**: Professional Spreadsheet System (95 requirements)
-- **v1.0.0**: Phase 5 - Future Enhancements
-- **v0.7.0**: Phase 4 - Advanced Features
-- **v0.6.0**: Phase 3 - Enhanced Features
+- **v4.0.0**: First public release - Universal spreadsheet definition language with MCP server, 9 domain plugins
+- **v2.0.0**: Professional Spreadsheet System with templates, charts, and enterprise features
 - **v0.5.0**: Backup/Export Features
 - **v0.4.x**: Builder API and Security
 

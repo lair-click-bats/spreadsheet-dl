@@ -1140,7 +1140,7 @@ authors = [
     {name = "Your Name", email = "you@example.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 dependencies = [
     "spreadsheet-dl>=4.0.0",
 ]

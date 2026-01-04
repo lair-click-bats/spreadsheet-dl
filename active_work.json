@@ -1,70 +1,108 @@
 {
-  "task_id": "QUALITY-SWEEP-V4-ZERO-DEFECT",
-  "title": "Comprehensive Quality Sweep for SpreadsheetDL v4.0.0",
-  "status": "complete",
-  "started_at": "2026-01-04T01:30:00Z",
-  "completed_at": "2026-01-04T01:50:00Z",
+  "task_id": "PRE-RELEASE-AUDIT-V4",
+  "title": "Comprehensive Pre-Release Audit for SpreadsheetDL v4.0.0",
+  "status": "in_progress",
+  "started_at": "2026-01-04T02:00:00Z",
 
-  "description": "Zero-defect quality sweep: fix ALL issues (ruff, mypy, tests, formatting) and achieve 100% quality score.",
+  "description": "Exhaustive audit of ALL files to identify and fix ALL inconsistencies, vestigial elements, suboptimal approaches, and issues before v4.0.0 public release.",
 
-  "phases_completed": {
+  "audit_summary": {
+    "total_issues_identified": 150,
+    "critical": 10,
+    "high": 25,
+    "medium": 40,
+    "low": 75
+  },
+
+  "phases": {
     "phase_1": {
-      "name": "Critical Fixes",
-      "completed_at": "2026-01-04T01:45:00Z",
-      "fixes_applied": {
-        "biology_utils": "Added 3 missing utility functions",
-        "biology_init": "Updated exports",
-        "test_biology": "Fixed imports",
-        "stress_test_suite": "Fixed RUF013, B007 issues",
-        "finance_categories": "Fixed mypy type error"
-      },
-      "issues_resolved": {
-        "ruff_issues": 4,
-        "mypy_issues": 5,
-        "test_alignment_biology": 12
-      }
+      "name": "Critical Issues",
+      "status": "pending",
+      "items": 10,
+      "completed": 0,
+      "includes": [
+        "Author name mismatch",
+        "GitHub URL placeholders (8 locations)",
+        "Missing CODE_OF_CONDUCT.md",
+        "Plaid API stubs (8 methods)",
+        "Exception hierarchy inconsistency",
+        "CLI docstring incorrect",
+        "Always-skipped tests (3)",
+        "Placeholder validation tests (11)",
+        "Duplicate permission entries",
+        "Root-level work files"
+      ]
     },
     "phase_2": {
-      "name": "Test Alignment",
-      "completed_at": "2026-01-04T01:50:00Z",
-      "fixes_applied": {
-        "test_manufacturing": "Fixed OEE values (decimal to %), reorder_point args, safety_stock args, zero division handling",
-        "test_education": "Fixed LMSDataImporter parameter name (lms_type -> platform)"
-      },
-      "issues_resolved": {
-        "manufacturing_tests": 16,
-        "education_tests": 11
-      }
+      "name": "High Priority",
+      "status": "pending",
+      "items": 25,
+      "completed": 0,
+      "includes": [
+        "NotImplementedError stubs (3)",
+        "Broad exception handlers (30+)",
+        "Type ignore comments (5)",
+        "Test issues (5)",
+        "Documentation issues (8)",
+        "Config issues (1)",
+        "Filesystem issues (2)",
+        "Star imports (16 files)"
+      ]
+    },
+    "phase_3": {
+      "name": "Medium Priority",
+      "status": "pending",
+      "items": 40,
+      "completed": 0,
+      "includes": [
+        "Exception handling improvements (15)",
+        "Test quality improvements (12)",
+        "Documentation improvements (6)",
+        "Config improvements (3)",
+        "Filesystem cleanup (2)",
+        "Consistency fixes (2)"
+      ]
+    },
+    "phase_4": {
+      "name": "Low Priority",
+      "status": "pending",
+      "items": 75,
+      "completed": 0,
+      "includes": [
+        "Source code cleanup (48)",
+        "Test cleanup (8)",
+        "Documentation polish (15)",
+        "Config polish (2)",
+        "Filesystem polish (1)",
+        "Consistency polish (1)"
+      ]
+    },
+    "phase_5": {
+      "name": "Validation",
+      "status": "pending",
+      "items": 5,
+      "completed": 0,
+      "includes": [
+        "Full test suite",
+        "Quality checks (ruff, mypy)",
+        "Documentation verification",
+        "Build verification",
+        "Final review"
+      ]
     }
   },
 
-  "total_issues_fixed": 50,
-
-  "files_modified": [
-    "src/spreadsheet_dl/domains/biology/utils.py",
-    "src/spreadsheet_dl/domains/biology/__init__.py",
-    "tests/domains/test_biology.py",
-    ".claude/hooks/stress_test_suite.py",
-    "src/spreadsheet_dl/domains/finance/categories.py",
-    "tests/domains/test_manufacturing.py",
-    "tests/domains/test_education.py"
-  ],
-
-  "quality_gates": {
-    "ruff_zero_errors": "fixed",
-    "mypy_zero_errors": "fixed",
-    "test_alignment_complete": true,
-    "all_fixes_applied": true,
-    "pending_validation": true,
-    "pending_commit": true
+  "release_gate": {
+    "requirement": "ALL 150 issues must be resolved before v4.0.0 release",
+    "backwards_compatibility": "NOT a concern (pre-release)",
+    "goal": "Ship v4.0.0 with the BEST possible API"
   },
 
-  "next_steps": [
-    "Run uv run ruff check . to validate all linting issues fixed",
-    "Run uv run mypy . to validate all type errors fixed",
-    "Run uv run pytest tests/domains/ -v to validate test alignment",
-    "Create atomic git commits for the fixes"
-  ],
+  "work_plan": ".coordination/2026-01-04-pre-release-audit-workplan.md",
 
-  "completion_report": ".claude/agent-outputs/2026-01-04-015000-quality-sweep-complete.json"
+  "next_steps": [
+    "Begin Phase 1: Fix 10 critical issues",
+    "Author name decision required",
+    "GitHub organization name required"
+  ]
 }

@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-2,181%20passing-brightgreen.svg)](tests/)
 [![Coverage](https://img.shields.io/badge/coverage-71%25-brightgreen.svg)](tests/)
-[![MCP](https://img.shields.io/badge/MCP-144%20tools-purple.svg)](docs/api/mcp_server.md)
+[![MCP](https://img.shields.io/badge/MCP-8%20tools-purple.svg)](docs/api/mcp_server.md)
 
 > **🎉 First Public Release (v4.0.0)** - This version represents extensive private development through multiple major iterations. The codebase is production-ready with comprehensive testing, complete documentation, and 9 domain plugins.
 
@@ -76,26 +76,24 @@ SpreadsheetDL is a universal spreadsheet definition language that lets you creat
 - **Utils**: Account management, budget analytics, alerts, recurring expenses, goals tracking
 - **Features**: WebDAV upload (Nextcloud), multi-currency support, auto-categorization
 
-#### 🔬 Data Science Domain (Planned - Phase 1)
+#### 🔬 Data Science Domain
 
 - **Templates**: Experiment log, dataset catalog, analysis report, A/B test results, model comparison
 - **Formulas**: Statistical tests (TTEST, FTEST, ZTEST), ML metrics (confusion matrix, F1, precision, recall)
-- **Importers**: Scientific CSV, MLflow experiment import
+- **Importers**: Scientific CSV, MLflow experiment import, Jupyter notebook
 - **Utils**: Plotting helpers, statistical utilities
 
-#### ⚙️ Engineering Domain (Planned - Phase 2)
+#### ⚙️ Engineering Domains
 
-- **Electrical**: BOM, pin mapping, power budget, signal routing
-- **Mechanical**: Design calculations, tolerance stack-up, material properties
-- **Civil**: Load calculations, construction schedules, cost estimates
+- **Electrical**: BOM, pin mapping, power budget, signal routing, component importers
+- **Mechanical**: Stress analysis, tolerance stack-up, material properties, CAD metadata, FEA results
+- **Civil**: Load calculations, structural analysis, concrete mix design, survey data, building codes
 
 #### 🏭 Manufacturing Domain (Planned - Phase 3)
 
 - **Templates**: OEE dashboard, quality control charts (SPC), production schedules
 - **Formulas**: OEE, Cpk, DPMO, control limits
 - **Importers**: SCADA data connectors
-
-See [Domain Analysis](.coordination/2026-01-03-comprehensive-domain-analysis.md) for full roadmap (12 domains planned).
 
 ## Documentation
 
@@ -646,7 +644,7 @@ See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
 
 ### Recent Releases
 
-- **v4.0.0-alpha.1** (2026-01-03) - Universal spreadsheet definition language with MCP server, streaming I/O, 97% test coverage
+- **v4.0.0** (2026-01-04) - First public release: Universal spreadsheet definition language with MCP server, 9 domain plugins, 2,637 tests
 - **v2.0.0** (2025-12-29) - Professional spreadsheet system with enterprise formatting
 - **v0.4.1** (2025-12-15) - Expense append functionality and comprehensive error codes
 - **v0.4.0** (2025-12-10) - Declarative DSL with themes and fluent builder API

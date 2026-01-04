@@ -61,8 +61,6 @@ SpreadsheetDL is a universal spreadsheet definition language that lets you creat
 - **Mechanical**: Design calculations, tolerance stack-up, material properties
 - **Civil**: Load calculations, construction schedules, cost estimates
 
-See [Domain Analysis](.coordination/2026-01-03-comprehensive-domain-analysis.md) for full roadmap.
-
 ## Version
 
 Current version: **v4.0.0** 🎉 _First Public Release_

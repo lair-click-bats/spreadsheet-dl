@@ -4,7 +4,7 @@ This guide covers installing SpreadsheetDL for development and production use.
 
 ## Requirements
 
-- Python 3.11 or higher
+- Python 3.12 or higher
 - [uv](https://docs.astral.sh/uv/) package manager (recommended)
 
 ## Quick Installation

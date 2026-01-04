@@ -6,6 +6,11 @@ Implements:
 
 Provides adapter interfaces for converting between SpreadsheetDL's
 internal representation and various file formats.
+
+**Known Limitations:**
+    - HTML import: Not yet implemented (HTMLAdapter.from_format raises NotImplementedError)
+      HTML export is fully supported. Import requires parsing HTML tables which is planned
+      for a future release.
 """
 
 from __future__ import annotations

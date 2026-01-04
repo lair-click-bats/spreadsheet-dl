@@ -16,6 +16,14 @@ Features:
     - Interactive dashboard with KPIs
     - Sparklines for trend visualization
     - Auto-complete suggestions
+
+**Known Limitations:**
+    - Conditional formatting: Data model defined but ODS application not yet implemented
+      (InteractiveBuilder._apply_conditional_format raises NotImplementedError)
+    - Sparklines: Data model defined but ODS application not yet implemented
+      (InteractiveBuilder._apply_sparkline raises NotImplementedError)
+
+    Both features require additional odfpy integration work planned for future release.
 """
 
 from __future__ import annotations
