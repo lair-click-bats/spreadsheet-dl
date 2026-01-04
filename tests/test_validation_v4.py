@@ -47,17 +47,18 @@ class TestVAL101_DataclassImprovements:
         for cls in frozen_classes:
             assert dataclasses.is_dataclass(cls), f"{cls.__name__} is not a dataclass"
             # Create instance with appropriate defaults
+            instance: Any
             if cls == styles.Color:
-                instance = cls("#FF0000")
+                instance = cls("#FF0000")  # type: ignore[operator]
             elif cls == styles.Font:
-                instance = cls(family="Arial")
+                instance = cls(family="Arial")  # type: ignore[operator]
             elif cls == styles.GradientStop:
-                instance = cls(position=0.0, color=styles.Color("#FF0000"))
+                instance = cls(position=0.0, color=styles.Color("#FF0000"))  # type: ignore[operator]
             elif cls == styles.ThemeSchema:
-                instance = cls(name="test")
+                instance = cls(name="test")  # type: ignore[operator]
             else:
                 # Try to create with all defaults
-                instance = cls()
+                instance = cls()  # type: ignore[operator]
 
             # Frozen dataclasses will raise FrozenInstanceError on assignment
             first_field = dataclasses.fields(instance)[0]
@@ -77,8 +78,11 @@ class TestVAL101_DataclassImprovements:
                 for field in dataclasses.fields(obj):
                     # Check for mutable defaults
                     if field.default is not dataclasses.MISSING:
+                        obj_name = (
+                            obj.__name__ if hasattr(obj, "__name__") else str(obj)
+                        )
                         assert not isinstance(field.default, (list, dict, set)), (
-                            f"{obj.__name__}.{field.name} has mutable default: {field.default}"
+                            f"{obj_name}.{field.name} has mutable default: {field.default}"
                         )
 
                     # Check default_factory is used for mutable types

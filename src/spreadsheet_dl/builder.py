@@ -2342,7 +2342,9 @@ class FormulaDependencyGraph:
     """
 
     # Pattern to find cell references in formulas
+    # Matches same-sheet references like [.A1] and captures cell address (A1)
     CELL_REF_PATTERN = re.compile(r"\[\.([A-Z]+[0-9]+)\]")
+    # Matches cross-sheet references like [Sheet1.A1] and captures both sheet name and cell address
     SHEET_REF_PATTERN = re.compile(r"\[([^.]+)\.([A-Z]+[0-9]+)\]")
 
     def __init__(self) -> None:

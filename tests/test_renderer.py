@@ -539,7 +539,7 @@ class TestOdsRendererNamedRanges:
         named_range = NamedRange(
             name="GlobalRange",
             range=RangeRef(start="A1", end="C5", sheet=None),
-            scope=None,
+            scope="workbook",
         )
 
         result = renderer.render([sheet], output_file, named_ranges=[named_range])
@@ -568,7 +568,7 @@ class TestOdsRendererNamedRanges:
             NamedRange(
                 name="Range2",
                 range=RangeRef(start="B1", end="B10", sheet=None),
-                scope=None,
+                scope="workbook",
             ),
         ]
 
@@ -1853,12 +1853,13 @@ class TestRendererEdgeCases:
         theme = Theme(meta=meta)
 
         # Mock list_styles to return a style name
-        theme.list_styles = MagicMock(return_value=["bad_style", "good_style"])
+        mock_list_styles = MagicMock(return_value=["bad_style", "good_style"])
+        theme.list_styles = mock_list_styles  # type: ignore[method-assign]
 
         # Mock get_style to:
         # - Raise KeyError for "bad_style" (exception path)
         # - Return a valid style for "good_style" (success path for comparison)
-        def mock_get_style(style_name):
+        def mock_get_style(style_name: str) -> Any:
             if style_name == "bad_style":
                 raise KeyError("Style not found")
             # Return a minimal valid CellStyle for "good_style"
@@ -1866,7 +1867,7 @@ class TestRendererEdgeCases:
 
             return CellStyle(name=style_name)
 
-        theme.get_style = mock_get_style
+        theme.get_style = mock_get_style  # type: ignore[method-assign]
 
         # Create renderer with theme
         renderer = OdsRenderer(theme=theme)
