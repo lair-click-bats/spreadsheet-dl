@@ -119,9 +119,8 @@ def cleanup_coordination_files(project_dir: Path, archive_dir: Path) -> dict:
 
     # Remove empty files
     for any_file in coordination_dir.glob("*"):
-        if any_file.is_file():
-            if remove_empty_file(any_file):
-                stats["removed"] += 1
+        if any_file.is_file() and remove_empty_file(any_file):
+            stats["removed"] += 1
 
     return stats
 

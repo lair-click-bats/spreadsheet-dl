@@ -126,10 +126,9 @@ def update_agent_status(
             registry["metadata"]["agents_running"] -= 1
             registry["metadata"]["agents_completed"] += 1
 
-    if status == "failed":
-        if old_status == "running":
-            registry["metadata"]["agents_running"] -= 1
-            registry["metadata"]["agents_failed"] += 1
+    if status == "failed" and old_status == "running":
+        registry["metadata"]["agents_running"] -= 1
+        registry["metadata"]["agents_failed"] += 1
 
     if output_file:
         agent["output_file"] = output_file

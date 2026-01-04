@@ -89,7 +89,7 @@ class ConfigValidator:
             standards = yaml.safe_load(f)
 
         hooks = standards.get("hooks", {})
-        for hook_type, hook_list in hooks.items():
+        for _hook_type, hook_list in hooks.items():
             if not isinstance(hook_list, list):
                 continue
 

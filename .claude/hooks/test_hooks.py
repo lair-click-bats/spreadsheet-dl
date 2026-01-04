@@ -85,7 +85,7 @@ class TestCleanupStaleFiles:
             self._setup_test_files(project_dir)
 
             # Run the hook
-            exit_code, stdout, stderr = run_hook(self.hook, {}, project_dir)
+            exit_code, stdout, _stderr = run_hook(self.hook, {}, project_dir)
 
             # Test 1: Hook should succeed
             test1_pass = exit_code == 0
@@ -96,7 +96,7 @@ class TestCleanupStaleFiles:
             try:
                 output = json.loads(stdout)
                 test2_pass = output.get("ok")
-            except:
+            except Exception:
                 test2_pass = False
                 output = {}
             print_test("Returns valid JSON with ok=true", test2_pass, stdout)
@@ -170,7 +170,7 @@ class TestValidateFileLocations:
 
             # Test 1: Non-Write tool should pass through
             input_data = {"tool_name": "Read", "tool_input": {"file_path": "/test.py"}}
-            exit_code, stdout, stderr = run_hook(self.hook, input_data, project_dir)
+            exit_code, stdout, _stderr = run_hook(self.hook, input_data, project_dir)
             test1_pass = exit_code == 0 and json.loads(stdout).get("ok")
             print_test("Non-Write tool passes through", test1_pass)
             self.results.append(("Non-Write passes", test1_pass, ""))
@@ -180,7 +180,7 @@ class TestValidateFileLocations:
                 "tool_name": "Write",
                 "tool_input": {"file_path": str(project_dir / "src" / "module.py")},
             }
-            exit_code, stdout, stderr = run_hook(self.hook, input_data, project_dir)
+            exit_code, stdout, _stderr = run_hook(self.hook, input_data, project_dir)
             test2_pass = exit_code == 0 and "warning" not in stdout.lower()
             print_test("Normal source file passes", test2_pass, stdout)
             self.results.append(("Normal file passes", test2_pass, ""))
@@ -192,7 +192,7 @@ class TestValidateFileLocations:
                     "file_path": str(project_dir / "src" / "ANALYSIS_NOTES.md")
                 },
             }
-            exit_code, stdout, stderr = run_hook(self.hook, input_data, project_dir)
+            exit_code, stdout, _stderr = run_hook(self.hook, input_data, project_dir)
             output = json.loads(stdout)
             test3_pass = exit_code == 0 and output.get("warning") is not None
             print_test("Intermediate file in src/ triggers warning", test3_pass, stdout)
@@ -205,7 +205,7 @@ class TestValidateFileLocations:
                     "file_path": str(project_dir / ".coordination" / "ANALYSIS.md")
                 },
             }
-            exit_code, stdout, stderr = run_hook(self.hook, input_data, project_dir)
+            exit_code, stdout, _stderr = run_hook(self.hook, input_data, project_dir)
             test4_pass = exit_code == 0 and "warning" not in stdout.lower()
             print_test("Intermediate file in .coordination/ passes", test4_pass)
             self.results.append(("Allowed in .coordination", test4_pass, ""))
@@ -253,7 +253,7 @@ class TestCheckStop:
 
             # Test 1: No active work - should allow stop
             input_data = {"project_dir": str(project_dir)}
-            exit_code, stdout, stderr = run_hook(self.hook, input_data, project_dir)
+            exit_code, stdout, _stderr = run_hook(self.hook, input_data, project_dir)
             test1_pass = exit_code == 0 and json.loads(stdout).get("ok")
             print_test("Allows stop with no active work", test1_pass)
             self.results.append(("Allows stop no work", test1_pass, ""))
@@ -263,14 +263,14 @@ class TestCheckStop:
             active_work.write_text(
                 json.dumps({"current_task": "TASK-007", "agent": "spec-implementer"})
             )
-            exit_code, stdout, stderr = run_hook(self.hook, input_data, project_dir)
+            exit_code, stdout, _stderr = run_hook(self.hook, input_data, project_dir)
             test2_pass = exit_code == 2
             print_test("Blocks stop with active work", test2_pass, f"Exit: {exit_code}")
             self.results.append(("Blocks with active work", test2_pass, ""))
 
             # Test 3: stop_hook_active prevents infinite loop
             input_data["stop_hook_active"] = True
-            exit_code, stdout, stderr = run_hook(self.hook, input_data, project_dir)
+            exit_code, stdout, _stderr = run_hook(self.hook, input_data, project_dir)
             test3_pass = exit_code == 0
             print_test("stop_hook_active=True prevents infinite loop", test3_pass)
             self.results.append(("Prevents infinite loop", test3_pass, ""))
@@ -279,7 +279,7 @@ class TestCheckStop:
             del input_data["stop_hook_active"]
             old_time = datetime.now() - timedelta(hours=3)
             os.utime(active_work, (old_time.timestamp(), old_time.timestamp()))
-            exit_code, stdout, stderr = run_hook(self.hook, input_data, project_dir)
+            exit_code, stdout, _stderr = run_hook(self.hook, input_data, project_dir)
             test4_pass = exit_code == 0
             print_test("Allows stop with stale active work (>2 hours)", test4_pass)
             self.results.append(("Allows stale work", test4_pass, ""))
@@ -288,7 +288,7 @@ class TestCheckStop:
             active_work.unlink()
             work_queue = coord_dir / "work_queue.json"
             work_queue.write_text(json.dumps({"tasks": ["task1", "task2"]}))
-            exit_code, stdout, stderr = run_hook(self.hook, input_data, project_dir)
+            exit_code, stdout, _stderr = run_hook(self.hook, input_data, project_dir)
             test5_pass = exit_code == 0
             print_test("Work queue noted but doesn't block", test5_pass)
             self.results.append(("Queue doesn't block", test5_pass, ""))
@@ -313,7 +313,7 @@ class TestCheckSubagentStop:
 
             # Test 1: Always allows subagent stop (permissive)
             input_data = {"project_dir": str(project_dir)}
-            exit_code, stdout, stderr = run_hook(self.hook, input_data, project_dir)
+            exit_code, stdout, _stderr = run_hook(self.hook, input_data, project_dir)
             test1_pass = exit_code == 0 and json.loads(stdout).get("ok")
             print_test("Allows subagent stop (permissive)", test1_pass)
             self.results.append(("Allows subagent stop", test1_pass, ""))
@@ -321,14 +321,18 @@ class TestCheckSubagentStop:
             # Test 2: Detects recent completion reports
             report = outputs_dir / "2025-12-21-test-complete.json"
             report.write_text('{"status": "complete"}')
-            exit_code, stdout, stderr = run_hook(self.hook, input_data, project_dir)
-            test2_pass = exit_code == 0 and "recent completion report" in stderr.lower()
-            print_test("Detects recent completion reports", test2_pass, stderr)
+            exit_code, stdout, stderr_output = run_hook(
+                self.hook, input_data, project_dir
+            )
+            test2_pass = (
+                exit_code == 0 and "recent completion report" in stderr_output.lower()
+            )
+            print_test("Detects recent completion reports", test2_pass, stderr_output)
             self.results.append(("Detects completion reports", test2_pass, ""))
 
             # Test 3: stop_hook_active prevents infinite loop
             input_data["stop_hook_active"] = True
-            exit_code, stdout, stderr = run_hook(self.hook, input_data, project_dir)
+            exit_code, stdout, _stderr = run_hook(self.hook, input_data, project_dir)
             test3_pass = exit_code == 0
             print_test("stop_hook_active=True prevents infinite loop", test3_pass)
             self.results.append(("Prevents infinite loop", test3_pass, ""))
@@ -336,7 +340,7 @@ class TestCheckSubagentStop:
             # Test 4: Handles missing outputs directory gracefully
             shutil.rmtree(outputs_dir)
             del input_data["stop_hook_active"]
-            exit_code, stdout, stderr = run_hook(self.hook, input_data, project_dir)
+            exit_code, stdout, _stderr = run_hook(self.hook, input_data, project_dir)
             test4_pass = exit_code == 0
             print_test("Handles missing outputs directory", test4_pass)
             self.results.append(("Handles missing dir", test4_pass, ""))

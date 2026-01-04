@@ -20,6 +20,7 @@ Examples:
 """
 
 import argparse
+import contextlib
 import hashlib
 import json
 import os
@@ -227,10 +228,8 @@ def analyze_directory(directory: Path) -> dict[str, Any]:
         total_dupe_size = 0
         for paths in duplicates.values():
             if len(paths) > 1:
-                try:
+                with contextlib.suppress(OSError, AttributeError):
                     total_dupe_size += Path(paths[0]).stat().st_size * (len(paths) - 1)
-                except (OSError, AttributeError):
-                    pass
 
         analysis["issues"].append(
             {
