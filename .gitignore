@@ -102,6 +102,12 @@ output/
 coverage.json
 active_work.json
 .claude/hooks/orchestration-metrics.json
+.claude/hooks/*.log
+.claude/agent-registry.json
+.claude/settings.local.json
+.claude/hooks/.context_state.json
+.claude/workflow-progress-*.json
+.claude/settings.backup*.json
 
 # =============================================================================
 # LaTeX Generated Files
@@ -127,9 +133,9 @@ work-obj*.cf
 !.claude/agent-outputs/.gitkeep
 
 # Coordination files are ephemeral (runtime state)
-.coordination/
+# Strengthen: exclude everything except spec tracking
+.coordination/**
 !.coordination/spec/
-.coordination/spec/*
 !.coordination/spec/incomplete-features.yaml
 
 # Keep all configuration files (already tracked by default now)
