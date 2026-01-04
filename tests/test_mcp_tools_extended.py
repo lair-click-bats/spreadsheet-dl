@@ -16,6 +16,9 @@ if TYPE_CHECKING:
     from pathlib import Path
 
 
+pytestmark = [pytest.mark.unit, pytest.mark.mcp]
+
+
 @pytest.fixture
 def mcp_server(tmp_path: Path) -> MCPServer:
     """Create a test MCP server with temporary path allowed."""
