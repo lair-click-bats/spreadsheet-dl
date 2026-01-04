@@ -83,19 +83,19 @@ class MonthlyReportTemplate:
 ```yaml
 colors:
   # Primary brand colors
-  primary: "#1A3A5C"      # Main brand color
-  secondary: "#4472C4"    # Secondary brand color
+  primary: '#1A3A5C' # Main brand color
+  secondary: '#4472C4' # Secondary brand color
 
   # Semantic colors (consistent meaning)
-  success: "#70AD47"      # Green for positive
-  warning: "#FFC000"      # Yellow for attention
-  danger: "#C00000"       # Red for negative/errors
+  success: '#70AD47' # Green for positive
+  warning: '#FFC000' # Yellow for attention
+  danger: '#C00000' # Red for negative/errors
 
   # Neutral colors
-  text: "#333333"         # Main text
-  text_light: "#666666"   # Secondary text
-  background: "#FFFFFF"   # Main background
-  border: "#E0E0E0"       # Borders and dividers
+  text: '#333333' # Main text
+  text_light: '#666666' # Secondary text
+  background: '#FFFFFF' # Main background
+  border: '#E0E0E0' # Borders and dividers
 ```
 
 ### Color Contrast for Accessibility
@@ -162,19 +162,19 @@ styles:
 # Base styles
 base_styles:
   default:
-    font_family: "Liberation Sans"
-    font_size: "10pt"
+    font_family: 'Liberation Sans'
+    font_size: '10pt'
 
 # Semantic styles extending base
 styles:
   header_primary:
     extends: default
     font_weight: bold
-    font_size: "12pt"
+    font_size: '12pt'
 
   header_secondary:
     extends: header_primary
-    font_size: "11pt"
+    font_size: '11pt'
 
   data:
     extends: default
@@ -198,7 +198,7 @@ traits:
   # State traits
   editable:
     locked: false
-    background_color: "#FFFFC0"
+    background_color: '#FFFFC0'
 
   # Emphasis traits
   bold:
@@ -473,14 +473,14 @@ builder.column("Rem")
 
 ```yaml
 meta:
-  name: "corporate-theme"
-  version: "2.1.0"
-  description: "Corporate financial theme"
+  name: 'corporate-theme'
+  version: '2.1.0'
+  description: 'Corporate financial theme'
   changelog:
-    - version: "2.1.0"
-      changes: ["Added danger-light color"]
-    - version: "2.0.0"
-      changes: ["Redesigned color palette"]
+    - version: '2.1.0'
+      changes: ['Added danger-light color']
+    - version: '2.0.0'
+      changes: ['Redesigned color palette']
 ```
 
 ### Document Custom Styles

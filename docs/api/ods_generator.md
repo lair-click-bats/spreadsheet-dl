@@ -291,22 +291,22 @@ Generated spreadsheets contain three sheets:
 
 ### Expense Log
 
-| Date | Category | Description | Amount | Notes |
-|------|----------|-------------|--------|-------|
-| 2025-01-15 | Groceries | Weekly shopping | $125.50 | |
+| Date       | Category  | Description     | Amount  | Notes |
+| ---------- | --------- | --------------- | ------- | ----- |
+| 2025-01-15 | Groceries | Weekly shopping | $125.50 |       |
 
 ### Budget
 
-| Category | Monthly Budget | Notes |
-|----------|----------------|-------|
-| Groceries | $600.00 | |
-| Utilities | $200.00 | |
+| Category  | Monthly Budget | Notes |
+| --------- | -------------- | ----- |
+| Groceries | $600.00        |       |
+| Utilities | $200.00        |       |
 
 ### Summary
 
-| Category | Budget | Actual | Remaining |
-|----------|--------|--------|-----------|
-| Groceries | $600.00 | =SUMIF(...) | =B2-C2 |
+| Category  | Budget  | Actual      | Remaining |
+| --------- | ------- | ----------- | --------- |
+| Groceries | $600.00 | =SUMIF(...) | =B2-C2    |
 
 The Summary sheet uses formulas to automatically calculate totals.
 
@@ -314,12 +314,12 @@ The Summary sheet uses formulas to automatically calculate totals.
 
 ## Available Themes
 
-| Theme | Description |
-|-------|-------------|
-| `default` | Blue headers, green/red indicators |
-| `corporate` | Navy blue, professional |
-| `minimal` | Gray, subtle borders |
-| `dark` | Dark backgrounds |
-| `high_contrast` | Accessibility focused |
+| Theme           | Description                        |
+| --------------- | ---------------------------------- |
+| `default`       | Blue headers, green/red indicators |
+| `corporate`     | Navy blue, professional            |
+| `minimal`       | Gray, subtle borders               |
+| `dark`          | Dark backgrounds                   |
+| `high_contrast` | Accessibility focused              |
 
 See [themes](../themes.md) for details.

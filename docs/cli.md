@@ -16,12 +16,12 @@ uv run spreadsheet-dl [OPTIONS] COMMAND [ARGS]...
 
 ## Global Options
 
-| Option | Description |
-|--------|-------------|
-| `-V, --version` | Show version and exit |
+| Option          | Description                |
+| --------------- | -------------------------- |
+| `-V, --version` | Show version and exit      |
 | `--config FILE` | Path to configuration file |
-| `--no-color` | Disable colored output |
-| `--help` | Show help message |
+| `--no-color`    | Disable colored output     |
+| `--help`        | Show help message          |
 
 ---
 
@@ -37,14 +37,14 @@ spreadsheet-dl generate [OPTIONS]
 
 **Options:**
 
-| Option | Description | Default |
-|--------|-------------|---------|
-| `-o, --output PATH` | Output directory or file | Current directory |
-| `-m, --month MONTH` | Month number (1-12) | Current month |
-| `-y, --year YEAR` | Year | Current year |
-| `-t, --template NAME` | Budget template | None |
-| `--theme NAME` | Visual theme | None |
-| `--empty-rows N` | Empty rows for data entry | 50 |
+| Option                | Description               | Default           |
+| --------------------- | ------------------------- | ----------------- |
+| `-o, --output PATH`   | Output directory or file  | Current directory |
+| `-m, --month MONTH`   | Month number (1-12)       | Current month     |
+| `-y, --year YEAR`     | Year                      | Current year      |
+| `-t, --template NAME` | Budget template           | None              |
+| `--theme NAME`        | Visual theme              | None              |
+| `--empty-rows N`      | Empty rows for data entry | 50                |
 
 **Examples:**
 
@@ -73,19 +73,19 @@ spreadsheet-dl expense AMOUNT DESCRIPTION [OPTIONS]
 
 **Arguments:**
 
-| Argument | Description |
-|----------|-------------|
-| `AMOUNT` | Expense amount (e.g., 25.50 or $25.50) |
-| `DESCRIPTION` | Expense description |
+| Argument      | Description                            |
+| ------------- | -------------------------------------- |
+| `AMOUNT`      | Expense amount (e.g., 25.50 or $25.50) |
+| `DESCRIPTION` | Expense description                    |
 
 **Options:**
 
-| Option | Description | Default |
-|--------|-------------|---------|
-| `-c, --category CAT` | Category name | Auto-detected |
-| `-f, --file PATH` | ODS file to update | Most recent budget_*.ods |
-| `-d, --date DATE` | Date (YYYY-MM-DD) | Today |
-| `--dry-run` | Preview without modifying | False |
+| Option               | Description               | Default                    |
+| -------------------- | ------------------------- | -------------------------- |
+| `-c, --category CAT` | Category name             | Auto-detected              |
+| `-f, --file PATH`    | ODS file to update        | Most recent budget\_\*.ods |
+| `-d, --date DATE`    | Date (YYYY-MM-DD)         | Today                      |
+| `--dry-run`          | Preview without modifying | False                      |
 
 **Examples:**
 
@@ -107,6 +107,7 @@ spreadsheet-dl expense 100.00 "Test" --dry-run
 ```
 
 **Valid Categories:**
+
 - Housing, Utilities, Groceries, Transportation
 - Healthcare, Insurance, Entertainment, Dining Out
 - Clothing, Personal Care, Education, Savings
@@ -124,12 +125,12 @@ spreadsheet-dl analyze FILE [OPTIONS]
 
 **Options:**
 
-| Option | Description |
-|--------|-------------|
-| `--json` | Output as JSON |
-| `--category CAT` | Filter by category |
+| Option              | Description             |
+| ------------------- | ----------------------- |
+| `--json`            | Output as JSON          |
+| `--category CAT`    | Filter by category      |
 | `--start-date DATE` | Start date (YYYY-MM-DD) |
-| `--end-date DATE` | End date (YYYY-MM-DD) |
+| `--end-date DATE`   | End date (YYYY-MM-DD)   |
 
 **Examples:**
 
@@ -159,10 +160,10 @@ spreadsheet-dl report FILE [OPTIONS]
 
 **Options:**
 
-| Option | Description | Default |
-|--------|-------------|---------|
-| `-o, --output PATH` | Output file path | stdout |
-| `-f, --format FMT` | Format (text, markdown, json) | markdown |
+| Option              | Description                   | Default  |
+| ------------------- | ----------------------------- | -------- |
+| `-o, --output PATH` | Output file path              | stdout   |
+| `-f, --format FMT`  | Format (text, markdown, json) | markdown |
 
 **Examples:**
 
@@ -189,8 +190,8 @@ spreadsheet-dl dashboard FILE [OPTIONS]
 
 **Options:**
 
-| Option | Description |
-|--------|-------------|
+| Option   | Description    |
+| -------- | -------------- |
 | `--json` | Output as JSON |
 
 **Example Output:**
@@ -230,9 +231,9 @@ spreadsheet-dl alerts FILE [OPTIONS]
 
 **Options:**
 
-| Option | Description |
-|--------|-------------|
-| `--json` | Output as JSON |
+| Option            | Description               |
+| ----------------- | ------------------------- |
+| `--json`          | Output as JSON            |
 | `--critical-only` | Show only critical alerts |
 
 ---
@@ -247,14 +248,15 @@ spreadsheet-dl import CSV_FILE [OPTIONS]
 
 **Options:**
 
-| Option | Description | Default |
-|--------|-------------|---------|
-| `-o, --output PATH` | Output ODS file | imported_YYYYMMDD.ods |
-| `-b, --bank BANK` | Bank format | auto |
-| `--preview` | Preview without writing | False |
-| `--theme NAME` | Visual theme | None |
+| Option              | Description             | Default               |
+| ------------------- | ----------------------- | --------------------- |
+| `-o, --output PATH` | Output ODS file         | imported_YYYYMMDD.ods |
+| `-b, --bank BANK`   | Bank format             | auto                  |
+| `--preview`         | Preview without writing | False                 |
+| `--theme NAME`      | Visual theme            | None                  |
 
 **Supported Banks:**
+
 - chase, bank_of_america, capital_one
 - wells_fargo, citi, usaa, generic
 
@@ -283,11 +285,12 @@ spreadsheet-dl upload FILE [OPTIONS]
 
 **Options:**
 
-| Option | Description |
-|--------|-------------|
+| Option            | Description              |
+| ----------------- | ------------------------ |
 | `-p, --path PATH` | Remote path on Nextcloud |
 
 **Required Environment Variables:**
+
 - `NEXTCLOUD_URL` - Server URL
 - `NEXTCLOUD_USER` - Username
 - `NEXTCLOUD_PASSWORD` - App password
@@ -304,8 +307,8 @@ spreadsheet-dl templates [OPTIONS]
 
 **Options:**
 
-| Option | Description |
-|--------|-------------|
+| Option   | Description    |
+| -------- | -------------- |
 | `--json` | Output as JSON |
 
 ---
@@ -320,8 +323,8 @@ spreadsheet-dl themes [OPTIONS]
 
 **Options:**
 
-| Option | Description |
-|--------|-------------|
+| Option   | Description    |
+| -------- | -------------- |
 | `--json` | Output as JSON |
 
 ---
@@ -336,21 +339,21 @@ spreadsheet-dl config [OPTIONS]
 
 **Options:**
 
-| Option | Description |
-|--------|-------------|
-| `--init` | Create a new config file |
-| `--show` | Show current configuration |
-| `--path PATH` | Path for config file |
+| Option        | Description                |
+| ------------- | -------------------------- |
+| `--init`      | Create a new config file   |
+| `--show`      | Show current configuration |
+| `--path PATH` | Path for config file       |
 
 ---
 
 ## Exit Codes
 
-| Code | Description |
-|------|-------------|
-| 0 | Success |
-| 1 | General error |
-| 130 | Interrupted (Ctrl+C) |
+| Code | Description          |
+| ---- | -------------------- |
+| 0    | Success              |
+| 1    | General error        |
+| 130  | Interrupted (Ctrl+C) |
 
 ## Error Codes
 

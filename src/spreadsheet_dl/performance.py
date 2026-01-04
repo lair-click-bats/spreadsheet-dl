@@ -18,14 +18,13 @@ import threading
 import time
 import weakref
 from collections import OrderedDict
-from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Generic, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Callable, Iterator
 
 T = TypeVar("T")
 K = TypeVar("K")
@@ -37,7 +36,7 @@ V = TypeVar("V")
 # =============================================================================
 
 
-class LRUCache(Generic[K, V]):
+class LRUCache[K, V]:
     """
     Thread-safe Least Recently Used (LRU) cache.
 
@@ -90,11 +89,10 @@ class LRUCache(Generic[K, V]):
             value, timestamp = self._cache[key]
 
             # Check TTL
-            if self._ttl is not None:
-                if time.time() - timestamp > self._ttl:
-                    del self._cache[key]
-                    self._misses += 1
-                    return default
+            if self._ttl is not None and time.time() - timestamp > self._ttl:
+                del self._cache[key]
+                self._misses += 1
+                return default
 
             # Move to end (most recently used)
             self._cache.move_to_end(key)
@@ -250,7 +248,7 @@ def _make_cache_key(args: tuple[Any, ...], kwargs: dict[str, Any]) -> str:
 # =============================================================================
 
 
-class Lazy(Generic[T]):
+class Lazy[T]:
     """
     Lazy evaluation wrapper.
 
@@ -307,7 +305,7 @@ class Lazy(Generic[T]):
         return "Lazy(not loaded)"
 
 
-class LazyProperty(Generic[T]):
+class LazyProperty[T]:
     """
     Lazy property descriptor.
 
@@ -351,7 +349,7 @@ class LazyProperty(Generic[T]):
 
 
 @dataclass
-class BatchResult(Generic[T]):
+class BatchResult[T]:
     """Result of a batch operation."""
 
     items: list[T]
@@ -361,7 +359,7 @@ class BatchResult(Generic[T]):
     duration_ms: float
 
 
-class BatchProcessor(Generic[T]):
+class BatchProcessor[T]:
     """
     Batch processor for bulk operations.
 
@@ -639,7 +637,7 @@ class Benchmark:
         return "\n".join(lines)
 
 
-def timed(func: Callable[..., T]) -> Callable[..., T]:
+def timed[T](func: Callable[..., T]) -> Callable[..., T]:
     """
     Decorator to time function execution.
 
@@ -714,10 +712,9 @@ class FileCache:
             data = json.loads(path.read_text())
             timestamp = data.get("timestamp", 0)
 
-            if self._ttl is not None:
-                if time.time() - timestamp > self._ttl:
-                    path.unlink(missing_ok=True)
-                    return default
+            if self._ttl is not None and time.time() - timestamp > self._ttl:
+                path.unlink(missing_ok=True)
+                return default
 
             return data.get("value")
         except (json.JSONDecodeError, OSError):

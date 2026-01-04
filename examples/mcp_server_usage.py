@@ -81,21 +81,19 @@ def example_basic_server_setup() -> None:
     categories = {
         "budget": [
             t
-            for t in tools.keys()
+            for t in tools
             if any(kw in t for kw in ["budget", "expense", "spending", "alert"])
         ],
-        "cell": [t for t in tools.keys() if t.startswith("cell_")],
-        "style": [
-            t for t in tools.keys() if any(kw in t for kw in ["style", "format"])
-        ],
+        "cell": [t for t in tools if t.startswith("cell_")],
+        "style": [t for t in tools if any(kw in t for kw in ["style", "format"])],
         "structure": [
             t
-            for t in tools.keys()
+            for t in tools
             if any(kw in t for kw in ["row_", "column_", "sheet_", "freeze"])
         ],
         "advanced": [
             t
-            for t in tools.keys()
+            for t in tools
             if any(
                 kw in t
                 for kw in [

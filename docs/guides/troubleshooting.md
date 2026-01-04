@@ -25,6 +25,7 @@ spreadsheet-dl library.
 **Problem:** `ImportError: No module named 'spreadsheet_dl'`
 
 **Solution:**
+
 ```bash
 # Ensure package is installed
 pip install spreadsheet-dl
@@ -41,6 +42,7 @@ python -c "import spreadsheet_dl; print(spreadsheet_dl.__version__)"
 **Problem:** `ImportError: No module named 'yaml'`
 
 **Solution:**
+
 ```bash
 # Install all dependencies
 pip install spreadsheet-dl[all]
@@ -54,6 +56,7 @@ pip install pyyaml
 **Problem:** Incompatible package versions
 
 **Solution:**
+
 ```bash
 # Check versions
 pip list | grep finance
@@ -74,6 +77,7 @@ pip install spreadsheet-dl
 **Problem:** `ThemeNotFoundError: Theme 'corporate' not found`
 
 **Causes:**
+
 1. Theme file doesn't exist
 2. Theme directory not specified
 3. Invalid theme name
@@ -102,6 +106,7 @@ builder = SpreadsheetBuilder(theme="default")
 **Problem:** `SchemaValidationError: Invalid theme configuration`
 
 **Common Causes:**
+
 - Invalid color format
 - Missing required fields
 - Incorrect YAML syntax
@@ -144,16 +149,17 @@ font_size: "12pt"
 **Problem:** Color reference not resolving
 
 **Solution:**
+
 ```yaml
 # Ensure color exists in palette
 colors:
-  primary: "#4472C4"
-  secondary: "#ED7D31"
+  primary: '#4472C4'
+  secondary: '#ED7D31'
 
 styles:
   header:
     # Reference must match exactly
-    background_color: "{colors.primary}"  # Correct
+    background_color: '{colors.primary}' # Correct
     # Not: "{color.primary}" or "{primary}"
 ```
 
@@ -164,11 +170,13 @@ styles:
 **Problem:** Cells don't have expected formatting
 
 **Causes:**
+
 1. Style name doesn't match theme
 2. Cell style overridden
 3. Style inheritance issue
 
 **Debug:**
+
 ```python
 # Check available styles
 theme = builder._get_theme()
@@ -189,14 +197,15 @@ builder.cell("Value", style="header_primary")  # Explicit style
 **Problem:** Extended style missing parent properties
 
 **Check:**
+
 ```yaml
 styles:
   base:
-    font_family: "Arial"
-    font_size: "11pt"
+    font_family: 'Arial'
+    font_size: '11pt'
 
   derived:
-    extends: base  # Must match exactly
+    extends: base # Must match exactly
     font_weight: bold
 
 # Verify extends is present and correct
@@ -207,20 +216,22 @@ styles:
 **Problem:** Wrong font displayed
 
 **Causes:**
+
 1. Font not installed on system
 2. Font name misspelled
 3. Missing fallback fonts
 
 **Solution:**
+
 ```yaml
 styles:
   text:
-    font_family: "Liberation Sans"
+    font_family: 'Liberation Sans'
     # Add fallbacks
     fallback:
-      - "Arial"
-      - "Helvetica"
-      - "sans-serif"
+      - 'Arial'
+      - 'Helvetica'
+      - 'sans-serif'
 ```
 
 ## Formula Issues
@@ -230,10 +241,12 @@ styles:
 **Problem:** Formula shows as text, not result
 
 **Causes:**
+
 1. Missing `=` prefix
 2. Using `value` instead of `formula` parameter
 
 **Fix:**
+
 ```python
 # Wrong
 builder.cell("SUM(A1:A10)")
@@ -250,6 +263,7 @@ builder.cell("=SUM(A1:A10)")  # Auto-detected
 **Problem:** `#REF!`, `#NAME?`, `#VALUE!` errors
 
 **Diagnose:**
+
 ```python
 # #REF! - Invalid cell reference
 # Check range is valid
@@ -270,6 +284,7 @@ builder.cell("=SUM(A1:A10)")  # A1:A10 must be numbers
 **Problem:** References to other sheets not working
 
 **Fix:**
+
 ```python
 # Use sheet name with dot notation
 builder.cell("=Summary.B10")  # Correct
@@ -286,11 +301,13 @@ builder.cell("=SUM(Data.B2:B100)")
 **Problem:** Chart missing or blank
 
 **Causes:**
+
 1. Invalid data range
 2. Missing series data
 3. Incompatible chart type
 
 **Debug:**
+
 ```python
 chart = (
     ChartBuilder()
@@ -310,6 +327,7 @@ print(chart.to_dict())
 **Problem:** Chart shows unexpected values
 
 **Check:**
+
 ```python
 # Verify ranges match data
 # Check if ranges include headers (they shouldn't)
@@ -325,6 +343,7 @@ print(chart.to_dict())
 **Problem:** Chart in wrong position or size
 
 **Fix:**
+
 ```python
 chart = (
     ChartBuilder()
@@ -348,6 +367,7 @@ chart = (
 **Problem:** Printout on wrong paper size
 
 **Fix:**
+
 ```python
 from spreadsheet_dl.schema import PageSetup, PageSize
 
@@ -362,6 +382,7 @@ setup = PageSetup(
 **Problem:** Content cut off when printing
 
 **Solutions:**
+
 ```python
 # Option 1: Fit to width
 setup = PageSetup(
@@ -385,6 +406,7 @@ setup = PageSetup(
 **Problem:** Header row only on first page
 
 **Fix:**
+
 ```python
 from spreadsheet_dl.schema import RepeatConfig
 
@@ -400,11 +422,13 @@ setup = PageSetup(
 **Problem:** LibreOffice won't open generated file
 
 **Causes:**
+
 1. Corrupted file
 2. Invalid ODF structure
 3. Unsupported features
 
 **Debug:**
+
 ```bash
 # Validate ODF file (Linux)
 unzip -t output.ods
@@ -418,6 +442,7 @@ ls -la output.ods  # Should not be 0 bytes
 **Problem:** Generated file unexpectedly large
 
 **Solutions:**
+
 ```python
 # Remove unused styles
 builder = SpreadsheetBuilder(
@@ -437,6 +462,7 @@ builder.cell("=SUM(A2:A1000)")  # Smaller file
 **Problem:** Special characters not displaying
 
 **Fix:**
+
 ```python
 # Ensure UTF-8 encoding
 builder.cell("Caf\u00e9")  # Unicode escape
@@ -485,6 +511,7 @@ builder.cell("=SUM(A2:A1000)")
 **Problem:** `MemoryError` or high memory usage
 
 **Solutions:**
+
 ```python
 # Process in chunks for large data
 chunk_size = 1000
@@ -506,6 +533,7 @@ del builder
 **Cause:** Trying to add content without selecting a sheet
 
 **Fix:**
+
 ```python
 builder = SpreadsheetBuilder()
 builder.sheet("Data")  # Must call sheet() first
@@ -517,6 +545,7 @@ builder.column("Name")
 **Cause:** Style not found in theme
 
 **Fix:**
+
 ```python
 # Check style exists
 theme = builder._get_theme()
@@ -531,6 +560,7 @@ else:
 **Cause:** Passing None where string expected
 
 **Fix:**
+
 ```python
 # Check for None before passing
 title = get_title() or "Default Title"
@@ -542,6 +572,7 @@ builder.cell(title)
 **Cause:** Invalid color format
 
 **Fix:**
+
 ```python
 from spreadsheet_dl.schema import Color
 
@@ -560,6 +591,7 @@ Color("#GGGGGG")      # Invalid hex
 ### Debug Mode
 
 Enable detailed logging:
+
 ```python
 import logging
 logging.basicConfig(level=logging.DEBUG)
@@ -600,6 +632,7 @@ print(f"Rows: {len(builder._current_sheet.rows)}")
 When reporting issues, include:
 
 1. **Version information:**
+
    ```python
    import spreadsheet_dl
    print(spreadsheet_dl.__version__)

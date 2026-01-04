@@ -646,7 +646,7 @@ def example_builtin_functions() -> None:
         ("${title(text)}", "Budget Report"),
     ]
 
-    for template, expected in string_examples:
+    for template, _expected in string_examples:
         result = evaluator.evaluate(template)
         print(f"   {template} → {result}")
 
@@ -680,7 +680,7 @@ def example_builtin_functions() -> None:
         ("${format_percentage(percent, 2)}", "12.50%"),
     ]
 
-    for template, expected in format_examples:
+    for template, _expected in format_examples:
         result = evaluator.evaluate(template)
         print(f"   {template} → {result}")
 

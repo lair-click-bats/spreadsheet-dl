@@ -13,10 +13,10 @@ This addendum specifies requirements for dual-audience support, ensuring spreads
 
 Modern finance applications must serve two distinct audiences with different needs:
 
-| Audience | Needs | Optimal Format |
-|----------|-------|----------------|
-| **Humans** | Visual clarity, colors, charts, readable layouts | ODS with themes, conditional formatting, charts |
-| **AI/LLMs** | Structure, semantics, relationships, context | JSON/YAML with metadata, natural language descriptions |
+| Audience    | Needs                                            | Optimal Format                                         |
+| ----------- | ------------------------------------------------ | ------------------------------------------------------ |
+| **Humans**  | Visual clarity, colors, charts, readable layouts | ODS with themes, conditional formatting, charts        |
+| **AI/LLMs** | Structure, semantics, relationships, context     | JSON/YAML with metadata, natural language descriptions |
 
 ---
 
@@ -33,12 +33,14 @@ Modern finance applications must serve two distinct audiences with different nee
 ## 1. AI/LLM Integration Requirements
 
 ### FR-AI-001: AI-Optimized Data Export
+
 **Priority:** P1 (High)
 **Status:** Not Implemented
 
 The system SHALL provide AI/LLM-optimized exports that preserve all semantic meaning:
 
 **Capabilities:**
+
 - Export spreadsheet content in structured JSON format
 - Include explicit semantic metadata for every cell
 - Preserve formula logic in both ODS syntax AND natural language
@@ -48,6 +50,7 @@ The system SHALL provide AI/LLM-optimized exports that preserve all semantic mea
 - Tag data with business semantics
 
 **Acceptance Criteria:**
+
 - AC1: JSON export includes all data from ODS with zero loss
 - AC2: Every formula has natural language description
 - AC3: Cell semantic tags enable AI understanding of purpose
@@ -55,6 +58,7 @@ The system SHALL provide AI/LLM-optimized exports that preserve all semantic mea
 - AC5: Round-trip conversion (ODS → JSON → ODS) preserves data
 
 **Example Structure:**
+
 ```json
 {
   "version": "1.0",
@@ -110,9 +114,9 @@ The system SHALL provide AI/LLM-optimized exports that preserve all semantic mea
           "row_number": 2,
           "semantic_type": "expense_entry",
           "cells": {
-            "A": {"value": "2025-01-15", "formatted": "2025-01-15"},
-            "B": {"value": "Groceries", "formatted": "Groceries"},
-            "C": {"value": "Whole Foods", "formatted": "Whole Foods"},
+            "A": { "value": "2025-01-15", "formatted": "2025-01-15" },
+            "B": { "value": "Groceries", "formatted": "Groceries" },
+            "C": { "value": "Whole Foods", "formatted": "Whole Foods" },
             "D": {
               "value": 127.53,
               "formatted": "$127.53",
@@ -137,7 +141,7 @@ The system SHALL provide AI/LLM-optimized exports that preserve all semantic mea
         {
           "range": "D2:D49",
           "rule": "cell_value > VLOOKUP(B2, Budget!A:B, 2)",
-          "style": {"color": "red", "bold": true},
+          "style": { "color": "red", "bold": true },
           "semantic_meaning": "over_budget_expense",
           "natural_language": "Highlight expenses that exceed their category budget"
         }
@@ -160,12 +164,14 @@ The system SHALL provide AI/LLM-optimized exports that preserve all semantic mea
 ---
 
 ### FR-AI-002: Natural Language Formula Descriptions
+
 **Priority:** P1 (High)
 **Status:** Not Implemented
 
 The system SHALL generate and maintain natural language descriptions for all formulas:
 
 **Capabilities:**
+
 - Auto-generate English descriptions of formulas
 - Explain what each formula calculates
 - Explain WHY the formula is needed (business purpose)
@@ -176,6 +182,7 @@ The system SHALL generate and maintain natural language descriptions for all for
 - Localization support for multiple languages
 
 **Acceptance Criteria:**
+
 - AC1: Every formula has accurate natural language description
 - AC2: Descriptions include business context, not just mechanics
 - AC3: Complex nested formulas broken down step-by-step
@@ -183,22 +190,24 @@ The system SHALL generate and maintain natural language descriptions for all for
 
 **Examples:**
 
-| Formula | Natural Language Description |
-|---------|------------------------------|
-| `=SUM(E2:E49)` | "Calculate the total of all expenses for the month by adding up individual expense amounts from rows 2 through 49" |
-| `=SUMIF(B:B,"Groceries",D:D)` | "Find the total amount spent on Groceries by summing all amounts in column D where the category in column B equals 'Groceries'" |
-| `=IF(E50>B2,"Over Budget","On Track")` | "Compare total monthly spending (E50) against the budgeted amount (B2). If spending exceeds budget, display 'Over Budget', otherwise show 'On Track'" |
-| `=VLOOKUP(B2,Budget!A:B,2,FALSE)` | "Look up the budgeted amount for this expense's category by finding the category name (B2) in the Budget sheet's category list (A:B) and returning the corresponding budget amount (column 2)" |
+| Formula                                | Natural Language Description                                                                                                                                                                   |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `=SUM(E2:E49)`                         | "Calculate the total of all expenses for the month by adding up individual expense amounts from rows 2 through 49"                                                                             |
+| `=SUMIF(B:B,"Groceries",D:D)`          | "Find the total amount spent on Groceries by summing all amounts in column D where the category in column B equals 'Groceries'"                                                                |
+| `=IF(E50>B2,"Over Budget","On Track")` | "Compare total monthly spending (E50) against the budgeted amount (B2). If spending exceeds budget, display 'Over Budget', otherwise show 'On Track'"                                          |
+| `=VLOOKUP(B2,Budget!A:B,2,FALSE)`      | "Look up the budgeted amount for this expense's category by finding the category name (B2) in the Budget sheet's category list (A:B) and returning the corresponding budget amount (column 2)" |
 
 ---
 
 ### FR-AI-003: Semantic Cell Tagging
+
 **Priority:** P1 (High)
 **Status:** Not Implemented
 
 The system SHALL tag every cell with semantic meaning:
 
 **Semantic Tag Categories:**
+
 - **Data Role**: `input`, `calculated`, `total`, `subtotal`, `header`, `label`
 - **Business Type**: `expense_amount`, `budget_allocation`, `category_name`, `transaction_date`, `account_balance`
 - **Temporal**: `current_month`, `ytd`, `historical`, `projected`
@@ -206,6 +215,7 @@ The system SHALL tag every cell with semantic meaning:
 - **Aggregate**: `sum`, `average`, `max`, `min`, `count`
 
 **Capabilities:**
+
 - Assign semantic tags during spreadsheet generation
 - Export tags in AI-optimized JSON
 - Enable semantic queries ("show me all expense_amount cells")
@@ -213,6 +223,7 @@ The system SHALL tag every cell with semantic meaning:
 - Validate tag consistency
 
 **Acceptance Criteria:**
+
 - AC1: 100% of data cells have semantic tags
 - AC2: Tags follow controlled vocabulary
 - AC3: AI can filter/query by semantic type
@@ -221,12 +232,14 @@ The system SHALL tag every cell with semantic meaning:
 ---
 
 ### FR-AI-004: LLM-Friendly Diff Format
+
 **Priority:** P2 (Medium)
 **Status:** Not Implemented
 
 The system SHALL generate human and AI-readable diffs of spreadsheet changes:
 
 **Capabilities:**
+
 - Semantic diff (not just cell-level diff)
 - Natural language change descriptions
 - Impact analysis ("this change affects 15 formulas")
@@ -234,32 +247,38 @@ The system SHALL generate human and AI-readable diffs of spreadsheet changes:
 - Before/after comparisons with context
 
 **Example Output:**
+
 ```markdown
 ## Budget Changes: January 2025
 
 ### Summary
+
 - 3 categories updated
 - 12 new expenses added
 - 1 formula modified
 
 ### Category Changes
+
 - **Groceries Budget**: Increased from $400 → $450 (+12.5%)
   - Impact: 8 existing expenses now under budget
 - **Entertainment Budget**: Decreased from $200 → $150 (-25%)
   - Impact: 3 expenses now flagged as over budget
 
 ### New Expenses
+
 1. 2025-01-15: Whole Foods (Groceries) - $127.53
 2. 2025-01-16: Uber (Transportation) - $23.45
-...
+   ...
 
 ### Formula Changes
+
 - Cell D50: Changed from `=SUM(D2:D49)` to `=SUM(D2:D60)`
   - Reason: Extended expense log from 48 to 59 rows
   - Impact: Monthly total now includes additional entries
 ```
 
 **Acceptance Criteria:**
+
 - AC1: Diff highlights semantic changes
 - AC2: Impact analysis accurate
 - AC3: Natural language descriptions clear
@@ -268,12 +287,14 @@ The system SHALL generate human and AI-readable diffs of spreadsheet changes:
 ---
 
 ### FR-AI-005: Conversational Query Interface
+
 **Priority:** P2 (Medium)
 **Status:** Not Implemented
 
 The system SHALL support natural language questions about budgets:
 
 **Example Queries:**
+
 - "How much did I spend on groceries last month?"
 - "Am I on track to meet my budget?"
 - "What categories am I over budget in?"
@@ -283,6 +304,7 @@ The system SHALL support natural language questions about budgets:
 - "Compare this month to last month"
 
 **Response Format:**
+
 ```json
 {
   "query": "How much did I spend on groceries last month?",
@@ -299,7 +321,7 @@ The system SHALL support natural language questions about budgets:
     "natural_language": "You spent $456.78 on groceries in December 2024"
   },
   "context": {
-    "budget": 500.00,
+    "budget": 500.0,
     "variance": -43.22,
     "variance_percent": -8.6,
     "status": "under_budget"
@@ -316,6 +338,7 @@ The system SHALL support natural language questions about budgets:
 ```
 
 **Acceptance Criteria:**
+
 - AC1: Supports 50+ common query types
 - AC2: Returns structured + natural language responses
 - AC3: Handles ambiguity with clarifying questions
@@ -324,16 +347,19 @@ The system SHALL support natural language questions about budgets:
 ---
 
 ### FR-AI-006: Visual + Semantic Dual Export
+
 **Priority:** P1 (High)
 **Status:** Not Implemented
 
 The system SHALL generate paired outputs for every budget:
 
 **Outputs:**
+
 1. **Human Output**: `budget-2025-01.ods` (visual, formatted ODS)
 2. **AI Output**: `budget-2025-01.ai.json` (structured JSON with semantics)
 
 **Requirements:**
+
 - 1:1 correspondence between representations
 - Both generated simultaneously
 - Consistency validation between formats
@@ -341,6 +367,7 @@ The system SHALL generate paired outputs for every budget:
 - Round-trip conversion support
 
 **Acceptance Criteria:**
+
 - AC1: Both formats generated in single operation
 - AC2: Validator confirms consistency
 - AC3: Changes to ODS trigger JSON regeneration
@@ -349,20 +376,22 @@ The system SHALL generate paired outputs for every budget:
 ---
 
 ### FR-AI-007: Formatting Metadata Export
+
 **Priority:** P2 (Medium)
 **Status:** Not Implemented
 
 The system SHALL export all formatting as structured metadata:
 
 **Formatting Metadata Structure:**
+
 ```json
 {
   "cell": "D25",
   "visual_formatting": {
-    "font": {"family": "Arial", "size": 12, "bold": true},
+    "font": { "family": "Arial", "size": 12, "bold": true },
     "background_color": "#FF0000",
     "text_color": "#FFFFFF",
-    "border": {"style": "solid", "width": 1}
+    "border": { "style": "solid", "width": 1 }
   },
   "semantic_formatting": {
     "meaning": "over_budget_warning",
@@ -374,6 +403,7 @@ The system SHALL export all formatting as structured metadata:
 ```
 
 **Acceptance Criteria:**
+
 - AC1: All conditional formatting rules exported
 - AC2: Color meanings documented
 - AC3: Font/style semantics included
@@ -382,12 +412,14 @@ The system SHALL export all formatting as structured metadata:
 ---
 
 ### FR-AI-008: Context-Aware Data Serialization
+
 **Priority:** P1 (High)
 **Status:** Not Implemented
 
 The system SHALL include comprehensive context with every export:
 
 **Context Elements:**
+
 - Time period (month, year, date range)
 - User preferences and settings
 - Template used
@@ -397,6 +429,7 @@ The system SHALL include comprehensive context with every export:
 - Related files (previous months, YTD summaries)
 
 **Example:**
+
 ```json
 {
   "context": {
@@ -411,8 +444,8 @@ The system SHALL include comprehensive context with every export:
       "created": "2025-01-01T10:30:00Z",
       "last_modified": "2025-01-15T14:22:00Z",
       "source_files": [
-        {"file": "chase-2025-01.csv", "imported": "2025-01-05", "rows": 23},
-        {"file": "bofa-2025-01.csv", "imported": "2025-01-06", "rows": 15}
+        { "file": "chase-2025-01.csv", "imported": "2025-01-05", "rows": 23 },
+        { "file": "bofa-2025-01.csv", "imported": "2025-01-06", "rows": 15 }
       ]
     },
     "configuration": {
@@ -428,6 +461,7 @@ The system SHALL include comprehensive context with every export:
 ---
 
 ### FR-AI-009: MCP Server Integration
+
 **Priority:** P2 (Medium)
 **Status:** Documented (setup guide exists, native server not implemented)
 
@@ -436,6 +470,7 @@ The system SHALL provide a native MCP server for AI/LLM integration:
 **MCP Tools to Expose:**
 
 1. **analyze_budget**
+
    ```json
    {
      "name": "analyze_budget",
@@ -443,14 +478,15 @@ The system SHALL provide a native MCP server for AI/LLM integration:
      "inputSchema": {
        "type": "object",
        "properties": {
-         "file_path": {"type": "string"},
-         "analysis_type": {"enum": ["summary", "detailed", "trends"]}
+         "file_path": { "type": "string" },
+         "analysis_type": { "enum": ["summary", "detailed", "trends"] }
        }
      }
    }
    ```
 
 2. **add_expense**
+
    ```json
    {
      "name": "add_expense",
@@ -458,16 +494,17 @@ The system SHALL provide a native MCP server for AI/LLM integration:
      "inputSchema": {
        "type": "object",
        "properties": {
-         "date": {"type": "string", "format": "date"},
-         "category": {"type": "string"},
-         "description": {"type": "string"},
-         "amount": {"type": "number"}
+         "date": { "type": "string", "format": "date" },
+         "category": { "type": "string" },
+         "description": { "type": "string" },
+         "amount": { "type": "number" }
        }
      }
    }
    ```
 
 3. **query_budget**
+
    ```json
    {
      "name": "query_budget",
@@ -475,8 +512,8 @@ The system SHALL provide a native MCP server for AI/LLM integration:
      "inputSchema": {
        "type": "object",
        "properties": {
-         "question": {"type": "string"},
-         "file_path": {"type": "string"}
+         "question": { "type": "string" },
+         "file_path": { "type": "string" }
        }
      }
    }
@@ -487,12 +524,14 @@ The system SHALL provide a native MCP server for AI/LLM integration:
 6. **generate_report**
 
 **Security:**
+
 - File access restrictions (only configured budget directories)
 - Authentication required
 - Rate limiting
 - Audit logging
 
 **Acceptance Criteria:**
+
 - AC1: MCP server runs as standalone process
 - AC2: All 6+ tools implemented
 - AC3: Returns structured responses
@@ -502,12 +541,14 @@ The system SHALL provide a native MCP server for AI/LLM integration:
 ---
 
 ### FR-AI-010: AI Training Data Export
+
 **Priority:** P3 (Low)
 **Status:** Not Implemented
 
 The system SHALL support privacy-preserving AI training data export:
 
 **Capabilities:**
+
 - Export anonymized budget patterns
 - Provide example expense categorizations
 - Generate synthetic budget data
@@ -515,6 +556,7 @@ The system SHALL support privacy-preserving AI training data export:
 - Support differential privacy
 
 **Use Cases:**
+
 - Train auto-categorization models
 - Generate test data
 - Share example budgets
@@ -523,12 +565,14 @@ The system SHALL support privacy-preserving AI training data export:
 ---
 
 ### FR-AI-011: Bidirectional AI Sync
+
 **Priority:** P2 (Medium)
 **Status:** Not Implemented
 
 The system SHALL allow AI assistants to update budgets:
 
 **Capabilities:**
+
 - AI can add expenses via API
 - AI can categorize transactions
 - AI can suggest budget adjustments
@@ -537,6 +581,7 @@ The system SHALL allow AI assistants to update budgets:
 - Collaborative editing support
 
 **Example Flow:**
+
 1. User tells AI: "I spent $45 on dinner at Olive Garden"
 2. AI calls `add_expense` tool
 3. System validates (date valid, amount positive, category exists)
@@ -548,12 +593,14 @@ The system SHALL allow AI assistants to update budgets:
 ## 2. Human Rendering Requirements
 
 ### FR-HUMAN-001: Optimized Visual Rendering
+
 **Priority:** P0 (Critical)
 **Status:** Implemented (ODS generation)
 
 The system SHALL generate visually optimized ODS files for human viewing:
 
 **Visual Features:**
+
 - Professional themes with color palettes
 - Conditional formatting for at-a-glance insights
 - Cell borders and grouping for structure
@@ -564,6 +611,7 @@ The system SHALL generate visually optimized ODS files for human viewing:
 - Print-optimized layouts
 
 **Acceptance Criteria:**
+
 - AC1: ODS files rated 8+ out of 10 for visual appeal
 - AC2: Critical information visible without scrolling
 - AC3: Color scheme follows accessibility guidelines
@@ -572,12 +620,14 @@ The system SHALL generate visually optimized ODS files for human viewing:
 ---
 
 ### FR-HUMAN-002: Interactive Features
+
 **Priority:** P2 (Medium)
 **Status:** Not Implemented
 
 The system SHALL support interactive features in ODS:
 
 **Features:**
+
 - Dropdown menus for categories
 - Data validation for amounts
 - Comments and notes
@@ -588,12 +638,14 @@ The system SHALL support interactive features in ODS:
 ---
 
 ### FR-HUMAN-003: Dashboard View
+
 **Priority:** P2 (Medium)
 **Status:** Partial (analytics exist, not in ODS)
 
 The system SHALL include a dashboard sheet in ODS:
 
 **Dashboard Elements:**
+
 - Monthly spending summary (total, by category)
 - Budget vs actual comparison chart
 - Top 5 expenses
@@ -606,10 +658,12 @@ The system SHALL include a dashboard sheet in ODS:
 ## 3. Dual Export Requirements
 
 ### FR-DUAL-001: Simultaneous Export
+
 **Priority:** P1 (High)
 **Status:** Not Implemented
 
 When generating a budget, the system SHALL simultaneously create:
+
 - `budget-YYYY-MM.ods` (human-optimized visual)
 - `budget-YYYY-MM.ai.json` (AI-optimized semantic)
 - `budget-YYYY-MM.meta.json` (metadata and context)
@@ -617,18 +671,21 @@ When generating a budget, the system SHALL simultaneously create:
 ---
 
 ### FR-DUAL-002: Export Command
+
 **Priority:** P1 (High)
 **Status:** Not Implemented
 
 CLI command: `spreadsheet-dl export-dual <ods-file>`
 
 **Options:**
+
 - `--format`: `json`, `yaml`, `both` (default: `json`)
 - `--include-formulas`: Include formula descriptions
 - `--semantic-only`: Skip visual formatting metadata
 - `--validate`: Validate consistency before export
 
 **Output:**
+
 ```bash
 $ spreadsheet-dl export-dual budget-2025-01.ods
 ✓ Analyzing ODS file...
@@ -647,6 +704,7 @@ Ready for AI/LLM consumption!
 ---
 
 ### FR-DUAL-003: Import from AI Format
+
 **Priority:** P2 (Medium)
 **Status:** Not Implemented
 
@@ -655,6 +713,7 @@ The system SHALL import from AI-optimized JSON to create ODS:
 CLI: `spreadsheet-dl import-ai <json-file> --output <ods-file>`
 
 **Capabilities:**
+
 - Parse semantic JSON
 - Apply theme based on metadata
 - Regenerate formulas from descriptions
@@ -664,12 +723,14 @@ CLI: `spreadsheet-dl import-ai <json-file> --output <ods-file>`
 ---
 
 ### FR-DUAL-004: Consistency Validation
+
 **Priority:** P1 (High)
 **Status:** Not Implemented
 
 The system SHALL validate consistency between paired formats:
 
 **Validation Checks:**
+
 - All cells present in both formats
 - Formula results match
 - Semantic tags consistent
@@ -682,19 +743,20 @@ The system SHALL validate consistency between paired formats:
 
 ### Current State Assessment
 
-| Feature | Human-Readable | AI-Readable | Status |
-|---------|----------------|-------------|--------|
-| ODS Generation | ✓ Excellent | ✗ Poor | Partial |
-| JSON Export | ✗ None | ✗ None | Missing |
-| Formula Descriptions | ✗ None | ✗ None | Missing |
-| Semantic Tagging | ✗ None | ✗ None | Missing |
-| MCP Integration | ~ Documented | ~ Setup guide only | Partial |
-| Conversational Queries | ✗ None | ✗ None | Missing |
-| Dual Export | ✗ None | ✗ None | Missing |
+| Feature                | Human-Readable | AI-Readable        | Status  |
+| ---------------------- | -------------- | ------------------ | ------- |
+| ODS Generation         | ✓ Excellent    | ✗ Poor             | Partial |
+| JSON Export            | ✗ None         | ✗ None             | Missing |
+| Formula Descriptions   | ✗ None         | ✗ None             | Missing |
+| Semantic Tagging       | ✗ None         | ✗ None             | Missing |
+| MCP Integration        | ~ Documented   | ~ Setup guide only | Partial |
+| Conversational Queries | ✗ None         | ✗ None             | Missing |
+| Dual Export            | ✗ None         | ✗ None             | Missing |
 
 ### Identified Gaps
 
 #### G-AI-01: No Structured Export for AI Consumption
+
 **Severity:** High
 **Impact:** AI/LLM assistants cannot effectively understand budget data
 
@@ -705,6 +767,7 @@ Currently, budgets are only in ODS format, which LLMs struggle to parse. No mach
 ---
 
 #### G-AI-02: No Natural Language Formula Descriptions
+
 **Severity:** Medium
 **Impact:** AI cannot explain formulas to users or generate similar formulas
 
@@ -715,6 +778,7 @@ Formulas exist only in spreadsheet syntax. Users and AIs cannot understand busin
 ---
 
 #### G-AI-03: No Semantic Cell Tagging
+
 **Severity:** Medium
 **Impact:** AI cannot distinguish data types and purposes
 
@@ -725,6 +789,7 @@ Without semantic tags, AI treats all cells equally and cannot perform intelligen
 ---
 
 #### G-AI-04: No Conversational Query Interface
+
 **Severity:** Medium
 **Impact:** Users cannot ask natural language questions about their budget
 
@@ -735,6 +800,7 @@ No API or interface exists for natural language interaction.
 ---
 
 #### G-AI-05: MCP Server Not Implemented
+
 **Severity:** Medium
 **Impact:** No native integration with Claude or other AI assistants
 
@@ -745,6 +811,7 @@ While LibreOffice MCP setup is documented, no native spreadsheet-dl MCP server e
 ---
 
 #### G-AI-06: No Formatting Metadata Export
+
 **Severity:** Low
 **Impact:** AI cannot understand why cells are formatted certain ways
 
@@ -759,6 +826,7 @@ Conditional formatting and colors exist but semantic meaning not exported.
 ### 5.1 Side-by-Side Comparison
 
 #### Human View (ODS):
+
 ```
 ┌─────────────────────────────────────────────────────┐
 │           January 2025 Budget                       │
@@ -774,6 +842,7 @@ Conditional formatting and colors exist but semantic meaning not exported.
 ```
 
 #### AI View (JSON):
+
 ```json
 {
   "sheet": "Summary",
@@ -781,20 +850,20 @@ Conditional formatting and colors exist but semantic meaning not exported.
   "rows": [
     {
       "category": "Housing",
-      "budget": {"value": 1500, "currency": "USD"},
-      "actual": {"value": 1500, "currency": "USD"},
-      "remaining": {"value": 0, "currency": "USD"},
+      "budget": { "value": 1500, "currency": "USD" },
+      "actual": { "value": 1500, "currency": "USD" },
+      "remaining": { "value": 0, "currency": "USD" },
       "status": "on_budget",
       "variance_percent": 0
     },
     {
       "category": "Groceries",
-      "budget": {"value": 450, "currency": "USD"},
-      "actual": {"value": 456, "currency": "USD"},
-      "remaining": {"value": -6, "currency": "USD"},
+      "budget": { "value": 450, "currency": "USD" },
+      "actual": { "value": 456, "currency": "USD" },
+      "remaining": { "value": -6, "currency": "USD" },
       "status": "over_budget",
       "variance_percent": 1.3,
-      "formatting": {"highlight": "red", "reason": "over_budget"}
+      "formatting": { "highlight": "red", "reason": "over_budget" }
     }
   ]
 }
@@ -805,17 +874,20 @@ Conditional formatting and colors exist but semantic meaning not exported.
 ### 5.2 Formula Three Representations
 
 #### ODS Formula:
+
 ```
 =SUMIF(B:B,"Groceries",D:D)
 ```
 
 #### Natural Language:
+
 ```
 Calculate total grocery spending by finding all expenses
 categorized as "Groceries" and summing their amounts.
 ```
 
 #### Structured JSON:
+
 ```json
 {
   "cell": "E5",
@@ -853,13 +925,15 @@ categorized as "Groceries" and summing their amounts.
 ### 5.3 Formatting Metadata Example
 
 #### Visual (in ODS):
+
 - Cell D25: Red background, white text, bold
 
 #### Semantic Metadata:
+
 ```json
 {
   "cell": "D25",
-  "value": 89.50,
+  "value": 89.5,
   "formatted_value": "$89.50",
   "visual_formatting": {
     "background_color": "#FF0000",
@@ -901,7 +975,7 @@ categorized as "Groceries" and summing their amounts.
       },
       "categories": {
         "type": "array",
-        "items": {"type": "string"},
+        "items": { "type": "string" },
         "description": "Optional: Specific categories to analyze"
       }
     },
@@ -938,6 +1012,7 @@ categorized as "Groceries" and summing their amounts.
 "What categories am I over budget in?"
 
 **System Response:**
+
 ```json
 {
   "query": "What categories am I over budget in?",
@@ -952,20 +1027,20 @@ categorized as "Groceries" and summing their amounts.
     "categories": [
       {
         "name": "Groceries",
-        "budget": 450.00,
-        "actual": 456.00,
-        "variance": -6.00,
+        "budget": 450.0,
+        "actual": 456.0,
+        "variance": -6.0,
         "variance_percent": -1.3
       },
       {
         "name": "Entertainment",
-        "budget": 150.00,
-        "actual": 173.50,
-        "variance": -23.50,
+        "budget": 150.0,
+        "actual": 173.5,
+        "variance": -23.5,
         "variance_percent": -15.7
       }
     ],
-    "total_overage": 29.50
+    "total_overage": 29.5
   },
   "recommendations": [
     "Consider reducing entertainment spending for the rest of the month",
@@ -983,10 +1058,12 @@ categorized as "Groceries" and summing their amounts.
 These requirements integrate into the existing 5-phase plan:
 
 #### Phase 2: Security & Reliability (Sprint 3-4)
+
 - FR-DUAL-001: Simultaneous dual export
 - FR-DUAL-002: Export command implementation
 
 #### Phase 3: Enhanced Features (Sprint 5-8)
+
 - FR-AI-001: AI-optimized data export
 - FR-AI-002: Natural language formula descriptions
 - FR-AI-003: Semantic cell tagging
@@ -994,6 +1071,7 @@ These requirements integrate into the existing 5-phase plan:
 - FR-AI-008: Context-aware serialization
 
 #### Phase 4: Advanced Features (Sprint 9-12)
+
 - FR-AI-005: Conversational query interface
 - FR-AI-007: Formatting metadata export
 - FR-AI-009: MCP server integration (native)
@@ -1002,6 +1080,7 @@ These requirements integrate into the existing 5-phase plan:
 - FR-DUAL-004: Consistency validation
 
 #### Phase 5: Future Enhancements (Backlog)
+
 - FR-AI-010: AI training data export
 - FR-HUMAN-002: Interactive features
 - FR-HUMAN-003: Dashboard view
@@ -1011,18 +1090,21 @@ These requirements integrate into the existing 5-phase plan:
 ## 7. Success Metrics
 
 ### Human-Readable Success Metrics
+
 - Visual appeal rating: 8+ / 10
 - Time to understand budget: < 2 minutes
 - Accessibility score: WCAG 2.1 AA compliant
 - Print quality: Professional-grade
 
 ### AI-Readable Success Metrics
+
 - Parsing accuracy: 100% (no data loss)
 - Semantic understanding: >95% correct interpretation
 - Query response accuracy: >90%
 - Round-trip conversion: 100% fidelity
 
 ### Dual-Audience Success Metrics
+
 - Export time: < 5 seconds for both formats
 - Consistency validation: 0 discrepancies
 - User satisfaction: 80%+ prefer dual export
@@ -1031,10 +1113,10 @@ These requirements integrate into the existing 5-phase plan:
 
 ## Document Control
 
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0.0 | 2025-12-28 | Claude | Initial dual-audience requirements |
+| Version | Date       | Author | Changes                            |
+| ------- | ---------- | ------ | ---------------------------------- |
+| 1.0.0   | 2025-12-28 | Claude | Initial dual-audience requirements |
 
 ---
 
-*End of Dual-Audience Requirements Addendum*
+_End of Dual-Audience Requirements Addendum_

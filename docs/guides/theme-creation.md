@@ -19,76 +19,76 @@ Themes are defined in YAML files with the following structure:
 
 ```yaml
 name: corporate
-version: "1.0"
-description: "Professional corporate theme"
+version: '1.0'
+description: 'Professional corporate theme'
 
 # Optional: inherit from another theme
 extends: default
 
 colors:
   palette:
-    primary: "#1A3A5C"
-    secondary: "#4472C4"
-    accent: "#ED7D31"
-    success: "#70AD47"
-    warning: "#FFC000"
-    danger: "#C00000"
+    primary: '#1A3A5C'
+    secondary: '#4472C4'
+    accent: '#ED7D31'
+    success: '#70AD47'
+    warning: '#FFC000'
+    danger: '#C00000'
 
   semantic:
-    header_bg: "{colors.primary}"
-    header_fg: "#FFFFFF"
-    alternate_row: "#F5F9FC"
-    border: "#DEE2E6"
+    header_bg: '{colors.primary}'
+    header_fg: '#FFFFFF'
+    alternate_row: '#F5F9FC'
+    border: '#DEE2E6'
 
 fonts:
   primary:
-    family: "Liberation Sans"
-    fallback: ["Arial", "Helvetica", "sans-serif"]
+    family: 'Liberation Sans'
+    fallback: ['Arial', 'Helvetica', 'sans-serif']
 
   heading:
-    family: "Liberation Sans"
+    family: 'Liberation Sans'
     weight: bold
 
   monospace:
-    family: "Liberation Mono"
-    fallback: ["Consolas", "monospace"]
+    family: 'Liberation Mono'
+    fallback: ['Consolas', 'monospace']
 
 typography:
-  base_size: "11pt"
-  scale: "minor_third"  # 1.2 ratio
+  base_size: '11pt'
+  scale: 'minor_third' # 1.2 ratio
 
   headings:
-    h1: { size: "18pt", weight: bold, color: "{colors.primary}" }
-    h2: { size: "14pt", weight: bold }
-    h3: { size: "12pt", weight: bold }
+    h1: { size: '18pt', weight: bold, color: '{colors.primary}' }
+    h2: { size: '14pt', weight: bold }
+    h3: { size: '12pt', weight: bold }
 
 styles:
   header:
-    font: { family: "{fonts.heading.family}", weight: bold, color: "#FFFFFF" }
-    fill: { color: "{colors.primary}" }
+    font: { family: '{fonts.heading.family}', weight: bold, color: '#FFFFFF' }
+    fill: { color: '{colors.primary}' }
     alignment: { horizontal: center, vertical: middle }
-    border: { bottom: { style: medium, color: "{colors.primary}" } }
+    border: { bottom: { style: medium, color: '{colors.primary}' } }
 
   data:
-    font: { family: "{fonts.primary.family}", size: "11pt" }
+    font: { family: '{fonts.primary.family}', size: '11pt' }
     alignment: { vertical: middle }
 
   currency:
     extends: data
-    number_format: "$#,##0.00"
+    number_format: '$#,##0.00'
     alignment: { horizontal: right }
 
   total:
     extends: data
     font: { weight: bold }
-    fill: { color: "#E8F4FD" }
-    border: { top: { style: thin, color: "{colors.border}" } }
+    fill: { color: '#E8F4FD' }
+    border: { top: { style: thin, color: '{colors.border}' } }
 
 formats:
-  currency: "$#,##0.00"
-  percentage: "0.00%"
-  date: "YYYY-MM-DD"
-  date_time: "YYYY-MM-DD HH:MM"
+  currency: '$#,##0.00'
+  percentage: '0.00%'
+  date: 'YYYY-MM-DD'
+  date_time: 'YYYY-MM-DD HH:MM'
 ```
 
 ## Color Palette Design
@@ -96,6 +96,7 @@ formats:
 ### Primary Colors
 
 Your primary color should represent your brand and be used for:
+
 - Headers and titles
 - Primary action buttons
 - Key visual elements
@@ -103,9 +104,9 @@ Your primary color should represent your brand and be used for:
 ```yaml
 colors:
   palette:
-    primary: "#1A3A5C"      # Dark blue - main brand color
-    primary_light: "#2D5A87" # Lighter variant
-    primary_dark: "#0D1F30"  # Darker variant
+    primary: '#1A3A5C' # Dark blue - main brand color
+    primary_light: '#2D5A87' # Lighter variant
+    primary_dark: '#0D1F30' # Darker variant
 ```
 
 ### Secondary and Accent Colors
@@ -115,8 +116,8 @@ Secondary colors complement the primary:
 ```yaml
 colors:
   palette:
-    secondary: "#4472C4"  # Used for charts, links
-    accent: "#ED7D31"     # Highlights, call-to-action
+    secondary: '#4472C4' # Used for charts, links
+    accent: '#ED7D31' # Highlights, call-to-action
 ```
 
 ### Semantic Colors
@@ -126,10 +127,10 @@ Use semantic colors for meaning:
 ```yaml
 colors:
   semantic:
-    success: "#70AD47"   # Positive values, growth
-    warning: "#FFC000"   # Caution, attention needed
-    danger: "#C00000"    # Negative values, errors
-    info: "#5B9BD5"      # Informational content
+    success: '#70AD47' # Positive values, growth
+    warning: '#FFC000' # Caution, attention needed
+    danger: '#C00000' # Negative values, errors
+    info: '#5B9BD5' # Informational content
 ```
 
 ### Contrast and Accessibility
@@ -163,18 +164,18 @@ Choose fonts that work well together:
 fonts:
   # Primary: Clean sans-serif for data
   primary:
-    family: "Liberation Sans"
-    fallback: ["Arial", "Helvetica", "sans-serif"]
+    family: 'Liberation Sans'
+    fallback: ['Arial', 'Helvetica', 'sans-serif']
 
   # Heading: Same family, bolder weight for hierarchy
   heading:
-    family: "Liberation Sans"
+    family: 'Liberation Sans'
     weight: bold
 
   # Code: Monospace for formulas, IDs
   monospace:
-    family: "Liberation Mono"
-    fallback: ["Consolas", "Courier New", "monospace"]
+    family: 'Liberation Mono'
+    fallback: ['Consolas', 'Courier New', 'monospace']
 ```
 
 ### Pre-built Font Pairings
@@ -203,19 +204,19 @@ minimal = get_font_pairing("minimal")
 
 Choose a ratio for consistent sizing:
 
-| Scale | Ratio | Description |
-|-------|-------|-------------|
-| `minor_second` | 1.067 | Subtle variation |
-| `major_second` | 1.125 | Conservative |
-| `minor_third` | 1.200 | **Recommended** |
-| `major_third` | 1.250 | More dramatic |
-| `perfect_fourth` | 1.333 | Strong hierarchy |
-| `golden_ratio` | 1.618 | Classical proportions |
+| Scale            | Ratio | Description           |
+| ---------------- | ----- | --------------------- |
+| `minor_second`   | 1.067 | Subtle variation      |
+| `major_second`   | 1.125 | Conservative          |
+| `minor_third`    | 1.200 | **Recommended**       |
+| `major_third`    | 1.250 | More dramatic         |
+| `perfect_fourth` | 1.333 | Strong hierarchy      |
+| `golden_ratio`   | 1.618 | Classical proportions |
 
 ```yaml
 typography:
-  base_size: "11pt"
-  scale: "minor_third"
+  base_size: '11pt'
+  scale: 'minor_third'
 
   # Generated sizes (base * ratio^n):
   # xs:   7.6pt  (base * 1.2^-2)
@@ -235,21 +236,21 @@ Define heading levels for document structure:
 typography:
   headings:
     h1:
-      size: "18pt"
+      size: '18pt'
       weight: bold
-      color: "{colors.primary}"
-      spacing_after: "12pt"
+      color: '{colors.primary}'
+      spacing_after: '12pt'
 
     h2:
-      size: "14pt"
+      size: '14pt'
       weight: bold
-      color: "{colors.primary}"
-      spacing_after: "8pt"
+      color: '{colors.primary}'
+      spacing_after: '8pt'
 
     h3:
-      size: "12pt"
+      size: '12pt'
       weight: bold
-      spacing_after: "6pt"
+      spacing_after: '6pt'
 ```
 
 ## Style Definitions
@@ -260,14 +261,14 @@ typography:
 styles:
   style_name:
     font:
-      family: "Font Name"
-      size: "11pt"
+      family: 'Font Name'
+      size: '11pt'
       weight: normal | bold
       italic: false
-      color: "#000000"
+      color: '#000000'
 
     fill:
-      color: "#FFFFFF"
+      color: '#FFFFFF'
 
     alignment:
       horizontal: left | center | right
@@ -275,12 +276,12 @@ styles:
       wrap_text: false
 
     border:
-      top: { style: thin, color: "#000000" }
-      bottom: { style: thin, color: "#000000" }
-      left: { style: thin, color: "#000000" }
-      right: { style: thin, color: "#000000" }
+      top: { style: thin, color: '#000000' }
+      bottom: { style: thin, color: '#000000' }
+      left: { style: thin, color: '#000000' }
+      right: { style: thin, color: '#000000' }
 
-    number_format: "General"
+    number_format: 'General'
 ```
 
 ### Style Inheritance
@@ -291,19 +292,19 @@ Extend existing styles to reduce duplication:
 styles:
   # Base data style
   data:
-    font: { family: "{fonts.primary.family}", size: "11pt" }
+    font: { family: '{fonts.primary.family}', size: '11pt' }
     alignment: { vertical: middle }
 
   # Currency extends data
   currency:
     extends: data
-    number_format: "$#,##0.00"
+    number_format: '$#,##0.00'
     alignment: { horizontal: right }
 
   # Negative currency - different color
   currency_negative:
     extends: currency
-    font: { color: "{colors.danger}" }
+    font: { color: '{colors.danger}' }
 ```
 
 ### Common Style Patterns
@@ -314,22 +315,22 @@ styles:
 styles:
   header_primary:
     font:
-      family: "{fonts.heading.family}"
-      size: "12pt"
+      family: '{fonts.heading.family}'
+      size: '12pt'
       weight: bold
-      color: "#FFFFFF"
+      color: '#FFFFFF'
     fill:
-      color: "{colors.primary}"
+      color: '{colors.primary}'
     alignment:
       horizontal: center
       vertical: middle
     border:
-      bottom: { style: medium, color: "{colors.primary_dark}" }
+      bottom: { style: medium, color: '{colors.primary_dark}' }
 
   header_secondary:
     extends: header_primary
     fill:
-      color: "{colors.secondary}"
+      color: '{colors.secondary}'
 ```
 
 #### Alternating Rows
@@ -338,11 +339,11 @@ styles:
 styles:
   row_even:
     fill:
-      color: "#FFFFFF"
+      color: '#FFFFFF'
 
   row_odd:
     fill:
-      color: "{colors.alternate_row}"
+      color: '{colors.alternate_row}'
 ```
 
 #### Total Rows
@@ -353,9 +354,9 @@ styles:
     font:
       weight: bold
     fill:
-      color: "#E8F4FD"
+      color: '#E8F4FD'
     border:
-      top: { style: double, color: "{colors.primary}" }
+      top: { style: double, color: '{colors.primary}' }
 ```
 
 #### Conditional Styles
@@ -364,17 +365,17 @@ styles:
 styles:
   positive_value:
     font:
-      color: "{colors.success}"
+      color: '{colors.success}'
 
   negative_value:
     font:
-      color: "{colors.danger}"
+      color: '{colors.danger}'
 
   warning_value:
     fill:
-      color: "{colors.warning}"
+      color: '{colors.warning}'
     font:
-      color: "#000000"
+      color: '#000000'
 ```
 
 ## Number Formats
@@ -384,40 +385,40 @@ styles:
 ```yaml
 formats:
   # Currency
-  currency: "$#,##0.00"
-  currency_no_cents: "$#,##0"
-  currency_negative_red: "$#,##0.00;[Red]-$#,##0.00"
+  currency: '$#,##0.00'
+  currency_no_cents: '$#,##0'
+  currency_negative_red: '$#,##0.00;[Red]-$#,##0.00'
 
   # Percentage
-  percentage: "0%"
-  percentage_decimal: "0.00%"
+  percentage: '0%'
+  percentage_decimal: '0.00%'
 
   # Numbers
-  number: "#,##0"
-  number_decimal: "#,##0.00"
+  number: '#,##0'
+  number_decimal: '#,##0.00'
 
   # Dates
-  date_short: "MM/DD/YYYY"
-  date_long: "MMMM D, YYYY"
-  date_iso: "YYYY-MM-DD"
+  date_short: 'MM/DD/YYYY'
+  date_long: 'MMMM D, YYYY'
+  date_iso: 'YYYY-MM-DD'
 
   # Time
-  time_12h: "h:mm AM/PM"
-  time_24h: "HH:mm"
-  datetime: "YYYY-MM-DD HH:mm"
+  time_12h: 'h:mm AM/PM'
+  time_24h: 'HH:mm'
+  datetime: 'YYYY-MM-DD HH:mm'
 ```
 
 ### Custom Format Codes
 
-| Code | Meaning | Example |
-|------|---------|---------|
-| `0` | Required digit | `00.00` -> `01.50` |
-| `#` | Optional digit | `#.##` -> `1.5` |
-| `,` | Thousands separator | `#,##0` -> `1,234` |
-| `%` | Percentage | `0%` -> `75%` |
-| `$` | Currency symbol | `$#,##0` -> `$1,234` |
-| `;` | Section separator | `pos;neg;zero` |
-| `[Red]` | Color | `[Red]-#,##0` |
+| Code    | Meaning             | Example              |
+| ------- | ------------------- | -------------------- |
+| `0`     | Required digit      | `00.00` -> `01.50`   |
+| `#`     | Optional digit      | `#.##` -> `1.5`      |
+| `,`     | Thousands separator | `#,##0` -> `1,234`   |
+| `%`     | Percentage          | `0%` -> `75%`        |
+| `$`     | Currency symbol     | `$#,##0` -> `$1,234` |
+| `;`     | Section separator   | `pos;neg;zero`       |
+| `[Red]` | Color               | `[Red]-#,##0`        |
 
 ## Loading Custom Themes
 
@@ -510,11 +511,11 @@ Dark backgrounds use more ink. For print-heavy uses:
 styles:
   header_print:
     fill:
-      color: "#FFFFFF"
+      color: '#FFFFFF'
     font:
-      color: "{colors.primary}"
+      color: '{colors.primary}'
     border:
-      bottom: { style: medium, color: "{colors.primary}" }
+      bottom: { style: medium, color: '{colors.primary}' }
 ```
 
 ### 5. Document Your Theme
@@ -523,12 +524,12 @@ Include metadata:
 
 ```yaml
 name: corporate_2024
-version: "1.0.0"
+version: '1.0.0'
 description: |
   Corporate theme following 2024 brand guidelines.
   Primary color updated per marketing directive Q3-2024.
 author: Design Team
-created: "2024-01-15"
+created: '2024-01-15'
 ```
 
 ## Complete Theme Example
@@ -536,72 +537,72 @@ created: "2024-01-15"
 ```yaml
 # corporate_theme.yaml
 name: corporate
-version: "1.0"
-description: "Professional corporate theme for financial reports"
+version: '1.0'
+description: 'Professional corporate theme for financial reports'
 extends: default
 
 colors:
   palette:
-    primary: "#1A3A5C"
-    primary_light: "#2D5A87"
-    secondary: "#4472C4"
-    accent: "#ED7D31"
-    success: "#70AD47"
-    warning: "#FFC000"
-    danger: "#C00000"
+    primary: '#1A3A5C'
+    primary_light: '#2D5A87'
+    secondary: '#4472C4'
+    accent: '#ED7D31'
+    success: '#70AD47'
+    warning: '#FFC000'
+    danger: '#C00000'
 
   semantic:
-    header_bg: "{colors.primary}"
-    header_fg: "#FFFFFF"
-    subheader_bg: "{colors.secondary}"
-    alternate_row: "#F5F9FC"
-    border_light: "#DEE2E6"
-    border_dark: "{colors.primary}"
+    header_bg: '{colors.primary}'
+    header_fg: '#FFFFFF'
+    subheader_bg: '{colors.secondary}'
+    alternate_row: '#F5F9FC'
+    border_light: '#DEE2E6'
+    border_dark: '{colors.primary}'
 
 fonts:
   primary:
-    family: "Liberation Sans"
-    fallback: ["Arial", "sans-serif"]
+    family: 'Liberation Sans'
+    fallback: ['Arial', 'sans-serif']
   heading:
-    family: "Liberation Sans"
+    family: 'Liberation Sans'
     weight: bold
   monospace:
-    family: "Liberation Mono"
-    fallback: ["Consolas", "monospace"]
+    family: 'Liberation Mono'
+    fallback: ['Consolas', 'monospace']
 
 typography:
-  base_size: "11pt"
-  scale: "minor_third"
+  base_size: '11pt'
+  scale: 'minor_third'
 
 styles:
   # Headers
   header:
     font:
-      family: "{fonts.heading.family}"
-      size: "12pt"
+      family: '{fonts.heading.family}'
+      size: '12pt'
       weight: bold
-      color: "{colors.header_fg}"
+      color: '{colors.header_fg}'
     fill:
-      color: "{colors.header_bg}"
+      color: '{colors.header_bg}'
     alignment:
       horizontal: center
       vertical: middle
     border:
-      bottom: { style: medium, color: "{colors.primary_light}" }
+      bottom: { style: medium, color: '{colors.primary_light}' }
 
   subheader:
     extends: header
     font:
-      size: "11pt"
+      size: '11pt'
     fill:
-      color: "{colors.subheader_bg}"
+      color: '{colors.subheader_bg}'
 
   # Data cells
   data:
     font:
-      family: "{fonts.primary.family}"
-      size: "11pt"
-      color: "#333333"
+      family: '{fonts.primary.family}'
+      size: '11pt'
+      color: '#333333'
     alignment:
       vertical: middle
 
@@ -612,35 +613,35 @@ styles:
 
   currency:
     extends: data
-    number_format: "$#,##0.00"
+    number_format: '$#,##0.00'
     alignment:
       horizontal: right
 
   currency_negative:
     extends: currency
     font:
-      color: "{colors.danger}"
+      color: '{colors.danger}'
 
   percentage:
     extends: data
-    number_format: "0.0%"
+    number_format: '0.0%'
     alignment:
       horizontal: right
 
   date:
     extends: data
-    number_format: "YYYY-MM-DD"
+    number_format: 'YYYY-MM-DD'
     alignment:
       horizontal: center
 
   # Row styles
   row_even:
     fill:
-      color: "#FFFFFF"
+      color: '#FFFFFF'
 
   row_odd:
     fill:
-      color: "{colors.alternate_row}"
+      color: '{colors.alternate_row}'
 
   # Summary rows
   subtotal:
@@ -648,21 +649,21 @@ styles:
     font:
       weight: bold
     fill:
-      color: "#E8F4FD"
+      color: '#E8F4FD'
 
   total:
     extends: subtotal
     fill:
-      color: "#D0E8F8"
+      color: '#D0E8F8'
     border:
-      top: { style: double, color: "{colors.primary}" }
+      top: { style: double, color: '{colors.primary}' }
 
   grand_total:
     extends: total
     font:
-      size: "12pt"
+      size: '12pt'
     fill:
-      color: "{colors.primary_light}"
+      color: '{colors.primary_light}'
 
   # Special cells
   label:
@@ -673,15 +674,15 @@ styles:
   note:
     extends: data
     font:
-      size: "9pt"
+      size: '9pt'
       italic: true
-      color: "#666666"
+      color: '#666666'
 
 formats:
-  currency: "$#,##0.00"
-  currency_k: "$#,##0,K"
-  percentage: "0.0%"
-  number: "#,##0"
-  date: "YYYY-MM-DD"
-  date_long: "MMMM D, YYYY"
+  currency: '$#,##0.00'
+  currency_k: '$#,##0,K'
+  percentage: '0.0%'
+  number: '#,##0'
+  date: 'YYYY-MM-DD'
+  date_long: 'MMMM D, YYYY'
 ```

@@ -38,6 +38,7 @@ SpreadsheetBuilder(
 ```
 
 **Parameters:**
+
 - `theme`: Theme name (string), Theme object, or None for no theme
 - `theme_dir`: Directory containing theme YAML files
 
@@ -59,6 +60,7 @@ builder.workbook_properties(
 ```
 
 **Example:**
+
 ```python
 builder.workbook_properties(
     title="Monthly Budget Report",
@@ -83,6 +85,7 @@ builder.named_range(
 ```
 
 **Example:**
+
 ```python
 builder.named_range("BudgetData", "B2", "B50", sheet="Budget")
 ```
@@ -98,6 +101,7 @@ builder.sheet(name: str) -> Self
 ```
 
 **Example:**
+
 ```python
 builder.sheet("Summary")
 ```
@@ -115,6 +119,7 @@ builder.freeze(
 ```
 
 **Example:**
+
 ```python
 builder.sheet("Data").freeze(rows=1)  # Freeze header row
 ```
@@ -128,6 +133,7 @@ builder.print_area(range_ref: str) -> Self
 ```
 
 **Example:**
+
 ```python
 builder.print_area("A1:D50")
 ```
@@ -146,6 +152,7 @@ builder.protect(
 ```
 
 **Example:**
+
 ```python
 builder.protect(password="secret123", edit_cells=True)
 ```
@@ -169,6 +176,7 @@ builder.column(
 ```
 
 **Parameters:**
+
 - `name`: Column header name
 - `width`: Column width (e.g., "2.5cm", "100pt", "100px")
 - `type`: Value type (string, currency, date, percentage)
@@ -177,6 +185,7 @@ builder.column(
 - `hidden`: Whether column is hidden
 
 **Example:**
+
 ```python
 builder.sheet("Budget") \
     .column("Category", width="150pt", style="text") \
@@ -196,6 +205,7 @@ builder.header_row(*, style: str = "header_primary") -> Self
 ```
 
 **Example:**
+
 ```python
 builder.header_row(style="header")
 ```
@@ -213,6 +223,7 @@ builder.row(
 ```
 
 **Example:**
+
 ```python
 builder.row(style="data", height="20pt")
 ```
@@ -231,6 +242,7 @@ builder.data_rows(
 ```
 
 **Example:**
+
 ```python
 # Zebra striping
 builder.data_rows(20, alternate_styles=["row_even", "row_odd"])
@@ -250,6 +262,7 @@ builder.total_row(
 ```
 
 **Example:**
+
 ```python
 builder.total_row(
     style="total",
@@ -288,6 +301,7 @@ builder.cell(
 ```
 
 **Example:**
+
 ```python
 builder.row() \
     .cell("Category Name", style="label") \
@@ -304,6 +318,7 @@ builder.cells(*values: Any, style: str | None = None) -> Self
 ```
 
 **Example:**
+
 ```python
 builder.row().cells("Jan", "Feb", "Mar", "Apr", style="header")
 ```
@@ -319,6 +334,7 @@ builder.chart(chart_spec: ChartSpec) -> Self
 ```
 
 **Example:**
+
 ```python
 from spreadsheet_dl.charts import ChartBuilder
 
@@ -351,6 +367,7 @@ builder.save(path: Path | str) -> Path
 ```
 
 **Example:**
+
 ```python
 output_path = builder.save("budget_report.ods")
 print(f"Saved to: {output_path}")
@@ -385,6 +402,7 @@ f.cell(ref: str) -> CellRef
 ```
 
 **Example:**
+
 ```python
 ref = f.cell("A1")
 abs_ref = f.cell("A1").absolute()  # $A$1
@@ -399,6 +417,7 @@ f.range(start: str, end: str) -> RangeRef
 ```
 
 **Example:**
+
 ```python
 rng = f.range("A2", "A100")
 ```
@@ -412,6 +431,7 @@ f.sheet(name: str) -> SheetRef
 ```
 
 **Example:**
+
 ```python
 budget_sheet = f.sheet("Budget")
 rng = budget_sheet.range("B2", "B50")
@@ -419,42 +439,43 @@ rng = budget_sheet.range("B2", "B50")
 
 ### Mathematical Functions
 
-| Method | Formula | Example |
-|--------|---------|---------|
-| `sum(range)` | SUM | `f.sum(f.range("A1", "A10"))` |
-| `sumif(cr, crit, sr)` | SUMIF | `f.sumif(f.range("A:A"), ">=100", f.range("B:B"))` |
-| `abs(ref)` | ABS | `f.abs("A1")` |
-| `round(ref, dec)` | ROUND | `f.round("A1", 2)` |
-| `mod(num, div)` | MOD | `f.mod("A1", 12)` |
-| `power(base, exp)` | POWER | `f.power("A1", 2)` |
-| `sqrt(ref)` | SQRT | `f.sqrt("A1")` |
+| Method                | Formula | Example                                            |
+| --------------------- | ------- | -------------------------------------------------- |
+| `sum(range)`          | SUM     | `f.sum(f.range("A1", "A10"))`                      |
+| `sumif(cr, crit, sr)` | SUMIF   | `f.sumif(f.range("A:A"), ">=100", f.range("B:B"))` |
+| `abs(ref)`            | ABS     | `f.abs("A1")`                                      |
+| `round(ref, dec)`     | ROUND   | `f.round("A1", 2)`                                 |
+| `mod(num, div)`       | MOD     | `f.mod("A1", 12)`                                  |
+| `power(base, exp)`    | POWER   | `f.power("A1", 2)`                                 |
+| `sqrt(ref)`           | SQRT    | `f.sqrt("A1")`                                     |
 
 ### Statistical Functions
 
-| Method | Formula | Example |
-|--------|---------|---------|
-| `average(range)` | AVERAGE | `f.average(f.range("A1", "A10"))` |
-| `count(range)` | COUNT | `f.count(f.range("A:A"))` |
-| `counta(range)` | COUNTA | `f.counta(f.range("A:A"))` |
+| Method              | Formula | Example                           |
+| ------------------- | ------- | --------------------------------- |
+| `average(range)`    | AVERAGE | `f.average(f.range("A1", "A10"))` |
+| `count(range)`      | COUNT   | `f.count(f.range("A:A"))`         |
+| `counta(range)`     | COUNTA  | `f.counta(f.range("A:A"))`        |
 | `countif(cr, crit)` | COUNTIF | `f.countif(f.range("A:A"), ">0")` |
-| `max(range)` | MAX | `f.max(f.range("A:A"))` |
-| `min(range)` | MIN | `f.min(f.range("A:A"))` |
-| `median(range)` | MEDIAN | `f.median(f.range("A:A"))` |
-| `stdev(range)` | STDEV | `f.stdev(f.range("A:A"))` |
+| `max(range)`        | MAX     | `f.max(f.range("A:A"))`           |
+| `min(range)`        | MIN     | `f.min(f.range("A:A"))`           |
+| `median(range)`     | MEDIAN  | `f.median(f.range("A:A"))`        |
+| `stdev(range)`      | STDEV   | `f.stdev(f.range("A:A"))`         |
 
 ### Financial Functions
 
-| Method | Formula | Description |
-|--------|---------|-------------|
-| `pmt(rate, nper, pv)` | PMT | Periodic payment |
-| `pv(rate, nper, pmt)` | PV | Present value |
-| `fv(rate, nper, pmt)` | FV | Future value |
-| `npv(rate, values)` | NPV | Net present value |
-| `irr(values, guess)` | IRR | Internal rate of return |
-| `nper(rate, pmt, pv)` | NPER | Number of periods |
-| `rate(nper, pmt, pv)` | RATE | Interest rate |
+| Method                | Formula | Description             |
+| --------------------- | ------- | ----------------------- |
+| `pmt(rate, nper, pv)` | PMT     | Periodic payment        |
+| `pv(rate, nper, pmt)` | PV      | Present value           |
+| `fv(rate, nper, pmt)` | FV      | Future value            |
+| `npv(rate, values)`   | NPV     | Net present value       |
+| `irr(values, guess)`  | IRR     | Internal rate of return |
+| `nper(rate, pmt, pv)` | NPER    | Number of periods       |
+| `rate(nper, pmt, pv)` | RATE    | Interest rate           |
 
 **Example:**
+
 ```python
 # Monthly mortgage payment
 payment = f.pmt(
@@ -467,29 +488,30 @@ payment = f.pmt(
 
 ### Date/Time Functions
 
-| Method | Formula | Example |
-|--------|---------|---------|
-| `today()` | TODAY | `f.today()` |
-| `now()` | NOW | `f.now()` |
-| `date(y, m, d)` | DATE | `f.date(2024, 12, 31)` |
-| `year(ref)` | YEAR | `f.year("A1")` |
-| `month(ref)` | MONTH | `f.month("A1")` |
-| `day(ref)` | DAY | `f.day("A1")` |
-| `eomonth(date, m)` | EOMONTH | `f.eomonth("A1", 1)` |
+| Method             | Formula | Example                      |
+| ------------------ | ------- | ---------------------------- |
+| `today()`          | TODAY   | `f.today()`                  |
+| `now()`            | NOW     | `f.now()`                    |
+| `date(y, m, d)`    | DATE    | `f.date(2024, 12, 31)`       |
+| `year(ref)`        | YEAR    | `f.year("A1")`               |
+| `month(ref)`       | MONTH   | `f.month("A1")`              |
+| `day(ref)`         | DAY     | `f.day("A1")`                |
+| `eomonth(date, m)` | EOMONTH | `f.eomonth("A1", 1)`         |
 | `datedif(s, e, u)` | DATEDIF | `f.datedif("A1", "B1", "D")` |
 
 ### Lookup Functions
 
-| Method | Formula | Example |
-|--------|---------|---------|
-| `vlookup(val, tbl, col)` | VLOOKUP | `f.vlookup("A1", f.range("D:F"), 2)` |
-| `hlookup(val, tbl, row)` | HLOOKUP | `f.hlookup("A1", f.range("A1:Z1"), 2)` |
-| `index(arr, row, col)` | INDEX | `f.index(f.range("A:C"), 5, 2)` |
-| `match(val, arr, type)` | MATCH | `f.match("A1", f.range("B:B"), 0)` |
-| `offset(ref, r, c, h, w)` | OFFSET | `f.offset("A1", 5, 2)` |
-| `indirect(ref)` | INDIRECT | `f.indirect("A1")` |
+| Method                    | Formula  | Example                                |
+| ------------------------- | -------- | -------------------------------------- |
+| `vlookup(val, tbl, col)`  | VLOOKUP  | `f.vlookup("A1", f.range("D:F"), 2)`   |
+| `hlookup(val, tbl, row)`  | HLOOKUP  | `f.hlookup("A1", f.range("A1:Z1"), 2)` |
+| `index(arr, row, col)`    | INDEX    | `f.index(f.range("A:C"), 5, 2)`        |
+| `match(val, arr, type)`   | MATCH    | `f.match("A1", f.range("B:B"), 0)`     |
+| `offset(ref, r, c, h, w)` | OFFSET   | `f.offset("A1", 5, 2)`                 |
+| `indirect(ref)`           | INDIRECT | `f.indirect("A1")`                     |
 
 **INDEX/MATCH Example:**
+
 ```python
 # More flexible than VLOOKUP
 lookup = f.index_match(
@@ -500,30 +522,30 @@ lookup = f.index_match(
 
 ### Text Functions
 
-| Method | Formula | Example |
-|--------|---------|---------|
-| `concatenate(*vals)` | CONCATENATE | `f.concatenate("A1", "B1")` |
-| `text(val, fmt)` | TEXT | `f.text("A1", "0.00%")` |
-| `left(txt, n)` | LEFT | `f.left("A1", 5)` |
-| `right(txt, n)` | RIGHT | `f.right("A1", 3)` |
-| `mid(txt, s, n)` | MID | `f.mid("A1", 2, 5)` |
-| `len(txt)` | LEN | `f.len("A1")` |
-| `trim(txt)` | TRIM | `f.trim("A1")` |
-| `upper(txt)` | UPPER | `f.upper("A1")` |
-| `lower(txt)` | LOWER | `f.lower("A1")` |
-| `substitute(t, o, n)` | SUBSTITUTE | `f.substitute("A1", "x", "y")` |
+| Method                | Formula     | Example                        |
+| --------------------- | ----------- | ------------------------------ |
+| `concatenate(*vals)`  | CONCATENATE | `f.concatenate("A1", "B1")`    |
+| `text(val, fmt)`      | TEXT        | `f.text("A1", "0.00%")`        |
+| `left(txt, n)`        | LEFT        | `f.left("A1", 5)`              |
+| `right(txt, n)`       | RIGHT       | `f.right("A1", 3)`             |
+| `mid(txt, s, n)`      | MID         | `f.mid("A1", 2, 5)`            |
+| `len(txt)`            | LEN         | `f.len("A1")`                  |
+| `trim(txt)`           | TRIM        | `f.trim("A1")`                 |
+| `upper(txt)`          | UPPER       | `f.upper("A1")`                |
+| `lower(txt)`          | LOWER       | `f.lower("A1")`                |
+| `substitute(t, o, n)` | SUBSTITUTE  | `f.substitute("A1", "x", "y")` |
 
 ### Logical Functions
 
-| Method | Formula | Example |
-|--------|---------|---------|
-| `if_expr(cond, t, f)` | IF | `f.if_expr("[.A1]>0", "Positive", "Negative")` |
-| `iferror(val, err)` | IFERROR | `f.iferror("A1/B1", 0)` |
-| `and_expr(*conds)` | AND | `f.and_expr("[.A1]>0", "[.B1]>0")` |
-| `or_expr(*conds)` | OR | `f.or_expr("[.A1]=1", "[.A1]=2")` |
-| `not_expr(cond)` | NOT | `f.not_expr("[.A1]=0")` |
-| `isblank(ref)` | ISBLANK | `f.isblank("A1")` |
-| `iserror(ref)` | ISERROR | `f.iserror("A1")` |
+| Method                | Formula | Example                                        |
+| --------------------- | ------- | ---------------------------------------------- |
+| `if_expr(cond, t, f)` | IF      | `f.if_expr("[.A1]>0", "Positive", "Negative")` |
+| `iferror(val, err)`   | IFERROR | `f.iferror("A1/B1", 0)`                        |
+| `and_expr(*conds)`    | AND     | `f.and_expr("[.A1]>0", "[.B1]>0")`             |
+| `or_expr(*conds)`     | OR      | `f.or_expr("[.A1]=1", "[.A1]=2")`              |
+| `not_expr(cond)`      | NOT     | `f.not_expr("[.A1]=0")`                        |
+| `isblank(ref)`        | ISBLANK | `f.isblank("A1")`                              |
+| `iserror(ref)`        | ISERROR | `f.iserror("A1")`                              |
 
 ### Array Formulas
 
@@ -536,6 +558,7 @@ f.array(formula: str) -> str
 ```
 
 **Example:**
+
 ```python
 arr_formula = f.array(f.sum(f.range("A1", "A10")))
 # -> "of:={SUM([.A1:A10])}"

@@ -64,6 +64,7 @@ pip install -e ".[dev]"
 ```
 
 This includes:
+
 - pytest - Testing framework
 - pytest-cov - Coverage reporting
 - ruff - Linting and formatting

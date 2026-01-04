@@ -29,6 +29,7 @@ uv run spreadsheet-dl generate -o ./budgets/
 ```
 
 This creates a file like `budgets/budget_2025_01.ods` with:
+
 - Expense Log sheet for tracking spending
 - Budget sheet with default allocations
 - Summary sheet with formulas
@@ -36,6 +37,7 @@ This creates a file like `budgets/budget_2025_01.ods` with:
 ### Opening Your Budget
 
 Open the ODS file with:
+
 - LibreOffice Calc (desktop)
 - Collabora Office (browser via Nextcloud)
 - Nextcloud mobile apps (iOS/Android)
@@ -127,14 +129,14 @@ uv run spreadsheet-dl expense 100.00 "Test" --dry-run
 
 If you don't specify a category, SpreadsheetDL automatically categorizes based on the description:
 
-| Description Contains | Category |
-|---------------------|----------|
-| walmart, kroger, safeway | Groceries |
-| gas, shell, chevron | Transportation |
-| netflix, spotify, hulu | Subscriptions |
-| restaurant, chipotle, starbucks | Dining Out |
-| electric, water, internet | Utilities |
-| ... | ... |
+| Description Contains            | Category       |
+| ------------------------------- | -------------- |
+| walmart, kroger, safeway        | Groceries      |
+| gas, shell, chevron             | Transportation |
+| netflix, spotify, hulu          | Subscriptions  |
+| restaurant, chipotle, starbucks | Dining Out     |
+| electric, water, internet       | Utilities      |
+| ...                             | ...            |
 
 ### Valid Categories
 
@@ -231,14 +233,14 @@ uv run spreadsheet-dl report budget_2025_01.ods -f json
 
 ### Available Templates
 
-| Template | Description | Best For |
-|----------|-------------|----------|
-| `50_30_20` | 50% needs, 30% wants, 20% savings | Beginners |
-| `family` | Optimized for family of 4 | Families |
-| `minimalist` | High savings, minimal categories | Single person |
-| `zero_based` | Every dollar assigned | Detail-oriented |
-| `fire` | 50%+ savings rate | Early retirement |
-| `high_income` | Balanced for $200k+ | High earners |
+| Template      | Description                       | Best For         |
+| ------------- | --------------------------------- | ---------------- |
+| `50_30_20`    | 50% needs, 30% wants, 20% savings | Beginners        |
+| `family`      | Optimized for family of 4         | Families         |
+| `minimalist`  | High savings, minimal categories  | Single person    |
+| `zero_based`  | Every dollar assigned             | Detail-oriented  |
+| `fire`        | 50%+ savings rate                 | Early retirement |
+| `high_income` | Balanced for $200k+               | High earners     |
 
 ### List All Templates
 
@@ -250,6 +252,7 @@ uv run spreadsheet-dl templates --json
 ### Template Details
 
 Each template includes:
+
 - Predefined budget allocations
 - Recommended category limits
 - Suggested income scaling
@@ -260,13 +263,13 @@ Each template includes:
 
 ### Available Themes
 
-| Theme | Description | Colors |
-|-------|-------------|--------|
-| `default` | Clean professional | Blue headers, green/red status |
-| `corporate` | Business styling | Navy blue, brown accents |
-| `minimal` | Distraction-free | Gray headers, subtle borders |
-| `dark` | Dark mode | Dark backgrounds, light text |
-| `high_contrast` | Accessibility | Bold colors, large fonts |
+| Theme           | Description        | Colors                         |
+| --------------- | ------------------ | ------------------------------ |
+| `default`       | Clean professional | Blue headers, green/red status |
+| `corporate`     | Business styling   | Navy blue, brown accents       |
+| `minimal`       | Distraction-free   | Gray headers, subtle borders   |
+| `dark`          | Dark mode          | Dark backgrounds, light text   |
+| `high_contrast` | Accessibility      | Bold colors, large fonts       |
 
 ### List All Themes
 
@@ -434,14 +437,17 @@ uv run spreadsheet-dl upload budget_2025_01.ods
 ### Common Issues
 
 **File won't open**
+
 - Ensure LibreOffice or Collabora is installed
 - Check file permissions
 
 **Formulas not calculating**
+
 - Enable automatic calculation in spreadsheet app
 - Check formula references
 
 **Expense not appearing**
+
 - Verify correct file was updated
 - Check sheet name (default: "Expense Log")
 

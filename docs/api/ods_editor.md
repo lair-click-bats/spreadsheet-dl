@@ -264,17 +264,20 @@ OdsEditor is NOT thread-safe. Use separate instances for concurrent access.
 ### Memory Usage
 
 The entire ODS file is loaded into memory. For very large files, consider:
+
 - Processing in batches
 - Using the low-level odfpy API
 
 ### Preserving Formatting
 
 OdsEditor preserves:
+
 - Existing cell styles
 - Formulas
 - Sheet structure
 
 It does NOT preserve:
+
 - Conditional formatting rules (partially)
 - Complex cell validation
 

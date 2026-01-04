@@ -4,15 +4,15 @@ Quality and maintenance scripts for the SpreadsheetDL project.
 
 ## Quick Reference
 
-| Script              | Purpose                                   | When to Use                               |
-| ------------------- | ----------------------------------------- | ----------------------------------------- |
-| `check.sh`          | Quick quality check (lint + format check) | Before commits, after significant changes |
-| `lint.sh`           | Run all configured linters                | When checking for issues                  |
-| `format.sh`         | Format all code files                     | When formatting is needed                 |
-| `clean.sh`          | Clean build artifacts and caches          | When builds are stale                     |
-| `doctor.sh`         | Environment health check                  | When tools seem broken                    |
-| `validate.sh`       | Full validation suite                     | Before releases, in CI                    |
-| `fix.sh`            | Auto-fix common issues                    | After lint failures                       |
+| Script        | Purpose                                   | When to Use                               |
+| ------------- | ----------------------------------------- | ----------------------------------------- |
+| `check.sh`    | Quick quality check (lint + format check) | Before commits, after significant changes |
+| `lint.sh`     | Run all configured linters                | When checking for issues                  |
+| `format.sh`   | Format all code files                     | When formatting is needed                 |
+| `clean.sh`    | Clean build artifacts and caches          | When builds are stale                     |
+| `doctor.sh`   | Environment health check                  | When tools seem broken                    |
+| `validate.sh` | Full validation suite                     | Before releases, in CI                    |
+| `fix.sh`      | Auto-fix common issues                    | After lint failures                       |
 
 ## Quality Scripts
 
@@ -124,27 +124,27 @@ scripts/tools/<tool>.sh [--check|--fix|--format|--json|-v] [paths...]
 
 ### Python Tools
 
-| Script     | Tool | Purpose                  |
-| ---------- | ---- | ------------------------ |
-| `ruff.sh`  | Ruff | Python linting/format    |
-| `mypy.sh`  | Mypy | Python type checking     |
+| Script    | Tool | Purpose               |
+| --------- | ---- | --------------------- |
+| `ruff.sh` | Ruff | Python linting/format |
+| `mypy.sh` | Mypy | Python type checking  |
 
 ### Universal Tools
 
-| Script           | Tool        | Purpose              |
-| ---------------- | ----------- | -------------------- |
-| `markdownlint.sh`| markdownlint| Markdown linting     |
-| `prettier.sh`    | Prettier    | Multi-format formatting |
-| `shellcheck.sh`  | ShellCheck  | Shell script linting |
-| `yamllint.sh`    | yamllint    | YAML linting         |
-| `jsonc.sh`       | Custom      | JSON/JSONC validation|
+| Script            | Tool         | Purpose                 |
+| ----------------- | ------------ | ----------------------- |
+| `markdownlint.sh` | markdownlint | Markdown linting        |
+| `prettier.sh`     | Prettier     | Multi-format formatting |
+| `shellcheck.sh`   | ShellCheck   | Shell script linting    |
+| `yamllint.sh`     | yamllint     | YAML linting            |
+| `jsonc.sh`        | Custom       | JSON/JSONC validation   |
 
 ### Diagram Tools
 
-| Script       | Tool     | Purpose               |
-| ------------ | -------- | --------------------- |
-| `mermaid.sh` | mmdc     | Mermaid diagram render|
-| `plantuml.sh`| PlantUML | PlantUML diagrams     |
+| Script        | Tool     | Purpose                |
+| ------------- | -------- | ---------------------- |
+| `mermaid.sh`  | mmdc     | Mermaid diagram render |
+| `plantuml.sh` | PlantUML | PlantUML diagrams      |
 
 ## Maintenance Scripts
 
@@ -203,18 +203,18 @@ uv run python scripts/maintenance/json_summarizer.py report.json --keys status,e
 
 ## Environment Variables
 
-| Variable      | Purpose                        |
-| ------------- | ------------------------------ |
-| `REPO_ROOT`   | Repository root (auto-detected)|
-| `JSON_OUTPUT` | Enable JSON mode               |
+| Variable      | Purpose                         |
+| ------------- | ------------------------------- |
+| `REPO_ROOT`   | Repository root (auto-detected) |
+| `JSON_OUTPUT` | Enable JSON mode                |
 
 ## Exit Codes
 
-| Code | Meaning                          |
-| ---- | -------------------------------- |
-| 0    | Success (or gracefully skipped)  |
-| 1    | Failures found                   |
-| 2    | Tool/configuration error         |
+| Code | Meaning                         |
+| ---- | ------------------------------- |
+| 0    | Success (or gracefully skipped) |
+| 1    | Failures found                  |
+| 2    | Tool/configuration error        |
 
 ## Integration
 

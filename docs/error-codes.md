@@ -12,18 +12,18 @@ All error codes follow the format: `FT-<CATEGORY>-<NUMBER>`
 
 ## Error Categories
 
-| Category | Code Range | Description |
-|----------|------------|-------------|
-| GEN | 001-099 | General/uncategorized errors |
-| FILE | 100-199 | File system errors |
-| ODS | 200-299 | ODS spreadsheet file errors |
-| CSV | 300-399 | CSV import errors |
-| VAL | 400-499 | Data validation errors |
-| CFG | 500-599 | Configuration errors |
-| NET | 600-699 | Network/WebDAV errors |
-| TMPL | 700-799 | Template and theme errors |
-| FMT | 800-899 | Formatting errors |
-| EXT | 900-999 | Extension/plugin errors |
+| Category | Code Range | Description                  |
+| -------- | ---------- | ---------------------------- |
+| GEN      | 001-099    | General/uncategorized errors |
+| FILE     | 100-199    | File system errors           |
+| ODS      | 200-299    | ODS spreadsheet file errors  |
+| CSV      | 300-399    | CSV import errors            |
+| VAL      | 400-499    | Data validation errors       |
+| CFG      | 500-599    | Configuration errors         |
+| NET      | 600-699    | Network/WebDAV errors        |
+| TMPL     | 700-799    | Template and theme errors    |
+| FMT      | 800-899    | Formatting errors            |
+| EXT      | 900-999    | Extension/plugin errors      |
 
 ---
 
@@ -36,10 +36,12 @@ All error codes follow the format: `FT-<CATEGORY>-<NUMBER>`
 An unexpected error occurred that doesn't fit into other categories.
 
 **Common Causes:**
+
 - Unhandled exception in code
 - System-level errors
 
 **Resolution:**
+
 - Check the error details for more information
 - Report the issue with full error output
 
@@ -52,10 +54,12 @@ An unexpected error occurred that doesn't fit into other categories.
 The user cancelled the operation.
 
 **Common Causes:**
+
 - User pressed Ctrl+C
 - User responded "no" to confirmation prompt
 
 **Resolution:**
+
 - Re-run the command to try again
 
 ---
@@ -67,10 +71,12 @@ The user cancelled the operation.
 The requested feature is not yet available.
 
 **Common Causes:**
+
 - Using a feature that's planned but not implemented
 - Using a feature from a newer version
 
 **Resolution:**
+
 - Check the roadmap for planned features
 - Consider contributing the feature
 
@@ -85,16 +91,19 @@ The requested feature is not yet available.
 The specified file could not be located.
 
 **Common Causes:**
+
 - Incorrect file path
 - File was moved or deleted
 - Typo in filename
 
 **Resolution:**
+
 - Verify the file path is correct
 - Check that the file exists: `ls -la /path/to/file`
 - Use absolute paths to avoid confusion
 
 **Example:**
+
 ```
 Error [FT-FILE-101]: Budget file not found: /home/user/budget_2024.ods
 
@@ -114,11 +123,13 @@ Suggestion: Check that the file path is correct and the file exists.
 You don't have permission to access the file.
 
 **Common Causes:**
+
 - File owned by another user
 - Restrictive file permissions
 - File is read-only
 
 **Resolution:**
+
 - Check file permissions: `ls -la /path/to/file`
 - Change permissions if needed: `chmod 644 /path/to/file`
 - Run with appropriate user privileges
@@ -132,10 +143,12 @@ You don't have permission to access the file.
 The target file already exists and would be overwritten.
 
 **Common Causes:**
+
 - Generating a budget with a duplicate name
 - Exporting to an existing file
 
 **Resolution:**
+
 - Use `--force` to overwrite existing file
 - Choose a different output filename
 - Backup the existing file first
@@ -149,11 +162,13 @@ The target file already exists and would be overwritten.
 The file format doesn't match what was expected.
 
 **Common Causes:**
+
 - File is corrupted
 - File has wrong extension
 - File was saved in different format
 
 **Resolution:**
+
 - Verify the file is the correct format
 - Try opening in LibreOffice to check validity
 - Re-export from the source application
@@ -167,11 +182,13 @@ The file format doesn't match what was expected.
 Could not write to the file.
 
 **Common Causes:**
+
 - Disk is full
 - No write permission
 - File is locked by another application
 
 **Resolution:**
+
 - Check disk space: `df -h`
 - Check write permissions
 - Close other applications using the file
@@ -185,11 +202,13 @@ Could not write to the file.
 Could not read the file.
 
 **Common Causes:**
+
 - File is corrupted
 - File is being modified by another process
 - Encoding issues
 
 **Resolution:**
+
 - Check file integrity
 - Ensure no other process is modifying the file
 - Try re-downloading or re-creating the file
@@ -205,16 +224,19 @@ Could not read the file.
 Cannot parse the ODS file.
 
 **Common Causes:**
+
 - File is corrupted
 - File is not a valid ODS format
 - File was created with incompatible software
 
 **Resolution:**
+
 - Try opening the file in LibreOffice
 - Export as a new ODS file from LibreOffice
 - Check if file is truly ODS format
 
 **Example:**
+
 ```
 Error [FT-ODS-201]: Cannot read ODS file: budget.ods
 
@@ -234,11 +256,13 @@ Suggestion: Ensure the file is a valid ODS spreadsheet created by LibreOffice or
 Cannot write to the ODS file.
 
 **Common Causes:**
+
 - Disk space exhausted
 - File is locked
 - Permission denied
 
 **Resolution:**
+
 - Check disk space
 - Close any applications using the file
 - Check directory permissions
@@ -252,16 +276,19 @@ Cannot write to the ODS file.
 The requested sheet doesn't exist in the ODS file.
 
 **Common Causes:**
+
 - Sheet was renamed
 - Sheet was deleted
 - Using wrong sheet name
 
 **Resolution:**
+
 - Check available sheets in the file
 - Use correct sheet name from the list
 - Regenerate the budget file if structure is invalid
 
 **Example:**
+
 ```
 Error [FT-ODS-203]: Sheet 'Expense Log' not found
 
@@ -281,11 +308,13 @@ Suggestion: Check the sheet name or use one of the available sheets.
 The ODS file doesn't have the expected structure.
 
 **Common Causes:**
+
 - File was manually edited incorrectly
 - File was not created by SpreadsheetDL
 - Required sheets or columns are missing
 
 **Resolution:**
+
 - Use the `generate` command to create a new valid file
 - Restore from backup if available
 - Check that required sheets and columns exist
@@ -299,11 +328,13 @@ The ODS file doesn't have the expected structure.
 A formula in the spreadsheet is invalid.
 
 **Common Causes:**
+
 - Syntax error in formula
 - Reference to non-existent cell/sheet
 - Incompatible formula format
 
 **Resolution:**
+
 - Check formula syntax
 - Verify all cell references exist
 - Use ODS/LibreOffice formula format
@@ -319,16 +350,19 @@ A formula in the spreadsheet is invalid.
 Cannot parse the CSV file.
 
 **Common Causes:**
+
 - Malformed CSV format
 - Incorrect delimiter
 - Encoding issues
 
 **Resolution:**
+
 - Verify CSV is properly formatted
 - Check for unescaped quotes or delimiters
 - Try specifying encoding explicitly
 
 **Example:**
+
 ```
 Error [FT-CSV-301]: CSV parse error at line 42: Unterminated quoted field
 
@@ -347,11 +381,13 @@ Suggestion: Check that the CSV file is properly formatted.
 The bank format is not recognized.
 
 **Common Causes:**
+
 - Using export from unsupported bank
 - Bank changed their export format
 - Typo in bank name
 
 **Supported Banks:**
+
 - chase, chase_credit
 - bank_of_america
 - wells_fargo
@@ -362,6 +398,7 @@ The bank format is not recognized.
 - generic
 
 **Resolution:**
+
 - Use `--bank=generic` for manual column mapping
 - Create a custom bank format definition
 - Check for typos in bank name
@@ -375,11 +412,13 @@ The bank format is not recognized.
 A required column is not present in the CSV.
 
 **Common Causes:**
+
 - Wrong bank format specified
 - CSV missing expected columns
 - Column names changed
 
 **Resolution:**
+
 - Verify the bank format matches your CSV
 - Check that required columns exist (date, description, amount)
 - Use custom column mapping if needed
@@ -393,11 +432,13 @@ A required column is not present in the CSV.
 Cannot read CSV due to character encoding issues.
 
 **Common Causes:**
+
 - Wrong encoding assumed
 - File has mixed encodings
 - Special characters in data
 
 **Resolution:**
+
 - Try `--encoding=utf-8`
 - Try `--encoding=latin-1` or `--encoding=cp1252`
 - Re-export from bank with UTF-8 encoding
@@ -413,21 +454,25 @@ Cannot read CSV due to character encoding issues.
 The amount value is not valid.
 
 **Common Causes:**
+
 - Non-numeric characters
 - Currency symbol included
 - Thousand separators
 
 **Valid Formats:**
+
 - `123.45`
 - `99`
 - `1234.56`
 
 **Invalid Formats:**
+
 - `$123.45` (currency symbol)
 - `1,234.56` (thousand separator)
 - `abc` (non-numeric)
 
 **Resolution:**
+
 - Enter amount as plain number
 - Remove currency symbols
 - Remove thousand separators
@@ -443,11 +488,13 @@ The date value is not valid.
 **Expected Format:** YYYY-MM-DD (e.g., 2024-12-28)
 
 **Common Causes:**
+
 - Wrong date format
 - Invalid date (e.g., Feb 30)
 - Future date when not allowed
 
 **Resolution:**
+
 - Use ISO format: YYYY-MM-DD
 - Verify the date is valid
 - Check for typos
@@ -461,6 +508,7 @@ The date value is not valid.
 The expense category is not recognized.
 
 **Valid Categories:**
+
 - Housing, Utilities, Groceries
 - Transportation, Healthcare, Insurance
 - Entertainment, Dining Out, Clothing
@@ -469,6 +517,7 @@ The expense category is not recognized.
 - Miscellaneous
 
 **Resolution:**
+
 - Use one of the predefined categories
 - Check spelling and capitalization
 - Configure custom categories if needed
@@ -482,11 +531,13 @@ The expense category is not recognized.
 A value is outside the acceptable range.
 
 **Common Causes:**
+
 - Month > 12 or < 1
 - Negative amounts where not allowed
 - Percentage > 100
 
 **Resolution:**
+
 - Check the valid range for the field
 - Correct the value to be within range
 
@@ -499,6 +550,7 @@ A value is outside the acceptable range.
 A required field was not provided.
 
 **Resolution:**
+
 - Provide a value for the required field
 - Check command help for required arguments
 
@@ -513,11 +565,13 @@ A required field was not provided.
 A required configuration value is not set.
 
 **Common Causes:**
+
 - New installation without configuration
 - Config file deleted
 - Environment variable not set
 
 **Resolution:**
+
 - Set the value in config file
 - Set as environment variable
 - Run configuration wizard
@@ -531,6 +585,7 @@ A required configuration value is not set.
 A configuration value is invalid.
 
 **Resolution:**
+
 - Check documentation for valid values
 - Correct the value in config file
 - Reset to default if unsure
@@ -544,6 +599,7 @@ A configuration value is invalid.
 The configuration file fails validation.
 
 **Resolution:**
+
 - Fix listed validation errors
 - Check YAML syntax
 - Ensure all required fields are present
@@ -557,6 +613,7 @@ The configuration file fails validation.
 Cannot migrate configuration to new format.
 
 **Resolution:**
+
 - Backup current configuration
 - Create fresh configuration
 - Manually migrate settings
@@ -572,12 +629,14 @@ Cannot migrate configuration to new format.
 Cannot connect to the server.
 
 **Common Causes:**
+
 - No network connection
 - Server is down
 - Firewall blocking connection
 - Incorrect URL
 
 **Resolution:**
+
 - Check network connection
 - Verify server URL is correct
 - Try accessing URL in browser
@@ -592,12 +651,14 @@ Cannot connect to the server.
 Invalid credentials for server.
 
 **Common Causes:**
+
 - Wrong username or password
 - Password expired
 - Account locked
 - Using regular password instead of app password
 
 **Resolution:**
+
 - Verify username and password
 - For Nextcloud, use an app password
 - Check if account is locked
@@ -612,12 +673,14 @@ Invalid credentials for server.
 Could not upload file to server.
 
 **Common Causes:**
+
 - Network interruption
 - Remote path doesn't exist
 - No write permission on server
 - File too large
 
 **Resolution:**
+
 - Check network connection
 - Verify remote path exists
 - Check server permissions
@@ -632,6 +695,7 @@ Could not upload file to server.
 Could not download file from server.
 
 **Resolution:**
+
 - Verify remote file exists
 - Check read permissions
 - Check network connection
@@ -645,12 +709,14 @@ Could not download file from server.
 The server returned an error.
 
 **Common HTTP Status Codes:**
+
 - 500: Internal Server Error
 - 502: Bad Gateway
 - 503: Service Unavailable
 - 504: Gateway Timeout
 
 **Resolution:**
+
 - Wait and try again
 - Contact server administrator
 - Check server status page
@@ -664,11 +730,13 @@ The server returned an error.
 The operation timed out.
 
 **Common Causes:**
+
 - Slow network connection
 - Large file transfer
 - Server overloaded
 
 **Resolution:**
+
 - Check network connection
 - Increase timeout in configuration
 - Try during off-peak hours
@@ -684,6 +752,7 @@ The operation timed out.
 The budget template is not found.
 
 **Available Templates:**
+
 - 50_30_20
 - family
 - minimalist
@@ -692,6 +761,7 @@ The budget template is not found.
 - high_income
 
 **Resolution:**
+
 - Use `templates` command to list available
 - Check spelling of template name
 - Create custom template if needed
@@ -705,6 +775,7 @@ The budget template is not found.
 The template definition is invalid.
 
 **Resolution:**
+
 - Fix validation errors in template
 - Check template YAML syntax
 - Verify required fields are present
@@ -718,6 +789,7 @@ The template definition is invalid.
 The visual theme is not found.
 
 **Available Themes:**
+
 - default
 - corporate
 - minimal
@@ -725,6 +797,7 @@ The visual theme is not found.
 - high_contrast
 
 **Resolution:**
+
 - Use `themes` command to list available
 - Check spelling of theme name
 - Create custom theme if needed
@@ -738,6 +811,7 @@ The visual theme is not found.
 The theme definition is invalid.
 
 **Resolution:**
+
 - Check YAML syntax
 - Verify color values are valid hex
 - Check all references exist
@@ -754,6 +828,7 @@ Theme inheritance creates a cycle.
 Theme A extends B, which extends C, which extends A.
 
 **Resolution:**
+
 - Review theme `extends` fields
 - Remove circular reference
 - Restructure inheritance chain
@@ -771,6 +846,7 @@ The color value is not valid.
 **Valid Format:** `#RRGGBB` (e.g., `#FF5733`)
 
 **Resolution:**
+
 - Use six-digit hex color code
 - Include the `#` prefix
 - Use valid hex characters (0-9, A-F)
@@ -784,6 +860,7 @@ The color value is not valid.
 The font specification is invalid.
 
 **Resolution:**
+
 - Use standard font names
 - Examples: Arial, Liberation Sans, Times New Roman
 
@@ -796,11 +873,13 @@ The font specification is invalid.
 The number format pattern is invalid.
 
 **Valid Examples:**
+
 - `#,##0.00` (currency)
 - `0.00%` (percentage)
 - `#,##0` (integer with commas)
 
 **Resolution:**
+
 - Use ODS-compatible format patterns
 - Check format pattern syntax
 
@@ -813,12 +892,14 @@ The number format pattern is invalid.
 The locale code is not recognized.
 
 **Valid Examples:**
+
 - en_US
 - de_DE
 - fr_FR
 - ja_JP
 
 **Resolution:**
+
 - Use standard locale codes
 - Format: language_COUNTRY
 
@@ -833,6 +914,7 @@ The locale code is not recognized.
 The requested plugin is not installed.
 
 **Resolution:**
+
 - Install the plugin: `pip install spreadsheet-dl-plugin-<name>`
 - Check plugin name spelling
 
@@ -845,11 +927,13 @@ The requested plugin is not installed.
 Could not load the plugin.
 
 **Common Causes:**
+
 - Missing dependencies
 - Incompatible Python version
 - Plugin code errors
 
 **Resolution:**
+
 - Check plugin requirements
 - Update plugin to latest version
 - Check plugin error logs
@@ -863,6 +947,7 @@ Could not load the plugin.
 The plugin version is incompatible.
 
 **Resolution:**
+
 - Update plugin: `pip install --upgrade spreadsheet-dl-plugin-<name>`
 - Check compatibility matrix in plugin docs
 
@@ -875,6 +960,7 @@ The plugin version is incompatible.
 A plugin hook failed during execution.
 
 **Resolution:**
+
 - Check plugin logs for details
 - Disable the problematic plugin
 - Report issue to plugin author
@@ -898,6 +984,7 @@ spreadsheet-dl --debug analyze budget.ods
 ```
 
 This will include:
+
 - Full stack trace
 - System information
 - Configuration details
