@@ -12,11 +12,11 @@ project:
 
   # Author/maintainer information
   authors:
-    - name: "jallen"
+    - name: "SpreadsheetDL Contributors"
       role: "creator"
 
   maintainers:
-    - name: "jallen"
+    - name: "SpreadsheetDL Contributors"
       role: "maintainer"
 
   # License

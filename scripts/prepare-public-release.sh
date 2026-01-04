@@ -31,7 +31,7 @@ fi
 # Step 1: Archive current development
 echo ""
 echo "[Step 1/5] Archiving current development history..."
-git branch dev-archive-$(date +%Y%m%d)
+git branch "dev-archive-$(date +%Y%m%d)"
 echo "✓ Created dev-archive branch"
 
 # Push archive to remote (optional - uncomment when ready)
@@ -211,7 +211,7 @@ The Spreadsheet Definition Language for Python with complete domain plugin ecosy
 ## Technical Details
 
 **Testing:**
-- 2,633 tests passing
+- 3,206 tests passing
 - 14 skipped (optional features)
 - 71% overall coverage
 - 95%+ coverage on core modules
@@ -239,7 +239,7 @@ The Spreadsheet Definition Language for Python with complete domain plugin ecosy
 ## Project Stats
 
 - **220 Python modules** across src/
-- **2,633 passing tests** with 71% coverage
+- **3,206 passing tests** with 71% coverage
 - **44 API documentation files** (~750KB of docs)
 - **9 domain plugins** with production-ready templates
 - **144 MCP tools** for LLM integration
