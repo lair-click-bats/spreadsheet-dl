@@ -68,6 +68,10 @@ export = [
 config = [
     "pyyaml>=6.0.0",
 ]
+html = [
+    "beautifulsoup4>=4.12.0",
+    "lxml>=5.0.0",
+]
 visualization = [
     # Chart.js is loaded via CDN, no Python dependencies needed
 ]
@@ -76,15 +80,14 @@ notifications = [
     # No additional dependencies needed
 ]
 plaid = [
-    # Plaid API integration (sandbox mode works without plaid-python)
-    # For production, install: plaid-python>=14.0.0
+    "plaid-python>=16.0.0",
 ]
 mcp = [
     # MCP server uses stdlib only (json, logging, sys)
     # No additional dependencies needed
 ]
 all = [
-    "spreadsheet-dl[export,config]",
+    "spreadsheet-dl[export,config,html]",
 ]
 
 [project.scripts]
@@ -136,6 +139,7 @@ module = [
     "pyexcel_ods3.*",
     "openpyxl.*",
     "reportlab.*",
+    "bs4.*",
 ]
 ignore_missing_imports = true
 
@@ -144,8 +148,35 @@ testpaths = ["tests"]
 addopts = "-q --tb=short -v"
 pythonpath = ["src"]
 markers = [
-    "unit: Unit tests (fast, no I/O)",
-    "integration: Integration tests (slower, may use files/network)",
+    # Test Level Markers
+    "unit: Unit tests (fast, isolated, no I/O)",
+    "integration: Integration tests (slower, multiple components)",
+
+    # Performance Markers
+    "slow: Tests taking >1 second to run",
+    "benchmark: Performance benchmark tests",
+
+    # Dependency Markers
+    "requires_yaml: Tests requiring PyYAML library",
+    "requires_export: Tests requiring export dependencies (openpyxl, reportlab)",
+    "requires_html: Tests requiring HTML import dependencies (beautifulsoup4, lxml)",
+    "requires_files: Tests that create/read files",
+
+    # Domain Markers
+    "domain: Domain-specific plugin tests",
+    "finance: Finance domain tests",
+    "science: Science domain tests (biology, chemistry, etc.)",
+    "engineering: Engineering domain tests",
+    "manufacturing: Manufacturing domain tests",
+
+    # Feature Markers
+    "mcp: MCP server functionality tests",
+    "cli: CLI interface tests",
+    "validation: Schema and data validation tests",
+    "rendering: ODS/XLSX/PDF rendering tests",
+    "builder: Builder API tests",
+    "templates: Template system tests",
+    "visualization: Chart and visualization tests",
 ]
 
 [tool.coverage.run]
@@ -157,4 +188,9 @@ exclude_lines = [
     "pragma: no cover",
     "if TYPE_CHECKING:",
     "if __name__ == .__main__.:",
+]
+
+[dependency-groups]
+dev = [
+    "pytest-benchmark>=5.2.3",
 ]
