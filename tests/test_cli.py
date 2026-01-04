@@ -7,8 +7,13 @@ import subprocess
 import sys
 from typing import TYPE_CHECKING
 
+import pytest
+
 if TYPE_CHECKING:
     from pathlib import Path
+
+
+pytestmark = [pytest.mark.unit, pytest.mark.cli]
 
 
 def run_cli(*args: str) -> subprocess.CompletedProcess[str]:

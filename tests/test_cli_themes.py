@@ -6,10 +6,15 @@ import subprocess
 import sys
 from typing import TYPE_CHECKING
 
+import pytest
+
 if TYPE_CHECKING:
     from pathlib import Path
 
     pass
+
+
+pytestmark = [pytest.mark.unit, pytest.mark.cli]
 
 
 class TestCliThemeCommand:
