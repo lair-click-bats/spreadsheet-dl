@@ -1,0 +1,246 @@
+"""
+Ecology and biodiversity formulas.
+
+Implements:
+    TASK-C008: Ecology formulas
+    (SHANNON_DIVERSITY, SIMPSON_INDEX, SPECIES_RICHNESS)
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import Any
+
+from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMetadata
+
+
+@dataclass(slots=True, frozen=True)
+class ShannonDiversityFormula(BaseFormula):
+    """
+    Calculate Shannon Diversity Index.
+
+    Implements:
+        TASK-C008: SHANNON_DIVERSITY formula for biodiversity assessment
+
+    H' = -SUM(pi * ln(pi)) where pi is proportion of species i.
+
+    Example:
+        >>> formula = ShannonDiversityFormula()
+        >>> result = formula.build("A1:A10", "B1:B10")
+        >>> # Returns Shannon index formula
+    """
+
+    @property
+    def metadata(self) -> FormulaMetadata:
+        """
+        Get formula metadata.
+
+        Returns:
+            FormulaMetadata for SHANNON_DIVERSITY
+
+        Implements:
+            TASK-C008: Formula metadata
+        """
+        return FormulaMetadata(
+            name="SHANNON_DIVERSITY",
+            category="environmental",
+            description="Calculate Shannon Diversity Index (H')",
+            arguments=(
+                FormulaArgument(
+                    "counts_range",
+                    "range",
+                    required=True,
+                    description="Range of species counts",
+                ),
+            ),
+            return_type="number",
+            examples=(
+                "=SHANNON_DIVERSITY(B2:B20)",
+                "=SHANNON_DIVERSITY(species_counts)",
+            ),
+        )
+
+    def build(self, *args: Any, **kwargs: Any) -> str:
+        """
+        Build SHANNON_DIVERSITY formula string.
+
+        Args:
+            *args: counts_range
+            **kwargs: Keyword arguments (optional)
+
+        Returns:
+            ODF formula string
+
+        Implements:
+            TASK-C008: SHANNON_DIVERSITY formula building
+
+        Raises:
+            ValueError: If arguments are invalid
+        """
+        self.validate_arguments(args)
+
+        counts_range = args[0]
+
+        # Shannon index: H' = -SUM(pi * ln(pi))
+        # Using array formula approach
+        # pi = count_i / total
+        return (
+            f"-SUMPRODUCT("
+            f"IF({counts_range}>0;"
+            f"({counts_range}/SUM({counts_range}))*LN({counts_range}/SUM({counts_range}));"
+            f"0))"
+        )
+
+
+@dataclass(slots=True, frozen=True)
+class SimpsonIndexFormula(BaseFormula):
+    """
+    Calculate Simpson's Diversity Index.
+
+    Implements:
+        TASK-C008: SIMPSON_INDEX formula for biodiversity assessment
+
+    D = 1 - SUM(pi^2) where pi is proportion of species i.
+
+    Example:
+        >>> formula = SimpsonIndexFormula()
+        >>> result = formula.build("A1:A10")
+        >>> # Returns Simpson index formula
+    """
+
+    @property
+    def metadata(self) -> FormulaMetadata:
+        """
+        Get formula metadata.
+
+        Returns:
+            FormulaMetadata for SIMPSON_INDEX
+
+        Implements:
+            TASK-C008: Formula metadata
+        """
+        return FormulaMetadata(
+            name="SIMPSON_INDEX",
+            category="environmental",
+            description="Calculate Simpson's Diversity Index (1-D)",
+            arguments=(
+                FormulaArgument(
+                    "counts_range",
+                    "range",
+                    required=True,
+                    description="Range of species counts",
+                ),
+            ),
+            return_type="number",
+            examples=(
+                "=SIMPSON_INDEX(B2:B20)",
+                "=SIMPSON_INDEX(species_counts)",
+            ),
+        )
+
+    def build(self, *args: Any, **kwargs: Any) -> str:
+        """
+        Build SIMPSON_INDEX formula string.
+
+        Args:
+            *args: counts_range
+            **kwargs: Keyword arguments (optional)
+
+        Returns:
+            ODF formula string
+
+        Implements:
+            TASK-C008: SIMPSON_INDEX formula building
+
+        Raises:
+            ValueError: If arguments are invalid
+        """
+        self.validate_arguments(args)
+
+        counts_range = args[0]
+
+        # Simpson index: D = SUM(pi^2), return 1-D for diversity
+        # pi = count_i / total
+        return (
+            f"1-SUMPRODUCT("
+            f"({counts_range}/SUM({counts_range}))*"
+            f"({counts_range}/SUM({counts_range})))"
+        )
+
+
+@dataclass(slots=True, frozen=True)
+class SpeciesRichnessFormula(BaseFormula):
+    """
+    Calculate Species Richness.
+
+    Implements:
+        TASK-C008: SPECIES_RICHNESS formula for biodiversity assessment
+
+    Simple count of distinct species with non-zero abundance.
+
+    Example:
+        >>> formula = SpeciesRichnessFormula()
+        >>> result = formula.build("A1:A10")
+        >>> # Returns species richness count formula
+    """
+
+    @property
+    def metadata(self) -> FormulaMetadata:
+        """
+        Get formula metadata.
+
+        Returns:
+            FormulaMetadata for SPECIES_RICHNESS
+
+        Implements:
+            TASK-C008: Formula metadata
+        """
+        return FormulaMetadata(
+            name="SPECIES_RICHNESS",
+            category="environmental",
+            description="Count species with non-zero abundance",
+            arguments=(
+                FormulaArgument(
+                    "counts_range",
+                    "range",
+                    required=True,
+                    description="Range of species counts",
+                ),
+            ),
+            return_type="number",
+            examples=(
+                "=SPECIES_RICHNESS(B2:B20)",
+                "=SPECIES_RICHNESS(species_counts)",
+            ),
+        )
+
+    def build(self, *args: Any, **kwargs: Any) -> str:
+        """
+        Build SPECIES_RICHNESS formula string.
+
+        Args:
+            *args: counts_range
+            **kwargs: Keyword arguments (optional)
+
+        Returns:
+            ODF formula string
+
+        Implements:
+            TASK-C008: SPECIES_RICHNESS formula building
+
+        Raises:
+            ValueError: If arguments are invalid
+        """
+        self.validate_arguments(args)
+
+        counts_range = args[0]
+
+        # Count cells with value > 0
+        return f'COUNTIF({counts_range};">0")'
+
+
+__all__ = [
+    "ShannonDiversityFormula",
+    "SimpsonIndexFormula",
+    "SpeciesRichnessFormula",
+]
