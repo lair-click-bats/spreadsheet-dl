@@ -1,0 +1,329 @@
+"""
+Production metrics formulas for manufacturing.
+
+Implements:
+    TASK-C005: Production metrics formulas (CYCLE_TIME, TAKT_TIME, THROUGHPUT, CAPACITY_UTILIZATION)
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import Any
+
+from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMetadata
+
+
+@dataclass(slots=True, frozen=True)
+class CycleTimeFormula(BaseFormula):
+    """
+    Manufacturing cycle time calculation.
+
+    Implements:
+        TASK-C005: CYCLE_TIME formula for production metrics
+
+    Cycle Time = Production Time / Units Produced
+
+    Example:
+        >>> formula = CycleTimeFormula()
+        >>> result = formula.build(480, 120)
+        >>> # Returns: "480/120" (4 minutes per unit)
+    """
+
+    @property
+    def metadata(self) -> FormulaMetadata:
+        """
+        Get formula metadata.
+
+        Returns:
+            FormulaMetadata for CYCLE_TIME
+
+        Implements:
+            TASK-C005: Formula metadata
+        """
+        return FormulaMetadata(
+            name="CYCLE_TIME",
+            category="production",
+            description="Calculate manufacturing cycle time (production time / units produced)",
+            arguments=(
+                FormulaArgument(
+                    "production_time",
+                    "number",
+                    required=True,
+                    description="Total production time in minutes or cell reference",
+                ),
+                FormulaArgument(
+                    "units_produced",
+                    "number",
+                    required=True,
+                    description="Number of units produced or cell reference",
+                ),
+            ),
+            return_type="number",
+            examples=(
+                "=CYCLE_TIME(A1;B1)",
+                "=480/120",
+            ),
+        )
+
+    def build(self, *args: Any, **kwargs: Any) -> str:
+        """
+        Build CYCLE_TIME formula string.
+
+        Args:
+            *args: production_time, units_produced
+            **kwargs: Keyword arguments (optional)
+
+        Returns:
+            ODF formula string
+
+        Implements:
+            TASK-C005: CYCLE_TIME formula building
+
+        Raises:
+            ValueError: If arguments are invalid
+        """
+        self.validate_arguments(args)
+
+        production_time, units_produced = args
+
+        # Formula: Production Time / Units Produced
+        return f"{production_time}/{units_produced}"
+
+
+@dataclass(slots=True, frozen=True)
+class TaktTimeFormula(BaseFormula):
+    """
+    Takt time calculation (available time / customer demand).
+
+    Implements:
+        TASK-C005: TAKT_TIME formula for production metrics
+
+    Takt Time = Available Production Time / Customer Demand
+
+    Example:
+        >>> formula = TaktTimeFormula()
+        >>> result = formula.build(28800, 1200)
+        >>> # Returns: "28800/1200" (24 seconds per unit)
+    """
+
+    @property
+    def metadata(self) -> FormulaMetadata:
+        """
+        Get formula metadata.
+
+        Returns:
+            FormulaMetadata for TAKT_TIME
+
+        Implements:
+            TASK-C005: Formula metadata
+        """
+        return FormulaMetadata(
+            name="TAKT_TIME",
+            category="production",
+            description="Calculate takt time (available time / customer demand)",
+            arguments=(
+                FormulaArgument(
+                    "available_time",
+                    "number",
+                    required=True,
+                    description="Available production time in seconds or cell reference",
+                ),
+                FormulaArgument(
+                    "demand",
+                    "number",
+                    required=True,
+                    description="Customer demand units or cell reference",
+                ),
+            ),
+            return_type="number",
+            examples=(
+                "=TAKT_TIME(A1;B1)",
+                "=28800/1200",
+            ),
+        )
+
+    def build(self, *args: Any, **kwargs: Any) -> str:
+        """
+        Build TAKT_TIME formula string.
+
+        Args:
+            *args: available_time, demand
+            **kwargs: Keyword arguments (optional)
+
+        Returns:
+            ODF formula string
+
+        Implements:
+            TASK-C005: TAKT_TIME formula building
+
+        Raises:
+            ValueError: If arguments are invalid
+        """
+        self.validate_arguments(args)
+
+        available_time, demand = args
+
+        # Formula: Available Time / Customer Demand
+        return f"{available_time}/{demand}"
+
+
+@dataclass(slots=True, frozen=True)
+class ThroughputFormula(BaseFormula):
+    """
+    Production throughput rate.
+
+    Implements:
+        TASK-C005: THROUGHPUT formula for production metrics
+
+    Throughput = Units Produced / Production Time
+
+    Example:
+        >>> formula = ThroughputFormula()
+        >>> result = formula.build(1200, 480)
+        >>> # Returns: "1200/480" (2.5 units per minute)
+    """
+
+    @property
+    def metadata(self) -> FormulaMetadata:
+        """
+        Get formula metadata.
+
+        Returns:
+            FormulaMetadata for THROUGHPUT
+
+        Implements:
+            TASK-C005: Formula metadata
+        """
+        return FormulaMetadata(
+            name="THROUGHPUT",
+            category="production",
+            description="Calculate production throughput rate (units / time)",
+            arguments=(
+                FormulaArgument(
+                    "units_produced",
+                    "number",
+                    required=True,
+                    description="Number of units produced or cell reference",
+                ),
+                FormulaArgument(
+                    "production_time",
+                    "number",
+                    required=True,
+                    description="Production time period or cell reference",
+                ),
+            ),
+            return_type="number",
+            examples=(
+                "=THROUGHPUT(A1;B1)",
+                "=1200/480",
+            ),
+        )
+
+    def build(self, *args: Any, **kwargs: Any) -> str:
+        """
+        Build THROUGHPUT formula string.
+
+        Args:
+            *args: units_produced, production_time
+            **kwargs: Keyword arguments (optional)
+
+        Returns:
+            ODF formula string
+
+        Implements:
+            TASK-C005: THROUGHPUT formula building
+
+        Raises:
+            ValueError: If arguments are invalid
+        """
+        self.validate_arguments(args)
+
+        units_produced, production_time = args
+
+        # Formula: Units / Time
+        return f"{units_produced}/{production_time}"
+
+
+@dataclass(slots=True, frozen=True)
+class CapacityUtilizationFormula(BaseFormula):
+    """
+    Capacity utilization percentage.
+
+    Implements:
+        TASK-C005: CAPACITY_UTILIZATION formula for production metrics
+
+    Capacity Utilization = (Actual Output / Maximum Capacity) * 100
+
+    Example:
+        >>> formula = CapacityUtilizationFormula()
+        >>> result = formula.build(850, 1000)
+        >>> # Returns: "(850/1000)*100" (85%)
+    """
+
+    @property
+    def metadata(self) -> FormulaMetadata:
+        """
+        Get formula metadata.
+
+        Returns:
+            FormulaMetadata for CAPACITY_UTILIZATION
+
+        Implements:
+            TASK-C005: Formula metadata
+        """
+        return FormulaMetadata(
+            name="CAPACITY_UTILIZATION",
+            category="production",
+            description="Calculate capacity utilization percentage",
+            arguments=(
+                FormulaArgument(
+                    "actual_output",
+                    "number",
+                    required=True,
+                    description="Actual production output or cell reference",
+                ),
+                FormulaArgument(
+                    "max_capacity",
+                    "number",
+                    required=True,
+                    description="Maximum production capacity or cell reference",
+                ),
+            ),
+            return_type="number",
+            examples=(
+                "=CAPACITY_UTILIZATION(A1;B1)",
+                "=(850/1000)*100",
+            ),
+        )
+
+    def build(self, *args: Any, **kwargs: Any) -> str:
+        """
+        Build CAPACITY_UTILIZATION formula string.
+
+        Args:
+            *args: actual_output, max_capacity
+            **kwargs: Keyword arguments (optional)
+
+        Returns:
+            ODF formula string
+
+        Implements:
+            TASK-C005: CAPACITY_UTILIZATION formula building
+
+        Raises:
+            ValueError: If arguments are invalid
+        """
+        self.validate_arguments(args)
+
+        actual_output, max_capacity = args
+
+        # Formula: (Actual / Max) * 100
+        return f"({actual_output}/{max_capacity})*100"
+
+
+__all__ = [
+    "CapacityUtilizationFormula",
+    "CycleTimeFormula",
+    "TaktTimeFormula",
+    "ThroughputFormula",
+]
