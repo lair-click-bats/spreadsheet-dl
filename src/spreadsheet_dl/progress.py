@@ -35,6 +35,7 @@ try:
     RICH_AVAILABLE = True
 except ImportError:
     RICH_AVAILABLE = False
+    # TaskID type alias for when rich is unavailable - mypy doesn't handle conditional imports well
     TaskID = Any  # type: ignore[misc,assignment]
 
 

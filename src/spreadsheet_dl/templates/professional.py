@@ -10,6 +10,7 @@ Implements:
 
 # Re-export everything from the new location
 from spreadsheet_dl.domains.finance.templates.professional import (
+    PROFESSIONAL_TEMPLATES,
     BudgetCategory,
     CashFlowTrackerTemplate,
     ColumnDef,
@@ -22,6 +23,7 @@ from spreadsheet_dl.domains.finance.templates.professional import (
 )
 
 __all__ = [
+    "PROFESSIONAL_TEMPLATES",
     "BudgetCategory",
     "CashFlowTrackerTemplate",
     "ColumnDef",

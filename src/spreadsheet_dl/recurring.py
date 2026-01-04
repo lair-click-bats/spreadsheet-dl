@@ -10,6 +10,7 @@ Implements:
 
 # Re-export from the new location
 from spreadsheet_dl.domains.finance.recurring import (
+    COMMON_RECURRING,
     RecurrenceFrequency,
     RecurringExpense,
     RecurringExpenseManager,
@@ -17,6 +18,7 @@ from spreadsheet_dl.domains.finance.recurring import (
 )
 
 __all__ = [
+    "COMMON_RECURRING",
     "RecurrenceFrequency",
     "RecurringExpense",
     "RecurringExpenseManager",

@@ -214,6 +214,7 @@ def cached(
             return result
 
         # Attach cache to function for introspection
+        # Note: Dynamic attributes not recognized by type checker, but safe at runtime
         wrapper.cache = cache  # type: ignore[attr-defined]
         wrapper.cache_clear = cache.clear  # type: ignore[attr-defined]
         wrapper.cache_stats = lambda: cache.stats  # type: ignore[attr-defined]
@@ -286,7 +287,9 @@ class Lazy[T]:
                 if not self._loaded:
                     self._value = self._factory()
                     self._loaded = True
-        return self._value  # type: ignore[return-value]
+        # Value guaranteed to be loaded (non-None) after the check above
+        assert self._value is not None
+        return self._value
 
     @property
     def is_loaded(self) -> bool:
@@ -326,6 +329,7 @@ class LazyProperty[T]:
 
     def __get__(self, obj: Any, objtype: type | None = None) -> T:
         if obj is None:
+            # Return descriptor itself when accessed from class (not instance)
             return self  # type: ignore[return-value]
 
         if obj in self._cache:

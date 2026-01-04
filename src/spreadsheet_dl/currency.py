@@ -10,6 +10,7 @@ Implements:
 
 # Re-export everything from the new location
 from spreadsheet_dl.domains.finance.currency import (
+    CURRENCIES,
     Currency,
     CurrencyCode,
     CurrencyConverter,
@@ -24,6 +25,7 @@ from spreadsheet_dl.domains.finance.currency import (
 )
 
 __all__ = [
+    "CURRENCIES",
     "Currency",
     "CurrencyCode",
     "CurrencyConverter",

@@ -47,10 +47,15 @@ class NextcloudConfig:
                 "NEXTCLOUD_URL, NEXTCLOUD_USER, NEXTCLOUD_PASSWORD"
             )
 
+        # All values guaranteed non-None by validation above
+        assert url is not None
+        assert user is not None
+        assert password is not None
+
         return cls(
-            server_url=url,  # type: ignore
-            username=user,  # type: ignore
-            password=password,  # type: ignore
+            server_url=url,
+            username=user,
+            password=password,
             remote_path=path,
         )
 

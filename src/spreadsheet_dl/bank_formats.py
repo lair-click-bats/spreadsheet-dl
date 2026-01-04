@@ -10,6 +10,7 @@ Implements:
 
 # Re-export everything from the new location
 from spreadsheet_dl.domains.finance.bank_formats import (
+    BUILTIN_FORMATS,
     BankFormatDefinition,
     BankFormatRegistry,
     FormatBuilder,
@@ -20,6 +21,7 @@ from spreadsheet_dl.domains.finance.bank_formats import (
 )
 
 __all__ = [
+    "BUILTIN_FORMATS",
     "BankFormatDefinition",
     "BankFormatRegistry",
     "FormatBuilder",

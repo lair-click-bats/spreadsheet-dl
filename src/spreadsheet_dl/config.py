@@ -22,6 +22,7 @@ try:
 
     HAS_YAML = True
 except ImportError:
+    # Optional dependency - set to None when unavailable (type checker doesn't handle conditional imports)
     yaml = None  # type: ignore[assignment]
     HAS_YAML = False
 
