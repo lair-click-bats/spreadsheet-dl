@@ -168,21 +168,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/auto_format.py\" 2>>\"$CLAUDE_PROJECT_DIR/.claude/hooks/errors.log\" || echo '{\"ok\": true}'",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/quality_enforce_strict.py\" 2>>\"$CLAUDE_PROJECT_DIR/.claude/hooks/enforcement.log\"",
             "timeout": 60
           }
         ],
         "matcher": "Write|Edit|NotebookEdit"
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "if echo \"$FILE_PATH\" | grep -qE '\\.py$'; then\n  uv run ruff format \"$FILE_PATH\" 2>/dev/null || true\n  uv run ruff check --fix \"$FILE_PATH\" 2>/dev/null || true\nfi\n",
-            "timeout": 30
-          }
-        ],
-        "matcher": "Write|Edit"
       }
     ]
   },
