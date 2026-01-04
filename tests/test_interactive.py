@@ -27,6 +27,8 @@ from spreadsheet_dl.interactive import (
     ValidationRuleType,
 )
 
+pytestmark = [pytest.mark.integration, pytest.mark.cli]
+
 
 class TestValidationRule:
     """Tests for ValidationRule."""
@@ -261,10 +263,10 @@ class TestDashboardKPI:
 
 
 class TestSparklineConfig:
-    """Tests for SparklineConfig."""
+    """Tests for SparklineConfig (FUTURE-003)."""
 
-    def test_to_formula_line(self) -> None:
-        """Test line sparkline formula."""
+    def test_to_formula_line_basic(self) -> None:
+        """Test basic line sparkline formula."""
         config = SparklineConfig(
             data_range="A1:A10",
             sparkline_type="line",
@@ -273,46 +275,245 @@ class TestSparklineConfig:
 
         formula = config.to_formula()
 
-        assert formula.startswith("=SPARKLINE(")
+        assert formula.startswith("of:=SPARKLINE(")
         assert "A1:A10" in formula
-        assert '"type","line"' in formula
-        assert '"color","#2196F3"' in formula
+        assert '"type";"line"' in formula
+        assert '"color";"#2196F3"' in formula
+        assert ";" in formula  # LibreOffice uses semicolons
 
-    def test_to_formula_bar(self) -> None:
-        """Test bar sparkline formula."""
+    def test_to_formula_column(self) -> None:
+        """Test column sparkline formula."""
         config = SparklineConfig(
             data_range="B1:B10",
-            sparkline_type="bar",
+            sparkline_type="column",
             color="#4CAF50",
             negative_color="#F44336",
         )
 
         formula = config.to_formula()
 
-        assert '"type","bar"' in formula
-        assert '"negativecolor"' in formula
+        assert '"type";"column"' in formula
+        assert '"negativecolor";"#F44336"' in formula
 
-    def test_to_formula_with_markers(self) -> None:
-        """Test sparkline with markers."""
+    def test_to_formula_stacked(self) -> None:
+        """Test stacked sparkline formula."""
         config = SparklineConfig(
             data_range="C1:C10",
+            sparkline_type="stacked",
+        )
+
+        formula = config.to_formula()
+
+        assert '"type";"stacked"' in formula
+
+    def test_to_formula_with_markers(self) -> None:
+        """Test line sparkline with markers."""
+        config = SparklineConfig(
+            data_range="C1:C10",
+            sparkline_type="line",
             show_markers=True,
         )
 
         formula = config.to_formula()
 
-        assert '"markers","true"' in formula
+        assert '"markers";"true"' in formula
+
+    def test_markers_ignored_for_column(self) -> None:
+        """Test that markers are ignored for column sparklines."""
+        config = SparklineConfig(
+            data_range="D1:D10",
+            sparkline_type="column",
+            show_markers=True,
+        )
+
+        formula = config.to_formula()
+
+        # Markers should not appear for column type
+        assert '"markers"' not in formula
+
+    def test_to_formula_with_high_low_colors(self) -> None:
+        """Test sparkline with high/low point colors."""
+        config = SparklineConfig(
+            data_range="E1:E10",
+            sparkline_type="line",
+            high_color="#FF5722",
+            low_color="#2196F3",
+        )
+
+        formula = config.to_formula()
+
+        assert '"highcolor";"#FF5722"' in formula
+        assert '"lowcolor";"#2196F3"' in formula
+
+    def test_to_formula_with_first_last_colors(self) -> None:
+        """Test sparkline with first/last point colors."""
+        config = SparklineConfig(
+            data_range="F1:F10",
+            sparkline_type="line",
+            first_color="#9C27B0",
+            last_color="#FF9800",
+        )
+
+        formula = config.to_formula()
+
+        assert '"firstcolor";"#9C27B0"' in formula
+        assert '"lastcolor";"#FF9800"' in formula
+
+    def test_to_formula_with_line_width(self) -> None:
+        """Test line sparkline with custom width."""
+        config = SparklineConfig(
+            data_range="G1:G10",
+            sparkline_type="line",
+            line_width=2.5,
+        )
+
+        formula = config.to_formula()
+
+        assert '"linewidth";2.5' in formula
+
+    def test_line_width_default_not_included(self) -> None:
+        """Test that default line width is not included in formula."""
+        config = SparklineConfig(
+            data_range="H1:H10",
+            sparkline_type="line",
+            line_width=1.0,  # Default value
+        )
+
+        formula = config.to_formula()
+
+        assert '"linewidth"' not in formula
+
+    def test_to_formula_with_column_width(self) -> None:
+        """Test column sparkline with custom width."""
+        config = SparklineConfig(
+            data_range="I1:I10",
+            sparkline_type="column",
+            column_width=0.8,
+        )
+
+        formula = config.to_formula()
+
+        assert '"columnwidth";0.8' in formula
+
+    def test_to_formula_with_axis(self) -> None:
+        """Test sparkline with axis line."""
+        config = SparklineConfig(
+            data_range="J1:J10",
+            sparkline_type="line",
+            axis=True,
+        )
+
+        formula = config.to_formula()
+
+        assert '"axis";"true"' in formula
+
+    def test_to_formula_with_min_max(self) -> None:
+        """Test sparkline with min/max value scaling."""
+        config = SparklineConfig(
+            data_range="K1:K10",
+            sparkline_type="line",
+            min_value=0.0,
+            max_value=100.0,
+        )
+
+        formula = config.to_formula()
+
+        assert '"min";0.0' in formula
+        assert '"max";100.0' in formula
+
+    def test_to_formula_comprehensive(self) -> None:
+        """Test sparkline with all options."""
+        config = SparklineConfig(
+            data_range="L1:L10",
+            sparkline_type="line",
+            color="#2196F3",
+            negative_color="#F44336",
+            high_color="#FF5722",
+            low_color="#00BCD4",
+            first_color="#9C27B0",
+            last_color="#FF9800",
+            show_markers=True,
+            line_width=1.5,
+            axis=True,
+            min_value=-10.0,
+            max_value=10.0,
+        )
+
+        formula = config.to_formula()
+
+        # Verify all options are present
+        assert '"type";"line"' in formula
+        assert '"color";"#2196F3"' in formula
+        assert '"negativecolor";"#F44336"' in formula
+        assert '"highcolor";"#FF5722"' in formula
+        assert '"lowcolor";"#00BCD4"' in formula
+        assert '"firstcolor";"#9C27B0"' in formula
+        assert '"lastcolor";"#FF9800"' in formula
+        assert '"markers";"true"' in formula
+        assert '"linewidth";1.5' in formula
+        assert '"axis";"true"' in formula
+        assert '"min";-10.0' in formula
+        assert '"max";10.0' in formula
+
+    def test_invalid_sparkline_type(self) -> None:
+        """Test that invalid sparkline type raises error."""
+        with pytest.raises(ValueError, match="Invalid sparkline_type"):
+            SparklineConfig(data_range="A1:A10", sparkline_type="invalid")
+
+    def test_invalid_line_width(self) -> None:
+        """Test that invalid line width raises error."""
+        with pytest.raises(ValueError, match="line_width must be > 0"):
+            SparklineConfig(data_range="A1:A10", line_width=0.0)
+
+        with pytest.raises(ValueError, match="line_width must be > 0"):
+            SparklineConfig(data_range="A1:A10", line_width=-1.0)
+
+    def test_invalid_column_width(self) -> None:
+        """Test that invalid column width raises error."""
+        with pytest.raises(ValueError, match="column_width must be > 0"):
+            SparklineConfig(data_range="A1:A10", column_width=0.0)
+
+    def test_invalid_min_max_values(self) -> None:
+        """Test that invalid min/max values raise error."""
+        with pytest.raises(ValueError, match=r"min_value.*must be < max_value"):
+            SparklineConfig(data_range="A1:A10", min_value=10.0, max_value=5.0)
+
+        with pytest.raises(ValueError, match=r"min_value.*must be < max_value"):
+            SparklineConfig(data_range="A1:A10", min_value=5.0, max_value=5.0)
+
+    def test_none_negative_color(self) -> None:
+        """Test sparkline with no negative color."""
+        config = SparklineConfig(
+            data_range="M1:M10",
+            sparkline_type="line",
+            negative_color=None,
+        )
+
+        formula = config.to_formula()
+
+        assert '"negativecolor"' not in formula
+
+    def test_data_range_with_sheet(self) -> None:
+        """Test sparkline with sheet-qualified data range."""
+        config = SparklineConfig(
+            data_range="Sheet1.$A$1:$A$10",
+            sparkline_type="line",
+        )
+
+        formula = config.to_formula()
+
+        assert "Sheet1.$A$1:$A$10" in formula
 
 
 class TestInteractiveOdsBuilder:
     """Tests for InteractiveOdsBuilder."""
 
     @pytest.fixture
-    def builder(self):
+    def builder(self) -> InteractiveOdsBuilder:
         """Create a test builder."""
         return InteractiveOdsBuilder()
 
-    def test_add_dropdown(self, builder: SpreadsheetBuilder) -> None:
+    def test_add_dropdown(self, builder: InteractiveOdsBuilder) -> None:
         """Test adding dropdown."""
         dropdown = DropdownList.categories()
         builder.add_dropdown("B2:B100", dropdown)
@@ -320,7 +521,7 @@ class TestInteractiveOdsBuilder:
         assert "B2:B100" in builder._dropdowns
         assert builder._dropdowns["B2:B100"][1] == dropdown
 
-    def test_add_validation(self, builder: SpreadsheetBuilder) -> None:
+    def test_add_validation(self, builder: InteractiveOdsBuilder) -> None:
         """Test adding validation."""
         rule = ValidationRule(
             rule_type=ValidationRuleType.DECIMAL,
@@ -331,7 +532,7 @@ class TestInteractiveOdsBuilder:
 
         assert "D2:D100" in builder._validations
 
-    def test_add_conditional_format(self, builder: SpreadsheetBuilder) -> None:
+    def test_add_conditional_format(self, builder: InteractiveOdsBuilder) -> None:
         """Test adding conditional format."""
         fmt = ConditionalFormat.over_budget_warning()
         builder.add_conditional_format("E2:E100", fmt)
@@ -339,14 +540,14 @@ class TestInteractiveOdsBuilder:
         assert len(builder._formats) == 1
         assert builder._formats[0][0] == "E2:E100"
 
-    def test_add_sparkline(self, builder: SpreadsheetBuilder) -> None:
+    def test_add_sparkline(self, builder: InteractiveOdsBuilder) -> None:
         """Test adding sparkline."""
         config = SparklineConfig(data_range="A1:A10")
         builder.add_sparkline("F1", config)
 
         assert "F1" in builder._sparklines
 
-    def test_add_dashboard_section(self, builder: SpreadsheetBuilder) -> None:
+    def test_add_dashboard_section(self, builder: InteractiveOdsBuilder) -> None:
         """Test adding dashboard section."""
         section = DashboardSection(
             title="Test Section",
@@ -356,7 +557,7 @@ class TestInteractiveOdsBuilder:
 
         assert len(builder._dashboard_sections) == 1
 
-    def test_chaining(self, builder: SpreadsheetBuilder) -> None:
+    def test_chaining(self, builder: InteractiveOdsBuilder) -> None:
         """Test method chaining."""
         result = builder.add_dropdown(
             "B2:B100", DropdownList.categories()
@@ -364,16 +565,173 @@ class TestInteractiveOdsBuilder:
 
         assert result is builder
 
+    def test_apply_sparkline_to_document(self, builder: InteractiveOdsBuilder) -> None:
+        """Test applying sparkline to ODS document (FUTURE-003)."""
+        from odf.opendocument import OpenDocumentSpreadsheet
+        from odf.table import Table, TableCell, TableRow
+        from odf.text import P
+
+        # Create a minimal ODS document
+        doc = OpenDocumentSpreadsheet()
+        table = Table(name="Sheet1")
+        doc.spreadsheet.addElement(table)
+
+        # Add some data rows
+        for i in range(15):
+            row = TableRow()
+            for j in range(5):
+                cell = TableCell()
+                p = P()
+                p.addText(str(i * 5 + j))
+                cell.addElement(p)
+                row.addElement(cell)
+            table.addElement(row)
+
+        # Add sparkline to cell F1
+        config = SparklineConfig(data_range="A1:A10", sparkline_type="line")
+        builder._apply_sparkline(doc, "F1", config)
+
+        # Verify the cell has the formula
+        rows = table.getElementsByType(TableRow)
+        cells = rows[0].getElementsByType(TableCell)
+        target_cell = cells[5]  # F is column 5 (0-indexed)
+
+        formula = target_cell.getAttribute("formula")
+        assert formula is not None
+        assert "SPARKLINE" in formula
+        assert "A1:A10" in formula
+
+    def test_apply_sparkline_creates_cell(self, builder: InteractiveOdsBuilder) -> None:
+        """Test that sparkline application creates cell if missing."""
+        from odf.opendocument import OpenDocumentSpreadsheet
+        from odf.table import Table, TableCell, TableRow
+
+        # Create minimal document with one row
+        doc = OpenDocumentSpreadsheet()
+        table = Table(name="Sheet1")
+        row = TableRow()
+        cell = TableCell()
+        row.addElement(cell)
+        table.addElement(row)
+        doc.spreadsheet.addElement(table)
+
+        # Apply sparkline to cell beyond existing cells
+        config = SparklineConfig(data_range="B1:B10")
+        builder._apply_sparkline(doc, "E2", config)
+
+        # Verify cell was created
+        rows = table.getElementsByType(TableRow)
+        assert len(rows) >= 2
+
+    def test_apply_sparkline_with_all_options(
+        self, builder: InteractiveOdsBuilder
+    ) -> None:
+        """Test sparkline with comprehensive options."""
+        from odf.opendocument import OpenDocumentSpreadsheet
+        from odf.table import Table, TableCell, TableRow
+        from odf.text import P
+
+        doc = OpenDocumentSpreadsheet()
+        table = Table(name="Sheet1")
+        doc.spreadsheet.addElement(table)
+
+        # Add row with cell
+        row = TableRow()
+        cell = TableCell()
+        p = P()
+        p.addText("Placeholder")
+        cell.addElement(p)
+        row.addElement(cell)
+        table.addElement(row)
+
+        # Create comprehensive sparkline config
+        config = SparklineConfig(
+            data_range="A1:A10",
+            sparkline_type="line",
+            color="#2196F3",
+            negative_color="#F44336",
+            high_color="#FF5722",
+            low_color="#00BCD4",
+            show_markers=True,
+            line_width=2.0,
+            axis=True,
+        )
+
+        builder._apply_sparkline(doc, "A1", config)
+
+        # Verify formula contains all options
+        rows = table.getElementsByType(TableRow)
+        cells = rows[0].getElementsByType(TableCell)
+        target_cell = cells[0]
+
+        formula = target_cell.getAttribute("formula")
+        assert '"type";"line"' in formula
+        assert '"color";"#2196F3"' in formula
+        assert '"highcolor";"#FF5722"' in formula
+        assert '"lowcolor";"#00BCD4"' in formula
+        assert '"markers";"true"' in formula
+
+    def test_apply_sparkline_invalid_cell(self, builder: InteractiveOdsBuilder) -> None:
+        """Test that invalid cell reference raises error."""
+        from odf.opendocument import OpenDocumentSpreadsheet
+        from odf.table import Table
+
+        from spreadsheet_dl.interactive import InteractiveError
+
+        doc = OpenDocumentSpreadsheet()
+        table = Table(name="Sheet1")
+        doc.spreadsheet.addElement(table)
+
+        config = SparklineConfig(data_range="A1:A10")
+
+        with pytest.raises(InteractiveError, match="Invalid cell reference"):
+            builder._apply_sparkline(doc, "INVALID", config)
+
+    def test_apply_multiple_sparklines(self, builder: InteractiveOdsBuilder) -> None:
+        """Test applying multiple sparklines to different cells."""
+        from odf.opendocument import OpenDocumentSpreadsheet
+        from odf.table import Table, TableCell, TableRow
+
+        doc = OpenDocumentSpreadsheet()
+        table = Table(name="Sheet1")
+        doc.spreadsheet.addElement(table)
+
+        # Add multiple rows
+        for _ in range(5):
+            row = TableRow()
+            for _ in range(10):
+                row.addElement(TableCell())
+            table.addElement(row)
+
+        # Add different sparklines
+        configs = [
+            ("A1", SparklineConfig(data_range="B1:B10", sparkline_type="line")),
+            ("A2", SparklineConfig(data_range="B1:B10", sparkline_type="column")),
+            ("A3", SparklineConfig(data_range="B1:B10", sparkline_type="stacked")),
+        ]
+
+        for cell, config in configs:
+            builder._apply_sparkline(doc, cell, config)
+
+        # Verify each sparkline
+        rows = table.getElementsByType(TableRow)
+        for idx, (_, config) in enumerate(configs):
+            cells = rows[idx].getElementsByType(TableCell)
+            target_cell = cells[0]
+            formula = target_cell.getAttribute("formula")
+            assert "SPARKLINE" in formula
+            assert f'"type";"{config.sparkline_type}"' in formula
+
 
 class TestDashboardGenerator:
     """Tests for DashboardGenerator."""
 
     @pytest.fixture
-    def generator(self):
+    def generator(self) -> DashboardGenerator:
         """Create a test generator."""
         return DashboardGenerator()
 
-    def test_create_kpis(self, generator) -> None:
+    def test_create_kpis(self, generator: DashboardGenerator) -> None:
         """Test KPI creation from budget data."""
         mock_summary = MagicMock()
         mock_summary.total_budget = Decimal("2000.00")
@@ -395,7 +753,7 @@ class TestDashboardGenerator:
         assert kpis["remaining"].value == 500.00
         assert kpis["percent_used"].value == 75.0
 
-    def test_kpi_status_warning(self, generator) -> None:
+    def test_kpi_status_warning(self, generator: DashboardGenerator) -> None:
         """Test KPI warning status."""
         mock_summary = MagicMock()
         mock_summary.total_budget = Decimal("2000.00")
@@ -407,7 +765,7 @@ class TestDashboardGenerator:
 
         assert kpis["total_spent"].status == "warning"
 
-    def test_kpi_status_critical(self, generator) -> None:
+    def test_kpi_status_critical(self, generator: DashboardGenerator) -> None:
         """Test KPI critical status."""
         mock_summary = MagicMock()
         mock_summary.total_budget = Decimal("2000.00")
