@@ -27,7 +27,7 @@ keywords = [
     "chart",
 ]
 classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "Intended Audience :: Financial and Insurance Industry",
     "Intended Audience :: Science/Research",
@@ -35,6 +35,7 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Office/Business :: Financial :: Spreadsheet",
     "Topic :: Scientific/Engineering",
     "Topic :: Software Development :: Libraries :: Python Modules",
@@ -142,6 +143,10 @@ ignore_missing_imports = true
 testpaths = ["tests"]
 addopts = "-q --tb=short -v"
 pythonpath = ["src"]
+markers = [
+    "unit: Unit tests (fast, no I/O)",
+    "integration: Integration tests (slower, may use files/network)",
+]
 
 [tool.coverage.run]
 source = ["src"]

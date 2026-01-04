@@ -21,7 +21,7 @@ from spreadsheet_dl.ods_generator import (
 )
 
 
-def create_december_2025_budget():
+def create_december_2025_budget() -> Path:
     """Create a realistic December 2025 family budget."""
 
     # December 2025 expenses (family of 4)
@@ -227,7 +227,7 @@ def create_december_2025_budget():
     print("\n🎯 Top Spending Categories:")
 
     # Calculate spending by category
-    category_spending = {}
+    category_spending: dict[str, Decimal] = {}
     for expense in expenses:
         cat = expense.category.value
         category_spending[cat] = (

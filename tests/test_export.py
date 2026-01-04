@@ -13,6 +13,7 @@ import tempfile
 from datetime import date
 from decimal import Decimal
 from pathlib import Path
+from typing import Generator
 
 import pytest
 
@@ -40,14 +41,14 @@ except ImportError:
 
 
 @pytest.fixture
-def temp_dir() -> Path:
+def temp_dir() -> Generator[Path, None, None]:
     """Create a temporary directory for testing."""
     with tempfile.TemporaryDirectory() as tmpdir:
         yield Path(tmpdir)
 
 
 @pytest.fixture
-def sample_sheet_data() -> dict:
+def sample_sheet_data() -> SheetData:
     """Create sample sheet data for testing."""
     return SheetData(
         name="Budget",
@@ -107,11 +108,11 @@ class TestExportOptions:
 class TestSheetData:
     """Tests for SheetData class."""
 
-    def test_row_count(self, sample_sheet_data) -> None:
+    def test_row_count(self, sample_sheet_data: SheetData) -> None:
         """Test row count property."""
         assert sample_sheet_data.row_count == 4
 
-    def test_column_count(self, sample_sheet_data) -> None:
+    def test_column_count(self, sample_sheet_data: SheetData) -> None:
         """Test column count property."""
         assert sample_sheet_data.column_count == 4
 
@@ -175,7 +176,9 @@ class TestMultiFormatExporter:
 class TestExportXLSX:
     """Tests for XLSX export functionality."""
 
-    def test_export_xlsx_requires_openpyxl(self, temp_dir: Path, sample_sheet_data) -> None:
+    def test_export_xlsx_requires_openpyxl(
+        self, temp_dir: Path, sample_sheet_data: SheetData
+    ) -> None:
         """Test that XLSX export requires openpyxl."""
         exporter = MultiFormatExporter()
 
@@ -196,7 +199,9 @@ class TestExportXLSX:
         not HAS_OPENPYXL,
         reason="openpyxl required",
     )
-    def test_export_xlsx_content(self, temp_dir: Path, sample_sheet_data) -> None:
+    def test_export_xlsx_content(
+        self, temp_dir: Path, sample_sheet_data: SheetData
+    ) -> None:
         """Test XLSX export content."""
         from openpyxl import load_workbook
 
@@ -215,7 +220,9 @@ class TestExportXLSX:
 class TestExportCSV:
     """Tests for CSV export functionality."""
 
-    def test_export_csv_single_sheet(self, temp_dir: Path, sample_sheet_data) -> None:
+    def test_export_csv_single_sheet(
+        self, temp_dir: Path, sample_sheet_data: SheetData
+    ) -> None:
         """Test CSV export for single sheet."""
         exporter = MultiFormatExporter()
         output_path = temp_dir / "output.csv"
@@ -233,7 +240,9 @@ class TestExportCSV:
         assert rows[0][0] == "Category"
         assert float(rows[1][1]) == 1500.00
 
-    def test_export_csv_custom_delimiter(self, temp_dir: Path, sample_sheet_data) -> None:
+    def test_export_csv_custom_delimiter(
+        self, temp_dir: Path, sample_sheet_data
+    ) -> None:
         """Test CSV export with custom delimiter."""
         options = ExportOptions(csv_delimiter=";")
         exporter = MultiFormatExporter(options)
@@ -269,7 +278,9 @@ class TestExportCSV:
 class TestExportPDF:
     """Tests for PDF export functionality."""
 
-    def test_export_pdf_requires_reportlab(self, temp_dir: Path, sample_sheet_data) -> None:
+    def test_export_pdf_requires_reportlab(
+        self, temp_dir: Path, sample_sheet_data
+    ) -> None:
         """Test that PDF export requires reportlab."""
         exporter = MultiFormatExporter()
 

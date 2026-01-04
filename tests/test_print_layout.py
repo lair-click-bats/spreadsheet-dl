@@ -24,7 +24,7 @@ from spreadsheet_dl.schema.print_layout import (
 class TestPageSize:
     """Tests for PageSize enum."""
 
-    def test_a4_dimensions(self):
+    def test_a4_dimensions(self) -> None:
         """Test A4 dimensions."""
         width, height = PageSize.A4.dimensions_mm
         assert width == 210.0

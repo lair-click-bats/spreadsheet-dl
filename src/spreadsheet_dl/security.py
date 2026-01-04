@@ -37,6 +37,21 @@ from spreadsheet_dl.exceptions import (
     IntegrityError,
 )
 
+__all__ = [
+    "DecryptionError",
+    "EncryptionError",
+    "IntegrityError",
+    "EncryptionAlgorithm",
+    "KeyDerivationFunction",
+    "EncryptedData",
+    "SecurityConfig",
+    "Encryptor",
+    "SecureKeyManager",
+    "AuditLogger",
+    "AuditEvent",
+    "secure_delete",
+]
+
 
 class EncryptionAlgorithm(Enum):
     """Supported encryption algorithms."""

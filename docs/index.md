@@ -99,23 +99,6 @@ Current version: **v4.0.0** 🎉 _First Public Release_
   - Text and statistical functions
   - Array formula support
 
-### What's New in v0.4.1
-
-- **FR-CORE-003**: Expense append functionality - the `expense` command now actually writes to ODS files
-- **OdsEditor module**: New module for modifying existing ODS files
-- **--dry-run flag**: Preview expense additions without modifying files
-- **FR-UX-003**: Comprehensive error code system (FT-xxx-nnn format)
-  - Structured error messages with error codes, details, and suggestions
-  - Error code reference documentation
-  - 50+ specific exception classes with actionable guidance
-
-### What's New in v0.4.0
-
-- Declarative DSL for themes and styling
-- YAML-based theme definitions
-- Fluent Builder API for spreadsheet construction
-- Type-safe FormulaBuilder
-
 ## Installation
 
 ```bash
