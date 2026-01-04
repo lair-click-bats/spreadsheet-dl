@@ -9,6 +9,8 @@ Implements tests for:
 
 from __future__ import annotations
 
+import pytest
+
 from spreadsheet_dl.builders.conditional import (
     ColorScaleBuilder,
     ConditionalFormatBuilder,
@@ -53,6 +55,8 @@ from spreadsheet_dl.schema.styles import (
     TextAlign,
     VerticalAlign,
 )
+
+pytestmark = [pytest.mark.unit, pytest.mark.builder]
 
 # ============================================================================
 # DataValidationBuilder Tests (FR-BUILDER-002)
