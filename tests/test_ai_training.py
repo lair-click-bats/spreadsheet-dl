@@ -6,8 +6,8 @@ Tests FR-AI-010: AI training data export (anonymized).
 
 from __future__ import annotations
 
-from pathlib import Path
 import json
+from pathlib import Path
 
 import pytest
 

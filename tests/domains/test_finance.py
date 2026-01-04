@@ -11,9 +11,8 @@ It does not have a DomainPlugin class but provides modules and utilities.
 
 from __future__ import annotations
 
-import pytest
-
 from spreadsheet_dl.domains.finance import (
+    BUILTIN_FORMATS,
     Account,
     AccountManager,
     AccountType,
@@ -21,14 +20,12 @@ from spreadsheet_dl.domains.finance import (
     AlertConfig,
     AlertMonitor,
     BankFormatRegistry,
-    BUILTIN_FORMATS,
     Category,
     CategoryManager,
     CurrencyConverter,
     ExpenseCategory,
     get_default_accounts,
 )
-
 
 # ============================================================================
 # Account Management Tests
@@ -191,16 +188,6 @@ class TestFinanceIntegration:
 
     def test_finance_imports_available(self) -> None:
         """Test all major finance components can be imported."""
-        from spreadsheet_dl.domains.finance import (
-            Account,
-            AccountManager,
-            Alert,
-            AlertMonitor,
-            BankFormatRegistry,
-            Category,
-            CategoryManager,
-            CurrencyConverter,
-        )
 
         # If we got here, all imports succeeded
         assert True

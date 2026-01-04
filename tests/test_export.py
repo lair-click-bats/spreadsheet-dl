@@ -10,10 +10,10 @@ from __future__ import annotations
 import csv
 import json
 import tempfile
+from collections.abc import Generator
 from datetime import date
 from decimal import Decimal
 from pathlib import Path
-from typing import Generator
 
 import pytest
 
