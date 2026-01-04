@@ -21,6 +21,9 @@ if TYPE_CHECKING:
     from pathlib import Path
 
 
+pytestmark = [pytest.mark.unit, pytest.mark.finance]
+
+
 class TestRecurringExpense:
     """Tests for RecurringExpense dataclass."""
 

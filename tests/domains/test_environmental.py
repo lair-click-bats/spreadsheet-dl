@@ -48,6 +48,8 @@ from spreadsheet_dl.domains.environmental.utils import (
     ugm3_to_ppm,
 )
 
+pytestmark = [pytest.mark.unit, pytest.mark.domain, pytest.mark.science]
+
 # ============================================================================
 # Plugin Tests
 # ============================================================================

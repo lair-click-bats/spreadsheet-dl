@@ -7,6 +7,7 @@ Tests FR-UX-009: Shell Completions.
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
 from unittest.mock import patch
 
 import pytest
@@ -21,6 +22,8 @@ from spreadsheet_dl.completions import (
     install_completions,
     print_completion_script,
 )
+
+pytestmark = [pytest.mark.unit, pytest.mark.mcp]
 
 
 class TestCommandStructure:
@@ -212,7 +215,7 @@ class TestInstallCompletions:
         assert "Unsupported" in result["message"]
 
     @patch("spreadsheet_dl.completions._install_bash_completions")
-    def test_install_calls_correct_function(self, mock_install: any) -> None:
+    def test_install_calls_correct_function(self, mock_install: Any) -> None:
         """Test install calls correct shell function."""
         mock_install.return_value = Path("/test/path")
 

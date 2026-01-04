@@ -9,6 +9,8 @@ from datetime import date
 from decimal import Decimal
 from typing import TYPE_CHECKING
 
+import pytest
+
 from spreadsheet_dl.ods_generator import (
     BudgetAllocation,
     ExpenseCategory,
@@ -21,6 +23,9 @@ if TYPE_CHECKING:
     from pathlib import Path
 
     pass
+
+
+pytestmark = [pytest.mark.integration]
 
 
 class TestLegacyOdsGenerator:

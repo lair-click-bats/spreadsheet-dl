@@ -17,6 +17,9 @@ if TYPE_CHECKING:
     from pathlib import Path
 
 
+pytestmark = [pytest.mark.integration]
+
+
 class TestNextcloudConfig:
     """Tests for NextcloudConfig."""
 

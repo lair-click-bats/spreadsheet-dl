@@ -24,6 +24,8 @@ from spreadsheet_dl.schema import (
 )
 from spreadsheet_dl.schema.styles import Font, FontWeight
 
+pytestmark = [pytest.mark.unit, pytest.mark.rendering]
+
 # ============================================================================
 # Font Definition Tests (FR-THEME-002)
 # ============================================================================

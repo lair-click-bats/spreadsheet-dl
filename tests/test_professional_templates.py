@@ -18,6 +18,8 @@ from spreadsheet_dl.templates.professional import (
     list_templates,
 )
 
+pytestmark = [pytest.mark.unit, pytest.mark.templates]
+
 
 class TestTemplateMetadata:
     """Tests for TemplateMetadata."""

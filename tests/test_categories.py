@@ -20,6 +20,8 @@ from spreadsheet_dl.categories import (
     get_category_manager,
 )
 
+pytestmark = [pytest.mark.unit, pytest.mark.finance]
+
 
 class TestCategory:
     """Tests for Category dataclass."""

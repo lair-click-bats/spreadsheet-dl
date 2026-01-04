@@ -5,6 +5,8 @@ from __future__ import annotations
 import time
 from typing import TYPE_CHECKING
 
+import pytest
+
 from spreadsheet_dl.performance import (
     BatchProcessor,
     Benchmark,
@@ -22,11 +24,12 @@ from spreadsheet_dl.performance import (
 if TYPE_CHECKING:
     from pathlib import Path
 
-    import pytest
-
 # =============================================================================
 # LRUCache Tests
 # =============================================================================
+
+
+pytestmark = [pytest.mark.unit, pytest.mark.benchmark]
 
 
 class TestLRUCache:
@@ -317,7 +320,7 @@ class TestBatchProcessor:
     def test_process_all(self) -> None:
         """Test basic batch processing."""
         items = list(range(10))
-        processor = BatchProcessor(lambda x: x * 2, batch_size=3)
+        processor: BatchProcessor[int] = BatchProcessor(lambda x: x * 2, batch_size=3)
 
         result = processor.process_all(items)
 

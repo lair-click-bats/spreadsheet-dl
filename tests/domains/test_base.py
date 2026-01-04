@@ -28,6 +28,8 @@ from spreadsheet_dl.domains.base import (
     TemplateMetadata,
 )
 
+pytestmark = [pytest.mark.unit, pytest.mark.domain]
+
 # ============================================================================
 # Test Plugin Implementation
 # ============================================================================
@@ -149,7 +151,7 @@ class TestFormula(BaseFormula):
 # ============================================================================
 
 
-class TestImporter(BaseImporter[list[dict]]):
+class TestImporter(BaseImporter[list[dict[str, Any]]]):
     """Test importer implementation."""
 
     @property
@@ -167,7 +169,7 @@ class TestImporter(BaseImporter[list[dict]]):
         path = Path(source) if isinstance(source, str) else source
         return path.exists() and path.suffix in (".csv", ".txt")
 
-    def import_data(self, source: Path | str) -> ImportResult[list[dict]]:
+    def import_data(self, source: Path | str) -> ImportResult[list[dict[str, Any]]]:
         """Import data from source."""
         if not self.validate_source(source):
             return ImportResult(

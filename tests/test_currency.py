@@ -27,6 +27,8 @@ from spreadsheet_dl.currency import (
     money,
 )
 
+pytestmark = [pytest.mark.unit, pytest.mark.finance]
+
 
 class TestCurrencyCode:
     """Tests for CurrencyCode enum."""

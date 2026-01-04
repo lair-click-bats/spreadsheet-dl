@@ -20,6 +20,8 @@ from spreadsheet_dl.schema.print_layout import (
     RepeatConfig,
 )
 
+pytestmark = [pytest.mark.unit, pytest.mark.rendering]
+
 
 class TestPageSize:
     """Tests for PageSize enum."""

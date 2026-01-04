@@ -52,6 +52,8 @@ from spreadsheet_dl.domains.mechanical_engineering.utils import (
     von_mises_stress,
 )
 
+pytestmark = [pytest.mark.unit, pytest.mark.domain, pytest.mark.engineering]
+
 # ============================================================================
 # Plugin Tests
 # ============================================================================

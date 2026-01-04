@@ -21,6 +21,8 @@ from spreadsheet_dl.plugins import (
     get_plugin_manager,
 )
 
+pytestmark = [pytest.mark.unit, pytest.mark.domain]
+
 
 # Test plugin implementations
 class TestPluginBasic(PluginInterface):

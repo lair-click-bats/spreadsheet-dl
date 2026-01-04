@@ -10,6 +10,8 @@ import csv
 import tempfile
 from pathlib import Path
 
+import pytest
+
 from spreadsheet_dl.bank_formats import (
     BUILTIN_FORMATS,
     BankFormatDefinition,
@@ -20,6 +22,8 @@ from spreadsheet_dl.bank_formats import (
     get_format,
     list_formats,
 )
+
+pytestmark = [pytest.mark.unit, pytest.mark.finance]
 
 
 class TestBankFormatDefinition:

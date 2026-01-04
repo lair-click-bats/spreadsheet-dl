@@ -19,6 +19,9 @@ if TYPE_CHECKING:
     from pathlib import Path
 
 
+pytestmark = [pytest.mark.unit, pytest.mark.requires_files]
+
+
 @pytest.fixture
 def sample_csv(tmp_path: Path) -> Path:
     """Create a sample CSV file for testing."""

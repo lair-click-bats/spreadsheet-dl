@@ -20,6 +20,8 @@ from spreadsheet_dl.report_generator import (
     generate_monthly_report,
 )
 
+pytestmark = [pytest.mark.integration, pytest.mark.requires_files]
+
 
 @pytest.fixture
 def sample_budget_file(tmp_path: Path) -> Path:
@@ -222,6 +224,6 @@ class TestGenerateMonthlyReportFunction:
         md = generate_monthly_report(sample_budget_file, format="markdown")
         json_str = generate_monthly_report(sample_budget_file, format="json")
 
-        assert "BUDGET REPORT" in text
-        assert "# Budget Report" in md
-        assert "pie_chart" in json_str
+        assert isinstance(text, str) and "BUDGET REPORT" in text
+        assert isinstance(md, str) and "# Budget Report" in md
+        assert isinstance(json_str, str) and "pie_chart" in json_str

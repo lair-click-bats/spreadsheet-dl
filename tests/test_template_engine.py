@@ -7,6 +7,8 @@ Tests:
     - FR-TEMPLATE-003: Conditional Content
 """
 
+import pytest
+
 from spreadsheet_dl.template_engine import (
     CellTemplate,
     ColumnTemplate,
@@ -22,6 +24,8 @@ from spreadsheet_dl.template_engine import (
     load_template_from_yaml,
     render_template,
 )
+
+pytestmark = [pytest.mark.unit, pytest.mark.templates]
 
 # ============================================================================
 # Schema Tests (FR-TEMPLATE-001)

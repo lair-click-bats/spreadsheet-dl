@@ -21,6 +21,8 @@ from spreadsheet_dl.progress import (
     spinner,
 )
 
+pytestmark = [pytest.mark.unit]
+
 
 class TestProgressBar:
     """Test progress_bar context manager."""

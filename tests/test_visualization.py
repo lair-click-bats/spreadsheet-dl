@@ -9,6 +9,8 @@ from __future__ import annotations
 import tempfile
 from pathlib import Path
 
+import pytest
+
 from spreadsheet_dl.visualization import (
     CATEGORY_COLORS,
     DEFAULT_COLORS,
@@ -21,6 +23,8 @@ from spreadsheet_dl.visualization import (
     create_budget_dashboard,
     create_spending_pie_chart,
 )
+
+pytestmark = [pytest.mark.unit, pytest.mark.visualization]
 
 
 class TestChartDataPoint:

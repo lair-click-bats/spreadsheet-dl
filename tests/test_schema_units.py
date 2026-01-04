@@ -18,6 +18,8 @@ from spreadsheet_dl.schema.units import (
     pt,
 )
 
+pytestmark = [pytest.mark.unit, pytest.mark.validation]
+
 
 class TestLengthCreation:
     """Tests for Length creation."""

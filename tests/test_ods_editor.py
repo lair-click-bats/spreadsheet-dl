@@ -20,6 +20,13 @@ if TYPE_CHECKING:
     from pathlib import Path
 
 
+pytestmark = [
+    pytest.mark.integration,
+    pytest.mark.requires_files,
+    pytest.mark.rendering,
+]
+
+
 class TestOdsEditor:
     """Tests for OdsEditor class."""
 

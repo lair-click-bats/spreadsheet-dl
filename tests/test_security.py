@@ -22,6 +22,9 @@ if TYPE_CHECKING:
     from pathlib import Path
 
 
+pytestmark = [pytest.mark.unit]
+
+
 class TestEncryptionMetadata:
     """Tests for EncryptionMetadata dataclass."""
 

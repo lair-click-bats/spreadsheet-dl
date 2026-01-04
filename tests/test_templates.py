@@ -8,6 +8,8 @@ Tests for v2.0.0 Professional Business Templates:
 
 from __future__ import annotations
 
+import pytest
+
 from spreadsheet_dl.templates import (
     PROFESSIONAL_TEMPLATES,
     BudgetCategory,
@@ -19,6 +21,8 @@ from spreadsheet_dl.templates import (
     get_template,
     list_templates,
 )
+
+pytestmark = [pytest.mark.unit, pytest.mark.templates]
 
 
 class TestTemplateMetadata:

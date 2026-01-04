@@ -39,6 +39,9 @@ if TYPE_CHECKING:
 # ==============================================================================
 
 
+pytestmark = [pytest.mark.integration]
+
+
 @pytest.fixture
 def sample_ods_file(tmp_path: Path) -> Path:
     """Create a sample ODS file for reading tests."""

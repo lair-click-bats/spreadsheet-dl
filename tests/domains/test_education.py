@@ -46,6 +46,8 @@ from spreadsheet_dl.domains.education.utils import (
     points_to_grade,
 )
 
+pytestmark = [pytest.mark.unit, pytest.mark.domain]
+
 # ============================================================================
 # Plugin Tests
 # ============================================================================

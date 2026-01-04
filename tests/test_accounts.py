@@ -24,6 +24,8 @@ from spreadsheet_dl.accounts import (
     get_default_accounts,
 )
 
+pytestmark = [pytest.mark.unit, pytest.mark.finance]
+
 
 class TestAccountType:
     """Tests for AccountType enum."""

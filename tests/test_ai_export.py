@@ -12,8 +12,12 @@ import tempfile
 from datetime import date
 from decimal import Decimal
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import pytest
+
+if TYPE_CHECKING:
+    from collections.abc import Generator
 
 from spreadsheet_dl.ai_export import (
     AIExporter,
@@ -37,16 +41,18 @@ try:
 except ImportError:
     HAS_ODFPY = False
 
+pytestmark = [pytest.mark.unit, pytest.mark.mcp]
+
 
 @pytest.fixture
-def temp_dir():
+def temp_dir() -> Generator[Path, None, None]:
     """Create a temporary directory for testing."""
     with tempfile.TemporaryDirectory() as tmpdir:
         yield Path(tmpdir)
 
 
 @pytest.fixture
-def sample_ods(temp_dir):
+def sample_ods(temp_dir: Path) -> Path:
     """Create a sample ODS file for testing."""
     # Create a minimal ODS file using odfpy
     try:
@@ -306,7 +312,7 @@ class TestAIExporter:
         not HAS_ODFPY,
         reason="odfpy required for full ODS testing",
     )
-    def test_export_to_json_with_file(self, sample_ods, temp_dir: Path) -> None:
+    def test_export_to_json_with_file(self, sample_ods: Path, temp_dir: Path) -> None:
         """Test export to JSON with actual ODS file."""
         exporter = AIExporter()
         output_path = temp_dir / "export.json"
@@ -328,7 +334,7 @@ class TestAIExporter:
         not HAS_ODFPY,
         reason="odfpy required for full ODS testing",
     )
-    def test_export_dual(self, sample_ods, temp_dir: Path) -> None:
+    def test_export_dual(self, sample_ods: Path, temp_dir: Path) -> None:
         """Test dual export functionality."""
         exporter = AIExporter()
 

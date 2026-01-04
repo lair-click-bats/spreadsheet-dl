@@ -11,6 +11,8 @@ from datetime import date, timedelta
 from decimal import Decimal
 from pathlib import Path
 
+import pytest
+
 from spreadsheet_dl.goals import (
     Debt,
     DebtPayoffMethod,
@@ -23,6 +25,8 @@ from spreadsheet_dl.goals import (
     create_debt_payoff_plan,
     create_emergency_fund,
 )
+
+pytestmark = [pytest.mark.unit, pytest.mark.finance]
 
 
 class TestSavingsGoal:

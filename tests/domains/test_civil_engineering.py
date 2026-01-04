@@ -56,6 +56,8 @@ from spreadsheet_dl.domains.civil_engineering.utils import (
     psi_to_mpa,
 )
 
+pytestmark = [pytest.mark.unit, pytest.mark.domain, pytest.mark.engineering]
+
 # ============================================================================
 # Plugin Tests
 # ============================================================================

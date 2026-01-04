@@ -12,6 +12,8 @@ from decimal import Decimal
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
+import pytest
+
 from spreadsheet_dl.notifications import (
     EmailChannel,
     EmailConfig,
@@ -24,6 +26,8 @@ from spreadsheet_dl.notifications import (
     NtfyConfig,
     load_notification_config,
 )
+
+pytestmark = [pytest.mark.unit]
 
 
 class TestNotification:

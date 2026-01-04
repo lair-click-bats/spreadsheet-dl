@@ -10,10 +10,10 @@ from __future__ import annotations
 import csv
 import json
 import tempfile
-from collections.abc import Generator
 from datetime import date
 from decimal import Decimal
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import pytest
 
@@ -31,6 +31,9 @@ from spreadsheet_dl.export import (
     export_to_xlsx,
 )
 
+if TYPE_CHECKING:
+    from collections.abc import Generator
+
 # Check if openpyxl is available
 try:
     import openpyxl  # noqa: F401
@@ -38,6 +41,13 @@ try:
     HAS_OPENPYXL = True
 except ImportError:
     HAS_OPENPYXL = False
+
+pytestmark = [
+    pytest.mark.integration,
+    pytest.mark.requires_files,
+    pytest.mark.requires_export,
+    pytest.mark.rendering,
+]
 
 
 @pytest.fixture
@@ -241,7 +251,7 @@ class TestExportCSV:
         assert float(rows[1][1]) == 1500.00
 
     def test_export_csv_custom_delimiter(
-        self, temp_dir: Path, sample_sheet_data
+        self, temp_dir: Path, sample_sheet_data: SheetData
     ) -> None:
         """Test CSV export with custom delimiter."""
         options = ExportOptions(csv_delimiter=";")
@@ -279,7 +289,7 @@ class TestExportPDF:
     """Tests for PDF export functionality."""
 
     def test_export_pdf_requires_reportlab(
-        self, temp_dir: Path, sample_sheet_data
+        self, temp_dir: Path, sample_sheet_data: SheetData
     ) -> None:
         """Test that PDF export requires reportlab."""
         exporter = MultiFormatExporter()
@@ -314,7 +324,7 @@ class TestExportPDF:
 class TestExportJSON:
     """Tests for JSON export functionality."""
 
-    def test_export_json(self, temp_dir: Path, sample_sheet_data) -> None:
+    def test_export_json(self, temp_dir: Path, sample_sheet_data: SheetData) -> None:
         """Test JSON export."""
         exporter = MultiFormatExporter()
         output_path = temp_dir / "output.json"
@@ -372,7 +382,7 @@ class TestExportJSON:
 class TestExportBatch:
     """Tests for batch export functionality."""
 
-    def test_export_batch(self, temp_dir: Path, sample_budget_file) -> None:
+    def test_export_batch(self, temp_dir: Path, sample_budget_file: Path) -> None:
         """Test batch export to multiple formats."""
         exporter = MultiFormatExporter()
 

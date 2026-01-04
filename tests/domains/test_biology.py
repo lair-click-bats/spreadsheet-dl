@@ -43,6 +43,8 @@ from spreadsheet_dl.domains.biology.utils import (
     format_scientific_notation,
 )
 
+pytestmark = [pytest.mark.unit, pytest.mark.domain, pytest.mark.science]
+
 # ============================================================================
 # Plugin Tests
 # ============================================================================

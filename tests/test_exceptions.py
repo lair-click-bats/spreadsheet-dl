@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import json
 
+import pytest
+
 from spreadsheet_dl.exceptions import (
     AuthenticationError,
     CircularInheritanceError,
@@ -25,7 +27,7 @@ from spreadsheet_dl.exceptions import (
     FilePermissionError,
     FileReadError,
     FileWriteError,
-    FinanceTrackerError,
+    FinanceTrackerError,  # Deprecated alias
     FormattingError,
     FormulaError,
     HookError,
@@ -52,6 +54,7 @@ from spreadsheet_dl.exceptions import (
     RequiredFieldError,
     ServerError,
     SheetNotFoundError,
+    SpreadsheetDLError,
     TemplateError,
     TemplateNotFoundError,
     TemplateValidationError,
@@ -64,6 +67,8 @@ from spreadsheet_dl.exceptions import (
     ValidationError,
     WebDAVError,
 )
+
+pytestmark = [pytest.mark.unit]
 
 
 class TestErrorContext:
@@ -111,48 +116,48 @@ class TestErrorSeverity:
         assert ErrorSeverity.INFO.value == "info"
 
 
-class TestFinanceTrackerError:
+class TestSpreadsheetDLError:
     """Tests for base exception class."""
 
     def test_error_message(self) -> None:
         """Test error message is stored correctly."""
-        error = FinanceTrackerError("Test error message")
+        error = SpreadsheetDLError("Test error message")
         assert error.message == "Test error message"
 
     def test_default_error_code(self) -> None:
         """Test default error code."""
-        error = FinanceTrackerError("Test")
+        error = SpreadsheetDLError("Test")
         assert error.error_code == "FT-GEN-001"
 
     def test_custom_error_code(self) -> None:
         """Test custom error code override."""
-        error = FinanceTrackerError("Test", error_code="FT-CUSTOM-999")
+        error = SpreadsheetDLError("Test", error_code="FT-CUSTOM-999")
         assert error.error_code == "FT-CUSTOM-999"
 
     def test_error_with_details(self) -> None:
         """Test error with details."""
-        error = FinanceTrackerError("Test", details="More information here")
+        error = SpreadsheetDLError("Test", details="More information here")
         assert error.details == "More information here"
 
     def test_error_with_suggestion(self) -> None:
         """Test error with suggestion."""
-        error = FinanceTrackerError("Test", suggestion="Try this instead")
+        error = SpreadsheetDLError("Test", suggestion="Try this instead")
         assert error.suggestion == "Try this instead"
 
     def test_error_with_context(self) -> None:
         """Test error with context."""
         ctx = ErrorContext(file_path="/test.ods")
-        error = FinanceTrackerError("Test", context=ctx)
+        error = SpreadsheetDLError("Test", context=ctx)
         assert error.context.file_path == "/test.ods"
 
     def test_doc_url(self) -> None:
         """Test documentation URL generation."""
-        error = FinanceTrackerError("Test")
+        error = SpreadsheetDLError("Test")
         assert "FT-GEN-001" in error.doc_url
 
     def test_format_error_no_color(self) -> None:
         """Test error formatting without colors."""
-        error = FinanceTrackerError(
+        error = SpreadsheetDLError(
             "Test message",
             details="Some details",
             suggestion="Try this",
@@ -165,14 +170,14 @@ class TestFinanceTrackerError:
 
     def test_format_error_with_color(self) -> None:
         """Test error formatting with colors."""
-        error = FinanceTrackerError("Test message")
+        error = SpreadsheetDLError("Test message")
         formatted = error.format_error(use_color=True)
         # Should contain ANSI escape codes
         assert "\033[" in formatted
 
     def test_to_dict(self) -> None:
         """Test conversion to dictionary."""
-        error = FinanceTrackerError(
+        error = SpreadsheetDLError(
             "Test message",
             details="Details here",
             suggestion="Suggestion here",
@@ -186,7 +191,7 @@ class TestFinanceTrackerError:
 
     def test_to_dict_is_json_serializable(self) -> None:
         """Test that to_dict output is JSON serializable."""
-        error = FinanceTrackerError(
+        error = SpreadsheetDLError(
             "Test message",
             context=ErrorContext(file_path="/test.ods", line_number=10),
         )
@@ -196,7 +201,7 @@ class TestFinanceTrackerError:
 
     def test_str_method(self) -> None:
         """Test __str__ returns formatted error."""
-        error = FinanceTrackerError("Test message")
+        error = SpreadsheetDLError("Test message")
         str_output = str(error)
         assert "Error [FT-GEN-001]" in str_output
         assert "Test message" in str_output
@@ -609,47 +614,47 @@ class TestExceptionHierarchy:
     """Tests for exception class hierarchy."""
 
     def test_file_error_is_spreadsheet_dl_error(self) -> None:
-        """Test FileError inherits from FinanceTrackerError."""
-        assert issubclass(FileError, FinanceTrackerError)
+        """Test FileError inherits from SpreadsheetDLError."""
+        assert issubclass(FileError, SpreadsheetDLError)
 
     def test_ods_error_is_spreadsheet_dl_error(self) -> None:
-        """Test OdsError inherits from FinanceTrackerError."""
-        assert issubclass(OdsError, FinanceTrackerError)
+        """Test OdsError inherits from SpreadsheetDLError."""
+        assert issubclass(OdsError, SpreadsheetDLError)
 
     def test_validation_error_is_spreadsheet_dl_error(self) -> None:
-        """Test ValidationError inherits from FinanceTrackerError."""
-        assert issubclass(ValidationError, FinanceTrackerError)
+        """Test ValidationError inherits from SpreadsheetDLError."""
+        assert issubclass(ValidationError, SpreadsheetDLError)
 
     def test_csv_import_error_is_spreadsheet_dl_error(self) -> None:
-        """Test CSVImportError inherits from FinanceTrackerError."""
-        assert issubclass(CSVImportError, FinanceTrackerError)
+        """Test CSVImportError inherits from SpreadsheetDLError."""
+        assert issubclass(CSVImportError, SpreadsheetDLError)
 
     def test_webdav_error_is_spreadsheet_dl_error(self) -> None:
-        """Test WebDAVError inherits from FinanceTrackerError."""
-        assert issubclass(WebDAVError, FinanceTrackerError)
+        """Test WebDAVError inherits from SpreadsheetDLError."""
+        assert issubclass(WebDAVError, SpreadsheetDLError)
 
     def test_configuration_error_is_spreadsheet_dl_error(self) -> None:
-        """Test ConfigurationError inherits from FinanceTrackerError."""
-        assert issubclass(ConfigurationError, FinanceTrackerError)
+        """Test ConfigurationError inherits from SpreadsheetDLError."""
+        assert issubclass(ConfigurationError, SpreadsheetDLError)
 
     def test_template_error_is_spreadsheet_dl_error(self) -> None:
-        """Test TemplateError inherits from FinanceTrackerError."""
-        assert issubclass(TemplateError, FinanceTrackerError)
+        """Test TemplateError inherits from SpreadsheetDLError."""
+        assert issubclass(TemplateError, SpreadsheetDLError)
 
     def test_formatting_error_is_spreadsheet_dl_error(self) -> None:
-        """Test FormattingError inherits from FinanceTrackerError."""
-        assert issubclass(FormattingError, FinanceTrackerError)
+        """Test FormattingError inherits from SpreadsheetDLError."""
+        assert issubclass(FormattingError, SpreadsheetDLError)
 
     def test_extension_error_is_spreadsheet_dl_error(self) -> None:
-        """Test ExtensionError inherits from FinanceTrackerError."""
-        assert issubclass(ExtensionError, FinanceTrackerError)
+        """Test ExtensionError inherits from SpreadsheetDLError."""
+        assert issubclass(ExtensionError, SpreadsheetDLError)
 
     def test_ods_read_error_is_ods_error(self) -> None:
         """Test OdsReadError inherits from OdsError."""
         assert issubclass(OdsReadError, OdsError)
 
     def test_can_catch_base_exception(self) -> None:
-        """Test catching FinanceTrackerError catches all subclasses."""
+        """Test catching SpreadsheetDLError catches all subclasses."""
         errors = [
             FileError("test"),
             OdsError("test"),
@@ -665,8 +670,19 @@ class TestExceptionHierarchy:
         for error in errors:
             try:
                 raise error
-            except FinanceTrackerError as e:
+            except SpreadsheetDLError as e:
                 assert e.message == "test"
+
+    def test_finance_tracker_error_deprecated_alias(self) -> None:
+        """Test FinanceTrackerError is a deprecated alias for SpreadsheetDLError."""
+        assert issubclass(FinanceTrackerError, SpreadsheetDLError)
+
+        # Test that using the deprecated alias raises a warning
+        with pytest.warns(
+            DeprecationWarning, match="FinanceTrackerError is deprecated"
+        ):
+            error = FinanceTrackerError("Test message")
+            assert error.message == "Test message"
 
 
 class TestErrorCodeUniqueness:

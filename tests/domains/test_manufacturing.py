@@ -48,6 +48,8 @@ from spreadsheet_dl.domains.manufacturing.utils import (
     parse_manufacturing_date,
 )
 
+pytestmark = [pytest.mark.unit, pytest.mark.domain, pytest.mark.manufacturing]
+
 # ============================================================================
 # Plugin Tests
 # ============================================================================

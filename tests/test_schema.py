@@ -31,6 +31,8 @@ from spreadsheet_dl.schema.validation import (
     validate_yaml_data,
 )
 
+pytestmark = [pytest.mark.unit, pytest.mark.validation]
+
 
 class TestColor:
     """Tests for Color class."""

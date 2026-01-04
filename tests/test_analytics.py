@@ -24,6 +24,9 @@ if TYPE_CHECKING:
     from pathlib import Path
 
 
+pytestmark = [pytest.mark.unit, pytest.mark.finance]
+
+
 @pytest.fixture
 def sample_budget_file(tmp_path: Path) -> Path:
     """Create a sample budget file for testing."""

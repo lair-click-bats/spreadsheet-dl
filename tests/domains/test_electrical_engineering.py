@@ -48,6 +48,8 @@ from spreadsheet_dl.domains.electrical_engineering.utils import (
     parse_si_prefix,
 )
 
+pytestmark = [pytest.mark.unit, pytest.mark.domain, pytest.mark.engineering]
+
 # ============================================================================
 # Plugin Tests
 # ============================================================================
@@ -707,7 +709,7 @@ def test_all_formulas_have_metadata() -> None:
     ]
 
     for formula_class in formulas:
-        formula = formula_class()
+        formula = formula_class()  # type: ignore[abstract]
         metadata = formula.metadata
         assert metadata.name
         assert metadata.category == "electrical_engineering"

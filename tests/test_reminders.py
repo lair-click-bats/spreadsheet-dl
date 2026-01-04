@@ -23,6 +23,8 @@ from spreadsheet_dl.reminders import (
     create_bill_from_template,
 )
 
+pytestmark = [pytest.mark.unit]
+
 
 class TestBillReminder:
     """Tests for BillReminder."""

@@ -29,6 +29,8 @@ try:
 except ImportError:
     HAS_YAML = False
 
+pytestmark = [pytest.mark.unit, pytest.mark.validation]
+
 
 @pytest.mark.skipif(not HAS_YAML, reason="PyYAML not installed")
 class TestThemeLoader:

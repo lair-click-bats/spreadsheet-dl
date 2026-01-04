@@ -7,7 +7,7 @@ Tests FR-AI-010: AI training data export (anonymized).
 from __future__ import annotations
 
 import json
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 import pytest
 
@@ -23,6 +23,11 @@ from spreadsheet_dl.ai_training import (
     TrainingDataset,
     TrainingDataStatistics,
 )
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+pytestmark = [pytest.mark.unit, pytest.mark.mcp]
 
 
 class TestAnonymizationConfig:
@@ -164,7 +169,9 @@ class TestDataAnonymizer:
                 f"Amount {amount} got bucket {result.amount_bucket}"
             )
 
-    def test_anonymize_transaction_date_relative(self, anonymizer: DataAnonymizer) -> None:
+    def test_anonymize_transaction_date_relative(
+        self, anonymizer: DataAnonymizer
+    ) -> None:
         """Test date anonymization to relative format."""
         tx = {
             "date": "2024-01-15",
@@ -179,7 +186,9 @@ class TestDataAnonymizer:
         assert result.date != "2024-01-15"
         assert result.date.startswith("day-")
 
-    def test_anonymize_transaction_temporal_features(self, anonymizer: DataAnonymizer) -> None:
+    def test_anonymize_transaction_temporal_features(
+        self, anonymizer: DataAnonymizer
+    ) -> None:
         """Test temporal feature extraction."""
         # Monday, January 15, 2024
         tx = {
@@ -287,13 +296,13 @@ class TestTrainingDataExporter:
     """Tests for TrainingDataExporter."""
 
     @pytest.fixture
-    def exporter(self):
+    def exporter(self) -> TrainingDataExporter:
         """Create a test exporter."""
         config = AnonymizationConfig(level=AnonymizationLevel.STANDARD)
         return TrainingDataExporter(config)
 
     @pytest.fixture
-    def sample_dataset(self):
+    def sample_dataset(self) -> TrainingDataset:
         """Create a sample dataset."""
         records = [
             AnonymizedTransaction(
@@ -326,7 +335,12 @@ class TestTrainingDataExporter:
             statistics=TrainingDataStatistics(total_records=2),
         )
 
-    def test_export_json(self, exporter, sample_dataset, tmp_path: Path) -> None:
+    def test_export_json(
+        self,
+        exporter: TrainingDataExporter,
+        sample_dataset: TrainingDataset,
+        tmp_path: Path,
+    ) -> None:
         """Test JSON export."""
         output_path = tmp_path / "training_data.json"
         result = exporter.export_dataset(sample_dataset, output_path, ExportFormat.JSON)
@@ -340,7 +354,12 @@ class TestTrainingDataExporter:
         assert data["record_count"] == 2
         assert len(data["records"]) == 2
 
-    def test_export_jsonl(self, exporter, sample_dataset, tmp_path: Path) -> None:
+    def test_export_jsonl(
+        self,
+        exporter: TrainingDataExporter,
+        sample_dataset: TrainingDataset,
+        tmp_path: Path,
+    ) -> None:
         """Test JSONL export."""
         output_path = tmp_path / "training_data.jsonl"
         result = exporter.export_dataset(
@@ -359,7 +378,12 @@ class TestTrainingDataExporter:
         metadata = json.loads(lines[0])
         assert metadata["type"] == "metadata"
 
-    def test_export_csv(self, exporter, sample_dataset, tmp_path: Path) -> None:
+    def test_export_csv(
+        self,
+        exporter: TrainingDataExporter,
+        sample_dataset: TrainingDataset,
+        tmp_path: Path,
+    ) -> None:
         """Test CSV export."""
         output_path = tmp_path / "training_data.csv"
         result = exporter.export_dataset(sample_dataset, output_path, ExportFormat.CSV)
@@ -374,7 +398,9 @@ class TestTrainingDataExporter:
         assert "amount_bucket" in content
         assert "tx_001" in content
 
-    def test_stream_records(self, exporter, sample_dataset) -> None:
+    def test_stream_records(
+        self, exporter: TrainingDataExporter, sample_dataset: TrainingDataset
+    ) -> None:
         """Test record streaming."""
         records = list(exporter.stream_records(sample_dataset))
 

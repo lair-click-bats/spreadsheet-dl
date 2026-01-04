@@ -13,7 +13,7 @@ Implements:
 from __future__ import annotations
 
 import json
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 import pytest
 
@@ -46,6 +46,11 @@ from spreadsheet_dl.domains.data_science import (
     infer_data_type,
     parse_scientific_notation,
 )
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+pytestmark = [pytest.mark.unit, pytest.mark.domain, pytest.mark.science]
 
 # ============================================================================
 # Plugin Tests

@@ -1,10 +1,12 @@
-"""Integration tests for finance tracker end-to-end workflows."""
+"""Integration tests for SpreadsheetDL end-to-end workflows."""
 
 from __future__ import annotations
 
 from datetime import date
 from decimal import Decimal
 from typing import TYPE_CHECKING
+
+import pytest
 
 from spreadsheet_dl.alerts import check_budget_alerts
 from spreadsheet_dl.analytics import AnalyticsDashboard, generate_dashboard
@@ -24,6 +26,9 @@ from spreadsheet_dl.report_generator import ReportGenerator
 
 if TYPE_CHECKING:
     from pathlib import Path
+
+
+pytestmark = [pytest.mark.integration, pytest.mark.requires_files, pytest.mark.finance]
 
 
 class TestEndToEndWorkflow:
@@ -223,6 +228,7 @@ class TestProfessionalTemplates:
         from spreadsheet_dl.templates import get_template
 
         template_cls = get_template("enterprise_budget")
+        assert template_cls is not None
         template = template_cls()
         builder = template.generate()
 

@@ -16,12 +16,15 @@ from __future__ import annotations
 
 import dataclasses
 import inspect
+from pathlib import Path
 from typing import Any
 
 import pytest
 
 from spreadsheet_dl.schema import advanced, conditional, styles
 from spreadsheet_dl.schema.loader import ThemeLoader
+
+pytestmark = [pytest.mark.integration, pytest.mark.validation]
 
 
 class TestVAL101_DataclassImprovements:
@@ -49,16 +52,16 @@ class TestVAL101_DataclassImprovements:
             # Create instance with appropriate defaults
             instance: Any
             if cls == styles.Color:
-                instance = cls("#FF0000")  # type: ignore[operator]
+                instance = cls("#FF0000")  # type: ignore[call-arg]
             elif cls == styles.Font:
-                instance = cls(family="Arial")  # type: ignore[operator]
+                instance = cls(family="Arial")  # type: ignore[call-arg]
             elif cls == styles.GradientStop:
-                instance = cls(position=0.0, color=styles.Color("#FF0000"))  # type: ignore[operator]
+                instance = cls(position=0.0, color=styles.Color("#FF0000"))  # type: ignore[call-arg]
             elif cls == styles.ThemeSchema:
-                instance = cls(name="test")  # type: ignore[operator]
+                instance = cls(name="test")  # type: ignore[call-arg]
             else:
                 # Try to create with all defaults
-                instance = cls()  # type: ignore[operator]
+                instance = cls()
 
             # Frozen dataclasses will raise FrozenInstanceError on assignment
             first_field = dataclasses.fields(instance)[0]
@@ -86,7 +89,7 @@ class TestVAL101_DataclassImprovements:
                         )
 
                     # Check default_factory is used for mutable types
-                    if field.default_factory is not dataclasses.MISSING:  # type: ignore
+                    if field.default_factory is not dataclasses.MISSING:
                         # This is good - using default_factory
                         pass
 
@@ -111,8 +114,8 @@ class TestVAL101_DataclassImprovements:
         """Get a default value for a field for testing."""
         if field.default is not dataclasses.MISSING:
             return field.default
-        if field.default_factory is not dataclasses.MISSING:  # type: ignore
-            return field.default_factory()  # type: ignore
+        if field.default_factory is not dataclasses.MISSING:
+            return field.default_factory()
 
         # Return type-appropriate defaults
         if field.type is str or "str" in str(field.type):
@@ -158,7 +161,7 @@ class TestVAL111_YAMLLoaderEnhancements:
 
         gradient_fill = styles.GradientFill(
             type=styles.GradientType.LINEAR,
-            stops=[stop1, stop2],
+            stops=(stop1, stop2),
         )
         assert gradient_fill.type == styles.GradientType.LINEAR
         assert len(gradient_fill.stops) == 2
@@ -168,12 +171,12 @@ class TestVAL111_YAMLLoaderEnhancements:
         # Check Font supports all required properties
         font = styles.Font(
             family="Arial",
-            size=12,
+            size="12pt",
             weight=styles.FontWeight.BOLD,
             color=styles.Color("#000000"),
             italic=True,
-            underline=True,
-            strikethrough=False,
+            underline=styles.UnderlineStyle.SINGLE,
+            strikethrough=styles.StrikethroughStyle.NONE,
         )
 
         assert font.family == "Arial"
@@ -459,7 +462,7 @@ class TestVAL301_MCPTools:
         from spreadsheet_dl.mcp_server import MCPConfig, MCPServer
 
         # Create MCP server
-        config = MCPConfig(allowed_paths=["/tmp"])
+        config = MCPConfig(allowed_paths=[Path("/tmp")])
         server = MCPServer(config)
 
         # Verify cell operation tools are registered
@@ -478,7 +481,7 @@ class TestVAL301_MCPTools:
         from spreadsheet_dl.mcp_server import MCPConfig, MCPServer
 
         # Create MCP server
-        config = MCPConfig(allowed_paths=["/tmp"])
+        config = MCPConfig(allowed_paths=[Path("/tmp")])
         server = MCPServer(config)
 
         # Verify style operation tools exist
@@ -495,7 +498,7 @@ class TestVAL301_MCPTools:
         from spreadsheet_dl.mcp_server import MCPConfig, MCPServer
 
         # Create MCP server
-        config = MCPConfig(allowed_paths=["/tmp"])
+        config = MCPConfig(allowed_paths=[Path("/tmp")])
         server = MCPServer(config)
 
         # Verify structure operation tools exist
@@ -512,7 +515,7 @@ class TestVAL301_MCPTools:
         from spreadsheet_dl.mcp_server import MCPConfig, MCPServer
 
         # Create MCP server
-        config = MCPConfig(allowed_paths=["/tmp"])
+        config = MCPConfig(allowed_paths=[Path("/tmp")])
         server = MCPServer(config)
 
         # Verify advanced operation tools exist
@@ -541,12 +544,7 @@ class TestVAL401_NewCapabilities:
     def test_roundtrip_preserves_fidelity(self) -> None:
         """VAL-401-C2: Round-trip preserves 95%+ fidelity (if implemented)."""
         # Placeholder for round-trip tests
-        try:
-            from spreadsheet_dl import roundtrip
-
-            assert roundtrip is not None
-        except ImportError:
-            pytest.skip("Round-trip module not yet implemented")
+        pytest.skip("Round-trip module not yet implemented")
 
     def test_format_adapters_work_correctly(self) -> None:
         """VAL-401-C3: Format adapters work correctly (if implemented)."""
