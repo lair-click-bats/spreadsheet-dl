@@ -8,11 +8,13 @@ Implements:
 from __future__ import annotations
 
 import csv
-from collections.abc import Sequence
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportResult
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 
 class GenericComponentCSVImporter(BaseImporter[list[dict[str, Any]]]):

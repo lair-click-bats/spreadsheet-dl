@@ -9,8 +9,10 @@ from __future__ import annotations
 
 import math
 import re
-from collections.abc import Sequence
-from typing import Any
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 
 def parse_si_prefix(value: str) -> float:

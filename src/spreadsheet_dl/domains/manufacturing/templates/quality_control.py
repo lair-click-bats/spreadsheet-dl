@@ -79,9 +79,7 @@ class QualityControlTemplate(BaseTemplate):
         """
         if self.num_measurements <= 0:
             return False
-        if self.spec_limits[0] >= self.spec_limits[1]:
-            return False
-        return True
+        return not self.spec_limits[0] >= self.spec_limits[1]
 
     def generate(self) -> SpreadsheetBuilder:
         """
@@ -186,7 +184,11 @@ class QualityControlTemplate(BaseTemplate):
         metrics = [
             ("Sample Count", "=COUNTA('Inspection Data'.A2:A21)", "Count of samples"),
             ("Mean (X̄)", "=AVERAGE('Inspection Data'.D2:D21)", "Average measurement"),
-            ("Std Dev (sigma)", "=STDEV('Inspection Data'.D2:D21)", "Standard deviation"),
+            (
+                "Std Dev (sigma)",
+                "=STDEV('Inspection Data'.D2:D21)",
+                "Standard deviation",
+            ),
             ("Upper Control Limit (UCL)", "=B4+(3*B5)", "Mean + 3sigma"),
             ("Lower Control Limit (LCL)", "=B4-(3*B5)", "Mean - 3sigma"),
             ("Specification LSL", f"={self.spec_limits[0]}", "Lower spec limit"),

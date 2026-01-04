@@ -1012,6 +1012,12 @@ class BaseImporter[T](ABC):
     - transform() method: Transform imported data
     - on_progress() method: Progress callback
 
+    Exception Handling Pattern:
+        Importer implementations use broad `except Exception` clauses to ensure
+        robust error handling. Importers must never crash the application -
+        instead they should return ImportResult(success=False) with error details.
+        This allows graceful degradation and clear error reporting to users.
+
     Example:
         >>> class BankCSVImporter(BaseImporter[list[dict]]):
         ...     @property
@@ -1027,14 +1033,21 @@ class BaseImporter[T](ABC):
         ...         return source.exists() and source.suffix == ".csv"
         ...
         ...     def import_data(self, source: Path) -> ImportResult[list[dict]]:
-        ...         # Read CSV and parse transactions
-        ...         transactions = []
-        ...         # ... parsing logic
-        ...         return ImportResult(
-        ...             success=True,
-        ...             data=transactions,
-        ...             records_imported=len(transactions),
-        ...         )
+        ...         try:
+        ...             # Read CSV and parse transactions
+        ...             transactions = []
+        ...             # ... parsing logic
+        ...             return ImportResult(
+        ...                 success=True,
+        ...                 data=transactions,
+        ...                 records_imported=len(transactions),
+        ...             )
+        ...         except Exception as e:
+        ...             return ImportResult(
+        ...                 success=False,
+        ...                 data=[],
+        ...                 errors=[f"Import failed: {e}"],
+        ...             )
     """
 
     def __init__(self, **kwargs: Any) -> None:
