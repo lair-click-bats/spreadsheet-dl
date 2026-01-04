@@ -586,8 +586,8 @@ class InteractiveOdsBuilder:
             # Note: This is a simplified implementation
             # Full implementation would need to find/create ContentValidations element
 
-        except Exception:
-            # Validation features may not be fully supported
+        except (ImportError, AttributeError):
+            # ODF validation features may not be fully supported by library version
             pass
 
     def _apply_conditional_format(

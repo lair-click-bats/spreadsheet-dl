@@ -1238,7 +1238,8 @@ class PlaidSyncManager:
                     self._cursors = state.get("cursors", {})
                     # Note: Access tokens need secure storage
                     # This is simplified for the reference implementation
-            except Exception:
+            except (OSError, json.JSONDecodeError):
+                # State file doesn't exist or is invalid - start fresh
                 pass
 
     def _save_state(self) -> None:

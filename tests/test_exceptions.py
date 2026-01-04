@@ -299,6 +299,7 @@ class TestOdsErrors:
         assert error.error_code == "FT-ODS-203"
         assert error.sheet_name == "Missing Sheet"
         assert "Sheet1" in error.available_sheets
+        assert error.details is not None
         assert "Sheet1" in error.details
 
     def test_sheet_not_found_error_no_available(self) -> None:
@@ -381,6 +382,7 @@ class TestValidationErrors:
         error = InvalidDateError("13-2025-01")
         assert error.error_code == "FT-VAL-402"
         assert error.value == "13-2025-01"
+        assert error.context.expected is not None
         assert "YYYY-MM-DD" in error.context.expected
 
     def test_invalid_date_error_custom_format(self) -> None:
@@ -741,7 +743,8 @@ class TestErrorCodeUniqueness:
         duplicates = []
 
         for cls in exception_classes:
-            code = cls.error_code
+            # Access class attribute directly, not instance
+            code = cls.error_code  # type: ignore[attr-defined]
             if code in codes:
                 duplicates.append((cls.__name__, code))
             codes.add(code)
@@ -766,6 +769,8 @@ class TestErrorCodeUniqueness:
         ]
 
         for cls in exception_classes:
-            assert pattern.match(cls.error_code), (
-                f"{cls.__name__} has invalid error code format: {cls.error_code}"
+            # Access class attribute directly, not instance
+            code = cls.error_code  # type: ignore[attr-defined]
+            assert pattern.match(code), (
+                f"{cls.__name__} has invalid error code format: {code}"
             )

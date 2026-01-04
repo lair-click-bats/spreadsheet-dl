@@ -1861,7 +1861,8 @@ class MCPServer:
 
             return recommendations
 
-        except Exception:
+        except Exception as e:
+            self.logger.warning(f"Failed to generate recommendations: {e}")
             return []
 
     # =========================================================================

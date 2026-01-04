@@ -365,7 +365,7 @@ class TestPageSetupBuilder:
             .build()
         )
         assert setup.header is not None
-        assert header.center is not None
+        assert setup.header.center is not None
         assert setup.header.center.text == "Report"
         assert setup.header.right is not None
         assert setup.footer is not None
@@ -429,6 +429,7 @@ class TestPageSetupBuilder:
         assert setup.margins.top == 1.27
         assert setup.scale_mode == PrintScale.FIT_TO_WIDTH
         assert setup.header is not None
+        assert setup.header.center is not None
         assert setup.header.center.text == "Q1 Budget Report"
         assert setup.print_area is not None
         assert setup.print_area.range == "A1:L50"

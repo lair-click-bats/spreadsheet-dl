@@ -81,7 +81,8 @@ class GenBankImporter(BaseImporter[list[dict[str, Any]]]):
             with path.open("r", encoding="utf-8", errors="replace") as f:
                 content = f.read(500)  # Read first 500 chars
                 return "LOCUS" in content or "ACCESSION" in content
-        except Exception:
+        except OSError:
+            # File access errors
             return False
 
     def import_data(self, source: Path | str) -> ImportResult[list[dict[str, Any]]]:

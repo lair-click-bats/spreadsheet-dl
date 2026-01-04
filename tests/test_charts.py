@@ -418,6 +418,7 @@ class TestDataSeries:
             .series("Data", "Sheet.B2:B13", trendline="exponential")
             .build()
         )
+        assert spec.series[0].trendline is not None
         assert spec.series[0].trendline.type == TrendlineType.EXPONENTIAL
 
     def test_categories(self) -> None:
@@ -555,6 +556,7 @@ class TestTrendlines:
             .series_trendline("linear", forward_periods=3)
             .build()
         )
+        assert spec.series[0].trendline is not None
         assert spec.series[0].trendline.forward_periods == 3
 
     def test_trendline_with_backward_forecast(self) -> None:
@@ -566,6 +568,7 @@ class TestTrendlines:
             .series_trendline("linear", backward_periods=2)
             .build()
         )
+        assert spec.series[0].trendline is not None
         assert spec.series[0].trendline.backward_periods == 2
 
     def test_trendline_display_options(self) -> None:
@@ -577,6 +580,7 @@ class TestTrendlines:
             .series_trendline("linear", display_equation=True, display_r_squared=True)
             .build()
         )
+        assert spec.series[0].trendline is not None
         assert spec.series[0].trendline.display_equation is True
         assert spec.series[0].trendline.display_r_squared is True
 
@@ -598,6 +602,7 @@ class TestTrendlines:
                 .series_trendline(type_str)
                 .build()
             )
+            assert spec.series[0].trendline is not None
             assert spec.series[0].trendline.type == type_enum
 
     def test_trendline_no_current_series(self) -> None:

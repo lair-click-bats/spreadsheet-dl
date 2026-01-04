@@ -29,11 +29,12 @@ from typing import Any
 
 def format_size(size: int) -> str:
     """Format size in human-readable format."""
+    size_float = float(size)
     for unit in ["B", "KB", "MB", "GB"]:
-        if size < 1024:
-            return f"{size:.1f} {unit}"
-        size /= 1024
-    return f"{size:.1f} TB"
+        if size_float < 1024:
+            return f"{size_float:.1f} {unit}"
+        size_float /= 1024
+    return f"{size_float:.1f} TB"
 
 
 def get_type_name(value: Any) -> str:

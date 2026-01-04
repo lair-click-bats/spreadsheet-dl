@@ -231,13 +231,13 @@ def _make_cache_key(args: tuple[Any, ...], kwargs: dict[str, Any]) -> str:
     for arg in args:
         try:
             key_parts.append(repr(arg))
-        except Exception:
+        except Exception:  # Intentionally broad: repr() can raise any exception
             key_parts.append(str(id(arg)))
 
     for k, v in sorted(kwargs.items()):
         try:
             key_parts.append(f"{k}={v!r}")
-        except Exception:
+        except Exception:  # Intentionally broad: repr() can raise any exception
             key_parts.append(f"{k}={id(v)}")
 
     key_str = ":".join(key_parts)

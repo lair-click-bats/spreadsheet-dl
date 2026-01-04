@@ -1039,7 +1039,8 @@ class BankFormatRegistry:
                 reader = csv.reader(f)
                 headers = next(reader, [])
                 headers_lower = [h.lower().strip() for h in headers]
-        except Exception:
+        except (OSError, UnicodeDecodeError, csv.Error):
+            # File access errors, encoding issues, or CSV parsing errors
             return None
 
         # Score each format based on header matches

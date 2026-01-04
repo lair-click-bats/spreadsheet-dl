@@ -51,34 +51,41 @@ def process_batch(
     files: list[Path], batch_num: int, total_batches: int
 ) -> dict[str, Any]:
     """Process a batch of files and return summary."""
-    batch_info = {
+    extensions: defaultdict[str, int] = defaultdict(int)
+    batch_info: dict[str, Any] = {
         "batch": batch_num,
         "total_batches": total_batches,
         "file_count": len(files),
         "files": [],
         "total_size": 0,
-        "extensions": defaultdict(int),
+        "extensions": extensions,
     }
+
+    file_list: list[dict[str, Any]] = []
+    total_size = 0
 
     for f in files:
         info = get_file_info(f)
-        batch_info["files"].append(info)
+        file_list.append(info)
         if "size" in info:
-            batch_info["total_size"] += info["size"]
+            total_size += info["size"]
         if "extension" in info:
-            batch_info["extensions"][info["extension"]] += 1
+            extensions[info["extension"]] += 1
 
-    batch_info["extensions"] = dict(batch_info["extensions"])
+    batch_info["files"] = file_list
+    batch_info["total_size"] = total_size
+    batch_info["extensions"] = dict(extensions)
     return batch_info
 
 
 def format_size(size: int) -> str:
     """Format size in human-readable format."""
+    size_float = float(size)
     for unit in ["B", "KB", "MB", "GB"]:
-        if size < 1024:
-            return f"{size:.1f} {unit}"
-        size /= 1024
-    return f"{size:.1f} TB"
+        if size_float < 1024:
+            return f"{size_float:.1f} {unit}"
+        size_float /= 1024
+    return f"{size_float:.1f} TB"
 
 
 def output_summary(batches: list[dict[str, Any]]) -> dict[str, Any]:
@@ -128,7 +135,7 @@ def output_sizes(batches: list[dict[str, Any]]) -> dict[str, Any]:
         reverse=True,
     )
 
-    size_brackets = {
+    size_brackets: dict[str, list[dict[str, str]]] = {
         "over_1mb": [],
         "100kb_to_1mb": [],
         "10kb_to_100kb": [],

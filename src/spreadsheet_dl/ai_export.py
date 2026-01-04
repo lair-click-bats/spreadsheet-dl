@@ -704,7 +704,8 @@ class AIExporter:
                 for p in cell.getElementsByType(text.P):
                     text_content.append(str(p))
                 return " ".join(text_content) if text_content else None
-            except Exception:
+            except (ImportError, AttributeError):
+                # ODF library not available or cell structure incompatible
                 return None
 
     def _extract_display_value(self, cell: Any) -> str:
@@ -716,7 +717,8 @@ class AIExporter:
             for p in cell.getElementsByType(text.P):
                 text_content.append(str(p))
             return " ".join(text_content) if text_content else ""
-        except Exception:
+        except (ImportError, AttributeError):
+            # ODF library not available or cell structure incompatible
             return ""
 
     def _determine_semantic_type(

@@ -228,14 +228,30 @@ class TestCategoryManager:
         manager = CategoryManager(auto_load=False)
 
         # Test various descriptions
-        assert manager.suggest_category("rent payment").name == "Housing"
-        assert manager.suggest_category("electric bill").name == "Utilities"
-        assert manager.suggest_category("kroger grocery").name == "Groceries"
-        assert manager.suggest_category("uber ride").name == "Transportation"
-        assert manager.suggest_category("netflix subscription").name == "Entertainment"
+        housing = manager.suggest_category("rent payment")
+        assert housing is not None
+        assert housing.name == "Housing"
+
+        utilities = manager.suggest_category("electric bill")
+        assert utilities is not None
+        assert utilities.name == "Utilities"
+
+        groceries = manager.suggest_category("kroger grocery")
+        assert groceries is not None
+        assert groceries.name == "Groceries"
+
+        transportation = manager.suggest_category("uber ride")
+        assert transportation is not None
+        assert transportation.name == "Transportation"
+
+        entertainment = manager.suggest_category("netflix subscription")
+        assert entertainment is not None
+        assert entertainment.name == "Entertainment"
 
         # Unknown should return Miscellaneous
-        assert manager.suggest_category("random stuff").name == "Miscellaneous"
+        misc = manager.suggest_category("random stuff")
+        assert misc is not None
+        assert misc.name == "Miscellaneous"
 
     def test_hidden_categories(self) -> None:
         """Test hidden categories behavior."""

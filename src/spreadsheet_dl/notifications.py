@@ -159,7 +159,9 @@ class EmailChannel:
 
             return True
 
-        except Exception:
+        except (smtplib.SMTPException, OSError):
+            # SMTP errors (auth, connection, send) or network errors
+            # Intentionally suppress for graceful degradation - notifications are non-critical
             return False
 
     def _format_subject(self, notification: Notification) -> str:
@@ -301,7 +303,9 @@ class NtfyChannel:
             with urllib.request.urlopen(req, timeout=10) as response:
                 return bool(response.status == 200)
 
-        except Exception:
+        except (urllib.error.URLError, OSError):
+            # HTTP errors or network errors
+            # Intentionally suppress for graceful degradation - notifications are non-critical
             return False
 
     def _get_tags(self, notification: Notification) -> str:

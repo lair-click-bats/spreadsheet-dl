@@ -38,11 +38,12 @@ MAX_CONTEXT_ESTIMATE = 200000  # tokens
 
 def format_size(size: int) -> str:
     """Format size in human-readable format."""
+    size_float = float(size)
     for unit in ["B", "KB", "MB", "GB"]:
-        if size < 1024:
-            return f"{size:.1f} {unit}"
-        size /= 1024
-    return f"{size:.1f} TB"
+        if size_float < 1024:
+            return f"{size_float:.1f} {unit}"
+        size_float /= 1024
+    return f"{size_float:.1f} TB"
 
 
 def estimate_tokens(text: str) -> int:
@@ -202,7 +203,9 @@ def analyze_directory(directory: Path) -> dict[str, Any]:
                 "action": "compress_large_json",
                 "command": "gzip -k <file>",
                 "files": [
-                    f["path"] for f in large_files[:10] if f["path"].endswith(".json")
+                    f["path"]
+                    for f in large_files[:10]
+                    if isinstance(f["path"], str) and f["path"].endswith(".json")
                 ],
             }
         )

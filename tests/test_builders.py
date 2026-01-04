@@ -48,6 +48,7 @@ from spreadsheet_dl.schema.data_validation import (
 from spreadsheet_dl.schema.styles import (
     BorderStyle,
     FontWeight,
+    NumberFormat,
     NumberFormatCategory,
     TextAlign,
     VerticalAlign,
@@ -647,6 +648,7 @@ class TestStyleBuilder:
             .build()
         )
         assert style.number_format is not None
+        assert isinstance(style.number_format, NumberFormat)
         assert style.number_format.category == NumberFormatCategory.NUMBER
         assert style.number_format.decimal_places == 2
 
@@ -656,6 +658,7 @@ class TestStyleBuilder:
             StyleBuilder("test").currency(symbol="$", negatives="parentheses").build()
         )
         assert style.number_format is not None
+        assert isinstance(style.number_format, NumberFormat)
         assert style.number_format.category == NumberFormatCategory.CURRENCY
         assert style.number_format.currency_symbol == "$"
 
@@ -663,8 +666,8 @@ class TestStyleBuilder:
         """Test percentage format shortcut."""
         style = StyleBuilder("test").percentage(decimal_places=1).build()
         assert style.number_format is not None
+        assert isinstance(style.number_format, NumberFormat)
         assert style.number_format.category == NumberFormatCategory.PERCENTAGE
-        assert style.number_format is not None
         assert style.number_format.decimal_places == 1
 
     def test_text_wrap(self) -> None:
@@ -729,6 +732,7 @@ class TestStyleConvenienceFunctions:
         assert style.name == "currency"
         assert style.text_align == TextAlign.RIGHT
         assert style.number_format is not None
+        assert isinstance(style.number_format, NumberFormat)
         assert style.number_format.category == NumberFormatCategory.CURRENCY
 
     def test_percentage_style(self) -> None:
@@ -736,6 +740,7 @@ class TestStyleConvenienceFunctions:
         style = percentage_style()
         assert style.name == "percentage"
         assert style.number_format is not None
+        assert isinstance(style.number_format, NumberFormat)
         assert style.number_format.category == NumberFormatCategory.PERCENTAGE
 
     def test_total_row_style(self) -> None:

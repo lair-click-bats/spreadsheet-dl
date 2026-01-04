@@ -80,7 +80,8 @@ class FASTAImporter(BaseImporter[list[dict[str, Any]]]):
             with path.open("r", encoding="utf-8", errors="replace") as f:
                 first_line = f.readline()
                 return first_line.strip().startswith(">")
-        except Exception:
+        except OSError:
+            # File access errors
             return False
 
     def import_data(self, source: Path | str) -> ImportResult[list[dict[str, Any]]]:
