@@ -1,5 +1,5 @@
 """
-Charts and visualization support for finance tracker.
+Charts and visualization support for SpreadsheetDL.
 
 Implements:
     - FR-CHART-001: Chart Type Support

@@ -9,7 +9,7 @@ spreadsheets with embedded charts.
 from decimal import Decimal
 from pathlib import Path
 
-from spreadsheet_dl import ChartType, chart, create_spreadsheet
+from spreadsheet_dl import chart, create_spreadsheet
 
 
 def main() -> None:
@@ -42,17 +42,20 @@ def main() -> None:
     # Create spending chart
     spending_chart = (
         chart()
+        .column_chart()
         .title("Budget vs Actual Spending")
-        .type(ChartType.COLUMN)
-        .data_range("B2:C8")
-        .categories_range("A2:A8")
-        .legend_position("bottom")
-        .size(width="15cm", height="10cm")
-        .position(row=10, col=0)
+        .series("Budget", "Sheet1.B2:B8")
+        .series("Actual", "Sheet1.C2:C8")
+        .categories("Sheet1.A2:A8")
+        .legend(position="bottom")
+        .size(400, 300)
+        .position("F10")
+        .build()
     )
 
-    # Add chart to sheet
-    builder.sheet("Monthly Expenses").add_chart(spending_chart)
+    # Note: Chart integration with spreadsheet builder is not yet fully implemented
+    # Charts are built separately and need to be added via the renderer
+    print(f"Created chart spec: {spending_chart.title}")
 
     # Create pie chart for spending breakdown
     builder.sheet("Category Breakdown").column("Category", width="3cm").column(
@@ -69,16 +72,18 @@ def main() -> None:
 
     pie_chart = (
         chart()
+        .pie_chart()
         .title("Spending Distribution")
-        .type(ChartType.PIE)
-        .data_range("B2:B8")
-        .categories_range("A2:A8")
-        .show_legend(True)
-        .size(width="12cm", height="10cm")
-        .position(row=2, col=3)
+        .series("Amount", "Sheet2.B2:B8")
+        .categories("Sheet2.A2:A8")
+        .legend(position="right")
+        .size(350, 300)
+        .position("D2")
+        .build()
     )
 
-    builder.sheet("Category Breakdown").add_chart(pie_chart)
+    # Note: Chart integration with spreadsheet builder is not yet fully implemented
+    print(f"Created pie chart spec: {pie_chart.title}")
 
     # Save
     output_file = Path("output/budget_with_charts.ods")

@@ -12,6 +12,8 @@ Implements tests for:
     - FR-BUILDER-004: ChartBuilder
 """
 
+import pytest
+
 from spreadsheet_dl.charts import (
     AxisConfig,
     AxisType,
@@ -39,6 +41,8 @@ from spreadsheet_dl.charts import (
     spending_pie_chart,
     trend_line_chart,
 )
+
+pytestmark = [pytest.mark.unit, pytest.mark.visualization]
 
 
 class TestChartTypes:
