@@ -854,11 +854,17 @@ class TestRenderSheetsFunction:
         assert path.exists()
         assert path.parent.exists()
 
+    @pytest.mark.skip(
+        reason="Named range ODF rendering not yet implemented (v4.1 feature)"
+    )
     def test_render_sheets_with_named_ranges(self, tmp_path: Path) -> None:
-        """Test render_sheets with named ranges."""
-        pytest.skip(
-            "Named range ODF rendering not yet implemented - requires database setup"
-        )
+        """Test render_sheets with named ranges.
+
+        Named ranges in ODF require database-range elements with proper
+        namespace handling. Planned for v4.1.0.
+        """
+        # TODO: Implement named range rendering in ODFRenderer
+        pass
 
 
 class TestRendererIntegration:

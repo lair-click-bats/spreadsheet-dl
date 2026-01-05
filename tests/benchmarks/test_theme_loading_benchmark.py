@@ -22,9 +22,6 @@ pytestmark = [pytest.mark.benchmark, pytest.mark.requires_yaml]
 class TestThemeLoadingBenchmarks:
     """Benchmark tests for theme loading performance."""
 
-    @pytest.mark.skip(
-        reason="Theme benchmark needs update for meta section requirement"
-    )
     def test_theme_parse_from_yaml(
         self,
         benchmark: pytest.fixture,  # type: ignore[valid-type]
@@ -40,11 +37,13 @@ class TestThemeLoadingBenchmarks:
         """
         # Create test theme YAML
         theme_yaml = """
-name: benchmark_theme
-version: "1.0"
-author: Benchmark Suite
+meta:
+  name: "benchmark_theme"
+  version: "1.0"
+  description: "Benchmark test theme"
+  author: "Benchmark Suite"
 
-palette:
+colors:
   primary: "#0066CC"
   secondary: "#00CC66"
   accent: "#CC6600"
@@ -128,9 +127,6 @@ styles:
         result = benchmark(load_themes)
         assert result == 10
 
-    @pytest.mark.skip(
-        reason="Theme benchmark needs update for meta section requirement"
-    )
     def test_theme_cache_effectiveness(
         self,
         benchmark: pytest.fixture,  # type: ignore[valid-type]
@@ -142,10 +138,13 @@ styles:
         Tests repeated loading of same theme (should be fast with cache).
         """
         theme_yaml = """
-name: cached_theme
-version: "1.0"
+meta:
+  name: "cached_theme"
+  version: "1.0"
+  description: "Cached test theme"
+  author: "Benchmark Suite"
 
-palette:
+colors:
   primary: "#0066CC"
   text: "#333333"
 
@@ -173,9 +172,6 @@ styles:
         result = benchmark(load_cached_theme)
         assert result == 100
 
-    @pytest.mark.skip(
-        reason="Theme benchmark needs update for meta section requirement"
-    )
     def test_theme_inheritance_resolution(
         self,
         benchmark: pytest.fixture,  # type: ignore[valid-type]
@@ -188,10 +184,13 @@ styles:
         """
         # Parent theme
         parent_yaml = """
-name: parent
-version: "1.0"
+meta:
+  name: "parent"
+  version: "1.0"
+  description: "Parent test theme"
+  author: "Benchmark Suite"
 
-palette:
+colors:
   primary: "#0066CC"
   text: "#333333"
   background: "#FFFFFF"
@@ -205,11 +204,15 @@ styles:
 
         # Child theme that extends parent
         child_yaml = """
-name: child
-version: "1.0"
+meta:
+  name: "child"
+  version: "1.0"
+  description: "Child test theme"
+  author: "Benchmark Suite"
+
 extends: parent
 
-palette:
+colors:
   accent: "#CC6600"
 
 styles:
@@ -238,9 +241,6 @@ styles:
         result = benchmark(load_with_inheritance)
         assert result == 50
 
-    @pytest.mark.skip(
-        reason="Theme benchmark needs update for meta section requirement"
-    )
     def test_color_reference_resolution(
         self,
         benchmark: pytest.fixture,  # type: ignore[valid-type]
@@ -252,10 +252,13 @@ styles:
         Tests performance of resolving palette color references in styles.
         """
         theme_yaml = """
-name: colors
-version: "1.0"
+meta:
+  name: "colors"
+  version: "1.0"
+  description: "Color test theme"
+  author: "Benchmark Suite"
 
-palette:
+colors:
   primary: "#0066CC"
   secondary: "#00CC66"
   text: "#333333"
@@ -306,9 +309,6 @@ styles:
         result = benchmark(load_color_refs)
         assert result == 100
 
-    @pytest.mark.skip(
-        reason="Theme benchmark needs update for meta section requirement"
-    )
     def test_complex_style_parsing(
         self,
         benchmark: pytest.fixture,  # type: ignore[valid-type]
@@ -320,10 +320,13 @@ styles:
         Tests performance with all style properties defined.
         """
         theme_yaml = """
-name: complex
-version: "1.0"
+meta:
+  name: "complex"
+  version: "1.0"
+  description: "Complex test theme"
+  author: "Benchmark Suite"
 
-palette:
+colors:
   primary: "#0066CC"
 
 styles:

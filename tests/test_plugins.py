@@ -25,7 +25,7 @@ pytestmark = [pytest.mark.unit, pytest.mark.domain]
 
 
 # Test plugin implementations
-class TestPluginBasic(PluginInterface):
+class SamplePluginBasic(PluginInterface):
     """Basic test plugin."""
 
     def __init__(self) -> None:
@@ -57,7 +57,7 @@ class TestPluginBasic(PluginInterface):
         self.shutdown_called = True
 
 
-class TestPluginMinimal(PluginInterface):
+class SamplePluginMinimal(PluginInterface):
     """Minimal test plugin with only required methods."""
 
     @property
@@ -82,7 +82,7 @@ class TestPluginInterface:
 
     def test_plugin_with_all_properties(self) -> None:
         """Test plugin with all properties implemented."""
-        plugin = TestPluginBasic()
+        plugin = SamplePluginBasic()
         assert plugin.name == "test_basic"
         assert plugin.version == "1.0.0"
         assert plugin.description == "Basic test plugin"
@@ -90,7 +90,7 @@ class TestPluginInterface:
 
     def test_plugin_with_minimal_implementation(self) -> None:
         """Test plugin with only required methods."""
-        plugin = TestPluginMinimal()
+        plugin = SamplePluginMinimal()
         assert plugin.name == "test_minimal"
         assert plugin.version == "0.1.0"
         assert plugin.description == ""  # Default empty string
@@ -98,7 +98,7 @@ class TestPluginInterface:
 
     def test_plugin_initialization(self) -> None:
         """Test plugin initialization without config."""
-        plugin = TestPluginBasic()
+        plugin = SamplePluginBasic()
         assert not plugin.initialized
 
         plugin.initialize()
@@ -107,7 +107,7 @@ class TestPluginInterface:
 
     def test_plugin_initialization_with_config(self) -> None:
         """Test plugin initialization with config."""
-        plugin = TestPluginBasic()
+        plugin = SamplePluginBasic()
         config = {"key": "value", "setting": 123}
 
         plugin.initialize(config)
@@ -116,7 +116,7 @@ class TestPluginInterface:
 
     def test_plugin_shutdown(self) -> None:
         """Test plugin shutdown."""
-        plugin = TestPluginBasic()
+        plugin = SamplePluginBasic()
         assert not plugin.shutdown_called
 
         plugin.shutdown()
@@ -124,7 +124,7 @@ class TestPluginInterface:
 
     def test_plugin_lifecycle(self) -> None:
         """Test full plugin lifecycle."""
-        plugin = TestPluginBasic()
+        plugin = SamplePluginBasic()
 
         # Initialize
         plugin.initialize({"test": True})
@@ -348,15 +348,15 @@ class PrivatePlugin(PluginInterface):
 
     def test_load_plugin(self) -> None:
         """Test loading and initializing a plugin."""
-        plugin = PluginLoader.load_plugin(TestPluginBasic)
-        assert isinstance(plugin, TestPluginBasic)
+        plugin = PluginLoader.load_plugin(SamplePluginBasic)
+        assert isinstance(plugin, SamplePluginBasic)
         assert plugin.initialized
 
     def test_load_plugin_with_config(self) -> None:
         """Test loading plugin with configuration."""
         config = {"key": "value"}
-        plugin = PluginLoader.load_plugin(TestPluginBasic, config)
-        assert isinstance(plugin, TestPluginBasic)
+        plugin = PluginLoader.load_plugin(SamplePluginBasic, config)
+        assert isinstance(plugin, SamplePluginBasic)
         assert plugin.initialized
         assert plugin.config_received == config
 
@@ -412,7 +412,7 @@ class DiscoverablePlugin(PluginInterface):
     def test_enable_plugin(self) -> None:
         """Test enabling a plugin."""
         manager = PluginManager(plugin_dirs=[])
-        plugin = TestPluginBasic()
+        plugin = SamplePluginBasic()
         manager._plugins[plugin.name] = plugin
 
         assert plugin.name not in manager._enabled
@@ -426,7 +426,7 @@ class DiscoverablePlugin(PluginInterface):
     def test_enable_plugin_with_config(self) -> None:
         """Test enabling a plugin with configuration."""
         manager = PluginManager(plugin_dirs=[])
-        plugin = TestPluginBasic()
+        plugin = SamplePluginBasic()
         manager._plugins[plugin.name] = plugin
 
         config = {"setting": "value"}
@@ -445,7 +445,7 @@ class DiscoverablePlugin(PluginInterface):
     def test_disable_plugin(self) -> None:
         """Test disabling a plugin."""
         manager = PluginManager(plugin_dirs=[])
-        plugin = TestPluginBasic()
+        plugin = SamplePluginBasic()
         manager._plugins[plugin.name] = plugin
         manager.enable(plugin.name)
 
@@ -460,7 +460,7 @@ class DiscoverablePlugin(PluginInterface):
     def test_disable_already_disabled_plugin(self) -> None:
         """Test disabling a plugin that isn't enabled."""
         manager = PluginManager(plugin_dirs=[])
-        plugin = TestPluginBasic()
+        plugin = SamplePluginBasic()
         manager._plugins[plugin.name] = plugin
 
         # Should not raise
@@ -469,8 +469,8 @@ class DiscoverablePlugin(PluginInterface):
     def test_list_plugins(self) -> None:
         """Test listing all plugins."""
         manager = PluginManager(plugin_dirs=[])
-        plugin1 = TestPluginBasic()
-        plugin2 = TestPluginMinimal()
+        plugin1 = SamplePluginBasic()
+        plugin2 = SamplePluginMinimal()
         manager._plugins[plugin1.name] = plugin1
         manager._plugins[plugin2.name] = plugin2
         manager.enable(plugin1.name)
@@ -484,8 +484,8 @@ class DiscoverablePlugin(PluginInterface):
     def test_list_enabled_plugins_only(self) -> None:
         """Test listing only enabled plugins."""
         manager = PluginManager(plugin_dirs=[])
-        plugin1 = TestPluginBasic()
-        plugin2 = TestPluginMinimal()
+        plugin1 = SamplePluginBasic()
+        plugin2 = SamplePluginMinimal()
         manager._plugins[plugin1.name] = plugin1
         manager._plugins[plugin2.name] = plugin2
         manager.enable(plugin1.name)
@@ -498,7 +498,7 @@ class DiscoverablePlugin(PluginInterface):
     def test_get_plugin(self) -> None:
         """Test getting plugin by name."""
         manager = PluginManager(plugin_dirs=[])
-        plugin = TestPluginBasic()
+        plugin = SamplePluginBasic()
         manager._plugins[plugin.name] = plugin
 
         retrieved = manager.get_plugin("test_basic")

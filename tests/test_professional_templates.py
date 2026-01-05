@@ -6,6 +6,7 @@ Tests FR-PROF-001, FR-PROF-002, FR-PROF-003
 
 import pytest
 
+from spreadsheet_dl.builder import SpreadsheetBuilder
 from spreadsheet_dl.templates.professional import (
     PROFESSIONAL_TEMPLATES,
     BudgetCategory,
@@ -278,17 +279,22 @@ class TestTemplateRegistry:
 class TestTemplateIntegration:
     """Integration tests for templates with builder."""
 
-    @pytest.mark.skip(reason="Requires full builder implementation")
     def test_enterprise_budget_generate(self) -> None:
         """Test generating enterprise budget spreadsheet."""
         template = EnterpriseBudgetTemplate(
             fiscal_year=2024,
             departments=["Engineering"],
         )
-        template.generate()
-        # Would verify builder state
+        builder = template.generate()
 
-    @pytest.mark.skip(reason="Requires full builder implementation")
+        # Verify builder state
+        assert builder is not None
+        assert isinstance(builder, SpreadsheetBuilder)
+        assert len(builder._sheets) >= 2  # Summary + at least one department
+        assert builder._workbook_properties.title == "Enterprise Budget FY2024"
+        assert any(sheet.name == "Summary" for sheet in builder._sheets)
+        assert any(sheet.name == "Engineering" for sheet in builder._sheets)
+
     def test_cash_flow_generate(self) -> None:
         """Test generating cash flow spreadsheet."""
         template = CashFlowTrackerTemplate(
@@ -296,15 +302,26 @@ class TestTemplateIntegration:
             periods=12,
             opening_balance=10000,
         )
-        template.generate()
-        # Would verify builder state
+        builder = template.generate()
 
-    @pytest.mark.skip(reason="Requires full builder implementation")
+        # Verify builder state
+        assert builder is not None
+        assert isinstance(builder, SpreadsheetBuilder)
+        assert len(builder._sheets) >= 2  # Cash Flow + Summary
+        assert builder._workbook_properties.title == "Cash Flow Tracker - 2024-01-01"
+        assert any(sheet.name == "Cash Flow" for sheet in builder._sheets)
+
     def test_invoice_generate(self) -> None:
         """Test generating invoice spreadsheet."""
         template = InvoiceTemplate(
             company_name="Test Corp",
             invoice_number="INV-100",
         )
-        template.generate()
-        # Would verify builder state
+        builder = template.generate()
+
+        # Verify builder state
+        assert builder is not None
+        assert isinstance(builder, SpreadsheetBuilder)
+        assert len(builder._sheets) >= 1  # Invoice sheet
+        assert builder._workbook_properties.title == "Invoice INV-100"
+        assert any(sheet.name == "Invoice" for sheet in builder._sheets)

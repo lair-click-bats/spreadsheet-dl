@@ -35,8 +35,8 @@ pytestmark = [pytest.mark.unit, pytest.mark.domain]
 # ============================================================================
 
 
-class TestPlugin(BaseDomainPlugin):
-    """Test plugin implementation."""
+class SamplePlugin(BaseDomainPlugin):
+    """Sample plugin implementation for tests."""
 
     @property
     def metadata(self) -> PluginMetadata:
@@ -50,17 +50,17 @@ class TestPlugin(BaseDomainPlugin):
 
     def initialize(self) -> None:
         """Initialize test plugin."""
-        self.register_template("test_template", TestTemplate)
-        self.register_formula("TESTFUNC", TestFormula)
-        self.register_importer("test_importer", TestImporter)
+        self.register_template("test_template", SampleTemplate)
+        self.register_formula("TESTFUNC", SampleFormula)
+        self.register_importer("test_importer", SampleImporter)
 
     def cleanup(self) -> None:
         """Cleanup test plugin."""
         pass
 
 
-class TestPluginWithDeps(BaseDomainPlugin):
-    """Test plugin with dependencies."""
+class SamplePluginWithDeps(BaseDomainPlugin):
+    """Sample plugin with dependencies for tests."""
 
     @property
     def metadata(self) -> PluginMetadata:
@@ -93,7 +93,7 @@ class TestPluginWithDeps(BaseDomainPlugin):
 # ============================================================================
 
 
-class TestTemplate(BaseTemplate):
+class SampleTemplate(BaseTemplate):
     """Test template implementation."""
 
     @property
@@ -120,7 +120,7 @@ class TestTemplate(BaseTemplate):
 # ============================================================================
 
 
-class TestFormula(BaseFormula):
+class SampleFormula(BaseFormula):
     """Test formula implementation."""
 
     @property
@@ -151,7 +151,7 @@ class TestFormula(BaseFormula):
 # ============================================================================
 
 
-class TestImporter(BaseImporter[list[dict[str, Any]]]):
+class SampleImporter(BaseImporter[list[dict[str, Any]]]):
     """Test importer implementation."""
 
     @property
@@ -235,14 +235,14 @@ def test_plugin_metadata_validation_empty_version() -> None:
 
 def test_plugin_initialization() -> None:
     """Test plugin initialization."""
-    plugin = TestPlugin()
+    plugin = SamplePlugin()
     assert plugin.status == PluginStatus.UNINITIALIZED
     assert not plugin.is_ready
 
 
 def test_plugin_initialize() -> None:
     """Test plugin initialize method."""
-    plugin = TestPlugin()
+    plugin = SamplePlugin()
     plugin.initialize()
 
     # Check registrations
@@ -253,55 +253,55 @@ def test_plugin_initialize() -> None:
 
 def test_plugin_template_registration() -> None:
     """Test template registration."""
-    plugin = TestPlugin()
-    plugin.register_template("custom", TestTemplate)
+    plugin = SamplePlugin()
+    plugin.register_template("custom", SampleTemplate)
 
     assert "custom" in plugin.list_templates()
-    assert plugin.get_template("custom") == TestTemplate
+    assert plugin.get_template("custom") == SampleTemplate
     assert plugin.get_template("nonexistent") is None
 
 
 def test_plugin_template_registration_duplicate() -> None:
     """Test duplicate template registration fails."""
-    plugin = TestPlugin()
-    plugin.register_template("test", TestTemplate)
+    plugin = SamplePlugin()
+    plugin.register_template("test", SampleTemplate)
 
     with pytest.raises(ValueError, match="already registered"):
-        plugin.register_template("test", TestTemplate)
+        plugin.register_template("test", SampleTemplate)
 
 
 def test_plugin_formula_registration() -> None:
     """Test formula registration."""
-    plugin = TestPlugin()
-    plugin.register_formula("CUSTOM", TestFormula)
+    plugin = SamplePlugin()
+    plugin.register_formula("CUSTOM", SampleFormula)
 
     assert "CUSTOM" in plugin.list_formulas()
-    assert plugin.get_formula("CUSTOM") == TestFormula
-    assert plugin.get_formula("custom") == TestFormula  # Case insensitive get
+    assert plugin.get_formula("CUSTOM") == SampleFormula
+    assert plugin.get_formula("custom") == SampleFormula  # Case insensitive get
     assert plugin.get_formula("NONEXISTENT") is None
 
 
 def test_plugin_formula_registration_uppercase_required() -> None:
     """Test formula names must be uppercase."""
-    plugin = TestPlugin()
+    plugin = SamplePlugin()
 
     with pytest.raises(ValueError, match="must be uppercase"):
-        plugin.register_formula("lowercase", TestFormula)
+        plugin.register_formula("lowercase", SampleFormula)
 
 
 def test_plugin_importer_registration() -> None:
     """Test importer registration."""
-    plugin = TestPlugin()
-    plugin.register_importer("custom", TestImporter)
+    plugin = SamplePlugin()
+    plugin.register_importer("custom", SampleImporter)
 
     assert "custom" in plugin.list_importers()
-    assert plugin.get_importer("custom") == TestImporter
+    assert plugin.get_importer("custom") == SampleImporter
     assert plugin.get_importer("nonexistent") is None
 
 
 def test_plugin_dependencies() -> None:
     """Test plugin dependencies."""
-    plugin = TestPluginWithDeps()
+    plugin = SamplePluginWithDeps()
     deps = plugin.dependencies
 
     assert len(deps) == 2
@@ -316,10 +316,10 @@ def test_plugin_global_registration() -> None:
     # Clear registry first
     BaseDomainPlugin._registry.clear()
 
-    BaseDomainPlugin.register_plugin(TestPlugin)
+    BaseDomainPlugin.register_plugin(SamplePlugin)
 
     assert "test_plugin" in BaseDomainPlugin.list_plugins()
-    assert BaseDomainPlugin.get_plugin_class("test_plugin") == TestPlugin
+    assert BaseDomainPlugin.get_plugin_class("test_plugin") == SamplePlugin
 
 
 def test_plugin_global_registration_duplicate() -> None:
@@ -327,10 +327,10 @@ def test_plugin_global_registration_duplicate() -> None:
     # Clear registry first
     BaseDomainPlugin._registry.clear()
 
-    BaseDomainPlugin.register_plugin(TestPlugin)
+    BaseDomainPlugin.register_plugin(SamplePlugin)
 
     with pytest.raises(ValueError, match="already registered"):
-        BaseDomainPlugin.register_plugin(TestPlugin)
+        BaseDomainPlugin.register_plugin(SamplePlugin)
 
 
 # ============================================================================
@@ -340,7 +340,7 @@ def test_plugin_global_registration_duplicate() -> None:
 
 def test_template_metadata() -> None:
     """Test template metadata."""
-    template = TestTemplate()
+    template = SampleTemplate()
     metadata = template.metadata
 
     assert metadata.name == "Test Template"
@@ -351,7 +351,7 @@ def test_template_metadata() -> None:
 
 def test_template_generate() -> None:
     """Test template generation."""
-    template = TestTemplate(theme="corporate")
+    template = SampleTemplate(theme="corporate")
     builder = template.generate()
 
     assert isinstance(builder, SpreadsheetBuilder)
@@ -360,7 +360,7 @@ def test_template_generate() -> None:
 
 def test_template_config() -> None:
     """Test template configuration."""
-    template = TestTemplate(
+    template = SampleTemplate(
         theme="minimal",
         currency="EUR",
         custom_option="value",
@@ -374,13 +374,13 @@ def test_template_config() -> None:
 
 def test_template_validation() -> None:
     """Test template validation."""
-    template = TestTemplate()
+    template = SampleTemplate()
     assert template.validate()
 
 
 def test_template_customization() -> None:
     """Test template customization."""
-    template = TestTemplate()
+    template = SampleTemplate()
     builder = template.generate()
     customized = template.customize(builder)
 
@@ -394,7 +394,7 @@ def test_template_customization() -> None:
 
 def test_formula_metadata() -> None:
     """Test formula metadata."""
-    formula = TestFormula()
+    formula = SampleFormula()
     metadata = formula.metadata
 
     assert metadata.name == "TESTFUNC"
@@ -407,7 +407,7 @@ def test_formula_metadata() -> None:
 
 def test_formula_build() -> None:
     """Test formula building."""
-    formula = TestFormula()
+    formula = SampleFormula()
 
     # With required args only
     result = formula.build(1, 2)
@@ -420,7 +420,7 @@ def test_formula_build() -> None:
 
 def test_formula_validation_too_few_args() -> None:
     """Test formula validation with too few arguments."""
-    formula = TestFormula()
+    formula = SampleFormula()
 
     with pytest.raises(ValueError, match="requires at least 2 arguments"):
         formula.validate_arguments((1,))
@@ -428,7 +428,7 @@ def test_formula_validation_too_few_args() -> None:
 
 def test_formula_validation_too_many_args() -> None:
     """Test formula validation with too many arguments."""
-    formula = TestFormula()
+    formula = SampleFormula()
 
     with pytest.raises(ValueError, match="accepts at most 3 arguments"):
         formula.validate_arguments((1, 2, 3, 4))
@@ -458,7 +458,7 @@ def test_formula_argument_metadata() -> None:
 
 def test_importer_metadata() -> None:
     """Test importer metadata."""
-    importer = TestImporter()
+    importer = SampleImporter()
     metadata = importer.metadata
 
     assert metadata.name == "Test Importer"
@@ -469,7 +469,7 @@ def test_importer_metadata() -> None:
 
 def test_importer_validate_source(tmp_path: Path) -> None:
     """Test importer source validation."""
-    importer = TestImporter()
+    importer = SampleImporter()
 
     # Create test file
     test_file = tmp_path / "test.csv"
@@ -486,7 +486,7 @@ def test_importer_validate_source(tmp_path: Path) -> None:
 
 def test_importer_import_data(tmp_path: Path) -> None:
     """Test data import."""
-    importer = TestImporter()
+    importer = SampleImporter()
 
     # Create test file
     test_file = tmp_path / "test.csv"
@@ -503,7 +503,7 @@ def test_importer_import_data(tmp_path: Path) -> None:
 
 def test_importer_import_invalid_source() -> None:
     """Test import with invalid source."""
-    importer = TestImporter()
+    importer = SampleImporter()
 
     result = importer.import_data(Path("/nonexistent/file.csv"))
 
@@ -514,7 +514,7 @@ def test_importer_import_invalid_source() -> None:
 
 def test_importer_config() -> None:
     """Test importer configuration."""
-    importer = TestImporter(
+    importer = SampleImporter(
         delimiter=",",
         encoding="utf-8",
     )
@@ -526,7 +526,7 @@ def test_importer_config() -> None:
 
 def test_importer_progress_callback() -> None:
     """Test importer progress callback."""
-    importer = TestImporter()
+    importer = SampleImporter()
 
     progress_calls = []
 
@@ -570,7 +570,7 @@ def test_full_plugin_lifecycle() -> None:
     BaseDomainPlugin._registry.clear()
 
     # Register plugin
-    BaseDomainPlugin.register_plugin(TestPlugin)
+    BaseDomainPlugin.register_plugin(SamplePlugin)
 
     # Get plugin class
     plugin_class = BaseDomainPlugin.get_plugin_class("test_plugin")

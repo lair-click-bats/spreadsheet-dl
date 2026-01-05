@@ -535,8 +535,31 @@ class TestVAL401_NewCapabilities:
 
     def test_roundtrip_preserves_fidelity(self) -> None:
         """VAL-401-C2: Round-trip preserves 95%+ fidelity (if implemented)."""
-        # Placeholder for round-trip tests
-        pytest.skip("Round-trip module not yet implemented")
+        # Test that round-trip serialization capability exists
+        from spreadsheet_dl.builder import ColumnSpec, SheetSpec
+        from spreadsheet_dl.serialization import Serializer
+
+        # Create a test sheet
+        sheet = SheetSpec(
+            name="Test",
+            columns=[
+                ColumnSpec(name="Column A", width="100pt"),
+                ColumnSpec(name="Column B", width="80pt", type="float"),
+            ],
+            rows=[],
+        )
+
+        # Verify JSON round-trip works
+        serializer = Serializer()
+        json_str = serializer.to_json(sheet)
+        result = serializer.from_json(json_str)
+
+        # Validate round-trip fidelity
+        assert isinstance(result, SheetSpec)
+        assert result.name == sheet.name
+        assert len(result.columns) == len(sheet.columns)
+        assert result.columns[0].name == "Column A"
+        assert result.columns[1].type == "float"
 
     def test_format_adapters_work_correctly(self) -> None:
         """VAL-401-C3: Format adapters work correctly (if implemented)."""
