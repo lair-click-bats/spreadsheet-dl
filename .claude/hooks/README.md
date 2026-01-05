@@ -1,312 +1,43 @@
-# Lifecycle Hooks Documentation
+# Claude Code Lifecycle Hooks
 
-Comprehensive guide to Claude Code lifecycle hooks in workspace template.
+Automated actions at specific points in Claude's workflow.
 
-## Overview
+## Hook Types
 
-Lifecycle hooks allow automated actions at specific points in Claude's workflow:
+| Type             | Purpose                   | Blocking |
+| ---------------- | ------------------------- | -------- |
+| **PreToolUse**   | Validate before execution | Yes      |
+| **PostToolUse**  | Process after execution   | No       |
+| **PreCompact**   | Cleanup before compaction | No       |
+| **SessionStart** | Initialize/recover        | No       |
+| **SessionEnd**   | Cleanup on exit           | No       |
+| **Stop**         | Handle shutdown           | No       |
+| **SubagentStop** | Handle agent completion   | No       |
 
-- **PreToolUse**: Validate operations before they execute (blocking)
-- **PostToolUse**: Process results after tool execution (non-blocking)
-- **PreCompact**: Clean up before context compaction
-- **SessionStart**: Initialize after session starts or recovery
-- **SessionEnd**: Clean up when session ends
-- **Stop**: Handle graceful shutdown
-- **SubagentStop**: Handle subagent completion
+## Active Hooks
 
-## Hook Inventory
+### Security & Validation
 
-### Security & Validation Hooks
+| Hook                     | Trigger    | Purpose                                            |
+| ------------------------ | ---------- | -------------------------------------------------- |
+| `validate_path.py`       | Write/Edit | Block writes to sensitive files (.env, .key, etc.) |
+| `enforce_agent_limit.py` | Task       | Limit parallel agents to 2                         |
 
-#### PreToolUse: validate_path.py
+### Quality Enforcement
 
-**Purpose**: Prevent writes to sensitive files and validate path safety
+| Hook                        | Trigger    | Purpose                                    |
+| --------------------------- | ---------- | ------------------------------------------ |
+| `quality_enforce_strict.py` | Write/Edit | Run linters, type checks on modified files |
 
-**Triggers**: Before Write, Edit, NotebookEdit tool calls
+### Context Management
 
-**Behavior**: Blocking (non-zero exit = operation canceled)
-
-**Features**:
-
-- Blocks credentials (.env\*, \*.key, \*.pem, secrets.\*)
-- Blocks .git directory internals
-- Warns on critical configs (pyproject.toml, package.json, .claude/settings.json)
-- Prevents path traversal attacks (../)
-- Validates paths within project root
-
-### Auto-Formatting Hooks
-
-#### PostToolUse: auto_format.py
-
-**Purpose**: Automatically format files after Claude writes/edits them
-
-**Triggers**: After Write, Edit, NotebookEdit tool calls
-
-**Behavior**: Non-blocking (always exits 0)
-
-**Formatters**:
-
-- **Python** -> `uv run ruff format` (via pyproject.toml)
-- **Markdown/YAML/JSON** -> `npx prettier --write` (via .prettierrc.yaml)
-- **Shell** -> `shfmt -i 2 -w` (2-space indent)
-- **LaTeX** -> `latexindent -w` (via .latexindent.yaml)
-
-### Context Management Hooks
-
-#### PreCompact: pre_compact_cleanup.sh
-
-**Purpose**: Clean up temporary files before context compaction
-
-**Triggers**: Before automatic context compaction
-
-**Features**:
-
-- Archives old agent outputs (>7 days -> `.claude/agent-outputs/archive/`)
-- Archives old coordination files (>30 days -> `.coordination/archive/`)
-- Compresses large JSON files (>100KB)
-- Cleans up test data temporary files
-- Archives old validation reports (>7 days)
-- Deduplicates redundant audit files
-- Logs cleanup metrics
-
-**Timeout**: 30s
-
-#### SessionStart: post_compact_recovery.sh
-
-**Purpose**: Verify session state after compaction or recovery
-
-**Triggers**: After session starts (normal or post-compact)
-
-**Features**:
-
-- Validates .claude/ structure (warns but doesn't fail on CLAUDE.md)
-- Checks .coordination/spec/ directory
-- Verifies hook executability (auto-fixes if needed)
-- Provides recovery suggestions on errors
-- Logs recovery status
-
-**Timeout**: 10s
-
-#### SessionEnd: session_cleanup.sh
-
-**Purpose**: Clean up session-specific temporary files
-
-**Triggers**: When session ends normally
-
-**Features**:
-
-- Archives session logs
-- Cleans up temporary files
-- Removes expired lock files
-- Validates final state
-
-**Timeout**: 30s
-
-#### NEW: check_context_usage.sh
-
-**Purpose**: Monitor context usage and trigger warnings at thresholds
-
-**Usage**: Can be called manually or periodically
-
-**Features**:
-
-- Estimates current token usage
-- Triggers warnings at 60%, 70%, 80% thresholds
-- Tracks context growth rate
-- Suggests cleanup actions
-- Provides JSON or human-readable output
-
-**Thresholds**:
-
-- 60%: Low warning
-- 70%: Medium warning
-- 80%: High warning
-- 90%: Critical
-
-**Example**:
-
-```bash
-# Get JSON status
-.claude/hooks/check_context_usage.sh
-
-# Get detailed report
-.claude/hooks/check_context_usage.sh --report
-```
-
-### Checkpoint System
-
-#### checkpoint_state.sh
-
-**Purpose**: Create and manage checkpoints for long-running tasks
-
-**Commands**:
-
-- `create <task-id> [description]` - Create new checkpoint
-- `list` - List all checkpoints
-- `show <task-id>` - Show checkpoint details
-- `delete <task-id>` - Delete checkpoint (archives first)
-- `update <task-id> <key> <value>` - Update state
-
-**Checkpoint Structure**:
-
-```
-.coordination/checkpoints/<task-id>/
-  manifest.json   - Metadata
-  state.json      - Task state
-  context.md      - Human-readable summary
-  artifacts/      - Important files
-```
-
-**Example**:
-
-```bash
-# Create checkpoint before compaction
-.claude/hooks/checkpoint_state.sh create validation-task "Validating WFM files"
-
-# Update progress
-.claude/hooks/checkpoint_state.sh update validation-task phase "testing"
-```
-
-#### restore_checkpoint.sh
-
-**Purpose**: Restore checkpoint state after compaction
-
-**Usage**:
-
-```bash
-# Restore specific checkpoint
-.claude/hooks/restore_checkpoint.sh <task-id>
-
-# Restore most recent checkpoint
-.claude/hooks/restore_checkpoint.sh --latest
-
-# Get JSON output
-.claude/hooks/restore_checkpoint.sh <task-id> --json
-```
-
-### Stop Handlers
-
-#### Stop: check_stop.py
-
-**Purpose**: Handle graceful shutdown of main session
-
-**Triggers**: When session stops (user command or system)
-
-**Timeout**: 10s
-
-#### SubagentStop: check_subagent_stop.py
-
-**Purpose**: Handle subagent completion
-
-**Triggers**: When subagent completes (Task tool)
-
-**Timeout**: 10s
-
-## Utility Scripts
-
-Located in `scripts/maintenance/`:
-
-### batch_file_processor.py
-
-Process files in batches to reduce context overhead:
-
-```bash
-# Process WFM files
-python scripts/maintenance/batch_file_processor.py test_data "*.wfm" --batch-size 20
-
-# Get size summary
-python scripts/maintenance/batch_file_processor.py . "*.json" --output sizes
-```
-
-### json_summarizer.py
-
-Extract key metrics from large JSON files:
-
-```bash
-# Summarize validation report
-python scripts/maintenance/json_summarizer.py validation_report.json
-
-# Extract specific keys
-python scripts/maintenance/json_summarizer.py report.json --keys status,error_count
-```
-
-### context_optimizer.py
-
-Analyze project for context optimization:
-
-```bash
-# Quick analysis
-python scripts/maintenance/context_optimizer.py
-
-# Detailed report
-python scripts/maintenance/context_optimizer.py --report
-
-# Suggestions only
-python scripts/maintenance/context_optimizer.py --suggestions
-```
-
-### archive_coordination.sh
-
-Archive old coordination files:
-
-```bash
-# Archive files older than 7 days
-scripts/maintenance/archive_coordination.sh
-
-# Dry run (show what would be archived)
-scripts/maintenance/archive_coordination.sh --days 30 --dry-run
-```
-
-## Hook Execution Flow
-
-### File Write Operation
-
-```
-User request: "Create example.py with..."
-    |
-PreToolUse: validate_path.py
-    |-- Check: Is .env or .key? -> BLOCK
-    |-- Check: Is pyproject.toml? -> WARN but allow
-    +-- Check: Path traversal? -> BLOCK if detected
-    |
-Write tool executes (if allowed)
-    |
-PostToolUse: auto_format.py
-    |-- Detect: example.py -> Python file
-    |-- Check: uv available? -> Yes
-    |-- Run: uv run ruff format example.py
-    +-- Output: Auto-formatted: example.py (ruff formatted)
-```
-
-### Session Lifecycle
-
-```
-Session Start
-    |
-SessionStart: post_compact_recovery.sh
-    +-- Validate .claude/ structure
-    |
-[Work happens]
-    |
-Context approaching limit (monitor with check_context_usage.sh)
-    |
-[Optional: checkpoint_state.sh create]
-    |
-PreCompact: pre_compact_cleanup.sh
-    +-- Archive old files, compress large JSON
-    |
-[Compaction occurs]
-    |
-SessionStart: post_compact_recovery.sh (again)
-    +-- Verify post-compact state
-    |
-[Optional: restore_checkpoint.sh --latest]
-    |
-Session End
-    |
-SessionEnd: session_cleanup.sh
-    +-- Clean up and log
-```
+| Hook                       | Trigger      | Purpose                             |
+| -------------------------- | ------------ | ----------------------------------- |
+| `pre_compact_cleanup.sh`   | PreCompact   | Archive old files before compaction |
+| `post_compact_recovery.sh` | SessionStart | Verify state after compaction       |
+| `cleanup_stale_agents.py`  | SessionStart | Mark stale agents as failed         |
+| `session_cleanup.sh`       | SessionEnd   | Clean temporary files               |
+| `check_subagent_stop.py`   | SubagentStop | Auto-summarize large outputs        |
 
 ## Configuration
 
@@ -315,16 +46,16 @@ Hooks are configured in `.claude/settings.json`:
 ```json
 {
   "hooks": {
-    "PreCompact": [
+    "PreToolUse": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR/.claude/hooks/pre_compact_cleanup.sh\"",
-            "timeout": 30
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/validate_path.py\"",
+            "timeout": 5
           }
         ],
-        "matcher": "auto"
+        "matcher": "Write|Edit"
       }
     ]
   }
@@ -333,115 +64,42 @@ Hooks are configured in `.claude/settings.json`:
 
 ## Environment Variables
 
-Hooks have access to:
-
-- `CLAUDE_PROJECT_DIR` = Project root directory
-- `CLAUDE_SESSION_ID` = Current session ID
-- `PATH` = System PATH (includes tool directories)
+- `CLAUDE_PROJECT_DIR` - Project root directory
+- `CLAUDE_BYPASS_HOOKS` - Set to `1` to bypass all hooks
 
 ## Testing Hooks
 
-### Manual Testing
-
 ```bash
-# Test pre_compact_cleanup.sh
-CLAUDE_PROJECT_DIR=/path/to/project .claude/hooks/pre_compact_cleanup.sh
+# Test validate_path.py
+CLAUDE_PROJECT_DIR=$(pwd) python3 .claude/hooks/validate_path.py
 
-# Test post_compact_recovery.sh
-CLAUDE_PROJECT_DIR=/path/to/project .claude/hooks/post_compact_recovery.sh
-
-# Test context monitoring
-.claude/hooks/check_context_usage.sh --report
-
-# Test checkpoint system
-.claude/hooks/checkpoint_state.sh create test-task "Test checkpoint"
-.claude/hooks/checkpoint_state.sh list
-.claude/hooks/restore_checkpoint.sh test-task
-.claude/hooks/checkpoint_state.sh delete test-task
+# Test cleanup
+CLAUDE_PROJECT_DIR=$(pwd) .claude/hooks/pre_compact_cleanup.sh
 ```
-
-### Integration Testing
-
-Use Claude Code to trigger hooks naturally through normal operations.
 
 ## Log Files
 
-- `compaction.log` - Pre/post compact operations
-- `sessions.log` - Session start/end events
-- `context_metrics.log` - Context usage monitoring
-- `checkpoints.log` - Checkpoint operations
-- `errors.log` - Hook errors
+- `errors.log` - Hook errors (created at runtime)
+- `context_metrics.log` - Context usage tracking
 
-## Troubleshooting
+## Essential Files
 
-### Hook Not Running
+| File                        | Purpose       | Required    |
+| --------------------------- | ------------- | ----------- |
+| `validate_path.py`          | Security      | Yes         |
+| `quality_enforce_strict.py` | Quality gates | Yes         |
+| `enforce_agent_limit.py`    | Agent limits  | Recommended |
+| `pre_compact_cleanup.sh`    | Cleanup       | Recommended |
+| `post_compact_recovery.sh`  | Recovery      | Recommended |
+| `cleanup_stale_agents.py`   | Maintenance   | Optional    |
+| `session_cleanup.sh`        | Cleanup       | Optional    |
+| `check_subagent_stop.py`    | Summarization | Optional    |
+| `check_stop.py`             | Shutdown      | Optional    |
 
-**Check**:
+## Utility Scripts
 
-1. Script exists in `.claude/hooks/`
-2. Script is executable (`chmod +x`)
-3. Matcher pattern matches tool name
-4. No syntax errors
-
-**Debug**:
-
-```bash
-# Check hook logs
-cat .claude/hooks/*.log
-
-# Test hook directly
-CLAUDE_PROJECT_DIR=$(pwd) .claude/hooks/<hook_name>
-```
-
-### Context Issues
-
-**Use context monitoring**:
-
-```bash
-# Check current usage
-.claude/hooks/check_context_usage.sh
-
-# Get optimization suggestions
-python scripts/maintenance/context_optimizer.py --suggestions
-```
-
-### Checkpoint Recovery
-
-**If checkpoint restore fails**:
-
-1. Check checkpoint exists: `.claude/hooks/checkpoint_state.sh list`
-2. Verify checkpoint files: `.claude/hooks/checkpoint_state.sh show <task-id>`
-3. Check state.json is valid JSON
-4. Restore manually from context.md if needed
-
-## Best Practices
-
-### For Long-Running Tasks
-
-1. Create checkpoint before 70% context usage
-2. Use batch operations for file processing
-3. Save large results to disk, reference by path
-4. Monitor context with `check_context_usage.sh`
-5. Prepare for compaction proactively
-
-### For Compaction Readiness
-
-1. Archive old coordination files regularly
-2. Compress large JSON files
-3. Remove test data temporary files
-4. Create checkpoint with essential state
-5. Document resumption steps in context.md
-
-### Hook Design
-
-1. **Single Responsibility**: One hook = one purpose
-2. **Fast Execution**: < 1s for common operations
-3. **Graceful Degradation**: Work without optional tools
-4. **Clear Output**: Informative success/error messages
-5. **Non-Blocking**: PostToolUse always exits 0
-
----
-
-**Last Updated**: 2025-12-24
-**Module**: base (workspace template)
-**Hook Count**: 9 (2 validation, 2 formatting, 5 lifecycle/context management)
+| Script                   | Purpose                        |
+| ------------------------ | ------------------------------ |
+| `checkpoint_state.sh`    | Create/manage task checkpoints |
+| `restore_checkpoint.sh`  | Restore checkpoint state       |
+| `check_context_usage.sh` | Monitor context usage          |

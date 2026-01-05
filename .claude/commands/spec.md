@@ -56,4 +56,4 @@ Coverage Report
 ## See Also
 
 - `/implement` - Implement tasks from task graph
-- `modules/implementation/templates/spec/` - Schema files
+- `.claude/templates/spec/` - Schema files

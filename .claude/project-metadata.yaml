@@ -1,98 +1,57 @@
 # Project Metadata - Single Source of Truth
-# This file is the authoritative source for all project metadata
-# Version: 4.0.0 (Updated 2026-01-03)
-#
-# Template file - customize for your project
-# Configured for spreadsheet-dl project
+# Version: 4.0.0
 
 project:
   name: "spreadsheet-dl"
-  version_source: pyproject.toml # Single source for version
+  version_source: pyproject.toml
   description: "Universal spreadsheet definition language with LLM-optimized MCP server"
-
-  # Author/maintainer information
-  authors:
-    - name: "SpreadsheetDL Contributors"
-      role: "creator"
-
-  maintainers:
-    - name: "SpreadsheetDL Contributors"
-      role: "maintainer"
-
-  # License
   license: "MIT"
 
-  # Python version requirements (for Python projects)
   python:
     minimum: "3.12"
-    tested:
-      - "3.12"
-      - "3.13"
+    tested: ["3.12", "3.13"]
 
-  github:
-    org: "lair-click-bats"
-    repo: "spreadsheet-dl"
-    url: "https://github.com/lair-click-bats/spreadsheet-dl"
-
-  # Files that must reference the GitHub URL
-  url_locations:
-    - pyproject.toml
-    - README.md
-    - CHANGELOG.md
-
-  # Version must be consistent across these files
+  # Version locations for consistency validation
   version_locations:
-    primary: pyproject.toml # Single source of truth
+    primary: pyproject.toml
     secondary:
-      - README.md: "Current Version: v{version}"
-      - "src/spreadsheet_dl/__init__.py": '__version__ = "{version}"'
+      - README.md
+      - "src/spreadsheet_dl/__init__.py"
 
-  # Version pattern for validation (supports pre-release)
-  version_pattern: '^[0-9]+\.[0-9]+\.[0-9]+(-[a-z]+(\.[0-9]+)?)?(\+[a-z0-9]+)?$'
+  version_pattern: '^[0-9]+\.[0-9]+\.[0-9]+(-[a-z]+(\.[0-9]+)?)?$'
 
+# Maintenance Configuration
 maintenance:
   archive_retention_days: 30
   checkpoint_cleanup_threshold_hours: 24
-  orphaned_file_check: weekly
 
-  # Automated cleanup schedule
   cleanup:
     stale_agents: "session_start"
     old_checkpoints: "weekly"
     completed_workflows: "session_end"
-    archive_retention_days: 180 # Delete archives older than 6 months
+    archive_retention_days: 180
 
+# Validation Configuration
 validation:
   pre_commit_checks:
     - version_consistency
-    - github_url_consistency
     - no_unimplemented_errors
     - ssot_compliance
-    - future_marker_validation
 
   ci_checks:
     - readme_examples
     - internal_links
-    - documentation_structure
 
-# Configuration file relationships (for validation)
+# Configuration File Locations
 configuration_files:
   ssot:
     project_metadata: ".claude/project-metadata.yaml"
     coding_standards: ".claude/coding-standards.yaml"
-    incomplete_features: ".coordination/spec/incomplete-features.yaml"
     orchestration_config: ".claude/orchestration-config.yaml"
 
-  generated:
-    settings_json:
-      source: ".claude/coding-standards.yaml"
-      target: ".claude/settings.json"
-      generator: ".claude/hooks/generate_settings.py"
-
-# Emergency procedures
+# Emergency Procedures
 emergency:
   bypass_env: "CLAUDE_BYPASS_HOOKS"
-
   recovery:
     checkpoint_dir: ".claude/checkpoints"
     restore_script: ".claude/hooks/restore_checkpoint.sh"

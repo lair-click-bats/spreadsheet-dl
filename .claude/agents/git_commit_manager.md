@@ -1,5 +1,5 @@
 ---
-name: git-commit-manager
+name: git_commit_manager
 description: 'Git expert for conventional commits and clean history. Use PROACTIVELY for /git command, after significant editing sessions, or when changes span multiple domains. Keywords: git, commit, version control, conventional commits, git history, commit message, staged, changes.'
 tools: Bash, Read, Grep, Glob
 model: sonnet
@@ -291,7 +291,7 @@ After completing git operations, write a completion report to `.claude/agent-out
 ```json
 {
   "task_id": "YYYY-MM-DD-HHMMSS-git-commit",
-  "agent": "git-commit-manager",
+  "agent": "git_commit_manager",
   "status": "complete|needs-review|blocked",
   "commits_created": 0,
   "commit_details": [
