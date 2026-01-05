@@ -157,3 +157,4 @@ work-obj*.cf
 !.coordination/spec/
 !.coordination/spec/incomplete-features.yaml
 site/
+*.ods
