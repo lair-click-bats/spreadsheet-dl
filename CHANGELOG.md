@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Universal spreadsheet definition language for Python
 - 9 production-ready domain plugins (Finance, Data Science, Engineering, etc.)
-- 144 MCP tools for seamless LLM integration
+- 18 MCP tools for seamless LLM integration
 - Complete API documentation with 6 comprehensive tutorials
 - Multi-format export (ODS, XLSX, PDF, CSV, JSON, HTML)
 - Enterprise features: streaming I/O, plugins, performance optimization
@@ -75,9 +75,9 @@ except NoSheetSelectedError as e:
 - Print area configuration
 - Theme variant switching (light/dark/high-contrast)
 
-**MCP Server (144 Tools):**
+**MCP Server (18 Tools):**
 
-- MCP server with 144 tools for Claude/LLM integration (8x increase from v2.0)
+- MCP server with 18 tools for Claude/LLM integration
 - Tool categories: Cell Ops, Styles, Structure, Charts, Validation, Advanced, Workbook, Theme, Print, Import/Export, Accounts, Goals, Reporting
 - MCPToolRegistry with decorator-based registration
 - Rate limiting and security features

@@ -99,7 +99,7 @@ The Spreadsheet Definition Language for Python with complete domain plugin ecosy
 - JSON/HTML (web integration)
 
 **MCP Server:**
-- 144 tools for Claude/LLM integration
+- 18 tools for Claude/LLM integration
 - Tool categories: Cell Ops, Styles, Structure, Charts, Validation, Advanced
 - MCPToolRegistry with decorator-based registration
 - Rate limiting and security features
@@ -242,7 +242,7 @@ The Spreadsheet Definition Language for Python with complete domain plugin ecosy
 - **3,206 passing tests** with 71% coverage
 - **44 API documentation files** (~750KB of docs)
 - **9 domain plugins** with production-ready templates
-- **144 MCP tools** for LLM integration
+- **18 MCP tools** for LLM integration
 - **6 tutorials** (3,700+ lines total)
 - **100+ examples** in documentation
 

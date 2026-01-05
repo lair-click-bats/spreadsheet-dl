@@ -319,7 +319,7 @@ Comprehensive test coverage:
 - **test_mcp_server.py** (226 tests): Original tool tests
 - **test_mcp_tools_extended.py** (36 tests): New tool category tests
 
-All 144 tools verified for:
+All 18 tools verified for:
 
 - Proper registration
 - Handler existence

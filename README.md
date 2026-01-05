@@ -6,9 +6,9 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-3,206%20passing-brightgreen.svg)](tests/)
 [![Coverage](https://img.shields.io/badge/coverage-71%25-brightgreen.svg)](tests/)
-[![MCP](https://img.shields.io/badge/MCP-8%20tools-purple.svg)](docs/api/mcp_server.md)
+[![MCP](https://img.shields.io/badge/MCP-18%20tools-purple.svg)](docs/api/mcp_server.md)
 
-> **🎉 First Public Release (v4.0.0)** - This version represents extensive private development through multiple major iterations. The codebase is production-ready with comprehensive testing, complete documentation, and 8 domain plugins.
+> **🎉 First Public Release (v4.0.0)** - This version represents extensive private development through multiple major iterations. The codebase is production-ready with comprehensive testing, complete documentation, and 9 domain plugins.
 
 **The Spreadsheet Definition Language for Python**
 
@@ -61,7 +61,7 @@ SpreadsheetDL is a universal spreadsheet definition language that lets you creat
 - ✅ **Multi-Format Export** - ODS (native), XLSX, PDF from single definition
 - ✅ **Advanced Formatting** - Conditional formatting, data validation, named ranges, cell merging
 - ✅ **Template Engine** - Schema-driven template system with component composition
-- ✅ **MCP Server** - Native server with 144 tools (49 implemented, 95 planned), Claude Desktop integration
+- ✅ **MCP Server** - Native server with 18 tools for spreadsheet and budget operations, Claude Desktop integration
 - ✅ **Streaming I/O** - Handle 100k+ row spreadsheets efficiently
 - ✅ **Round-Trip Editing** - Read, modify, and write existing ODS files
 - ✅ **CLI & Python API** - Both command-line and programmatic interfaces
@@ -147,7 +147,7 @@ These features will raise `NotImplementedError` with clear error messages. They 
 
 ### MCP Server Tools
 
-Of the 144 MCP tools, 49 are fully implemented and 95 are documented stubs that return "not yet implemented" messages. See [MCP Tools Extended](docs/mcp-tools-extended.md) for detailed status.
+The MCP server provides 18 tools for spreadsheet and budget operations. See [MCP Integration](docs/MCP_INTEGRATION.md) for detailed documentation.
 
 ## Quick Start
 
@@ -541,7 +541,7 @@ spreadsheet-dl/
 │   │   ├── app.py               # Click application
 │   │   └── commands.py          # CLI commands
 │   ├── _mcp/                    # MCP server
-│   │   └── server.py            # 144 MCP tools
+│   │   └── server.py            # 18 MCP tools
 │   ├── schema/                  # Theme schema
 │   │   ├── styles.py            # Style dataclasses
 │   │   ├── loader.py            # YAML loader
@@ -549,7 +549,7 @@ spreadsheet-dl/
 │   ├── template_engine/         # Template system
 │   │   ├── schema.py            # Template schema
 │   │   └── renderer.py          # Template renderer
-│   ├── domains/                 # Domain plugins (8 domains)
+│   ├── domains/                 # Domain plugins (9 domains)
 │   │   ├── finance/             # Budget, invoices, statements
 │   │   ├── data_science/        # Experiment logs, ML reports
 │   │   ├── biology/             # Plate layouts, qPCR
@@ -674,7 +674,7 @@ See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
 
 ### Recent Releases
 
-- **v4.0.0** (2026-01-04) - First public release: Universal spreadsheet definition language with MCP server, 8 domain plugins, 3,206 tests
+- **v4.0.0** (2026-01-04) - First public release: Universal spreadsheet definition language with MCP server, 9 domain plugins, 3,206 tests
 - **v2.0.0** (2025-12-29) - Professional spreadsheet system with enterprise formatting
 - **v0.4.1** (2025-12-15) - Expense append functionality and comprehensive error codes
 - **v0.4.0** (2025-12-10) - Declarative DSL with themes and fluent builder API

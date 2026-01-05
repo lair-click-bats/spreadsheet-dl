@@ -27,7 +27,7 @@ Core Platform:
 - Multi-format export (ODS native, XLSX, PDF)
 - Advanced formatting (conditional, validation, named ranges, merging)
 - Template engine with schema-driven composition
-- MCP server with 144 tools (49 implemented, 95 planned)
+- MCP server with 18 tools for spreadsheet and budget operations
 - Streaming I/O for 100k+ rows
 - Round-trip editing (read, modify, write ODS)
 - Performance optimization with caching and lazy loading

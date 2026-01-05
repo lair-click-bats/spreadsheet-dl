@@ -9,7 +9,7 @@ and professional-grade formatting capabilities.
 **What's New in v4.0.0:**
 
 - **Universal Format**: SpreadsheetDL spec works across ODS, XLSX, CSV, PDF
-- **MCP Server**: 145+ tools for AI-driven spreadsheet manipulation
+- **MCP Server**: 18 tools for AI-driven spreadsheet manipulation
 - **Theme Variants**: Light, dark, and high-contrast themes
 - **Streaming I/O**: Handle 100k+ row files efficiently
 - **Round-Trip**: Import and export with 95%+ fidelity preservation
@@ -153,7 +153,7 @@ Enhanced interactivity within ODS spreadsheets.
 
 ### 5. MCP Server Integration (ENHANCED in v4.0.0)
 
-Native Model Context Protocol server with 145+ spreadsheet operation tools.
+Native Model Context Protocol server with 18 spreadsheet and budget operation tools.
 
 **Key Classes:**
 
@@ -163,21 +163,12 @@ Native Model Context Protocol server with 145+ spreadsheet operation tools.
 - `MCPTool` - Tool definitions
 - `MCPToolResult` - Tool results
 
-**Tool Categories (145+ total):**
+**Tool Categories (18 implemented):**
 
-- **Cell Operations** (25 tools): get, set, copy, move, merge, find, replace
-- **Style Operations** (20 tools): fonts, colors, borders, fills, alignment
-- **Structure Operations** (18 tools): rows, columns, sheets, freeze panes
-- **Formula Operations** (12 tools): formulas, named ranges, dependencies
-- **Chart Operations** (10 tools): create, update, charts and sparklines
-- **Validation** (8 tools): data validation rules and constraints
-- **Conditional Formatting** (8 tools): color scales, data bars, icon sets
-- **Theme Operations** (10 tools): load, create, apply themes and variants
-- **Workbook Operations** (8 tools): create, open, save, protect
-- **Print Operations** (6 tools): page setup, margins, headers, footers
-- **Import/Export** (8 tools): CSV, XLSX, JSON, PDF conversion
-- **Query Operations** (6 tools): search, filter, sort, aggregate
-- **Advanced** (6 tools): tables, sparklines, hyperlinks
+- **Budget Analysis** (8 tools): analyze_budget, add_expense, query_budget, get_spending_trends, compare_periods, generate_report, list_categories, get_alerts
+- **Cell Operations**: cell_get, cell_set, cell_clear, cell_copy, cell_move
+- **Style Operations**: style_list, style_get, style_create, style_apply
+- **Structure Operations**: sheet_create, sheet_delete
 
 **Capabilities:**
 

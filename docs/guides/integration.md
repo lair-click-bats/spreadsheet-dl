@@ -264,12 +264,12 @@ config = MCPConfig(
 )
 
 server = MCPServer(config)
-server.run()  # Exposes 145+ tools to Claude
+server.run()  # Exposes 18 tools to Claude
 ```
 
 **Key Features**:
 
-- 145+ spreadsheet operation tools
+- 18 spreadsheet operation tools
 - Natural language queries
 - Safe sandboxing
 - Rate limiting

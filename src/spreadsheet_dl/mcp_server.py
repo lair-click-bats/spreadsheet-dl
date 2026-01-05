@@ -36,7 +36,7 @@ Features:
     - Spending trend analysis
     - Period comparison
     - Real-time budget queries
-    - 144 MCP tools across all categories (49 implemented, 95 documented stubs)
+    - 18 MCP tools for spreadsheet and budget operations
 
 Security:
     - File access restrictions (configurable paths)
