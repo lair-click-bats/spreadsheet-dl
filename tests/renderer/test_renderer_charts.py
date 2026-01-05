@@ -743,7 +743,7 @@ class TestDataValidationRendering:
 
 
 class TestChartSeriesColors:
-    """Tests for chart series color styling (FUTURE-005)."""
+    """Tests for chart series color styling (FR-CHART-005)."""
 
     def test_series_with_hex_color(self, tmp_path: Path) -> None:
         """Test series with hex color code."""

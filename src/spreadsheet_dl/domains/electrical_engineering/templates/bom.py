@@ -1,5 +1,4 @@
-"""
-Bill of Materials (BOM) template for electrical engineering.
+"""Bill of Materials (BOM) template for electrical engineering.
 
 Implements:
     BOMTemplate with auto-numbering, cost calculations, and charts
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class BOMTemplate(BaseTemplate):
-    """
-    Bill of Materials (BOM) template for electronic assemblies.
+    """Bill of Materials (BOM) template for electronic assemblies.
 
     Generates a structured BOM with part information, quantities,
     costs, and automatic calculations.
@@ -35,9 +33,9 @@ class BOMTemplate(BaseTemplate):
         - Conditional formatting: Highlight expensive items (>10% of total)
 
     Example:
-        >>> bom = BOMTemplate(project_name="Widget Rev A")
-        >>> builder = bom.generate()
-        >>> builder.save("widget_bom.ods")
+        >>> bom = BOMTemplate(project_name="Widget Rev A")  # doctest: +SKIP
+        >>> builder = bom.generate()  # doctest: +SKIP
+        >>> path = builder.save("widget_bom.ods")  # doctest: +SKIP
     """
 
     project_name: str = "Electronic Assembly"
@@ -58,8 +56,7 @@ class BOMTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate BOM spreadsheet.
+        """Generate BOM spreadsheet.
 
         Returns:
             SpreadsheetBuilder configured with BOM template
@@ -165,8 +162,7 @@ class BOMTemplate(BaseTemplate):
         return builder
 
     def validate(self) -> bool:
-        """
-        Validate template configuration.
+        """Validate template configuration.
 
         Returns:
             True if configuration is valid

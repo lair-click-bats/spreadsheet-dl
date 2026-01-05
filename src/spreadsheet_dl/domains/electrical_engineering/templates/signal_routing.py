@@ -1,5 +1,4 @@
-"""
-Signal routing template for PCB design documentation.
+"""Signal routing template for PCB design documentation.
 
 Implements:
     SignalRoutingTemplate with trace analysis
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class SignalRoutingTemplate(BaseTemplate):
-    """
-    Signal routing template for PCB trace documentation.
+    """Signal routing template for PCB trace documentation.
 
     Implements:
         SignalRoutingTemplate requirements
@@ -32,9 +30,9 @@ class SignalRoutingTemplate(BaseTemplate):
         - Chart: Impedance distribution histogram
 
     Example:
-        >>> template = SignalRoutingTemplate(project_name="Main Board Rev B")
-        >>> builder = template.generate()
-        >>> builder.save("signal_routing.ods")
+        >>> template = SignalRoutingTemplate(project_name="Main Board Rev B")  # doctest: +SKIP
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("signal_routing.ods")  # doctest: +SKIP
     """
 
     project_name: str = "PCB Design"
@@ -55,8 +53,7 @@ class SignalRoutingTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate signal routing spreadsheet.
+        """Generate signal routing spreadsheet.
 
         Returns:
             SpreadsheetBuilder configured with signal routing template

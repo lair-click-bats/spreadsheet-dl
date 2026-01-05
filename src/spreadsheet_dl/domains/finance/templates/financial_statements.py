@@ -1,5 +1,4 @@
-"""
-Financial statement templates.
+"""Financial statement templates.
 
 Implements:
     - FR-PROF-004: Financial Statement Templates
@@ -27,8 +26,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class IncomeStatementTemplate:
-    """
-    Income Statement (Profit & Loss) template (FR-PROF-004).
+    """Income Statement (Profit & Loss) template (FR-PROF-004).
 
     Features:
     - Revenue section with multiple line items
@@ -140,57 +138,63 @@ class IncomeStatementTemplate:
 
         current_row = 5
 
-        # Revenue Section
-        current_row = self._add_section(
+        # Revenue Section - returns (next_row, total_row)
+        current_row, revenue_total_row = self._add_section_with_total(
             builder, "REVENUE", self.revenue_items, current_row
         )
 
         # Cost of Goods Sold
-        current_row = self._add_section(
+        current_row, cogs_total_row = self._add_section_with_total(
             builder, "COST OF GOODS SOLD", self.cogs_items, current_row
         )
 
-        # Gross Profit
+        # Gross Profit = Revenue - COGS
         builder.row(style="subtotal")
         builder.cell("GROSS PROFIT")
-        # Formula would calculate Revenue - COGS
-        builder.cell(0, style="currency")
+        builder.cell(f"=B{revenue_total_row}-B{cogs_total_row}")
         if self.comparative:
-            builder.cell(0, style="currency")
+            builder.cell(f"=C{revenue_total_row}-C{cogs_total_row}")
             builder.cell(f"=B{current_row}-C{current_row}")
             builder.cell(
                 f"=IF(C{current_row}=0,0,(B{current_row}-C{current_row})/ABS(C{current_row}))"
             )
+        gross_profit_row = current_row
         current_row += 1
 
         # Operating Expenses
-        current_row = self._add_section(
+        current_row, opex_total_row = self._add_section_with_total(
             builder, "OPERATING EXPENSES", self.operating_expenses, current_row
         )
 
-        # Operating Income
+        # Operating Income = Gross Profit - Operating Expenses
         builder.row(style="subtotal")
         builder.cell("OPERATING INCOME")
-        builder.cell(0, style="currency")
+        builder.cell(f"=B{gross_profit_row}-B{opex_total_row}")
         if self.comparative:
-            builder.cell(0, style="currency")
-            builder.cell(0, style="currency")
-            builder.cell(0, style="percentage")
+            builder.cell(f"=C{gross_profit_row}-C{opex_total_row}")
+            builder.cell(f"=B{current_row}-C{current_row}")
+            builder.cell(
+                f"=IF(C{current_row}=0,0,(B{current_row}-C{current_row})/ABS(C{current_row}))"
+            )
+        operating_income_row = current_row
         current_row += 1
 
         # Non-Operating Items
-        current_row = self._add_section(
+        current_row, non_op_total_row = self._add_section_with_total(
             builder, "NON-OPERATING ITEMS", self.non_operating_items, current_row
         )
 
-        # Income Before Taxes
+        # Income Before Taxes = Operating Income + Non-Operating Items
         builder.row(style="subtotal")
         builder.cell("INCOME BEFORE TAXES")
-        builder.cell(0, style="currency")
+        builder.cell(f"=B{operating_income_row}+B{non_op_total_row}")
         if self.comparative:
-            builder.cell(0, style="currency")
-            builder.cell(0, style="currency")
-            builder.cell(0, style="percentage")
+            builder.cell(f"=C{operating_income_row}+C{non_op_total_row}")
+            builder.cell(f"=B{current_row}-C{current_row}")
+            builder.cell(
+                f"=IF(C{current_row}=0,0,(B{current_row}-C{current_row})/ABS(C{current_row}))"
+            )
+        income_before_tax_row = current_row
         current_row += 1
 
         # Income Tax
@@ -200,28 +204,33 @@ class IncomeStatementTemplate:
         if self.comparative:
             builder.cell(0, style="currency_input")
             builder.cell(f"=B{current_row}-C{current_row}")
-            builder.cell(0, style="percentage")
+            builder.cell(
+                f"=IF(C{current_row}=0,0,(B{current_row}-C{current_row})/ABS(C{current_row}))"
+            )
+        tax_row = current_row
         current_row += 1
 
-        # Net Income
+        # Net Income = Income Before Taxes - Tax
         builder.row(style="total")
         builder.cell("NET INCOME")
-        builder.cell(0, style="currency_total")
+        builder.cell(f"=B{income_before_tax_row}-B{tax_row}")
         if self.comparative:
-            builder.cell(0, style="currency_total")
+            builder.cell(f"=C{income_before_tax_row}-C{tax_row}")
             builder.cell(f"=B{current_row}-C{current_row}")
-            builder.cell(0, style="percentage")
+            builder.cell(
+                f"=IF(C{current_row}=0,0,(B{current_row}-C{current_row})/ABS(C{current_row}))"
+            )
 
         return builder
 
-    def _add_section(
+    def _add_section_with_total(
         self,
         builder: SpreadsheetBuilder,
         section_name: str,
         items: list[str],
         start_row: int,
-    ) -> int:
-        """Add a section with items."""
+    ) -> tuple[int, int]:
+        """Add a section with items. Returns (next_row, total_row)."""
         current_row = start_row
 
         # Section header
@@ -259,9 +268,10 @@ class IncomeStatementTemplate:
             builder.cell(
                 f"=IF(C{current_row}=0,0,(B{current_row}-C{current_row})/ABS(C{current_row}))"
             )
+        total_row = current_row
         current_row += 1
 
-        return current_row
+        return current_row, total_row
 
 
 # ============================================================================
@@ -271,8 +281,7 @@ class IncomeStatementTemplate:
 
 @dataclass
 class BalanceSheetTemplate:
-    """
-    Balance Sheet template (FR-PROF-004).
+    """Balance Sheet template (FR-PROF-004).
 
     Features:
     - Assets section (current and non-current)
@@ -505,8 +514,7 @@ class BalanceSheetTemplate:
 
 @dataclass
 class CashFlowStatementTemplate:
-    """
-    Statement of Cash Flows template (FR-PROF-004).
+    """Statement of Cash Flows template (FR-PROF-004).
 
     Features:
     - Operating activities (indirect method)
@@ -727,8 +735,7 @@ class CashFlowStatementTemplate:
 
 @dataclass
 class EquityStatementTemplate:
-    """
-    Statement of Changes in Equity template (FR-PROF-004).
+    """Statement of Changes in Equity template (FR-PROF-004).
 
     Features:
     - Beginning balances

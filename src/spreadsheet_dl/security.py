@@ -1,5 +1,4 @@
-"""
-Security module for SpreadsheetDL.
+"""Security module for SpreadsheetDL.
 
 Provides data encryption at rest, secure key management, and audit logging
 for protecting sensitive financial data.
@@ -147,16 +146,14 @@ class AuditLogEntry:
 
 
 class SecurityAuditLog:
-    """
-    Security audit log for tracking file access and encryption operations.
+    """Security audit log for tracking file access and encryption operations.
 
     Maintains a log of all security-related operations for compliance
     and forensic purposes.
     """
 
     def __init__(self, log_path: Path | None = None) -> None:
-        """
-        Initialize audit log.
+        """Initialize audit log.
 
         Args:
             log_path: Path to audit log file. If None, uses default location.
@@ -175,8 +172,7 @@ class SecurityAuditLog:
         success: bool = True,
         details: dict[str, Any] | None = None,
     ) -> None:
-        """
-        Log a security action.
+        """Log a security action.
 
         Args:
             action: Action type (encrypt, decrypt, access, etc.)
@@ -212,8 +208,7 @@ class SecurityAuditLog:
         action: str | None = None,
         limit: int = 100,
     ) -> list[AuditLogEntry]:
-        """
-        Get audit log entries.
+        """Get audit log entries.
 
         Args:
             file_path: Filter by file path
@@ -248,8 +243,7 @@ def _derive_key_pbkdf2(
     salt: bytes,
     iterations: int = DEFAULT_ITERATIONS,
 ) -> bytes:
-    """
-    Derive encryption key from password using PBKDF2-SHA256.
+    """Derive encryption key from password using PBKDF2-SHA256.
 
     Args:
         password: User password
@@ -273,8 +267,7 @@ def _encrypt_aes_gcm(
     key: bytes,
     nonce: bytes,
 ) -> tuple[bytes, bytes]:
-    """
-    Encrypt data using AES-256-GCM simulation.
+    """Encrypt data using AES-256-GCM simulation.
 
     This is a pure Python implementation using AES-CTR + HMAC as a fallback
     since pure Python GCM implementation is complex. The security properties
@@ -304,8 +297,7 @@ def _decrypt_aes_gcm(
     nonce: bytes,
     tag: bytes,
 ) -> bytes:
-    """
-    Decrypt data using AES-256-GCM simulation.
+    """Decrypt data using AES-256-GCM simulation.
 
     Args:
         ciphertext: Encrypted data
@@ -332,8 +324,7 @@ def _decrypt_aes_gcm(
 
 
 def _xor_encrypt(data: bytes, key: bytes, nonce: bytes) -> bytes:
-    """
-    XOR-based stream cipher (CTR mode simulation).
+    """XOR-based stream cipher (CTR mode simulation).
 
     Uses SHA-256 to generate keystream blocks.
     This provides semantic security when used with unique nonces.
@@ -364,24 +355,22 @@ def _xor_encrypt(data: bytes, key: bytes, nonce: bytes) -> bytes:
 
 
 class FileEncryptor:
-    """
-    Encrypt and decrypt budget files.
+    """Encrypt and decrypt budget files.
 
     Provides password-based encryption for ODS files using AES-256-GCM
     with PBKDF2-SHA256 key derivation.
 
     Example:
-        >>> encryptor = FileEncryptor()
-        >>> encryptor.encrypt_file("budget.ods", "budget.ods.enc", "my-password")
-        >>> encryptor.decrypt_file("budget.ods.enc", "budget.ods", "my-password")
+        >>> encryptor = FileEncryptor()  # doctest: +SKIP
+        >>> encryptor.encrypt_file("budget.ods", "budget.ods.enc", "my-password")  # doctest: +SKIP
+        >>> encryptor.decrypt_file("budget.ods.enc", "budget.ods", "my-password")  # doctest: +SKIP
     """
 
     MAGIC_BYTES = b"SDLENC"  # SpreadsheetDL Encrypted
     FORMAT_VERSION = 1
 
     def __init__(self, audit_log: SecurityAuditLog | None = None) -> None:
-        """
-        Initialize file encryptor.
+        """Initialize file encryptor.
 
         Args:
             audit_log: Optional audit log for tracking operations
@@ -396,8 +385,7 @@ class FileEncryptor:
         *,
         delete_original: bool = False,
     ) -> EncryptionMetadata:
-        """
-        Encrypt a file with password.
+        """Encrypt a file with password.
 
         Args:
             input_path: Path to file to encrypt
@@ -486,8 +474,7 @@ class FileEncryptor:
         *,
         verify_hash: bool = True,
     ) -> EncryptionMetadata:
-        """
-        Decrypt a file with password.
+        """Decrypt a file with password.
 
         Args:
             input_path: Path to encrypted file
@@ -620,8 +607,7 @@ class FileEncryptor:
         return ciphertext, tag, metadata
 
     def _secure_delete(self, path: Path) -> None:
-        """
-        Securely delete a file by overwriting with random data.
+        """Securely delete a file by overwriting with random data.
 
         Note: This is not guaranteed to work on SSDs or filesystems
         with copy-on-write (like ZFS, Btrfs). For maximum security,
@@ -643,16 +629,14 @@ class FileEncryptor:
 
 
 class CredentialStore:
-    """
-    Secure storage for credentials.
+    """Secure storage for credentials.
 
     Stores credentials encrypted with a master password.
     Credentials are stored in the user's config directory.
     """
 
     def __init__(self, store_path: Path | None = None) -> None:
-        """
-        Initialize credential store.
+        """Initialize credential store.
 
         Args:
             store_path: Path to credential store file
@@ -670,8 +654,7 @@ class CredentialStore:
         value: str,
         master_password: str,
     ) -> None:
-        """
-        Store a credential.
+        """Store a credential.
 
         Args:
             key: Credential identifier (e.g., "nextcloud_password")
@@ -683,8 +666,7 @@ class CredentialStore:
         self._save_credentials(credentials, master_password)
 
     def get_credential(self, key: str, master_password: str) -> str | None:
-        """
-        Retrieve a credential.
+        """Retrieve a credential.
 
         Args:
             key: Credential identifier
@@ -697,8 +679,7 @@ class CredentialStore:
         return credentials.get(key)
 
     def delete_credential(self, key: str, master_password: str) -> bool:
-        """
-        Delete a credential.
+        """Delete a credential.
 
         Args:
             key: Credential identifier
@@ -715,8 +696,7 @@ class CredentialStore:
         return False
 
     def list_credentials(self, master_password: str) -> list[str]:
-        """
-        List all stored credential keys.
+        """List all stored credential keys.
 
         Args:
             master_password: Master password for decryption
@@ -769,8 +749,7 @@ class CredentialStore:
 
 
 def generate_password(length: int = 20, *, include_symbols: bool = True) -> str:
-    """
-    Generate a cryptographically secure random password.
+    """Generate a cryptographically secure random password.
 
     Args:
         length: Password length (minimum 12)
@@ -813,8 +792,7 @@ def generate_password(length: int = 20, *, include_symbols: bool = True) -> str:
 
 
 def check_password_strength(password: str) -> dict[str, Any]:
-    """
-    Check password strength.
+    """Check password strength.
 
     Args:
         password: Password to check

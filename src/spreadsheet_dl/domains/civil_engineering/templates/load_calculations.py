@@ -1,5 +1,4 @@
-"""
-Load calculations template for civil engineering.
+"""Load calculations template for civil engineering.
 
 Implements:
     LoadCalculationsTemplate with load combinations and safety factors
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class LoadCalculationsTemplate(BaseTemplate):
-    """
-    Load calculations template for structural design.
+    """Load calculations template for structural design.
 
     Implements:
         LoadCalculationsTemplate requirements
@@ -34,12 +32,12 @@ class LoadCalculationsTemplate(BaseTemplate):
         - Conditional formatting for critical loads
 
     Example:
-        >>> template = LoadCalculationsTemplate(
+        >>> template = LoadCalculationsTemplate(  # doctest: +SKIP
         ...     project_name="Office Building",
         ...     num_load_cases=15
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("load_calculations.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("load_calculations.ods")  # doctest: +SKIP
     """
 
     project_name: str = "Structural Project"
@@ -59,8 +57,7 @@ class LoadCalculationsTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate load calculations spreadsheet.
+        """Generate load calculations spreadsheet.
 
         Returns:
             SpreadsheetBuilder configured with load calculations template

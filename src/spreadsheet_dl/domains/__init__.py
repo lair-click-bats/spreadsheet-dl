@@ -1,5 +1,4 @@
-"""
-Domain Plugins for SpreadsheetDL.
+"""Domain Plugins for SpreadsheetDL.
 
 Domain-specific functionality organized as plugins.
 

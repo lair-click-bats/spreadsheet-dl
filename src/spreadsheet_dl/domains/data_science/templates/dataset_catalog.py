@@ -1,5 +1,4 @@
-"""
-Dataset Catalog Template for data inventory management.
+"""Dataset Catalog Template for data inventory management.
 
 Implements:
     DatasetCatalogTemplate for data science domain
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class DatasetCatalogTemplate(BaseTemplate):
-    """
-    Dataset catalog and inventory template.
+    """Dataset catalog and inventory template.
 
     Implements:
         DatasetCatalogTemplate with dataset metadata and statistics
@@ -36,12 +34,12 @@ class DatasetCatalogTemplate(BaseTemplate):
     - Data type breakdown chart
 
     Example:
-        >>> template = DatasetCatalogTemplate(
+        >>> template = DatasetCatalogTemplate(  # doctest: +SKIP
         ...     organization="Acme Corp",
         ...     include_chart=True,
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("dataset_catalog.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("dataset_catalog.ods")  # doctest: +SKIP
     """
 
     organization: str = "Data Science Team"
@@ -50,8 +48,7 @@ class DatasetCatalogTemplate(BaseTemplate):
 
     @property
     def metadata(self) -> TemplateMetadata:
-        """
-        Get template metadata.
+        """Get template metadata.
 
         Returns:
             TemplateMetadata for dataset catalog template
@@ -69,8 +66,7 @@ class DatasetCatalogTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate the dataset catalog spreadsheet.
+        """Generate the dataset catalog spreadsheet.
 
         Returns:
             Configured SpreadsheetBuilder instance

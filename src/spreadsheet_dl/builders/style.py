@@ -1,5 +1,4 @@
-"""
-Fluent StyleBuilder for inline style creation.
+"""Fluent StyleBuilder for inline style creation.
 
 Implements FR-BUILDER-006: StyleBuilder
 
@@ -34,8 +33,7 @@ from spreadsheet_dl.schema.styles import (
 
 @dataclass
 class StyleBuilder:
-    """
-    Fluent builder for cell styles.
+    r"""Fluent builder for cell styles.
 
     Implements FR-BUILDER-006: StyleBuilder
 
@@ -110,8 +108,7 @@ class StyleBuilder:
     # ========================================================================
 
     def extends(self, parent: CellStyle) -> Self:
-        """
-        Inherit from parent style.
+        """Inherit from parent style.
 
         Args:
             parent: Parent style to inherit from
@@ -135,8 +132,7 @@ class StyleBuilder:
         italic: bool = False,
         fallback: list[str] | None = None,
     ) -> Self:
-        """
-        Configure font properties.
+        """Configure font properties.
 
         Args:
             family: Font family name
@@ -228,8 +224,7 @@ class StyleBuilder:
         horizontal: str | TextAlign | None = None,
         vertical: str | VerticalAlign | None = None,
     ) -> Self:
-        """
-        Configure text alignment.
+        """Configure text alignment.
 
         Args:
             horizontal: Horizontal alignment ("left", "center", "right", "justify")
@@ -303,8 +298,7 @@ class StyleBuilder:
     # ========================================================================
 
     def background(self, color: str | Color) -> Self:
-        """
-        Set background color.
+        """Set background color.
 
         Args:
             color: Background color
@@ -316,8 +310,7 @@ class StyleBuilder:
         return self
 
     def fill_pattern(self, fill: CellFill) -> Self:
-        """
-        Set fill pattern or gradient.
+        """Set fill pattern or gradient.
 
         Args:
             fill: CellFill specification
@@ -338,8 +331,7 @@ class StyleBuilder:
         style: str | BorderStyle = BorderStyle.SOLID,
         color: str | Color = "#000000",
     ) -> Self:
-        """
-        Set all borders.
+        """Set all borders.
 
         Args:
             width: Border width
@@ -461,8 +453,7 @@ class StyleBuilder:
         symbol: str = "$",
         custom_code: str | None = None,
     ) -> Self:
-        """
-        Configure number format.
+        """Configure number format.
 
         Args:
             category: Format category ("number", "currency", "percentage", etc.)
@@ -553,8 +544,7 @@ class StyleBuilder:
     # ========================================================================
 
     def build(self) -> CellStyle:
-        """
-        Build the CellStyle object.
+        """Build the CellStyle object.
 
         Returns:
             Configured CellStyle

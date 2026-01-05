@@ -1,5 +1,4 @@
-"""
-Concrete mix design template for mix proportioning.
+"""Concrete mix design template for mix proportioning.
 
 Implements:
     ConcreteMixTemplate with mix design calculations
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class ConcreteMixTemplate(BaseTemplate):
-    """
-    Concrete mix design template for proportioning and quality control.
+    """Concrete mix design template for proportioning and quality control.
 
     Implements:
         ConcreteMixTemplate requirements
@@ -33,12 +31,12 @@ class ConcreteMixTemplate(BaseTemplate):
         - Mix design parameters (slump, air content, strength)
 
     Example:
-        >>> template = ConcreteMixTemplate(
+        >>> template = ConcreteMixTemplate(  # doctest: +SKIP
         ...     mix_id="C25/30",
         ...     target_strength=25.0
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("concrete_mix.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("concrete_mix.ods")  # doctest: +SKIP
     """
 
     mix_id: str = "C25/30"
@@ -60,8 +58,7 @@ class ConcreteMixTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate concrete mix design spreadsheet.
+        """Generate concrete mix design spreadsheet.
 
         Returns:
             SpreadsheetBuilder configured with concrete mix template

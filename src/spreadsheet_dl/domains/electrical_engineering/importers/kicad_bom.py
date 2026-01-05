@@ -1,5 +1,4 @@
-"""
-KiCad BOM importer for electrical engineering.
+"""KiCad BOM importer for electrical engineering.
 
 Implements:
     KiCadBOMImporter for KiCad XML/CSV exports
@@ -18,8 +17,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 @dataclass
 class KiCadComponent:
-    """
-    KiCad component data.
+    """KiCad component data.
 
     Attributes:
         ref: Reference designator (e.g., R1, U2)
@@ -43,8 +41,7 @@ class KiCadComponent:
 
 
 class KiCadBOMImporter(BaseImporter[list[dict[str, Any]]]):
-    """
-    Import KiCad BOM exports (XML or CSV format).
+    """Import KiCad BOM exports (XML or CSV format).
 
     Implements:
         KiCadBOMImporter requirements
@@ -56,9 +53,9 @@ class KiCadBOMImporter(BaseImporter[list[dict[str, Any]]]):
         - Handle grouped components (R1-R10)
 
     Example:
-        >>> importer = KiCadBOMImporter()
-        >>> result = importer.import_data("kicad_bom.xml")
-        >>> if result.success:
+        >>> importer = KiCadBOMImporter()  # doctest: +SKIP
+        >>> result = importer.import_data("kicad_bom.xml")  # doctest: +SKIP
+        >>> if result.success:  # doctest: +SKIP
         ...     for component in result.data:
         ...         print(component["ref"], component["value"])
     """
@@ -74,8 +71,7 @@ class KiCadBOMImporter(BaseImporter[list[dict[str, Any]]]):
         )
 
     def validate_source(self, source: Path | str) -> bool:
-        """
-        Validate KiCad BOM file.
+        """Validate KiCad BOM file.
 
         Args:
             source: Path to KiCad BOM file
@@ -87,8 +83,7 @@ class KiCadBOMImporter(BaseImporter[list[dict[str, Any]]]):
         return path.exists() and path.suffix.lower() in (".xml", ".csv")
 
     def import_data(self, source: Path | str) -> ImportResult[list[dict[str, Any]]]:
-        """
-        Import KiCad BOM data.
+        """Import KiCad BOM data.
 
         Args:
             source: Path to KiCad BOM file
@@ -153,8 +148,7 @@ class KiCadBOMImporter(BaseImporter[list[dict[str, Any]]]):
         errors: list[str],
         warnings: list[str],
     ) -> list[KiCadComponent]:
-        """
-        Parse KiCad XML BOM format.
+        """Parse KiCad XML BOM format.
 
         Args:
             path: Path to XML file
@@ -206,8 +200,7 @@ class KiCadBOMImporter(BaseImporter[list[dict[str, Any]]]):
         errors: list[str],
         warnings: list[str],
     ) -> list[KiCadComponent]:
-        """
-        Parse KiCad CSV BOM format.
+        """Parse KiCad CSV BOM format.
 
         Args:
             path: Path to CSV file

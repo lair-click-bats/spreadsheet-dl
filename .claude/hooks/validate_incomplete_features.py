@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Validate FUTURE markers against incomplete-features.yaml registry.
+"""Validate FUTURE markers against incomplete-features.yaml registry.
 
 Ensures bidirectional consistency:
 1. All FUTURE-XXX markers in code have entries in the registry

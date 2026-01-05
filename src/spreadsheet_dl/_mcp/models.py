@@ -1,5 +1,4 @@
-"""
-MCP data models.
+"""MCP data models.
 
 Part of the modular MCP server implementation.
 Defines tool parameters, tool definitions, and tool results.

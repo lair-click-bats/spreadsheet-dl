@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Report Proliferation Check Hook
+"""Report Proliferation Check Hook
 Warns when attempting to create reports matching forbidden patterns.
 
 Prevents excessive one-time reports, analyses, and summaries from cluttering

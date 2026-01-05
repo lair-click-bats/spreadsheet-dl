@@ -1,5 +1,4 @@
-"""
-Format adapters for spreadsheet export/import.
+"""Format adapters for spreadsheet export/import.
 
 Provides adapter interfaces for converting between SpreadsheetDL's
 internal representation and various file formats.
@@ -53,8 +52,7 @@ class ImportFormat(Enum):
 
 @dataclass
 class AdapterOptions:
-    """
-    Configuration options for format adapters.
+    """Configuration options for format adapters.
 
     Attributes:
         include_headers: Include column headers in export
@@ -83,10 +81,9 @@ class AdapterOptions:
 
 @dataclass
 class HTMLImportOptions(AdapterOptions):
-    """
-    Configuration options for HTML import.
+    """Configuration options for HTML import.
 
-    Implements FUTURE-001: HTML import from HTML tables
+    Implements FR-HTML-001: HTML import from HTML tables
 
     Attributes:
         table_selector: CSS selector for table elements (None for all tables)
@@ -104,8 +101,7 @@ class HTMLImportOptions(AdapterOptions):
 
 
 class FormatAdapter(ABC):
-    """
-    Abstract base class for format adapters.
+    """Abstract base class for format adapters.
 
     Subclasses implement specific format conversions.
     """
@@ -129,8 +125,7 @@ class FormatAdapter(ABC):
         output_path: Path,
         options: AdapterOptions | None = None,
     ) -> Path:
-        """
-        Export sheets to file.
+        """Export sheets to file.
 
         Args:
             sheets: Sheet specifications to export
@@ -148,8 +143,7 @@ class FormatAdapter(ABC):
         input_path: Path,
         options: AdapterOptions | None = None,
     ) -> list[SheetSpec]:
-        """
-        Import sheets from file.
+        """Import sheets from file.
 
         Args:
             input_path: Input file path
@@ -162,8 +156,7 @@ class FormatAdapter(ABC):
 
 
 class OdsAdapter(FormatAdapter):
-    """
-    ODS format adapter (native format).
+    """ODS format adapter (native format).
 
     Uses odfpy for ODS file operations.
     """
@@ -224,8 +217,7 @@ class OdsAdapter(FormatAdapter):
 
 
 class CsvAdapter(FormatAdapter):
-    """
-    CSV format adapter.
+    """CSV format adapter.
 
     Handles comma-separated values export/import.
     """
@@ -338,8 +330,7 @@ class CsvAdapter(FormatAdapter):
 
 
 class TsvAdapter(CsvAdapter):
-    """
-    TSV format adapter.
+    """TSV format adapter.
 
     Handles tab-separated values export/import.
     """
@@ -377,8 +368,7 @@ class TsvAdapter(CsvAdapter):
 
 
 class JsonAdapter(FormatAdapter):
-    """
-    JSON format adapter.
+    """JSON format adapter.
 
     Exports spreadsheet data as JSON for programmatic access.
     """
@@ -422,8 +412,7 @@ class JsonAdapter(FormatAdapter):
 
 
 class HtmlAdapter(FormatAdapter):
-    """
-    HTML format adapter.
+    """HTML format adapter.
 
     Exports spreadsheet as HTML table(s).
     """
@@ -503,7 +492,7 @@ class HtmlAdapter(FormatAdapter):
     ) -> list[SheetSpec]:
         """Import from HTML format.
 
-        Implements FUTURE-001: HTML import from HTML tables
+        Implements FR-HTML-001: HTML import from HTML tables
 
         Parses HTML tables using BeautifulSoup4 and converts them to SheetSpec.
         Handles thead/tbody/tfoot, th/td cells, colspan/rowspan attributes.
@@ -843,8 +832,7 @@ class HtmlAdapter(FormatAdapter):
 
 
 class XlsxAdapter(FormatAdapter):
-    """
-    XLSX format adapter.
+    """XLSX format adapter.
 
     Handles Microsoft Excel (.xlsx) export/import using openpyxl.
     Requires openpyxl to be installed: pip install 'spreadsheet-dl[xlsx]'
@@ -1016,8 +1004,7 @@ class XlsxAdapter(FormatAdapter):
 
 
 class AdapterRegistry:
-    """
-    Registry of available format adapters.
+    """Registry of available format adapters.
 
     Provides discovery and instantiation of format adapters.
 
@@ -1044,8 +1031,7 @@ class AdapterRegistry:
 
     @classmethod
     def get_adapter(cls, format: ExportFormat) -> FormatAdapter:
-        """
-        Get adapter instance for format.
+        """Get adapter instance for format.
 
         Args:
             format: Export format
@@ -1067,8 +1053,7 @@ class AdapterRegistry:
         format: ExportFormat,
         adapter_class: type[FormatAdapter],
     ) -> None:
-        """
-        Register a new adapter.
+        """Register a new adapter.
 
         Args:
             format: Format to register
@@ -1089,8 +1074,7 @@ class AdapterRegistry:
         format: ExportFormat | None = None,
         options: AdapterOptions | None = None,
     ) -> Path:
-        """
-        Export sheets to file.
+        """Export sheets to file.
 
         Args:
             sheets: Sheet specifications
@@ -1127,8 +1111,7 @@ class AdapterRegistry:
         format: ImportFormat | None = None,
         options: AdapterOptions | None = None,
     ) -> list[SheetSpec]:
-        """
-        Import sheets from file.
+        """Import sheets from file.
 
         Args:
             input_path: Input file path
@@ -1167,8 +1150,7 @@ def export_to(
     format: ExportFormat | str | None = None,
     **kwargs: Any,
 ) -> Path:
-    """
-    Export sheets to file.
+    """Export sheets to file.
 
     Convenience function for AdapterRegistry.export().
 
@@ -1193,8 +1175,7 @@ def import_from(
     format: ImportFormat | str | None = None,
     **kwargs: Any,
 ) -> list[SheetSpec]:
-    """
-    Import sheets from file.
+    """Import sheets from file.
 
     Convenience function for AdapterRegistry.import_file().
 

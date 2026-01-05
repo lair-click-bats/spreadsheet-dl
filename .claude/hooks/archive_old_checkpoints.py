@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Archive Old Checkpoints Hook
+"""Archive Old Checkpoints Hook
 Removes checkpoint archives older than retention period (30 days)
 
 Version: 1.0.0

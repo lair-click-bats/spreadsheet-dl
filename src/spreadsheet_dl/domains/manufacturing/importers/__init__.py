@@ -1,5 +1,4 @@
-"""
-Manufacturing importers module.
+"""Manufacturing importers module.
 
 Implements:
     Manufacturing importer exports

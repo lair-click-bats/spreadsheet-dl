@@ -1,5 +1,4 @@
-"""
-Data Science Domain Plugin for SpreadsheetDL.
+"""Data Science Domain Plugin for SpreadsheetDL.
 
 Implements:
     Complete Data Science domain plugin
@@ -25,7 +24,7 @@ Example:
     >>> from spreadsheet_dl.domains.data_science import ExperimentLogTemplate
     >>> template = ExperimentLogTemplate(project_name="Image Classification")
     >>> builder = template.generate()
-    >>> builder.save("experiments.ods")
+    >>> path = builder.save("experiments.ods")
 """
 
 # Plugin

@@ -1,5 +1,4 @@
-"""
-Carbon and sustainability formulas.
+"""Carbon and sustainability formulas.
 
 Implements:
     Carbon and sustainability formulas
@@ -17,8 +16,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 @dataclass(slots=True, frozen=True)
 class CarbonEquivalentFormula(BaseFormula):
-    """
-    Calculate CO2 equivalent from various emissions.
+    """Calculate CO2 equivalent from various emissions.
 
     Implements:
         CARBON_EQUIVALENT formula for emissions
@@ -33,8 +31,7 @@ class CarbonEquivalentFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for CARBON_EQUIVALENT
@@ -69,8 +66,7 @@ class CarbonEquivalentFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build CARBON_EQUIVALENT formula string.
+        """Build CARBON_EQUIVALENT formula string.
 
         Args:
             *args: amount, [gas_type]
@@ -108,8 +104,7 @@ class CarbonEquivalentFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class EcologicalFootprintFormula(BaseFormula):
-    """
-    Calculate ecological footprint.
+    """Calculate ecological footprint.
 
     Implements:
         ECOLOGICAL_FOOTPRINT formula for sustainability
@@ -124,8 +119,7 @@ class EcologicalFootprintFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for ECOLOGICAL_FOOTPRINT
@@ -167,8 +161,7 @@ class EcologicalFootprintFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ECOLOGICAL_FOOTPRINT formula string.
+        """Build ECOLOGICAL_FOOTPRINT formula string.
 
         Args:
             *args: carbon_footprint, [food_consumption], [housing_area]
@@ -208,8 +201,7 @@ class EcologicalFootprintFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class SustainabilityScoreFormula(BaseFormula):
-    """
-    Calculate sustainability score.
+    """Calculate sustainability score.
 
     Implements:
         SUSTAINABILITY_SCORE formula for ESG metrics
@@ -224,8 +216,7 @@ class SustainabilityScoreFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for SUSTAINABILITY_SCORE
@@ -267,8 +258,7 @@ class SustainabilityScoreFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build SUSTAINABILITY_SCORE formula string.
+        """Build SUSTAINABILITY_SCORE formula string.
 
         Args:
             *args: environmental_score, [social_score], [governance_score]
@@ -305,8 +295,7 @@ class SustainabilityScoreFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class EnvironmentalImpactScoreFormula(BaseFormula):
-    """
-    Calculate environmental impact score.
+    """Calculate environmental impact score.
 
     Implements:
         ENVIRONMENTAL_IMPACT_SCORE formula for EIA
@@ -321,8 +310,7 @@ class EnvironmentalImpactScoreFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for ENVIRONMENTAL_IMPACT_SCORE
@@ -369,8 +357,7 @@ class EnvironmentalImpactScoreFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ENVIRONMENTAL_IMPACT_SCORE formula string.
+        """Build ENVIRONMENTAL_IMPACT_SCORE formula string.
 
         Args:
             *args: magnitude, duration, reversibility, [probability]

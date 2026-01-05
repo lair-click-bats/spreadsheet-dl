@@ -1,5 +1,4 @@
-"""
-Professional financial templates.
+"""Professional financial templates.
 
 Implements:
     - FR-PROF-001: Enterprise Budget Template
@@ -55,8 +54,7 @@ class ColumnDef:
 
 @dataclass
 class EnterpriseBudgetTemplate:
-    """
-    Enterprise-grade budget template (FR-PROF-001).
+    """Enterprise-grade budget template (FR-PROF-001).
 
     Features:
     - Multiple budget categories with subcategories
@@ -143,8 +141,7 @@ class EnterpriseBudgetTemplate:
         ]
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate the budget spreadsheet.
+        """Generate the budget spreadsheet.
 
         Returns:
             SpreadsheetBuilder configured with budget template
@@ -339,8 +336,7 @@ class BudgetCategory:
 
 @dataclass
 class CashFlowTrackerTemplate:
-    """
-    Cash flow tracker template (FR-PROF-002).
+    """Cash flow tracker template (FR-PROF-002).
 
     Features:
     - Operating, investing, and financing sections
@@ -420,8 +416,7 @@ class CashFlowTrackerTemplate:
     )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate the cash flow tracker spreadsheet.
+        """Generate the cash flow tracker spreadsheet.
 
         Returns:
             SpreadsheetBuilder configured with cash flow template
@@ -731,8 +726,7 @@ class CashFlowTrackerTemplate:
 
 @dataclass
 class InvoiceTemplate:
-    """
-    Professional invoice template (FR-PROF-003).
+    """Professional invoice template (FR-PROF-003).
 
     Features:
     - Company header with logo placeholder
@@ -862,8 +856,7 @@ class InvoiceTemplate:
 
 @dataclass
 class ExpenseReportTemplate:
-    """
-    Employee expense report template.
+    """Employee expense report template.
 
     Features:
     - Employee information section

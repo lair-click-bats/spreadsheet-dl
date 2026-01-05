@@ -1,5 +1,4 @@
-"""
-LMS Data Importer.
+"""LMS Data Importer.
 
 Implements:
     LMSDataImporter for education domain
@@ -18,8 +17,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 @dataclass
 class LMSDataImporter(BaseImporter[list[dict[str, Any]]]):
-    """
-    Learning Management System data importer.
+    """Learning Management System data importer.
 
     Implements:
         LMSDataImporter for Canvas, Moodle, Blackboard exports
@@ -31,9 +29,9 @@ class LMSDataImporter(BaseImporter[list[dict[str, Any]]]):
     - Generic LMS JSON/CSV formats
 
     Example:
-        >>> importer = LMSDataImporter(platform="canvas")
-        >>> result = importer.import_data("grades_export.csv")
-        >>> print(f"Imported {result.records_imported} student records")
+        >>> importer = LMSDataImporter(platform="canvas")  # doctest: +SKIP
+        >>> result = importer.import_data("grades_export.csv")  # doctest: +SKIP
+        >>> print(f"Imported {result.records_imported} student records")  # doctest: +SKIP
     """
 
     platform: str = "generic"
@@ -42,8 +40,7 @@ class LMSDataImporter(BaseImporter[list[dict[str, Any]]]):
 
     @property
     def metadata(self) -> ImporterMetadata:
-        """
-        Get importer metadata.
+        """Get importer metadata.
 
         Returns:
             ImporterMetadata for LMS data importer
@@ -59,8 +56,7 @@ class LMSDataImporter(BaseImporter[list[dict[str, Any]]]):
         )
 
     def import_data(self, source: str | Path) -> ImportResult[list[dict[str, Any]]]:
-        """
-        Import LMS data from file.
+        """Import LMS data from file.
 
         Args:
             source: Path to LMS export file
@@ -223,8 +219,7 @@ class LMSDataImporter(BaseImporter[list[dict[str, Any]]]):
         return normalized
 
     def validate_source(self, source: str | Path) -> bool:
-        """
-        Validate source file.
+        """Validate source file.
 
         Args:
             source: Path to validate

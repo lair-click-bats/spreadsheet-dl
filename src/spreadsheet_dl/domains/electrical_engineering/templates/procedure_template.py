@@ -1,8 +1,7 @@
-"""
-Test procedure template for hardware testing documentation.
+"""Test procedure template for hardware testing documentation.
 
 Implements:
-    TestProcedureTemplate with pass/fail tracking
+    ProcedureTemplate with pass/fail tracking
 """
 
 from __future__ import annotations
@@ -17,12 +16,11 @@ if TYPE_CHECKING:
 
 
 @dataclass
-class TestProcedureTemplate(BaseTemplate):
-    """
-    Test procedure template for hardware test documentation.
+class ProcedureTemplate(BaseTemplate):
+    """Test procedure template for hardware test documentation.
 
     Implements:
-        TestProcedureTemplate requirements
+        ProcedureTemplate requirements
 
     Features:
         - Columns: Test Step, Description, Expected Result, Actual Result,
@@ -33,16 +31,13 @@ class TestProcedureTemplate(BaseTemplate):
         - Conditional formatting: Green for Pass, Red for Fail, Gray for Skip
 
     Example:
-        >>> template = TestProcedureTemplate(
+        >>> template = ProcedureTemplate(  # doctest: +SKIP
         ...     project_name="Main Board Rev A",
         ...     test_suite="Functional Test"
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("test_procedure.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("test_procedure.ods")  # doctest: +SKIP
     """
-
-    # Prevent pytest from collecting this class as a test
-    __test__ = False
 
     project_name: str = "Hardware Test"
     test_suite: str = "Functional Test Suite"
@@ -62,8 +57,7 @@ class TestProcedureTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate test procedure spreadsheet.
+        """Generate test procedure spreadsheet.
 
         Returns:
             SpreadsheetBuilder configured with test procedure template
@@ -204,4 +198,4 @@ class TestProcedureTemplate(BaseTemplate):
         return self.num_test_steps > 0
 
 
-__all__ = ["TestProcedureTemplate"]
+__all__ = ["ProcedureTemplate"]

@@ -1,5 +1,4 @@
-"""
-Building codes importer for civil engineering.
+"""Building codes importer for civil engineering.
 
 Implements:
     BuildingCodesImporter for load tables from standards
@@ -16,8 +15,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 
 class BuildingCodesImporter(BaseImporter[list[dict[str, Any]]]):
-    """
-    Import building code load tables (wind, snow, seismic coefficients).
+    """Import building code load tables (wind, snow, seismic coefficients).
 
     Implements:
         BuildingCodesImporter requirements
@@ -29,16 +27,15 @@ class BuildingCodesImporter(BaseImporter[list[dict[str, Any]]]):
         - Validate coefficient ranges
 
     Example:
-        >>> importer = BuildingCodesImporter(code_standard="ASCE_7")
-        >>> result = importer.import_data("wind_coefficients.csv")
-        >>> if result.success:
+        >>> importer = BuildingCodesImporter(code_standard="ASCE_7")  # doctest: +SKIP
+        >>> result = importer.import_data("wind_coefficients.csv")  # doctest: +SKIP
+        >>> if result.success:  # doctest: +SKIP
         ...     for coeff in result.data:
         ...         print(f"{coeff['zone']}: {coeff['wind_speed']} mph")
     """
 
     def __init__(self, code_standard: str = "ASCE_7", **kwargs: Any) -> None:
-        """
-        Initialize importer with code standard.
+        """Initialize importer with code standard.
 
         Args:
             code_standard: Building code standard ("ASCE_7", "Eurocode", "IBC", etc.)
@@ -58,8 +55,7 @@ class BuildingCodesImporter(BaseImporter[list[dict[str, Any]]]):
         )
 
     def validate_source(self, source: Path | str) -> bool:
-        """
-        Validate code table file.
+        """Validate code table file.
 
         Args:
             source: Path to code table file
@@ -71,8 +67,7 @@ class BuildingCodesImporter(BaseImporter[list[dict[str, Any]]]):
         return path.exists() and path.suffix.lower() in (".csv", ".json")
 
     def import_data(self, source: Path | str) -> ImportResult[list[dict[str, Any]]]:
-        """
-        Import building code tables from file.
+        """Import building code tables from file.
 
         Args:
             source: Path to code table file
@@ -149,8 +144,7 @@ class BuildingCodesImporter(BaseImporter[list[dict[str, Any]]]):
         errors: list[str],
         warnings: list[str],
     ) -> list[dict[str, Any]]:
-        """
-        Parse CSV code table file.
+        """Parse CSV code table file.
 
         Args:
             path: Path to CSV file
@@ -219,8 +213,7 @@ class BuildingCodesImporter(BaseImporter[list[dict[str, Any]]]):
         errors: list[str],
         warnings: list[str],
     ) -> list[dict[str, Any]]:
-        """
-        Parse JSON code table file.
+        """Parse JSON code table file.
 
         Args:
             path: Path to JSON file
@@ -259,8 +252,7 @@ class BuildingCodesImporter(BaseImporter[list[dict[str, Any]]]):
         return tables
 
     def _detect_columns(self, fieldnames: list[str]) -> dict[str, str]:
-        """
-        Auto-detect column mapping from CSV headers.
+        """Auto-detect column mapping from CSV headers.
 
         Args:
             fieldnames: CSV column names
@@ -307,8 +299,7 @@ class BuildingCodesImporter(BaseImporter[list[dict[str, Any]]]):
         return mapping
 
     def _parse_float(self, value: str, default: float) -> float:
-        """
-        Parse float value with fallback.
+        """Parse float value with fallback.
 
         Args:
             value: String value to parse

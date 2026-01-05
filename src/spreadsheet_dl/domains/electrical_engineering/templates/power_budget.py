@@ -1,5 +1,4 @@
-"""
-Power budget template for power consumption analysis.
+"""Power budget template for power consumption analysis.
 
 Implements:
     PowerBudgetTemplate with power calculations and status indicators
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class PowerBudgetTemplate(BaseTemplate):
-    """
-    Power budget template for analyzing power consumption.
+    """Power budget template for analyzing power consumption.
 
     Implements:
         PowerBudgetTemplate requirements
@@ -33,12 +31,12 @@ class PowerBudgetTemplate(BaseTemplate):
         - Conditional formatting: Red for >80% budget, yellow for >60%
 
     Example:
-        >>> template = PowerBudgetTemplate(
+        >>> template = PowerBudgetTemplate(  # doctest: +SKIP
         ...     project_name="IoT Device",
         ...     total_budget_mw=5000
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("power_budget.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("power_budget.ods")  # doctest: +SKIP
     """
 
     project_name: str = "Electronic System"
@@ -59,8 +57,7 @@ class PowerBudgetTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate power budget spreadsheet.
+        """Generate power budget spreadsheet.
 
         Returns:
             SpreadsheetBuilder configured with power budget template

@@ -1,9 +1,13 @@
-"""
-Command-line interface for SpreadsheetDL.
+"""Command-line interface for SpreadsheetDL.
 
 PUBLIC API ENTRY POINT
 ----------------------
 This module is the public API entry point for the CLI functionality.
+It supports two invocation methods:
+
+    1. Module invocation: `python -m spreadsheet_dl` (uses this file's __main__ block)
+    2. Entry point: `spreadsheet-dl` command (uses _cli/app.py:main via pyproject.toml)
+
 Implementation is modularized in the _cli package:
 
     - _cli/utils.py: Validation, confirmation, and utility functions

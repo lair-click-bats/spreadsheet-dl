@@ -1,5 +1,4 @@
-"""
-Material Database importer for mechanical engineering.
+"""Material Database importer for mechanical engineering.
 
 Implements:
     MaterialDatabaseImporter for material property databases
@@ -18,8 +17,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 @dataclass
 class MaterialProperties:
-    """
-    Material properties data.
+    """Material properties data.
 
     Attributes:
         name: Material name
@@ -47,8 +45,7 @@ class MaterialProperties:
 
 
 class MaterialDatabaseImporter(BaseImporter[list[dict[str, Any]]]):
-    """
-    Import material property databases from CSV or JSON files.
+    """Import material property databases from CSV or JSON files.
 
     Implements:
         MaterialDatabaseImporter requirements
@@ -61,9 +58,9 @@ class MaterialDatabaseImporter(BaseImporter[list[dict[str, Any]]]):
         - Handle multiple material categories
 
     Example:
-        >>> importer = MaterialDatabaseImporter()
-        >>> result = importer.import_data("materials.csv")
-        >>> if result.success:
+        >>> importer = MaterialDatabaseImporter()  # doctest: +SKIP
+        >>> result = importer.import_data("materials.csv")  # doctest: +SKIP
+        >>> if result.success:  # doctest: +SKIP
         ...     for material in result.data:
         ...         print(material["name"], material["yield_strength"])
     """
@@ -83,8 +80,7 @@ class MaterialDatabaseImporter(BaseImporter[list[dict[str, Any]]]):
         )
 
     def validate_source(self, source: Path | str) -> bool:
-        """
-        Validate material database file.
+        """Validate material database file.
 
         Args:
             source: Path to material database file
@@ -96,8 +92,7 @@ class MaterialDatabaseImporter(BaseImporter[list[dict[str, Any]]]):
         return path.exists() and path.suffix.lower() in (".csv", ".json")
 
     def import_data(self, source: Path | str) -> ImportResult[list[dict[str, Any]]]:
-        """
-        Import material database.
+        """Import material database.
 
         Args:
             source: Path to material database file
@@ -164,8 +159,7 @@ class MaterialDatabaseImporter(BaseImporter[list[dict[str, Any]]]):
         errors: list[str],
         warnings: list[str],
     ) -> list[MaterialProperties]:
-        """
-        Parse material database CSV format.
+        """Parse material database CSV format.
 
         Args:
             path: Path to CSV file
@@ -273,8 +267,7 @@ class MaterialDatabaseImporter(BaseImporter[list[dict[str, Any]]]):
         errors: list[str],
         warnings: list[str],
     ) -> list[MaterialProperties]:
-        """
-        Parse material database JSON format.
+        """Parse material database JSON format.
 
         Args:
             path: Path to JSON file

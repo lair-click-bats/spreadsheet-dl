@@ -1,5 +1,4 @@
-"""
-Plate reader data importer.
+"""Plate reader data importer.
 
 Implements:
     PlateReaderImporter for microplate data
@@ -17,8 +16,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 
 class PlateReaderImporter(BaseImporter[dict[str, Any]]):
-    """
-    Import plate reader data from various instruments.
+    """Import plate reader data from various instruments.
 
     Implements:
         PlateReaderImporter with CSV/XML support
@@ -32,9 +30,9 @@ class PlateReaderImporter(BaseImporter[dict[str, Any]]):
     - Metadata extraction (wavelengths, temperatures)
 
     Example:
-        >>> importer = PlateReaderImporter()
-        >>> result = importer.import_data("plate_data.csv")
-        >>> if result.success:
+        >>> importer = PlateReaderImporter()  # doctest: +SKIP
+        >>> result = importer.import_data("plate_data.csv")  # doctest: +SKIP
+        >>> if result.success:  # doctest: +SKIP
         ...     plate_data = result.data
         ...     print(f"Wells: {len(plate_data['wells'])}")
         ...     print(f"Type: {plate_data['read_type']}")
@@ -46,8 +44,7 @@ class PlateReaderImporter(BaseImporter[dict[str, Any]]):
 
     @property
     def metadata(self) -> ImporterMetadata:
-        """
-        Get importer metadata.
+        """Get importer metadata.
 
         Returns:
             ImporterMetadata for plate reader importer
@@ -63,8 +60,7 @@ class PlateReaderImporter(BaseImporter[dict[str, Any]]):
         )
 
     def validate_source(self, source: Path | str) -> bool:
-        """
-        Validate plate reader data file.
+        """Validate plate reader data file.
 
         Args:
             source: Path to data file
@@ -83,8 +79,7 @@ class PlateReaderImporter(BaseImporter[dict[str, Any]]):
         )
 
     def import_data(self, source: Path | str) -> ImportResult[dict[str, Any]]:
-        """
-        Import plate reader data.
+        """Import plate reader data.
 
         Args:
             source: Path to data file
@@ -122,8 +117,7 @@ class PlateReaderImporter(BaseImporter[dict[str, Any]]):
             )
 
     def _import_csv(self, path: Path) -> ImportResult[dict[str, Any]]:
-        """
-        Import CSV format plate data.
+        """Import CSV format plate data.
 
         Args:
             path: Path to CSV file
@@ -207,8 +201,7 @@ class PlateReaderImporter(BaseImporter[dict[str, Any]]):
         )
 
     def _import_xml(self, path: Path) -> ImportResult[dict[str, Any]]:
-        """
-        Import XML format plate data.
+        """Import XML format plate data.
 
         Args:
             path: Path to XML file

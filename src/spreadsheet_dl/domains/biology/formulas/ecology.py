@@ -1,5 +1,4 @@
-"""
-Ecology and population biology formulas.
+"""Ecology and population biology formulas.
 
 Implements:
     Ecology formulas
@@ -16,8 +15,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 @dataclass(slots=True, frozen=True)
 class ShannonDiversityFormula(BaseFormula):
-    """
-    Calculate Shannon diversity index.
+    """Calculate Shannon diversity index.
 
     Implements:
         SHANNON_DIVERSITY formula for biodiversity analysis
@@ -30,8 +28,7 @@ class ShannonDiversityFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for SHANNON_DIVERSITY
@@ -59,8 +56,7 @@ class ShannonDiversityFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build SHANNON_DIVERSITY formula string.
+        """Build SHANNON_DIVERSITY formula string.
 
         Args:
             *args: abundance_range
@@ -88,8 +84,7 @@ class ShannonDiversityFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class SimpsonIndexFormula(BaseFormula):
-    """
-    Calculate Simpson's diversity index.
+    """Calculate Simpson's diversity index.
 
     Implements:
         SIMPSON_INDEX formula for biodiversity analysis
@@ -102,8 +97,7 @@ class SimpsonIndexFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for SIMPSON_INDEX
@@ -138,8 +132,7 @@ class SimpsonIndexFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build SIMPSON_INDEX formula string.
+        """Build SIMPSON_INDEX formula string.
 
         Args:
             *args: abundance_range, [inverse]
@@ -176,8 +169,7 @@ class SimpsonIndexFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class SpeciesRichnessFormula(BaseFormula):
-    """
-    Calculate species richness (number of species).
+    """Calculate species richness (number of species).
 
     Implements:
         SPECIES_RICHNESS formula for biodiversity analysis
@@ -190,8 +182,7 @@ class SpeciesRichnessFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for SPECIES_RICHNESS
@@ -219,8 +210,7 @@ class SpeciesRichnessFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build SPECIES_RICHNESS formula string.
+        """Build SPECIES_RICHNESS formula string.
 
         Args:
             *args: abundance_range
@@ -245,8 +235,7 @@ class SpeciesRichnessFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class PopulationGrowthFormula(BaseFormula):
-    """
-    Calculate population growth rate.
+    """Calculate population growth rate.
 
     Implements:
         POPULATION_GROWTH formula for population dynamics
@@ -259,8 +248,7 @@ class PopulationGrowthFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for POPULATION_GROWTH
@@ -309,8 +297,7 @@ class PopulationGrowthFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build POPULATION_GROWTH formula string.
+        """Build POPULATION_GROWTH formula string.
 
         Args:
             *args: n0, r, t, [k]

@@ -1,5 +1,4 @@
-"""
-Enhanced template engine for professional spreadsheet generation.
+"""Enhanced template engine for professional spreadsheet generation.
 
 Implements:
     - FR-TEMPLATE-001: Template Definition Schema

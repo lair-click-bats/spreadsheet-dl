@@ -1,5 +1,4 @@
-"""
-Schema package - Declarative style and theme definitions.
+"""Schema package - Declarative style and theme definitions.
 
 Implements:
     - FR-SCHEMA-001: Extended Color Dataclass

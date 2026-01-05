@@ -1,5 +1,4 @@
-"""
-Civil Engineering importers for SpreadsheetDL.
+"""Civil Engineering importers for SpreadsheetDL.
 
 Implements:
     Civil Engineering domain importers

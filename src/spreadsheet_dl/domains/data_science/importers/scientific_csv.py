@@ -1,5 +1,4 @@
-"""
-Scientific CSV importer with automatic type detection.
+"""Scientific CSV importer with automatic type detection.
 
 Implements:
     ScientificCSVImporter for data science domain
@@ -17,8 +16,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 
 class ScientificCSVImporter(BaseImporter[list[dict[str, Any]]]):
-    """
-    Scientific CSV importer with type inference and scientific notation support.
+    """Scientific CSV importer with type inference and scientific notation support.
 
     Implements:
         ScientificCSVImporter with auto-type detection
@@ -32,9 +30,9 @@ class ScientificCSVImporter(BaseImporter[list[dict[str, Any]]]):
     - Encoding detection (UTF-8, Latin-1)
 
     Example:
-        >>> importer = ScientificCSVImporter()
-        >>> result = importer.import_data("experiment_data.csv")
-        >>> if result.success:
+        >>> importer = ScientificCSVImporter()  # doctest: +SKIP
+        >>> result = importer.import_data("experiment_data.csv")  # doctest: +SKIP
+        >>> if result.success:  # doctest: +SKIP
         ...     print(f"Imported {result.records_imported} records")
         ...     for record in result.data:
         ...         print(record)
@@ -46,8 +44,7 @@ class ScientificCSVImporter(BaseImporter[list[dict[str, Any]]]):
 
     @property
     def metadata(self) -> ImporterMetadata:
-        """
-        Get importer metadata.
+        """Get importer metadata.
 
         Returns:
             ImporterMetadata for scientific CSV importer
@@ -63,8 +60,7 @@ class ScientificCSVImporter(BaseImporter[list[dict[str, Any]]]):
         )
 
     def validate_source(self, source: Path | str) -> bool:
-        """
-        Validate CSV source file.
+        """Validate CSV source file.
 
         Args:
             source: Path to CSV file
@@ -83,8 +79,7 @@ class ScientificCSVImporter(BaseImporter[list[dict[str, Any]]]):
         )
 
     def import_data(self, source: Path | str) -> ImportResult[list[dict[str, Any]]]:
-        """
-        Import data from CSV file.
+        """Import data from CSV file.
 
         Args:
             source: Path to CSV file
@@ -165,8 +160,7 @@ class ScientificCSVImporter(BaseImporter[list[dict[str, Any]]]):
             )
 
     def _detect_delimiter(self, path: Path) -> str:
-        """
-        Detect CSV delimiter.
+        """Detect CSV delimiter.
 
         Args:
             path: Path to CSV file
@@ -192,8 +186,7 @@ class ScientificCSVImporter(BaseImporter[list[dict[str, Any]]]):
                 return ","
 
     def _infer_type(self, value: str) -> Any:
-        """
-        Infer type of value and convert.
+        """Infer type of value and convert.
 
         Args:
             value: String value to convert

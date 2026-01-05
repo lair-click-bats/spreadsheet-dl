@@ -1,5 +1,4 @@
-"""
-Gradebook Export Importer.
+"""Gradebook Export Importer.
 
 Implements:
     GradebookExportImporter for education domain
@@ -17,8 +16,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 @dataclass
 class GradebookExportImporter(BaseImporter[list[dict[str, Any]]]):
-    """
-    Gradebook export importer.
+    """Gradebook export importer.
 
     Implements:
         GradebookExportImporter for CSV/Excel gradebook exports
@@ -29,9 +27,9 @@ class GradebookExportImporter(BaseImporter[list[dict[str, Any]]]):
     - Generic tabular grade data
 
     Example:
-        >>> importer = GradebookExportImporter()
-        >>> result = importer.import_data("gradebook.csv")
-        >>> print(f"Imported {result.records_imported} student grades")
+        >>> importer = GradebookExportImporter()  # doctest: +SKIP
+        >>> result = importer.import_data("gradebook.csv")  # doctest: +SKIP
+        >>> print(f"Imported {result.records_imported} student grades")  # doctest: +SKIP
     """
 
     detect_assignments: bool = True
@@ -39,8 +37,7 @@ class GradebookExportImporter(BaseImporter[list[dict[str, Any]]]):
 
     @property
     def metadata(self) -> ImporterMetadata:
-        """
-        Get importer metadata.
+        """Get importer metadata.
 
         Returns:
             ImporterMetadata for gradebook importer
@@ -56,8 +53,7 @@ class GradebookExportImporter(BaseImporter[list[dict[str, Any]]]):
         )
 
     def import_data(self, source: str | Path) -> ImportResult[list[dict[str, Any]]]:
-        """
-        Import gradebook data from file.
+        """Import gradebook data from file.
 
         Args:
             source: Path to gradebook file
@@ -216,8 +212,7 @@ class GradebookExportImporter(BaseImporter[list[dict[str, Any]]]):
         return stats
 
     def validate_source(self, source: str | Path) -> bool:
-        """
-        Validate source file.
+        """Validate source file.
 
         Args:
             source: Path to validate

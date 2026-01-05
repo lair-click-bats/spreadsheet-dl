@@ -1,5 +1,4 @@
-"""
-Environmental Impact Assessment Template.
+"""Environmental Impact Assessment Template.
 
 Implements:
     EnvironmentalImpactTemplate for environmental domain
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class EnvironmentalImpactTemplate(BaseTemplate):
-    """
-    Environmental impact assessment template.
+    """Environmental impact assessment template.
 
     Implements:
         EnvironmentalImpactTemplate with impact scoring
@@ -32,12 +30,12 @@ class EnvironmentalImpactTemplate(BaseTemplate):
     - Cumulative impact assessment
 
     Example:
-        >>> template = EnvironmentalImpactTemplate(
+        >>> template = EnvironmentalImpactTemplate(  # doctest: +SKIP
         ...     project_name="Highway Extension",
         ...     num_impacts=20,
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("eia.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("eia.ods")  # doctest: +SKIP
     """
 
     project_name: str = "Environmental Impact Assessment"

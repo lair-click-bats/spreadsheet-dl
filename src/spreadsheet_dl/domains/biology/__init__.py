@@ -1,5 +1,4 @@
-"""
-Biology Domain Plugin for SpreadsheetDL.
+"""Biology Domain Plugin for SpreadsheetDL.
 
 Implements:
     Biology domain plugin

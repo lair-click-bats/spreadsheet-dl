@@ -659,6 +659,7 @@ class TestCmdVisualizeAdditional:
         args.output = output_file
         args.type = "dashboard"
         args.theme = "default"
+        args.json = False
 
         with patch(
             "spreadsheet_dl.visualization.create_budget_dashboard"
@@ -680,6 +681,7 @@ class TestCmdVisualizeAdditional:
         args.output = output_file
         args.type = "pie"
         args.theme = "default"
+        args.json = False
 
         with (
             patch(

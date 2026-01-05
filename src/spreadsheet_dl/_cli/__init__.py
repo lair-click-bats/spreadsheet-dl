@@ -1,5 +1,4 @@
-"""
-CLI package - Command-line interface for SpreadsheetDL.
+"""CLI package - Command-line interface for SpreadsheetDL.
 
 This package contains the modularized implementation of the CLI:
     - utils.py: Validation, confirmation, and utility functions

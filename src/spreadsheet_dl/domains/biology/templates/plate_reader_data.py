@@ -1,5 +1,4 @@
-"""
-Plate Reader Data Template for microplate assays.
+"""Plate Reader Data Template for microplate assays.
 
 Implements:
     PlateReaderDataTemplate for biology domain
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class PlateReaderDataTemplate(BaseTemplate):
-    """
-    Microplate reader data analysis template.
+    """Microplate reader data analysis template.
 
     Implements:
         PlateReaderDataTemplate with absorbance/fluorescence analysis
@@ -33,12 +31,9 @@ class PlateReaderDataTemplate(BaseTemplate):
     - Visualization-ready format
 
     Example:
-        >>> template = PlateReaderDataTemplate(
-        ...     plate_type="96-well",
-        ...     read_type="absorbance",
-        ... )
-        >>> builder = template.generate()
-        >>> builder.save("plate_data.ods")
+        >>> template = PlateReaderDataTemplate()  # doctest: +SKIP
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("plate_data.ods")  # doctest: +SKIP
     """
 
     assay_name: str = "Plate Reader Assay"
@@ -49,8 +44,7 @@ class PlateReaderDataTemplate(BaseTemplate):
 
     @property
     def metadata(self) -> TemplateMetadata:
-        """
-        Get template metadata.
+        """Get template metadata.
 
         Returns:
             TemplateMetadata for plate reader template
@@ -68,8 +62,7 @@ class PlateReaderDataTemplate(BaseTemplate):
         )
 
     def validate(self) -> bool:
-        """
-        Validate template parameters.
+        """Validate template parameters.
 
         Returns:
             True if parameters are valid, False otherwise
@@ -77,8 +70,7 @@ class PlateReaderDataTemplate(BaseTemplate):
         return self.plate_format in (96, 384)
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate the plate reader data spreadsheet.
+        """Generate the plate reader data spreadsheet.
 
         Returns:
             Configured SpreadsheetBuilder instance

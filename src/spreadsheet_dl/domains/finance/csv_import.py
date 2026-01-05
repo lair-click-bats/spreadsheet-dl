@@ -1,5 +1,4 @@
-"""
-CSV Import - Import transactions from bank CSV exports.
+"""CSV Import - Import transactions from bank CSV exports.
 
 Provides parsing and categorization of bank transaction exports
 from common financial institutions.
@@ -221,8 +220,7 @@ DEFAULT_CATEGORY_RULES: list[CategoryRule] = [
 
 @dataclass
 class TransactionCategorizer:
-    """
-    Automatic transaction categorizer using pattern matching.
+    """Automatic transaction categorizer using pattern matching.
 
     Uses regex patterns to categorize transactions based on
     merchant descriptions.
@@ -257,8 +255,7 @@ class TransactionCategorizer:
         priority: int = 0,
         case_sensitive: bool = False,
     ) -> None:
-        """
-        Add a custom categorization rule.
+        """Add a custom categorization rule.
 
         Args:
             pattern: Regex pattern to match.
@@ -270,8 +267,7 @@ class TransactionCategorizer:
         self._compile_rules()
 
     def categorize(self, description: str) -> ExpenseCategory:
-        """
-        Categorize a transaction based on its description.
+        """Categorize a transaction based on its description.
 
         Args:
             description: Transaction description/merchant name.
@@ -288,8 +284,7 @@ class TransactionCategorizer:
         self,
         description: str,
     ) -> tuple[ExpenseCategory, float]:
-        """
-        Categorize with confidence score.
+        """Categorize with confidence score.
 
         Args:
             description: Transaction description.
@@ -306,8 +301,7 @@ class TransactionCategorizer:
 
 
 class CSVImporter:
-    """
-    Import transactions from bank CSV files.
+    """Import transactions from bank CSV files.
 
     Parses CSV exports from various banks and converts them
     to ExpenseEntry objects with automatic categorization.
@@ -318,8 +312,7 @@ class CSVImporter:
         bank_format: BankFormat | str = "generic",
         categorizer: TransactionCategorizer | None = None,
     ) -> None:
-        """
-        Initialize CSV importer.
+        """Initialize CSV importer.
 
         Args:
             bank_format: Bank format configuration or name of preset.
@@ -344,8 +337,7 @@ class CSVImporter:
         start_date: date | None = None,
         end_date: date | None = None,
     ) -> list[ExpenseEntry]:
-        """
-        Import transactions from a CSV file.
+        """Import transactions from a CSV file.
 
         Args:
             csv_path: Path to CSV file.
@@ -519,8 +511,7 @@ class CSVImporter:
 
     @staticmethod
     def detect_format(csv_path: Path | str) -> str | None:
-        """
-        Attempt to detect the bank format from CSV headers.
+        """Attempt to detect the bank format from CSV headers.
 
         Args:
             csv_path: Path to CSV file.
@@ -559,8 +550,7 @@ def import_bank_csv(
     bank: str = "auto",
     filter_expenses: bool = True,
 ) -> list[ExpenseEntry]:
-    """
-    Convenience function to import bank CSV.
+    """Convenience function to import bank CSV.
 
     Args:
         csv_path: Path to CSV file.

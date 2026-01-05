@@ -1,5 +1,4 @@
-"""
-Extended Bank Format Support.
+"""Extended Bank Format Support.
 
 Provides support for 50+ bank and credit card CSV formats with:
 - YAML-based format definitions
@@ -26,8 +25,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class BankFormatDefinition:
-    """
-    Complete bank CSV format definition.
+    """Complete bank CSV format definition.
 
     Defines how to parse CSV exports from a specific bank or
     credit card provider.
@@ -865,8 +863,7 @@ BUILTIN_FORMATS: dict[str, BankFormatDefinition] = {
 
 
 class BankFormatRegistry:
-    """
-    Registry for bank format definitions.
+    """Registry for bank format definitions.
 
     Manages both built-in and custom formats with persistence.
 
@@ -890,8 +887,7 @@ class BankFormatRegistry:
         self,
         custom_dir: Path | str | None = None,
     ) -> None:
-        """
-        Initialize the registry.
+        """Initialize the registry.
 
         Args:
             custom_dir: Directory for custom format files.
@@ -930,8 +926,7 @@ class BankFormatRegistry:
             json.dump(fmt.to_dict(), f, indent=2)
 
     def get_format(self, format_id: str) -> BankFormatDefinition | None:
-        """
-        Get a format by ID.
+        """Get a format by ID.
 
         Args:
             format_id: Format identifier.
@@ -950,8 +945,7 @@ class BankFormatRegistry:
         format_type: str | None = None,
         include_custom: bool = True,
     ) -> list[BankFormatDefinition]:
-        """
-        List all available formats.
+        """List all available formats.
 
         Args:
             institution: Filter by institution.
@@ -986,8 +980,7 @@ class BankFormatRegistry:
         return sorted(institutions)
 
     def add_custom_format(self, fmt: BankFormatDefinition) -> None:
-        """
-        Add a custom format.
+        """Add a custom format.
 
         Args:
             fmt: Format definition to add.
@@ -996,8 +989,7 @@ class BankFormatRegistry:
         self._save_custom_format(fmt)
 
     def remove_custom_format(self, format_id: str) -> bool:
-        """
-        Remove a custom format.
+        """Remove a custom format.
 
         Args:
             format_id: ID of format to remove.
@@ -1022,8 +1014,7 @@ class BankFormatRegistry:
         *,
         sample_rows: int = 5,
     ) -> BankFormatDefinition | None:
-        """
-        Auto-detect CSV format.
+        """Auto-detect CSV format.
 
         Args:
             csv_path: Path to CSV file.
@@ -1096,8 +1087,7 @@ class BankFormatRegistry:
         fmt: BankFormatDefinition,
         csv_path: Path | str,
     ) -> list[str]:
-        """
-        Validate a format against a CSV file.
+        """Validate a format against a CSV file.
 
         Args:
             fmt: Format to validate.
@@ -1158,8 +1148,7 @@ class BankFormatRegistry:
 
 
 class FormatBuilder:
-    """
-    Interactive builder for creating custom bank formats.
+    """Interactive builder for creating custom bank formats.
 
     Example:
         ```python
@@ -1291,8 +1280,7 @@ class FormatBuilder:
         self,
         csv_path: Path | str,
     ) -> FormatBuilder:
-        """
-        Infer format from CSV headers.
+        """Infer format from CSV headers.
 
         Args:
             csv_path: Path to sample CSV file.
@@ -1356,8 +1344,7 @@ class FormatBuilder:
         return self
 
     def build(self, format_id: str) -> BankFormatDefinition:
-        """
-        Build the format definition.
+        """Build the format definition.
 
         Args:
             format_id: Unique identifier for the format.

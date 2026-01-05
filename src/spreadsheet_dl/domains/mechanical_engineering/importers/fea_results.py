@@ -1,5 +1,4 @@
-"""
-FEA Results importer for mechanical engineering.
+"""FEA Results importer for mechanical engineering.
 
 Implements:
     FEAResultsImporter for FEA simulation results
@@ -18,8 +17,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 @dataclass
 class FEANode:
-    """
-    FEA node result data.
+    """FEA node result data.
 
     Attributes:
         node_id: Node identifier
@@ -47,8 +45,7 @@ class FEANode:
 
 
 class FEAResultsImporter(BaseImporter[list[dict[str, Any]]]):
-    """
-    Import FEA (Finite Element Analysis) results from CSV or JSON files.
+    """Import FEA (Finite Element Analysis) results from CSV or JSON files.
 
     Implements:
         FEAResultsImporter requirements
@@ -61,9 +58,9 @@ class FEAResultsImporter(BaseImporter[list[dict[str, Any]]]):
         - Handle large result sets efficiently
 
     Example:
-        >>> importer = FEAResultsImporter()
-        >>> result = importer.import_data("fea_results.csv")
-        >>> if result.success:
+        >>> importer = FEAResultsImporter()  # doctest: +SKIP
+        >>> result = importer.import_data("fea_results.csv")  # doctest: +SKIP
+        >>> if result.success:  # doctest: +SKIP
         ...     for node in result.data:
         ...         print(node["node_id"], node["stress_vm"])
     """
@@ -83,8 +80,7 @@ class FEAResultsImporter(BaseImporter[list[dict[str, Any]]]):
         )
 
     def validate_source(self, source: Path | str) -> bool:
-        """
-        Validate FEA results file.
+        """Validate FEA results file.
 
         Args:
             source: Path to FEA results file
@@ -96,8 +92,7 @@ class FEAResultsImporter(BaseImporter[list[dict[str, Any]]]):
         return path.exists() and path.suffix.lower() in (".csv", ".json")
 
     def import_data(self, source: Path | str) -> ImportResult[list[dict[str, Any]]]:
-        """
-        Import FEA results data.
+        """Import FEA results data.
 
         Args:
             source: Path to FEA results file
@@ -164,8 +159,7 @@ class FEAResultsImporter(BaseImporter[list[dict[str, Any]]]):
         errors: list[str],
         warnings: list[str],
     ) -> list[FEANode]:
-        """
-        Parse FEA results CSV format.
+        """Parse FEA results CSV format.
 
         Args:
             path: Path to CSV file
@@ -250,8 +244,7 @@ class FEAResultsImporter(BaseImporter[list[dict[str, Any]]]):
         errors: list[str],
         warnings: list[str],
     ) -> list[FEANode]:
-        """
-        Parse FEA results JSON format.
+        """Parse FEA results JSON format.
 
         Args:
             path: Path to JSON file

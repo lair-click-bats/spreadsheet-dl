@@ -1,5 +1,4 @@
-"""
-Soil mechanics formulas for civil engineering.
+"""Soil mechanics formulas for civil engineering.
 
 Implements:
     Soil formulas (BEARING_CAPACITY, SETTLEMENT, SOIL_PRESSURE)
@@ -15,8 +14,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 @dataclass(slots=True, frozen=True)
 class BearingCapacityFormula(BaseFormula):
-    """
-    Bearing capacity formula: q_ult = c*N_c + gamma*D*N_q + 0.5*gamma*B*N_gamma.
+    """Bearing capacity formula: q_ult = c*N_c + gamma*D*N_q + 0.5*gamma*B*N_gamma.
 
     Calculates ultimate bearing capacity of soil using Terzaghi's equation.
 
@@ -27,7 +25,6 @@ class BearingCapacityFormula(BaseFormula):
         >>> formula = BearingCapacityFormula()
         >>> formula.build("20", "5.14", "18", "2", "1.81", "1.5", "0.45")
         '20*5.14+18*2*1.81+0.5*18*1.5*0.45'
-        # Result: bearing capacity in kPa
     """
 
     @property
@@ -89,8 +86,7 @@ class BearingCapacityFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: c, Nc, gamma, D, Nq, B, Ngamma
@@ -105,8 +101,7 @@ class BearingCapacityFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class SettlementFormula(BaseFormula):
-    """
-    Settlement formula: S = (H*delta_sigma)/E_s.
+    """Settlement formula: S = (H*delta_sigma)/E_s.
 
     Calculates soil settlement under applied stress.
 
@@ -117,7 +112,6 @@ class SettlementFormula(BaseFormula):
         >>> formula = SettlementFormula()
         >>> formula.build("3000", "100", "10000")
         '3000*100/10000'
-        # Result: settlement in mm
     """
 
     @property
@@ -155,8 +149,7 @@ class SettlementFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: H, delta_sigma, Es
@@ -171,8 +164,7 @@ class SettlementFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class SoilPressureFormula(BaseFormula):
-    """
-    Soil pressure formula: sigma = P/A.
+    """Soil pressure formula: sigma = P/A.
 
     Calculates soil bearing pressure under applied load.
 
@@ -183,7 +175,6 @@ class SoilPressureFormula(BaseFormula):
         >>> formula = SoilPressureFormula()
         >>> formula.build("1000", "4")
         '1000/4'
-        # Result: pressure in kPa
     """
 
     @property
@@ -215,8 +206,7 @@ class SoilPressureFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: P, A

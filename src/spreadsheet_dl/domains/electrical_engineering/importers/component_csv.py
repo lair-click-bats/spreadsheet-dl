@@ -1,5 +1,4 @@
-"""
-Generic component CSV importer for electrical engineering.
+"""Generic component CSV importer for electrical engineering.
 
 Implements:
     GenericComponentCSVImporter with flexible column mapping
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 
 class GenericComponentCSVImporter(BaseImporter[list[dict[str, Any]]]):
-    """
-    Import generic component CSV files with flexible column mapping.
+    """Import generic component CSV files with flexible column mapping.
 
     Implements:
         GenericComponentCSVImporter requirements
@@ -31,15 +29,15 @@ class GenericComponentCSVImporter(BaseImporter[list[dict[str, Any]]]):
         - Validation: Required fields present
 
     Example:
-        >>> importer = GenericComponentCSVImporter(
+        >>> importer = GenericComponentCSVImporter(  # doctest: +SKIP
         ...     column_mapping={
         ...         "Reference": "ref",
         ...         "Part Number": "part_number",
         ...         "Qty": "quantity",
         ...     }
         ... )
-        >>> result = importer.import_data("components.csv")
-        >>> if result.success:
+        >>> result = importer.import_data("components.csv")  # doctest: +SKIP
+        >>> if result.success:  # doctest: +SKIP
         ...     for component in result.data:
         ...         print(component["ref"], component["quantity"])
     """
@@ -50,8 +48,7 @@ class GenericComponentCSVImporter(BaseImporter[list[dict[str, Any]]]):
         required_fields: list[str] | None = None,
         **kwargs: Any,
     ) -> None:
-        """
-        Initialize importer with column mapping.
+        """Initialize importer with column mapping.
 
         Args:
             column_mapping: Map CSV column names to output field names
@@ -74,8 +71,7 @@ class GenericComponentCSVImporter(BaseImporter[list[dict[str, Any]]]):
         )
 
     def validate_source(self, source: Path | str) -> bool:
-        """
-        Validate CSV file.
+        """Validate CSV file.
 
         Args:
             source: Path to CSV file
@@ -87,8 +83,7 @@ class GenericComponentCSVImporter(BaseImporter[list[dict[str, Any]]]):
         return path.exists() and path.suffix.lower() == ".csv"
 
     def import_data(self, source: Path | str) -> ImportResult[list[dict[str, Any]]]:
-        """
-        Import component data from CSV.
+        """Import component data from CSV.
 
         Args:
             source: Path to CSV file
@@ -148,8 +143,7 @@ class GenericComponentCSVImporter(BaseImporter[list[dict[str, Any]]]):
         errors: list[str],
         warnings: list[str],
     ) -> list[dict[str, Any]]:
-        """
-        Parse CSV file with column mapping.
+        """Parse CSV file with column mapping.
 
         Args:
             path: Path to CSV file
@@ -211,8 +205,7 @@ class GenericComponentCSVImporter(BaseImporter[list[dict[str, Any]]]):
         return components
 
     def _auto_detect_mapping(self, fieldnames: Sequence[str]) -> dict[str, str]:
-        """
-        Auto-detect column mapping from CSV headers.
+        """Auto-detect column mapping from CSV headers.
 
         Args:
             fieldnames: CSV column names
@@ -255,8 +248,7 @@ class GenericComponentCSVImporter(BaseImporter[list[dict[str, Any]]]):
         return mapping
 
     def _parse_int(self, value: str, default: int) -> int:
-        """
-        Parse integer value with fallback.
+        """Parse integer value with fallback.
 
         Args:
             value: String value to parse
@@ -273,8 +265,7 @@ class GenericComponentCSVImporter(BaseImporter[list[dict[str, Any]]]):
             return default
 
     def _parse_float(self, value: str, default: float) -> float:
-        """
-        Parse float value with fallback.
+        """Parse float value with fallback.
 
         Args:
             value: String value to parse

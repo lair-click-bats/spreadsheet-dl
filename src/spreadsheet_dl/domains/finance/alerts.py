@@ -1,5 +1,4 @@
-"""
-Alerts System - Budget monitoring and notification alerts.
+"""Alerts System - Budget monitoring and notification alerts.
 
 Provides configurable alerts for budget thresholds, spending patterns,
 and anomaly detection.
@@ -114,8 +113,7 @@ class AlertConfig:
 
 
 class AlertMonitor:
-    """
-    Monitor budget data and generate alerts.
+    """Monitor budget data and generate alerts.
 
     Checks budget data against configurable thresholds and rules
     to generate actionable alerts.
@@ -126,8 +124,7 @@ class AlertMonitor:
         analyzer: BudgetAnalyzer,
         config: AlertConfig | None = None,
     ) -> None:
-        """
-        Initialize alert monitor.
+        """Initialize alert monitor.
 
         Args:
             analyzer: Budget analyzer with loaded data.
@@ -138,8 +135,7 @@ class AlertMonitor:
         self._alerts: list[Alert] = []
 
     def check_all(self) -> list[Alert]:
-        """
-        Run all alert checks.
+        """Run all alert checks.
 
         Returns:
             List of triggered alerts.
@@ -430,8 +426,7 @@ def check_budget_alerts(
     ods_path: Path | str,
     config: AlertConfig | None = None,
 ) -> list[Alert]:
-    """
-    Convenience function to check alerts for a budget file.
+    """Convenience function to check alerts for a budget file.
 
     Args:
         ods_path: Path to ODS budget file.

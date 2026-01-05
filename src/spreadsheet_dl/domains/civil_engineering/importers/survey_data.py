@@ -1,5 +1,4 @@
-"""
-Survey data importer for civil engineering.
+"""Survey data importer for civil engineering.
 
 Implements:
     SurveyDataImporter for CSV/XML surveying data
@@ -16,8 +15,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 
 class SurveyDataImporter(BaseImporter[list[dict[str, Any]]]):
-    """
-    Import survey data from CSV or XML files.
+    """Import survey data from CSV or XML files.
 
     Implements:
         SurveyDataImporter requirements
@@ -29,16 +27,15 @@ class SurveyDataImporter(BaseImporter[list[dict[str, Any]]]):
         - Support multiple survey data formats
 
     Example:
-        >>> importer = SurveyDataImporter()
-        >>> result = importer.import_data("survey_points.csv")
-        >>> if result.success:
+        >>> importer = SurveyDataImporter()  # doctest: +SKIP
+        >>> result = importer.import_data("survey_points.csv")  # doctest: +SKIP
+        >>> if result.success:  # doctest: +SKIP
         ...     for point in result.data:
         ...         print(f"{point['station']}: {point['elevation']}m")
     """
 
     def __init__(self, **kwargs: Any) -> None:
-        """
-        Initialize importer.
+        """Initialize importer.
 
         Args:
             **kwargs: Additional configuration
@@ -56,8 +53,7 @@ class SurveyDataImporter(BaseImporter[list[dict[str, Any]]]):
         )
 
     def validate_source(self, source: Path | str) -> bool:
-        """
-        Validate survey data file.
+        """Validate survey data file.
 
         Args:
             source: Path to survey data file
@@ -69,8 +65,7 @@ class SurveyDataImporter(BaseImporter[list[dict[str, Any]]]):
         return path.exists() and path.suffix.lower() in (".csv", ".xml")
 
     def import_data(self, source: Path | str) -> ImportResult[list[dict[str, Any]]]:
-        """
-        Import survey data from file.
+        """Import survey data from file.
 
         Args:
             source: Path to survey data file
@@ -130,8 +125,7 @@ class SurveyDataImporter(BaseImporter[list[dict[str, Any]]]):
         errors: list[str],
         warnings: list[str],
     ) -> list[dict[str, Any]]:
-        """
-        Parse CSV survey data file.
+        """Parse CSV survey data file.
 
         Args:
             path: Path to CSV file
@@ -189,8 +183,7 @@ class SurveyDataImporter(BaseImporter[list[dict[str, Any]]]):
         errors: list[str],
         warnings: list[str],
     ) -> list[dict[str, Any]]:
-        """
-        Parse XML survey data file.
+        """Parse XML survey data file.
 
         Supports LandXML and generic survey XML formats.
 
@@ -256,8 +249,7 @@ class SurveyDataImporter(BaseImporter[list[dict[str, Any]]]):
         return points
 
     def _detect_columns(self, fieldnames: list[str]) -> dict[str, str]:
-        """
-        Auto-detect column mapping from CSV headers.
+        """Auto-detect column mapping from CSV headers.
 
         Args:
             fieldnames: CSV column names
@@ -291,8 +283,7 @@ class SurveyDataImporter(BaseImporter[list[dict[str, Any]]]):
         return mapping
 
     def _parse_float(self, value: str, default: float) -> float:
-        """
-        Parse float value with fallback.
+        """Parse float value with fallback.
 
         Args:
             value: String value to parse

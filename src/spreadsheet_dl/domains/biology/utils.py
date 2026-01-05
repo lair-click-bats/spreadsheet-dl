@@ -1,5 +1,4 @@
-"""
-Utility functions for biology domain.
+"""Utility functions for biology domain.
 
 Implements:
     Biology domain utility functions
@@ -9,8 +8,7 @@ from __future__ import annotations
 
 
 def calculate_gc_content(sequence: str) -> float:
-    """
-    Calculate GC content of a DNA sequence.
+    """Calculate GC content of a DNA sequence.
 
     Args:
         sequence: DNA sequence string
@@ -19,7 +17,7 @@ def calculate_gc_content(sequence: str) -> float:
         GC content as percentage (0-100)
 
     Example:
-        >>> calculate_gc_content("ATGCATGC")
+        >>> calculate_gc_content("ATGCATGC")  # doctest: +SKIP
         50.0
     """
     if not sequence:
@@ -37,8 +35,7 @@ def calculate_gc_content(sequence: str) -> float:
 
 
 def calculate_melting_temp(sequence: str) -> float:
-    """
-    Calculate DNA melting temperature using basic formula.
+    """Calculate DNA melting temperature using basic formula.
 
     Args:
         sequence: DNA sequence string
@@ -47,7 +44,7 @@ def calculate_melting_temp(sequence: str) -> float:
         Melting temperature in Celsius
 
     Example:
-        >>> calculate_melting_temp("ATGCATGC")
+        >>> calculate_melting_temp("ATGCATGC")  # doctest: +SKIP
         24.0
     """
     if not sequence:
@@ -71,8 +68,7 @@ def calculate_melting_temp(sequence: str) -> float:
 
 
 def normalize_sequence(sequence: str) -> str:
-    """
-    Normalize DNA/RNA sequence string.
+    """Normalize DNA/RNA sequence string.
 
     Args:
         sequence: Raw sequence string
@@ -81,15 +77,14 @@ def normalize_sequence(sequence: str) -> str:
         Normalized sequence (uppercase, whitespace removed)
 
     Example:
-        >>> normalize_sequence("atg c")
+        >>> normalize_sequence("atg c")  # doctest: +SKIP
         'ATGC'
     """
     return "".join(sequence.split()).upper()
 
 
 def is_valid_dna(sequence: str) -> bool:
-    """
-    Check if string is a valid DNA sequence.
+    """Check if string is a valid DNA sequence.
 
     Args:
         sequence: Sequence string to validate
@@ -98,9 +93,9 @@ def is_valid_dna(sequence: str) -> bool:
         True if valid DNA sequence
 
     Example:
-        >>> is_valid_dna("ATGC")
+        >>> is_valid_dna("ATGC")  # doctest: +SKIP
         True
-        >>> is_valid_dna("ATGCX")
+        >>> is_valid_dna("ATGCX")  # doctest: +SKIP
         False
     """
     valid_bases = set("ATGCN")
@@ -108,8 +103,7 @@ def is_valid_dna(sequence: str) -> bool:
 
 
 def is_valid_rna(sequence: str) -> bool:
-    """
-    Check if string is a valid RNA sequence.
+    """Check if string is a valid RNA sequence.
 
     Args:
         sequence: Sequence string to validate
@@ -118,9 +112,9 @@ def is_valid_rna(sequence: str) -> bool:
         True if valid RNA sequence
 
     Example:
-        >>> is_valid_rna("AUGC")
+        >>> is_valid_rna("AUGC")  # doctest: +SKIP
         True
-        >>> is_valid_rna("ATGC")
+        >>> is_valid_rna("ATGC")  # doctest: +SKIP
         False
     """
     valid_bases = set("AUGCN")
@@ -128,8 +122,7 @@ def is_valid_rna(sequence: str) -> bool:
 
 
 def complement_dna(sequence: str) -> str:
-    """
-    Get complement of DNA sequence.
+    """Get complement of DNA sequence.
 
     Args:
         sequence: DNA sequence string
@@ -138,7 +131,7 @@ def complement_dna(sequence: str) -> str:
         Complement sequence
 
     Example:
-        >>> complement_dna("ATGC")
+        >>> complement_dna("ATGC")  # doctest: +SKIP
         'TACG'
     """
     complement_map = {"A": "T", "T": "A", "G": "C", "C": "G", "N": "N"}
@@ -147,8 +140,7 @@ def complement_dna(sequence: str) -> str:
 
 
 def reverse_complement(sequence: str) -> str:
-    """
-    Get reverse complement of DNA sequence.
+    """Get reverse complement of DNA sequence.
 
     Args:
         sequence: DNA sequence string
@@ -157,7 +149,7 @@ def reverse_complement(sequence: str) -> str:
         Reverse complement sequence
 
     Example:
-        >>> reverse_complement("ATGC")
+        >>> reverse_complement("ATGC")  # doctest: +SKIP
         'GCAT'
     """
     return complement_dna(sequence)[::-1]
@@ -166,8 +158,7 @@ def reverse_complement(sequence: str) -> str:
 def calculate_od_to_concentration(
     od: float, molecule_type: str = "DNA", dilution_factor: float = 1.0
 ) -> float:
-    """
-    Convert OD (optical density) reading to nucleic acid concentration.
+    """Convert OD (optical density) reading to nucleic acid concentration.
 
     Args:
         od: Optical density at 260nm (A260)
@@ -178,9 +169,9 @@ def calculate_od_to_concentration(
         Concentration in ug/mL
 
     Example:
-        >>> calculate_od_to_concentration(1.0, "DNA")
+        >>> calculate_od_to_concentration(1.0, "DNA")  # doctest: +SKIP
         50.0
-        >>> calculate_od_to_concentration(1.0, "RNA")
+        >>> calculate_od_to_concentration(1.0, "RNA")  # doctest: +SKIP
         40.0
     """
     # Extinction coefficients (ug/mL per A260 unit)
@@ -196,8 +187,7 @@ def calculate_od_to_concentration(
 
 
 def calculate_dilution(dilution_factor: int, steps: int) -> int:
-    """
-    Calculate total dilution from serial dilution steps.
+    """Calculate total dilution from serial dilution steps.
 
     Args:
         dilution_factor: Dilution factor per step (e.g., 10 for 1:10 dilution)
@@ -207,17 +197,16 @@ def calculate_dilution(dilution_factor: int, steps: int) -> int:
         Total dilution factor
 
     Example:
-        >>> calculate_dilution(10, 3)
+        >>> calculate_dilution(10, 3)  # doctest: +SKIP
         1000
-        >>> calculate_dilution(2, 5)
+        >>> calculate_dilution(2, 5)  # doctest: +SKIP
         32
     """
     return int(dilution_factor**steps)
 
 
 def format_scientific_notation(value: float, precision: int = 2) -> str:
-    """
-    Format a number in scientific notation.
+    """Format a number in scientific notation.
 
     Args:
         value: Numeric value to format
@@ -227,9 +216,9 @@ def format_scientific_notation(value: float, precision: int = 2) -> str:
         Formatted string in scientific notation
 
     Example:
-        >>> format_scientific_notation(0.00123)
+        >>> format_scientific_notation(0.00123)  # doctest: +SKIP
         '1.23e-03'
-        >>> format_scientific_notation(1234567)
+        >>> format_scientific_notation(1234567)  # doctest: +SKIP
         '1.23e+06'
     """
     return f"{value:.{precision}e}"

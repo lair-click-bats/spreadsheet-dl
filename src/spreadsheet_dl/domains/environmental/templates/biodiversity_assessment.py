@@ -1,5 +1,4 @@
-"""
-Biodiversity Assessment Template.
+"""Biodiversity Assessment Template.
 
 Implements:
     BiodiversityAssessmentTemplate for environmental domain
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class BiodiversityAssessmentTemplate(BaseTemplate):
-    """
-    Biodiversity assessment template.
+    """Biodiversity assessment template.
 
     Implements:
         BiodiversityAssessmentTemplate with diversity indices
@@ -33,12 +31,12 @@ class BiodiversityAssessmentTemplate(BaseTemplate):
     - Habitat assessment
 
     Example:
-        >>> template = BiodiversityAssessmentTemplate(
+        >>> template = BiodiversityAssessmentTemplate(  # doctest: +SKIP
         ...     site_name="Forest Plot A",
         ...     num_species=50,
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("biodiversity.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("biodiversity.ods")  # doctest: +SKIP
     """
 
     site_name: str = "Biodiversity Site"

@@ -1,5 +1,4 @@
-"""
-Satellite Data Importer.
+"""Satellite Data Importer.
 
 Implements:
     SatelliteDataImporter for environmental domain
@@ -18,8 +17,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 @dataclass
 class SatelliteDataImporter(BaseImporter[list[dict[str, Any]]]):
-    """
-    Remote sensing / satellite data importer.
+    """Remote sensing / satellite data importer.
 
     Implements:
         SatelliteDataImporter for environmental monitoring
@@ -31,9 +29,9 @@ class SatelliteDataImporter(BaseImporter[list[dict[str, Any]]]):
     - Climate data products
 
     Example:
-        >>> importer = SatelliteDataImporter(data_product="MODIS_NDVI")
-        >>> result = importer.import_data("ndvi_timeseries.csv")
-        >>> print(f"Imported {result.records_imported} satellite observations")
+        >>> importer = SatelliteDataImporter(data_product="MODIS_NDVI")  # doctest: +SKIP
+        >>> result = importer.import_data("ndvi_timeseries.csv")  # doctest: +SKIP
+        >>> print(f"Imported {result.records_imported} satellite observations")  # doctest: +SKIP
     """
 
     data_product: str = "generic"

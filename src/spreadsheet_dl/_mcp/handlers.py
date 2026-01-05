@@ -1,5 +1,4 @@
-"""
-Common handler utilities for MCP tools.
+"""Common handler utilities for MCP tools.
 
 Provides shared functionality for parameter validation, error handling,
 and response formatting used across all MCP tool categories.
@@ -33,8 +32,7 @@ class HandlerUtils:
         self._last_reset = datetime.now()
 
     def _validate_path(self, path: str | Path) -> Path:
-        """
-        Validate and resolve a file path.
+        """Validate and resolve a file path.
 
         Args:
             path: Path to validate.

@@ -1,5 +1,4 @@
-"""
-Lesson Plan Template.
+"""Lesson Plan Template.
 
 Implements:
     LessonPlanTemplate for education domain
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class LessonPlanTemplate(BaseTemplate):
-    """
-    Lesson plan template for curriculum design.
+    """Lesson plan template for curriculum design.
 
     Implements:
         LessonPlanTemplate with structured planning
@@ -33,12 +31,12 @@ class LessonPlanTemplate(BaseTemplate):
     - Differentiation notes
 
     Example:
-        >>> template = LessonPlanTemplate(
+        >>> template = LessonPlanTemplate(  # doctest: +SKIP
         ...     lesson_title="Introduction to Variables",
         ...     grade_level="Grade 9",
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("lesson_plan.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("lesson_plan.ods")  # doctest: +SKIP
     """
 
     lesson_title: str = "Lesson Plan"
@@ -53,8 +51,7 @@ class LessonPlanTemplate(BaseTemplate):
 
     @property
     def metadata(self) -> TemplateMetadata:
-        """
-        Get template metadata.
+        """Get template metadata.
 
         Returns:
             TemplateMetadata for lesson plan template
@@ -72,8 +69,7 @@ class LessonPlanTemplate(BaseTemplate):
         )
 
     def validate(self) -> bool:
-        """
-        Validate template parameters.
+        """Validate template parameters.
 
         Returns:
             True if parameters are valid
@@ -84,8 +80,7 @@ class LessonPlanTemplate(BaseTemplate):
         return len(self.lesson_title) > 0
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate the lesson plan spreadsheet.
+        """Generate the lesson plan spreadsheet.
 
         Returns:
             Configured SpreadsheetBuilder instance

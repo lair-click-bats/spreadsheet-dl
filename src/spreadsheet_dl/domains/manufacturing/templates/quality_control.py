@@ -1,5 +1,4 @@
-"""
-Quality Control Template for SPC and defect tracking.
+"""Quality Control Template for SPC and defect tracking.
 
 Implements:
     QualityControlTemplate for manufacturing domain
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class QualityControlTemplate(BaseTemplate):
-    """
-    Quality control charts with statistical process control (SPC).
+    """Quality control charts with statistical process control (SPC).
 
     Implements:
         QualityControlTemplate with SPC analysis
@@ -33,12 +31,12 @@ class QualityControlTemplate(BaseTemplate):
     - Pareto analysis for defect types
 
     Example:
-        >>> template = QualityControlTemplate(
+        >>> template = QualityControlTemplate(  # doctest: +SKIP
         ...     product_line="Widget Assembly",
         ...     spec_limits=(95.0, 105.0),
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("quality_control.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("quality_control.ods")  # doctest: +SKIP
     """
 
     product_name: str = "Product"
@@ -49,8 +47,7 @@ class QualityControlTemplate(BaseTemplate):
 
     @property
     def metadata(self) -> TemplateMetadata:
-        """
-        Get template metadata.
+        """Get template metadata.
 
         Returns:
             TemplateMetadata for quality control template
@@ -68,8 +65,7 @@ class QualityControlTemplate(BaseTemplate):
         )
 
     def validate(self) -> bool:
-        """
-        Validate template configuration.
+        """Validate template configuration.
 
         Returns:
             True if configuration is valid
@@ -82,8 +78,7 @@ class QualityControlTemplate(BaseTemplate):
         return not self.spec_limits[0] >= self.spec_limits[1]
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate the quality control spreadsheet.
+        """Generate the quality control spreadsheet.
 
         Returns:
             Configured SpreadsheetBuilder instance

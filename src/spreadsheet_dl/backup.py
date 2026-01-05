@@ -1,5 +1,4 @@
-"""
-Backup and restore module for SpreadsheetDL.
+"""Backup and restore module for SpreadsheetDL.
 
 Provides automated backup creation before destructive operations,
 backup management with configurable retention, and restore functionality
@@ -72,6 +71,7 @@ class BackupNotFoundError(BackupError):
         backup_path: str,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.backup_path = backup_path
         super().__init__(
             f"Backup not found: {backup_path}",
@@ -91,6 +91,7 @@ class BackupCorruptError(BackupError):
         reason: str = "Integrity check failed",
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.backup_path = backup_path
         self.reason = reason
         super().__init__(
@@ -111,6 +112,7 @@ class RestoreError(BackupError):
         message: str = "Restore failed",
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         super().__init__(
             message,
             suggestion="Check file permissions and disk space.",
@@ -185,6 +187,7 @@ class BackupInfo:
     created: datetime
 
     def __repr__(self) -> str:
+        """Return repr string."""
         return (
             f"BackupInfo(file={self.metadata.original_filename}, "
             f"created={self.created.isoformat()}, "
@@ -193,19 +196,18 @@ class BackupInfo:
 
 
 class BackupManager:
-    """
-    Manage backups for SpreadsheetDL files.
+    """Manage backups for SpreadsheetDL files.
 
     Provides automatic and manual backup creation, retention management,
     and restore functionality with integrity verification.
 
     Example:
-        >>> manager = BackupManager()
-        >>> manager.create_backup("budget.ods", BackupReason.MANUAL)
+        >>> manager = BackupManager()  # doctest: +SKIP
+        >>> manager.create_backup("budget.ods", BackupReason.MANUAL)  # doctest: +SKIP
         BackupInfo(file=budget.ods, ...)
-        >>> manager.list_backups("budget.ods")
+        >>> manager.list_backups("budget.ods")  # doctest: +SKIP
         [BackupInfo(...), ...]
-        >>> manager.restore_backup(backup_info, "budget_restored.ods")
+        >>> manager.restore_backup(backup_info, "budget_restored.ods")  # doctest: +SKIP
     """
 
     DEFAULT_BACKUP_DIR = ".spreadsheet-dl-backups"
@@ -220,8 +222,7 @@ class BackupManager:
         retention_days: int = DEFAULT_RETENTION_DAYS,
         compression: BackupCompression = BackupCompression.GZIP,
     ) -> None:
-        """
-        Initialize backup manager.
+        """Initialize backup manager.
 
         Args:
             backup_dir: Directory for storing backups. If None, uses
@@ -245,8 +246,7 @@ class BackupManager:
         reason: BackupReason = BackupReason.MANUAL,
         extra_metadata: dict[str, Any] | None = None,
     ) -> BackupInfo:
-        """
-        Create a backup of a file.
+        """Create a backup of a file.
 
         Args:
             file_path: Path to the file to back up.
@@ -337,8 +337,7 @@ class BackupManager:
         verify: bool = True,
         overwrite: bool = False,
     ) -> Path:
-        """
-        Restore a file from backup.
+        """Restore a file from backup.
 
         Args:
             backup: BackupInfo object or path to backup file.
@@ -433,8 +432,7 @@ class BackupManager:
         *,
         include_expired: bool = False,
     ) -> list[BackupInfo]:
-        """
-        List available backups.
+        """List available backups.
 
         Args:
             file_path: Filter by original file path. If None, lists all backups.
@@ -495,8 +493,7 @@ class BackupManager:
         return backups
 
     def verify_backup(self, backup: BackupInfo | Path | str) -> dict[str, Any]:
-        """
-        Verify backup integrity.
+        """Verify backup integrity.
 
         Args:
             backup: BackupInfo object or path to backup file.
@@ -597,8 +594,7 @@ class BackupManager:
         *,
         dry_run: bool = False,
     ) -> list[BackupInfo]:
-        """
-        Remove backups older than the retention period.
+        """Remove backups older than the retention period.
 
         Args:
             days: Override retention days. If None, uses configured value.
@@ -627,8 +623,7 @@ class BackupManager:
         return deleted
 
     def get_backup_stats(self) -> dict[str, Any]:
-        """
-        Get statistics about backups.
+        """Get statistics about backups.
 
         Returns:
             Dictionary with backup statistics:
@@ -684,8 +679,7 @@ def auto_backup(
     reason: BackupReason,
     backup_manager: BackupManager | None = None,
 ) -> BackupInfo | None:
-    """
-    Create an automatic backup of a file.
+    """Create an automatic backup of a file.
 
     Convenience function for creating backups before destructive operations.
 
@@ -710,8 +704,7 @@ def backup_decorator(
     reason: BackupReason = BackupReason.AUTO_BEFORE_EDIT,
     file_arg: str = "file_path",
 ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
-    """
-    Decorator to automatically backup files before operations.
+    """Decorator to automatically backup files before operations.
 
     Args:
         reason: Backup reason to use.

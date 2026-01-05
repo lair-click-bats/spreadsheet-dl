@@ -1,5 +1,4 @@
-"""
-MCP-specific exceptions.
+"""MCP-specific exceptions.
 
 Part of the modular MCP server implementation.
 All MCP exceptions inherit from the base SpreadsheetDLError.

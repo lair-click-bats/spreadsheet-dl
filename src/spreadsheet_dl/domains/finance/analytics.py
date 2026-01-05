@@ -1,5 +1,4 @@
-"""
-Analytics Dashboard - Advanced budget analytics and visualization data.
+"""Analytics Dashboard - Advanced budget analytics and visualization data.
 
 Provides trend analysis, forecasting, and insights for budget data.
 """
@@ -84,8 +83,7 @@ class DashboardData:
 
 
 class AnalyticsDashboard:
-    """
-    Generate comprehensive analytics dashboard data.
+    """Generate comprehensive analytics dashboard data.
 
     Provides all data needed for a budget analytics dashboard,
     including trends, insights, and visualization-ready data.
@@ -97,8 +95,7 @@ class AnalyticsDashboard:
         month: int | None = None,
         year: int | None = None,
     ) -> None:
-        """
-        Initialize dashboard.
+        """Initialize dashboard.
 
         Args:
             analyzer: Budget analyzer with loaded data.
@@ -119,8 +116,7 @@ class AnalyticsDashboard:
         return self._summary
 
     def generate_dashboard(self) -> DashboardData:
-        """
-        Generate complete dashboard data.
+        """Generate complete dashboard data.
 
         Returns:
             DashboardData with all analytics.
@@ -546,8 +542,7 @@ def generate_dashboard(
     month: int | None = None,
     year: int | None = None,
 ) -> dict[str, Any]:
-    """
-    Convenience function to generate dashboard data.
+    """Convenience function to generate dashboard data.
 
     Args:
         ods_path: Path to ODS budget file.

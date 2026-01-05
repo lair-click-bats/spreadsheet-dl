@@ -1,5 +1,4 @@
-"""
-Beam calculation formulas for civil engineering.
+"""Beam calculation formulas for civil engineering.
 
 Implements:
     Beam formulas (BEAM_DEFLECTION, SHEAR_STRESS, MOMENT)
@@ -15,8 +14,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 @dataclass(slots=True, frozen=True)
 class BeamDeflectionFormula(BaseFormula):
-    """
-    Beam deflection formula: delta = (5*w*L^4)/(384*E*I).
+    """Beam deflection formula: delta = (5*w*L^4)/(384*E*I).
 
     Calculates maximum deflection of a simply supported beam with
     uniformly distributed load.
@@ -28,7 +26,6 @@ class BeamDeflectionFormula(BaseFormula):
         >>> formula = BeamDeflectionFormula()
         >>> formula.build("10", "5000", "200000", "8.33e6")
         '(5*10*5000^4)/(384*200000*8.33e6)'
-        # Result: deflection in mm
     """
 
     @property
@@ -72,8 +69,7 @@ class BeamDeflectionFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: w, L, E, I
@@ -88,8 +84,7 @@ class BeamDeflectionFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class ShearStressFormula(BaseFormula):
-    """
-    Shear stress formula: tau = V*Q/(I*b).
+    """Shear stress formula: tau = V*Q/(I*b).
 
     Calculates shear stress in a beam cross-section.
 
@@ -100,7 +95,6 @@ class ShearStressFormula(BaseFormula):
         >>> formula = ShearStressFormula()
         >>> formula.build("50000", "1e6", "8.33e6", "200")
         '50000*1e6/(8.33e6*200)'
-        # Result: shear stress in MPa
     """
 
     @property
@@ -144,8 +138,7 @@ class ShearStressFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: V, Q, I, b
@@ -160,8 +153,7 @@ class ShearStressFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class MomentFormula(BaseFormula):
-    """
-    Bending moment formula: M = w*L^2/8.
+    """Bending moment formula: M = w*L^2/8.
 
     Calculates maximum bending moment for simply supported beam
     with uniformly distributed load.
@@ -173,7 +165,6 @@ class MomentFormula(BaseFormula):
         >>> formula = MomentFormula()
         >>> formula.build("10", "5000")
         '10*5000^2/8'
-        # Result: moment in N·mm
     """
 
     @property
@@ -205,8 +196,7 @@ class MomentFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: w, L

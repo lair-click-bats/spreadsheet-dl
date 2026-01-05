@@ -1,5 +1,4 @@
-"""
-Recurring Expenses - Manage recurring/scheduled expenses.
+"""Recurring Expenses - Manage recurring/scheduled expenses.
 
 Provides tracking and automatic generation of recurring expenses
 like subscriptions, bills, and regular payments.
@@ -93,16 +92,14 @@ class RecurringExpense:
 
 
 class RecurringExpenseManager:
-    """
-    Manage recurring expenses.
+    """Manage recurring expenses.
 
     Handles storage, scheduling, and generation of recurring expenses
     as ExpenseEntry objects.
     """
 
     def __init__(self, config_path: Path | str | None = None) -> None:
-        """
-        Initialize manager.
+        """Initialize manager.
 
         Args:
             config_path: Path to recurring expenses JSON file.
@@ -145,8 +142,7 @@ class RecurringExpenseManager:
         end_date: date,
         update_last_generated: bool = True,
     ) -> list[ExpenseEntry]:
-        """
-        Generate ExpenseEntry objects for a date range.
+        """Generate ExpenseEntry objects for a date range.
 
         Args:
             start_date: Start of period.
@@ -194,8 +190,7 @@ class RecurringExpenseManager:
         year: int,
         update_last_generated: bool = True,
     ) -> list[ExpenseEntry]:
-        """
-        Generate expenses for a specific month.
+        """Generate expenses for a specific month.
 
         Args:
             month: Month number (1-12).
@@ -507,8 +502,7 @@ def create_common_recurring(
     start_date: date | None = None,
     **overrides: Any,
 ) -> RecurringExpense:
-    """
-    Create a recurring expense from a common template.
+    """Create a recurring expense from a common template.
 
     Args:
         template: Template name (e.g., "netflix", "rent").

@@ -1,5 +1,4 @@
-"""
-Manufacturing Domain Plugin for SpreadsheetDL.
+"""Manufacturing Domain Plugin for SpreadsheetDL.
 
 Implements:
     Manufacturing domain plugin
@@ -71,8 +70,7 @@ from spreadsheet_dl.domains.manufacturing.templates.quality_control import (
 
 
 class ManufacturingDomainPlugin(BaseDomainPlugin):
-    """
-    Manufacturing domain plugin.
+    """Manufacturing domain plugin.
 
     Implements:
         Complete Manufacturing domain plugin
@@ -88,13 +86,12 @@ class ManufacturingDomainPlugin(BaseDomainPlugin):
         >>> template_class = plugin.get_template("production_schedule")
         >>> template = template_class()
         >>> builder = template.generate()
-        >>> builder.save("production_schedule.ods")
+        >>> path = builder.save("production_schedule.ods")
     """
 
     @property
     def metadata(self) -> PluginMetadata:
-        """
-        Get plugin metadata.
+        """Get plugin metadata.
 
         Returns:
             PluginMetadata with manufacturing plugin information
@@ -114,8 +111,7 @@ class ManufacturingDomainPlugin(BaseDomainPlugin):
         )
 
     def initialize(self) -> None:
-        """
-        Initialize plugin resources.
+        """Initialize plugin resources.
 
         Registers all templates, formulas, and importers.
 
@@ -156,8 +152,7 @@ class ManufacturingDomainPlugin(BaseDomainPlugin):
         self.register_importer("sensor_data", SensorDataImporter)
 
     def cleanup(self) -> None:
-        """
-        Cleanup plugin resources.
+        """Cleanup plugin resources.
 
         No resources need explicit cleanup for this plugin.
 
@@ -168,8 +163,7 @@ class ManufacturingDomainPlugin(BaseDomainPlugin):
         pass
 
     def validate(self) -> bool:
-        """
-        Validate plugin configuration.
+        """Validate plugin configuration.
 
         Returns:
             True if plugin has required templates and formulas registered

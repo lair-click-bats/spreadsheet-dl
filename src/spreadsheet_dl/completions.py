@@ -1,5 +1,4 @@
-"""
-Shell Completions Module.
+"""Shell Completions Module.
 
 Implements FR-UX-009: Shell Completions.
 Provides tab completion scripts for Bash, Zsh, and Fish shells.
@@ -554,8 +553,7 @@ complete -c spreadsheet-dl -f
 
 
 def install_completions(shell: str | None = None) -> dict[str, Any]:
-    """
-    Install shell completions.
+    """Install shell completions.
 
     Args:
         shell: Shell type (bash, zsh, fish). Auto-detects if None.
@@ -699,8 +697,7 @@ def _install_fish_completions() -> Path | None:
 
 
 def print_completion_script(shell: str) -> str:
-    """
-    Print completion script for manual installation.
+    """Print completion script for manual installation.
 
     Args:
         shell: Shell type (bash, zsh, fish).
@@ -719,8 +716,7 @@ def print_completion_script(shell: str) -> str:
 
 
 def get_installation_instructions(shell: str) -> str:
-    """
-    Get manual installation instructions.
+    """Get manual installation instructions.
 
     Args:
         shell: Shell type.

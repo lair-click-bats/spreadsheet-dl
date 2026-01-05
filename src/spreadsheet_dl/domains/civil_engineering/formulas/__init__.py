@@ -1,5 +1,4 @@
-"""
-Civil Engineering formulas for SpreadsheetDL.
+"""Civil Engineering formulas for SpreadsheetDL.
 
 Implements:
     Civil Engineering domain formulas

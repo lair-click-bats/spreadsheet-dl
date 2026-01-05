@@ -1,5 +1,4 @@
-"""
-Template schema definitions for YAML-based spreadsheet templates.
+"""Template schema definitions for YAML-based spreadsheet templates.
 
 Implements:
     - FR-TEMPLATE-001: Template Definition Schema
@@ -31,8 +30,7 @@ class VariableType(Enum):
 
 @dataclass
 class TemplateVariable:
-    """
-    Template variable definition.
+    """Template variable definition.
 
     Implements FR-TEMPLATE-002: Variable Substitution
 
@@ -94,8 +92,7 @@ class TemplateVariable:
 
 @dataclass
 class ConditionalBlock:
-    """
-    Conditional content block.
+    """Conditional content block.
 
     Implements FR-TEMPLATE-003: Conditional Content
 
@@ -123,8 +120,7 @@ class ConditionalBlock:
 
 @dataclass
 class CellTemplate:
-    """
-    Template for a single cell.
+    """Template for a single cell.
 
     Examples:
         # Static value
@@ -153,8 +149,7 @@ class CellTemplate:
 
 @dataclass
 class RowTemplate:
-    """
-    Template for a row.
+    """Template for a row.
 
     Examples:
         # Header row
@@ -190,8 +185,7 @@ class RowTemplate:
 
 @dataclass
 class ColumnTemplate:
-    """
-    Template for a column definition.
+    """Template for a column definition.
 
     Examples:
         columns = [
@@ -213,8 +207,7 @@ class ColumnTemplate:
 
 @dataclass
 class ComponentDefinition:
-    """
-    Reusable component definition.
+    """Reusable component definition.
 
     Implements FR-TEMPLATE-004: Reusable Components
 
@@ -246,8 +239,7 @@ class ComponentDefinition:
 
 @dataclass
 class SheetTemplate:
-    """
-    Template for a complete sheet.
+    """Template for a complete sheet.
 
     Examples:
         sheet = SheetTemplate(
@@ -302,8 +294,7 @@ class SheetTemplate:
 
 @dataclass
 class SpreadsheetTemplate:
-    """
-    Complete spreadsheet template definition.
+    """Complete spreadsheet template definition.
 
     Implements FR-TEMPLATE-001: Template Definition Schema
 
@@ -368,8 +359,7 @@ class SpreadsheetTemplate:
         return self.components.get(name)
 
     def validate_variables(self, values: dict[str, Any]) -> list[str]:
-        """
-        Validate provided variable values.
+        """Validate provided variable values.
 
         Returns:
             List of validation error messages
@@ -388,8 +378,7 @@ class SpreadsheetTemplate:
         return errors
 
     def get_resolved_variables(self, provided: dict[str, Any]) -> dict[str, Any]:
-        """
-        Get all variables with defaults applied.
+        """Get all variables with defaults applied.
 
         Args:
             provided: Provided variable values

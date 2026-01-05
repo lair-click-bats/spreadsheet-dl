@@ -1,5 +1,4 @@
-"""
-AI training data export with anonymization.
+"""AI training data export with anonymization.
 
 Provides functionality to export budget data in a format suitable for
 AI/ML training while ensuring privacy through anonymization.
@@ -50,8 +49,8 @@ class AnonymizationLevel(Enum):
     STRICT = "strict"  # Maximum anonymization, bucketize all values
 
 
-class ExportFormat(Enum):
-    """Supported export formats for training data."""
+class TrainingDataFormat(Enum):
+    """Supported export formats for AI training data."""
 
     JSON = "json"
     JSONL = "jsonl"  # JSON Lines format
@@ -79,8 +78,7 @@ class PIIPattern:
 
 @dataclass
 class AnonymizationConfig:
-    """
-    Configuration for data anonymization.
+    """Configuration for data anonymization.
 
     Attributes:
         level: Anonymization level to apply.
@@ -147,7 +145,7 @@ class AnonymizationConfig:
 
         # Generate random salt if not provided
         if not self.hash_salt:
-            self.hash_salt = hashlib.md5(
+            self.hash_salt = hashlib.sha256(
                 str(datetime.now().timestamp()).encode()
             ).hexdigest()
 
@@ -258,8 +256,7 @@ class TrainingDataset:
 
 
 class PIIDetector:
-    """
-    Detects and removes PII from text.
+    """Detects and removes PII from text.
 
     Uses configurable patterns to identify and redact personal
     information from transaction descriptions and other text fields.
@@ -298,8 +295,7 @@ class PIIDetector:
     }
 
     def __init__(self, config: AnonymizationConfig) -> None:
-        """
-        Initialize PII detector.
+        """Initialize PII detector.
 
         Args:
             config: Anonymization configuration.
@@ -310,8 +306,7 @@ class PIIDetector:
         ]
 
     def detect_pii(self, text: str) -> list[tuple[str, str, int, int]]:
-        """
-        Detect PII in text.
+        """Detect PII in text.
 
         Args:
             text: Text to scan.
@@ -328,8 +323,7 @@ class PIIDetector:
         return findings
 
     def remove_pii(self, text: str) -> str:
-        """
-        Remove PII from text.
+        """Remove PII from text.
 
         Args:
             text: Text to clean.
@@ -345,8 +339,7 @@ class PIIDetector:
         return result
 
     def tokenize_description(self, description: str) -> list[str]:
-        """
-        Tokenize description into safe tokens.
+        """Tokenize description into safe tokens.
 
         Removes PII and extracts meaningful, non-identifying tokens.
 
@@ -369,21 +362,19 @@ class PIIDetector:
 
 
 class DataAnonymizer:
-    """
-    Anonymizes financial data for AI training.
+    """Anonymizes financial data for AI training.
 
     Provides multiple anonymization levels and techniques to
     protect privacy while preserving statistical properties.
 
     Example:
-        >>> config = AnonymizationConfig(level=AnonymizationLevel.STANDARD)
-        >>> anonymizer = DataAnonymizer(config)
-        >>> anon_tx = anonymizer.anonymize_transaction(transaction)
+        >>> config = AnonymizationConfig(level=AnonymizationLevel.STANDARD)  # doctest: +SKIP
+        >>> anonymizer = DataAnonymizer(config)  # doctest: +SKIP
+        >>> anon_tx = anonymizer.anonymize_transaction(transaction)  # doctest: +SKIP
     """
 
     def __init__(self, config: AnonymizationConfig) -> None:
-        """
-        Initialize anonymizer.
+        """Initialize anonymizer.
 
         Args:
             config: Anonymization configuration.
@@ -397,8 +388,7 @@ class DataAnonymizer:
         tx: dict[str, Any],
         index: int = 0,
     ) -> AnonymizedTransaction:
-        """
-        Anonymize a single transaction.
+        """Anonymize a single transaction.
 
         Args:
             tx: Transaction dictionary with date, category, description, amount.
@@ -479,8 +469,7 @@ class DataAnonymizer:
         self,
         transactions: list[dict[str, Any]],
     ) -> TrainingDataset:
-        """
-        Anonymize a dataset of transactions.
+        """Anonymize a dataset of transactions.
 
         Args:
             transactions: List of transaction dictionaries.
@@ -629,23 +618,21 @@ class DataAnonymizer:
 
 
 class TrainingDataExporter:
-    """
-    Exports anonymized data in various formats for AI training.
+    """Exports anonymized data in various formats for AI training.
 
     Supports JSON, JSONL, CSV, and Parquet formats with configurable
     compression and partitioning.
 
     Example:
-        >>> exporter = TrainingDataExporter()
-        >>> exporter.export_json(dataset, Path("training_data.json"))
+        >>> exporter = TrainingDataExporter()  # doctest: +SKIP
+        >>> exporter.export_json(dataset, Path("training_data.json"))  # doctest: +SKIP
     """
 
     def __init__(
         self,
         config: AnonymizationConfig | None = None,
     ) -> None:
-        """
-        Initialize exporter.
+        """Initialize exporter.
 
         Args:
             config: Anonymization configuration.
@@ -657,10 +644,9 @@ class TrainingDataExporter:
         self,
         ods_path: Path,
         output_path: Path,
-        format: ExportFormat = ExportFormat.JSON,
+        format: TrainingDataFormat = TrainingDataFormat.JSON,
     ) -> Path:
-        """
-        Export anonymized data from an ODS budget file.
+        """Export anonymized data from an ODS budget file.
 
         Args:
             ods_path: Path to ODS file.
@@ -701,10 +687,9 @@ class TrainingDataExporter:
         self,
         dataset: TrainingDataset,
         output_path: Path,
-        format: ExportFormat = ExportFormat.JSON,
+        format: TrainingDataFormat = TrainingDataFormat.JSON,
     ) -> Path:
-        """
-        Export a training dataset to file.
+        """Export a training dataset to file.
 
         Args:
             dataset: Anonymized training dataset.
@@ -720,18 +705,18 @@ class TrainingDataExporter:
         self,
         dataset: TrainingDataset,
         output_path: Path,
-        format: ExportFormat,
+        format: TrainingDataFormat,
     ) -> Path:
         """Export dataset to specified format."""
         output_path = Path(output_path)
 
-        if format == ExportFormat.JSON:
+        if format == TrainingDataFormat.JSON:
             return self._export_json(dataset, output_path)
-        elif format == ExportFormat.JSONL:
+        elif format == TrainingDataFormat.JSONL:
             return self._export_jsonl(dataset, output_path)
-        elif format == ExportFormat.CSV:
+        elif format == TrainingDataFormat.CSV:
             return self._export_csv(dataset, output_path)
-        elif format == ExportFormat.PARQUET:
+        elif format == TrainingDataFormat.PARQUET:
             return self._export_parquet(dataset, output_path)
         else:
             raise ValueError(f"Unsupported format: {format}")
@@ -849,8 +834,7 @@ class TrainingDataExporter:
         self,
         dataset: TrainingDataset,
     ) -> Iterator[dict[str, Any]]:
-        """
-        Stream records for processing.
+        """Stream records for processing.
 
         Args:
             dataset: Training dataset.
@@ -869,8 +853,7 @@ def export_training_data(
     level: str = "standard",
     format: str = "json",
 ) -> Path:
-    """
-    Convenience function to export anonymized training data.
+    """Convenience function to export anonymized training data.
 
     Args:
         ods_path: Path to ODS budget file.
@@ -889,5 +872,5 @@ def export_training_data(
     return exporter.export_from_ods(
         Path(ods_path),
         Path(output_path),
-        ExportFormat(format.lower()),
+        TrainingDataFormat(format.lower()),
     )

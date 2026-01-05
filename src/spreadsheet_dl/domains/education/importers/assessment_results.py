@@ -1,5 +1,4 @@
-"""
-Assessment Results Importer.
+"""Assessment Results Importer.
 
 Implements:
     AssessmentResultsImporter for education domain
@@ -19,8 +18,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 @dataclass
 class AssessmentResultsImporter(BaseImporter[list[dict[str, Any]]]):
-    """
-    Assessment and quiz results importer.
+    """Assessment and quiz results importer.
 
     Implements:
         AssessmentResultsImporter for quiz/test results
@@ -31,9 +29,9 @@ class AssessmentResultsImporter(BaseImporter[list[dict[str, Any]]]):
     - Item analysis reports
 
     Example:
-        >>> importer = AssessmentResultsImporter()
-        >>> result = importer.import_data("quiz_results.csv")
-        >>> print(f"Imported {result.records_imported} assessment results")
+        >>> importer = AssessmentResultsImporter()  # doctest: +SKIP
+        >>> result = importer.import_data("quiz_results.csv")  # doctest: +SKIP
+        >>> print(f"Imported {result.records_imported} assessment results")  # doctest: +SKIP
     """
 
     include_item_analysis: bool = True
@@ -41,8 +39,7 @@ class AssessmentResultsImporter(BaseImporter[list[dict[str, Any]]]):
 
     @property
     def metadata(self) -> ImporterMetadata:
-        """
-        Get importer metadata.
+        """Get importer metadata.
 
         Returns:
             ImporterMetadata for assessment results importer
@@ -58,8 +55,7 @@ class AssessmentResultsImporter(BaseImporter[list[dict[str, Any]]]):
         )
 
     def import_data(self, source: str | Path) -> ImportResult[list[dict[str, Any]]]:
-        """
-        Import assessment results from file.
+        """Import assessment results from file.
 
         Args:
             source: Path to assessment results file
@@ -312,8 +308,7 @@ class AssessmentResultsImporter(BaseImporter[list[dict[str, Any]]]):
         }
 
     def validate_source(self, source: str | Path) -> bool:
-        """
-        Validate source file.
+        """Validate source file.
 
         Args:
             source: Path to validate

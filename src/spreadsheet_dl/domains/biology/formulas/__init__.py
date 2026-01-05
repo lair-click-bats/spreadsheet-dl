@@ -1,5 +1,4 @@
-"""
-Biology domain formulas.
+"""Biology domain formulas.
 
 Implements:
     Biology formula implementations

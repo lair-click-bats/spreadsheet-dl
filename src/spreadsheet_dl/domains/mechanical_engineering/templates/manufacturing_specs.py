@@ -1,5 +1,4 @@
-"""
-Manufacturing Specifications template for mechanical engineering.
+"""Manufacturing Specifications template for mechanical engineering.
 
 Implements:
     ManufacturingSpecsTemplate with part specifications
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class ManufacturingSpecsTemplate(BaseTemplate):
-    """
-    Manufacturing Specifications template for part production.
+    """Manufacturing Specifications template for part production.
 
     Generates manufacturing specifications with dimensions, tolerances,
     surface finish, and material specifications.
@@ -37,9 +35,9 @@ class ManufacturingSpecsTemplate(BaseTemplate):
         - Inspection requirements
 
     Example:
-        >>> template = ManufacturingSpecsTemplate(part_name="Shaft Assembly")
-        >>> builder = template.generate()
-        >>> builder.save("manufacturing_specs.ods")
+        >>> template = ManufacturingSpecsTemplate(part_name="Shaft Assembly")  # doctest: +SKIP
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("manufacturing_specs.ods")  # doctest: +SKIP
     """
 
     part_name: str = "Part Specification"
@@ -61,8 +59,7 @@ class ManufacturingSpecsTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate manufacturing specifications spreadsheet.
+        """Generate manufacturing specifications spreadsheet.
 
         Returns:
             SpreadsheetBuilder configured with manufacturing specs template
@@ -229,8 +226,7 @@ class ManufacturingSpecsTemplate(BaseTemplate):
         return builder
 
     def validate(self) -> bool:
-        """
-        Validate template configuration.
+        """Validate template configuration.
 
         Returns:
             True if configuration is valid

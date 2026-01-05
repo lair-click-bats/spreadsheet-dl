@@ -1,5 +1,4 @@
-"""
-Style schema definitions with comprehensive dataclass validation.
+"""Style schema definitions with comprehensive dataclass validation.
 
 Implements:
     - FR-SCHEMA-001: Extended Color Dataclass
@@ -234,8 +233,7 @@ CSS_NAMED_COLORS: dict[str, str] = {
 
 @dataclass(frozen=True)
 class Color:
-    """
-    Color specification supporting hex, RGB, HSL values and manipulation.
+    """Color specification supporting hex, RGB, HSL values and manipulation.
 
     Implements FR-SCHEMA-001: Extended Color Dataclass
     Implements Missing frozen=True on value objects
@@ -284,8 +282,7 @@ class Color:
 
     @classmethod
     def from_rgb(cls, r: int, g: int, b: int, a: int | None = None) -> Color:
-        """
-        Create color from RGB values (0-255).
+        """Create color from RGB values (0-255).
 
         Args:
             r: Red component (0-255)
@@ -308,8 +305,7 @@ class Color:
     def from_hsl(
         cls, hue: float, saturation: float, lightness: float, a: float | None = None
     ) -> Color:
-        """
-        Create color from HSL values.
+        """Create color from HSL values.
 
         Args:
             hue: Hue (0-360)
@@ -334,8 +330,7 @@ class Color:
 
     @classmethod
     def from_name(cls, name: str) -> Color:
-        """
-        Create color from CSS color name.
+        """Create color from CSS color name.
 
         Args:
             name: CSS color name (e.g., "steelblue", "red")
@@ -386,8 +381,7 @@ class Color:
         return 1.0
 
     def with_alpha(self, alpha: float) -> Color:
-        """
-        Create new color with specified alpha.
+        """Create new color with specified alpha.
 
         Args:
             alpha: Alpha value (0.0-1.0)
@@ -400,8 +394,7 @@ class Color:
         return Color.from_rgb(r, g, b, a)
 
     def lighten(self, amount: float) -> Color:
-        """
-        Create lighter color.
+        """Create lighter color.
 
         Args:
             amount: Amount to lighten (0.0-1.0)
@@ -414,8 +407,7 @@ class Color:
         return Color.from_hsl(hue, saturation, new_lightness)
 
     def darken(self, amount: float) -> Color:
-        """
-        Create darker color.
+        """Create darker color.
 
         Args:
             amount: Amount to darken (0.0-1.0)
@@ -428,8 +420,7 @@ class Color:
         return Color.from_hsl(hue, saturation, new_lightness)
 
     def saturate(self, amount: float) -> Color:
-        """
-        Increase saturation.
+        """Increase saturation.
 
         Args:
             amount: Amount to saturate (0.0-1.0)
@@ -442,8 +433,7 @@ class Color:
         return Color.from_hsl(hue, new_saturation, lightness)
 
     def desaturate(self, amount: float) -> Color:
-        """
-        Decrease saturation.
+        """Decrease saturation.
 
         Args:
             amount: Amount to desaturate (0.0-1.0)
@@ -468,8 +458,7 @@ class Color:
         return Color.from_rgb(gray, gray, gray)
 
     def luminance(self) -> float:
-        """
-        Calculate relative luminance per WCAG 2.0.
+        """Calculate relative luminance per WCAG 2.0.
 
         Returns:
             Relative luminance (0.0-1.0)
@@ -489,8 +478,7 @@ class Color:
         )
 
     def contrast_ratio(self, other: Color) -> float:
-        """
-        Calculate contrast ratio between two colors per WCAG 2.0.
+        """Calculate contrast ratio between two colors per WCAG 2.0.
 
         Args:
             other: Color to compare against
@@ -505,8 +493,7 @@ class Color:
         return (lighter + 0.05) / (darker + 0.05)
 
     def is_wcag_aa(self, background: Color, large_text: bool = False) -> bool:
-        """
-        Check if color passes WCAG AA contrast requirements.
+        """Check if color passes WCAG AA contrast requirements.
 
         Args:
             background: Background color
@@ -520,8 +507,7 @@ class Color:
         return ratio >= required
 
     def is_wcag_aaa(self, background: Color, large_text: bool = False) -> bool:
-        """
-        Check if color passes WCAG AAA contrast requirements.
+        """Check if color passes WCAG AAA contrast requirements.
 
         Args:
             background: Background color
@@ -535,14 +521,17 @@ class Color:
         return ratio >= required
 
     def __str__(self) -> str:
+        """Return string representation."""
         return self.value
 
     def __eq__(self, other: object) -> bool:
+        """Check equality."""
         if isinstance(other, Color):
             return self.value.upper() == other.value.upper()
         return False
 
     def __hash__(self) -> int:
+        """Return hash value."""
         return hash(self.value.upper())
 
 
@@ -553,8 +542,7 @@ class Color:
 
 @dataclass
 class ColorPalette:
-    """
-    Named color palette for themes with auto-generated tints and shades.
+    """Named color palette for themes with auto-generated tints and shades.
 
     Implements FR-THEME-001: Color Palette Management
 
@@ -617,8 +605,7 @@ class ColorPalette:
         self.custom[name] = color
 
     def generate_scale(self, base_color: Color, name: str) -> dict[str, Color]:
-        """
-        Generate a 5-step tint/shade scale from a base color.
+        """Generate a 5-step tint/shade scale from a base color.
 
         Args:
             base_color: Base color for the scale
@@ -662,8 +649,7 @@ class ColorPalette:
 
 @dataclass(frozen=True)
 class Font:
-    """
-    Comprehensive font specification with full typographic control.
+    """Comprehensive font specification with full typographic control.
 
     Implements FR-SCHEMA-003: Font Dataclass Enhancement
     Implements Missing frozen=True on value objects
@@ -792,8 +778,7 @@ class Font:
 
 @dataclass(frozen=True)
 class BorderEdge:
-    """
-    Single border edge specification.
+    """Single border edge specification.
 
     Implements FR-SCHEMA-004: Border Edge and Borders Dataclass
     Implements Missing frozen=True on value objects
@@ -810,6 +795,7 @@ class BorderEdge:
         return f"{self.width} {self.style.value} {self.color.value}"
 
     def __str__(self) -> str:
+        """Return string representation."""
         return self.to_odf()
 
     @classmethod
@@ -837,8 +823,7 @@ class BorderEdge:
 # Keep Border for backward compatibility
 @dataclass(frozen=True)
 class Border:
-    """
-    Border specification (backward compatible).
+    """Border specification (backward compatible).
 
     Implements Missing frozen=True on value objects
 
@@ -858,6 +843,7 @@ class Border:
         return f"{self.width} {self.style.value} {self.color.value}"
 
     def __str__(self) -> str:
+        """Return string representation."""
         return self.to_odf()
 
     @classmethod
@@ -885,8 +871,7 @@ class Border:
 
 @dataclass
 class Borders:
-    """
-    Complete borders specification with per-side control.
+    """Complete borders specification with per-side control.
 
     Implements FR-SCHEMA-004: Border Edge and Borders Dataclass
 
@@ -1010,8 +995,7 @@ class Borders:
 
 @dataclass(frozen=True)
 class GradientStop:
-    """
-    A color stop in a gradient.
+    """A color stop in a gradient.
 
     Implements Missing frozen=True on value objects
     """
@@ -1022,8 +1006,7 @@ class GradientStop:
 
 @dataclass(frozen=True)
 class PatternFill:
-    """
-    Pattern fill specification.
+    """Pattern fill specification.
 
     Implements FR-SCHEMA-005: Cell Fill Dataclass
     Implements Missing frozen=True on value objects
@@ -1036,8 +1019,7 @@ class PatternFill:
 
 @dataclass(frozen=True)
 class GradientFill:
-    """
-    Gradient fill specification.
+    """Gradient fill specification.
 
     Implements FR-SCHEMA-005: Cell Fill Dataclass
     Implements Missing frozen=True on value objects
@@ -1052,8 +1034,7 @@ class GradientFill:
 
 @dataclass(frozen=True)
 class CellFill:
-    """
-    Cell background fill specification.
+    """Cell background fill specification.
 
     Implements FR-SCHEMA-005: Cell Fill Dataclass
     Implements Missing frozen=True on value objects
@@ -1117,8 +1098,7 @@ class CellFill:
 
 @dataclass(frozen=True)
 class NumberFormat:
-    """
-    Number format specification with ODF format code generation.
+    """Number format specification with ODF format code generation.
 
     Implements FR-SCHEMA-006: Number Format Dataclass
     Implements Missing frozen=True on value objects
@@ -1173,8 +1153,7 @@ class NumberFormat:
     locale: str | None = None
 
     def to_format_code(self) -> str:
-        """
-        Generate ODF format code string.
+        """Generate ODF format code string.
 
         Returns:
             ODF-compatible format code
@@ -1325,8 +1304,7 @@ class NumberFormat:
 
 @dataclass
 class StyleDefinition:
-    """
-    Base style definition that can be extended and composed.
+    """Base style definition that can be extended and composed.
 
     Implements:
         - FR-SCHEMA-007: Complete CellStyle Dataclass
@@ -1385,8 +1363,7 @@ class StyleDefinition:
 
 @dataclass
 class CellStyle:
-    """
-    Complete cell style definition with all properties resolved.
+    """Complete cell style definition with all properties resolved.
 
     Implements FR-SCHEMA-007: Complete CellStyle Dataclass
 
@@ -1451,8 +1428,7 @@ class CellStyle:
         return None
 
     def with_overrides(self, **kwargs: Any) -> CellStyle:
-        """
-        Create new style with overridden values.
+        """Create new style with overridden values.
 
         Args:
             **kwargs: Style properties to override
@@ -1508,8 +1484,7 @@ class CellStyle:
         return result
 
     def merge_with(self, parent: CellStyle) -> CellStyle:
-        """
-        Merge this style with a parent, with self taking precedence.
+        """Merge this style with a parent, with self taking precedence.
 
         Args:
             parent: Parent style to merge from
@@ -1607,8 +1582,7 @@ class CellStyle:
 
 @dataclass(frozen=True)
 class ThemeSchema:
-    """
-    Theme metadata schema.
+    """Theme metadata schema.
 
     Implements Missing frozen=True on value objects
 
@@ -1624,8 +1598,7 @@ class ThemeSchema:
 
 @dataclass
 class ThemeVariant:
-    """
-    Theme variant configuration for alternate color schemes.
+    """Theme variant configuration for alternate color schemes.
 
     Implements Theme variants missing
 
@@ -1651,8 +1624,7 @@ class ThemeVariant:
 
 @dataclass
 class Theme:
-    """
-    Complete theme definition.
+    """Complete theme definition.
 
     Implements:
         - FR-THEME-005: Theme Inheritance System
@@ -1704,8 +1676,7 @@ class Theme:
         return self._active_variant
 
     def set_variant(self, variant_name: str | None) -> None:
-        """
-        Switch to a different theme variant.
+        """Switch to a different theme variant.
 
         Implements Theme variants missing
 
@@ -1723,8 +1694,7 @@ class Theme:
         self.clear_cache()
 
     def get_variant(self, variant_name: str) -> ThemeVariant:
-        """
-        Get a theme variant by name.
+        """Get a theme variant by name.
 
         Args:
             variant_name: Variant name
@@ -1744,8 +1714,7 @@ class Theme:
         return list(self.variants.keys())
 
     def get_color(self, name: str) -> Color:
-        """
-        Get color by name, with variant override support.
+        """Get color by name, with variant override support.
 
         Args:
             name: Color name from palette
@@ -1769,8 +1738,7 @@ class Theme:
         return color
 
     def resolve_color_ref(self, ref: str) -> Color:
-        """
-        Resolve color reference like "{colors.primary}".
+        """Resolve color reference like "{colors.primary}".
 
         Args:
             ref: Color reference string
@@ -1817,8 +1785,7 @@ class Theme:
         raise KeyError(f"Unknown font: {name}")
 
     def get_style(self, name: str) -> CellStyle:
-        """
-        Get fully resolved style by name.
+        """Get fully resolved style by name.
 
         Handles inheritance and composition by resolving parent styles
         and included traits first.
@@ -1851,8 +1818,7 @@ class Theme:
         style_def: StyleDefinition,
         visited: set[str],
     ) -> CellStyle:
-        """
-        Recursively resolve style with inheritance and composition.
+        """Recursively resolve style with inheritance and composition.
 
         Args:
             style_def: Style definition to resolve

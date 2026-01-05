@@ -1,5 +1,4 @@
-"""
-Theme definitions package.
+"""Theme definitions package.
 
 Contains YAML theme files and provides access to built-in themes.
 """
@@ -20,8 +19,7 @@ BUILTIN_THEMES = [
 
 
 def get_theme_path(name: str) -> Path:
-    """
-    Get the path to a theme file.
+    """Get the path to a theme file.
 
     Args:
         name: Theme name
@@ -45,8 +43,7 @@ def get_theme_path(name: str) -> Path:
 
 
 def list_builtin_themes() -> list[str]:
-    """
-    List all built-in theme names.
+    """List all built-in theme names.
 
     Returns:
         List of theme names

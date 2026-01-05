@@ -1,5 +1,4 @@
-"""
-Report Generator - Generate formatted reports from budget data.
+"""Report Generator - Generate formatted reports from budget data.
 
 Creates human-readable reports, summaries, and visualizations data
 from analyzed budget files.
@@ -27,8 +26,7 @@ class ReportConfig:
 
 
 class ReportGenerator:
-    """
-    Generate formatted reports from budget analysis.
+    """Generate formatted reports from budget analysis.
 
     Creates text reports, markdown reports, and data structures
     suitable for visualization.
@@ -39,8 +37,7 @@ class ReportGenerator:
         ods_path: Path | str,
         config: ReportConfig | None = None,
     ) -> None:
-        """
-        Initialize report generator.
+        """Initialize report generator.
 
         Args:
             ods_path: Path to ODS budget file.
@@ -50,8 +47,7 @@ class ReportGenerator:
         self.config = config or ReportConfig()
 
     def generate_text_report(self) -> str:
-        """
-        Generate a plain text budget report.
+        """Generate a plain text budget report.
 
         Returns:
             Formatted text report.
@@ -128,8 +124,7 @@ class ReportGenerator:
         return "\n".join(lines)
 
     def generate_markdown_report(self) -> str:
-        """
-        Generate a Markdown formatted budget report.
+        """Generate a Markdown formatted budget report.
 
         Returns:
             Markdown formatted report.
@@ -198,8 +193,7 @@ class ReportGenerator:
         return "\n".join(lines)
 
     def generate_visualization_data(self) -> dict[str, Any]:
-        """
-        Generate data suitable for chart visualization.
+        """Generate data suitable for chart visualization.
 
         Returns:
             Dictionary with data formatted for common chart libraries.
@@ -296,8 +290,7 @@ class ReportGenerator:
         output_path: Path | str,
         format: str = "markdown",
     ) -> Path:
-        """
-        Save report to file.
+        """Save report to file.
 
         Args:
             output_path: Path to save the report.
@@ -328,8 +321,7 @@ def generate_monthly_report(
     output_dir: Path | str | None = None,
     format: str = "markdown",
 ) -> str | Path:
-    """
-    Convenience function to generate a monthly report.
+    """Convenience function to generate a monthly report.
 
     Args:
         ods_path: Path to ODS budget file.

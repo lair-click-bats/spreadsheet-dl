@@ -1,5 +1,4 @@
-"""
-Environmental domain templates.
+"""Environmental domain templates.
 
 Implements:
     Environmental domain templates

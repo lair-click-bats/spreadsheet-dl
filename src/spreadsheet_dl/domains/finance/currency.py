@@ -1,5 +1,4 @@
-"""
-Multi-Currency Support Module.
+"""Multi-Currency Support Module.
 
 Provides comprehensive currency handling including:
 - Currency definitions with symbols and decimal places
@@ -24,8 +23,7 @@ from typing import Any, ClassVar
 
 
 class CurrencyCode(Enum):
-    """
-    ISO 4217 Currency Codes.
+    """ISO 4217 Currency Codes.
 
     Common currencies supported by the system.
     """
@@ -64,8 +62,7 @@ class CurrencyCode(Enum):
 
 @dataclass(frozen=True)
 class Currency:
-    """
-    Currency definition with formatting information.
+    """Currency definition with formatting information.
 
     Attributes:
         code: ISO 4217 currency code.
@@ -92,8 +89,7 @@ class Currency:
         show_symbol: bool = True,
         show_code: bool = False,
     ) -> str:
-        """
-        Format an amount in this currency.
+        """Format an amount in this currency.
 
         Args:
             amount: Amount to format.
@@ -166,8 +162,7 @@ class Currency:
         return result
 
     def parse(self, formatted: str) -> Decimal:
-        """
-        Parse a formatted currency string to Decimal.
+        """Parse a formatted currency string to Decimal.
 
         Args:
             formatted: Formatted currency string.
@@ -235,8 +230,7 @@ CURRENCIES: dict[str, Currency] = {
 
 
 def get_currency(code: str) -> Currency:
-    """
-    Get currency by code.
+    """Get currency by code.
 
     Args:
         code: ISO 4217 currency code.
@@ -254,8 +248,7 @@ def get_currency(code: str) -> Currency:
 
 
 def list_currencies() -> list[Currency]:
-    """
-    List all supported currencies.
+    """List all supported currencies.
 
     Returns:
         List of Currency objects.
@@ -265,8 +258,7 @@ def list_currencies() -> list[Currency]:
 
 @dataclass
 class ExchangeRate:
-    """
-    Exchange rate between two currencies.
+    """Exchange rate between two currencies.
 
     Attributes:
         from_currency: Source currency code.
@@ -315,8 +307,7 @@ class ExchangeRate:
 
 
 class ExchangeRateProvider:
-    """
-    Provides exchange rates between currencies.
+    """Provides exchange rates between currencies.
 
     Supports both hardcoded rates and custom rates.
     Future versions can integrate with APIs like Open Exchange Rates.
@@ -373,8 +364,7 @@ class ExchangeRateProvider:
         base_currency: str = "USD",
         data_file: Path | str | None = None,
     ) -> None:
-        """
-        Initialize exchange rate provider.
+        """Initialize exchange rate provider.
 
         Args:
             base_currency: Base currency for rates.
@@ -425,8 +415,7 @@ class ExchangeRateProvider:
         from_currency: str,
         to_currency: str,
     ) -> ExchangeRate | None:
-        """
-        Get exchange rate between two currencies.
+        """Get exchange rate between two currencies.
 
         Args:
             from_currency: Source currency code.
@@ -469,8 +458,7 @@ class ExchangeRateProvider:
         rate: Decimal | float | str,
         rate_date: date | None = None,
     ) -> ExchangeRate:
-        """
-        Set a custom exchange rate.
+        """Set a custom exchange rate.
 
         Args:
             from_currency: Source currency code.
@@ -501,8 +489,7 @@ class ExchangeRateProvider:
         return exchange_rate
 
     def remove_rate(self, from_currency: str, to_currency: str) -> bool:
-        """
-        Remove a custom exchange rate.
+        """Remove a custom exchange rate.
 
         Args:
             from_currency: Source currency code.
@@ -531,8 +518,7 @@ class ExchangeRateProvider:
 
 
 class CurrencyConverter:
-    """
-    Convert amounts between currencies.
+    """Convert amounts between currencies.
 
     Example:
         ```python
@@ -558,8 +544,7 @@ class CurrencyConverter:
         self,
         rate_provider: ExchangeRateProvider | None = None,
     ) -> None:
-        """
-        Initialize converter.
+        """Initialize converter.
 
         Args:
             rate_provider: Exchange rate provider (creates default if None).
@@ -573,8 +558,7 @@ class CurrencyConverter:
         to_currency: str,
         rate: Decimal | None = None,
     ) -> Decimal:
-        """
-        Convert amount between currencies.
+        """Convert amount between currencies.
 
         Args:
             amount: Amount to convert.
@@ -618,8 +602,7 @@ class CurrencyConverter:
         show_symbol: bool = True,
         rate: Decimal | None = None,
     ) -> str:
-        """
-        Convert and format amount.
+        """Convert and format amount.
 
         Args:
             amount: Amount to convert.
@@ -641,8 +624,7 @@ class CurrencyConverter:
         base_currency: str,
         target_currencies: list[str] | None = None,
     ) -> dict[str, Decimal]:
-        """
-        Get equivalent amounts in multiple currencies.
+        """Get equivalent amounts in multiple currencies.
 
         Args:
             amount: Base amount.
@@ -671,8 +653,7 @@ class CurrencyConverter:
 
 @dataclass
 class MoneyAmount:
-    """
-    Represents a monetary amount with currency.
+    """Represents a monetary amount with currency.
 
     Combines an amount with its currency for type-safe operations.
 
@@ -720,8 +701,7 @@ class MoneyAmount:
         target_currency: str,
         converter: CurrencyConverter | None = None,
     ) -> MoneyAmount:
-        """
-        Convert to another currency.
+        """Convert to another currency.
 
         Args:
             target_currency: Target currency code.
@@ -838,8 +818,7 @@ def money(
     amount: Decimal | float | str,
     currency: str = "USD",
 ) -> MoneyAmount:
-    """
-    Create a MoneyAmount.
+    """Create a MoneyAmount.
 
     Args:
         amount: The amount.
@@ -861,8 +840,7 @@ def format_currency(
     *,
     show_symbol: bool = True,
 ) -> str:
-    """
-    Format an amount in a currency.
+    """Format an amount in a currency.
 
     Args:
         amount: Amount to format.
@@ -881,8 +859,7 @@ def convert(
     from_currency: str,
     to_currency: str,
 ) -> Decimal:
-    """
-    Convert an amount between currencies.
+    """Convert an amount between currencies.
 
     Args:
         amount: Amount to convert.

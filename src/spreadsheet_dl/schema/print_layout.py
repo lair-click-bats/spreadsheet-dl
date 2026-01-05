@@ -1,5 +1,4 @@
-"""
-Print layout configuration for professional spreadsheet output.
+"""Print layout configuration for professional spreadsheet output.
 
 Implements:
     - FR-FORMAT-007: Print Layout Control
@@ -100,8 +99,7 @@ class PrintScale(Enum):
 
 @dataclass
 class PageMargins:
-    """
-    Page margin configuration (FR-PRINT-001).
+    """Page margin configuration (FR-PRINT-001).
 
     All measurements in centimeters.
 
@@ -176,8 +174,7 @@ class PageMargins:
 
 @dataclass
 class HeaderFooterContent:
-    """
-    Content for a header or footer section (FR-FORMAT-008).
+    """Content for a header or footer section (FR-FORMAT-008).
 
     Supports dynamic placeholders:
     - &[Page] - Current page number
@@ -242,8 +239,7 @@ class HeaderFooterContent:
 
 @dataclass
 class HeaderFooter:
-    """
-    Complete header or footer specification (FR-FORMAT-008).
+    """Complete header or footer specification (FR-FORMAT-008).
 
     A header/footer has three sections: left, center, and right.
 
@@ -324,8 +320,7 @@ class HeaderFooter:
 
 @dataclass
 class PageBreak:
-    """
-    Page break specification (FR-PRINT-004).
+    """Page break specification (FR-PRINT-004).
 
     Attributes:
         position: Row or column number (1-based)
@@ -345,8 +340,7 @@ class PageBreak:
 
 @dataclass
 class PrintArea:
-    """
-    Print area specification (FR-PRINT-002).
+    """Print area specification (FR-PRINT-002).
 
     Attributes:
         range: Cell range to print (e.g., "A1:D50")
@@ -370,8 +364,7 @@ class PrintArea:
 
 @dataclass
 class RepeatConfig:
-    """
-    Configuration for repeating rows/columns on each page (FR-PRINT-003).
+    """Configuration for repeating rows/columns on each page (FR-PRINT-003).
 
     Attributes:
         rows_start: First row to repeat (1-based, None for none)
@@ -431,8 +424,7 @@ class RepeatConfig:
 
 @dataclass
 class PageSetup:
-    """
-    Complete page setup configuration (FR-PRINT-001).
+    """Complete page setup configuration (FR-PRINT-001).
 
     Combines all print layout settings.
 
@@ -510,8 +502,7 @@ class PageSetup:
         self.page_breaks.append(PageBreak(position=position, is_row_break=is_row_break))
 
     def effective_dimensions(self) -> tuple[float, float]:
-        """
-        Get effective page dimensions considering orientation.
+        """Get effective page dimensions considering orientation.
 
         Returns:
             (width, height) in millimeters
@@ -527,8 +518,7 @@ class PageSetup:
         return (width, height)
 
     def printable_area(self) -> tuple[float, float]:
-        """
-        Get printable area dimensions.
+        """Get printable area dimensions.
 
         Returns:
             (width, height) in millimeters
@@ -607,16 +597,14 @@ class PageSetup:
 
 
 class PrintPresets:
-    """
-    Pre-configured print setups for common financial reports.
+    """Pre-configured print setups for common financial reports.
 
     Provides ready-to-use page setups for standard financial documents.
     """
 
     @staticmethod
     def monthly_report(title: str = "Monthly Report") -> PageSetup:
-        """
-        Create page setup for monthly financial report.
+        """Create page setup for monthly financial report.
 
         A4 portrait with title header and page numbers.
         """
@@ -637,8 +625,7 @@ class PrintPresets:
 
     @staticmethod
     def budget_overview(title: str = "Budget Overview") -> PageSetup:
-        """
-        Create page setup for budget overview (landscape).
+        """Create page setup for budget overview (landscape).
 
         A4 landscape for wide tables with multiple columns.
         """
@@ -659,8 +646,7 @@ class PrintPresets:
 
     @staticmethod
     def cash_flow_statement(title: str = "Cash Flow Statement") -> PageSetup:
-        """
-        Create page setup for cash flow statement.
+        """Create page setup for cash flow statement.
 
         Letter size portrait, professional formatting.
         """
@@ -688,8 +674,7 @@ class PrintPresets:
 
     @staticmethod
     def invoice(company_name: str = "") -> PageSetup:
-        """
-        Create page setup for invoices.
+        """Create page setup for invoices.
 
         A4 portrait, minimal margins, no gridlines.
         """
@@ -718,8 +703,7 @@ class PrintPresets:
 
     @staticmethod
     def financial_dashboard() -> PageSetup:
-        """
-        Create page setup for dashboard printouts.
+        """Create page setup for dashboard printouts.
 
         Tabloid landscape for comprehensive dashboards.
         """
@@ -741,8 +725,7 @@ class PrintPresets:
 
     @staticmethod
     def expense_report(employee_name: str = "") -> PageSetup:
-        """
-        Create page setup for expense reports.
+        """Create page setup for expense reports.
 
         Letter size portrait with employee header.
         """
@@ -773,8 +756,7 @@ class PrintPresets:
 
 @dataclass
 class PageSetupBuilder:
-    """
-    Fluent builder for PageSetup configuration.
+    r"""Fluent builder for PageSetup configuration.
 
     Examples:
         setup = PageSetupBuilder() \\

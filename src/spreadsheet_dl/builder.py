@@ -1,5 +1,4 @@
-"""
-Fluent builder API for spreadsheet construction.
+"""Fluent builder API for spreadsheet construction.
 
 Public API entry point for the builder functionality.
 Implementation is modularized in the _builder package.

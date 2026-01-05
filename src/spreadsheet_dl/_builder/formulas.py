@@ -1,5 +1,4 @@
-"""
-Formula builder and dependency tracking.
+"""Formula builder and dependency tracking.
 
 Provides type-safe formula construction with 100+ spreadsheet functions
 and circular reference detection.
@@ -14,8 +13,7 @@ from spreadsheet_dl._builder.references import CellRef, RangeRef, SheetRef
 
 
 class FormulaBuilder:
-    """
-    Type-safe formula builder for ODF formulas with 100+ functions.
+    """Type-safe formula builder for ODF formulas with 100+ functions.
 
     Provides methods for common spreadsheet functions with
     proper ODF syntax generation, including:
@@ -73,8 +71,7 @@ class FormulaBuilder:
         return SheetRef(name)
 
     def named_range(self, name: str) -> str:
-        """
-        Reference a named range in a formula.
+        """Reference a named range in a formula.
 
         Args:
             name: Named range name
@@ -126,8 +123,7 @@ class FormulaBuilder:
         sum_range: RangeRef | str,
         *criteria_pairs: tuple[RangeRef | str, CellRef | str],
     ) -> str:
-        """
-        Create SUMIFS formula (multiple criteria).
+        """Create SUMIFS formula (multiple criteria).
 
         Args:
             sum_range: Range to sum
@@ -223,8 +219,7 @@ class FormulaBuilder:
         return f"{self.PREFIX}PRODUCT({';'.join(parts)})"
 
     def sumproduct(self, *arrays: RangeRef | str) -> str:
-        """
-        Create SUMPRODUCT formula (sum of products of corresponding ranges).
+        """Create SUMPRODUCT formula (sum of products of corresponding ranges).
 
         Implements:
             - PHASE0-005: Complete FormulaBuilder with 100+ functions
@@ -386,8 +381,7 @@ class FormulaBuilder:
         return f"{self.PREFIX}VARP({self._format_ref(ref)})"
 
     def quartile(self, ref: RangeRef | str, quart: int) -> str:
-        """
-        Create QUARTILE formula.
+        """Create QUARTILE formula.
 
         Args:
             ref: Range reference
@@ -399,8 +393,7 @@ class FormulaBuilder:
         return f"{self.PREFIX}QUARTILE({self._format_ref(ref)};{quart})"
 
     def rank(self, number: CellRef | str, ref: RangeRef | str, order: int = 0) -> str:
-        """
-        Create RANK formula.
+        """Create RANK formula.
 
         Args:
             number: Value to rank
@@ -462,8 +455,7 @@ class FormulaBuilder:
         fv: CellRef | str | float = 0,
         payment_type: int = 0,
     ) -> str:
-        """
-        Create PMT formula (periodic payment).
+        """Create PMT formula (periodic payment).
 
         Args:
             rate: Interest rate per period
@@ -485,8 +477,7 @@ class FormulaBuilder:
         fv: CellRef | str | float = 0,
         payment_type: int = 0,
     ) -> str:
-        """
-        Create PV formula (present value).
+        """Create PV formula (present value).
 
         Args:
             rate: Interest rate per period
@@ -508,8 +499,7 @@ class FormulaBuilder:
         pv: CellRef | str | float = 0,
         payment_type: int = 0,
     ) -> str:
-        """
-        Create FV formula (future value).
+        """Create FV formula (future value).
 
         Args:
             rate: Interest rate per period
@@ -528,8 +518,7 @@ class FormulaBuilder:
         rate: CellRef | str | float,
         values: RangeRef | str,
     ) -> str:
-        """
-        Create NPV formula (net present value).
+        """Create NPV formula (net present value).
 
         Args:
             rate: Discount rate
@@ -547,8 +536,7 @@ class FormulaBuilder:
         values: RangeRef | str,
         guess: float = 0.1,
     ) -> str:
-        """
-        Create IRR formula (internal rate of return).
+        """Create IRR formula (internal rate of return).
 
         Args:
             values: Range of cash flow values
@@ -567,8 +555,7 @@ class FormulaBuilder:
         fv: CellRef | str | float = 0,
         payment_type: int = 0,
     ) -> str:
-        """
-        Create NPER formula (number of periods).
+        """Create NPER formula (number of periods).
 
         Args:
             rate: Interest rate per period
@@ -591,8 +578,7 @@ class FormulaBuilder:
         payment_type: int = 0,
         guess: float = 0.1,
     ) -> str:
-        """
-        Create RATE formula (interest rate per period).
+        """Create RATE formula (interest rate per period).
 
         Args:
             nper: Number of periods
@@ -613,8 +599,7 @@ class FormulaBuilder:
         salvage: CellRef | str | float,
         life: CellRef | str | int,
     ) -> str:
-        """
-        Create SLN formula (straight-line depreciation).
+        """Create SLN formula (straight-line depreciation).
 
         Implements:
             - PHASE0-005: Complete FormulaBuilder with 100+ functions
@@ -637,8 +622,7 @@ class FormulaBuilder:
         period: CellRef | str | int,
         month: int = 12,
     ) -> str:
-        """
-        Create DB formula (declining balance depreciation).
+        """Create DB formula (declining balance depreciation).
 
         Args:
             cost: Initial cost
@@ -660,8 +644,7 @@ class FormulaBuilder:
         period: CellRef | str | int,
         factor: float = 2.0,
     ) -> str:
-        """
-        Create DDB formula (double-declining balance depreciation).
+        """Create DDB formula (double-declining balance depreciation).
 
         Args:
             cost: Initial cost
@@ -682,8 +665,7 @@ class FormulaBuilder:
         life: CellRef | str | int,
         period: CellRef | str | int,
     ) -> str:
-        """
-        Create SYD formula (sum-of-years digits depreciation).
+        """Create SYD formula (sum-of-years digits depreciation).
 
         Args:
             cost: Initial cost
@@ -747,8 +729,7 @@ class FormulaBuilder:
         end_date: CellRef | str,
         unit: str = "D",
     ) -> str:
-        """
-        Create DATEDIF formula.
+        """Create DATEDIF formula.
 
         Args:
             start_date: Start date
@@ -787,8 +768,7 @@ class FormulaBuilder:
         end_date: CellRef | str,
         holidays: RangeRef | str | None = None,
     ) -> str:
-        """
-        Create NETWORKDAYS formula (working days between dates).
+        """Create NETWORKDAYS formula (working days between dates).
 
         Implements:
             - PHASE0-005: Complete FormulaBuilder with 100+ functions
@@ -811,8 +791,7 @@ class FormulaBuilder:
         days: CellRef | str | int,
         holidays: RangeRef | str | None = None,
     ) -> str:
-        """
-        Create WORKDAY formula (date after specified working days).
+        """Create WORKDAY formula (date after specified working days).
 
         Args:
             start_date: Start date
@@ -882,8 +861,7 @@ class FormulaBuilder:
         lookup_array: RangeRef | str,
         match_type: int = 0,
     ) -> str:
-        """
-        Create MATCH formula.
+        """Create MATCH formula.
 
         Args:
             lookup_value: Value to find
@@ -902,8 +880,7 @@ class FormulaBuilder:
         return_range: RangeRef | str,
         match_formula: str,
     ) -> str:
-        """
-        Create INDEX/MATCH combination.
+        """Create INDEX/MATCH combination.
 
         Args:
             return_range: Range to return value from
@@ -1050,8 +1027,7 @@ class FormulaBuilder:
         ignore_empty: bool,
         *text_values: CellRef | RangeRef | str,
     ) -> str:
-        """
-        Create TEXTJOIN formula (join text with delimiter).
+        """Create TEXTJOIN formula (join text with delimiter).
 
         Implements:
             - PHASE0-005: Complete FormulaBuilder with 100+ functions
@@ -1128,8 +1104,7 @@ class FormulaBuilder:
         return f"{self.PREFIX}ISTEXT({self._format_value(ref)})"
 
     def xor(self, *conditions: str) -> str:
-        """
-        Create XOR formula (exclusive OR).
+        """Create XOR formula (exclusive OR).
 
         Implements:
             - PHASE0-005: Complete FormulaBuilder with 100+ functions
@@ -1143,8 +1118,7 @@ class FormulaBuilder:
         return f"{self.PREFIX}XOR({';'.join(conditions)})"
 
     def choose(self, index: CellRef | str | int, *values: CellRef | str) -> str:
-        """
-        Create CHOOSE formula (select value by index).
+        """Create CHOOSE formula (select value by index).
 
         Args:
             index: Index number (1-based)
@@ -1173,8 +1147,7 @@ class FormulaBuilder:
     # =========================================================================
 
     def array(self, formula: str) -> str:
-        """
-        Wrap formula as array formula.
+        """Wrap formula as array formula.
 
         Note: In ODF, array formulas need special handling during rendering.
 
@@ -1196,8 +1169,7 @@ class FormulaBuilder:
 
 
 class FormulaDependencyGraph:
-    """
-    Tracks formula dependencies and detects circular references.
+    """Tracks formula dependencies and detects circular references.
 
     Builds a directed graph of formula dependencies and can
     detect cycles (circular references).
@@ -1217,8 +1189,7 @@ class FormulaDependencyGraph:
     def add_cell(
         self, cell_ref: str, formula: str | None, sheet: str = "Sheet1"
     ) -> None:
-        """
-        Add a cell and its formula to the dependency graph.
+        """Add a cell and its formula to the dependency graph.
 
         Args:
             cell_ref: Cell reference (e.g., "A2")
@@ -1238,8 +1209,7 @@ class FormulaDependencyGraph:
             self._dependencies[full_ref] = deps
 
     def _extract_dependencies(self, formula: str, current_sheet: str) -> set[str]:
-        """
-        Extract cell references from a formula.
+        """Extract cell references from a formula.
 
         Args:
             formula: Formula string
@@ -1264,8 +1234,7 @@ class FormulaDependencyGraph:
         return deps
 
     def detect_circular_references(self) -> list[tuple[str, list[str]]]:
-        """
-        Detect all circular references in the dependency graph.
+        """Detect all circular references in the dependency graph.
 
         Returns:
             List of (cell, cycle) tuples for each circular reference found
@@ -1276,8 +1245,7 @@ class FormulaDependencyGraph:
         path: list[str] = []
 
         def dfs(cell: str) -> bool:
-            """
-            Depth-first search to detect cycles.
+            """Depth-first search to detect cycles.
 
             Args:
                 cell: Current cell being visited
@@ -1314,8 +1282,7 @@ class FormulaDependencyGraph:
         return circular_refs
 
     def validate(self) -> None:
-        """
-        Validate the dependency graph and raise error if circular references found.
+        """Validate the dependency graph and raise error if circular references found.
 
         Raises:
             CircularReferenceError: If circular references are detected
@@ -1326,8 +1293,7 @@ class FormulaDependencyGraph:
             raise CircularReferenceError(cell, cycle)
 
     def get_dependencies(self, cell_ref: str, sheet: str = "Sheet1") -> set[str]:
-        """
-        Get all cells that the given cell depends on.
+        """Get all cells that the given cell depends on.
 
         Args:
             cell_ref: Cell reference
@@ -1340,8 +1306,7 @@ class FormulaDependencyGraph:
         return self._dependencies.get(full_ref, set())
 
     def get_dependents(self, cell_ref: str, sheet: str = "Sheet1") -> set[str]:
-        """
-        Get all cells that depend on the given cell.
+        """Get all cells that depend on the given cell.
 
         Args:
             cell_ref: Cell reference

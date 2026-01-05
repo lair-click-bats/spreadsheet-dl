@@ -16,10 +16,10 @@ from spreadsheet_dl.ai_training import (
     AnonymizationLevel,
     AnonymizedTransaction,
     DataAnonymizer,
-    ExportFormat,
     PIIDetector,
     PIIPattern,
     TrainingDataExporter,
+    TrainingDataFormat,
     TrainingDataset,
     TrainingDataStatistics,
 )
@@ -343,7 +343,9 @@ class TestTrainingDataExporter:
     ) -> None:
         """Test JSON export."""
         output_path = tmp_path / "training_data.json"
-        result = exporter.export_dataset(sample_dataset, output_path, ExportFormat.JSON)
+        result = exporter.export_dataset(
+            sample_dataset, output_path, TrainingDataFormat.JSON
+        )
 
         assert result.exists()
 
@@ -363,7 +365,7 @@ class TestTrainingDataExporter:
         """Test JSONL export."""
         output_path = tmp_path / "training_data.jsonl"
         result = exporter.export_dataset(
-            sample_dataset, output_path, ExportFormat.JSONL
+            sample_dataset, output_path, TrainingDataFormat.JSONL
         )
 
         assert result.exists()
@@ -386,7 +388,9 @@ class TestTrainingDataExporter:
     ) -> None:
         """Test CSV export."""
         output_path = tmp_path / "training_data.csv"
-        result = exporter.export_dataset(sample_dataset, output_path, ExportFormat.CSV)
+        result = exporter.export_dataset(
+            sample_dataset, output_path, TrainingDataFormat.CSV
+        )
 
         assert result.exists()
 

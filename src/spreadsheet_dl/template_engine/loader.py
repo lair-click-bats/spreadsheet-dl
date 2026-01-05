@@ -1,5 +1,4 @@
-"""
-Template loader for YAML-based spreadsheet templates.
+"""Template loader for YAML-based spreadsheet templates.
 
 Implements FR-TEMPLATE-001: Template Definition Schema
 
@@ -26,8 +25,7 @@ from spreadsheet_dl.template_engine.schema import (
 
 
 class TemplateLoader:
-    """
-    Loader for YAML-based spreadsheet templates.
+    """Loader for YAML-based spreadsheet templates.
 
     Implements FR-TEMPLATE-001: Template Definition Schema
 
@@ -41,8 +39,7 @@ class TemplateLoader:
     DEFAULT_TEMPLATE_DIR = Path(__file__).parent.parent / "templates" / "yaml"
 
     def __init__(self, template_dir: Path | str | None = None) -> None:
-        """
-        Initialize loader.
+        """Initialize loader.
 
         Args:
             template_dir: Directory containing template files
@@ -53,8 +50,7 @@ class TemplateLoader:
         self._cache: dict[str, SpreadsheetTemplate] = {}
 
     def load(self, name: str) -> SpreadsheetTemplate:
-        """
-        Load template by name from template directory.
+        """Load template by name from template directory.
 
         Args:
             name: Template name (without .yaml extension)
@@ -83,8 +79,7 @@ class TemplateLoader:
         return template
 
     def load_from_file(self, path: Path | str) -> SpreadsheetTemplate:
-        """
-        Load template from a specific file.
+        """Load template from a specific file.
 
         Args:
             path: Path to template YAML file
@@ -108,8 +103,7 @@ class TemplateLoader:
         return self._parse_template(data)
 
     def load_from_string(self, yaml_content: str) -> SpreadsheetTemplate:
-        """
-        Load template from YAML string.
+        """Load template from YAML string.
 
         Args:
             yaml_content: YAML content as string
@@ -126,8 +120,7 @@ class TemplateLoader:
         return self._parse_template(data)
 
     def list_templates(self) -> list[dict[str, str]]:
-        """
-        List available templates in template directory.
+        """List available templates in template directory.
 
         Returns:
             List of template info dictionaries
@@ -397,8 +390,7 @@ class TemplateLoader:
 def load_template(
     name: str, template_dir: Path | str | None = None
 ) -> SpreadsheetTemplate:
-    """
-    Load template by name.
+    """Load template by name.
 
     Args:
         name: Template name
@@ -412,8 +404,7 @@ def load_template(
 
 
 def load_template_from_yaml(yaml_content: str) -> SpreadsheetTemplate:
-    """
-    Load template from YAML string.
+    """Load template from YAML string.
 
     Args:
         yaml_content: YAML content

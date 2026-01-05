@@ -1,5 +1,4 @@
-"""
-Stress and strain formulas for mechanical engineering.
+"""Stress and strain formulas for mechanical engineering.
 
 Implements:
     Stress/strain formulas (STRESS, STRAIN, YOUNGS_MODULUS)
@@ -15,8 +14,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 @dataclass(slots=True, frozen=True)
 class StressFormula(BaseFormula):
-    """
-    Stress formula: sigma = F / A.
+    """Stress formula: sigma = F / A.
 
     Calculates normal stress given force and area.
 
@@ -27,7 +25,6 @@ class StressFormula(BaseFormula):
         >>> formula = StressFormula()
         >>> formula.build("1000", "100")
         '1000/100'
-        # Result: 10 MPa (if F in N, A in mm²)
     """
 
     @property
@@ -59,8 +56,7 @@ class StressFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: force, area
@@ -75,8 +71,7 @@ class StressFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class StrainFormula(BaseFormula):
-    """
-    Strain formula: epsilon = DeltaL / L.
+    """Strain formula: epsilon = DeltaL / L.
 
     Calculates engineering strain given elongation and original length.
 
@@ -87,7 +82,6 @@ class StrainFormula(BaseFormula):
         >>> formula = StrainFormula()
         >>> formula.build("0.5", "100")
         '0.5/100'
-        # Result: 0.005 (0.5% strain)
     """
 
     @property
@@ -119,8 +113,7 @@ class StrainFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: elongation, original_length
@@ -135,8 +128,7 @@ class StrainFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class YoungsModulusFormula(BaseFormula):
-    """
-    Young's Modulus formula: E = sigma / epsilon.
+    """Young's Modulus formula: E = sigma / epsilon.
 
     Calculates Young's modulus (elastic modulus) from stress and strain.
 
@@ -147,7 +139,6 @@ class YoungsModulusFormula(BaseFormula):
         >>> formula = YoungsModulusFormula()
         >>> formula.build("200", "0.001")
         '200/0.001'
-        # Result: 200000 MPa = 200 GPa
     """
 
     @property
@@ -179,8 +170,7 @@ class YoungsModulusFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: stress, strain

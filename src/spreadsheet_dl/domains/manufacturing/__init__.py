@@ -1,5 +1,4 @@
-"""
-Manufacturing Domain Plugin for SpreadsheetDL.
+"""Manufacturing Domain Plugin for SpreadsheetDL.
 
 Implements:
     Complete Manufacturing domain plugin
@@ -24,7 +23,7 @@ Example:
     >>> from spreadsheet_dl.domains.manufacturing import ProductionScheduleTemplate
     >>> template = ProductionScheduleTemplate(facility_name="Assembly Line A")
     >>> builder = template.generate()
-    >>> builder.save("production_schedule.ods")
+    >>> path = builder.save("production_schedule.ods")
 """
 
 # Plugin

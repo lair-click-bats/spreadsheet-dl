@@ -263,7 +263,7 @@ class TestDashboardKPI:
 
 
 class TestSparklineConfig:
-    """Tests for SparklineConfig (FUTURE-003)."""
+    """Tests for SparklineConfig (FR-SPARK-001)."""
 
     def test_to_formula_line_basic(self) -> None:
         """Test basic line sparkline formula."""
@@ -566,7 +566,7 @@ class TestInteractiveOdsBuilder:
         assert result is builder
 
     def test_apply_sparkline_to_document(self, builder: InteractiveOdsBuilder) -> None:
-        """Test applying sparkline to ODS document (FUTURE-003)."""
+        """Test applying sparkline to ODS document (FR-SPARK-001)."""
         from odf.opendocument import OpenDocumentSpreadsheet
         from odf.table import Table, TableCell, TableRow
         from odf.text import P

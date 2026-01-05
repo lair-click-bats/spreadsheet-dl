@@ -1,5 +1,4 @@
-"""
-Data Science Domain Plugin for SpreadsheetDL.
+"""Data Science Domain Plugin for SpreadsheetDL.
 
 Implements:
     Data Science domain plugin
@@ -74,8 +73,7 @@ from spreadsheet_dl.domains.data_science.templates.model_comparison import (
 
 
 class DataScienceDomainPlugin(BaseDomainPlugin):
-    """
-    Data Science domain plugin.
+    """Data Science domain plugin.
 
     Implements:
         Complete Data Science domain plugin
@@ -90,13 +88,12 @@ class DataScienceDomainPlugin(BaseDomainPlugin):
         >>> template_class = plugin.get_template("experiment_log")
         >>> template = template_class()
         >>> builder = template.generate()
-        >>> builder.save("experiments.ods")
+        >>> path = builder.save("experiments.ods")
     """
 
     @property
     def metadata(self) -> PluginMetadata:
-        """
-        Get plugin metadata.
+        """Get plugin metadata.
 
         Returns:
             PluginMetadata with data science plugin information
@@ -116,8 +113,7 @@ class DataScienceDomainPlugin(BaseDomainPlugin):
         )
 
     def initialize(self) -> None:
-        """
-        Initialize plugin resources.
+        """Initialize plugin resources.
 
         Registers all templates, formulas, and importers.
 
@@ -160,8 +156,7 @@ class DataScienceDomainPlugin(BaseDomainPlugin):
         self.register_importer("jupyter", JupyterMetadataImporter)
 
     def cleanup(self) -> None:
-        """
-        Cleanup plugin resources.
+        """Cleanup plugin resources.
 
         No resources need explicit cleanup for this plugin.
 
@@ -172,8 +167,7 @@ class DataScienceDomainPlugin(BaseDomainPlugin):
         pass
 
     def validate(self) -> bool:
-        """
-        Validate plugin configuration.
+        """Validate plugin configuration.
 
         Returns:
             True if plugin has required templates and formulas registered

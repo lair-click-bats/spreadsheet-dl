@@ -1,5 +1,4 @@
-"""
-Environmental domain importers.
+"""Environmental domain importers.
 
 Implements:
     Environmental domain data importers

@@ -1,5 +1,4 @@
-"""
-Advanced spreadsheet features.
+"""Advanced spreadsheet features.
 
 Implements:
     - FR-FORMAT-010: Hidden Rows and Columns
@@ -31,8 +30,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class HiddenRowsColumns:
-    """
-    Configuration for hidden rows and columns (FR-FORMAT-010).
+    """Configuration for hidden rows and columns (FR-FORMAT-010).
 
     Examples:
         hidden = HiddenRowsColumns(
@@ -81,8 +79,7 @@ class HiddenRowsColumns:
 
 @dataclass
 class NamedRange:
-    """
-    Named range definition (FR-FORMAT-013).
+    """Named range definition (FR-FORMAT-013).
 
     A named range provides a symbolic name for a cell range,
     making formulas more readable and maintainable.
@@ -143,8 +140,7 @@ class NamedRange:
 
 @dataclass
 class CellComment:
-    """
-    Cell comment/note (FR-FORMAT-014).
+    """Cell comment/note (FR-FORMAT-014).
 
     Comments provide additional information visible on hover.
 
@@ -191,8 +187,7 @@ class OutlineDirection(Enum):
 
 @dataclass
 class OutlineGroup:
-    """
-    Row or column outline group for collapsible sections (FR-FORMAT-015).
+    """Row or column outline group for collapsible sections (FR-FORMAT-015).
 
     Examples:
         # Group rows 5-10 (collapsible)
@@ -223,8 +218,7 @@ class OutlineGroup:
 
 @dataclass
 class OutlineSettings:
-    """
-    Outline settings for a sheet (FR-FORMAT-015).
+    """Outline settings for a sheet (FR-FORMAT-015).
 
     Controls summary row/column positions and groups.
     """
@@ -304,8 +298,7 @@ class FilterOperator(Enum):
 
 @dataclass
 class FilterCriteria:
-    """
-    Filter criteria for a column (FR-ADV-003).
+    """Filter criteria for a column (FR-ADV-003).
 
     Examples:
         # Text contains
@@ -339,8 +332,7 @@ class FilterCriteria:
 
 @dataclass
 class AutoFilter:
-    """
-    Auto-filter configuration for a range (FR-ADV-003).
+    """Auto-filter configuration for a range (FR-ADV-003).
 
     Examples:
         # Enable filter on range
@@ -387,8 +379,7 @@ class AutoFilter:
 
 @dataclass
 class DataTable:
-    """
-    Data table configuration (FR-ADV-004).
+    """Data table configuration (FR-ADV-004).
 
     Data tables enable what-if analysis by varying input values.
 
@@ -443,8 +434,7 @@ class HyperlinkType(Enum):
 
 @dataclass
 class Hyperlink:
-    """
-    Cell hyperlink (FR-ADV-005).
+    """Cell hyperlink (FR-ADV-005).
 
     Examples:
         # Web link
@@ -505,8 +495,7 @@ class ImageAnchor(Enum):
 
 @dataclass
 class Image:
-    """
-    Embedded image (FR-ADV-006).
+    """Embedded image (FR-ADV-006).
 
     Examples:
         image = Image(
@@ -542,8 +531,7 @@ class Image:
 
 @dataclass
 class Shape:
-    """
-    Shape object (FR-ADV-006).
+    """Shape object (FR-ADV-006).
 
     Examples:
         shape = Shape(
@@ -588,8 +576,7 @@ class Shape:
 
 @dataclass
 class DocumentProperties:
-    """
-    Document metadata properties (FR-ADV-007).
+    """Document metadata properties (FR-ADV-007).
 
     Standard and custom document properties for ODF documents.
 
@@ -673,8 +660,7 @@ class DocumentProperties:
 
 @dataclass
 class SheetAdvancedFeatures:
-    """
-    Container for advanced sheet features.
+    """Container for advanced sheet features.
 
     Combines all advanced features for a sheet.
     """

@@ -20,10 +20,10 @@ import pytest
 from spreadsheet_dl.exceptions import FileError
 from spreadsheet_dl.export import (
     ExportDependencyError,
-    ExportFormat,
     ExportOptions,
     FormatNotSupportedError,
     MultiExportError,
+    MultiExportFormat,
     MultiFormatExporter,
     SheetData,
     export_to_csv,
@@ -72,21 +72,21 @@ def sample_sheet_data() -> SheetData:
     )
 
 
-class TestExportFormat:
-    """Tests for ExportFormat enum."""
+class TestMultiExportFormat:
+    """Tests for MultiExportFormat enum."""
 
     def test_all_formats_have_values(self) -> None:
         """Test all export formats have string values."""
-        for fmt in ExportFormat:
+        for fmt in MultiExportFormat:
             assert isinstance(fmt.value, str)
             assert len(fmt.value) > 0
 
     def test_format_values(self) -> None:
         """Test specific format values."""
-        assert ExportFormat.XLSX.value == "xlsx"
-        assert ExportFormat.CSV.value == "csv"
-        assert ExportFormat.PDF.value == "pdf"
-        assert ExportFormat.JSON.value == "json"
+        assert MultiExportFormat.XLSX.value == "xlsx"
+        assert MultiExportFormat.CSV.value == "csv"
+        assert MultiExportFormat.PDF.value == "pdf"
+        assert MultiExportFormat.JSON.value == "json"
 
 
 class TestExportOptions:
@@ -155,7 +155,7 @@ class TestMultiFormatExporter:
             exporter.export(
                 temp_dir / "nonexistent.ods",
                 temp_dir / "output.xlsx",
-                ExportFormat.XLSX,
+                MultiExportFormat.XLSX,
             )
 
     def test_export_unsupported_format(self, temp_dir: Path) -> None:
@@ -390,15 +390,15 @@ class TestExportBatch:
         results = exporter.export_batch(
             sample_budget_file,
             temp_dir / "output",
-            [ExportFormat.CSV, ExportFormat.JSON],
+            [MultiExportFormat.CSV, MultiExportFormat.JSON],
         )
 
         # Both formats should be in results
-        assert ExportFormat.CSV.value in results
-        assert ExportFormat.JSON.value in results
+        assert MultiExportFormat.CSV.value in results
+        assert MultiExportFormat.JSON.value in results
         # Exported files should exist
-        assert results[ExportFormat.CSV.value] is not None
-        assert results[ExportFormat.JSON.value] is not None
+        assert results[MultiExportFormat.CSV.value] is not None
+        assert results[MultiExportFormat.JSON.value] is not None
 
 
 class TestConvenienceFunctions:

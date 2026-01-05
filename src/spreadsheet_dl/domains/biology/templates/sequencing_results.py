@@ -1,5 +1,4 @@
-"""
-Sequencing Results Template for DNA/RNA sequencing.
+"""Sequencing Results Template for DNA/RNA sequencing.
 
 Implements:
     SequencingResultsTemplate for biology domain
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class SequencingResultsTemplate(BaseTemplate):
-    """
-    DNA/RNA sequencing results template.
+    """DNA/RNA sequencing results template.
 
     Implements:
         SequencingResultsTemplate with quality metrics
@@ -33,12 +31,12 @@ class SequencingResultsTemplate(BaseTemplate):
     - Alignment statistics
 
     Example:
-        >>> template = SequencingResultsTemplate(
+        >>> template = SequencingResultsTemplate(  # doctest: +SKIP
         ...     project_name="Genome Sequencing Project",
         ...     sequencing_type="Illumina NextSeq",
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("sequencing_results.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("sequencing_results.ods")  # doctest: +SKIP
     """
 
     project_name: str = "Sequencing Project"
@@ -49,8 +47,7 @@ class SequencingResultsTemplate(BaseTemplate):
 
     @property
     def metadata(self) -> TemplateMetadata:
-        """
-        Get template metadata.
+        """Get template metadata.
 
         Returns:
             TemplateMetadata for sequencing results template
@@ -68,8 +65,7 @@ class SequencingResultsTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate the sequencing results spreadsheet.
+        """Generate the sequencing results spreadsheet.
 
         Returns:
             Configured SpreadsheetBuilder instance

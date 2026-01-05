@@ -1,5 +1,4 @@
-"""
-Ecology and biodiversity formulas.
+"""Ecology and biodiversity formulas.
 
 Implements:
     Ecology formulas
@@ -16,8 +15,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 @dataclass(slots=True, frozen=True)
 class ShannonDiversityFormula(BaseFormula):
-    """
-    Calculate Shannon Diversity Index.
+    """Calculate Shannon Diversity Index.
 
     Implements:
         SHANNON_DIVERSITY formula for biodiversity assessment
@@ -25,15 +23,14 @@ class ShannonDiversityFormula(BaseFormula):
     H' = -SUM(pi * ln(pi)) where pi is proportion of species i.
 
     Example:
-        >>> formula = ShannonDiversityFormula()
-        >>> result = formula.build("A1:A10", "B1:B10")
+        >>> formula = ShannonDiversityFormula()  # doctest: +SKIP
+        >>> result = formula.build("A1:A10", "B1:B10")  # doctest: +SKIP
         >>> # Returns Shannon index formula
     """
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for SHANNON_DIVERSITY
@@ -61,8 +58,7 @@ class ShannonDiversityFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build SHANNON_DIVERSITY formula string.
+        """Build SHANNON_DIVERSITY formula string.
 
         Args:
             *args: counts_range
@@ -94,8 +90,7 @@ class ShannonDiversityFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class SimpsonIndexFormula(BaseFormula):
-    """
-    Calculate Simpson's Diversity Index.
+    """Calculate Simpson's Diversity Index.
 
     Implements:
         SIMPSON_INDEX formula for biodiversity assessment
@@ -110,8 +105,7 @@ class SimpsonIndexFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for SIMPSON_INDEX
@@ -139,8 +133,7 @@ class SimpsonIndexFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build SIMPSON_INDEX formula string.
+        """Build SIMPSON_INDEX formula string.
 
         Args:
             *args: counts_range
@@ -170,8 +163,7 @@ class SimpsonIndexFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class SpeciesRichnessFormula(BaseFormula):
-    """
-    Calculate Species Richness.
+    """Calculate Species Richness.
 
     Implements:
         SPECIES_RICHNESS formula for biodiversity assessment
@@ -186,8 +178,7 @@ class SpeciesRichnessFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for SPECIES_RICHNESS
@@ -215,8 +206,7 @@ class SpeciesRichnessFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build SPECIES_RICHNESS formula string.
+        """Build SPECIES_RICHNESS formula string.
 
         Args:
             *args: counts_range

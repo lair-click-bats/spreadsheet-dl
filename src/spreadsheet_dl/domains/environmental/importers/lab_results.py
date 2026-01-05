@@ -1,5 +1,4 @@
-"""
-Lab Results Importer.
+"""Lab Results Importer.
 
 Implements:
     LabResultsImporter for environmental domain
@@ -17,8 +16,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 @dataclass
 class LabResultsImporter(BaseImporter[list[dict[str, Any]]]):
-    """
-    Laboratory analysis results importer.
+    """Laboratory analysis results importer.
 
     Implements:
         LabResultsImporter for environmental lab data
@@ -29,9 +27,9 @@ class LabResultsImporter(BaseImporter[list[dict[str, Any]]]):
     - Chain of custody records
 
     Example:
-        >>> importer = LabResultsImporter()
-        >>> result = importer.import_data("lab_results.csv")
-        >>> print(f"Imported {result.records_imported} lab results")
+        >>> importer = LabResultsImporter()  # doctest: +SKIP
+        >>> result = importer.import_data("lab_results.csv")  # doctest: +SKIP
+        >>> print(f"Imported {result.records_imported} lab results")  # doctest: +SKIP
     """
 
     lab_name: str = ""

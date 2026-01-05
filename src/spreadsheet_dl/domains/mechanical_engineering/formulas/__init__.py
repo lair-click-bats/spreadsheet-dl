@@ -1,5 +1,4 @@
-"""
-Formulas for mechanical engineering domain.
+"""Formulas for mechanical engineering domain.
 
 Implements:
     Mechanical engineering formula modules

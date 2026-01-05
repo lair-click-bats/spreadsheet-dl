@@ -1,5 +1,4 @@
-"""
-MCP server configuration classes.
+"""MCP server configuration classes.
 
 Part of the modular MCP server implementation.
 Defines configuration, capabilities, and protocol versions.

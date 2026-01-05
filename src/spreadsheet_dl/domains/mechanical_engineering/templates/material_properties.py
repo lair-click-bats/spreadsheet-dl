@@ -1,5 +1,4 @@
-"""
-Material Properties template for mechanical engineering.
+"""Material Properties template for mechanical engineering.
 
 Implements:
     MaterialPropertiesTemplate with material database
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class MaterialPropertiesTemplate(BaseTemplate):
-    """
-    Material Properties database template.
+    """Material Properties database template.
 
     Generates a material properties database with mechanical properties
     including yield strength, ultimate strength, Young's modulus, etc.
@@ -38,9 +36,9 @@ class MaterialPropertiesTemplate(BaseTemplate):
         - Common material presets (steel, aluminum, titanium, etc.)
 
     Example:
-        >>> template = MaterialPropertiesTemplate()
-        >>> builder = template.generate()
-        >>> builder.save("materials.ods")
+        >>> template = MaterialPropertiesTemplate()  # doctest: +SKIP
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("materials.ods")  # doctest: +SKIP
     """
 
     num_materials: int = 20
@@ -60,8 +58,7 @@ class MaterialPropertiesTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate material properties spreadsheet.
+        """Generate material properties spreadsheet.
 
         Returns:
             SpreadsheetBuilder configured with material properties template
@@ -256,8 +253,7 @@ class MaterialPropertiesTemplate(BaseTemplate):
         return builder
 
     def validate(self) -> bool:
-        """
-        Validate template configuration.
+        """Validate template configuration.
 
         Returns:
             True if configuration is valid

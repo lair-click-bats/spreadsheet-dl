@@ -1,5 +1,4 @@
-"""
-ODS file editing module for appending expenses to existing spreadsheets.
+"""ODS file editing module for appending expenses to existing spreadsheets.
 
 Provides safe modification of existing ODS files while preserving
 structure, formulas, and formatting.
@@ -25,8 +24,7 @@ if TYPE_CHECKING:
 
 
 class OdsEditor:
-    """
-    Edit existing ODS spreadsheets.
+    """Edit existing ODS spreadsheets.
 
     Provides safe modification of ODS files for:
     - Appending expense entries
@@ -38,8 +36,7 @@ class OdsEditor:
     """
 
     def __init__(self, file_path: Path | str) -> None:
-        """
-        Initialize editor with an existing ODS file.
+        """Initialize editor with an existing ODS file.
 
         Args:
             file_path: Path to the ODS file to edit.
@@ -62,8 +59,7 @@ class OdsEditor:
             ) from e
 
     def get_sheet_names(self) -> list[str]:
-        """
-        Get list of sheet names in the document.
+        """Get list of sheet names in the document.
 
         Returns:
             List of sheet names.
@@ -75,8 +71,7 @@ class OdsEditor:
         return [sheet.getAttribute("name") for sheet in sheets]
 
     def get_sheet(self, name: str) -> Table:
-        """
-        Get a sheet by name.
+        """Get a sheet by name.
 
         Args:
             name: Sheet name to find.
@@ -99,8 +94,7 @@ class OdsEditor:
         raise SheetNotFoundError(name, available)
 
     def find_next_empty_row(self, sheet_name: str) -> int:
-        """
-        Find the index of the next empty row in a sheet.
+        """Find the index of the next empty row in a sheet.
 
         Scans from the beginning looking for the first row where
         the first cell is empty (excluding header row).
@@ -141,8 +135,7 @@ class OdsEditor:
     def append_expense(
         self, expense: ExpenseEntry, sheet_name: str = "Expense Log"
     ) -> int:
-        """
-        Append an expense entry to the expense sheet.
+        """Append an expense entry to the expense sheet.
 
         Args:
             expense: ExpenseEntry to append.
@@ -189,8 +182,7 @@ class OdsEditor:
             ) from e
 
     def _create_expense_row(self, expense: ExpenseEntry) -> TableRow:
-        """
-        Create a TableRow element from an ExpenseEntry.
+        """Create a TableRow element from an ExpenseEntry.
 
         Args:
             expense: ExpenseEntry to convert.
@@ -234,8 +226,7 @@ class OdsEditor:
         return row
 
     def save(self, output_path: Path | str | None = None) -> Path:
-        """
-        Save the modified document.
+        """Save the modified document.
 
         Args:
             output_path: Optional path to save to. If None, overwrites original.
@@ -264,8 +255,7 @@ class OdsEditor:
 
     @staticmethod
     def _parse_cell_reference(cell_ref: str) -> tuple[int, int]:
-        """
-        Parse A1-style cell reference to (row, col) indices.
+        """Parse A1-style cell reference to (row, col) indices.
 
         Args:
             cell_ref: Cell reference like 'A1', 'B5', 'AA10'.
@@ -293,8 +283,7 @@ class OdsEditor:
 
     @staticmethod
     def _parse_range(range_ref: str) -> tuple[tuple[int, int], tuple[int, int]]:
-        """
-        Parse A1-style range reference to start and end coordinates.
+        """Parse A1-style range reference to start and end coordinates.
 
         Args:
             range_ref: Range like 'A1:B5'.
@@ -316,8 +305,7 @@ class OdsEditor:
         return start, end
 
     def _get_cell(self, sheet: Table, row: int, col: int) -> TableCell | None:
-        """
-        Get a cell from a sheet by row and column index.
+        """Get a cell from a sheet by row and column index.
 
         Args:
             sheet: Sheet table element.
@@ -338,8 +326,7 @@ class OdsEditor:
         return cells[col]
 
     def _get_cell_value(self, cell: TableCell) -> Any:
-        """
-        Extract the value from a cell.
+        """Extract the value from a cell.
 
         Args:
             cell: TableCell element.
@@ -378,8 +365,7 @@ class OdsEditor:
     def _set_cell_value(
         self, sheet: Table, row: int, col: int, value: Any
     ) -> TableCell:
-        """
-        Set the value of a cell, creating rows/cells as needed.
+        """Set the value of a cell, creating rows/cells as needed.
 
         Args:
             sheet: Sheet table element.
@@ -427,8 +413,7 @@ class OdsEditor:
         return cell
 
     def get_cell_value(self, sheet_name: str, cell_ref: str) -> Any:
-        """
-        Get the value of a specific cell.
+        """Get the value of a specific cell.
 
         Args:
             sheet_name: Name of the sheet.
@@ -447,8 +432,7 @@ class OdsEditor:
         return self._get_cell_value(cell)
 
     def set_cell_value(self, sheet_name: str, cell_ref: str, value: Any) -> None:
-        """
-        Set the value of a specific cell.
+        """Set the value of a specific cell.
 
         Args:
             sheet_name: Name of the sheet.
@@ -464,8 +448,7 @@ class OdsEditor:
         self._set_cell_value(sheet, row, col, value)
 
     def clear_cell(self, sheet_name: str, cell_ref: str) -> None:
-        """
-        Clear the value and formatting of a cell.
+        """Clear the value and formatting of a cell.
 
         Args:
             sheet_name: Name of the sheet.
@@ -496,8 +479,7 @@ class OdsEditor:
                 cell.removeChild(child)
 
     def copy_cells(self, sheet_name: str, source: str, destination: str) -> None:
-        """
-        Copy a cell or range to another location.
+        """Copy a cell or range to another location.
 
         Args:
             sheet_name: Name of the sheet.
@@ -525,8 +507,7 @@ class OdsEditor:
                 self._set_cell_value(sheet, dst_row_idx, dst_col_idx, value)
 
     def move_cells(self, sheet_name: str, source: str, destination: str) -> None:
-        """
-        Move a cell or range to another location.
+        """Move a cell or range to another location.
 
         Args:
             sheet_name: Name of the sheet.
@@ -564,8 +545,7 @@ class OdsEditor:
     def find_cells(
         self, sheet_name: str, search_text: str, match_case: bool = False
     ) -> list[tuple[str, Any]]:
-        """
-        Find cells containing specific text.
+        """Find cells containing specific text.
 
         Args:
             sheet_name: Name of the sheet.
@@ -607,8 +587,7 @@ class OdsEditor:
         replace_text: str,
         match_case: bool = False,
     ) -> int:
-        """
-        Find and replace text in cells.
+        """Find and replace text in cells.
 
         Args:
             sheet_name: Name of the sheet.
@@ -644,8 +623,7 @@ class OdsEditor:
 
     @staticmethod
     def _col_index_to_letter(col: int) -> str:
-        """
-        Convert column index to letter (A, B, ..., Z, AA, AB, ...).
+        """Convert column index to letter (A, B, ..., Z, AA, AB, ...).
 
         Args:
             col: Column index (0-based).
@@ -667,8 +645,7 @@ def append_expense_to_file(
     expense: ExpenseEntry,
     sheet_name: str = "Expense Log",
 ) -> tuple[Path, int]:
-    """
-    Convenience function to append a single expense to an ODS file.
+    """Convenience function to append a single expense to an ODS file.
 
     Args:
         file_path: Path to the ODS file.

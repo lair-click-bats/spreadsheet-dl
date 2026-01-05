@@ -1,5 +1,4 @@
-"""
-Manufacturing formulas module.
+"""Manufacturing formulas module.
 
 Implements:
     Manufacturing formula exports

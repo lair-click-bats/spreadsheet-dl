@@ -1,5 +1,4 @@
-"""
-Model Comparison Template for ML model evaluation.
+"""Model Comparison Template for ML model evaluation.
 
 Implements:
     ModelComparisonTemplate for data science domain
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class ModelComparisonTemplate(BaseTemplate):
-    """
-    ML model comparison and evaluation template.
+    """ML model comparison and evaluation template.
 
     Implements:
         ModelComparisonTemplate with multi-metric evaluation
@@ -36,13 +34,13 @@ class ModelComparisonTemplate(BaseTemplate):
     - Overall winner determination
 
     Example:
-        >>> template = ModelComparisonTemplate(
+        >>> template = ModelComparisonTemplate(  # doctest: +SKIP
         ...     project_name="Image Classification",
         ...     models=["ResNet50", "VGG16", "EfficientNet"],
         ...     metrics=["accuracy", "precision", "recall", "f1"],
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("model_comparison.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("model_comparison.ods")  # doctest: +SKIP
     """
 
     project_name: str = "ML Model Comparison"
@@ -55,8 +53,7 @@ class ModelComparisonTemplate(BaseTemplate):
 
     @property
     def metadata(self) -> TemplateMetadata:
-        """
-        Get template metadata.
+        """Get template metadata.
 
         Returns:
             TemplateMetadata for model comparison template
@@ -74,8 +71,7 @@ class ModelComparisonTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate the model comparison spreadsheet.
+        """Generate the model comparison spreadsheet.
 
         Returns:
             Configured SpreadsheetBuilder instance

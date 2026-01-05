@@ -1,5 +1,4 @@
-"""
-Templates package - Professional financial document templates.
+"""Templates package - Professional financial document templates.
 
 Implements:
     - FR-PROF-001: Enterprise Budget Template

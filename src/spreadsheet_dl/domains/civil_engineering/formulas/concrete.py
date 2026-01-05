@@ -1,5 +1,4 @@
-"""
-Concrete design formulas for civil engineering.
+"""Concrete design formulas for civil engineering.
 
 Implements:
     Concrete formulas (CONCRETE_STRENGTH, REINFORCEMENT_RATIO, CRACK_WIDTH)
@@ -15,8 +14,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 @dataclass(slots=True, frozen=True)
 class ConcreteStrengthFormula(BaseFormula):
-    """
-    Concrete compressive strength formula: f'_c = P/A.
+    """Concrete compressive strength formula: f'_c = P/A.
 
     Calculates concrete compressive strength from test cylinder results.
 
@@ -27,7 +25,6 @@ class ConcreteStrengthFormula(BaseFormula):
         >>> formula = ConcreteStrengthFormula()
         >>> formula.build("400000", "19635")
         '400000/19635'
-        # Result: strength in MPa (~20.4 MPa)
     """
 
     @property
@@ -59,8 +56,7 @@ class ConcreteStrengthFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: P, A
@@ -75,8 +71,7 @@ class ConcreteStrengthFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class ReinforcementRatioFormula(BaseFormula):
-    """
-    Reinforcement ratio formula: rho = A_s/(b*d).
+    """Reinforcement ratio formula: rho = A_s/(b*d).
 
     Calculates reinforcement ratio for concrete beam design.
 
@@ -87,7 +82,6 @@ class ReinforcementRatioFormula(BaseFormula):
         >>> formula = ReinforcementRatioFormula()
         >>> formula.build("1256", "300", "450")
         '1256/(300*450)'
-        # Result: reinforcement ratio (~0.0093)
     """
 
     @property
@@ -125,8 +119,7 @@ class ReinforcementRatioFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: As, b, d
@@ -141,8 +134,7 @@ class ReinforcementRatioFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class CrackWidthFormula(BaseFormula):
-    """
-    Crack width formula: w = s_r*epsilon_m.
+    """Crack width formula: w = s_r*epsilon_m.
 
     Calculates maximum crack width in reinforced concrete.
 
@@ -153,7 +145,6 @@ class CrackWidthFormula(BaseFormula):
         >>> formula = CrackWidthFormula()
         >>> formula.build("150", "0.0002")
         '150*0.0002'
-        # Result: crack width in mm (0.03mm)
     """
 
     @property
@@ -185,8 +176,7 @@ class CrackWidthFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: sr, epsilon_m

@@ -1,5 +1,4 @@
-"""
-Custom exceptions for SpreadsheetDL.
+"""Custom exceptions for SpreadsheetDL.
 
 Provides a comprehensive hierarchy of exceptions with error codes,
 actionable guidance, and contextual information for better error handling
@@ -69,8 +68,7 @@ class ErrorContext:
 
 
 class SpreadsheetDLError(Exception):
-    """
-    Base exception for all SpreadsheetDL errors.
+    """Base exception for all SpreadsheetDL errors.
 
     Provides structured error information including:
     - Machine-readable error code
@@ -84,7 +82,7 @@ class SpreadsheetDLError(Exception):
     # Default error code - subclasses should override
     error_code: str = "FT-GEN-001"
     severity: ErrorSeverity = ErrorSeverity.ERROR
-    doc_url_base: str = "https://spreadsheet-dl.readthedocs.io/errors"
+    doc_url_base: str = "https://github.com/lair-click-bats/spreadsheet-dl/blob/main/docs/error-codes.md"
 
     def __init__(
         self,
@@ -96,8 +94,7 @@ class SpreadsheetDLError(Exception):
         context: ErrorContext | None = None,
         severity: ErrorSeverity | None = None,
     ) -> None:
-        """
-        Initialize the exception.
+        """Initialize the exception.
 
         Args:
             message: Human-readable summary (one line).
@@ -120,11 +117,12 @@ class SpreadsheetDLError(Exception):
     @property
     def doc_url(self) -> str:
         """Get documentation URL for this error."""
-        return f"{self.doc_url_base}/{self.error_code}"
+        # Generate anchor link for error code (e.g., FT-GEN-001 -> #ft-gen-001)
+        anchor = self.error_code.lower()
+        return f"{self.doc_url_base}#{anchor}"
 
     def format_error(self, use_color: bool = True, show_debug: bool = False) -> str:
-        """
-        Format error for display.
+        """Format error for display.
 
         Args:
             use_color: Whether to use ANSI colors.
@@ -217,6 +215,13 @@ class UnknownError(SpreadsheetDLError):
         original_error: Exception | None = None,
         **kwargs: Any,
     ) -> None:
+        """Initialize the error.
+
+        Args:
+            message: Error message describing what went wrong.
+            original_error: The underlying exception that caused this error.
+            **kwargs: Additional error context.
+        """
         suggestion = "Please report this issue with the error details."
         if original_error:
             message = f"{message}: {original_error}"
@@ -231,6 +236,12 @@ class OperationCancelledError(SpreadsheetDLError):
     severity = ErrorSeverity.INFO
 
     def __init__(self, operation: str = "Operation", **kwargs: Any) -> None:
+        """Initialize the error.
+
+        Args:
+            operation: Name of the operation that was cancelled.
+            **kwargs: Additional error context.
+        """
         super().__init__(
             f"{operation} was cancelled by user",
             suggestion="Re-run the command to try again.",
@@ -244,6 +255,12 @@ class NotImplementedFeatureError(SpreadsheetDLError):
     error_code = "FT-GEN-003"
 
     def __init__(self, feature: str, **kwargs: Any) -> None:
+        """Initialize the error.
+
+        Args:
+            feature: Name of the feature that is not implemented.
+            **kwargs: Additional error context.
+        """
         self.feature = feature
         super().__init__(
             f"Feature '{feature}' is not yet implemented",
@@ -274,6 +291,13 @@ class FileNotFoundError(FileError):
         file_type: str = "File",
         **kwargs: Any,
     ) -> None:
+        """Initialize the error.
+
+        Args:
+            file_path: Path to the file that was not found.
+            file_type: Type of file for error message.
+            **kwargs: Additional error context.
+        """
         self.file_path = file_path
         message = f"{file_type} not found"
         if file_path:
@@ -299,6 +323,13 @@ class FilePermissionError(FileError):
         operation: str = "access",
         **kwargs: Any,
     ) -> None:
+        """Initialize the error.
+
+        Args:
+            file_path: Path to the file with permission issues.
+            operation: Operation that was attempted.
+            **kwargs: Additional error context.
+        """
         self.file_path = file_path
         self.operation = operation
         context = ErrorContext(file_path=file_path)
@@ -322,6 +353,12 @@ class FileExistsError(FileError):
         file_path: str,
         **kwargs: Any,
     ) -> None:
+        """Initialize the error.
+
+        Args:
+            file_path: Path to the file that already exists.
+            **kwargs: Additional error context.
+        """
         self.file_path = file_path
         context = ErrorContext(file_path=file_path)
         super().__init__(
@@ -345,6 +382,7 @@ class InvalidFileFormatError(FileError):
         actual_format: str | None = None,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.file_path = file_path
         self.expected_format = expected_format
         self.actual_format = actual_format
@@ -375,6 +413,13 @@ class FileWriteError(FileError):
         reason: str = "Unknown error",
         **kwargs: Any,
     ) -> None:
+        """Initialize the error.
+
+        Args:
+            file_path: Path to the file that could not be written.
+            reason: Reason for the write failure.
+            **kwargs: Additional error context.
+        """
         self.file_path = file_path
         self.reason = reason
         context = ErrorContext(file_path=file_path)
@@ -398,6 +443,13 @@ class FileReadError(FileError):
         reason: str = "Unknown error",
         **kwargs: Any,
     ) -> None:
+        """Initialize the error.
+
+        Args:
+            file_path: Path to the file that could not be read.
+            reason: Reason for the read failure.
+            **kwargs: Additional error context.
+        """
         self.file_path = file_path
         self.reason = reason
         context = ErrorContext(file_path=file_path)
@@ -432,6 +484,7 @@ class OdsReadError(OdsError):
         reason: str = "Unable to parse ODS file",
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.file_path = file_path
         self.reason = reason
         context = ErrorContext(file_path=file_path)
@@ -455,6 +508,7 @@ class OdsWriteError(OdsError):
         reason: str = "Unable to write ODS file",
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.file_path = file_path
         self.reason = reason
         context = ErrorContext(file_path=file_path)
@@ -475,6 +529,7 @@ class SheetNotFoundError(OdsError):
     def __init__(
         self, sheet_name: str, available_sheets: list[str] | None = None, **kwargs: Any
     ) -> None:
+        """Initialize the instance."""
         self.sheet_name = sheet_name
         self.available_sheets = available_sheets or []
 
@@ -506,6 +561,7 @@ class InvalidOdsStructureError(OdsError):
         issue: str = "Invalid structure",
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.file_path = file_path
         self.issue = issue
         context = ErrorContext(file_path=file_path)
@@ -530,6 +586,7 @@ class FormulaError(OdsError):
         cell: str | None = None,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.formula = formula
         self.reason = reason
         self.cell = cell
@@ -566,6 +623,7 @@ class CSVParseError(CSVImportError):
         line_number: int | None = None,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.file_path = file_path
         self.line_number = line_number
         context = ErrorContext(file_path=file_path, line_number=line_number)
@@ -591,6 +649,7 @@ class UnsupportedBankFormatError(CSVImportError):
     def __init__(
         self, bank: str, supported_banks: list[str] | None = None, **kwargs: Any
     ) -> None:
+        """Initialize the instance."""
         self.bank = bank
         self.supported_banks = supported_banks or []
 
@@ -622,6 +681,7 @@ class CSVColumnMissingError(CSVImportError):
         file_path: str | None = None,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.column_name = column_name
         self.available_columns = available_columns or []
         context = ErrorContext(
@@ -653,6 +713,7 @@ class CSVEncodingError(CSVImportError):
         detected_encoding: str | None = None,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.file_path = file_path
         self.detected_encoding = detected_encoding
         context = ErrorContext(file_path=file_path)
@@ -691,6 +752,7 @@ class InvalidAmountError(ValidationError):
         reason: str = "Invalid format",
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.value = value
         self.reason = reason
         context = ErrorContext(
@@ -715,6 +777,7 @@ class InvalidDateError(ValidationError):
         expected_format: str = "YYYY-MM-DD",
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.value = value
         self.expected_format = expected_format
         context = ErrorContext(value=value, expected=expected_format)
@@ -735,6 +798,7 @@ class InvalidCategoryError(ValidationError):
     def __init__(
         self, category: str, valid_categories: list[str] | None = None, **kwargs: Any
     ) -> None:
+        """Initialize the instance."""
         self.category = category
         self.valid_categories = valid_categories or []
 
@@ -767,6 +831,7 @@ class InvalidRangeError(ValidationError):
         max_value: Any | None = None,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.field = field
         self.value = value
         self.min_value = min_value
@@ -794,6 +859,7 @@ class RequiredFieldError(ValidationError):
     error_code = "FT-VAL-405"
 
     def __init__(self, field: str, **kwargs: Any) -> None:
+        """Initialize the instance."""
         self.field = field
         super().__init__(
             f"Required field '{field}' is missing",
@@ -824,6 +890,7 @@ class MissingConfigError(ConfigurationError):
         config_source: str = "configuration",
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.config_key = config_key
         self.config_source = config_source
         super().__init__(
@@ -848,6 +915,7 @@ class InvalidConfigError(ConfigurationError):
         expected: str | None = None,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.config_key = config_key
         self.value = value
         self.reason = reason
@@ -871,6 +939,7 @@ class ConfigSchemaError(ConfigurationError):
         errors: list[str],
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.config_path = config_path
         self.errors = errors
         context = ErrorContext(file_path=config_path)
@@ -896,6 +965,7 @@ class ConfigMigrationError(ConfigurationError):
         reason: str,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.from_version = from_version
         self.to_version = to_version
         self.reason = reason
@@ -929,6 +999,7 @@ class ConnectionError(WebDAVError):
         reason: str = "Connection failed",
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.url = url
         self.reason = reason
         super().__init__(
@@ -950,6 +1021,7 @@ class AuthenticationError(WebDAVError):
         url: str | None = None,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.url = url
         super().__init__(
             "Authentication failed",
@@ -972,6 +1044,7 @@ class UploadError(WebDAVError):
         reason: str = "Upload failed",
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.file_path = file_path
         self.remote_path = remote_path
         self.reason = reason
@@ -996,6 +1069,7 @@ class DownloadError(WebDAVError):
         reason: str = "Download failed",
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.remote_path = remote_path
         self.reason = reason
         super().__init__(
@@ -1018,6 +1092,7 @@ class ServerError(WebDAVError):
         message: str = "Server error",
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.status_code = status_code
         super().__init__(
             f"Server returned error {status_code}: {message}",
@@ -1038,6 +1113,7 @@ class TimeoutError(WebDAVError):
         timeout_seconds: int | None = None,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.operation = operation
         self.timeout_seconds = timeout_seconds
         message = f"{operation} timed out"
@@ -1072,6 +1148,7 @@ class TemplateNotFoundError(TemplateError):
         available_templates: list[str] | None = None,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.template_name = template_name
         self.available_templates = available_templates or []
 
@@ -1103,6 +1180,7 @@ class TemplateValidationError(TemplateError):
         errors: list[str],
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.template_name = template_name
         self.errors = errors
         details = "Validation errors:\n" + "\n".join(f"  - {e}" for e in errors)
@@ -1126,6 +1204,7 @@ class ThemeNotFoundError(TemplateError):
         available_themes: list[str] | None = None,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.theme_name = theme_name
         self.available_themes = available_themes or []
 
@@ -1157,6 +1236,7 @@ class ThemeValidationError(TemplateError):
         line_number: int | None = None,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.theme_path = theme_path
         self.errors = errors
         details = "Validation errors:\n" + "\n".join(f"  - {e}" for e in errors)
@@ -1180,6 +1260,7 @@ class CircularInheritanceError(TemplateError):
         chain: list[str],
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.chain = chain
         super().__init__(
             "Circular inheritance detected in theme chain",
@@ -1210,6 +1291,7 @@ class InvalidColorError(FormattingError):
         color: str,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.color = color
         super().__init__(
             f"Invalid color value: '{color}'",
@@ -1230,6 +1312,7 @@ class InvalidFontError(FormattingError):
         reason: str = "Unknown font",
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.font = font
         self.reason = reason
         super().__init__(
@@ -1252,6 +1335,7 @@ class InvalidNumberFormatError(FormattingError):
         reason: str = "Invalid pattern",
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.pattern = pattern
         self.reason = reason
         super().__init__(
@@ -1273,6 +1357,7 @@ class LocaleError(FormattingError):
         locale: str,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.locale = locale
         super().__init__(
             f"Invalid or unsupported locale: '{locale}'",
@@ -1303,6 +1388,7 @@ class PluginNotFoundError(ExtensionError):
         plugin_name: str,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.plugin_name = plugin_name
         super().__init__(
             f"Plugin '{plugin_name}' not found",
@@ -1323,6 +1409,7 @@ class PluginLoadError(ExtensionError):
         reason: str = "Load failed",
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.plugin_name = plugin_name
         self.reason = reason
         super().__init__(
@@ -1346,6 +1433,7 @@ class PluginVersionError(ExtensionError):
         actual_version: str,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.plugin_name = plugin_name
         self.required_version = required_version
         self.actual_version = actual_version
@@ -1370,6 +1458,7 @@ class HookError(ExtensionError):
         reason: str = "Hook execution failed",
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.hook_name = hook_name
         self.plugin_name = plugin_name
         self.reason = reason
@@ -1402,6 +1491,7 @@ class EncryptionError(SecurityError):
         message: str = "Encryption failed",
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         super().__init__(
             message,
             suggestion="Check that the password is correct and the file is not corrupted.",
@@ -1420,6 +1510,7 @@ class DecryptionError(SecurityError):
         reason: str | None = None,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         details = None
         if reason:
             details = f"Reason: {reason}"
@@ -1441,6 +1532,7 @@ class KeyDerivationError(SecurityError):
         message: str = "Key derivation failed",
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         super().__init__(
             message,
             suggestion="Check system entropy and memory availability.",
@@ -1458,6 +1550,7 @@ class IntegrityError(SecurityError):
         message: str = "Data integrity check failed",
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         super().__init__(
             message,
             suggestion="The file may have been tampered with or corrupted during transfer.",
@@ -1475,6 +1568,7 @@ class CredentialError(SecurityError):
         message: str = "Credential operation failed",
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         super().__init__(
             message,
             suggestion="Check that the master password is correct.",
@@ -1493,6 +1587,7 @@ class WeakPasswordError(SecurityError):
         feedback: list[str] | None = None,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.feedback = feedback or []
         details = None
         if feedback:

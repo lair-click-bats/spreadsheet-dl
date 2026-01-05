@@ -1,5 +1,4 @@
-"""
-Production metrics formulas for manufacturing.
+"""Production metrics formulas for manufacturing.
 
 Implements:
     Production metrics formulas (CYCLE_TIME, TAKT_TIME, THROUGHPUT, CAPACITY_UTILIZATION)
@@ -15,8 +14,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 @dataclass(slots=True, frozen=True)
 class CycleTimeFormula(BaseFormula):
-    """
-    Manufacturing cycle time calculation.
+    """Manufacturing cycle time calculation.
 
     Implements:
         CYCLE_TIME formula for production metrics
@@ -31,8 +29,7 @@ class CycleTimeFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for CYCLE_TIME
@@ -66,8 +63,7 @@ class CycleTimeFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build CYCLE_TIME formula string.
+        """Build CYCLE_TIME formula string.
 
         Args:
             *args: production_time, units_produced
@@ -92,8 +88,7 @@ class CycleTimeFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class TaktTimeFormula(BaseFormula):
-    """
-    Takt time calculation (available time / customer demand).
+    """Takt time calculation (available time / customer demand).
 
     Implements:
         TAKT_TIME formula for production metrics
@@ -108,8 +103,7 @@ class TaktTimeFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for TAKT_TIME
@@ -143,8 +137,7 @@ class TaktTimeFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build TAKT_TIME formula string.
+        """Build TAKT_TIME formula string.
 
         Args:
             *args: available_time, demand
@@ -169,8 +162,7 @@ class TaktTimeFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class ThroughputFormula(BaseFormula):
-    """
-    Production throughput rate.
+    """Production throughput rate.
 
     Implements:
         THROUGHPUT formula for production metrics
@@ -185,8 +177,7 @@ class ThroughputFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for THROUGHPUT
@@ -220,8 +211,7 @@ class ThroughputFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build THROUGHPUT formula string.
+        """Build THROUGHPUT formula string.
 
         Args:
             *args: units_produced, production_time
@@ -246,8 +236,7 @@ class ThroughputFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class CapacityUtilizationFormula(BaseFormula):
-    """
-    Capacity utilization percentage.
+    """Capacity utilization percentage.
 
     Implements:
         CAPACITY_UTILIZATION formula for production metrics
@@ -262,8 +251,7 @@ class CapacityUtilizationFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for CAPACITY_UTILIZATION
@@ -297,8 +285,7 @@ class CapacityUtilizationFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build CAPACITY_UTILIZATION formula string.
+        """Build CAPACITY_UTILIZATION formula string.
 
         Args:
             *args: actual_output, max_capacity

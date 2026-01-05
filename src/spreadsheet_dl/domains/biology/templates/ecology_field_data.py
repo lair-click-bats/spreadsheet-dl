@@ -1,5 +1,4 @@
-"""
-Ecology Field Data Template for field observations.
+"""Ecology Field Data Template for field observations.
 
 Implements:
     EcologyFieldDataTemplate for biology domain
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class EcologyFieldDataTemplate(BaseTemplate):
-    """
-    Ecology field observations template.
+    """Ecology field observations template.
 
     Implements:
         EcologyFieldDataTemplate with species diversity metrics
@@ -33,12 +31,12 @@ class EcologyFieldDataTemplate(BaseTemplate):
     - GPS coordinates and habitat description
 
     Example:
-        >>> template = EcologyFieldDataTemplate(
+        >>> template = EcologyFieldDataTemplate(  # doctest: +SKIP
         ...     site_name="Forest Biodiversity Study",
         ...     num_species=50,
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("field_data.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("field_data.ods")  # doctest: +SKIP
     """
 
     site_name: str = "Ecological Survey Site"
@@ -50,8 +48,7 @@ class EcologyFieldDataTemplate(BaseTemplate):
 
     @property
     def metadata(self) -> TemplateMetadata:
-        """
-        Get template metadata.
+        """Get template metadata.
 
         Returns:
             TemplateMetadata for ecology field data template
@@ -69,8 +66,7 @@ class EcologyFieldDataTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate the ecology field data spreadsheet.
+        """Generate the ecology field data spreadsheet.
 
         Returns:
             Configured SpreadsheetBuilder instance

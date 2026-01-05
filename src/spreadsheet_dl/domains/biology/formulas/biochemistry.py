@@ -1,5 +1,4 @@
-"""
-Biochemistry and protein formulas.
+"""Biochemistry and protein formulas.
 
 Implements:
     Biochemistry formulas
@@ -16,8 +15,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 @dataclass(slots=True, frozen=True)
 class BradfordAssayFormula(BaseFormula):
-    """
-    Calculate protein concentration from Bradford assay.
+    """Calculate protein concentration from Bradford assay.
 
     Implements:
         BRADFORD_ASSAY formula for protein quantification
@@ -30,8 +28,7 @@ class BradfordAssayFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for BRADFORD_ASSAY
@@ -80,8 +77,7 @@ class BradfordAssayFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build BRADFORD_ASSAY formula string.
+        """Build BRADFORD_ASSAY formula string.
 
         Args:
             *args: absorbance, slope, intercept, [dilution]
@@ -109,8 +105,7 @@ class BradfordAssayFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class EnzymeActivityFormula(BaseFormula):
-    """
-    Calculate enzyme specific activity.
+    """Calculate enzyme specific activity.
 
     Implements:
         ENZYME_ACTIVITY formula for enzyme kinetics
@@ -123,8 +118,7 @@ class EnzymeActivityFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for ENZYME_ACTIVITY
@@ -171,8 +165,7 @@ class EnzymeActivityFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ENZYME_ACTIVITY formula string.
+        """Build ENZYME_ACTIVITY formula string.
 
         Args:
             *args: delta_abs, volume, protein_conc, [extinction_coef]
@@ -201,8 +194,7 @@ class EnzymeActivityFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class MichaelisMentenFormula(BaseFormula):
-    """
-    Calculate reaction velocity using Michaelis-Menten kinetics.
+    """Calculate reaction velocity using Michaelis-Menten kinetics.
 
     Implements:
         MICHAELIS_MENTEN formula for enzyme kinetics
@@ -215,8 +207,7 @@ class MichaelisMentenFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for MICHAELIS_MENTEN
@@ -256,8 +247,7 @@ class MichaelisMentenFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build MICHAELIS_MENTEN formula string.
+        """Build MICHAELIS_MENTEN formula string.
 
         Args:
             *args: substrate, vmax, km
@@ -284,8 +274,7 @@ class MichaelisMentenFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class DilutionFactorFormula(BaseFormula):
-    """
-    Calculate serial dilution factor.
+    """Calculate serial dilution factor.
 
     Implements:
         DILUTION_FACTOR formula for serial dilutions
@@ -298,8 +287,7 @@ class DilutionFactorFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for DILUTION_FACTOR
@@ -333,8 +321,7 @@ class DilutionFactorFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build DILUTION_FACTOR formula string.
+        """Build DILUTION_FACTOR formula string.
 
         Args:
             *args: dilution_ratio, num_steps

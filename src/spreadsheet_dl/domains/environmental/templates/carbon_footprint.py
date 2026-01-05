@@ -1,5 +1,4 @@
-"""
-Carbon Footprint Template.
+"""Carbon Footprint Template.
 
 Implements:
     CarbonFootprintTemplate for environmental domain
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class CarbonFootprintTemplate(BaseTemplate):
-    """
-    Carbon footprint tracking template.
+    """Carbon footprint tracking template.
 
     Implements:
         CarbonFootprintTemplate with emissions calculations
@@ -32,12 +30,12 @@ class CarbonFootprintTemplate(BaseTemplate):
     - Offset calculations
 
     Example:
-        >>> template = CarbonFootprintTemplate(
+        >>> template = CarbonFootprintTemplate(  # doctest: +SKIP
         ...     organization="Acme Corp",
         ...     reporting_year="2024",
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("carbon_footprint.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("carbon_footprint.ods")  # doctest: +SKIP
     """
 
     organization_name: str = "Organization"

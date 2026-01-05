@@ -1,5 +1,4 @@
-"""
-Environmental Domain Plugin for SpreadsheetDL.
+"""Environmental Domain Plugin for SpreadsheetDL.
 
 Implements:
     Environmental domain plugin
@@ -71,8 +70,7 @@ from spreadsheet_dl.domains.environmental.templates.water_quality_analysis impor
 
 
 class EnvironmentalDomainPlugin(BaseDomainPlugin):
-    """
-    Environmental domain plugin.
+    """Environmental domain plugin.
 
     Implements:
         Complete Environmental domain plugin
@@ -121,13 +119,12 @@ class EnvironmentalDomainPlugin(BaseDomainPlugin):
         >>> template_class = plugin.get_template("air_quality_monitoring")
         >>> template = template_class(station_name="Station A")
         >>> builder = template.generate()
-        >>> builder.save("air_quality.ods")
+        >>> path = builder.save("air_quality.ods")
     """
 
     @property
     def metadata(self) -> PluginMetadata:
-        """
-        Get plugin metadata.
+        """Get plugin metadata.
 
         Returns:
             PluginMetadata with environmental plugin information
@@ -153,8 +150,7 @@ class EnvironmentalDomainPlugin(BaseDomainPlugin):
         )
 
     def initialize(self) -> None:
-        """
-        Initialize plugin resources.
+        """Initialize plugin resources.
 
         Registers all templates, formulas, and importers.
 
@@ -201,8 +197,7 @@ class EnvironmentalDomainPlugin(BaseDomainPlugin):
         self.register_importer("satellite_data", SatelliteDataImporter)
 
     def cleanup(self) -> None:
-        """
-        Cleanup plugin resources.
+        """Cleanup plugin resources.
 
         No resources need explicit cleanup for this plugin.
 
@@ -213,8 +208,7 @@ class EnvironmentalDomainPlugin(BaseDomainPlugin):
         pass
 
     def validate(self) -> bool:
-        """
-        Validate plugin configuration.
+        """Validate plugin configuration.
 
         Returns:
             True if plugin has required templates and formulas registered

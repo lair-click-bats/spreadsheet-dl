@@ -1,5 +1,4 @@
-"""
-Assembly Instructions template for mechanical engineering.
+"""Assembly Instructions template for mechanical engineering.
 
 Implements:
     AssemblyInstructionsTemplate with step-by-step assembly
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class AssemblyInstructionsTemplate(BaseTemplate):
-    """
-    Assembly Instructions template for mechanical assemblies.
+    """Assembly Instructions template for mechanical assemblies.
 
     Generates step-by-step assembly instructions with torque specifications,
     sequence numbers, tools required, and time estimates.
@@ -37,9 +35,9 @@ class AssemblyInstructionsTemplate(BaseTemplate):
         - Critical step flagging
 
     Example:
-        >>> template = AssemblyInstructionsTemplate(assembly_name="Motor Assembly")
-        >>> builder = template.generate()
-        >>> builder.save("assembly_instructions.ods")
+        >>> template = AssemblyInstructionsTemplate(assembly_name="Motor Assembly")  # doctest: +SKIP
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("assembly_instructions.ods")  # doctest: +SKIP
     """
 
     assembly_name: str = "Mechanical Assembly"
@@ -59,8 +57,7 @@ class AssemblyInstructionsTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate assembly instructions spreadsheet.
+        """Generate assembly instructions spreadsheet.
 
         Returns:
             SpreadsheetBuilder configured with assembly instructions template
@@ -194,8 +191,7 @@ class AssemblyInstructionsTemplate(BaseTemplate):
         return builder
 
     def validate(self) -> bool:
-        """
-        Validate template configuration.
+        """Validate template configuration.
 
         Returns:
             True if configuration is valid

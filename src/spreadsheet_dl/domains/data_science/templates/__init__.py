@@ -1,5 +1,4 @@
-"""
-Data Science Templates for SpreadsheetDL.
+"""Data Science Templates for SpreadsheetDL.
 
 Implements:
     Data Science domain templates

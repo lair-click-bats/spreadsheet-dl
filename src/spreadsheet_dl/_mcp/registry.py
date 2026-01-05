@@ -1,5 +1,4 @@
-"""
-MCP tool registry.
+"""MCP tool registry.
 
 Part of the modular MCP server implementation.
 Provides decorator-based tool registration and discovery.
@@ -16,8 +15,7 @@ if TYPE_CHECKING:
 
 
 class MCPToolRegistry:
-    """
-    Registry for MCP tools with decorator-based registration.
+    """Registry for MCP tools with decorator-based registration.
 
     Implements:
         - MCPToolRegistry with decorator registration
@@ -30,9 +28,9 @@ class MCPToolRegistry:
         - Category-based organization
 
     Example:
-        >>> registry = MCPToolRegistry()
-        >>> @registry.tool("cell_get", "Get cell value")
-        >>> def get_cell(sheet: str, cell: str) -> str:
+        >>> registry = MCPToolRegistry()  # doctest: +SKIP
+        >>> @registry.tool("cell_get", "Get cell value")  # doctest: +SKIP
+        >>> def get_cell(sheet: str, cell: str) -> str:  # doctest: +SKIP
         ...     return "value"
     """
 
@@ -48,8 +46,7 @@ class MCPToolRegistry:
         category: str = "general",
         parameters: list[MCPToolParameter] | None = None,
     ) -> Callable[[Callable[..., MCPToolResult]], Callable[..., MCPToolResult]]:
-        """
-        Decorator to register a tool.
+        """Decorator to register a tool.
 
         Args:
             name: Tool name (unique identifier)
@@ -92,8 +89,7 @@ class MCPToolRegistry:
         parameters: list[MCPToolParameter] | None = None,
         category: str = "general",
     ) -> None:
-        """
-        Register a tool programmatically.
+        """Register a tool programmatically.
 
         Args:
             name: Tool name
@@ -132,8 +128,7 @@ class MCPToolRegistry:
         return list(self._categories.keys())
 
     def list_tools(self) -> list[dict[str, Any]]:
-        """
-        List all tools with metadata.
+        """List all tools with metadata.
 
         Returns:
             List of tool schemas

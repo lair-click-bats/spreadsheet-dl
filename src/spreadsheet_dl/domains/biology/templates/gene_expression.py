@@ -1,5 +1,4 @@
-"""
-Gene Expression Analysis Template for qPCR data.
+"""Gene Expression Analysis Template for qPCR data.
 
 Implements:
     GeneExpressionTemplate for biology domain
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class GeneExpressionTemplate(BaseTemplate):
-    """
-    Gene expression analysis template (qPCR).
+    """Gene expression analysis template (qPCR).
 
     Implements:
         GeneExpressionTemplate with fold change calculations
@@ -33,12 +31,12 @@ class GeneExpressionTemplate(BaseTemplate):
     - Normalized expression values
 
     Example:
-        >>> template = GeneExpressionTemplate(
+        >>> template = GeneExpressionTemplate(  # doctest: +SKIP
         ...     experiment_name="Stress Response",
         ...     num_genes=20,
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("gene_expression.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("gene_expression.ods")  # doctest: +SKIP
     """
 
     experiment_name: str = "Gene Expression Analysis"
@@ -49,8 +47,7 @@ class GeneExpressionTemplate(BaseTemplate):
 
     @property
     def metadata(self) -> TemplateMetadata:
-        """
-        Get template metadata.
+        """Get template metadata.
 
         Returns:
             TemplateMetadata for gene expression template
@@ -68,8 +65,7 @@ class GeneExpressionTemplate(BaseTemplate):
         )
 
     def validate(self) -> bool:
-        """
-        Validate template parameters.
+        """Validate template parameters.
 
         Returns:
             True if parameters are valid, False otherwise
@@ -77,8 +73,7 @@ class GeneExpressionTemplate(BaseTemplate):
         return self.num_genes > 0
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate the gene expression spreadsheet.
+        """Generate the gene expression spreadsheet.
 
         Returns:
             Configured SpreadsheetBuilder instance

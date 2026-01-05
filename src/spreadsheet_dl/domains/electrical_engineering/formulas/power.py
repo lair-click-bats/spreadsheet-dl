@@ -1,5 +1,4 @@
-"""
-Power calculation formulas for electrical engineering.
+"""Power calculation formulas for electrical engineering.
 
 Implements:
     Power formulas (POWER_DISSIPATION, VOLTAGE_DROP, CURRENT_CALC, THERMAL_RESISTANCE)
@@ -13,8 +12,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 
 class PowerDissipationFormula(BaseFormula):
-    """
-    Power dissipation formula: P = V * I.
+    """Power dissipation formula: P = V * I.
 
     Calculates power dissipation given voltage and current.
 
@@ -25,7 +23,6 @@ class PowerDissipationFormula(BaseFormula):
         >>> formula = PowerDissipationFormula()
         >>> formula.build("5", "0.1")
         '5*0.1'
-        # Result: 0.5 watts
     """
 
     @property
@@ -57,8 +54,7 @@ class PowerDissipationFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: voltage, current
@@ -72,8 +68,7 @@ class PowerDissipationFormula(BaseFormula):
 
 
 class VoltageDropFormula(BaseFormula):
-    """
-    Voltage drop formula: V = I * R * (length/1000).
+    """Voltage drop formula: V = I * R * (length/1000).
 
     Calculates voltage drop in a conductor given current, resistance, and length.
 
@@ -84,7 +79,6 @@ class VoltageDropFormula(BaseFormula):
         >>> formula = VoltageDropFormula()
         >>> formula.build("2", "0.05", "1000")
         '2*0.05*(1000/1000)'
-        # Result: 0.1 volts
     """
 
     @property
@@ -122,8 +116,7 @@ class VoltageDropFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: current, resistance, length
@@ -137,8 +130,7 @@ class VoltageDropFormula(BaseFormula):
 
 
 class CurrentCalcFormula(BaseFormula):
-    """
-    Current calculation formula: I = P / V.
+    """Current calculation formula: I = P / V.
 
     Calculates current given power and voltage.
 
@@ -149,7 +141,6 @@ class CurrentCalcFormula(BaseFormula):
         >>> formula = CurrentCalcFormula()
         >>> formula.build("10", "5")
         '10/5'
-        # Result: 2 amperes
     """
 
     @property
@@ -181,8 +172,7 @@ class CurrentCalcFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: power, voltage
@@ -196,8 +186,7 @@ class CurrentCalcFormula(BaseFormula):
 
 
 class ThermalResistanceFormula(BaseFormula):
-    """
-    Thermal resistance formula: θ = ΔT / P.
+    """Thermal resistance formula: θ = ΔT / P.
 
     Calculates thermal resistance given temperature rise and power.
 
@@ -208,7 +197,6 @@ class ThermalResistanceFormula(BaseFormula):
         >>> formula = ThermalResistanceFormula()
         >>> formula.build("50", "10")
         '50/10'
-        # Result: 5 °C/W
     """
 
     @property
@@ -240,8 +228,7 @@ class ThermalResistanceFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: temp_rise, power

@@ -1,5 +1,4 @@
-"""
-Schema validation utilities.
+"""Schema validation utilities.
 
 Implements:
     - Formula syntax validation
@@ -26,8 +25,7 @@ from spreadsheet_dl.schema.styles import (
 
 
 class SchemaValidationError(Exception):
-    """
-    Error raised when schema validation fails.
+    """Error raised when schema validation fails.
 
     Attributes:
         field: The field that failed validation
@@ -41,6 +39,7 @@ class SchemaValidationError(Exception):
         field: str | None = None,
         value: Any = None,
     ) -> None:
+        """Initialize the instance."""
         self.field = field
         self.message = message
         self.value = value
@@ -63,8 +62,7 @@ VERSION_PATTERN = re.compile(r"^\d+\.\d+\.\d+$")
 
 
 def validate_color(value: str | Color, field: str = "color") -> Color:
-    """
-    Validate and return a Color object.
+    """Validate and return a Color object.
 
     Args:
         value: Color value (hex string or Color)
@@ -102,8 +100,7 @@ def validate_color(value: str | Color, field: str = "color") -> Color:
 
 
 def validate_size(value: str, field: str = "size") -> str:
-    """
-    Validate a size value (e.g., "10pt", "2.5cm").
+    """Validate a size value (e.g., "10pt", "2.5cm").
 
     Args:
         value: Size string
@@ -135,8 +132,7 @@ def validate_size(value: str, field: str = "size") -> str:
 def validate_font_weight(
     value: str | FontWeight, field: str = "font_weight"
 ) -> FontWeight:
-    """
-    Validate and return a FontWeight.
+    """Validate and return a FontWeight.
 
     Args:
         value: Font weight value (numeric string like "700" or name like "bold")
@@ -167,7 +163,7 @@ def validate_font_weight(
     # Then try named values like "bold"
     try:
         return FontWeight.from_name(value)
-    except (ValueError, KeyError):
+    except (ValueError, KeyError) as e:
         valid_names = [
             "thin",
             "light",
@@ -179,16 +175,15 @@ def validate_font_weight(
             "black",
         ]
         valid_values = [w.value for w in FontWeight]
-        raise SchemaValidationError(  # noqa: B904
+        raise SchemaValidationError(
             f"must be one of: {', '.join(valid_names)} or numeric values: {', '.join(valid_values)}",
             field=field,
             value=value,
-        )
+        ) from e
 
 
 def validate_text_align(value: str | TextAlign, field: str = "text_align") -> TextAlign:
-    """
-    Validate and return a TextAlign.
+    """Validate and return a TextAlign.
 
     Args:
         value: Text alignment value
@@ -211,21 +206,20 @@ def validate_text_align(value: str | TextAlign, field: str = "text_align") -> Te
         )
     try:
         return TextAlign(value.lower())
-    except ValueError:
+    except ValueError as e:
         valid = [a.value for a in TextAlign]
-        raise SchemaValidationError(  # noqa: B904
+        raise SchemaValidationError(
             f"must be one of: {', '.join(valid)}",
             field=field,
             value=value,
-        )
+        ) from e
 
 
 def validate_vertical_align(
     value: str | VerticalAlign,
     field: str = "vertical_align",
 ) -> VerticalAlign:
-    """
-    Validate and return a VerticalAlign.
+    """Validate and return a VerticalAlign.
 
     Args:
         value: Vertical alignment value
@@ -248,21 +242,20 @@ def validate_vertical_align(
         )
     try:
         return VerticalAlign(value.lower())
-    except ValueError:
+    except ValueError as e:
         valid = [a.value for a in VerticalAlign]
-        raise SchemaValidationError(  # noqa: B904
+        raise SchemaValidationError(
             f"must be one of: {', '.join(valid)}",
             field=field,
             value=value,
-        )
+        ) from e
 
 
 def validate_border_style(
     value: str | BorderStyle,
     field: str = "border_style",
 ) -> BorderStyle:
-    """
-    Validate and return a BorderStyle.
+    """Validate and return a BorderStyle.
 
     Args:
         value: Border style value
@@ -285,18 +278,17 @@ def validate_border_style(
         )
     try:
         return BorderStyle(value.lower())
-    except ValueError:
+    except ValueError as e:
         valid = [s.value for s in BorderStyle]
-        raise SchemaValidationError(  # noqa: B904
+        raise SchemaValidationError(
             f"must be one of: {', '.join(valid)}",
             field=field,
             value=value,
-        )
+        ) from e
 
 
 def validate_style(style: StyleDefinition) -> list[str]:
-    """
-    Validate a style definition.
+    """Validate a style definition.
 
     Args:
         style: Style definition to validate
@@ -330,8 +322,7 @@ def validate_style(style: StyleDefinition) -> list[str]:
 
 
 def validate_theme(theme: Theme, strict: bool = False) -> list[str]:
-    """
-    Validate a complete theme.
+    """Validate a complete theme.
 
     Args:
         theme: Theme to validate
@@ -382,7 +373,7 @@ def validate_theme(theme: Theme, strict: bool = False) -> list[str]:
         try:
             theme.get_style(name)
         except ValueError as e:
-            raise SchemaValidationError(str(e))  # noqa: B904
+            raise SchemaValidationError(str(e)) from e
 
     if strict and warnings:
         raise SchemaValidationError(f"Validation warnings: {'; '.join(warnings)}")
@@ -391,8 +382,7 @@ def validate_theme(theme: Theme, strict: bool = False) -> list[str]:
 
 
 def validate_yaml_data(data: dict[str, Any]) -> list[str]:
-    """
-    Validate raw YAML data before parsing into theme.
+    """Validate raw YAML data before parsing into theme.
 
     Args:
         data: Raw YAML data dictionary
@@ -464,8 +454,7 @@ def validate_yaml_data(data: dict[str, Any]) -> list[str]:
 
 
 class FormulaValidationError(Exception):
-    """
-    Error raised when formula validation fails.
+    """Error raised when formula validation fails.
 
     Implements Formula syntax validation
 
@@ -481,6 +470,7 @@ class FormulaValidationError(Exception):
         formula: str | None = None,
         position: int | None = None,
     ) -> None:
+        """Initialize the instance."""
         self.formula = formula
         self.position = position
         self.message = message
@@ -497,8 +487,7 @@ class FormulaValidationError(Exception):
 
 @dataclass
 class FormulaValidationResult:
-    """
-    Result of formula validation.
+    """Result of formula validation.
 
     Attributes:
         is_valid: Whether the formula is valid
@@ -602,8 +591,7 @@ FUNCTION_PATTERN = re.compile(r"([A-Z]+)\s*\(")
 
 
 class FormulaValidator:
-    """
-    Validates ODF formula syntax.
+    """Validates ODF formula syntax.
 
     Implements Formula syntax validation
 
@@ -615,8 +603,7 @@ class FormulaValidator:
     """
 
     def __init__(self, strict: bool = False) -> None:
-        """
-        Initialize formula validator.
+        """Initialize formula validator.
 
         Args:
             strict: If True, treat warnings as errors
@@ -624,8 +611,7 @@ class FormulaValidator:
         self.strict = strict
 
     def validate(self, formula: str) -> FormulaValidationResult:
-        """
-        Validate a formula.
+        """Validate a formula.
 
         Args:
             formula: Formula string (with or without "of:=" prefix)
@@ -669,8 +655,7 @@ class FormulaValidator:
         return FormulaValidationResult(is_valid, errors, warnings)
 
     def _validate_parentheses(self, formula: str) -> str | None:
-        """
-        Validate parentheses matching.
+        """Validate parentheses matching.
 
         Args:
             formula: Formula body (without prefix)
@@ -715,8 +700,7 @@ class FormulaValidator:
         return None
 
     def _validate_functions(self, formula: str) -> tuple[list[str], list[str]]:
-        """
-        Validate function names.
+        """Validate function names.
 
         Args:
             formula: Formula body
@@ -737,8 +721,7 @@ class FormulaValidator:
         return errors, warnings
 
     def _validate_cell_references(self, formula: str) -> list[str]:
-        """
-        Validate cell references.
+        """Validate cell references.
 
         Args:
             formula: Formula body
@@ -774,8 +757,7 @@ class FormulaValidator:
         return warnings
 
     def _check_common_mistakes(self, formula: str) -> list[str]:
-        """
-        Check for common formula mistakes.
+        """Check for common formula mistakes.
 
         Args:
             formula: Formula body

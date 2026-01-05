@@ -1,5 +1,4 @@
-"""
-Experiment Protocol Template for lab experiments.
+"""Experiment Protocol Template for lab experiments.
 
 Implements:
     ExperimentProtocolTemplate for biology domain
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class ExperimentProtocolTemplate(BaseTemplate):
-    """
-    Lab experiment protocol template.
+    """Lab experiment protocol template.
 
     Implements:
         ExperimentProtocolTemplate with materials and procedures
@@ -33,12 +31,12 @@ class ExperimentProtocolTemplate(BaseTemplate):
     - Notes and observations tracking
 
     Example:
-        >>> template = ExperimentProtocolTemplate(
+        >>> template = ExperimentProtocolTemplate(  # doctest: +SKIP
         ...     protocol_name="PCR Amplification",
         ...     purpose="Amplify target gene for sequencing",
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("protocol.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("protocol.ods")  # doctest: +SKIP
     """
 
     protocol_name: str = "Lab Experiment Protocol"
@@ -51,8 +49,7 @@ class ExperimentProtocolTemplate(BaseTemplate):
 
     @property
     def metadata(self) -> TemplateMetadata:
-        """
-        Get template metadata.
+        """Get template metadata.
 
         Returns:
             TemplateMetadata for experiment protocol template
@@ -70,8 +67,7 @@ class ExperimentProtocolTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate the experiment protocol spreadsheet.
+        """Generate the experiment protocol spreadsheet.
 
         Returns:
             Configured SpreadsheetBuilder instance

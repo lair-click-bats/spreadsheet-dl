@@ -1,5 +1,4 @@
-"""
-Streaming I/O for large spreadsheet files.
+"""Streaming I/O for large spreadsheet files.
 
 Provides row-by-row reading and chunk-by-chunk writing to handle
 spreadsheets with 100k+ rows without excessive memory usage.
@@ -30,8 +29,7 @@ ODF_NS = {
 
 @dataclass
 class StreamingCell:
-    """
-    Lightweight cell representation for streaming.
+    """Lightweight cell representation for streaming.
 
     Memory-efficient cell structure for streaming I/O.
 
@@ -54,8 +52,7 @@ class StreamingCell:
 
 @dataclass
 class StreamingRow:
-    """
-    Lightweight row representation for streaming.
+    """Lightweight row representation for streaming.
 
     Memory-efficient row structure for streaming I/O.
 
@@ -79,8 +76,7 @@ class StreamingRow:
 
 
 class StreamingReader:
-    """
-    Stream-based ODS file reader for large files.
+    """Stream-based ODS file reader for large files.
 
     Reads ODS files row-by-row without loading the entire file into memory.
     Supports files with 100k+ rows efficiently.
@@ -102,8 +98,7 @@ class StreamingReader:
     """
 
     def __init__(self, file_path: Path | str) -> None:
-        """
-        Initialize streaming reader.
+        """Initialize streaming reader.
 
         Args:
             file_path: Path to ODS file
@@ -142,8 +137,7 @@ class StreamingReader:
         self._sheet_cache.clear()
 
     def sheet_names(self) -> list[str]:
-        """
-        Get list of sheet names.
+        """Get list of sheet names.
 
         Returns:
             List of sheet names in the document
@@ -159,8 +153,7 @@ class StreamingReader:
         return names
 
     def row_count(self, sheet_name: str) -> int:
-        """
-        Get row count for a sheet without loading all rows.
+        """Get row count for a sheet without loading all rows.
 
         Args:
             sheet_name: Name of the sheet
@@ -178,8 +171,7 @@ class StreamingReader:
         return count
 
     def column_count(self, sheet_name: str) -> int:
-        """
-        Get column count for a sheet.
+        """Get column count for a sheet.
 
         Args:
             sheet_name: Name of the sheet
@@ -202,8 +194,7 @@ class StreamingReader:
         start_row: int = 0,
         limit: int | None = None,
     ) -> Iterator[StreamingRow]:
-        """
-        Iterate over rows in a sheet.
+        """Iterate over rows in a sheet.
 
         Row-by-row iteration for memory efficiency.
 
@@ -302,8 +293,7 @@ class StreamingReader:
 
 
 class StreamingWriter:
-    """
-    Stream-based ODS file writer for large files.
+    """Stream-based ODS file writer for large files.
 
     Writes ODS files chunk-by-chunk without holding the entire spreadsheet
     in memory. Supports generating files with 100k+ rows efficiently.
@@ -335,8 +325,7 @@ class StreamingWriter:
         file_path: Path | str,
         chunk_size: int = CHUNK_SIZE,
     ) -> None:
-        """
-        Initialize streaming writer.
+        """Initialize streaming writer.
 
         Args:
             file_path: Path for output ODS file
@@ -362,8 +351,7 @@ class StreamingWriter:
         name: str,
         columns: list[str] | None = None,
     ) -> StreamingWriter:
-        """
-        Start a new sheet.
+        """Start a new sheet.
 
         Args:
             name: Sheet name
@@ -396,8 +384,7 @@ class StreamingWriter:
         return self
 
     def end_sheet(self) -> StreamingWriter:
-        """
-        End the current sheet.
+        """End the current sheet.
 
         Returns:
             Self for chaining
@@ -411,8 +398,7 @@ class StreamingWriter:
         return self
 
     def write_row(self, row: StreamingRow | list[Any]) -> StreamingWriter:
-        """
-        Write a single row.
+        """Write a single row.
 
         Args:
             row: StreamingRow or list of cell values
@@ -439,8 +425,7 @@ class StreamingWriter:
         return self
 
     def write_rows(self, rows: list[StreamingRow] | list[list[Any]]) -> StreamingWriter:
-        """
-        Write multiple rows.
+        """Write multiple rows.
 
         Args:
             rows: List of StreamingRows or lists of cell values
@@ -462,8 +447,7 @@ class StreamingWriter:
         self._buffer = []
 
     def close(self) -> Path:
-        """
-        Finalize and save the ODS file.
+        """Finalize and save the ODS file.
 
         Returns:
             Path to the created file
@@ -543,8 +527,7 @@ class StreamingWriter:
 
 
 def stream_read(file_path: Path | str) -> StreamingReader:
-    """
-    Create a streaming reader for an ODS file.
+    """Create a streaming reader for an ODS file.
 
     Convenience function for StreamingReader.
 
@@ -558,8 +541,7 @@ def stream_read(file_path: Path | str) -> StreamingReader:
 
 
 def stream_write(file_path: Path | str, chunk_size: int = 1000) -> StreamingWriter:
-    """
-    Create a streaming writer for an ODS file.
+    """Create a streaming writer for an ODS file.
 
     Convenience function for StreamingWriter.
 

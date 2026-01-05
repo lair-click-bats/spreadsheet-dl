@@ -1,5 +1,4 @@
-"""
-Biology domain templates.
+"""Biology domain templates.
 
 Implements:
     Biology template implementations

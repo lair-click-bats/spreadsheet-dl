@@ -1,5 +1,4 @@
-"""
-Biology Domain Plugin for SpreadsheetDL.
+"""Biology Domain Plugin for SpreadsheetDL.
 
 Implements:
     Biology domain plugin
@@ -60,8 +59,7 @@ from spreadsheet_dl.domains.biology.templates.sequencing_results import (
 
 
 class BiologyDomainPlugin(BaseDomainPlugin):
-    """
-    Biology domain plugin.
+    """Biology domain plugin.
 
     Implements:
         Complete Biology domain plugin
@@ -107,13 +105,12 @@ class BiologyDomainPlugin(BaseDomainPlugin):
         >>> template_class = plugin.get_template("experiment_protocol")
         >>> template = template_class()
         >>> builder = template.generate()
-        >>> builder.save("protocol.ods")
+        >>> path = builder.save("protocol.ods")
     """
 
     @property
     def metadata(self) -> PluginMetadata:
-        """
-        Get plugin metadata.
+        """Get plugin metadata.
 
         Returns:
             PluginMetadata with biology plugin information
@@ -135,8 +132,7 @@ class BiologyDomainPlugin(BaseDomainPlugin):
         )
 
     def initialize(self) -> None:
-        """
-        Initialize plugin resources.
+        """Initialize plugin resources.
 
         Registers all templates, formulas, and importers.
 
@@ -177,8 +173,7 @@ class BiologyDomainPlugin(BaseDomainPlugin):
         self.register_importer("genbank", GenBankImporter)
 
     def cleanup(self) -> None:
-        """
-        Cleanup plugin resources.
+        """Cleanup plugin resources.
 
         No resources need explicit cleanup for this plugin.
 
@@ -189,8 +184,7 @@ class BiologyDomainPlugin(BaseDomainPlugin):
         pass
 
     def validate(self) -> bool:
-        """
-        Validate plugin configuration.
+        """Validate plugin configuration.
 
         Returns:
             True if plugin has required templates and formulas registered

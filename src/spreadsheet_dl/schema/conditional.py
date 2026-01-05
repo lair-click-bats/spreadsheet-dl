@@ -1,5 +1,4 @@
-"""
-Conditional formatting rules and configuration.
+"""Conditional formatting rules and configuration.
 
 Implements:
     - FR-COND-001: Cell Value Rules
@@ -138,8 +137,7 @@ class ValueType(Enum):
 
 @dataclass(frozen=True)
 class ColorScalePoint:
-    """
-    A point on a color scale.
+    """A point on a color scale.
 
     Implements Missing frozen=True on value objects
     """
@@ -162,8 +160,7 @@ class ColorScalePoint:
 
 @dataclass(frozen=True)
 class ColorScale:
-    """
-    Color scale configuration for gradient-style conditional formatting.
+    """Color scale configuration for gradient-style conditional formatting.
 
     Implements FR-COND-003: Color Scales
     Implements Missing frozen=True on value objects
@@ -288,8 +285,7 @@ class ColorScale:
 
 @dataclass(frozen=True)
 class DataBar:
-    """
-    Data bar configuration for bar-style conditional formatting.
+    """Data bar configuration for bar-style conditional formatting.
 
     Implements FR-COND-004: Data Bars
     Implements Missing frozen=True on value objects
@@ -378,8 +374,7 @@ class DataBar:
 
 @dataclass(frozen=True)
 class IconSetThreshold:
-    """
-    A threshold for icon set rules.
+    """A threshold for icon set rules.
 
     Implements Missing frozen=True on value objects
     """
@@ -392,8 +387,7 @@ class IconSetThreshold:
 
 @dataclass(frozen=True)
 class IconSet:
-    """
-    Icon set configuration.
+    """Icon set configuration.
 
     Implements FR-COND-005: Icon Sets
     Implements Missing frozen=True on value objects
@@ -486,8 +480,7 @@ class IconSet:
 
 @dataclass
 class ConditionalRule:
-    """
-    Base conditional formatting rule.
+    """Base conditional formatting rule.
 
     Implements:
         - FR-COND-001: Cell Value Rules
@@ -759,8 +752,7 @@ class ConditionalRule:
 
 @dataclass
 class ConditionalFormat:
-    """
-    Conditional formatting configuration for a range.
+    """Conditional formatting configuration for a range.
 
     Combines a range reference with one or more conditional rules.
 
@@ -824,8 +816,7 @@ class ConditionalFormat:
 
 
 class FinancialFormats:
-    """
-    Pre-configured conditional formats for financial use cases.
+    """Pre-configured conditional formats for financial use cases.
 
     Provides ready-to-use conditional formatting rules for common
     financial scenarios.
@@ -838,8 +829,7 @@ class FinancialFormats:
         warning_style: CellStyle | str = "warning",
         success_style: CellStyle | str = "success",
     ) -> ConditionalFormat:
-        """
-        Create budget variance formatting (remaining budget column).
+        """Create budget variance formatting (remaining budget column).
 
         - Negative: Red (over budget)
         - 0-10% of budget: Yellow (near limit)
@@ -871,8 +861,7 @@ class FinancialFormats:
 
     @staticmethod
     def percent_used_scale(range_ref: str) -> ConditionalFormat:
-        """
-        Create percentage used color scale (0-100%+).
+        """Create percentage used color scale (0-100%+).
 
         Green at 0%, yellow at 50%, red at 100%.
         """
@@ -922,8 +911,7 @@ class FinancialFormats:
         overdue_style: CellStyle | str = "danger",
         due_soon_style: CellStyle | str = "warning",
     ) -> ConditionalFormat:
-        """
-        Create due date alert formatting.
+        """Create due date alert formatting.
 
         - Overdue (past dates): Red
         - Due within 7 days: Yellow
@@ -950,8 +938,7 @@ class FinancialFormats:
         positive_style: CellStyle | str = "success",
         negative_style: CellStyle | str = "danger",
     ) -> ConditionalFormat:
-        """
-        Simple positive/negative value formatting.
+        """Simple positive/negative value formatting.
 
         Positive: Green, Negative: Red
         """

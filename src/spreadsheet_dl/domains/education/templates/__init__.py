@@ -1,5 +1,4 @@
-"""
-Education domain templates.
+"""Education domain templates.
 
 Implements:
     Education domain templates

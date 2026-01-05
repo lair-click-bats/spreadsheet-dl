@@ -1,5 +1,4 @@
-"""
-Thermal formulas for mechanical engineering.
+"""Thermal formulas for mechanical engineering.
 
 Implements:
     Thermal formulas (THERMAL_EXPANSION, THERMAL_STRESS)
@@ -15,8 +14,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 @dataclass(slots=True, frozen=True)
 class ThermalExpansionFormula(BaseFormula):
-    """
-    Thermal Expansion formula: DeltaL = alpha * L * DeltaT.
+    """Thermal Expansion formula: DeltaL = alpha * L * DeltaT.
 
     Calculates linear thermal expansion given coefficient of thermal expansion,
     original length, and temperature change.
@@ -28,7 +26,6 @@ class ThermalExpansionFormula(BaseFormula):
         >>> formula = ThermalExpansionFormula()
         >>> formula.build("11.7e-6", "1000", "100")
         '11.7e-6*1000*100'
-        # Result: 1.17 mm expansion
     """
 
     @property
@@ -66,8 +63,7 @@ class ThermalExpansionFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: cte, length, temp_change
@@ -82,8 +78,7 @@ class ThermalExpansionFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class ThermalStressFormula(BaseFormula):
-    """
-    Thermal Stress formula: sigma = E * alpha * DeltaT.
+    """Thermal Stress formula: sigma = E * alpha * DeltaT.
 
     Calculates thermal stress in a constrained member given Young's modulus,
     coefficient of thermal expansion, and temperature change.
@@ -95,7 +90,6 @@ class ThermalStressFormula(BaseFormula):
         >>> formula = ThermalStressFormula()
         >>> formula.build("200000", "11.7e-6", "100")
         '200000*11.7e-6*100'
-        # Result: 234 MPa
     """
 
     @property
@@ -133,8 +127,7 @@ class ThermalStressFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: youngs_modulus, cte, temp_change

@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-File Location Validation Script for Claude Code PostToolUse Hook
+"""File Location Validation Script for Claude Code PostToolUse Hook
 
 Detects when intermediate/analysis files are created in project directories
 instead of .coordination/ and provides guidance to move them.
@@ -114,8 +113,7 @@ def is_in_protected_dir(filepath: Path, project_dir: Path) -> bool:
 def validate_write_location(
     input_data: dict[str, Any], project_dir: Path
 ) -> tuple[bool, str]:
-    """
-    Validate if a Write tool is creating a file in an appropriate location.
+    """Validate if a Write tool is creating a file in an appropriate location.
 
     Returns:
         (is_valid, warning_message)

@@ -1,5 +1,4 @@
-"""
-Electrical Engineering Domain Plugin for SpreadsheetDL.
+"""Electrical Engineering Domain Plugin for SpreadsheetDL.
 
 Implements:
     Electrical Engineering domain plugin
@@ -28,7 +27,7 @@ Example:
     >>> # Use template directly
     >>> bom = BOMTemplate(project_name="Widget Rev A")
     >>> builder = bom.generate()
-    >>> builder.save("widget_bom.ods")
+    >>> path = builder.save("widget_bom.ods")
 """
 
 # Plugin
@@ -79,40 +78,34 @@ from spreadsheet_dl.domains.electrical_engineering.templates.pin_mapping import 
 from spreadsheet_dl.domains.electrical_engineering.templates.power_budget import (
     PowerBudgetTemplate,
 )
+from spreadsheet_dl.domains.electrical_engineering.templates.procedure_template import (
+    ProcedureTemplate,
+)
 from spreadsheet_dl.domains.electrical_engineering.templates.signal_routing import (
     SignalRoutingTemplate,
 )
-from spreadsheet_dl.domains.electrical_engineering.templates.test_procedure import (
-    TestProcedureTemplate,
-)
 
 __all__ = [
-    # Templates
     "BOMTemplate",
     "BandwidthFormula",
     "CapacitanceFormula",
     "CurrentCalcFormula",
     "EagleBOMImporter",
-    # Plugin
     "ElectricalEngineeringDomainPlugin",
     "GenericComponentCSVImporter",
     "InductanceFormula",
-    # Importers
     "KiCadBOMImporter",
     "KiCadComponent",
-    # Impedance Formulas
     "ParallelResistanceFormula",
     "PinMappingTemplate",
     "PowerBudgetTemplate",
-    # Power Formulas
     "PowerDissipationFormula",
+    "ProcedureTemplate",
     "PropagationDelayFormula",
     "RiseTimeFormula",
     "SeriesResistanceFormula",
     "SignalRoutingTemplate",
-    # Signal Formulas
     "SignalToNoiseRatioFormula",
-    "TestProcedureTemplate",
     "ThermalResistanceFormula",
     "VoltageDropFormula",
 ]

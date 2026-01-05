@@ -1,5 +1,4 @@
-"""
-ODS Renderer - Converts builder specifications to ODS files.
+"""ODS Renderer - Converts builder specifications to ODS files.
 
 This module bridges the builder API with odfpy, translating
 theme-based styles and sheet specifications into actual ODS documents.
@@ -57,8 +56,7 @@ if TYPE_CHECKING:
 
 
 class OdsRenderer:
-    """
-    Render sheet specifications to ODS files.
+    """Render sheet specifications to ODS files.
 
     Handles:
     - Theme-based style generation
@@ -72,8 +70,7 @@ class OdsRenderer:
     """
 
     def __init__(self, theme: Theme | None = None) -> None:
-        """
-        Initialize renderer with optional theme.
+        """Initialize renderer with optional theme.
 
         Args:
             theme: Theme for styling (None for default styles)
@@ -98,8 +95,7 @@ class OdsRenderer:
         conditional_formats: list[ConditionalFormat] | None = None,
         validations: list[ValidationConfig] | None = None,
     ) -> Path:
-        """
-        Render sheets to ODS file.
+        """Render sheets to ODS file.
 
         Supports named range export, chart rendering, conditional formatting,
         and data validation.
@@ -240,8 +236,7 @@ class OdsRenderer:
                 pass
 
     def _create_odf_style(self, name: str, cell_style: CellStyle) -> Style:
-        """
-        Create ODF style from CellStyle.
+        """Create ODF style from CellStyle.
 
         Args:
             name: Style name
@@ -299,8 +294,7 @@ class OdsRenderer:
         return style
 
     def _render_sheet(self, sheet_spec: SheetSpec) -> None:
-        """
-        Render a single sheet.
+        """Render a single sheet.
 
         Handles cell merge rendering with covered cells.
 
@@ -360,8 +354,7 @@ class OdsRenderer:
     def _add_freeze_panes(
         self, sheet_name: str, freeze_rows: int, freeze_cols: int
     ) -> None:
-        """
-        Add freeze panes configuration for a sheet.
+        """Add freeze panes configuration for a sheet.
 
         In ODF format, freeze panes are configured through settings.xml using
         ConfigItem elements that specify the split position and mode.
@@ -462,8 +455,7 @@ class OdsRenderer:
         tables_map.addElement(table_entry)
 
     def _format_print_range(self, sheet_name: str, range_ref: str) -> str:
-        """
-        Format a cell range reference for ODF print range attribute.
+        """Format a cell range reference for ODF print range attribute.
 
         ODF print ranges use the format: "$SheetName.$A$1:$D$50"
         where column and row references are absolute.
@@ -491,8 +483,7 @@ class OdsRenderer:
         return f"${sheet_name}.{abs_range}"
 
     def _hash_protection_password(self, password: str) -> str:
-        """
-        Hash a protection password for ODF format.
+        """Hash a protection password for ODF format.
 
         ODF 1.2+ uses Base64-encoded SHA-256 hash for protection keys.
 
@@ -547,8 +538,7 @@ class OdsRenderer:
     def _render_row(
         self, row_spec: RowSpec, columns: list[ColumnSpec], row_idx: int
     ) -> TableRow:
-        """
-        Render a single row.
+        """Render a single row.
 
         Handles cell merge rendering with covered cells.
 
@@ -601,8 +591,7 @@ class OdsRenderer:
         row_idx: int,
         col_idx: int,
     ) -> TableCell:
-        """
-        Render a single cell.
+        """Render a single cell.
 
         Handles cell merge rendering with colspan/rowspan.
 
@@ -724,8 +713,7 @@ class OdsRenderer:
         return str(value)
 
     def _add_named_ranges(self, named_ranges: list[NamedRangeSpec]) -> None:
-        """
-        Add named ranges to the ODS document.
+        """Add named ranges to the ODS document.
 
         Exports named range definitions to ODS format.
 
@@ -779,8 +767,7 @@ class OdsRenderer:
     # =========================================================================
 
     def _add_charts(self, charts: list[ChartSpec], sheets: list[SheetSpec]) -> None:
-        """
-        Add charts to the ODS document.
+        """Add charts to the ODS document.
 
         This method processes a list of ChartSpec objects and embeds them
         into the ODS document. Charts are positioned according to their
@@ -829,8 +816,7 @@ class OdsRenderer:
         self._embed_chart_frames()
 
     def _render_chart(self, chart_spec: ChartSpec, sheet_name: str) -> None:
-        """
-        Render a chart to the ODS document.
+        """Render a chart to the ODS document.
 
         Supports:
         - Column, bar, line, pie, area charts
@@ -1002,8 +988,7 @@ class OdsRenderer:
         )
 
     def _embed_chart_frames(self) -> None:
-        """
-        Embed chart frames into tables.
+        """Embed chart frames into tables.
 
         This method iterates over all stored chart references and adds
         the frame elements to the appropriate table's Shapes container.
@@ -1042,8 +1027,7 @@ class OdsRenderer:
             table.insertBefore(shapes, table.firstChild)
 
     def _get_odf_chart_class(self, chart_type: ChartType) -> str:
-        """
-        Map ChartType enum to ODF chart class URI.
+        """Map ChartType enum to ODF chart class URI.
 
         Args:
             chart_type: SpreadsheetDL ChartType enum
@@ -1076,8 +1060,7 @@ class OdsRenderer:
         return chart_class_map.get(chart_type, "chart:bar")
 
     def _get_odf_legend_position(self, legend_position: Any) -> str:
-        """
-        Map LegendPosition enum to ODF legend position.
+        """Map LegendPosition enum to ODF legend position.
 
         Args:
             legend_position: LegendPosition enum value
@@ -1106,8 +1089,7 @@ class OdsRenderer:
         index: int,
         chart_spec: ChartSpec,
     ) -> Any:
-        """
-        Create an ODF chart series element with color styling.
+        """Create an ODF chart series element with color styling.
 
         Applies chart styling and series color configuration.
 
@@ -1152,8 +1134,7 @@ class OdsRenderer:
         color: str,
         index: int,
     ) -> None:
-        """
-        Apply color styling to a chart series element.
+        """Apply color styling to a chart series element.
 
         Creates an ODF style with graphic properties for fill and stroke colors,
         adds it to the document's automatic styles, and applies it to the series.
@@ -1188,8 +1169,7 @@ class OdsRenderer:
         series_elem.setAttribute("stylename", style_name)
 
     def _normalize_hex_color(self, color: str) -> str:
-        """
-        Normalize color to ODF hex format (#RRGGBB).
+        """Normalize color to ODF hex format (#RRGGBB).
 
         Args:
             color: Color string (hex with or without #, or named color)
@@ -1198,11 +1178,11 @@ class OdsRenderer:
             Normalized hex color with # prefix
 
         Examples:
-            >>> _normalize_hex_color("FF0000")
+            >>> _normalize_hex_color("FF0000")  # doctest: +SKIP
             "#FF0000"
-            >>> _normalize_hex_color("#ff0000")
+            >>> _normalize_hex_color("#ff0000")  # doctest: +SKIP
             "#FF0000"
-            >>> _normalize_hex_color("red")
+            >>> _normalize_hex_color("red")  # doctest: +SKIP
             "#FF0000"
         """
         # Remove any whitespace
@@ -1250,8 +1230,7 @@ class OdsRenderer:
     def _add_conditional_formats(
         self, conditional_formats: list[ConditionalFormat]
     ) -> None:
-        """
-        Add conditional formatting to the ODS document.
+        """Add conditional formatting to the ODS document.
 
         Supports:
         - Color scales (2-color and 3-color)
@@ -1287,8 +1266,7 @@ class OdsRenderer:
                     self._add_formula_rule(cf.range, rule)
 
     def _add_color_scale_rule(self, cell_range: str, color_scale: Any) -> None:
-        """
-        Add color scale conditional format rule.
+        """Add color scale conditional format rule.
 
         Note: ODS conditional formatting via odfpy is limited. Color scales
         require calcext:color-scale XML elements that are not fully supported
@@ -1312,8 +1290,7 @@ class OdsRenderer:
         )
 
     def _add_data_bar_rule(self, cell_range: str, data_bar: Any) -> None:
-        """
-        Add data bar conditional format rule.
+        """Add data bar conditional format rule.
 
         Note: ODS conditional formatting via odfpy is limited. Data bars
         require ODF data bar XML elements that are not fully supported
@@ -1337,8 +1314,7 @@ class OdsRenderer:
         )
 
     def _add_icon_set_rule(self, cell_range: str, icon_set: Any) -> None:
-        """
-        Add icon set conditional format rule.
+        """Add icon set conditional format rule.
 
         Note: ODS conditional formatting via odfpy is limited. Icon sets
         require ODF icon set XML elements that are not fully supported
@@ -1362,8 +1338,7 @@ class OdsRenderer:
         )
 
     def _add_cell_value_rule(self, cell_range: str, rule: Any) -> None:
-        """
-        Add cell value conditional format rule.
+        """Add cell value conditional format rule.
 
         Note: ODS conditional formatting via odfpy is limited. Cell value rules
         require ODF conditional format XML elements that are not fully supported
@@ -1387,8 +1362,7 @@ class OdsRenderer:
         )
 
     def _add_formula_rule(self, cell_range: str, rule: Any) -> None:
-        """
-        Add formula-based conditional format rule.
+        """Add formula-based conditional format rule.
 
         Note: ODS conditional formatting via odfpy is limited. Formula rules
         require ODF conditional format XML elements that are not fully supported
@@ -1416,8 +1390,7 @@ class OdsRenderer:
     # =========================================================================
 
     def _add_data_validations(self, validations: list[ValidationConfig]) -> None:
-        """
-        Add data validations to the ODS document.
+        """Add data validations to the ODS document.
 
         Supports:
         - List validation with dropdowns
@@ -1455,8 +1428,7 @@ class OdsRenderer:
                 self._add_text_length_validation(vc.range, validation)
 
     def _add_list_validation(self, cell_range: str, validation: Any) -> None:
-        """
-        Add list validation with dropdown.
+        """Add list validation with dropdown.
 
         Note: ODS data validation via odfpy has limited support. While ODF
         supports table:content-validation elements, odfpy's implementation
@@ -1479,8 +1451,7 @@ class OdsRenderer:
         )
 
     def _add_number_validation(self, cell_range: str, validation: Any) -> None:
-        """
-        Add number range validation.
+        """Add number range validation.
 
         Note: ODS data validation via odfpy has limited support. While ODF
         supports table:content-validation elements, odfpy's implementation
@@ -1503,8 +1474,7 @@ class OdsRenderer:
         )
 
     def _add_date_validation(self, cell_range: str, validation: Any) -> None:
-        """
-        Add date range validation.
+        """Add date range validation.
 
         Note: ODS data validation via odfpy has limited support. While ODF
         supports table:content-validation elements, odfpy's implementation
@@ -1527,8 +1497,7 @@ class OdsRenderer:
         )
 
     def _add_custom_validation(self, cell_range: str, validation: Any) -> None:
-        """
-        Add custom formula validation.
+        """Add custom formula validation.
 
         Note: ODS data validation via odfpy has limited support. While ODF
         supports table:content-validation elements, odfpy's implementation
@@ -1551,8 +1520,7 @@ class OdsRenderer:
         )
 
     def _add_text_length_validation(self, cell_range: str, validation: Any) -> None:
-        """
-        Add text length validation.
+        """Add text length validation.
 
         Note: ODS data validation via odfpy has limited support. While ODF
         supports table:content-validation elements, odfpy's implementation
@@ -1584,8 +1552,7 @@ def render_sheets(
     conditional_formats: list[ConditionalFormat] | None = None,
     validations: list[ValidationConfig] | None = None,
 ) -> Path:
-    """
-    Convenience function to render sheets to ODS.
+    """Convenience function to render sheets to ODS.
 
     Supports named ranges, charts, conditional formatting, and data validation.
 

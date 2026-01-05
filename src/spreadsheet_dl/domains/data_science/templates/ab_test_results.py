@@ -1,5 +1,4 @@
-"""
-A/B Test Results Template for hypothesis testing.
+"""A/B Test Results Template for hypothesis testing.
 
 Implements:
     ABTestResultsTemplate for data science domain
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class ABTestResultsTemplate(BaseTemplate):
-    """
-    A/B test results and analysis template.
+    """A/B test results and analysis template.
 
     Implements:
         ABTestResultsTemplate with statistical significance testing
@@ -36,13 +34,13 @@ class ABTestResultsTemplate(BaseTemplate):
     - Winner declaration based on significance
 
     Example:
-        >>> template = ABTestResultsTemplate(
+        >>> template = ABTestResultsTemplate(  # doctest: +SKIP
         ...     test_name="Homepage CTA Test",
         ...     variants=["Control", "Variant A", "Variant B"],
         ...     confidence_level=0.95,
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("ab_test_results.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("ab_test_results.ods")  # doctest: +SKIP
     """
 
     test_name: str = "A/B Test"
@@ -58,8 +56,7 @@ class ABTestResultsTemplate(BaseTemplate):
 
     @property
     def metadata(self) -> TemplateMetadata:
-        """
-        Get template metadata.
+        """Get template metadata.
 
         Returns:
             TemplateMetadata for A/B test results template
@@ -77,8 +74,7 @@ class ABTestResultsTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate the A/B test results spreadsheet.
+        """Generate the A/B test results spreadsheet.
 
         Returns:
             Configured SpreadsheetBuilder instance

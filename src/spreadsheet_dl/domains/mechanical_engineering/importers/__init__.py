@@ -1,5 +1,4 @@
-"""
-Importers for mechanical engineering domain.
+"""Importers for mechanical engineering domain.
 
 Implements:
     Mechanical engineering importer modules

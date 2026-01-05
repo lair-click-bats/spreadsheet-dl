@@ -1,5 +1,4 @@
-"""
-Structural analysis template for member forces and reactions.
+"""Structural analysis template for member forces and reactions.
 
 Implements:
     StructuralAnalysisTemplate with force and stress calculations
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class StructuralAnalysisTemplate(BaseTemplate):
-    """
-    Structural analysis template for forces, reactions, and deflections.
+    """Structural analysis template for forces, reactions, and deflections.
 
     Implements:
         StructuralAnalysisTemplate requirements
@@ -33,12 +31,12 @@ class StructuralAnalysisTemplate(BaseTemplate):
         - Conditional formatting for overstressed members
 
     Example:
-        >>> template = StructuralAnalysisTemplate(
+        >>> template = StructuralAnalysisTemplate(  # doctest: +SKIP
         ...     project_name="Truss Bridge",
         ...     num_members=50
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("structural_analysis.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("structural_analysis.ods")  # doctest: +SKIP
     """
 
     project_name: str = "Structural System"
@@ -58,8 +56,7 @@ class StructuralAnalysisTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate structural analysis spreadsheet.
+        """Generate structural analysis spreadsheet.
 
         Returns:
             SpreadsheetBuilder configured with structural analysis template

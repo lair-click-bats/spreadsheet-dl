@@ -1,5 +1,4 @@
-"""
-Builder package - Fluent API for spreadsheet construction.
+"""Builder package - Fluent API for spreadsheet construction.
 
 Modular structure:
     - exceptions.py: Builder-specific exceptions

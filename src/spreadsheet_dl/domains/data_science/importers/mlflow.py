@@ -1,5 +1,4 @@
-"""
-MLflow experiment data importer.
+"""MLflow experiment data importer.
 
 Implements:
     MLflowImporter for data science domain
@@ -15,8 +14,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 
 class MLflowImporter(BaseImporter[list[dict[str, Any]]]):
-    """
-    MLflow experiment data importer.
+    """MLflow experiment data importer.
 
     Implements:
         MLflowImporter for ML experiment tracking
@@ -33,9 +31,9 @@ class MLflowImporter(BaseImporter[list[dict[str, Any]]]):
     - MLflow runs export
 
     Example:
-        >>> importer = MLflowImporter()
-        >>> result = importer.import_data("mlflow_runs.json")
-        >>> if result.success:
+        >>> importer = MLflowImporter()  # doctest: +SKIP
+        >>> result = importer.import_data("mlflow_runs.json")  # doctest: +SKIP
+        >>> if result.success:  # doctest: +SKIP
         ...     for run in result.data:
         ...         print(f"Run {run['run_id']}: {run['metrics']}")
     """
@@ -46,8 +44,7 @@ class MLflowImporter(BaseImporter[list[dict[str, Any]]]):
 
     @property
     def metadata(self) -> ImporterMetadata:
-        """
-        Get importer metadata.
+        """Get importer metadata.
 
         Returns:
             ImporterMetadata for MLflow importer
@@ -63,8 +60,7 @@ class MLflowImporter(BaseImporter[list[dict[str, Any]]]):
         )
 
     def validate_source(self, source: Path | str) -> bool:
-        """
-        Validate MLflow JSON source file.
+        """Validate MLflow JSON source file.
 
         Args:
             source: Path to JSON file
@@ -79,8 +75,7 @@ class MLflowImporter(BaseImporter[list[dict[str, Any]]]):
         return path.exists() and path.is_file() and path.suffix.lower() == ".json"
 
     def import_data(self, source: Path | str) -> ImportResult[list[dict[str, Any]]]:
-        """
-        Import experiment data from MLflow JSON file.
+        """Import experiment data from MLflow JSON file.
 
         Args:
             source: Path to MLflow JSON file
@@ -173,8 +168,7 @@ class MLflowImporter(BaseImporter[list[dict[str, Any]]]):
             )
 
     def _parse_run(self, run: dict[str, Any]) -> dict[str, Any]:
-        """
-        Parse individual MLflow run.
+        """Parse individual MLflow run.
 
         Args:
             run: MLflow run dictionary

@@ -1,5 +1,4 @@
-"""
-Learning Objectives Template.
+"""Learning Objectives Template.
 
 Implements:
     LearningObjectivesTemplate for education domain
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class LearningObjectivesTemplate(BaseTemplate):
-    """
-    Learning objectives mapping template.
+    """Learning objectives mapping template.
 
     Implements:
         LearningObjectivesTemplate with curriculum mapping
@@ -32,12 +30,12 @@ class LearningObjectivesTemplate(BaseTemplate):
     - Progress tracking per objective
 
     Example:
-        >>> template = LearningObjectivesTemplate(
+        >>> template = LearningObjectivesTemplate(  # doctest: +SKIP
         ...     course_name="Introduction to Programming",
         ...     num_objectives=15,
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("learning_objectives.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("learning_objectives.ods")  # doctest: +SKIP
     """
 
     course_name: str = "Learning Objectives"
@@ -50,8 +48,7 @@ class LearningObjectivesTemplate(BaseTemplate):
 
     @property
     def metadata(self) -> TemplateMetadata:
-        """
-        Get template metadata.
+        """Get template metadata.
 
         Returns:
             TemplateMetadata for learning objectives template
@@ -69,8 +66,7 @@ class LearningObjectivesTemplate(BaseTemplate):
         )
 
     def validate(self) -> bool:
-        """
-        Validate template parameters.
+        """Validate template parameters.
 
         Returns:
             True if parameters are valid
@@ -81,8 +77,7 @@ class LearningObjectivesTemplate(BaseTemplate):
         return self.num_objectives > 0
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate the learning objectives spreadsheet.
+        """Generate the learning objectives spreadsheet.
 
         Returns:
             Configured SpreadsheetBuilder instance

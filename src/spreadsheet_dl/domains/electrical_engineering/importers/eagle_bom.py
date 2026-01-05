@@ -1,5 +1,4 @@
-"""
-Eagle BOM importer for electrical engineering.
+"""Eagle BOM importer for electrical engineering.
 
 Implements:
     EagleBOMImporter for Eagle CAD exports
@@ -15,8 +14,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 
 class EagleBOMImporter(BaseImporter[list[dict[str, Any]]]):
-    """
-    Import Eagle BOM exports (text or CSV format).
+    """Import Eagle BOM exports (text or CSV format).
 
     Implements:
         EagleBOMImporter requirements
@@ -28,9 +26,9 @@ class EagleBOMImporter(BaseImporter[list[dict[str, Any]]]):
         - Handle multi-board projects
 
     Example:
-        >>> importer = EagleBOMImporter()
-        >>> result = importer.import_data("eagle_bom.txt")
-        >>> if result.success:
+        >>> importer = EagleBOMImporter()  # doctest: +SKIP
+        >>> result = importer.import_data("eagle_bom.txt")  # doctest: +SKIP
+        >>> if result.success:  # doctest: +SKIP
         ...     for component in result.data:
         ...         print(component["part"], component["value"])
     """
@@ -46,8 +44,7 @@ class EagleBOMImporter(BaseImporter[list[dict[str, Any]]]):
         )
 
     def validate_source(self, source: Path | str) -> bool:
-        """
-        Validate Eagle BOM file.
+        """Validate Eagle BOM file.
 
         Args:
             source: Path to Eagle BOM file
@@ -59,8 +56,7 @@ class EagleBOMImporter(BaseImporter[list[dict[str, Any]]]):
         return path.exists() and path.suffix.lower() in (".txt", ".csv")
 
     def import_data(self, source: Path | str) -> ImportResult[list[dict[str, Any]]]:
-        """
-        Import Eagle BOM data.
+        """Import Eagle BOM data.
 
         Args:
             source: Path to Eagle BOM file
@@ -110,8 +106,7 @@ class EagleBOMImporter(BaseImporter[list[dict[str, Any]]]):
         errors: list[str],
         warnings: list[str],
     ) -> list[dict[str, Any]]:
-        """
-        Parse Eagle CSV BOM format.
+        """Parse Eagle CSV BOM format.
 
         Args:
             path: Path to CSV file
@@ -163,8 +158,7 @@ class EagleBOMImporter(BaseImporter[list[dict[str, Any]]]):
         errors: list[str],
         warnings: list[str],
     ) -> list[dict[str, Any]]:
-        """
-        Parse Eagle text BOM format.
+        """Parse Eagle text BOM format.
 
         Args:
             path: Path to text file

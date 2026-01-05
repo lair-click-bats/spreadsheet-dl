@@ -1,5 +1,4 @@
-"""
-Electrical Engineering formulas for SpreadsheetDL.
+"""Electrical Engineering formulas for SpreadsheetDL.
 
 Implements:
     Electrical Engineering domain formulas

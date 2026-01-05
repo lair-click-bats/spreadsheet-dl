@@ -1,5 +1,4 @@
-"""
-Helper functions for MCP server creation and CLI entry point.
+"""Helper functions for MCP server creation and CLI entry point.
 
 These functions provide convenient wrappers for creating and running
 the MCP server from Python code or command line.
@@ -19,8 +18,7 @@ from spreadsheet_dl._mcp.server import MCPServer
 def create_mcp_server(
     allowed_paths: list[str | Path] | None = None,
 ) -> MCPServer:
-    """
-    Create an MCP server with optional path restrictions.
+    """Create an MCP server with optional path restrictions.
 
     Args:
         allowed_paths: List of paths the server can access.
@@ -36,7 +34,6 @@ def create_mcp_server(
 
 def main() -> None:
     """Entry point for MCP server CLI."""
-
     parser = argparse.ArgumentParser(
         description="SpreadsheetDL MCP Server",
     )

@@ -42,16 +42,17 @@ log "Found primary version: $VERSION"
 ERRORS=0
 
 # Check __init__.py
-if [ -f "$PROJECT_DIR/src/tracekit/__init__.py" ]; then
-    if ! grep -q "__version__ = \"$VERSION\"" "$PROJECT_DIR/src/tracekit/__init__.py"; then
-        log "ERROR: Version mismatch in src/tracekit/__init__.py"
+if [ -f "$PROJECT_DIR/src/spreadsheet_dl/__init__.py" ]; then
+    if ! grep -q "__version__ = \"$VERSION\"" "$PROJECT_DIR/src/spreadsheet_dl/__init__.py"; then
+        log "ERROR: Version mismatch in src/spreadsheet_dl/__init__.py"
         ERRORS=$((ERRORS + 1))
     fi
 fi
 
-# Check README.md (allow extra text like "(Release Candidate)" after version)
+# Check README.md (version badge or explicit version text)
 if [ -f "$PROJECT_DIR/README.md" ]; then
-    if ! grep -qE "Current Version:.*v$VERSION" "$PROJECT_DIR/README.md"; then
+    # Check for version badge (e.g., version-4.0.0-blue) or explicit version text
+    if ! grep -qE "(version-$VERSION|v$VERSION)" "$PROJECT_DIR/README.md"; then
         log "ERROR: Version mismatch in README.md"
         ERRORS=$((ERRORS + 1))
     fi

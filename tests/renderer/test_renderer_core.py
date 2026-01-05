@@ -854,17 +854,41 @@ class TestRenderSheetsFunction:
         assert path.exists()
         assert path.parent.exists()
 
-    @pytest.mark.skip(
-        reason="Named range ODF rendering not yet implemented (v4.1 feature)"
-    )
     def test_render_sheets_with_named_ranges(self, tmp_path: Path) -> None:
-        """Test render_sheets with named ranges.
+        """Test render_sheets with named ranges."""
+        from spreadsheet_dl.builder import NamedRange, RangeRef
 
-        Named ranges in ODF require database-range elements with proper
-        namespace handling. Planned for v4.1.0.
-        """
-        # FUTURE: Implement named range rendering in ODFRenderer (v4.1.0)
-        pass
+        output = tmp_path / "named_ranges.ods"
+        sheets = [
+            SheetSpec(
+                name="Data",
+                columns=[ColumnSpec(name="Values")],
+                rows=[
+                    RowSpec(cells=[CellSpec(value=100)]),
+                    RowSpec(cells=[CellSpec(value=200)]),
+                    RowSpec(cells=[CellSpec(value=300)]),
+                ],
+            ),
+        ]
+        named_ranges = [
+            NamedRange(
+                name="DataRange",
+                range=RangeRef(start="A1", end="A3", sheet="Data"),
+            ),
+        ]
+
+        path = render_sheets(sheets, output, named_ranges=named_ranges)
+
+        assert path.exists()
+        assert path.stat().st_size > 0
+
+        # Verify named range was written by checking ODS content
+        import zipfile
+
+        with zipfile.ZipFile(path, "r") as zf:
+            content = zf.read("content.xml").decode("utf-8")
+            assert "named-expressions" in content
+            assert "DataRange" in content
 
 
 class TestRendererIntegration:

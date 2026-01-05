@@ -1,5 +1,4 @@
-"""
-AI-friendly export module for SpreadsheetDL.
+"""AI-friendly export module for SpreadsheetDL.
 
 Provides dual export functionality that generates both human-readable ODS files
 and AI-consumable JSON files with semantic metadata, enabling LLM integration
@@ -88,8 +87,7 @@ class SemanticCellType(Enum):
 
 
 class SemanticTag(Enum):
-    """
-    Semantic tags for enhanced AI understanding.
+    """Semantic tags for enhanced AI understanding.
 
     These tags provide additional context about the business meaning
     of cells beyond their basic type.
@@ -145,6 +143,7 @@ class DualExportError(ExportError):
         message: str = "Dual export failed",
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         super().__init__(
             message,
             suggestion="Check that the ODS file is valid and readable.",
@@ -162,6 +161,7 @@ class ConsistencyError(ExportError):
         issues: list[str],
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.issues = issues
         details = "Inconsistencies found:\n" + "\n".join(f"  - {i}" for i in issues)
         super().__init__(
@@ -174,8 +174,7 @@ class ConsistencyError(ExportError):
 
 @dataclass
 class CellRelationship:
-    """
-    Represents a relationship between cells.
+    """Represents a relationship between cells.
 
     Used to build a dependency graph for understanding formula relationships.
 
@@ -354,8 +353,7 @@ class AIExportMetadata:
 
 
 class AIExporter:
-    """
-    Export ODS files to AI-friendly JSON format.
+    """Export ODS files to AI-friendly JSON format.
 
     Provides semantic tagging of cells, formula descriptions,
     cell relationship graphs, and business context for LLM consumption.
@@ -368,9 +366,9 @@ class AIExporter:
     - Semantic cell tagging (FR-AI-003)
 
     Example:
-        >>> exporter = AIExporter()
-        >>> result = exporter.export_to_json("budget.ods")
-        >>> print(json.dumps(result, indent=2))
+        >>> exporter = AIExporter()  # doctest: +SKIP
+        >>> result = exporter.export_to_json("budget.ods")  # doctest: +SKIP
+        >>> print(json.dumps(result, indent=2))  # doctest: +SKIP
     """
 
     # Enhanced formula descriptions with natural language
@@ -432,8 +430,7 @@ class AIExporter:
         include_relationships: bool = True,
         include_tags: bool = True,
     ) -> None:
-        """
-        Initialize AI exporter.
+        """Initialize AI exporter.
 
         Args:
             include_empty_cells: Whether to include empty cells in export.
@@ -454,8 +451,7 @@ class AIExporter:
         output_path: str | Path | None = None,
         business_context: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
-        """
-        Export ODS file to AI-friendly JSON.
+        """Export ODS file to AI-friendly JSON.
 
         Args:
             ods_path: Path to ODS file.
@@ -520,8 +516,7 @@ class AIExporter:
         *,
         validate: bool = True,
     ) -> tuple[Path, Path]:
-        """
-        Export to both ODS copy and AI-friendly JSON.
+        """Export to both ODS copy and AI-friendly JSON.
 
         Args:
             ods_path: Path to source ODS file.
@@ -1283,8 +1278,7 @@ def export_for_ai(
     ods_path: str | Path,
     output_path: str | Path | None = None,
 ) -> dict[str, Any]:
-    """
-    Convenience function to export ODS to AI-friendly JSON.
+    """Convenience function to export ODS to AI-friendly JSON.
 
     Args:
         ods_path: Path to ODS file.
@@ -1301,8 +1295,7 @@ def export_dual(
     ods_path: str | Path,
     output_dir: str | Path | None = None,
 ) -> tuple[Path, Path]:
-    """
-    Convenience function for dual export.
+    """Convenience function for dual export.
 
     Args:
         ods_path: Path to source ODS file.

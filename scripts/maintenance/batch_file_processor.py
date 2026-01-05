@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Batch File Processor
+"""Batch File Processor
 
 Processes files in batches to reduce context overhead from individual file operations.
 Instead of loading each file separately, processes groups of files and returns summaries.

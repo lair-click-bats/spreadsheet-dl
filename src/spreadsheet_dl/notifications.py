@@ -1,5 +1,4 @@
-"""
-Notification System Module.
+"""Notification System Module.
 
 Implements IR-NOTIF-001: Alert Notifications.
 Provides email notifications, ntfy.sh integration, and notification templates.
@@ -49,8 +48,7 @@ class NotificationType(Enum):
 
 @dataclass
 class Notification:
-    """
-    A notification to be sent.
+    """A notification to be sent.
 
     Attributes:
         type: Type of notification.
@@ -112,8 +110,7 @@ class EmailConfig:
 
 
 class EmailChannel:
-    """
-    Send notifications via email.
+    """Send notifications via email.
 
     Supports SMTP with TLS for secure email delivery.
     """
@@ -257,8 +254,7 @@ class NtfyConfig:
 
 
 class NtfyChannel:
-    """
-    Send notifications via ntfy.sh.
+    """Send notifications via ntfy.sh.
 
     A simple HTTP-based pub-sub notification service.
     See: https://ntfy.sh
@@ -327,8 +323,7 @@ class NtfyChannel:
 
 
 class NotificationManager:
-    """
-    Manage and send notifications through multiple channels.
+    """Manage and send notifications through multiple channels.
 
     Supports email, ntfy.sh, and custom notification channels.
     """
@@ -339,8 +334,7 @@ class NotificationManager:
         ntfy_config: NtfyConfig | None = None,
         log_path: Path | str | None = None,
     ) -> None:
-        """
-        Initialize notification manager.
+        """Initialize notification manager.
 
         Args:
             email_config: Email configuration.
@@ -384,8 +378,7 @@ class NotificationManager:
         notification: Notification,
         channels: list[str] | None = None,
     ) -> dict[str, bool]:
-        """
-        Send a notification through specified channels.
+        """Send a notification through specified channels.
 
         Args:
             notification: Notification to send.
@@ -678,8 +671,7 @@ class NotificationTemplates:
 def load_notification_config(
     config_path: Path | str,
 ) -> tuple[EmailConfig | None, NtfyConfig | None]:
-    """
-    Load notification configuration from file.
+    """Load notification configuration from file.
 
     Args:
         config_path: Path to config file.

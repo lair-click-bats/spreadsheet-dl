@@ -1,5 +1,4 @@
-"""
-Finance Templates Module.
+"""Finance Templates Module.
 
 Professional financial templates for statements, reports, and trackers.
 

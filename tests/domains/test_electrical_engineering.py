@@ -26,12 +26,12 @@ from spreadsheet_dl.domains.electrical_engineering import (
     PinMappingTemplate,
     PowerBudgetTemplate,
     PowerDissipationFormula,
+    ProcedureTemplate,
     PropagationDelayFormula,
     RiseTimeFormula,
     SeriesResistanceFormula,
     SignalRoutingTemplate,
     SignalToNoiseRatioFormula,
-    TestProcedureTemplate,
     ThermalResistanceFormula,
     VoltageDropFormula,
 )
@@ -76,7 +76,7 @@ def test_plugin_initialization() -> None:
     assert plugin.get_template("pin_mapping") == PinMappingTemplate
     assert plugin.get_template("power_budget") == PowerBudgetTemplate
     assert plugin.get_template("signal_routing") == SignalRoutingTemplate
-    assert plugin.get_template("test_procedure") == TestProcedureTemplate
+    assert plugin.get_template("test_procedure") == ProcedureTemplate
 
     # Verify formulas registered
     assert plugin.get_formula("POWER_DISSIPATION") == PowerDissipationFormula
@@ -317,7 +317,7 @@ def test_signal_routing_template_renders() -> None:
 
 def test_test_procedure_template_renders() -> None:
     """Test test procedure template generates valid builder."""
-    template = TestProcedureTemplate(
+    template = ProcedureTemplate(
         project_name="Hardware Test", test_suite="Functional Tests", num_test_steps=10
     )
 
@@ -680,7 +680,7 @@ def test_all_templates_have_metadata() -> None:
         PinMappingTemplate,
         PowerBudgetTemplate,
         SignalRoutingTemplate,
-        TestProcedureTemplate,
+        ProcedureTemplate,
     ]
 
     for template_class in templates:

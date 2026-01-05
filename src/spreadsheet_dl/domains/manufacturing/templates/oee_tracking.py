@@ -1,5 +1,4 @@
-"""
-OEE Tracking Template for Overall Equipment Effectiveness analysis.
+"""OEE Tracking Template for Overall Equipment Effectiveness analysis.
 
 Implements:
     OEETrackingTemplate for manufacturing domain
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class OEETrackingTemplate(BaseTemplate):
-    """
-    Overall Equipment Effectiveness (OEE) tracking and analysis.
+    """Overall Equipment Effectiveness (OEE) tracking and analysis.
 
     Implements:
         OEETrackingTemplate with availability, performance, and quality
@@ -33,12 +31,12 @@ class OEETrackingTemplate(BaseTemplate):
     - Loss analysis (availability, performance, quality losses)
 
     Example:
-        >>> template = OEETrackingTemplate(
+        >>> template = OEETrackingTemplate(  # doctest: +SKIP
         ...     equipment_name="CNC Machine #5",
         ...     shifts=["Day", "Night"],
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("oee_tracking.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("oee_tracking.ods")  # doctest: +SKIP
     """
 
     equipment_name: str = "Equipment"
@@ -47,8 +45,7 @@ class OEETrackingTemplate(BaseTemplate):
 
     @property
     def metadata(self) -> TemplateMetadata:
-        """
-        Get template metadata.
+        """Get template metadata.
 
         Returns:
             TemplateMetadata for OEE tracking template
@@ -66,8 +63,7 @@ class OEETrackingTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate the OEE tracking spreadsheet.
+        """Generate the OEE tracking spreadsheet.
 
         Returns:
             Configured SpreadsheetBuilder instance

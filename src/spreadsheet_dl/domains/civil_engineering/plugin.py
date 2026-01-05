@@ -1,5 +1,4 @@
-"""
-Civil Engineering Domain Plugin for SpreadsheetDL.
+"""Civil Engineering Domain Plugin for SpreadsheetDL.
 
 Implements:
     Civil Engineering domain plugin
@@ -78,8 +77,7 @@ from spreadsheet_dl.domains.civil_engineering.templates.structural_analysis impo
 
 
 class CivilEngineeringDomainPlugin(BaseDomainPlugin):
-    """
-    Civil Engineering domain plugin.
+    """Civil Engineering domain plugin.
 
     Implements:
         Complete Civil Engineering domain plugin
@@ -95,13 +93,12 @@ class CivilEngineeringDomainPlugin(BaseDomainPlugin):
         >>> template_class = plugin.get_template("load_calculations")
         >>> template = template_class(project_name="Bridge Design")
         >>> builder = template.generate()
-        >>> builder.save("bridge_loads.ods")
+        >>> path = builder.save("bridge_loads.ods")
     """
 
     @property
     def metadata(self) -> PluginMetadata:
-        """
-        Get plugin metadata.
+        """Get plugin metadata.
 
         Returns:
             PluginMetadata with civil engineering plugin information
@@ -128,8 +125,7 @@ class CivilEngineeringDomainPlugin(BaseDomainPlugin):
         )
 
     def initialize(self) -> None:
-        """
-        Initialize plugin resources.
+        """Initialize plugin resources.
 
         Registers all templates, formulas, and importers.
 
@@ -173,8 +169,7 @@ class CivilEngineeringDomainPlugin(BaseDomainPlugin):
         self.register_importer("building_codes", BuildingCodesImporter)
 
     def cleanup(self) -> None:
-        """
-        Cleanup plugin resources.
+        """Cleanup plugin resources.
 
         No resources need explicit cleanup for this plugin.
 
@@ -185,8 +180,7 @@ class CivilEngineeringDomainPlugin(BaseDomainPlugin):
         pass
 
     def validate(self) -> bool:
-        """
-        Validate plugin configuration.
+        """Validate plugin configuration.
 
         Returns:
             True if plugin has required templates and formulas registered

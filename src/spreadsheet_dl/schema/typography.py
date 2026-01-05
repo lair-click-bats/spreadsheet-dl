@@ -1,5 +1,4 @@
-"""
-Typography system with font pairing and type hierarchy.
+"""Typography system with font pairing and type hierarchy.
 
 Implements:
     - FR-THEME-002: Font Pairing System
@@ -26,8 +25,7 @@ from spreadsheet_dl.schema.styles import Color, Font, FontWeight
 
 
 class TypeScaleRatio(Enum):
-    """
-    Common type scale ratios for typography hierarchy.
+    """Common type scale ratios for typography hierarchy.
 
     These ratios define the relationship between font sizes
     in a typographic scale.
@@ -65,8 +63,7 @@ class FontRole(Enum):
 
 @dataclass
 class FontDefinition:
-    """
-    Complete font definition with role and fallback chain.
+    """Complete font definition with role and fallback chain.
 
     Implements FR-THEME-002: Font Pairing System
 
@@ -93,8 +90,7 @@ class FontDefinition:
         color: Color | None = None,
         **kwargs: Any,
     ) -> Font:
-        """
-        Create a Font instance from this definition.
+        """Create a Font instance from this definition.
 
         Args:
             size: Override size (default uses base_size)
@@ -133,8 +129,7 @@ class FontDefinition:
 
 @dataclass
 class FontPairing:
-    """
-    Collection of font definitions for a complete pairing.
+    """Collection of font definitions for a complete pairing.
 
     Implements FR-THEME-002: Font Pairing System
 
@@ -202,8 +197,7 @@ class FontPairing:
     caption: FontDefinition | None = None
 
     def get_font(self, role: FontRole) -> FontDefinition:
-        """
-        Get font definition by role.
+        """Get font definition by role.
 
         Args:
             role: Font role
@@ -224,8 +218,7 @@ class FontPairing:
         return mapping[role]
 
     def get_font_by_name(self, name: str) -> FontDefinition | None:
-        """
-        Get font definition by name.
+        """Get font definition by name.
 
         Args:
             name: Font name
@@ -423,8 +416,7 @@ class HeadingStyle:
 
 @dataclass
 class Typography:
-    """
-    Complete typography hierarchy system.
+    """Complete typography hierarchy system.
 
     Implements FR-THEME-003: Typography Hierarchy
 
@@ -527,8 +519,7 @@ class Typography:
                 )
 
     def get_size(self, name: str) -> str:
-        """
-        Get size value by name.
+        """Get size value by name.
 
         Args:
             name: Size name (xs, sm, base, lg, xl, 2xl, 3xl, 4xl)
@@ -544,8 +535,7 @@ class Typography:
         return self.sizes[name].size
 
     def get_type_size(self, name: str) -> TypeSize:
-        """
-        Get TypeSize object by name.
+        """Get TypeSize object by name.
 
         Args:
             name: Size name
@@ -561,8 +551,7 @@ class Typography:
         return self.sizes[name]
 
     def get_heading(self, level: int) -> HeadingStyle:
-        """
-        Get heading style by level.
+        """Get heading style by level.
 
         Args:
             level: Heading level (1-6)
@@ -578,8 +567,7 @@ class Typography:
         return self.headings[level]
 
     def get_line_height(self, style: str = "normal") -> float:
-        """
-        Get line height by style name.
+        """Get line height by style name.
 
         Args:
             style: Line height style (tight, normal, relaxed)
@@ -601,8 +589,7 @@ class Typography:
         scale: TypeScaleRatio = TypeScaleRatio.MINOR_THIRD,
         unit: str = "pt",
     ) -> Typography:
-        """
-        Create typography with specified scale.
+        """Create typography with specified scale.
 
         Args:
             base_size: Base font size
@@ -673,8 +660,7 @@ TYPOGRAPHY_PRESETS: dict[str, Typography] = {
 
 
 def get_font_pairing(name: str) -> FontPairing:
-    """
-    Get a pre-built font pairing by name.
+    """Get a pre-built font pairing by name.
 
     Args:
         name: Pairing name (professional, modern, traditional, minimal)
@@ -693,8 +679,7 @@ def get_font_pairing(name: str) -> FontPairing:
 
 
 def get_typography(name: str) -> Typography:
-    """
-    Get a pre-built typography preset by name.
+    """Get a pre-built typography preset by name.
 
     Args:
         name: Typography name (professional, compact, presentation)

@@ -72,8 +72,10 @@ class TestExportImportRoundtrip:
         assert result.exists()
         assert result.stat().st_size > 0
 
+    @pytest.mark.requires_export
     def test_ods_to_xlsx_export(self, tmp_path: Path) -> None:
         """Test ODS to XLSX export."""
+        pytest.importorskip("openpyxl")
         from spreadsheet_dl.domains.finance.ods_generator import create_monthly_budget
         from spreadsheet_dl.export import MultiFormatExporter
 

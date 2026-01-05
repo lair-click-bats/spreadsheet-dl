@@ -1,5 +1,4 @@
-"""
-Assessment Rubric Template.
+"""Assessment Rubric Template.
 
 Implements:
     AssessmentRubricTemplate for education domain
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class AssessmentRubricTemplate(BaseTemplate):
-    """
-    Assessment rubric template for scoring criteria.
+    """Assessment rubric template for scoring criteria.
 
     Implements:
         AssessmentRubricTemplate with scoring levels
@@ -32,12 +30,12 @@ class AssessmentRubricTemplate(BaseTemplate):
     - Total score calculation
 
     Example:
-        >>> template = AssessmentRubricTemplate(
+        >>> template = AssessmentRubricTemplate(  # doctest: +SKIP
         ...     assignment_name="Research Paper Rubric",
         ...     num_criteria=5,
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("rubric.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("rubric.ods")  # doctest: +SKIP
     """
 
     assignment_name: str = "Assessment Rubric"
@@ -52,8 +50,7 @@ class AssessmentRubricTemplate(BaseTemplate):
 
     @property
     def metadata(self) -> TemplateMetadata:
-        """
-        Get template metadata.
+        """Get template metadata.
 
         Returns:
             TemplateMetadata for assessment rubric template
@@ -71,8 +68,7 @@ class AssessmentRubricTemplate(BaseTemplate):
         )
 
     def validate(self) -> bool:
-        """
-        Validate template parameters.
+        """Validate template parameters.
 
         Returns:
             True if parameters are valid
@@ -83,8 +79,7 @@ class AssessmentRubricTemplate(BaseTemplate):
         return self.num_criteria > 0 and self.num_levels >= 2 and self.max_points > 0
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate the assessment rubric spreadsheet.
+        """Generate the assessment rubric spreadsheet.
 
         Returns:
             Configured SpreadsheetBuilder instance
@@ -167,6 +162,40 @@ class AssessmentRubricTemplate(BaseTemplate):
             "Mechanics & Format",
         ]
 
+        # Default level descriptors for each criterion (4-level rubric)
+        level_descriptors = {
+            "Content & Organization": [
+                "Exceptional: Clear thesis, logical flow, comprehensive coverage of topic with insightful connections",
+                "Proficient: Clear thesis, good organization, adequate coverage with relevant supporting points",
+                "Developing: Thesis present but unclear, some organization issues, partial topic coverage",
+                "Beginning: Missing/unclear thesis, disorganized structure, minimal topic coverage",
+            ],
+            "Evidence & Support": [
+                "Exceptional: Strong, relevant evidence from multiple credible sources with proper citations",
+                "Proficient: Adequate evidence from credible sources, mostly well-cited",
+                "Developing: Limited evidence, some credibility issues, inconsistent citations",
+                "Beginning: Little/no evidence, unreliable sources, missing citations",
+            ],
+            "Analysis & Critical Thinking": [
+                "Exceptional: Deep analysis, original insights, strong connections between ideas",
+                "Proficient: Good analysis, clear reasoning, logical connections made",
+                "Developing: Surface-level analysis, some reasoning present but incomplete",
+                "Beginning: Minimal analysis, lacks reasoning, no connections made",
+            ],
+            "Language & Style": [
+                "Exceptional: Sophisticated vocabulary, varied sentence structure, engaging tone",
+                "Proficient: Appropriate vocabulary, clear sentences, consistent tone",
+                "Developing: Basic vocabulary, some awkward sentences, inconsistent tone",
+                "Beginning: Limited vocabulary, unclear sentences, inappropriate tone",
+            ],
+            "Mechanics & Format": [
+                "Exceptional: Error-free grammar/spelling, perfect formatting, professional presentation",
+                "Proficient: Few minor errors, proper formatting, neat presentation",
+                "Developing: Several errors affecting clarity, some formatting issues",
+                "Beginning: Numerous errors, poor formatting, unprofessional presentation",
+            ],
+        }
+
         # Criteria rows
         points_per_criterion = self.max_points // self.num_criteria
 
@@ -181,10 +210,17 @@ class AssessmentRubricTemplate(BaseTemplate):
             builder.cell(criterion)
             builder.cell(points_per_criterion)
 
-            # Level descriptions (placeholders)
+            # Level descriptions with proper defaults
             for level in range(self.num_levels):
-                points = self.num_levels - level
-                builder.cell(f"[Description for level {points}]")
+                if criterion in level_descriptors and level < len(
+                    level_descriptors[criterion]
+                ):
+                    descriptor = level_descriptors[criterion][level]
+                else:
+                    # Fallback for custom criteria or extra levels
+                    points = self.num_levels - level
+                    descriptor = f"Level {points}: Describe performance expectations"
+                builder.cell(descriptor)
 
             # Score cell (empty for teacher to fill)
             builder.cell("")

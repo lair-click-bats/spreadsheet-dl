@@ -1,5 +1,4 @@
-"""
-Moment and bending formulas for mechanical engineering.
+"""Moment and bending formulas for mechanical engineering.
 
 Implements:
     Moment formulas (MOMENT_OF_INERTIA, BENDING_STRESS, TORSIONAL_STRESS)
@@ -15,8 +14,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 @dataclass(slots=True, frozen=True)
 class MomentOfInertiaFormula(BaseFormula):
-    """
-    Moment of Inertia formula for rectangular cross-section: I = b * h³ / 12.
+    """Moment of Inertia formula for rectangular cross-section: I = b * h³ / 12.
 
     Calculates second moment of area for bending calculations.
 
@@ -27,7 +25,6 @@ class MomentOfInertiaFormula(BaseFormula):
         >>> formula = MomentOfInertiaFormula()
         >>> formula.build("10", "20")
         '10*POWER(20;3)/12'
-        # Result: 6666.67 mm⁴
     """
 
     @property
@@ -59,8 +56,7 @@ class MomentOfInertiaFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: width, height
@@ -75,8 +71,7 @@ class MomentOfInertiaFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class BendingStressFormula(BaseFormula):
-    """
-    Bending Stress formula: sigma = M * y / I.
+    """Bending Stress formula: sigma = M * y / I.
 
     Calculates bending stress in a beam given bending moment, distance from
     neutral axis, and moment of inertia.
@@ -88,7 +83,6 @@ class BendingStressFormula(BaseFormula):
         >>> formula = BendingStressFormula()
         >>> formula.build("1000000", "10", "6666.67")
         '1000000*10/6666.67'
-        # Result: 1500 MPa
     """
 
     @property
@@ -126,8 +120,7 @@ class BendingStressFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: moment, distance, inertia
@@ -142,8 +135,7 @@ class BendingStressFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class TorsionalStressFormula(BaseFormula):
-    """
-    Torsional Stress formula: tau = T * r / J.
+    """Torsional Stress formula: tau = T * r / J.
 
     Calculates torsional shear stress in a shaft given torque, radius,
     and polar moment of inertia.
@@ -155,7 +147,6 @@ class TorsionalStressFormula(BaseFormula):
         >>> formula = TorsionalStressFormula()
         >>> formula.build("500000", "10", "15707.96")
         '500000*10/15707.96'
-        # Result: 318.3 MPa
     """
 
     @property
@@ -193,8 +184,7 @@ class TorsionalStressFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: torque, radius, polar_inertia

@@ -1,5 +1,4 @@
-"""
-Mechanical Engineering Domain Plugin for SpreadsheetDL.
+"""Mechanical Engineering Domain Plugin for SpreadsheetDL.
 
 Implements:
     Mechanical Engineering domain plugin
@@ -76,8 +75,7 @@ from spreadsheet_dl.domains.mechanical_engineering.templates.tolerance_stackup i
 
 
 class MechanicalEngineeringDomainPlugin(BaseDomainPlugin):
-    """
-    Mechanical Engineering domain plugin.
+    """Mechanical Engineering domain plugin.
 
     Implements:
         Complete Mechanical Engineering domain plugin
@@ -92,13 +90,12 @@ class MechanicalEngineeringDomainPlugin(BaseDomainPlugin):
         >>> template_class = plugin.get_template("stress_analysis")
         >>> template = template_class(analysis_name="Beam Bending")
         >>> builder = template.generate()
-        >>> builder.save("stress_analysis.ods")
+        >>> path = builder.save("stress_analysis.ods")
     """
 
     @property
     def metadata(self) -> PluginMetadata:
-        """
-        Get plugin metadata.
+        """Get plugin metadata.
 
         Returns:
             PluginMetadata with mechanical engineering plugin information
@@ -125,8 +122,7 @@ class MechanicalEngineeringDomainPlugin(BaseDomainPlugin):
         )
 
     def initialize(self) -> None:
-        """
-        Initialize plugin resources.
+        """Initialize plugin resources.
 
         Registers all templates, formulas, and importers.
 
@@ -168,8 +164,7 @@ class MechanicalEngineeringDomainPlugin(BaseDomainPlugin):
         self.register_importer("material_db", MaterialDatabaseImporter)
 
     def cleanup(self) -> None:
-        """
-        Cleanup plugin resources.
+        """Cleanup plugin resources.
 
         No resources need explicit cleanup for this plugin.
 
@@ -180,8 +175,7 @@ class MechanicalEngineeringDomainPlugin(BaseDomainPlugin):
         pass
 
     def validate(self) -> bool:
-        """
-        Validate plugin configuration.
+        """Validate plugin configuration.
 
         Returns:
             True if plugin has required templates and formulas registered

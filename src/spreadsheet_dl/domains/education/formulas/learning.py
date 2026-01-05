@@ -1,5 +1,4 @@
-"""
-Learning metrics formulas.
+"""Learning metrics formulas.
 
 Implements:
     Learning metrics formulas
@@ -17,8 +16,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 @dataclass(slots=True, frozen=True)
 class LearningGainFormula(BaseFormula):
-    """
-    Calculate normalized learning gain.
+    """Calculate normalized learning gain.
 
     Implements:
         LEARNING_GAIN formula for pre/post assessment
@@ -33,8 +31,7 @@ class LearningGainFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for LEARNING_GAIN
@@ -75,8 +72,7 @@ class LearningGainFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build LEARNING_GAIN formula string.
+        """Build LEARNING_GAIN formula string.
 
         Args:
             *args: pre_score, post_score, [max_score]
@@ -104,8 +100,7 @@ class LearningGainFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class MasteryLevelFormula(BaseFormula):
-    """
-    Calculate mastery level for competency-based grading.
+    """Calculate mastery level for competency-based grading.
 
     Implements:
         MASTERY_LEVEL formula for mastery grading
@@ -120,8 +115,7 @@ class MasteryLevelFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for MASTERY_LEVEL
@@ -156,8 +150,7 @@ class MasteryLevelFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build MASTERY_LEVEL formula string.
+        """Build MASTERY_LEVEL formula string.
 
         Args:
             *args: score, [scale]
@@ -187,8 +180,7 @@ class MasteryLevelFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class AttendanceRateFormula(BaseFormula):
-    """
-    Calculate student attendance rate.
+    """Calculate student attendance rate.
 
     Implements:
         ATTENDANCE_RATE formula for attendance tracking
@@ -203,8 +195,7 @@ class AttendanceRateFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for ATTENDANCE_RATE
@@ -238,8 +229,7 @@ class AttendanceRateFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ATTENDANCE_RATE formula string.
+        """Build ATTENDANCE_RATE formula string.
 
         Args:
             *args: days_present, total_days
@@ -264,8 +254,7 @@ class AttendanceRateFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class CompletionRateFormula(BaseFormula):
-    """
-    Calculate assignment completion rate.
+    """Calculate assignment completion rate.
 
     Implements:
         COMPLETION_RATE formula for assignment tracking
@@ -280,8 +269,7 @@ class CompletionRateFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for COMPLETION_RATE
@@ -315,8 +303,7 @@ class CompletionRateFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build COMPLETION_RATE formula string.
+        """Build COMPLETION_RATE formula string.
 
         Args:
             *args: completed, total
@@ -341,8 +328,7 @@ class CompletionRateFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class BloomTaxonomyLevelFormula(BaseFormula):
-    """
-    Categorize learning objective by Bloom's Taxonomy level.
+    """Categorize learning objective by Bloom's Taxonomy level.
 
     Implements:
         BLOOM_TAXONOMY_LEVEL formula for learning design
@@ -357,8 +343,7 @@ class BloomTaxonomyLevelFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for BLOOM_TAXONOMY_LEVEL
@@ -386,8 +371,7 @@ class BloomTaxonomyLevelFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build BLOOM_TAXONOMY_LEVEL formula string.
+        """Build BLOOM_TAXONOMY_LEVEL formula string.
 
         Args:
             *args: objective_text
@@ -432,8 +416,7 @@ class BloomTaxonomyLevelFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class ReadabilityScoreFormula(BaseFormula):
-    """
-    Calculate Flesch-Kincaid readability grade level.
+    """Calculate Flesch-Kincaid readability grade level.
 
     Implements:
         READABILITY_SCORE formula for content analysis
@@ -448,8 +431,7 @@ class ReadabilityScoreFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for READABILITY_SCORE
@@ -489,8 +471,7 @@ class ReadabilityScoreFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build READABILITY_SCORE formula string.
+        """Build READABILITY_SCORE formula string.
 
         Args:
             *args: word_count, sentence_count, syllable_count

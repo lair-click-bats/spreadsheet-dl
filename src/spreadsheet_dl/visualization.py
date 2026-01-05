@@ -1,5 +1,4 @@
-"""
-Interactive Visualization Module.
+"""Interactive Visualization Module.
 
 Provides interactive charts and dashboards for budget visualization:
 - Pie charts for category breakdown
@@ -119,8 +118,7 @@ CATEGORY_COLORS = {
 
 
 class ChartGenerator:
-    """
-    Generate interactive charts using Chart.js.
+    """Generate interactive charts using Chart.js.
 
     Creates HTML with embedded JavaScript for interactive charts
     that can be viewed in any modern browser.
@@ -155,8 +153,7 @@ class ChartGenerator:
         theme: str = "default",
         colors: list[str] | None = None,
     ) -> None:
-        """
-        Initialize chart generator.
+        """Initialize chart generator.
 
         Args:
             theme: Color theme (default, dark, colorful).
@@ -248,8 +245,7 @@ class ChartGenerator:
         data: Sequence[ChartDataPoint],
         config: ChartConfig | None = None,
     ) -> str:
-        """
-        Create a pie chart.
+        """Create a pie chart.
 
         Args:
             data: List of data points.
@@ -311,8 +307,7 @@ new Chart(ctx, {{
         data: Sequence[ChartDataPoint],
         config: ChartConfig | None = None,
     ) -> str:
-        """
-        Create a bar chart.
+        """Create a bar chart.
 
         Args:
             data: List of data points.
@@ -378,8 +373,7 @@ new Chart(ctx, {{
         series: Sequence[ChartSeries],
         config: ChartConfig | None = None,
     ) -> str:
-        """
-        Create a line chart.
+        """Create a line chart.
 
         Args:
             labels: X-axis labels.
@@ -452,8 +446,7 @@ new Chart(ctx, {{
         series: Sequence[ChartSeries],
         config: ChartConfig | None = None,
     ) -> str:
-        """
-        Create a stacked bar chart.
+        """Create a stacked bar chart.
 
         Args:
             labels: X-axis labels.
@@ -514,8 +507,7 @@ new Chart(ctx, {{
 
 
 class DashboardGenerator:
-    """
-    Generate interactive HTML dashboards.
+    """Generate interactive HTML dashboards.
 
     Creates comprehensive budget dashboards with multiple charts,
     summary statistics, and drill-down capability.
@@ -539,8 +531,7 @@ class DashboardGenerator:
         analyzer: Any = None,
         theme: str = "default",
     ) -> None:
-        """
-        Initialize dashboard generator.
+        """Initialize dashboard generator.
 
         Args:
             analyzer: BudgetAnalyzer instance (optional).
@@ -551,8 +542,7 @@ class DashboardGenerator:
         self.chart_gen = ChartGenerator(theme=theme)
 
     def generate(self) -> str:
-        """
-        Generate complete dashboard HTML.
+        """Generate complete dashboard HTML.
 
         Returns:
             Complete HTML string.
@@ -998,8 +988,7 @@ class DashboardGenerator:
         """
 
     def save(self, output_path: Path | str) -> Path:
-        """
-        Generate and save dashboard to file.
+        """Generate and save dashboard to file.
 
         Args:
             output_path: Output file path.
@@ -1025,8 +1014,7 @@ def create_spending_pie_chart(
     title: str = "Spending by Category",
     output_path: Path | str | None = None,
 ) -> str:
-    """
-    Create a pie chart from category spending data.
+    """Create a pie chart from category spending data.
 
     Args:
         categories: Dictionary of category -> amount.
@@ -1060,8 +1048,7 @@ def create_budget_dashboard(
     output_path: Path | str | None = None,
     theme: str = "default",
 ) -> str:
-    """
-    Create a complete budget dashboard.
+    """Create a complete budget dashboard.
 
     Args:
         analyzer: BudgetAnalyzer instance.

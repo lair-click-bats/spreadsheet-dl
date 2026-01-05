@@ -1,5 +1,4 @@
-"""
-Finance Domain Plugin for SpreadsheetDL.
+"""Finance Domain Plugin for SpreadsheetDL.
 
 Provides comprehensive finance-specific functionality including:
 - Account management and tracking

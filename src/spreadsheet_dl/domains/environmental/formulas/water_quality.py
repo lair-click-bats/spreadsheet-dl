@@ -1,5 +1,4 @@
-"""
-Water quality formulas.
+"""Water quality formulas.
 
 Implements:
     Water quality formulas
@@ -16,8 +15,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 @dataclass(slots=True, frozen=True)
 class WaterQualityIndexFormula(BaseFormula):
-    """
-    Calculate Water Quality Index (WQI).
+    """Calculate Water Quality Index (WQI).
 
     Implements:
         WATER_QUALITY_INDEX formula for water quality assessment
@@ -32,8 +30,7 @@ class WaterQualityIndexFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for WATER_QUALITY_INDEX
@@ -80,8 +77,7 @@ class WaterQualityIndexFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build WATER_QUALITY_INDEX formula string.
+        """Build WATER_QUALITY_INDEX formula string.
 
         Args:
             *args: do_saturation, bod, ph, [turbidity]
@@ -122,8 +118,7 @@ class WaterQualityIndexFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class BODCalculationFormula(BaseFormula):
-    """
-    Calculate Biochemical Oxygen Demand (BOD).
+    """Calculate Biochemical Oxygen Demand (BOD).
 
     Implements:
         BOD_CALCULATION formula for water quality
@@ -138,8 +133,7 @@ class BODCalculationFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for BOD_CALCULATION
@@ -186,8 +180,7 @@ class BODCalculationFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build BOD_CALCULATION formula string.
+        """Build BOD_CALCULATION formula string.
 
         Args:
             *args: initial_do, final_do, sample_volume, [bottle_volume]

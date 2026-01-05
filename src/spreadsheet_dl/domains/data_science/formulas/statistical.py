@@ -1,5 +1,4 @@
-"""
-Statistical formulas for data science.
+"""Statistical formulas for data science.
 
 Implements:
     Statistical formulas (TTEST, FTEST, ZTEST, CHISQ_TEST)
@@ -15,8 +14,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 @dataclass(slots=True, frozen=True)
 class TTestFormula(BaseFormula):
-    """
-    T-test for comparing means of two samples.
+    """T-test for comparing means of two samples.
 
     Implements:
         TTEST formula for statistical testing
@@ -29,8 +27,7 @@ class TTestFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for TTEST
@@ -78,8 +75,7 @@ class TTestFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build TTEST formula string.
+        """Build TTEST formula string.
 
         Args:
             *args: array1, array2, [tails], [type]
@@ -106,8 +102,7 @@ class TTestFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class FTestFormula(BaseFormula):
-    """
-    F-test for comparing variances of two samples.
+    """F-test for comparing variances of two samples.
 
     Implements:
         FTEST formula for variance comparison
@@ -120,8 +115,7 @@ class FTestFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for FTEST
@@ -155,8 +149,7 @@ class FTestFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build FTEST formula string.
+        """Build FTEST formula string.
 
         Args:
             *args: array1, array2
@@ -181,8 +174,7 @@ class FTestFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class ZTestFormula(BaseFormula):
-    """
-    Z-test for hypothesis testing with known population variance.
+    """Z-test for hypothesis testing with known population variance.
 
     Implements:
         ZTEST formula for hypothesis testing
@@ -195,8 +187,7 @@ class ZTestFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for ZTEST
@@ -237,8 +228,7 @@ class ZTestFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ZTEST formula string.
+        """Build ZTEST formula string.
 
         Args:
             *args: array, x, [sigma]
@@ -266,8 +256,7 @@ class ZTestFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class ChiSquareTestFormula(BaseFormula):
-    """
-    Chi-square test for independence or goodness of fit.
+    """Chi-square test for independence or goodness of fit.
 
     Implements:
         CHISQ_TEST formula for categorical data analysis
@@ -280,8 +269,7 @@ class ChiSquareTestFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for CHISQ_TEST
@@ -315,8 +303,7 @@ class ChiSquareTestFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build CHISQ_TEST formula string.
+        """Build CHISQ_TEST formula string.
 
         Args:
             *args: observed_range, expected_range

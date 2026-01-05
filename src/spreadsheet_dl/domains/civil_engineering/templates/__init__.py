@@ -1,5 +1,4 @@
-"""
-Civil Engineering templates for SpreadsheetDL.
+"""Civil Engineering templates for SpreadsheetDL.
 
 Implements:
     Civil Engineering domain templates

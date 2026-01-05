@@ -1,5 +1,4 @@
-"""
-Education domain formulas.
+"""Education domain formulas.
 
 Implements:
     Education domain formula extensions

@@ -1,5 +1,4 @@
-"""
-Bill Reminders and Calendar Integration Module.
+"""Bill Reminders and Calendar Integration Module.
 
 Implements FR-RECUR-002: Bill Reminders and IR-CAL-001: Calendar Integration.
 Provides bill due date tracking, reminder generation, and ICS calendar export.
@@ -44,8 +43,7 @@ class ReminderFrequency(Enum):
 
 @dataclass
 class BillReminder:
-    """
-    A bill with due date tracking and reminders.
+    """A bill with due date tracking and reminders.
 
     Attributes:
         id: Unique identifier.
@@ -191,8 +189,7 @@ class BillReminder:
         paid_date: date | None = None,
         advance_due_date: bool = True,
     ) -> None:
-        """
-        Mark the bill as paid.
+        """Mark the bill as paid.
 
         Args:
             amount: Amount paid (defaults to expected amount).
@@ -254,15 +251,13 @@ class BillReminder:
 
 
 class BillReminderManager:
-    """
-    Manage bill reminders.
+    """Manage bill reminders.
 
     Provides CRUD operations, reminder checking, and calendar export.
     """
 
     def __init__(self, data_path: Path | str | None = None) -> None:
-        """
-        Initialize reminder manager.
+        """Initialize reminder manager.
 
         Args:
             data_path: Path to reminders JSON file.
@@ -300,8 +295,7 @@ class BillReminderManager:
         active_only: bool = True,
         status: ReminderStatus | None = None,
     ) -> list[BillReminder]:
-        """
-        List bills with optional filtering.
+        """List bills with optional filtering.
 
         Args:
             active_only: Only show active bills.
@@ -451,8 +445,7 @@ class BillReminderManager:
         months_ahead: int = 12,
         include_reminders: bool = True,
     ) -> Path:
-        """
-        Export bills to ICS calendar format.
+        """Export bills to ICS calendar format.
 
         Args:
             output_path: Path for ICS file.
@@ -744,8 +737,7 @@ def create_bill_from_template(
     due_date: date,
     **overrides: Any,
 ) -> BillReminder:
-    """
-    Create a bill reminder from a common template.
+    """Create a bill reminder from a common template.
 
     Args:
         template: Template name (e.g., "rent", "electric").
@@ -776,8 +768,7 @@ def get_calendar_feed_url(
     manager: BillReminderManager,
     base_url: str = "",
 ) -> str:
-    """
-    Generate a URL for calendar feed (for webcal:// protocol).
+    """Generate a URL for calendar feed (for webcal:// protocol).
 
     Args:
         manager: BillReminderManager instance.

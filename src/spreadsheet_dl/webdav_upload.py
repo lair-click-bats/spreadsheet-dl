@@ -1,5 +1,4 @@
-"""
-WebDAV Upload - Upload ODS files to Nextcloud via WebDAV.
+"""WebDAV Upload - Upload ODS files to Nextcloud via WebDAV.
 
 Provides secure file upload to Nextcloud servers using WebDAV protocol.
 """
@@ -27,8 +26,7 @@ class NextcloudConfig:
 
     @classmethod
     def from_env(cls) -> NextcloudConfig:
-        """
-        Create config from environment variables.
+        """Create config from environment variables.
 
         Environment variables:
             NEXTCLOUD_URL: Server base URL
@@ -61,16 +59,14 @@ class NextcloudConfig:
 
 
 class WebDAVClient:
-    """
-    WebDAV client for Nextcloud file operations.
+    """WebDAV client for Nextcloud file operations.
 
     Supports uploading, listing, and managing files on Nextcloud
     via the WebDAV protocol.
     """
 
     def __init__(self, config: NextcloudConfig) -> None:
-        """
-        Initialize WebDAV client.
+        """Initialize WebDAV client.
 
         Args:
             config: Nextcloud connection configuration.
@@ -105,8 +101,7 @@ class WebDAVClient:
         remote_path: str | None = None,
         create_dirs: bool = True,
     ) -> str:
-        """
-        Upload a file to Nextcloud.
+        """Upload a file to Nextcloud.
 
         Args:
             local_path: Path to local file.
@@ -175,8 +170,7 @@ class WebDAVClient:
                     raise ConnectionError(f"Failed to create directory: {current_path}")
 
     def list_files(self, remote_path: str | None = None) -> list[str]:
-        """
-        List files in a remote directory.
+        """List files in a remote directory.
 
         Args:
             remote_path: Directory path (defaults to config.remote_path).
@@ -223,8 +217,7 @@ class WebDAVClient:
         return response.status_code == 200
 
     def delete_file(self, remote_path: str) -> bool:
-        """
-        Delete a file from the server.
+        """Delete a file from the server.
 
         Args:
             remote_path: Path to file to delete.
@@ -241,8 +234,7 @@ class WebDAVClient:
         remote_path: str,
         local_path: Path | str,
     ) -> Path:
-        """
-        Download a file from the server.
+        """Download a file from the server.
 
         Args:
             remote_path: Path to remote file.
@@ -268,8 +260,7 @@ class WebDAVClient:
         return local_path
 
     def test_connection(self) -> bool:
-        """
-        Test connection to Nextcloud server.
+        """Test connection to Nextcloud server.
 
         Returns:
             True if connection successful, False otherwise.
@@ -289,8 +280,7 @@ def upload_budget(
     local_path: Path | str,
     config: NextcloudConfig | None = None,
 ) -> str:
-    """
-    Convenience function to upload a budget file to Nextcloud.
+    """Convenience function to upload a budget file to Nextcloud.
 
     Args:
         local_path: Path to local ODS file.

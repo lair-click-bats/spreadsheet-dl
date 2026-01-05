@@ -1,5 +1,4 @@
-"""
-Templates for mechanical engineering domain.
+"""Templates for mechanical engineering domain.
 
 Implements:
     Mechanical engineering template modules

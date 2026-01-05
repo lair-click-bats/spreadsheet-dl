@@ -1,5 +1,4 @@
-"""
-Signal analysis formulas for electrical engineering.
+"""Signal analysis formulas for electrical engineering.
 
 Implements:
     Signal formulas (SNR, BANDWIDTH, RISE_TIME, PROPAGATION_DELAY)
@@ -13,8 +12,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 
 class SignalToNoiseRatioFormula(BaseFormula):
-    """
-    Signal-to-noise ratio formula: SNR = 10 * log10(S/N).
+    """Signal-to-noise ratio formula: SNR = 10 * log10(S/N).
 
     Calculates SNR in decibels given signal and noise power.
 
@@ -25,7 +23,6 @@ class SignalToNoiseRatioFormula(BaseFormula):
         >>> formula = SignalToNoiseRatioFormula()
         >>> formula.build("100", "1")
         '10*LOG10(100/1)'
-        # Result: 20 dB
     """
 
     @property
@@ -57,8 +54,7 @@ class SignalToNoiseRatioFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: signal_power, noise_power
@@ -72,8 +68,7 @@ class SignalToNoiseRatioFormula(BaseFormula):
 
 
 class BandwidthFormula(BaseFormula):
-    """
-    Bandwidth formula: BW = 0.35 / rise_time.
+    """Bandwidth formula: BW = 0.35 / rise_time.
 
     Calculates bandwidth from rise time.
 
@@ -84,7 +79,6 @@ class BandwidthFormula(BaseFormula):
         >>> formula = BandwidthFormula()
         >>> formula.build("3.5e-9")
         '0.35/3.5e-9'
-        # Result: 100 MHz
     """
 
     @property
@@ -110,8 +104,7 @@ class BandwidthFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: rise_time
@@ -125,8 +118,7 @@ class BandwidthFormula(BaseFormula):
 
 
 class RiseTimeFormula(BaseFormula):
-    """
-    Rise time formula: t_r = 2.2 * R * C.
+    """Rise time formula: t_r = 2.2 * R * C.
 
     Calculates rise time from resistance and capacitance (RC circuit).
 
@@ -135,9 +127,8 @@ class RiseTimeFormula(BaseFormula):
 
     Example:
         >>> formula = RiseTimeFormula()
-        >>> formula.build("1000", "10e-9")
+        >>> formula.build("10e-9", "1000")
         '2.2*1000*10e-9'
-        # Result: 22μs
     """
 
     @property
@@ -169,8 +160,7 @@ class RiseTimeFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: capacitance, resistance
@@ -184,8 +174,7 @@ class RiseTimeFormula(BaseFormula):
 
 
 class PropagationDelayFormula(BaseFormula):
-    """
-    Propagation delay formula: t_pd = length / velocity.
+    """Propagation delay formula: t_pd = length / velocity.
 
     Calculates propagation delay from trace length and signal velocity.
 
@@ -196,7 +185,6 @@ class PropagationDelayFormula(BaseFormula):
         >>> formula = PropagationDelayFormula()
         >>> formula.build("100", "2e8")
         '100/2e8'
-        # Result: 0.5ns for 100mm trace
     """
 
     @property
@@ -228,8 +216,7 @@ class PropagationDelayFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: length, velocity

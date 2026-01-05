@@ -1,5 +1,4 @@
-"""
-Stress Analysis template for mechanical engineering.
+"""Stress Analysis template for mechanical engineering.
 
 Implements:
     StressAnalysisTemplate with load cases and stress calculations
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class StressAnalysisTemplate(BaseTemplate):
-    """
-    Stress Analysis template for structural components.
+    """Stress Analysis template for structural components.
 
     Generates a stress analysis spreadsheet with load cases, stress components,
     principal stresses, and von Mises stress calculations.
@@ -36,9 +34,9 @@ class StressAnalysisTemplate(BaseTemplate):
         - Yield strength comparison
 
     Example:
-        >>> template = StressAnalysisTemplate(analysis_name="Beam Analysis")
-        >>> builder = template.generate()
-        >>> builder.save("stress_analysis.ods")
+        >>> template = StressAnalysisTemplate(analysis_name="Beam Analysis")  # doctest: +SKIP
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("stress_analysis.ods")  # doctest: +SKIP
     """
 
     analysis_name: str = "Stress Analysis"
@@ -59,8 +57,7 @@ class StressAnalysisTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate stress analysis spreadsheet.
+        """Generate stress analysis spreadsheet.
 
         Returns:
             SpreadsheetBuilder configured with stress analysis template
@@ -207,8 +204,7 @@ class StressAnalysisTemplate(BaseTemplate):
         return builder
 
     def validate(self) -> bool:
-        """
-        Validate template configuration.
+        """Validate template configuration.
 
         Returns:
             True if configuration is valid

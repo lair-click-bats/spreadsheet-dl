@@ -1,5 +1,4 @@
-"""
-CAD Metadata importer for mechanical engineering.
+"""CAD Metadata importer for mechanical engineering.
 
 Implements:
     CADMetadataImporter for STEP/IGES file metadata
@@ -17,8 +16,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 @dataclass
 class CADMetadata:
-    """
-    CAD file metadata.
+    """CAD file metadata.
 
     Attributes:
         filename: CAD file name
@@ -46,8 +44,7 @@ class CADMetadata:
 
 
 class CADMetadataImporter(BaseImporter[list[dict[str, Any]]]):
-    """
-    Import metadata from CAD files (STEP/IGES format).
+    """Import metadata from CAD files (STEP/IGES format).
 
     Implements:
         CADMetadataImporter requirements
@@ -60,9 +57,9 @@ class CADMetadataImporter(BaseImporter[list[dict[str, Any]]]):
         - Map to MaterialPropertiesTemplate format
 
     Example:
-        >>> importer = CADMetadataImporter()
-        >>> result = importer.import_data("part.step")
-        >>> if result.success:
+        >>> importer = CADMetadataImporter()  # doctest: +SKIP
+        >>> result = importer.import_data("part.step")  # doctest: +SKIP
+        >>> if result.success:  # doctest: +SKIP
         ...     for part in result.data:
         ...         print(part["part_name"], part["material"])
     """
@@ -82,8 +79,7 @@ class CADMetadataImporter(BaseImporter[list[dict[str, Any]]]):
         )
 
     def validate_source(self, source: Path | str) -> bool:
-        """
-        Validate CAD file.
+        """Validate CAD file.
 
         Args:
             source: Path to CAD file
@@ -100,8 +96,7 @@ class CADMetadataImporter(BaseImporter[list[dict[str, Any]]]):
         )
 
     def import_data(self, source: Path | str) -> ImportResult[list[dict[str, Any]]]:
-        """
-        Import CAD metadata.
+        """Import CAD metadata.
 
         Args:
             source: Path to CAD file
@@ -168,8 +163,7 @@ class CADMetadataImporter(BaseImporter[list[dict[str, Any]]]):
         errors: list[str],
         warnings: list[str],
     ) -> list[CADMetadata]:
-        """
-        Parse STEP file header.
+        """Parse STEP file header.
 
         Args:
             path: Path to STEP file
@@ -259,8 +253,7 @@ class CADMetadataImporter(BaseImporter[list[dict[str, Any]]]):
         errors: list[str],
         warnings: list[str],
     ) -> list[CADMetadata]:
-        """
-        Parse IGES file header.
+        """Parse IGES file header.
 
         Args:
             path: Path to IGES file

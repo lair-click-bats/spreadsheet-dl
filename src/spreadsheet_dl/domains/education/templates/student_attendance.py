@@ -1,5 +1,4 @@
-"""
-Student Attendance Template.
+"""Student Attendance Template.
 
 Implements:
     StudentAttendanceTemplate for education domain
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class StudentAttendanceTemplate(BaseTemplate):
-    """
-    Student attendance tracking template.
+    """Student attendance tracking template.
 
     Implements:
         StudentAttendanceTemplate with attendance calculations
@@ -32,13 +30,13 @@ class StudentAttendanceTemplate(BaseTemplate):
     - Monthly/term summaries
 
     Example:
-        >>> template = StudentAttendanceTemplate(
+        >>> template = StudentAttendanceTemplate(  # doctest: +SKIP
         ...     class_name="Period 1 - Algebra",
         ...     num_students=30,
         ...     num_days=20,
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("attendance.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("attendance.ods")  # doctest: +SKIP
     """
 
     class_name: str = "Class Attendance"
@@ -51,8 +49,7 @@ class StudentAttendanceTemplate(BaseTemplate):
 
     @property
     def metadata(self) -> TemplateMetadata:
-        """
-        Get template metadata.
+        """Get template metadata.
 
         Returns:
             TemplateMetadata for student attendance template
@@ -70,8 +67,7 @@ class StudentAttendanceTemplate(BaseTemplate):
         )
 
     def validate(self) -> bool:
-        """
-        Validate template parameters.
+        """Validate template parameters.
 
         Returns:
             True if parameters are valid
@@ -82,8 +78,7 @@ class StudentAttendanceTemplate(BaseTemplate):
         return self.num_students > 0 and self.num_days > 0
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate the student attendance spreadsheet.
+        """Generate the student attendance spreadsheet.
 
         Returns:
             Configured SpreadsheetBuilder instance

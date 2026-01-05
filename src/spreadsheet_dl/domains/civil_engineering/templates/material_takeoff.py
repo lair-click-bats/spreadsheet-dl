@@ -1,5 +1,4 @@
-"""
-Material takeoff template for construction quantity estimation.
+"""Material takeoff template for construction quantity estimation.
 
 Implements:
     MaterialTakeoffTemplate with quantity calculations
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class MaterialTakeoffTemplate(BaseTemplate):
-    """
-    Material takeoff template for quantity estimation.
+    """Material takeoff template for quantity estimation.
 
     Implements:
         MaterialTakeoffTemplate requirements
@@ -33,12 +31,12 @@ class MaterialTakeoffTemplate(BaseTemplate):
         - Cost analysis
 
     Example:
-        >>> template = MaterialTakeoffTemplate(
+        >>> template = MaterialTakeoffTemplate(  # doctest: +SKIP
         ...     project_name="Highway Bridge",
         ...     num_items=30
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("material_takeoff.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("material_takeoff.ods")  # doctest: +SKIP
     """
 
     project_name: str = "Construction Project"
@@ -58,8 +56,7 @@ class MaterialTakeoffTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate material takeoff spreadsheet.
+        """Generate material takeoff spreadsheet.
 
         Returns:
             SpreadsheetBuilder configured with material takeoff template

@@ -1,5 +1,4 @@
-"""
-Budget Templates - Pre-configured budget templates for different scenarios.
+"""Budget Templates - Pre-configured budget templates for different scenarios.
 
 Provides ready-to-use budget templates for various household types
 and financial situations.
@@ -56,8 +55,7 @@ class BudgetTemplate:
         return sum((a.monthly_budget for a in self.allocations), Decimal("0"))
 
     def scale_to_income(self, monthly_income: Decimal) -> list[BudgetAllocation]:
-        """
-        Scale allocations to a specific monthly income.
+        """Scale allocations to a specific monthly income.
 
         Args:
             monthly_income: Target monthly income.
@@ -408,8 +406,7 @@ BUDGET_TEMPLATES: dict[str, BudgetTemplate] = {
 
 
 def get_template(name: str) -> BudgetTemplate:
-    """
-    Get a budget template by name.
+    """Get a budget template by name.
 
     Args:
         name: Template name.
@@ -427,8 +424,7 @@ def get_template(name: str) -> BudgetTemplate:
 
 
 def list_templates() -> list[dict[str, Any]]:
-    """
-    List all available templates with summaries.
+    """List all available templates with summaries.
 
     Returns:
         List of template info dictionaries.
@@ -452,8 +448,7 @@ def create_custom_template(
     savings_rate: float = 20.0,
     housing_percent: float = 28.0,
 ) -> BudgetTemplate:
-    """
-    Create a custom template based on income and goals.
+    """Create a custom template based on income and goals.
 
     Args:
         name: Template name.

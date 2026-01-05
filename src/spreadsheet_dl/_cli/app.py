@@ -1,5 +1,4 @@
-"""
-Main CLI application setup for SpreadsheetDL.
+"""Main CLI application setup for SpreadsheetDL.
 
 Contains argument parser setup, command routing, and main entry point.
 
@@ -24,18 +23,50 @@ New in v0.5.0:
 from __future__ import annotations
 
 import argparse
+import os
+import signal
 import sys
 from pathlib import Path
 from typing import Any
 
-from spreadsheet_dl import __version__
 from spreadsheet_dl._cli import commands
+from spreadsheet_dl._version import __version__
 from spreadsheet_dl.exceptions import OperationCancelledError, SpreadsheetDLError
 
 
-def create_parser() -> argparse.ArgumentParser:
+def _should_disable_color() -> bool:
+    """Check if color output should be disabled.
+
+    Follows the NO_COLOR standard (https://no-color.org/).
+
+    Returns:
+        True if colors should be disabled.
     """
-    Create and configure the argument parser.
+    # NO_COLOR standard: if set to any value, disable colors
+    if os.environ.get("NO_COLOR") is not None:
+        return True
+    # Also check common CI environment variables
+    if os.environ.get("CI") == "true":
+        return True
+    # Disable colors if stdout is not a TTY (piped or redirected)
+    return not sys.stdout.isatty()
+
+
+def _setup_signal_handlers() -> None:
+    """Set up signal handlers for graceful shutdown."""
+
+    def handle_sigterm(signum: int, frame: Any) -> None:
+        """Handle SIGTERM for graceful shutdown."""
+        print("\nReceived termination signal, cleaning up...", file=sys.stderr)
+        sys.exit(128 + signum)
+
+    # Register SIGTERM handler (SIGINT is handled by KeyboardInterrupt)
+    if hasattr(signal, "SIGTERM"):
+        signal.signal(signal.SIGTERM, handle_sigterm)
+
+
+def create_parser() -> argparse.ArgumentParser:
+    """Create and configure the argument parser.
 
     Returns:
         Configured ArgumentParser instance.
@@ -88,7 +119,23 @@ For more information, visit: https://github.com/lair-click-bats/spreadsheet-dl
     parser.add_argument(
         "--no-color",
         action="store_true",
-        help="Disable colored output",
+        default=_should_disable_color(),
+        help="Disable colored output (auto-detected from NO_COLOR env var)",
+    )
+
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        action="count",
+        default=0,
+        help="Increase output verbosity (can be repeated: -v, -vv, -vvv)",
+    )
+
+    parser.add_argument(
+        "-q",
+        "--quiet",
+        action="store_true",
+        help="Suppress non-essential output",
     )
 
     # Global confirmation skip flag
@@ -177,6 +224,11 @@ def _add_generate_parser(
         "--force",
         action="store_true",
         help="Overwrite existing file without confirmation",
+    )
+    gen_parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Output result as JSON",
     )
 
 
@@ -280,6 +332,11 @@ def _add_expense_parser(subparsers: Any) -> None:
         "--dry-run",
         action="store_true",
         help="Show what would be added without modifying the file",
+    )
+    expense_parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Output result as JSON",
     )
 
 
@@ -421,6 +478,11 @@ def _add_backup_parser(subparsers: Any) -> None:
         action="store_true",
         help="Skip confirmation for restore/cleanup",
     )
+    backup_parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Output result as JSON",
+    )
 
 
 def _add_upload_parser(subparsers: Any) -> None:
@@ -440,6 +502,11 @@ def _add_upload_parser(subparsers: Any) -> None:
         "--path",
         type=str,
         help="Remote path on Nextcloud",
+    )
+    upload_parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Output result as JSON",
     )
 
 
@@ -492,6 +559,11 @@ def _add_visualize_parser(subparsers: Any) -> None:
         choices=["default", "dark"],
         default="default",
         help="Visual theme (default: default)",
+    )
+    visualize_parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Output chart data as JSON instead of generating HTML",
     )
 
 
@@ -788,8 +860,7 @@ def _add_plugin_parser(subparsers: Any) -> None:
 
 
 def route_command(args: argparse.Namespace) -> int:
-    """
-    Route parsed arguments to the appropriate command handler.
+    """Route parsed arguments to the appropriate command handler.
 
     Args:
         args: Parsed command-line arguments.
@@ -828,12 +899,14 @@ def route_command(args: argparse.Namespace) -> int:
 
 
 def main() -> int:
-    """
-    Main entry point for the CLI application.
+    """Main entry point for the CLI application.
 
     Returns:
         Exit code (0 for success, non-zero for error).
     """
+    # Set up signal handlers for graceful shutdown
+    _setup_signal_handlers()
+
     parser = create_parser()
     args = parser.parse_args()
 

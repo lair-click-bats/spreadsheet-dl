@@ -1,5 +1,4 @@
-"""
-Sensor Network Data Importer.
+"""Sensor Network Data Importer.
 
 Implements:
     SensorNetworkImporter for environmental domain
@@ -18,8 +17,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 @dataclass
 class SensorNetworkImporter(BaseImporter[list[dict[str, Any]]]):
-    """
-    IoT sensor network data importer.
+    """IoT sensor network data importer.
 
     Implements:
         SensorNetworkImporter for environmental monitoring
@@ -30,9 +28,9 @@ class SensorNetworkImporter(BaseImporter[list[dict[str, Any]]]):
     - Multi-parameter sensor readings
 
     Example:
-        >>> importer = SensorNetworkImporter()
-        >>> result = importer.import_data("sensor_readings.csv")
-        >>> print(f"Imported {result.records_imported} sensor readings")
+        >>> importer = SensorNetworkImporter()  # doctest: +SKIP
+        >>> result = importer.import_data("sensor_readings.csv")  # doctest: +SKIP
+        >>> print(f"Imported {result.records_imported} sensor readings")  # doctest: +SKIP
     """
 
     sensor_type: str = "environmental"

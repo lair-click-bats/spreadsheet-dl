@@ -1,5 +1,4 @@
-"""
-Course Gradebook Template.
+"""Course Gradebook Template.
 
 Implements:
     CourseGradebookTemplate for education domain
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class CourseGradebookTemplate(BaseTemplate):
-    """
-    Course gradebook template for grade tracking.
+    """Course gradebook template for grade tracking.
 
     Implements:
         CourseGradebookTemplate with grade calculations
@@ -33,13 +31,13 @@ class CourseGradebookTemplate(BaseTemplate):
     - Grade distribution chart data
 
     Example:
-        >>> template = CourseGradebookTemplate(
+        >>> template = CourseGradebookTemplate(  # doctest: +SKIP
         ...     course_name="Introduction to Python",
         ...     num_students=30,
         ...     num_assignments=10,
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("gradebook.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("gradebook.ods")  # doctest: +SKIP
     """
 
     course_name: str = "Course Gradebook"
@@ -60,8 +58,7 @@ class CourseGradebookTemplate(BaseTemplate):
 
     @property
     def metadata(self) -> TemplateMetadata:
-        """
-        Get template metadata.
+        """Get template metadata.
 
         Returns:
             TemplateMetadata for course gradebook template
@@ -79,8 +76,7 @@ class CourseGradebookTemplate(BaseTemplate):
         )
 
     def validate(self) -> bool:
-        """
-        Validate template parameters.
+        """Validate template parameters.
 
         Returns:
             True if parameters are valid
@@ -95,8 +91,7 @@ class CourseGradebookTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate the course gradebook spreadsheet.
+        """Generate the course gradebook spreadsheet.
 
         Returns:
             Configured SpreadsheetBuilder instance

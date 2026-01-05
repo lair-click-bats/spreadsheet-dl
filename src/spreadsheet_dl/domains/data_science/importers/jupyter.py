@@ -1,5 +1,4 @@
-"""
-Jupyter notebook metadata importer.
+"""Jupyter notebook metadata importer.
 
 Implements:
     JupyterMetadataImporter for data science domain
@@ -16,8 +15,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 
 class JupyterMetadataImporter(BaseImporter[dict[str, Any]]):
-    """
-    Jupyter notebook metadata extractor.
+    """Jupyter notebook metadata extractor.
 
     Implements:
         JupyterMetadataImporter for notebook analysis
@@ -31,9 +29,9 @@ class JupyterMetadataImporter(BaseImporter[dict[str, Any]]):
     - Create summary metadata dict
 
     Example:
-        >>> importer = JupyterMetadataImporter()
-        >>> result = importer.import_data("analysis.ipynb")
-        >>> if result.success:
+        >>> importer = JupyterMetadataImporter()  # doctest: +SKIP
+        >>> result = importer.import_data("analysis.ipynb")  # doctest: +SKIP
+        >>> if result.success:  # doctest: +SKIP
         ...     metadata = result.data
         ...     print(f"Cells: {metadata['cell_count']}")
         ...     print(f"Kernel: {metadata['kernel']}")
@@ -45,8 +43,7 @@ class JupyterMetadataImporter(BaseImporter[dict[str, Any]]):
 
     @property
     def metadata(self) -> ImporterMetadata:
-        """
-        Get importer metadata.
+        """Get importer metadata.
 
         Returns:
             ImporterMetadata for Jupyter importer
@@ -62,8 +59,7 @@ class JupyterMetadataImporter(BaseImporter[dict[str, Any]]):
         )
 
     def validate_source(self, source: Path | str) -> bool:
-        """
-        Validate Jupyter notebook source file.
+        """Validate Jupyter notebook source file.
 
         Args:
             source: Path to .ipynb file
@@ -78,8 +74,7 @@ class JupyterMetadataImporter(BaseImporter[dict[str, Any]]):
         return path.exists() and path.is_file() and path.suffix.lower() == ".ipynb"
 
     def import_data(self, source: Path | str) -> ImportResult[dict[str, Any]]:
-        """
-        Import metadata from Jupyter notebook.
+        """Import metadata from Jupyter notebook.
 
         Args:
             source: Path to .ipynb file
@@ -135,8 +130,7 @@ class JupyterMetadataImporter(BaseImporter[dict[str, Any]]):
             )
 
     def _extract_metadata(self, notebook: dict[str, Any], path: Path) -> dict[str, Any]:
-        """
-        Extract metadata from notebook JSON.
+        """Extract metadata from notebook JSON.
 
         Args:
             notebook: Parsed notebook JSON

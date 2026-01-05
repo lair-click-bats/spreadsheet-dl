@@ -1,5 +1,4 @@
-"""
-Main SpreadsheetBuilder class for fluent spreadsheet construction.
+"""Main SpreadsheetBuilder class for fluent spreadsheet construction.
 
 Implements:
     - FR-BUILDER-001: Extended SpreadsheetBuilder
@@ -38,8 +37,7 @@ if TYPE_CHECKING:
 
 
 class SpreadsheetBuilder:
-    """
-    Fluent builder for creating spreadsheets.
+    r"""Fluent builder for creating spreadsheets.
 
     Implements FR-BUILDER-001: Extended SpreadsheetBuilder
     Implements PHASE0-004: Perfect Builder API (v4.0.0)
@@ -94,8 +92,7 @@ class SpreadsheetBuilder:
         theme: str | Theme | None = "default",
         theme_dir: Path | str | None = None,
     ) -> None:
-        """
-        Initialize builder with theme.
+        """Initialize builder with theme.
 
         Args:
             theme: Theme name, Theme object, or None for no theme
@@ -140,8 +137,7 @@ class SpreadsheetBuilder:
         keywords: list[str] | None = None,
         **custom: str,
     ) -> Self:
-        """
-        Set workbook-level properties.
+        """Set workbook-level properties.
 
         Args:
             title: Document title
@@ -175,8 +171,7 @@ class SpreadsheetBuilder:
         end: str,
         sheet: str | None = None,
     ) -> Self:
-        """
-        Define a named range.
+        """Define a named range.
 
         Args:
             name: Range name
@@ -211,8 +206,7 @@ class SpreadsheetBuilder:
     # =========================================================================
 
     def sheet(self, name: str) -> Self:
-        """
-        Start a new sheet.
+        """Start a new sheet.
 
         Args:
             name: Sheet name
@@ -226,8 +220,7 @@ class SpreadsheetBuilder:
         return self
 
     def freeze(self, *, rows: int = 0, cols: int = 0) -> Self:
-        """
-        Freeze rows and/or columns.
+        """Freeze rows and/or columns.
 
         Args:
             rows: Number of rows to freeze
@@ -246,8 +239,7 @@ class SpreadsheetBuilder:
         return self
 
     def print_area(self, range_ref: str) -> Self:
-        """
-        Set print area.
+        """Set print area.
 
         Args:
             range_ref: Range reference (e.g., "A1:D50")
@@ -270,8 +262,7 @@ class SpreadsheetBuilder:
         edit_cells: bool = False,
         edit_objects: bool = False,
     ) -> Self:
-        """
-        Enable sheet protection.
+        """Enable sheet protection.
 
         Args:
             password: Protection password
@@ -308,8 +299,7 @@ class SpreadsheetBuilder:
         validation: str | None = None,
         hidden: bool = False,
     ) -> Self:
-        """
-        Add a column to current sheet.
+        """Add a column to current sheet.
 
         Args:
             name: Column header name
@@ -345,8 +335,7 @@ class SpreadsheetBuilder:
     # =========================================================================
 
     def header_row(self, *, style: str = "header_primary") -> Self:
-        """
-        Add header row with column names.
+        """Add header row with column names.
 
         Args:
             style: Style for header cells
@@ -369,8 +358,7 @@ class SpreadsheetBuilder:
         return self
 
     def row(self, *, style: str | None = None, height: str | None = None) -> Self:
-        """
-        Start a new row.
+        """Start a new row.
 
         Args:
             style: Default style for cells in this row
@@ -396,8 +384,7 @@ class SpreadsheetBuilder:
         style: str | None = None,
         alternate_styles: list[str] | None = None,
     ) -> Self:
-        """
-        Add empty data entry rows with optional alternating styles.
+        """Add empty data entry rows with optional alternating styles.
 
         Args:
             count: Number of rows to add
@@ -443,8 +430,7 @@ class SpreadsheetBuilder:
         values: Sequence[str | None] | None = None,
         formulas: Sequence[str | None] | None = None,
     ) -> Self:
-        """
-        Add a total/summary row.
+        """Add a total/summary row.
 
         Args:
             style: Style for total row cells
@@ -491,8 +477,7 @@ class SpreadsheetBuilder:
         *,
         style: str | None = None,
     ) -> Self:
-        """
-        Add a row with formulas.
+        """Add a row with formulas.
 
         Args:
             formulas: List of formula strings (None for empty cells)
@@ -529,8 +514,7 @@ class SpreadsheetBuilder:
         rowspan: int = 1,
         value_type: str | None = None,
     ) -> Self:
-        """
-        Add a cell to current row.
+        """Add a cell to current row.
 
         Args:
             value: Cell value
@@ -562,8 +546,7 @@ class SpreadsheetBuilder:
         return self
 
     def cells(self, *values: Any, style: str | None = None) -> Self:
-        """
-        Add multiple cells to current row.
+        """Add multiple cells to current row.
 
         Args:
             *values: Cell values
@@ -587,8 +570,7 @@ class SpreadsheetBuilder:
     # =========================================================================
 
     def conditional_format(self, format_ref: str) -> Self:
-        """
-        Add a conditional format reference to current sheet.
+        """Add a conditional format reference to current sheet.
 
         Args:
             format_ref: Conditional format reference name
@@ -605,8 +587,7 @@ class SpreadsheetBuilder:
         return self
 
     def validation(self, validation_ref: str) -> Self:
-        """
-        Add a data validation reference to current sheet.
+        """Add a data validation reference to current sheet.
 
         Args:
             validation_ref: Validation reference name
@@ -627,8 +608,7 @@ class SpreadsheetBuilder:
     # =========================================================================
 
     def chart(self, chart_spec: ChartSpec) -> Self:
-        """
-        Add a chart to current sheet.
+        r"""Add a chart to current sheet.
 
         Args:
             chart_spec: ChartSpec from ChartBuilder.build()
@@ -661,8 +641,7 @@ class SpreadsheetBuilder:
     # =========================================================================
 
     def build(self) -> list[SheetSpec]:
-        """
-        Return the built sheet specifications.
+        """Return the built sheet specifications.
 
         Returns:
             List of SheetSpec objects
@@ -678,8 +657,7 @@ class SpreadsheetBuilder:
         return self._sheets
 
     def get_properties(self) -> WorkbookProperties:
-        """
-        Get workbook properties.
+        """Get workbook properties.
 
         Returns:
             WorkbookProperties object
@@ -687,8 +665,7 @@ class SpreadsheetBuilder:
         return self._workbook_properties
 
     def get_named_ranges(self) -> list[NamedRange]:
-        """
-        Get named ranges.
+        """Get named ranges.
 
         Returns:
             List of NamedRange objects
@@ -696,8 +673,7 @@ class SpreadsheetBuilder:
         return self._named_ranges
 
     def save(self, path: Path | str) -> Path:
-        """
-        Generate and save the ODS file.
+        """Generate and save the ODS file.
 
         Exports all sheets, named ranges, and styling to ODS format.
 
@@ -725,8 +701,7 @@ class SpreadsheetBuilder:
 
 
 def create_spreadsheet(theme: str = "default") -> SpreadsheetBuilder:
-    """
-    Create a new spreadsheet builder.
+    """Create a new spreadsheet builder.
 
     Args:
         theme: Theme name to use
@@ -738,8 +713,7 @@ def create_spreadsheet(theme: str = "default") -> SpreadsheetBuilder:
 
 
 def formula() -> FormulaBuilder:
-    """
-    Create a formula builder.
+    """Create a formula builder.
 
     Returns:
         FormulaBuilder instance

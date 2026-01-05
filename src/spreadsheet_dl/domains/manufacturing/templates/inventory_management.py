@@ -1,5 +1,4 @@
-"""
-Inventory Management Template for stock tracking and optimization.
+"""Inventory Management Template for stock tracking and optimization.
 
 Implements:
     InventoryManagementTemplate for manufacturing domain
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class InventoryManagementTemplate(BaseTemplate):
-    """
-    Inventory tracking with reorder points and safety stock.
+    """Inventory tracking with reorder points and safety stock.
 
     Implements:
         InventoryManagementTemplate with EOQ and safety stock
@@ -34,12 +32,12 @@ class InventoryManagementTemplate(BaseTemplate):
     - Inventory turnover metrics
 
     Example:
-        >>> template = InventoryManagementTemplate(
+        >>> template = InventoryManagementTemplate(  # doctest: +SKIP
         ...     warehouse_name="Main Warehouse",
         ...     include_eoq: bool = True,
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("inventory.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("inventory.ods")  # doctest: +SKIP
     """
 
     warehouse_name: str = "Warehouse"
@@ -49,8 +47,7 @@ class InventoryManagementTemplate(BaseTemplate):
 
     @property
     def metadata(self) -> TemplateMetadata:
-        """
-        Get template metadata.
+        """Get template metadata.
 
         Returns:
             TemplateMetadata for inventory management template
@@ -68,8 +65,7 @@ class InventoryManagementTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate the inventory management spreadsheet.
+        """Generate the inventory management spreadsheet.
 
         Returns:
             Configured SpreadsheetBuilder instance

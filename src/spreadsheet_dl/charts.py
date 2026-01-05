@@ -1,5 +1,4 @@
-"""
-Charts and visualization support for SpreadsheetDL.
+"""Charts and visualization support for SpreadsheetDL.
 
 Implements:
     - FR-CHART-001: Chart Type Support
@@ -120,8 +119,7 @@ class SparklineType(Enum):
 
 @dataclass
 class ChartTitle:
-    """
-    Chart title configuration (FR-CHART-002).
+    """Chart title configuration (FR-CHART-002).
 
     Attributes:
         text: Title text
@@ -142,8 +140,7 @@ class ChartTitle:
 
 @dataclass(slots=True)
 class AxisConfig:
-    """
-    Axis configuration for chart axes.
+    """Axis configuration for chart axes.
 
     Uses __slots__ for memory efficiency.
 
@@ -178,8 +175,7 @@ class AxisConfig:
 
 @dataclass
 class LegendConfig:
-    """
-    Legend configuration (FR-CHART-002).
+    """Legend configuration (FR-CHART-002).
 
     Attributes:
         position: Legend position
@@ -198,8 +194,7 @@ class LegendConfig:
 
 @dataclass
 class DataLabelConfig:
-    """
-    Data label configuration (FR-CHART-002).
+    """Data label configuration (FR-CHART-002).
 
     Attributes:
         show_value: Show value on label
@@ -224,8 +219,7 @@ class DataLabelConfig:
 
 @dataclass
 class Trendline:
-    """
-    Trendline configuration (FR-CHART-007).
+    """Trendline configuration (FR-CHART-007).
 
     Attributes:
         type: Trendline type
@@ -256,8 +250,7 @@ class Trendline:
 
 @dataclass(slots=True)
 class DataSeries:
-    """
-    Chart data series configuration.
+    """Chart data series configuration.
 
     Uses __slots__ for memory efficiency.
 
@@ -290,8 +283,7 @@ class DataSeries:
 
 @dataclass
 class ChartPosition:
-    """
-    Chart position configuration (FR-CHART-006).
+    """Chart position configuration (FR-CHART-006).
 
     Attributes:
         cell: Anchor cell reference (e.g., "F2")
@@ -312,8 +304,7 @@ class ChartPosition:
 
 @dataclass
 class ChartSize:
-    """
-    Chart size configuration (FR-CHART-006).
+    """Chart size configuration (FR-CHART-006).
 
     Attributes:
         width: Width in pixels
@@ -326,8 +317,7 @@ class ChartSize:
 
 @dataclass
 class PlotAreaStyle:
-    """
-    Plot area styling (FR-CHART-002).
+    """Plot area styling (FR-CHART-002).
 
     Attributes:
         background_color: Background color (hex)
@@ -347,8 +337,7 @@ class PlotAreaStyle:
 
 @dataclass
 class SparklineMarkers:
-    """
-    Sparkline marker configuration (FR-CHART-003).
+    """Sparkline marker configuration (FR-CHART-003).
 
     Attributes:
         high: Color for highest point
@@ -367,8 +356,7 @@ class SparklineMarkers:
 
 @dataclass
 class Sparkline:
-    """
-    Sparkline configuration (FR-CHART-003).
+    """Sparkline configuration (FR-CHART-003).
 
     Attributes:
         type: Sparkline type (line, column, win_loss)
@@ -402,8 +390,7 @@ class Sparkline:
 
 @dataclass(slots=True)
 class ChartSpec:
-    """
-    Complete chart specification.
+    """Complete chart specification.
 
     Uses __slots__ for memory efficiency. This is the output of ChartBuilder
     and contains all configuration needed to render a chart.
@@ -449,8 +436,7 @@ class ChartSpec:
 
 
 class ChartBuilder:
-    """
-    Fluent builder for creating charts.
+    r"""Fluent builder for creating charts.
 
     Implements FR-BUILDER-004: ChartBuilder
 
@@ -502,8 +488,7 @@ class ChartBuilder:
     # =========================================================================
 
     def column_chart(self, stacked: bool = False, percent: bool = False) -> Self:
-        """
-        Set chart type to column.
+        """Set chart type to column.
 
         Args:
             stacked: Use stacked columns
@@ -521,8 +506,7 @@ class ChartBuilder:
         return self
 
     def bar_chart(self, stacked: bool = False, percent: bool = False) -> Self:
-        """
-        Set chart type to bar (horizontal columns).
+        """Set chart type to bar (horizontal columns).
 
         Args:
             stacked: Use stacked bars
@@ -540,8 +524,7 @@ class ChartBuilder:
         return self
 
     def line_chart(self, markers: bool = False, smooth: bool = False) -> Self:
-        """
-        Set chart type to line.
+        """Set chart type to line.
 
         Args:
             markers: Show data point markers
@@ -559,8 +542,7 @@ class ChartBuilder:
         return self
 
     def area_chart(self, stacked: bool = False, percent: bool = False) -> Self:
-        """
-        Set chart type to area.
+        """Set chart type to area.
 
         Args:
             stacked: Use stacked areas
@@ -578,8 +560,7 @@ class ChartBuilder:
         return self
 
     def pie_chart(self, doughnut: bool = False) -> Self:
-        """
-        Set chart type to pie.
+        """Set chart type to pie.
 
         Args:
             doughnut: Use doughnut style
@@ -594,8 +575,7 @@ class ChartBuilder:
         return self
 
     def scatter_chart(self, lines: bool = False) -> Self:
-        """
-        Set chart type to scatter.
+        """Set chart type to scatter.
 
         Args:
             lines: Connect points with lines
@@ -632,8 +612,7 @@ class ChartBuilder:
         color: str | None = None,
         position: str = "top",
     ) -> Self:
-        """
-        Set chart title.
+        """Set chart title.
 
         Args:
             text: Title text
@@ -665,8 +644,7 @@ class ChartBuilder:
         font_size: str = "9pt",
         format_code: str | None = None,
     ) -> Self:
-        """
-        Configure data labels for all series.
+        """Configure data labels for all series.
 
         Args:
             show_value: Show value on label
@@ -708,8 +686,7 @@ class ChartBuilder:
         chart_type: str | ChartType | None = None,
         trendline: str | None = None,
     ) -> Self:
-        """
-        Add a data series.
+        """Add a data series.
 
         Args:
             name: Series name (for legend)
@@ -754,8 +731,7 @@ class ChartBuilder:
         return self
 
     def series_color(self, color: str) -> Self:
-        """
-        Set color for the last added series.
+        """Set color for the last added series.
 
         Args:
             color: Hex color
@@ -776,8 +752,7 @@ class ChartBuilder:
         display_equation: bool = False,
         display_r_squared: bool = False,
     ) -> Self:
-        """
-        Add trendline to the last added series.
+        """Add trendline to the last added series.
 
         Args:
             type: Trendline type
@@ -800,8 +775,7 @@ class ChartBuilder:
         return self
 
     def categories(self, range_ref: str) -> Self:
-        """
-        Set category range for all series.
+        """Set category range for all series.
 
         Args:
             range_ref: Range reference (e.g., "Sheet.A2:A20")
@@ -824,8 +798,7 @@ class ChartBuilder:
         font_size: str = "10pt",
         overlay: bool = False,
     ) -> Self:
-        """
-        Configure chart legend.
+        """Configure chart legend.
 
         Args:
             position: Legend position (top, bottom, left, right, none)
@@ -863,8 +836,7 @@ class ChartBuilder:
         gridlines: bool = True,
         logarithmic: bool = False,
     ) -> Self:
-        """
-        Configure an axis.
+        """Configure an axis.
 
         Args:
             axis_type: Axis type ("category", "value", "secondary")
@@ -908,8 +880,7 @@ class ChartBuilder:
         format_code: str | None = None,
         reversed: bool = False,
     ) -> Self:
-        """
-        Configure category (X) axis.
+        """Configure category (X) axis.
 
         Args:
             title: Axis title
@@ -936,8 +907,7 @@ class ChartBuilder:
         format_code: str | None = None,
         logarithmic: bool = False,
     ) -> Self:
-        """
-        Configure value (Y) axis.
+        """Configure value (Y) axis.
 
         Args:
             title: Axis title
@@ -972,8 +942,7 @@ class ChartBuilder:
         move_with_cells: bool = True,
         size_with_cells: bool = False,
     ) -> Self:
-        """
-        Set chart position.
+        """Set chart position.
 
         Args:
             cell: Anchor cell (e.g., "F2")
@@ -995,8 +964,7 @@ class ChartBuilder:
         return self
 
     def size(self, width: int, height: int) -> Self:
-        """
-        Set chart size.
+        """Set chart size.
 
         Args:
             width: Width in pixels
@@ -1013,8 +981,7 @@ class ChartBuilder:
     # =========================================================================
 
     def style(self, preset: str) -> Self:
-        """
-        Apply a style preset.
+        """Apply a style preset.
 
         Args:
             preset: Style preset name (e.g., "theme", "minimal", "colorful")
@@ -1026,8 +993,7 @@ class ChartBuilder:
         return self
 
     def colors(self, *colors: str) -> Self:
-        """
-        Set custom color palette.
+        """Set custom color palette.
 
         Args:
             *colors: Hex color values
@@ -1045,8 +1011,7 @@ class ChartBuilder:
         border_color: str | None = None,
         border_width: str = "1pt",
     ) -> Self:
-        """
-        Configure plot area styling.
+        """Configure plot area styling.
 
         Args:
             background: Background color
@@ -1064,8 +1029,7 @@ class ChartBuilder:
         return self
 
     def threed(self, enabled: bool = True) -> Self:
-        """
-        Enable 3D effects.
+        """Enable 3D effects.
 
         Args:
             enabled: Whether to enable 3D
@@ -1081,8 +1045,7 @@ class ChartBuilder:
     # =========================================================================
 
     def build(self) -> ChartSpec:
-        """
-        Build the chart specification.
+        """Build the chart specification.
 
         Returns:
             ChartSpec object
@@ -1096,8 +1059,7 @@ class ChartBuilder:
 
 
 class SparklineBuilder:
-    """
-    Fluent builder for creating sparklines.
+    r"""Fluent builder for creating sparklines.
 
     Implements FR-CHART-003: Sparklines
 
@@ -1130,8 +1092,7 @@ class SparklineBuilder:
         return self
 
     def data(self, range_ref: str) -> Self:
-        """
-        Set data range.
+        """Set data range.
 
         Args:
             range_ref: Range reference (can include {row} placeholder)
@@ -1143,8 +1104,7 @@ class SparklineBuilder:
         return self
 
     def color(self, color: str) -> Self:
-        """
-        Set sparkline color.
+        """Set sparkline color.
 
         Args:
             color: Hex color
@@ -1156,8 +1116,7 @@ class SparklineBuilder:
         return self
 
     def negative_color(self, color: str) -> Self:
-        """
-        Set color for negative values.
+        """Set color for negative values.
 
         Args:
             color: Hex color
@@ -1177,8 +1136,7 @@ class SparklineBuilder:
         last: str | None = None,
         negative: str | None = None,
     ) -> Self:
-        """
-        Configure marker colors.
+        """Configure marker colors.
 
         Args:
             high: Color for highest point
@@ -1200,8 +1158,7 @@ class SparklineBuilder:
         return self
 
     def axis_range(self, min: float | None = None, max: float | None = None) -> Self:
-        """
-        Set axis range.
+        """Set axis range.
 
         Args:
             min: Minimum value
@@ -1215,8 +1172,7 @@ class SparklineBuilder:
         return self
 
     def same_scale(self, enabled: bool = True) -> Self:
-        """
-        Use same scale for group.
+        """Use same scale for group.
 
         Args:
             enabled: Whether to use same scale
@@ -1228,8 +1184,7 @@ class SparklineBuilder:
         return self
 
     def show_axis(self, enabled: bool = True) -> Self:
-        """
-        Show horizontal axis.
+        """Show horizontal axis.
 
         Args:
             enabled: Whether to show axis
@@ -1241,8 +1196,7 @@ class SparklineBuilder:
         return self
 
     def build(self) -> Sparkline:
-        """
-        Build the sparkline specification.
+        """Build the sparkline specification.
 
         Returns:
             Sparkline object
@@ -1256,8 +1210,7 @@ class SparklineBuilder:
 
 
 def chart() -> ChartBuilder:
-    """
-    Create a new chart builder.
+    """Create a new chart builder.
 
     Returns:
         ChartBuilder instance
@@ -1266,8 +1219,7 @@ def chart() -> ChartBuilder:
 
 
 def sparkline() -> SparklineBuilder:
-    """
-    Create a new sparkline builder.
+    """Create a new sparkline builder.
 
     Returns:
         SparklineBuilder instance
@@ -1286,8 +1238,7 @@ def budget_comparison_chart(
     title: str = "Budget vs Actual",
     position: str = "F2",
 ) -> ChartSpec:
-    """
-    Create a budget comparison column chart.
+    """Create a budget comparison column chart.
 
     Args:
         categories: Category labels range
@@ -1321,8 +1272,7 @@ def spending_pie_chart(
     title: str = "Spending by Category",
     position: str = "F2",
 ) -> ChartSpec:
-    """
-    Create a spending breakdown pie chart.
+    """Create a spending breakdown pie chart.
 
     Args:
         categories: Category labels range
@@ -1355,8 +1305,7 @@ def trend_line_chart(
     position: str = "F2",
     trendline: bool = True,
 ) -> ChartSpec:
-    """
-    Create a trend line chart.
+    """Create a trend line chart.
 
     Args:
         categories: Category labels range (e.g., months)

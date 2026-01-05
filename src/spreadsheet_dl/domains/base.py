@@ -1,5 +1,4 @@
-"""
-Domain Plugin Base Classes for SpreadsheetDL v4.0.0.
+"""Domain Plugin Base Classes for SpreadsheetDL v4.0.0.
 
 Implements:
     PHASE0-002: Create domain plugin base classes
@@ -22,18 +21,21 @@ Design Principles:
     - Comprehensive error handling
 
 Example:
-    >>> from spreadsheet_dl.domains.base import BaseDomainPlugin, BaseTemplate
-    >>>
-    >>> class FinanceDomainPlugin(BaseDomainPlugin):
-    ...     @property
-    ...     def name(self) -> str:
-    ...         return "finance"
-    ...
-    ...     def initialize(self) -> None:
-    ...         self.register_template("budget", BudgetTemplate)
-    ...
-    >>> plugin = FinanceDomainPlugin()
-    >>> plugin.initialize()
+    See the individual domain plugin implementations in the domains/ directory
+    for complete examples of how to create domain plugins.
+
+    Basic structure::
+
+        class FinanceDomainPlugin(BaseDomainPlugin):
+            @property
+            def metadata(self):
+                return PluginMetadata(name="finance", version="1.0.0", ...)
+
+            def initialize(self) -> None:
+                self.register_template("budget", BudgetTemplate)
+
+            def cleanup(self) -> None:
+                pass
 """
 
 from __future__ import annotations
@@ -68,8 +70,7 @@ ImporterT = TypeVar("ImporterT", bound="BaseImporter[Any]")
 
 @dataclass(slots=True, frozen=True)
 class PluginMetadata:
-    """
-    Metadata for a domain plugin.
+    """Metadata for a domain plugin.
 
     Implements:
         PHASE0-002: BaseDomainPlugin metadata requirements
@@ -109,8 +110,7 @@ class PluginMetadata:
 
 @dataclass(slots=True, frozen=True)
 class PluginDependency:
-    """
-    Plugin dependency specification.
+    """Plugin dependency specification.
 
     Attributes:
         plugin_name: Name of required plugin
@@ -146,8 +146,7 @@ class PluginStatus(str, Enum):
 
 
 class BaseDomainPlugin(ABC):
-    """
-    Abstract base class for domain plugins.
+    """Abstract base class for domain plugins.
 
     Implements:
         PHASE0-002: BaseDomainPlugin abstract class
@@ -205,14 +204,13 @@ class BaseDomainPlugin(ABC):
     @property
     @abstractmethod
     def metadata(self) -> PluginMetadata:
-        """
-        Get plugin metadata.
+        """Get plugin metadata.
 
         Returns:
             PluginMetadata instance with name, version, description, etc.
 
         Example:
-            >>> @property
+            >>> @property  # doctest: +SKIP
             >>> def metadata(self) -> PluginMetadata:
             ...     return PluginMetadata(
             ...         name="finance",
@@ -228,8 +226,7 @@ class BaseDomainPlugin(ABC):
 
     @abstractmethod
     def initialize(self) -> None:
-        """
-        Initialize plugin resources.
+        """Initialize plugin resources.
 
         Called once when plugin is loaded. Use this to:
         - Register templates via register_template()
@@ -251,8 +248,7 @@ class BaseDomainPlugin(ABC):
 
     @abstractmethod
     def cleanup(self) -> None:
-        """
-        Cleanup plugin resources.
+        """Cleanup plugin resources.
 
         Called when plugin is unloaded or application exits.
         Use this to release resources, close connections, etc.
@@ -270,14 +266,13 @@ class BaseDomainPlugin(ABC):
 
     @property
     def dependencies(self) -> Sequence[PluginDependency]:
-        """
-        Declare plugin dependencies.
+        """Declare plugin dependencies.
 
         Returns:
             Sequence of PluginDependency instances
 
         Example:
-            >>> @property
+            >>> @property  # doctest: +SKIP
             >>> def dependencies(self) -> Sequence[PluginDependency]:
             ...     return [
             ...         PluginDependency("finance", min_version="4.0.0"),
@@ -287,8 +282,7 @@ class BaseDomainPlugin(ABC):
         return []
 
     def validate(self) -> bool:
-        """
-        Validate plugin configuration.
+        """Validate plugin configuration.
 
         Called after initialize() to verify plugin is properly configured.
 
@@ -310,8 +304,7 @@ class BaseDomainPlugin(ABC):
         name: str,
         template_class: type[BaseTemplate],
     ) -> None:
-        """
-        Register a template class.
+        """Register a template class.
 
         Args:
             name: Unique template identifier within this plugin
@@ -321,7 +314,7 @@ class BaseDomainPlugin(ABC):
             ValueError: If name already registered or invalid class
 
         Example:
-            >>> self.register_template("budget", BudgetTemplate)
+            >>> self.register_template("budget", BudgetTemplate)  # doctest: +SKIP
         """
         if not name:
             msg = "Template name cannot be empty"
@@ -336,8 +329,7 @@ class BaseDomainPlugin(ABC):
         self._templates[name] = template_class
 
     def get_template(self, name: str) -> type[BaseTemplate] | None:
-        """
-        Get registered template class by name.
+        """Get registered template class by name.
 
         Args:
             name: Template identifier
@@ -348,8 +340,7 @@ class BaseDomainPlugin(ABC):
         return self._templates.get(name)
 
     def list_templates(self) -> list[str]:
-        """
-        List all registered template names.
+        """List all registered template names.
 
         Returns:
             List of template identifiers
@@ -365,8 +356,7 @@ class BaseDomainPlugin(ABC):
         name: str,
         formula_class: type[BaseFormula],
     ) -> None:
-        """
-        Register a formula class.
+        """Register a formula class.
 
         Args:
             name: Formula function name (uppercase, e.g., "PMT")
@@ -376,7 +366,7 @@ class BaseDomainPlugin(ABC):
             ValueError: If name already registered or invalid class
 
         Example:
-            >>> self.register_formula("PMT", PMTFormula)
+            >>> self.register_formula("PMT", PMTFormula)  # doctest: +SKIP
         """
         if not name:
             msg = "Formula name cannot be empty"
@@ -394,8 +384,7 @@ class BaseDomainPlugin(ABC):
         self._formulas[name] = formula_class
 
     def get_formula(self, name: str) -> type[BaseFormula] | None:
-        """
-        Get registered formula class by name.
+        """Get registered formula class by name.
 
         Args:
             name: Formula function name
@@ -406,8 +395,7 @@ class BaseDomainPlugin(ABC):
         return self._formulas.get(name.upper())
 
     def list_formulas(self) -> list[str]:
-        """
-        List all registered formula names.
+        """List all registered formula names.
 
         Returns:
             List of formula function names
@@ -423,8 +411,7 @@ class BaseDomainPlugin(ABC):
         name: str,
         importer_class: type[BaseImporter[Any]],
     ) -> None:
-        """
-        Register an importer class.
+        """Register an importer class.
 
         Args:
             name: Unique importer identifier
@@ -434,7 +421,7 @@ class BaseDomainPlugin(ABC):
             ValueError: If name already registered or invalid class
 
         Example:
-            >>> self.register_importer("csv", CSVImporter)
+            >>> self.register_importer("csv", CSVImporter)  # doctest: +SKIP
         """
         if not name:
             msg = "Importer name cannot be empty"
@@ -449,8 +436,7 @@ class BaseDomainPlugin(ABC):
         self._importers[name] = importer_class
 
     def get_importer(self, name: str) -> type[BaseImporter[Any]] | None:
-        """
-        Get registered importer class by name.
+        """Get registered importer class by name.
 
         Args:
             name: Importer identifier
@@ -461,8 +447,7 @@ class BaseDomainPlugin(ABC):
         return self._importers.get(name)
 
     def list_importers(self) -> list[str]:
-        """
-        List all registered importer names.
+        """List all registered importer names.
 
         Returns:
             List of importer identifiers
@@ -505,8 +490,7 @@ class BaseDomainPlugin(ABC):
 
     @classmethod
     def register_plugin(cls, plugin_class: type[BaseDomainPlugin]) -> None:
-        """
-        Register a plugin class globally.
+        """Register a plugin class globally.
 
         Args:
             plugin_class: Plugin class to register
@@ -515,9 +499,8 @@ class BaseDomainPlugin(ABC):
             ValueError: If plugin name already registered
 
         Example:
-            >>> BaseDomainPlugin.register_plugin(FinancePlugin)
+            >>> BaseDomainPlugin.register_plugin(FinancePlugin)  # doctest: +SKIP
         """
-        # Instantiate to get metadata
         instance = plugin_class()
         name = instance.metadata.name
 
@@ -529,8 +512,7 @@ class BaseDomainPlugin(ABC):
 
     @classmethod
     def get_plugin_class(cls, name: str) -> type[BaseDomainPlugin] | None:
-        """
-        Get registered plugin class by name.
+        """Get registered plugin class by name.
 
         Args:
             name: Plugin identifier
@@ -542,8 +524,7 @@ class BaseDomainPlugin(ABC):
 
     @classmethod
     def list_plugins(cls) -> list[str]:
-        """
-        List all registered plugin names.
+        """List all registered plugin names.
 
         Returns:
             List of plugin identifiers
@@ -558,8 +539,7 @@ class BaseDomainPlugin(ABC):
 
 @dataclass(slots=True)
 class TemplateMetadata:
-    """
-    Metadata for a template.
+    """Metadata for a template.
 
     Attributes:
         name: Template name
@@ -579,8 +559,7 @@ class TemplateMetadata:
 
 
 class BaseTemplate(ABC):
-    """
-    Abstract base class for domain-specific templates.
+    """Abstract base class for domain-specific templates.
 
     Implements:
         PHASE0-002: BaseTemplate class for domain templates
@@ -619,8 +598,7 @@ class BaseTemplate(ABC):
     """
 
     def __init__(self, **kwargs: Any) -> None:
-        """
-        Initialize template with configuration.
+        """Initialize template with configuration.
 
         Args:
             **kwargs: Template-specific configuration options
@@ -636,14 +614,13 @@ class BaseTemplate(ABC):
     @property
     @abstractmethod
     def metadata(self) -> TemplateMetadata:
-        """
-        Get template metadata.
+        """Get template metadata.
 
         Returns:
             TemplateMetadata instance
 
         Example:
-            >>> @property
+            >>> @property  # doctest: +SKIP
             >>> def metadata(self) -> TemplateMetadata:
             ...     return TemplateMetadata(
             ...         name="Invoice",
@@ -656,8 +633,7 @@ class BaseTemplate(ABC):
 
     @abstractmethod
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate spreadsheet builder instance.
+        """Generate spreadsheet builder instance.
 
         Creates and configures a SpreadsheetBuilder with all template
         content including sheets, columns, rows, formulas, and styling.
@@ -681,8 +657,7 @@ class BaseTemplate(ABC):
     # ========================================================================
 
     def validate(self) -> bool:
-        """
-        Validate template configuration.
+        """Validate template configuration.
 
         Returns:
             True if configuration is valid
@@ -694,8 +669,7 @@ class BaseTemplate(ABC):
         return True
 
     def customize(self, builder: SpreadsheetBuilder) -> SpreadsheetBuilder:
-        """
-        Apply customizations to generated builder.
+        """Apply customizations to generated builder.
 
         Called after generate() to apply user customizations.
 
@@ -719,8 +693,7 @@ class BaseTemplate(ABC):
     # ========================================================================
 
     def get_config(self, key: str, default: Any = None) -> Any:
-        """
-        Get configuration value.
+        """Get configuration value.
 
         Args:
             key: Configuration key
@@ -749,8 +722,7 @@ class BaseTemplate(ABC):
 
 @dataclass(slots=True)
 class FormulaArgument:
-    """
-    Formula function argument specification.
+    """Formula function argument specification.
 
     Attributes:
         name: Argument name
@@ -769,8 +741,7 @@ class FormulaArgument:
 
 @dataclass(slots=True)
 class FormulaMetadata:
-    """
-    Metadata for a formula function.
+    """Metadata for a formula function.
 
     Attributes:
         name: Formula function name (uppercase)
@@ -790,8 +761,7 @@ class FormulaMetadata:
 
 
 class BaseFormula(ABC):
-    """
-    Abstract base class for domain-specific formulas.
+    """Abstract base class for domain-specific formulas.
 
     Implements:
         PHASE0-002: BaseFormula class for domain formula extensions
@@ -837,14 +807,13 @@ class BaseFormula(ABC):
     @property
     @abstractmethod
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata instance
 
         Example:
-            >>> @property
+            >>> @property  # doctest: +SKIP
             >>> def metadata(self) -> FormulaMetadata:
             ...     return FormulaMetadata(
             ...         name="TTEST",
@@ -862,8 +831,7 @@ class BaseFormula(ABC):
 
     @abstractmethod
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: Positional arguments (formula parameters)
@@ -890,8 +858,7 @@ class BaseFormula(ABC):
     # ========================================================================
 
     def validate_arguments(self, args: tuple[Any, ...]) -> None:
-        """
-        Validate formula arguments.
+        """Validate formula arguments.
 
         Args:
             args: Arguments to validate
@@ -928,8 +895,7 @@ class BaseFormula(ABC):
     # ========================================================================
 
     def register_with_builder(self, builder: FormulaBuilder) -> None:  # noqa: B027
-        """
-        Register this formula with a FormulaBuilder instance.
+        """Register this formula with a FormulaBuilder instance.
 
         Optional method for subclasses to implement custom registration logic.
 
@@ -937,10 +903,9 @@ class BaseFormula(ABC):
             builder: FormulaBuilder instance
 
         Example:
-            >>> formula = PMTFormula()
-            >>> formula.register_with_builder(formula_builder)
+            >>> formula = PMTFormula()  # doctest: +SKIP
+            >>> formula.register_with_builder(formula_builder)  # Default implementation: no-op  # doctest: +SKIP
         """
-        # Default implementation: no-op
         # Subclasses can override to implement custom registration logic
         pass
 
@@ -952,8 +917,7 @@ class BaseFormula(ABC):
 
 @dataclass(slots=True)
 class ImporterMetadata:
-    """
-    Metadata for a data importer.
+    """Metadata for a data importer.
 
     Attributes:
         name: Importer name
@@ -970,8 +934,7 @@ class ImporterMetadata:
 
 @dataclass(slots=True)
 class ImportResult[T]:
-    """
-    Result of an import operation.
+    """Result of an import operation.
 
     Attributes:
         success: Whether import succeeded
@@ -991,8 +954,7 @@ class ImportResult[T]:
 
 
 class BaseImporter[T](ABC):
-    """
-    Abstract base class for domain-specific data importers.
+    """Abstract base class for domain-specific data importers.
 
     Implements:
         PHASE0-002: BaseImporter class for domain data importers
@@ -1051,8 +1013,7 @@ class BaseImporter[T](ABC):
     """
 
     def __init__(self, **kwargs: Any) -> None:
-        """
-        Initialize importer with configuration.
+        """Initialize importer with configuration.
 
         Args:
             **kwargs: Importer-specific configuration
@@ -1067,14 +1028,13 @@ class BaseImporter[T](ABC):
     @property
     @abstractmethod
     def metadata(self) -> ImporterMetadata:
-        """
-        Get importer metadata.
+        """Get importer metadata.
 
         Returns:
             ImporterMetadata instance
 
         Example:
-            >>> @property
+            >>> @property  # doctest: +SKIP
             >>> def metadata(self) -> ImporterMetadata:
             ...     return ImporterMetadata(
             ...         name="CSV Transaction Importer",
@@ -1086,8 +1046,7 @@ class BaseImporter[T](ABC):
 
     @abstractmethod
     def validate_source(self, source: Path | str) -> bool:
-        """
-        Validate data source.
+        """Validate data source.
 
         Args:
             source: Path to data source file
@@ -1104,8 +1063,7 @@ class BaseImporter[T](ABC):
 
     @abstractmethod
     def import_data(self, source: Path | str) -> ImportResult[T]:
-        """
-        Import data from source.
+        """Import data from source.
 
         Args:
             source: Path to data source file
@@ -1139,8 +1097,7 @@ class BaseImporter[T](ABC):
     # ========================================================================
 
     def transform(self, data: T) -> T:
-        """
-        Transform imported data.
+        """Transform imported data.
 
         Called after import_data() to apply transformations.
 
@@ -1158,8 +1115,7 @@ class BaseImporter[T](ABC):
         return data
 
     def on_progress(self, current: int, total: int) -> None:
-        """
-        Progress callback.
+        """Progress callback.
 
         Args:
             current: Current progress
@@ -1180,8 +1136,7 @@ class BaseImporter[T](ABC):
         self,
         callback: Callable[[int, int], None],
     ) -> None:
-        """
-        Set progress callback function.
+        """Set progress callback function.
 
         Args:
             callback: Function(current, total) to call on progress
@@ -1189,8 +1144,7 @@ class BaseImporter[T](ABC):
         self._progress_callback = callback
 
     def get_config(self, key: str, default: Any = None) -> Any:
-        """
-        Get configuration value.
+        """Get configuration value.
 
         Args:
             key: Configuration key

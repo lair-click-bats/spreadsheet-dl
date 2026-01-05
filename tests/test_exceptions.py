@@ -152,7 +152,8 @@ class TestSpreadsheetDLError:
     def test_doc_url(self) -> None:
         """Test documentation URL generation."""
         error = SpreadsheetDLError("Test")
-        assert "FT-GEN-001" in error.doc_url
+        # Anchor is lowercase for GitHub markdown links
+        assert "ft-gen-001" in error.doc_url
 
     def test_format_error_no_color(self) -> None:
         """Test error formatting without colors."""

@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-TODO Policy Enforcement Hook
+"""TODO Policy Enforcement Hook
 Validates TODO comments follow the taxonomy defined in coding-standards.yaml
 
 Version: 1.0.0

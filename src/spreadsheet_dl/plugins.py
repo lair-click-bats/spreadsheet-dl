@@ -1,5 +1,4 @@
-"""
-Plugin system framework for SpreadsheetDL extensibility.
+"""Plugin system framework for SpreadsheetDL extensibility.
 
 This module provides a plugin architecture allowing users to extend
 SpreadsheetDL functionality with custom plugins.
@@ -27,8 +26,7 @@ if TYPE_CHECKING:
 
 
 class PluginInterface(ABC):
-    """
-    Abstract base class for all plugins.
+    """Abstract base class for all plugins.
 
     Plugins must implement this interface to be discoverable by the
     plugin system.
@@ -40,8 +38,7 @@ class PluginInterface(ABC):
     @property
     @abstractmethod
     def name(self) -> str:
-        """
-        Plugin name (unique identifier).
+        """Plugin name (unique identifier).
 
         Returns:
             Unique plugin name (lowercase, no spaces)
@@ -51,8 +48,7 @@ class PluginInterface(ABC):
     @property
     @abstractmethod
     def version(self) -> str:
-        """
-        Plugin version (semantic versioning).
+        """Plugin version (semantic versioning).
 
         Returns:
             Version string (e.g., "1.0.0")
@@ -61,8 +57,7 @@ class PluginInterface(ABC):
 
     @property
     def description(self) -> str:
-        """
-        Plugin description.
+        """Plugin description.
 
         Returns:
             Human-readable plugin description
@@ -71,8 +66,7 @@ class PluginInterface(ABC):
 
     @property
     def author(self) -> str:
-        """
-        Plugin author.
+        """Plugin author.
 
         Returns:
             Author name or organization
@@ -81,8 +75,7 @@ class PluginInterface(ABC):
 
     @abstractmethod
     def initialize(self, config: dict[str, Any] | None = None) -> None:
-        """
-        Initialize the plugin.
+        """Initialize the plugin.
 
         Called when the plugin is enabled. Should perform any setup
         operations needed by the plugin.
@@ -96,8 +89,7 @@ class PluginInterface(ABC):
         pass
 
     def shutdown(self) -> None:  # noqa: B027
-        """
-        Cleanup when plugin is disabled/unloaded.
+        """Cleanup when plugin is disabled/unloaded.
 
         Called when the plugin is disabled. Should perform cleanup
         operations and release resources.
@@ -109,8 +101,7 @@ class PluginInterface(ABC):
 
 
 class PluginHook:
-    """
-    Plugin hook system for pre/post operation callbacks.
+    """Plugin hook system for pre/post operation callbacks.
 
     Provides event-based hooks that plugins can register callbacks for.
     Supports multiple callbacks per event.
@@ -124,8 +115,7 @@ class PluginHook:
         self._hooks: dict[str, list[Callable[..., Any]]] = {}
 
     def register(self, event: str, callback: Callable[..., Any]) -> None:
-        """
-        Register callback for event.
+        """Register callback for event.
 
         Args:
             event: Event name to listen for
@@ -139,8 +129,7 @@ class PluginHook:
         self._hooks[event].append(callback)
 
     def unregister(self, event: str, callback: Callable[..., Any]) -> None:
-        """
-        Unregister callback from event.
+        """Unregister callback from event.
 
         Args:
             event: Event name
@@ -153,8 +142,7 @@ class PluginHook:
             self._hooks[event].remove(callback)
 
     def trigger(self, event: str, *args: Any, **kwargs: Any) -> list[Any]:
-        """
-        Trigger all callbacks for an event.
+        """Trigger all callbacks for an event.
 
         Calls all registered callbacks for the event in order of registration.
         If a callback raises an exception, it is caught and logged, but does
@@ -172,20 +160,27 @@ class PluginHook:
             FR-EXT-001: Hook triggering with error isolation
         """
         results = []
+        errors: list[tuple[str, Exception]] = []
         for callback in self._hooks.get(event, []):
             try:
                 result = callback(*args, **kwargs)
                 results.append(result)
             except Exception as e:
                 # Intentionally broad: plugin callbacks can raise any exception
-                # Log error but don't break other plugins
-                print(f"Plugin hook error for {event}: {e}")
+                # Collect errors but don't break other plugins
+                callback_name = getattr(callback, "__name__", repr(callback))
+                errors.append((callback_name, e))
+        # Log collected errors after all callbacks have run
+        for callback_name, error in errors:
+            print(
+                f"Plugin hook error for {event} in {callback_name}: {error}",
+                file=sys.stderr,
+            )
         return results
 
 
 class PluginLoader:
-    """
-    Discovers and loads plugins from directories.
+    """Discovers and loads plugins from directories.
 
     Scans Python files in plugin directories and discovers classes
     that implement the PluginInterface.
@@ -196,8 +191,7 @@ class PluginLoader:
 
     @staticmethod
     def discover_plugins(plugin_dir: Path) -> list[type[PluginInterface]]:
-        """
-        Discover all plugins in directory.
+        """Discover all plugins in directory.
 
         Scans the directory for Python files (excluding files starting with _)
         and finds classes that implement PluginInterface.
@@ -239,7 +233,7 @@ class PluginLoader:
                             plugins.append(obj)
             except Exception as e:
                 # Intentionally broad: plugin modules can have any import/execution errors
-                print(f"Failed to load plugin {py_file}: {e}")
+                print(f"Failed to load plugin {py_file}: {e}", file=sys.stderr)
 
         return plugins
 
@@ -247,8 +241,7 @@ class PluginLoader:
     def load_plugin(
         plugin_class: type[PluginInterface], config: dict[str, Any] | None = None
     ) -> PluginInterface:
-        """
-        Instantiate and initialize a plugin.
+        """Instantiate and initialize a plugin.
 
         Creates an instance of the plugin class and calls its initialize method.
 
@@ -268,8 +261,7 @@ class PluginLoader:
 
 
 class PluginManager:
-    """
-    Manages plugin lifecycle (register, enable, disable, list).
+    """Manages plugin lifecycle (register, enable, disable, list).
 
     Central manager for plugin operations. Discovers plugins from configured
     directories, tracks enabled/disabled state, and provides access to the
@@ -280,8 +272,7 @@ class PluginManager:
     """
 
     def __init__(self, plugin_dirs: list[Path] | None = None) -> None:
-        """
-        Initialize the plugin manager.
+        """Initialize the plugin manager.
 
         Args:
             plugin_dirs: List of directories to search for plugins.
@@ -303,8 +294,7 @@ class PluginManager:
         self._plugin_dirs = plugin_dirs
 
     def discover(self) -> None:
-        """
-        Discover all available plugins.
+        """Discover all available plugins.
 
         Scans plugin directories and registers discovered plugins.
         Does not enable plugins automatically.
@@ -319,8 +309,7 @@ class PluginManager:
                 self._plugins[plugin.name] = plugin
 
     def enable(self, name: str, config: dict[str, Any] | None = None) -> None:
-        """
-        Enable a plugin.
+        """Enable a plugin.
 
         Initializes and enables a previously discovered plugin.
 
@@ -343,8 +332,7 @@ class PluginManager:
             self._enabled.add(name)
 
     def disable(self, name: str) -> None:
-        """
-        Disable a plugin.
+        """Disable a plugin.
 
         Shuts down and disables an enabled plugin.
 
@@ -360,8 +348,7 @@ class PluginManager:
             self._enabled.remove(name)
 
     def list_plugins(self, enabled_only: bool = False) -> list[dict[str, Any]]:
-        """
-        List all plugins with metadata.
+        """List all plugins with metadata.
 
         Args:
             enabled_only: If True, only return enabled plugins
@@ -388,8 +375,7 @@ class PluginManager:
         return result
 
     def get_plugin(self, name: str) -> PluginInterface | None:
-        """
-        Get plugin instance by name.
+        """Get plugin instance by name.
 
         Args:
             name: Plugin name
@@ -404,8 +390,7 @@ class PluginManager:
 
     @property
     def hooks(self) -> PluginHook:
-        """
-        Access to hook system.
+        """Access to hook system.
 
         Returns:
             Plugin hook system instance
@@ -421,8 +406,7 @@ _plugin_manager: PluginManager | None = None
 
 
 def get_plugin_manager() -> PluginManager:
-    """
-    Get or create global plugin manager.
+    """Get or create global plugin manager.
 
     Provides singleton access to the plugin manager. Creates and discovers
     plugins on first call.

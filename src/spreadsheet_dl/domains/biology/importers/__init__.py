@@ -1,5 +1,4 @@
-"""
-Biology domain importers.
+"""Biology domain importers.
 
 Implements:
     Biology importer implementations

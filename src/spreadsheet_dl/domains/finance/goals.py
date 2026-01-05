@@ -1,5 +1,4 @@
-"""
-Goals Module - Savings goals and debt payoff tracking.
+"""Goals Module - Savings goals and debt payoff tracking.
 
 Implements FR-GOAL-001: Savings Goals and FR-GOAL-002: Debt Payoff.
 Provides tracking for financial goals including savings targets,
@@ -57,8 +56,7 @@ class DebtPayoffMethod(Enum):
 
 @dataclass
 class SavingsGoal:
-    """
-    A savings goal with target amount and progress tracking.
+    """A savings goal with target amount and progress tracking.
 
     Attributes:
         id: Unique identifier.
@@ -201,8 +199,7 @@ class SavingsGoal:
         )
 
     def add_contribution(self, amount: Decimal | float | str) -> Decimal:
-        """
-        Add a contribution to the goal.
+        """Add a contribution to the goal.
 
         Returns:
             New current amount.
@@ -265,8 +262,7 @@ class SavingsGoal:
 
 @dataclass
 class Debt:
-    """
-    A debt to be paid off.
+    """A debt to be paid off.
 
     Attributes:
         id: Unique identifier.
@@ -356,8 +352,7 @@ class Debt:
         return months if balance <= 0 else None
 
     def make_payment(self, amount: Decimal | float | str) -> Decimal:
-        """
-        Make a payment on the debt.
+        """Make a payment on the debt.
 
         Returns:
             New balance.
@@ -410,8 +405,7 @@ class Debt:
 
 @dataclass
 class DebtPayoffPlan:
-    """
-    A debt payoff plan using snowball or avalanche method.
+    """A debt payoff plan using snowball or avalanche method.
 
     Attributes:
         method: Payoff method (snowball/avalanche).
@@ -452,8 +446,7 @@ class DebtPayoffPlan:
         return self.total_minimum_payment + self.extra_payment
 
     def calculate_payoff_schedule(self) -> list[dict[str, Any]]:
-        """
-        Calculate month-by-month payoff schedule.
+        """Calculate month-by-month payoff schedule.
 
         Returns:
             List of monthly snapshots showing payments and balances.
@@ -574,16 +567,14 @@ class DebtPayoffPlan:
 
 
 class GoalManager:
-    """
-    Manage savings goals and debt payoff.
+    """Manage savings goals and debt payoff.
 
     Provides CRUD operations, progress tracking, and persistence
     for financial goals.
     """
 
     def __init__(self, data_path: Path | str | None = None) -> None:
-        """
-        Initialize goal manager.
+        """Initialize goal manager.
 
         Args:
             data_path: Path to goals JSON file.
@@ -624,8 +615,7 @@ class GoalManager:
         include_completed: bool = False,
         category: GoalCategory | None = None,
     ) -> list[SavingsGoal]:
-        """
-        List goals with optional filtering.
+        """List goals with optional filtering.
 
         Args:
             include_completed: Include completed goals.
@@ -814,8 +804,7 @@ def create_emergency_fund(
     monthly_expenses: Decimal | float | str = 0,
     **kwargs: Any,
 ) -> SavingsGoal:
-    """
-    Create an emergency fund goal.
+    """Create an emergency fund goal.
 
     Args:
         months: Months of expenses to save (default 6).
@@ -839,8 +828,7 @@ def create_debt_payoff_plan(
     method: DebtPayoffMethod = DebtPayoffMethod.AVALANCHE,
     extra_payment: Decimal | float | str = 0,
 ) -> DebtPayoffPlan:
-    """
-    Create a debt payoff plan from debt definitions.
+    """Create a debt payoff plan from debt definitions.
 
     Args:
         debts: List of debt dictionaries with name, balance, rate, minimum.
@@ -875,8 +863,7 @@ def compare_payoff_methods(
     debts: list[dict[str, Any]],
     extra_payment: Decimal | float | str = 0,
 ) -> dict[str, Any]:
-    """
-    Compare snowball vs avalanche methods.
+    """Compare snowball vs avalanche methods.
 
     Args:
         debts: List of debt dictionaries.

@@ -1,5 +1,4 @@
-"""
-Pre-built template components for financial spreadsheets.
+"""Pre-built template components for financial spreadsheets.
 
 Implements FR-TEMPLATE-005: Component Library
 
@@ -33,8 +32,7 @@ def document_header(
     subtitle_var: str = "subtitle",
     date_var: str = "date",
 ) -> ComponentDefinition:
-    """
-    Create a document header component with title, subtitle, and date.
+    """Create a document header component with title, subtitle, and date.
 
     Args:
         title_var: Variable name for title
@@ -116,8 +114,7 @@ def document_header(
 
 
 def month_header() -> ComponentDefinition:
-    """
-    Create a month-specific header component.
+    """Create a month-specific header component.
 
     Returns:
         ComponentDefinition for month header
@@ -162,8 +159,7 @@ def month_header() -> ComponentDefinition:
 
 
 def income_summary() -> ComponentDefinition:
-    """
-    Create an income summary component.
+    """Create an income summary component.
 
     Returns:
         ComponentDefinition for income summary
@@ -206,8 +202,7 @@ def income_summary() -> ComponentDefinition:
 
 
 def expense_summary() -> ComponentDefinition:
-    """
-    Create an expense summary component.
+    """Create an expense summary component.
 
     Returns:
         ComponentDefinition for expense summary
@@ -252,8 +247,7 @@ def expense_summary() -> ComponentDefinition:
 
 
 def balance_row() -> ComponentDefinition:
-    """
-    Create a balance row component showing net balance.
+    """Create a balance row component showing net balance.
 
     Returns:
         ComponentDefinition for balance row
@@ -302,8 +296,7 @@ def balance_row() -> ComponentDefinition:
 
 
 def category_row() -> ComponentDefinition:
-    """
-    Create a category row component for budget/expense tracking.
+    """Create a category row component for budget/expense tracking.
 
     Returns:
         ComponentDefinition for category row
@@ -353,8 +346,7 @@ def category_row() -> ComponentDefinition:
 
 
 def category_header() -> ComponentDefinition:
-    """
-    Create header row for category tables.
+    """Create header row for category tables.
 
     Returns:
         ComponentDefinition for category table header
@@ -399,8 +391,7 @@ def category_header() -> ComponentDefinition:
 
 
 def category_total() -> ComponentDefinition:
-    """
-    Create total row for category tables.
+    """Create total row for category tables.
 
     Returns:
         ComponentDefinition for category total row
@@ -465,8 +456,7 @@ def category_total() -> ComponentDefinition:
 
 
 def transaction_header() -> ComponentDefinition:
-    """
-    Create header for transaction tables.
+    """Create header for transaction tables.
 
     Returns:
         ComponentDefinition for transaction table header
@@ -490,8 +480,7 @@ def transaction_header() -> ComponentDefinition:
 
 
 def transaction_entry() -> ComponentDefinition:
-    """
-    Create a single transaction entry row.
+    """Create a single transaction entry row.
 
     Returns:
         ComponentDefinition for transaction entry
@@ -546,8 +535,7 @@ def transaction_entry() -> ComponentDefinition:
 
 @dataclass
 class ComponentLibrary:
-    """
-    Library of pre-built template components.
+    """Library of pre-built template components.
 
     Implements FR-TEMPLATE-005: Component Library
 
@@ -594,8 +582,7 @@ class ComponentLibrary:
             self._components[component.name] = component
 
     def get(self, name: str) -> ComponentDefinition | None:
-        """
-        Get a component by name.
+        """Get a component by name.
 
         Args:
             name: Component name
@@ -606,8 +593,7 @@ class ComponentLibrary:
         return self._components.get(name)
 
     def register(self, component: ComponentDefinition) -> None:
-        """
-        Register a custom component.
+        """Register a custom component.
 
         Args:
             component: Component definition to register
@@ -615,8 +601,7 @@ class ComponentLibrary:
         self._components[component.name] = component
 
     def list_components(self) -> list[str]:
-        """
-        List all available component names.
+        """List all available component names.
 
         Returns:
             List of component names
@@ -624,8 +609,7 @@ class ComponentLibrary:
         return list(self._components.keys())
 
     def all_components(self) -> dict[str, ComponentDefinition]:
-        """
-        Get all components as a dictionary.
+        """Get all components as a dictionary.
 
         Useful for adding all components to a template.
 
@@ -635,8 +619,7 @@ class ComponentLibrary:
         return self._components.copy()
 
     def get_by_category(self, category: str) -> list[ComponentDefinition]:
-        """
-        Get components by category prefix.
+        """Get components by category prefix.
 
         Args:
             category: Category prefix (e.g., "category", "transaction")
@@ -654,8 +637,7 @@ COMPONENT_LIBRARY = ComponentLibrary()
 
 
 def get_component(name: str) -> ComponentDefinition | None:
-    """
-    Get a component from the global library.
+    """Get a component from the global library.
 
     Args:
         name: Component name
@@ -667,8 +649,7 @@ def get_component(name: str) -> ComponentDefinition | None:
 
 
 def list_components() -> list[str]:
-    """
-    List all available components.
+    """List all available components.
 
     Returns:
         List of component names
@@ -677,8 +658,7 @@ def list_components() -> list[str]:
 
 
 def get_all_components() -> dict[str, ComponentDefinition]:
-    """
-    Get all components for use in templates.
+    """Get all components for use in templates.
 
     Returns:
         Dictionary of all components

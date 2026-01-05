@@ -1,5 +1,4 @@
-"""
-Site survey template for surveying data management.
+"""Site survey template for surveying data management.
 
 Implements:
     SiteSurveyTemplate with survey points and benchmarks
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class SiteSurveyTemplate(BaseTemplate):
-    """
-    Site survey template for survey points and topographic data.
+    """Site survey template for survey points and topographic data.
 
     Implements:
         SiteSurveyTemplate requirements
@@ -33,12 +31,12 @@ class SiteSurveyTemplate(BaseTemplate):
         - Cut/fill calculations
 
     Example:
-        >>> template = SiteSurveyTemplate(
+        >>> template = SiteSurveyTemplate(  # doctest: +SKIP
         ...     project_name="Highway Survey",
         ...     num_points=100
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("site_survey.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("site_survey.ods")  # doctest: +SKIP
     """
 
     project_name: str = "Site Survey"
@@ -60,8 +58,7 @@ class SiteSurveyTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate site survey spreadsheet.
+        """Generate site survey spreadsheet.
 
         Returns:
             SpreadsheetBuilder configured with site survey template

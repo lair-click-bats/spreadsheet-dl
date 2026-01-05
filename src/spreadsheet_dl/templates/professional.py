@@ -1,5 +1,4 @@
-"""
-Backward compatibility shim for templates.professional module.
+"""Backward compatibility shim for templates.professional module.
 
 This module has been moved to spreadsheet_dl.domains.finance.templates.professional.
 This shim provides backward compatibility for existing imports.

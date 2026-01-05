@@ -1,5 +1,4 @@
-"""
-Account Management Module - Track multiple accounts and balances.
+"""Account Management Module - Track multiple accounts and balances.
 
 Provides comprehensive account management including:
 - Multiple account types (checking, savings, credit, investment)
@@ -59,8 +58,7 @@ class AccountType(Enum):
 
 @dataclass
 class Account:
-    """
-    Financial account representation.
+    """Financial account representation.
 
     Attributes:
         id: Unique identifier for the account.
@@ -99,8 +97,7 @@ class Account:
         account_number_last4: str = "",
         notes: str = "",
     ) -> Account:
-        """
-        Create a new account with auto-generated ID.
+        """Create a new account with auto-generated ID.
 
         Args:
             name: Display name for the account.
@@ -134,8 +131,7 @@ class Account:
         )
 
     def update_balance(self, new_balance: Decimal | float | str) -> None:
-        """
-        Update the account balance.
+        """Update the account balance.
 
         Args:
             new_balance: New balance value.
@@ -149,8 +145,7 @@ class Account:
         self.updated_at = datetime.now()
 
     def adjust_balance(self, amount: Decimal | float | str) -> None:
-        """
-        Adjust balance by a given amount.
+        """Adjust balance by a given amount.
 
         Args:
             amount: Amount to add (negative to subtract).
@@ -203,8 +198,7 @@ class Account:
 
 @dataclass
 class AccountTransaction:
-    """
-    Transaction linked to an account.
+    """Transaction linked to an account.
 
     Attributes:
         id: Unique transaction identifier.
@@ -315,8 +309,7 @@ class AccountTransaction:
 
 @dataclass
 class Transfer:
-    """
-    Account transfer representation.
+    """Account transfer representation.
 
     Represents a movement of funds between two accounts.
     """
@@ -397,8 +390,7 @@ class Transfer:
 
 @dataclass
 class NetWorth:
-    """
-    Net worth calculation result.
+    """Net worth calculation result.
 
     Provides breakdown of assets, liabilities, and net worth.
     """
@@ -425,8 +417,7 @@ class NetWorth:
 
 
 class AccountManager:
-    """
-    Manage multiple financial accounts.
+    """Manage multiple financial accounts.
 
     Provides CRUD operations for accounts, transaction tracking,
     transfers between accounts, and net worth calculation.
@@ -460,8 +451,7 @@ class AccountManager:
     """
 
     def __init__(self, data_file: Path | str | None = None) -> None:
-        """
-        Initialize account manager.
+        """Initialize account manager.
 
         Args:
             data_file: Optional path to JSON file for persistence.
@@ -527,8 +517,7 @@ class AccountManager:
         account_number_last4: str = "",
         notes: str = "",
     ) -> Account:
-        """
-        Add a new account.
+        """Add a new account.
 
         Args:
             name: Account display name.
@@ -572,8 +561,7 @@ class AccountManager:
         account_type: AccountType | None = None,
         active_only: bool = True,
     ) -> list[Account]:
-        """
-        List all accounts.
+        """List all accounts.
 
         Args:
             account_type: Filter by account type.
@@ -601,8 +589,7 @@ class AccountManager:
         notes: str | None = None,
         is_active: bool | None = None,
     ) -> Account | None:
-        """
-        Update account properties.
+        """Update account properties.
 
         Args:
             account_id: ID of account to update.
@@ -632,8 +619,7 @@ class AccountManager:
         return account
 
     def delete_account(self, account_id: str) -> bool:
-        """
-        Delete an account (soft delete - marks as inactive).
+        """Delete an account (soft delete - marks as inactive).
 
         Args:
             account_id: ID of account to delete.
@@ -651,8 +637,7 @@ class AccountManager:
         return True
 
     def permanently_delete_account(self, account_id: str) -> bool:
-        """
-        Permanently delete an account and its transactions.
+        """Permanently delete an account and its transactions.
 
         Args:
             account_id: ID of account to delete.
@@ -690,8 +675,7 @@ class AccountManager:
         notes: str = "",
         update_balance: bool = True,
     ) -> AccountTransaction | None:
-        """
-        Add a transaction to an account.
+        """Add a transaction to an account.
 
         Args:
             account_id: Account to add transaction to.
@@ -740,8 +724,7 @@ class AccountManager:
         end_date: date_type | None = None,
         limit: int | None = None,
     ) -> list[AccountTransaction]:
-        """
-        Get transactions for an account.
+        """Get transactions for an account.
 
         Args:
             account_id: Account ID.
@@ -780,8 +763,7 @@ class AccountManager:
         description: str = "Transfer",
         notes: str = "",
     ) -> Transfer | None:
-        """
-        Transfer funds between accounts.
+        """Transfer funds between accounts.
 
         Args:
             from_account_id: Source account ID.
@@ -855,8 +837,7 @@ class AccountManager:
         start_date: date_type | None = None,
         end_date: date_type | None = None,
     ) -> list[Transfer]:
-        """
-        List transfers.
+        """List transfers.
 
         Args:
             account_id: Filter by account (source or destination).
@@ -885,8 +866,7 @@ class AccountManager:
     # Net Worth Calculation
 
     def calculate_net_worth(self, active_only: bool = True) -> NetWorth:
-        """
-        Calculate net worth across all accounts.
+        """Calculate net worth across all accounts.
 
         Args:
             active_only: Only include active accounts.
@@ -927,8 +907,7 @@ class AccountManager:
         account_type: AccountType | None = None,
         currency: str | None = None,
     ) -> Decimal:
-        """
-        Get total balance across accounts.
+        """Get total balance across accounts.
 
         Args:
             account_type: Filter by account type.
@@ -971,8 +950,7 @@ class AccountManager:
 
 
 def get_default_accounts() -> list[dict[str, Any]]:
-    """
-    Get a list of common default account configurations.
+    """Get a list of common default account configurations.
 
     Returns:
         List of account configuration dictionaries.

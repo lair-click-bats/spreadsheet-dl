@@ -1,5 +1,4 @@
-"""
-Quality metrics formulas for manufacturing.
+"""Quality metrics formulas for manufacturing.
 
 Implements:
     Quality metrics formulas (DEFECT_RATE, FIRST_PASS_YIELD, PROCESS_CAPABILITY, CONTROL_LIMITS)
@@ -15,8 +14,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 @dataclass(slots=True, frozen=True)
 class DefectRateFormula(BaseFormula):
-    """
-    Defect rate calculation (defects / total units).
+    """Defect rate calculation (defects / total units).
 
     Implements:
         DEFECT_RATE formula for quality metrics
@@ -31,8 +29,7 @@ class DefectRateFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for DEFECT_RATE
@@ -66,8 +63,7 @@ class DefectRateFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build DEFECT_RATE formula string.
+        """Build DEFECT_RATE formula string.
 
         Args:
             *args: defects, total_units
@@ -92,8 +88,7 @@ class DefectRateFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class FirstPassYieldFormula(BaseFormula):
-    """
-    First pass yield percentage.
+    """First pass yield percentage.
 
     Implements:
         FIRST_PASS_YIELD formula for quality metrics
@@ -108,8 +103,7 @@ class FirstPassYieldFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for FIRST_PASS_YIELD
@@ -143,8 +137,7 @@ class FirstPassYieldFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build FIRST_PASS_YIELD formula string.
+        """Build FIRST_PASS_YIELD formula string.
 
         Args:
             *args: good_units, total_units
@@ -169,8 +162,7 @@ class FirstPassYieldFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class ProcessCapabilityFormula(BaseFormula):
-    """
-    Process capability index (Cp, Cpk).
+    """Process capability index (Cp, Cpk).
 
     Implements:
         PROCESS_CAPABILITY formula for quality metrics
@@ -186,8 +178,7 @@ class ProcessCapabilityFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for PROCESS_CAPABILITY
@@ -233,8 +224,7 @@ class ProcessCapabilityFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build PROCESS_CAPABILITY formula string.
+        """Build PROCESS_CAPABILITY formula string.
 
         Args:
             *args: usl, lsl, mean, stddev
@@ -259,8 +249,7 @@ class ProcessCapabilityFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class ControlLimitsFormula(BaseFormula):
-    """
-    Statistical control limits (UCL, LCL).
+    """Statistical control limits (UCL, LCL).
 
     Implements:
         CONTROL_LIMITS formula for quality metrics
@@ -276,8 +265,7 @@ class ControlLimitsFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for CONTROL_LIMITS
@@ -318,8 +306,7 @@ class ControlLimitsFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build CONTROL_LIMITS formula string.
+        """Build CONTROL_LIMITS formula string.
 
         Args:
             *args: mean, stddev, limit_type ('upper' or 'lower')

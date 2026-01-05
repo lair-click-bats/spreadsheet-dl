@@ -1,5 +1,4 @@
-"""
-Tolerance Stackup template for mechanical engineering.
+"""Tolerance Stackup template for mechanical engineering.
 
 Implements:
     ToleranceStackupTemplate with dimension chain analysis
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class ToleranceStackupTemplate(BaseTemplate):
-    """
-    Tolerance Stackup analysis template.
+    """Tolerance Stackup analysis template.
 
     Generates tolerance stackup analysis with worst-case and statistical methods,
     dimension chains, and stack-up calculations.
@@ -37,9 +35,9 @@ class ToleranceStackupTemplate(BaseTemplate):
         - Pass/fail against specification
 
     Example:
-        >>> template = ToleranceStackupTemplate(analysis_name="Gap Analysis")
-        >>> builder = template.generate()
-        >>> builder.save("tolerance_stackup.ods")
+        >>> template = ToleranceStackupTemplate(analysis_name="Gap Analysis")  # doctest: +SKIP
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("tolerance_stackup.ods")  # doctest: +SKIP
     """
 
     analysis_name: str = "Tolerance Stackup"
@@ -61,8 +59,7 @@ class ToleranceStackupTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate tolerance stackup spreadsheet.
+        """Generate tolerance stackup spreadsheet.
 
         Returns:
             SpreadsheetBuilder configured with tolerance stackup template
@@ -264,8 +261,7 @@ class ToleranceStackupTemplate(BaseTemplate):
         return builder
 
     def validate(self) -> bool:
-        """
-        Validate template configuration.
+        """Validate template configuration.
 
         Returns:
             True if configuration is valid

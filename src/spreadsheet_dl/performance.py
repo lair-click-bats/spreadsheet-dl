@@ -1,5 +1,4 @@
-"""
-Performance optimization module.
+"""Performance optimization module.
 
 Provides:
     - Caching layer for frequently accessed data
@@ -36,8 +35,7 @@ V = TypeVar("V")
 
 
 class LRUCache[K, V]:
-    """
-    Thread-safe Least Recently Used (LRU) cache.
+    """Thread-safe Least Recently Used (LRU) cache.
 
     Implements Caching layer for frequently accessed data.
 
@@ -55,8 +53,7 @@ class LRUCache[K, V]:
         maxsize: int = 128,
         ttl: float | None = None,
     ) -> None:
-        """
-        Initialize LRU cache.
+        """Initialize LRU cache.
 
         Args:
             maxsize: Maximum number of items to cache
@@ -70,8 +67,7 @@ class LRUCache[K, V]:
         self._misses = 0
 
     def get(self, key: K, default: V | None = None) -> V | None:
-        """
-        Get a value from the cache.
+        """Get a value from the cache.
 
         Args:
             key: Cache key
@@ -99,8 +95,7 @@ class LRUCache[K, V]:
             return value
 
     def set(self, key: K, value: V) -> None:
-        """
-        Set a value in the cache.
+        """Set a value in the cache.
 
         Args:
             key: Cache key
@@ -117,8 +112,7 @@ class LRUCache[K, V]:
             self._cache[key] = (value, time.time())
 
     def delete(self, key: K) -> bool:
-        """
-        Delete a key from the cache.
+        """Delete a key from the cache.
 
         Args:
             key: Cache key
@@ -174,8 +168,7 @@ def cached(
     ttl: float | None = None,
     key_func: Callable[..., str] | None = None,
 ) -> Callable[[Callable[..., T]], Callable[..., T]]:
-    """
-    Decorator for caching function results.
+    """Decorator for caching function results.
 
     Example:
         @cached(maxsize=100, ttl=3600)
@@ -247,8 +240,7 @@ def _make_cache_key(args: tuple[Any, ...], kwargs: dict[str, Any]) -> str:
 
 
 class Lazy[T]:
-    """
-    Lazy evaluation wrapper.
+    """Lazy evaluation wrapper.
 
     Example:
         def load_large_data():
@@ -263,8 +255,7 @@ class Lazy[T]:
     """
 
     def __init__(self, factory: Callable[[], T]) -> None:
-        """
-        Initialize lazy wrapper.
+        """Initialize lazy wrapper.
 
         Args:
             factory: Function that creates the value
@@ -298,14 +289,14 @@ class Lazy[T]:
             self._loaded = False
 
     def __repr__(self) -> str:
+        """Return repr string."""
         if self._loaded:
             return f"Lazy(loaded={self._value!r})"
         return "Lazy(not loaded)"
 
 
 class LazyProperty[T]:
-    """
-    Lazy property descriptor.
+    """Lazy property descriptor.
 
     Example:
         class MyClass:
@@ -316,11 +307,13 @@ class LazyProperty[T]:
     """
 
     def __init__(self, func: Callable[[Any], T]) -> None:
+        """Initialize the instance."""
         self._func = func
         self._name = func.__name__
         self._cache: weakref.WeakKeyDictionary[Any, T] = weakref.WeakKeyDictionary()
 
     def __get__(self, obj: Any, objtype: type | None = None) -> T:
+        """Get the lazy property value."""
         if obj is None:
             # Descriptor protocol: Return self when accessed from class
             # Type checker expects T but self is valid for this use case
@@ -334,9 +327,11 @@ class LazyProperty[T]:
         return value
 
     def __set__(self, obj: Any, value: T) -> None:
+        """Set the lazy property value."""
         self._cache[obj] = value
 
     def __delete__(self, obj: Any) -> None:
+        """Delete the lazy property value."""
         if obj in self._cache:
             del self._cache[obj]
 
@@ -358,8 +353,7 @@ class BatchResult[T]:
 
 
 class BatchProcessor[T]:
-    """
-    Batch processor for bulk operations.
+    """Batch processor for bulk operations.
 
     Example:
         def process_item(item):
@@ -379,8 +373,7 @@ class BatchProcessor[T]:
         max_workers: int | None = None,
         on_error: str = "continue",  # "continue", "stop", "skip"
     ) -> None:
-        """
-        Initialize batch processor.
+        """Initialize batch processor.
 
         Args:
             processor: Function to process each item
@@ -398,8 +391,7 @@ class BatchProcessor[T]:
         items: list[T],
         progress_callback: Callable[[int, int], None] | None = None,
     ) -> BatchResult[Any]:
-        """
-        Process all items in batches.
+        """Process all items in batches.
 
         Args:
             items: Items to process
@@ -447,8 +439,7 @@ class BatchProcessor[T]:
         self,
         items: list[T],
     ) -> Iterator[BatchResult[Any]]:
-        """
-        Process items and yield results batch by batch.
+        """Process items and yield results batch by batch.
 
         Args:
             items: Items to process
@@ -466,8 +457,7 @@ def batch_process(
     processor: Callable[[T], Any],
     batch_size: int = 100,
 ) -> BatchResult[Any]:
-    """
-    Convenience function for batch processing.
+    """Convenience function for batch processing.
 
     Args:
         items: Items to process
@@ -514,8 +504,7 @@ class BenchmarkResult:
 
 
 class Benchmark:
-    """
-    Performance benchmarking utility.
+    """Performance benchmarking utility.
 
     Example:
         bench = Benchmark("MyOperation")
@@ -529,8 +518,7 @@ class Benchmark:
     """
 
     def __init__(self, name: str = "Benchmark") -> None:
-        """
-        Initialize benchmark.
+        """Initialize benchmark.
 
         Args:
             name: Benchmark name for reporting
@@ -544,8 +532,7 @@ class Benchmark:
         iterations: int = 100,
         warmup: int = 5,
     ) -> BenchmarkResult:
-        """
-        Run a benchmark.
+        """Run a benchmark.
 
         Args:
             func: Function to benchmark
@@ -591,8 +578,7 @@ class Benchmark:
         functions: list[tuple[str, Callable[[], Any]]],
         iterations: int = 100,
     ) -> list[BenchmarkResult]:
-        """
-        Compare multiple implementations.
+        """Compare multiple implementations.
 
         Args:
             functions: List of (name, function) tuples
@@ -633,8 +619,7 @@ class Benchmark:
 
 
 def timed[T](func: Callable[..., T]) -> Callable[..., T]:
-    """
-    Decorator to time function execution.
+    """Decorator to time function execution.
 
     Example:
         @timed
@@ -662,8 +647,7 @@ def timed[T](func: Callable[..., T]) -> Callable[..., T]:
 
 
 class FileCache:
-    """
-    File-based persistent cache.
+    """File-based persistent cache.
 
     Example:
         cache = FileCache("~/.cache/spreadsheet-dl")
@@ -678,8 +662,7 @@ class FileCache:
         cache_dir: Path | str,
         ttl: float | None = 3600,
     ) -> None:
-        """
-        Initialize file cache.
+        """Initialize file cache.
 
         Args:
             cache_dir: Directory for cache files

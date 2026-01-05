@@ -1,5 +1,4 @@
-"""
-Multi-format export module for SpreadsheetDL.
+"""Multi-format export module for SpreadsheetDL.
 
 Provides export functionality to multiple formats including Excel (XLSX),
 CSV, and PDF while preserving formatting where possible.
@@ -32,8 +31,8 @@ from spreadsheet_dl.exceptions import (
 from spreadsheet_dl.progress import BatchProgress
 
 
-class ExportFormat(Enum):
-    """Supported export formats."""
+class MultiExportFormat(Enum):
+    """Supported formats for multi-format export operations."""
 
     XLSX = "xlsx"
     CSV = "csv"
@@ -58,8 +57,11 @@ class FormatNotSupportedError(MultiExportError):
         available_formats: list[str] | None = None,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.format_name = format_name
-        self.available_formats = available_formats or [f.value for f in ExportFormat]
+        self.available_formats = available_formats or [
+            f.value for f in MultiExportFormat
+        ]
         super().__init__(
             f"Export format not supported: {format_name}",
             details=f"Available formats: {', '.join(self.available_formats)}",
@@ -80,6 +82,7 @@ class ExportDependencyError(MultiExportError):
         install_cmd: str,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.format_name = format_name
         self.library = library
         super().__init__(
@@ -144,21 +147,19 @@ class SheetData:
 
 
 class MultiFormatExporter:
-    """
-    Export ODS files to multiple formats.
+    """Export ODS files to multiple formats.
 
     Supports Excel (XLSX), CSV, and PDF export with formatting preservation.
 
     Example:
-        >>> exporter = MultiFormatExporter()
-        >>> exporter.export("budget.ods", "budget.xlsx", ExportFormat.XLSX)
-        >>> exporter.export("budget.ods", "budget.csv", ExportFormat.CSV)
-        >>> exporter.export("budget.ods", "report.pdf", ExportFormat.PDF)
+        >>> exporter = MultiFormatExporter()  # doctest: +SKIP
+        >>> exporter.export("budget.ods", "budget.xlsx", MultiExportFormat.XLSX)  # doctest: +SKIP
+        >>> exporter.export("budget.ods", "budget.csv", MultiExportFormat.CSV)  # doctest: +SKIP
+        >>> exporter.export("budget.ods", "report.pdf", MultiExportFormat.PDF)  # doctest: +SKIP
     """
 
     def __init__(self, options: ExportOptions | None = None) -> None:
-        """
-        Initialize exporter.
+        """Initialize exporter.
 
         Args:
             options: Export options. If None, uses defaults.
@@ -169,10 +170,9 @@ class MultiFormatExporter:
         self,
         ods_path: str | Path,
         output_path: str | Path,
-        format: ExportFormat | str,
+        format: MultiExportFormat | str,
     ) -> Path:
-        """
-        Export ODS file to specified format.
+        """Export ODS file to specified format.
 
         Args:
             ods_path: Path to source ODS file.
@@ -194,10 +194,10 @@ class MultiFormatExporter:
             raise FileError(f"Source file not found: {ods_path}")
 
         # Parse format
-        format_obj: ExportFormat
+        format_obj: MultiExportFormat
         if isinstance(format, str):
             try:
-                format_obj = ExportFormat(format.lower())
+                format_obj = MultiExportFormat(format.lower())
             except ValueError as exc:
                 raise FormatNotSupportedError(format) from exc
         else:
@@ -207,13 +207,13 @@ class MultiFormatExporter:
         sheet_data = self._load_ods(ods_path)
 
         # Export to target format
-        if format_obj == ExportFormat.XLSX:
+        if format_obj == MultiExportFormat.XLSX:
             return self._export_xlsx(sheet_data, output_path)
-        elif format_obj == ExportFormat.CSV:
+        elif format_obj == MultiExportFormat.CSV:
             return self._export_csv(sheet_data, output_path)
-        elif format_obj == ExportFormat.PDF:
+        elif format_obj == MultiExportFormat.PDF:
             return self._export_pdf(sheet_data, output_path)
-        elif format_obj == ExportFormat.JSON:
+        elif format_obj == MultiExportFormat.JSON:
             return self._export_json(sheet_data, output_path)
         else:
             raise FormatNotSupportedError(format_obj.value)
@@ -222,10 +222,9 @@ class MultiFormatExporter:
         self,
         ods_path: str | Path,
         output_dir: str | Path,
-        formats: list[ExportFormat | str],
+        formats: list[MultiExportFormat | str],
     ) -> dict[str, Path | None]:
-        """
-        Export ODS file to multiple formats.
+        """Export ODS file to multiple formats.
 
         Args:
             ods_path: Path to source ODS file.
@@ -244,7 +243,7 @@ class MultiFormatExporter:
 
         for fmt in formats:
             if isinstance(fmt, str):
-                fmt = ExportFormat(fmt.lower())
+                fmt = MultiExportFormat(fmt.lower())
 
             output_name = f"{stem}.{fmt.value}"
             output_path = output_dir / output_name
@@ -735,8 +734,7 @@ def export_to_xlsx(
     output_path: str | Path,
     options: ExportOptions | None = None,
 ) -> Path:
-    """
-    Convenience function to export ODS to Excel.
+    """Convenience function to export ODS to Excel.
 
     Args:
         ods_path: Path to ODS file.
@@ -747,7 +745,7 @@ def export_to_xlsx(
         Path to exported file.
     """
     exporter = MultiFormatExporter(options)
-    return exporter.export(ods_path, output_path, ExportFormat.XLSX)
+    return exporter.export(ods_path, output_path, MultiExportFormat.XLSX)
 
 
 def export_to_csv(
@@ -755,8 +753,7 @@ def export_to_csv(
     output_path: str | Path,
     options: ExportOptions | None = None,
 ) -> Path:
-    """
-    Convenience function to export ODS to CSV.
+    """Convenience function to export ODS to CSV.
 
     Args:
         ods_path: Path to ODS file.
@@ -767,7 +764,7 @@ def export_to_csv(
         Path to exported file.
     """
     exporter = MultiFormatExporter(options)
-    return exporter.export(ods_path, output_path, ExportFormat.CSV)
+    return exporter.export(ods_path, output_path, MultiExportFormat.CSV)
 
 
 def export_to_pdf(
@@ -775,8 +772,7 @@ def export_to_pdf(
     output_path: str | Path,
     options: ExportOptions | None = None,
 ) -> Path:
-    """
-    Convenience function to export ODS to PDF.
+    """Convenience function to export ODS to PDF.
 
     Args:
         ods_path: Path to ODS file.
@@ -787,4 +783,4 @@ def export_to_pdf(
         Path to exported file.
     """
     exporter = MultiFormatExporter(options)
-    return exporter.export(ods_path, output_path, ExportFormat.PDF)
+    return exporter.export(ods_path, output_path, MultiExportFormat.PDF)

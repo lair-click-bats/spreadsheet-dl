@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-PreToolUse hook for Task tool - enforces agent limits.
+"""PreToolUse hook for Task tool - enforces agent limits.
 
 This hook is called BEFORE every Task tool invocation and can block
 the launch if too many agents are already running.

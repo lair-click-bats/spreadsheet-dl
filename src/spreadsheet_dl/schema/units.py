@@ -1,5 +1,4 @@
-"""
-Length and measurement value objects for consistent dimension handling.
+"""Length and measurement value objects for consistent dimension handling.
 
 Implements:
     - FR-SCHEMA-002: Length Value Object
@@ -46,8 +45,7 @@ _LENGTH_PATTERN = re.compile(
 
 @dataclass(frozen=True)
 class Length:
-    """
-    Immutable length value with unit.
+    """Immutable length value with unit.
 
     Implements FR-SCHEMA-002: Length Value Object
 
@@ -78,8 +76,7 @@ class Length:
     unit: LengthUnit
 
     def __init__(self, value: float, unit: LengthUnit | str) -> None:
-        """
-        Create a Length with value and unit.
+        """Create a Length with value and unit.
 
         Args:
             value: Numeric value
@@ -99,8 +96,7 @@ class Length:
 
     @classmethod
     def parse(cls, s: str) -> Length:
-        """
-        Parse length from string like "12pt", "2.5cm".
+        """Parse length from string like "12pt", "2.5cm".
 
         Args:
             s: Length string
@@ -157,8 +153,7 @@ class Length:
         return cls(value, LengthUnit.PERCENT)
 
     def to_points(self) -> float:
-        """
-        Convert to points.
+        """Convert to points.
 
         Returns:
             Value in points
@@ -191,8 +186,7 @@ class Length:
         return points / _TO_POINTS[LengthUnit.PX]
 
     def to_unit(self, unit: LengthUnit | str) -> Length:
-        """
-        Convert to specified unit.
+        """Convert to specified unit.
 
         Args:
             unit: Target unit

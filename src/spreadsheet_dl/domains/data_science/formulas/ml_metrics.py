@@ -1,5 +1,4 @@
-"""
-Machine learning metrics formulas.
+"""Machine learning metrics formulas.
 
 Implements:
     ML metrics formulas (ACCURACY, PRECISION, RECALL, F1SCORE, CONFUSION_MATRIX_METRIC)
@@ -15,8 +14,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 @dataclass(slots=True, frozen=True)
 class AccuracyFormula(BaseFormula):
-    """
-    Accuracy metric: (TP+TN)/(TP+TN+FP+FN).
+    """Accuracy metric: (TP+TN)/(TP+TN+FP+FN).
 
     Implements:
         ACCURACY formula for ML evaluation
@@ -29,8 +27,7 @@ class AccuracyFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for ACCURACY
@@ -76,8 +73,7 @@ class AccuracyFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ACCURACY formula string.
+        """Build ACCURACY formula string.
 
         Args:
             *args: tp, tn, fp, fn
@@ -102,8 +98,7 @@ class AccuracyFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class PrecisionFormula(BaseFormula):
-    """
-    Precision metric: TP/(TP+FP).
+    """Precision metric: TP/(TP+FP).
 
     Implements:
         PRECISION formula for ML evaluation
@@ -116,8 +111,7 @@ class PrecisionFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for PRECISION
@@ -151,8 +145,7 @@ class PrecisionFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build PRECISION formula string.
+        """Build PRECISION formula string.
 
         Args:
             *args: tp, fp
@@ -177,8 +170,7 @@ class PrecisionFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class RecallFormula(BaseFormula):
-    """
-    Recall metric: TP/(TP+FN).
+    """Recall metric: TP/(TP+FN).
 
     Implements:
         RECALL formula for ML evaluation
@@ -191,8 +183,7 @@ class RecallFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for RECALL
@@ -226,8 +217,7 @@ class RecallFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build RECALL formula string.
+        """Build RECALL formula string.
 
         Args:
             *args: tp, fn
@@ -252,8 +242,7 @@ class RecallFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class F1ScoreFormula(BaseFormula):
-    """
-    F1 Score metric: 2*(Precision*Recall)/(Precision+Recall).
+    """F1 Score metric: 2*(Precision*Recall)/(Precision+Recall).
 
     Implements:
         F1SCORE formula for ML evaluation
@@ -266,8 +255,7 @@ class F1ScoreFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for F1SCORE
@@ -301,8 +289,7 @@ class F1ScoreFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build F1SCORE formula string.
+        """Build F1SCORE formula string.
 
         Args:
             *args: precision, recall
@@ -327,8 +314,7 @@ class F1ScoreFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class ConfusionMatrixMetricFormula(BaseFormula):
-    """
-    Extract metrics from confusion matrix.
+    """Extract metrics from confusion matrix.
 
     Implements:
         CONFUSION_MATRIX_METRIC formula for metric extraction
@@ -341,8 +327,7 @@ class ConfusionMatrixMetricFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for CONFUSION_MATRIX_METRIC
@@ -376,8 +361,7 @@ class ConfusionMatrixMetricFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build CONFUSION_MATRIX_METRIC formula string.
+        """Build CONFUSION_MATRIX_METRIC formula string.
 
         Args:
             *args: matrix, metric_name

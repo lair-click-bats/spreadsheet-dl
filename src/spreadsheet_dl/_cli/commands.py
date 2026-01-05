@@ -1,5 +1,4 @@
-"""
-CLI command handlers for SpreadsheetDL.
+"""CLI command handlers for SpreadsheetDL.
 
 Contains all command implementation functions called from the main CLI app.
 
@@ -86,7 +85,18 @@ def cmd_generate(args: argparse.Namespace) -> int:
 
         builder = template.generate()
         builder.save(output_path)
-        print(f"Created: {output_path}")
+
+        if getattr(args, "json", False):
+            result = {
+                "status": "success",
+                "action": "generate",
+                "file": str(output_path),
+                "template": args.template,
+                "theme": theme,
+            }
+            print(json.dumps(result, indent=2))
+        else:
+            print(f"Created: {output_path}")
         return 0
 
     # Standard budget generation (no template)
@@ -135,7 +145,18 @@ def cmd_generate(args: argparse.Namespace) -> int:
             budget_allocations=allocations,
         )
 
-    print(f"Created: {path}")
+    if getattr(args, "json", False):
+        result = {
+            "status": "success",
+            "action": "generate",
+            "file": str(path),
+            "month": args.month or date.today().month,
+            "year": getattr(args, "year", None) or date.today().year,
+            "theme": theme,
+        }
+        print(json.dumps(result, indent=2))
+    else:
+        print(f"Created: {path}")
     return 0
 
 
@@ -218,8 +239,7 @@ def cmd_report(args: argparse.Namespace) -> int:
 
 
 def cmd_expense(args: argparse.Namespace) -> int:
-    """
-    Handle quick expense entry.
+    """Handle quick expense entry.
 
     Implements:
         - FR-CORE-003: Expense append functionality (fixes Gap G-02)
@@ -290,21 +310,36 @@ def cmd_expense(args: argparse.Namespace) -> int:
 
     # Handle dry-run mode
     dry_run = getattr(args, "dry_run", False)
+    json_output = getattr(args, "json", False)
 
     if dry_run:
-        print("\n[DRY RUN] Would add expense:")
-        print(f"  File:        {ods_path}")
-        print(f"  Date:        {entry.date}")
-        print(f"  Category:    {entry.category.value}")
-        print(f"  Description: {entry.description}")
-        print(f"  Amount:      ${entry.amount:.2f}")
+        expense_data = {
+            "file": str(ods_path),
+            "date": str(entry.date),
+            "category": entry.category.value,
+            "description": entry.description,
+            "amount": float(entry.amount),
+            "dry_run": True,
+        }
+        if json_output:
+            print(json.dumps({"status": "dry_run", **expense_data}, indent=2))
+        else:
+            print("\n[DRY RUN] Would add expense:")
+            print(f"  File:        {ods_path}")
+            print(f"  Date:        {entry.date}")
+            print(f"  Category:    {entry.category.value}")
+            print(f"  Description: {entry.description}")
+            print(f"  Amount:      ${entry.amount:.2f}")
         return 0
 
     # Create file if needed
+    file_created = False
     if not file_existed:
         generator = OdsGenerator()
         generator.create_budget_spreadsheet(ods_path)
-        print(f"Created new budget: {ods_path}")
+        file_created = True
+        if not json_output:
+            print(f"Created new budget: {ods_path}")
 
     # Append expense to file (FR-CORE-003 implementation)
     try:
@@ -312,17 +347,34 @@ def cmd_expense(args: argparse.Namespace) -> int:
         row_num = editor.append_expense(entry)
         editor.save()
 
-        print("\nExpense added successfully:")
-        print(f"  File:        {ods_path}")
-        print(f"  Row:         {row_num}")
-        print(f"  Date:        {entry.date}")
-        print(f"  Category:    {entry.category.value}")
-        print(f"  Description: {entry.description}")
-        print(f"  Amount:      ${entry.amount:.2f}")
+        if json_output:
+            result = {
+                "status": "success",
+                "action": "expense",
+                "file": str(ods_path),
+                "file_created": file_created,
+                "row": row_num,
+                "date": str(entry.date),
+                "category": entry.category.value,
+                "description": entry.description,
+                "amount": float(entry.amount),
+            }
+            print(json.dumps(result, indent=2))
+        else:
+            print("\nExpense added successfully:")
+            print(f"  File:        {ods_path}")
+            print(f"  Row:         {row_num}")
+            print(f"  Date:        {entry.date}")
+            print(f"  Category:    {entry.category.value}")
+            print(f"  Description: {entry.description}")
+            print(f"  Amount:      ${entry.amount:.2f}")
 
     except (OdsError, FileError, ValueError, OSError) as e:
         # ODS errors (read/write), file errors, validation errors, I/O errors
-        print(f"Error adding expense: {e}", file=sys.stderr)
+        if json_output:
+            print(json.dumps({"status": "error", "error": str(e)}, indent=2))
+        else:
+            print(f"Error adding expense: {e}", file=sys.stderr)
         return 1
 
     return 0
@@ -391,8 +443,7 @@ def cmd_import(args: argparse.Namespace) -> int:
 
 
 def cmd_export(args: argparse.Namespace) -> int:
-    """
-    Handle export command.
+    """Handle export command.
 
     Implements:
         FR-EXPORT-001: Multi-format export (xlsx, csv, pdf)
@@ -420,8 +471,7 @@ def cmd_export(args: argparse.Namespace) -> int:
 
 
 def cmd_export_dual(args: argparse.Namespace) -> int:
-    """
-    Handle dual export command.
+    """Handle dual export command.
 
     Implements:
         FR-DUAL-001/002: Dual export (ODS + AI-friendly JSON)
@@ -446,8 +496,7 @@ def cmd_export_dual(args: argparse.Namespace) -> int:
 
 
 def cmd_backup(args: argparse.Namespace) -> int:
-    """
-    Handle backup command.
+    """Handle backup command.
 
     Implements:
         DR-STORE-002: Backup/restore functionality
@@ -456,12 +505,42 @@ def cmd_backup(args: argparse.Namespace) -> int:
 
     skip_confirm = getattr(args, "yes", False) or getattr(args, "force", False)
     dry_run = getattr(args, "dry_run", False)
+    json_output = getattr(args, "json", False)
 
     manager = BackupManager(retention_days=args.days)
 
     # List backups
     if args.list:
         backups = manager.list_backups(args.file)
+        if json_output:
+            backup_list = [
+                {
+                    "path": str(backup.backup_path),
+                    "created": backup.created.isoformat(),
+                    "reason": backup.metadata.reason,
+                    "size_bytes": (
+                        backup.backup_path.stat().st_size
+                        if backup.backup_path.exists()
+                        else 0
+                    ),
+                    "content_hash": backup.metadata.content_hash,
+                }
+                for backup in backups
+            ]
+            print(
+                json.dumps(
+                    {
+                        "status": "success",
+                        "action": "list",
+                        "file": str(args.file),
+                        "count": len(backup_list),
+                        "backups": backup_list,
+                    },
+                    indent=2,
+                )
+            )
+            return 0
+
         if not backups:
             print(f"No backups found for: {args.file}")
             return 0
@@ -492,7 +571,20 @@ def cmd_backup(args: argparse.Namespace) -> int:
 
         deleted = manager.cleanup_old_backups(args.days, dry_run=dry_run)
 
-        if dry_run:
+        if json_output:
+            print(
+                json.dumps(
+                    {
+                        "status": "success" if not dry_run else "dry_run",
+                        "action": "cleanup",
+                        "retention_days": args.days,
+                        "deleted_count": len(deleted),
+                        "deleted": [str(p) for p in deleted],
+                    },
+                    indent=2,
+                )
+            )
+        elif dry_run:
             print(f"[DRY RUN] Would delete {len(deleted)} backup(s)")
         else:
             print(f"Deleted {len(deleted)} old backup(s)")
@@ -501,7 +593,18 @@ def cmd_backup(args: argparse.Namespace) -> int:
     # Restore from backup
     if args.restore:
         if not args.restore.exists():
-            print(f"Error: Backup file not found: {args.restore}", file=sys.stderr)
+            if json_output:
+                print(
+                    json.dumps(
+                        {
+                            "status": "error",
+                            "error": f"Backup file not found: {args.restore}",
+                        },
+                        indent=2,
+                    )
+                )
+            else:
+                print(f"Error: Backup file not found: {args.restore}", file=sys.stderr)
             return 1
 
         target = args.file
@@ -509,22 +612,71 @@ def cmd_backup(args: argparse.Namespace) -> int:
             raise OperationCancelledError("Backup restore")
 
         if dry_run:
-            print(f"[DRY RUN] Would restore {args.restore} to {target}")
+            if json_output:
+                print(
+                    json.dumps(
+                        {
+                            "status": "dry_run",
+                            "action": "restore",
+                            "source": str(args.restore),
+                            "target": str(target),
+                        },
+                        indent=2,
+                    )
+                )
+            else:
+                print(f"[DRY RUN] Would restore {args.restore} to {target}")
             return 0
 
         restored = manager.restore_backup(args.restore, target, overwrite=True)
-        print(f"Restored: {restored}")
+        if json_output:
+            print(
+                json.dumps(
+                    {
+                        "status": "success",
+                        "action": "restore",
+                        "source": str(args.restore),
+                        "target": str(restored),
+                    },
+                    indent=2,
+                )
+            )
+        else:
+            print(f"Restored: {restored}")
         return 0
 
     # Create backup (default action)
     if not args.file.exists():
-        print(f"Error: File not found: {args.file}", file=sys.stderr)
+        if json_output:
+            print(
+                json.dumps(
+                    {"status": "error", "error": f"File not found: {args.file}"},
+                    indent=2,
+                )
+            )
+        else:
+            print(f"Error: File not found: {args.file}", file=sys.stderr)
         return 1
 
     backup_info = manager.create_backup(args.file, BackupReason.MANUAL)
-    print(f"Backup created: {backup_info.backup_path}")
-    print(f"  Original: {args.file}")
-    print(f"  Hash: {backup_info.metadata.content_hash[:16]}...")
+    if json_output:
+        print(
+            json.dumps(
+                {
+                    "status": "success",
+                    "action": "create",
+                    "source": str(args.file),
+                    "backup_path": str(backup_info.backup_path),
+                    "content_hash": backup_info.metadata.content_hash,
+                    "created": backup_info.created.isoformat(),
+                },
+                indent=2,
+            )
+        )
+    else:
+        print(f"Backup created: {backup_info.backup_path}")
+        print(f"  Original: {args.file}")
+        print(f"  Hash: {backup_info.metadata.content_hash[:16]}...")
 
     return 0
 
@@ -533,25 +685,60 @@ def cmd_upload(args: argparse.Namespace) -> int:
     """Handle Nextcloud upload."""
     from spreadsheet_dl.webdav_upload import NextcloudConfig, upload_budget
 
+    json_output = getattr(args, "json", False)
+
     if not args.file.exists():
-        print(f"Error: File not found: {args.file}", file=sys.stderr)
+        if json_output:
+            print(
+                json.dumps(
+                    {"status": "error", "error": f"File not found: {args.file}"},
+                    indent=2,
+                )
+            )
+        else:
+            print(f"Error: File not found: {args.file}", file=sys.stderr)
         return 1
 
     try:
         config = NextcloudConfig.from_env()
     except ValueError as e:
-        print(f"Configuration error: {e}", file=sys.stderr)
-        print("\nSet these environment variables:")
-        print("  NEXTCLOUD_URL=https://your-nextcloud.com")
-        print("  NEXTCLOUD_USER=username")
-        print("  NEXTCLOUD_PASSWORD=app-password")
-        print("\nOr create a configuration file:")
-        print("  spreadsheet-dl config --init")
+        if json_output:
+            print(
+                json.dumps(
+                    {"status": "error", "error": f"Configuration error: {e}"},
+                    indent=2,
+                )
+            )
+        else:
+            print(f"Configuration error: {e}", file=sys.stderr)
+            print("\nSet these environment variables:")
+            print("  NEXTCLOUD_URL=https://your-nextcloud.com")
+            print("  NEXTCLOUD_USER=username")
+            print("  NEXTCLOUD_PASSWORD=app-password")
+            print("\nOr create a configuration file:")
+            print("  spreadsheet-dl config --init")
         return 1
 
-    print(f"Uploading to {config.server_url}...")
+    if not json_output:
+        print(f"Uploading to {config.server_url}...")
+
     url = upload_budget(args.file, config)
-    print(f"Uploaded: {url}")
+
+    if json_output:
+        print(
+            json.dumps(
+                {
+                    "status": "success",
+                    "action": "upload",
+                    "file": str(args.file),
+                    "server": config.server_url,
+                    "url": url,
+                },
+                indent=2,
+            )
+        )
+    else:
+        print(f"Uploaded: {url}")
 
     return 0
 
@@ -628,8 +815,7 @@ def cmd_dashboard(args: argparse.Namespace) -> int:
 
 
 def cmd_visualize(args: argparse.Namespace) -> int:
-    """
-    Handle visualize command.
+    """Handle visualize command.
 
     Implements:
         FR-REPORT-003: Interactive visualization
@@ -642,9 +828,50 @@ def cmd_visualize(args: argparse.Namespace) -> int:
         create_budget_dashboard,
     )
 
+    json_output = getattr(args, "json", False)
+
     if not args.file.exists():
-        print(f"Error: File not found: {args.file}", file=sys.stderr)
+        if json_output:
+            print(
+                json.dumps(
+                    {"status": "error", "error": f"File not found: {args.file}"},
+                    indent=2,
+                )
+            )
+        else:
+            print(f"Error: File not found: {args.file}", file=sys.stderr)
         return 1
+
+    # For JSON output, return chart data instead of generating HTML
+    if json_output:
+        from spreadsheet_dl.domains.finance.budget_analyzer import BudgetAnalyzer
+
+        analyzer = BudgetAnalyzer(args.file)
+        by_category = analyzer.get_category_breakdown()
+        summary = analyzer.get_summary()
+
+        chart_data = {
+            "status": "success",
+            "action": "visualize",
+            "file": str(args.file),
+            "chart_type": args.type,
+            "theme": args.theme,
+            "data": {
+                "categories": [
+                    {"name": cat, "amount": float(amt)}
+                    for cat, amt in by_category.items()
+                    if amt > 0
+                ],
+                "summary": {
+                    "total_budget": float(summary.total_budget),
+                    "total_spent": float(summary.total_spent),
+                    "total_remaining": float(summary.total_remaining),
+                    "percent_used": float(summary.percent_used),
+                },
+            },
+        }
+        print(json.dumps(chart_data, indent=2))
+        return 0
 
     # Determine output path
     if args.output:
@@ -696,8 +923,7 @@ def cmd_visualize(args: argparse.Namespace) -> int:
 
 
 def cmd_account(args: argparse.Namespace) -> int:
-    """
-    Handle account command.
+    """Handle account command.
 
     Implements:
         FR-CORE-004: Account Management
@@ -844,8 +1070,7 @@ def cmd_account(args: argparse.Namespace) -> int:
 
 
 def cmd_category(args: argparse.Namespace) -> int:
-    """
-    Handle category command.
+    """Handle category command.
 
     Implements:
         FR-EXT-005: Custom Category Support
@@ -1006,8 +1231,7 @@ def cmd_category(args: argparse.Namespace) -> int:
 
 
 def cmd_banks(args: argparse.Namespace) -> int:
-    """
-    Handle banks command.
+    """Handle banks command.
 
     Implements:
         FR-IMPORT-002: Extended bank formats
@@ -1071,8 +1295,7 @@ def cmd_banks(args: argparse.Namespace) -> int:
 
 
 def cmd_currency(args: argparse.Namespace) -> int:
-    """
-    Handle currency command.
+    """Handle currency command.
 
     Implements:
         FR-CURR-001: Multi-currency support
@@ -1349,8 +1572,7 @@ def cmd_config(args: argparse.Namespace) -> int:
 
 
 def cmd_plugin(args: argparse.Namespace) -> int:
-    """
-    Handle plugin command.
+    """Handle plugin command.
 
     Implements:
         FR-EXT-001: Plugin management CLI

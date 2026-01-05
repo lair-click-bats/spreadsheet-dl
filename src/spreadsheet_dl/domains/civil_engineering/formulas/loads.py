@@ -1,5 +1,4 @@
-"""
-Load calculation formulas for civil engineering.
+"""Load calculation formulas for civil engineering.
 
 Implements:
     Load formulas (DEAD_LOAD, LIVE_LOAD, WIND_LOAD, SEISMIC_LOAD)
@@ -15,8 +14,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 @dataclass(slots=True, frozen=True)
 class DeadLoadFormula(BaseFormula):
-    """
-    Dead load formula: DL = rho*V*g.
+    """Dead load formula: DL = rho*V*g.
 
     Calculates dead load from material density and volume.
 
@@ -27,7 +25,6 @@ class DeadLoadFormula(BaseFormula):
         >>> formula = DeadLoadFormula()
         >>> formula.build("2400", "10", "9.81")
         '2400*10*9.81/1000'
-        # Result: dead load in kN
     """
 
     @property
@@ -66,8 +63,7 @@ class DeadLoadFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: rho, V, g (optional, default 9.81)
@@ -83,8 +79,7 @@ class DeadLoadFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class LiveLoadFormula(BaseFormula):
-    """
-    Live load formula: LL = q*A.
+    """Live load formula: LL = q*A.
 
     Calculates live load from load intensity and area.
 
@@ -95,7 +90,6 @@ class LiveLoadFormula(BaseFormula):
         >>> formula = LiveLoadFormula()
         >>> formula.build("5", "50")
         '5*50'
-        # Result: live load in kN
     """
 
     @property
@@ -127,8 +121,7 @@ class LiveLoadFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: q, A
@@ -143,8 +136,7 @@ class LiveLoadFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class WindLoadFormula(BaseFormula):
-    """
-    Wind load formula: W = q*G*C_p*A.
+    """Wind load formula: W = q*G*C_p*A.
 
     Calculates wind load using design wind pressure and coefficients.
 
@@ -155,7 +147,6 @@ class WindLoadFormula(BaseFormula):
         >>> formula = WindLoadFormula()
         >>> formula.build("0.85", "0.85", "0.8", "100")
         '0.85*0.85*0.8*100'
-        # Result: wind load in kN
     """
 
     @property
@@ -199,8 +190,7 @@ class WindLoadFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: q, G, Cp, A
@@ -215,8 +205,7 @@ class WindLoadFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class SeismicLoadFormula(BaseFormula):
-    """
-    Seismic load formula: F = C_s*W.
+    """Seismic load formula: F = C_s*W.
 
     Calculates seismic base shear using seismic coefficient and weight.
 
@@ -227,7 +216,6 @@ class SeismicLoadFormula(BaseFormula):
         >>> formula = SeismicLoadFormula()
         >>> formula.build("0.15", "10000")
         '0.15*10000'
-        # Result: seismic load in kN
     """
 
     @property
@@ -259,8 +247,7 @@ class SeismicLoadFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: Cs, W

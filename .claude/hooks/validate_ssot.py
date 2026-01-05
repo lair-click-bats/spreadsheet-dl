@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-SSOT Validation Hook
+"""SSOT Validation Hook
 Ensures no duplicate configuration exists across the repository.
 Validates against .claude/project-metadata.yaml as single source of truth.
 
@@ -36,7 +35,7 @@ def check_duplicate_configs() -> dict[str, Any]:
     # Check for duplicate example configs
     PROJECT_DIR / "examples/configs"
     duplicate_locations = [
-        PROJECT_DIR / ".coordination/spec/tracekit/example-configs",
+        PROJECT_DIR / ".coordination/spec/spreadsheet-dl/example-configs",
     ]
 
     for dup_loc in duplicate_locations:

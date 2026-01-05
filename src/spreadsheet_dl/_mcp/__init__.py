@@ -1,5 +1,4 @@
-"""
-MCP (Model Context Protocol) server package.
+"""MCP (Model Context Protocol) server package.
 
 This package provides a modular implementation of the MCP server,
 split into focused components for better maintainability.

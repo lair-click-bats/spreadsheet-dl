@@ -1,5 +1,4 @@
-"""
-Mechanical Engineering Domain Plugin for SpreadsheetDL.
+"""Mechanical Engineering Domain Plugin for SpreadsheetDL.
 
 Provides comprehensive mechanical engineering functionality including:
 - Stress analysis and material properties templates

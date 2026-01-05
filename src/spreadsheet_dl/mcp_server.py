@@ -1,5 +1,4 @@
-"""
-MCP (Model Context Protocol) server for SpreadsheetDL.
+"""MCP (Model Context Protocol) server for SpreadsheetDL.
 
 PUBLIC API ENTRY POINT
 ======================

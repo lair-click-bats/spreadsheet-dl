@@ -1,5 +1,4 @@
-"""
-Progress indicators for long-running operations.
+"""Progress indicators for long-running operations.
 
 Implements:
     - FR-UX-002: Progress indicators for long-running operations
@@ -44,8 +43,7 @@ def progress_bar(
     description: str,
     total: int | None = None,
 ) -> Iterator[TaskID | None]:
-    """
-    Context manager for progress bar.
+    """Context manager for progress bar.
 
     Implements FR-UX-002: Progress indicators for long-running operations.
 
@@ -80,8 +78,7 @@ def progress_bar(
 
 @contextmanager
 def spinner(description: str) -> Iterator[None]:
-    """
-    Show spinner for indeterminate operations.
+    """Show spinner for indeterminate operations.
 
     Implements FR-UX-002: Progress indicators for long-running operations.
 
@@ -110,8 +107,7 @@ def spinner(description: str) -> Iterator[None]:
 
 
 class BatchProgress:
-    """
-    Progress tracking for batch operations.
+    """Progress tracking for batch operations.
 
     Implements FR-UX-002: Progress indicators for long-running operations.
 
@@ -123,8 +119,7 @@ class BatchProgress:
     """
 
     def __init__(self, total: int, description: str = "Processing") -> None:
-        """
-        Initialize batch progress tracker.
+        """Initialize batch progress tracker.
 
         Args:
             total: Total number of items
@@ -159,8 +154,7 @@ class BatchProgress:
             self._task = None
 
     def update(self, n: int = 1) -> None:
-        """
-        Update progress by n items.
+        """Update progress by n items.
 
         Args:
             n: Number of items completed (default: 1)
@@ -170,8 +164,7 @@ class BatchProgress:
             self._progress.update(self._task, advance=n)
 
     def set_description(self, description: str) -> None:
-        """
-        Update the progress description.
+        """Update the progress description.
 
         Args:
             description: New description
@@ -182,8 +175,7 @@ class BatchProgress:
 
 
 def is_progress_enabled() -> bool:
-    """
-    Check if progress indicators are enabled.
+    """Check if progress indicators are enabled.
 
     Returns:
         True if progress indicators will be displayed
@@ -192,8 +184,7 @@ def is_progress_enabled() -> bool:
 
 
 def require_rich() -> None:
-    """
-    Raise ImportError if rich is not available.
+    """Raise ImportError if rich is not available.
 
     Raises:
         ImportError: If rich library is not installed

@@ -1,5 +1,4 @@
-"""
-Fatigue and safety formulas for mechanical engineering.
+"""Fatigue and safety formulas for mechanical engineering.
 
 Implements:
     Fatigue formulas (FATIGUE_LIFE, SAFETY_FACTOR, STRESS_CONCENTRATION)
@@ -15,8 +14,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 @dataclass(slots=True, frozen=True)
 class FatigueLifeFormula(BaseFormula):
-    """
-    Fatigue Life formula (S-N curve): N = C / (Deltasigma)^m.
+    """Fatigue Life formula (S-N curve): N = C / (Deltasigma)^m.
 
     Calculates number of cycles to failure given stress range and S-N curve parameters.
 
@@ -27,7 +25,6 @@ class FatigueLifeFormula(BaseFormula):
         >>> formula = FatigueLifeFormula()
         >>> formula.build("1e12", "100", "3")
         '1e12/POWER(100;3)'
-        # Result: 1,000,000 cycles
     """
 
     @property
@@ -65,8 +62,7 @@ class FatigueLifeFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: constant_c, stress_range, exponent_m
@@ -81,8 +77,7 @@ class FatigueLifeFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class SafetyFactorFormula(BaseFormula):
-    """
-    Safety Factor formula: SF = sigma_yield / sigma_applied.
+    """Safety Factor formula: SF = sigma_yield / sigma_applied.
 
     Calculates safety factor given yield strength and applied stress.
 
@@ -93,7 +88,6 @@ class SafetyFactorFormula(BaseFormula):
         >>> formula = SafetyFactorFormula()
         >>> formula.build("250", "100")
         '250/100'
-        # Result: 2.5
     """
 
     @property
@@ -125,8 +119,7 @@ class SafetyFactorFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: yield_strength, applied_stress
@@ -141,8 +134,7 @@ class SafetyFactorFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class StressConcentrationFormula(BaseFormula):
-    """
-    Stress Concentration formula: sigma_max = K_t * sigma_nominal.
+    """Stress Concentration formula: sigma_max = K_t * sigma_nominal.
 
     Calculates maximum stress at a discontinuity given stress concentration factor
     and nominal stress.
@@ -154,7 +146,6 @@ class StressConcentrationFormula(BaseFormula):
         >>> formula = StressConcentrationFormula()
         >>> formula.build("3.0", "50")
         '3.0*50'
-        # Result: 150 MPa
     """
 
     @property
@@ -186,8 +177,7 @@ class StressConcentrationFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: kt_factor, nominal_stress

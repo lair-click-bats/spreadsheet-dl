@@ -1,5 +1,4 @@
-"""
-Plaid API integration for bank synchronization.
+"""Plaid API integration for bank synchronization.
 
 Provides direct bank connection and transaction sync via Plaid bank aggregation service.
 
@@ -71,6 +70,7 @@ class PlaidConnectionError(PlaidError):
         message: str = "Failed to connect to Plaid API",
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         super().__init__(
             message,
             suggestion="Check your API credentials and network connection.",
@@ -89,6 +89,7 @@ class PlaidAuthError(PlaidError):
         institution: str | None = None,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.institution = institution
         suggestion = "Re-authenticate with your bank."
         if institution:
@@ -114,6 +115,7 @@ class PlaidAPIError(PlaidError):
         error_code: str | None = None,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.plaid_error_type = error_type
         self.plaid_error_code = error_code
         super().__init__(message, **kwargs)
@@ -130,6 +132,7 @@ class PlaidRateLimitError(PlaidError):
         retry_after: int | None = None,
         **kwargs: Any,
     ) -> None:
+        """Initialize the instance."""
         self.retry_after = retry_after
         suggestion = "Wait before retrying."
         if retry_after:
@@ -177,8 +180,7 @@ class SyncStatus(Enum):
 
 @dataclass
 class PlaidConfig:
-    """
-    Configuration for Plaid API integration.
+    """Configuration for Plaid API integration.
 
     Attributes:
         client_id: Plaid client ID.
@@ -198,8 +200,7 @@ class PlaidConfig:
 
     @classmethod
     def from_env(cls) -> PlaidConfig:
-        """
-        Load configuration from environment variables.
+        """Load configuration from environment variables.
 
         Environment variables:
             PLAID_CLIENT_ID: Client ID
@@ -250,8 +251,7 @@ class PlaidConfig:
 
 @dataclass
 class PlaidInstitution:
-    """
-    Represents a financial institution in Plaid.
+    """Represents a financial institution in Plaid.
 
     Attributes:
         institution_id: Plaid's institution ID.
@@ -283,8 +283,7 @@ class PlaidInstitution:
 
 @dataclass
 class PlaidAccount:
-    """
-    Represents a bank account from Plaid.
+    """Represents a bank account from Plaid.
 
     Attributes:
         account_id: Plaid's account ID.
@@ -329,8 +328,7 @@ class PlaidAccount:
 
 @dataclass
 class PlaidTransaction:
-    """
-    Represents a transaction from Plaid.
+    """Represents a transaction from Plaid.
 
     Attributes:
         transaction_id: Plaid's transaction ID.
@@ -376,8 +374,7 @@ class PlaidTransaction:
 
 @dataclass
 class LinkToken:
-    """
-    Plaid Link token for initiating connections.
+    """Plaid Link token for initiating connections.
 
     Attributes:
         link_token: The token string.
@@ -397,8 +394,7 @@ class LinkToken:
 
 @dataclass
 class AccessToken:
-    """
-    Plaid access token for a connected institution.
+    """Plaid access token for a connected institution.
 
     Attributes:
         access_token: The token string (encrypted at rest).
@@ -419,8 +415,7 @@ class AccessToken:
     error: str | None = None
 
     def to_dict(self, include_token: bool = False) -> dict[str, Any]:
-        """
-        Convert to dictionary.
+        """Convert to dictionary.
 
         Args:
             include_token: Whether to include the access token.
@@ -443,8 +438,7 @@ class AccessToken:
 
 @dataclass
 class SyncResult:
-    """
-    Result of a transaction sync operation.
+    """Result of a transaction sync operation.
 
     Attributes:
         status: Sync status.
@@ -480,8 +474,7 @@ class SyncResult:
 
 
 class PlaidClient:
-    """
-    Client for Plaid API integration.
+    """Client for Plaid API integration.
 
     Provides methods for:
     - Creating Link tokens for bank connection
@@ -497,27 +490,27 @@ class PlaidClient:
     Production mode requires the plaid-python library and valid Plaid API credentials.
 
     Example (Sandbox):
-        >>> config = PlaidConfig(
+        >>> config = PlaidConfig(  # doctest: +SKIP
         ...     client_id="test",
         ...     secret="test",
         ...     environment=PlaidEnvironment.SANDBOX
         ... )
-        >>> client = PlaidClient(config)
-        >>> link_token = client.create_link_token("user123")
-        >>> access = client.exchange_public_token("public-test-token")
-        >>> transactions = client.get_transactions(
+        >>> client = PlaidClient(config)  # doctest: +SKIP
+        >>> link_token = client.create_link_token("user123")  # doctest: +SKIP
+        >>> access = client.exchange_public_token("public-test-token")  # doctest: +SKIP
+        >>> transactions = client.get_transactions(  # doctest: +SKIP
         ...     access.access_token,
         ...     date.today() - timedelta(days=30),
         ...     date.today()
         ... )
 
     Example (Production):
-        >>> config = PlaidConfig.from_env()  # Reads environment variables
-        >>> client = PlaidClient(config)
-        >>> link_token = client.create_link_token("user123")
+        >>> config = PlaidConfig.from_env()  # doctest: +SKIP
+        >>> client = PlaidClient(config)  # doctest: +SKIP
+        >>> link_token = client.create_link_token("user123")  # doctest: +SKIP
         >>> # User completes Plaid Link flow in frontend...
-        >>> access = client.exchange_public_token(public_token)
-        >>> result = client.sync_transactions(access.access_token)
+        >>> access = client.exchange_public_token(public_token)  # doctest: +SKIP
+        >>> result = client.sync_transactions(access.access_token)  # doctest: +SKIP
     """
 
     def __init__(
@@ -525,8 +518,7 @@ class PlaidClient:
         config: PlaidConfig,
         credential_store: Any | None = None,
     ) -> None:
-        """
-        Initialize Plaid client.
+        """Initialize Plaid client.
 
         Args:
             config: Plaid configuration.
@@ -539,8 +531,7 @@ class PlaidClient:
         self._rate_limit_reset: datetime | None = None
 
     def _get_plaid_client(self) -> Any:
-        """
-        Get or create the Plaid API client.
+        """Get or create the Plaid API client.
 
         Returns:
             Configured Plaid API client.
@@ -583,8 +574,7 @@ class PlaidClient:
         return self._plaid_client
 
     def _handle_api_error(self, error: Exception) -> None:
-        """
-        Handle Plaid API errors and convert to appropriate exceptions.
+        """Handle Plaid API errors and convert to appropriate exceptions.
 
         Args:
             error: The API error to handle.
@@ -637,8 +627,7 @@ class PlaidClient:
         country_codes: list[str] | None = None,
         language: str = "en",
     ) -> LinkToken:
-        """
-        Create a Link token for initiating Plaid Link.
+        """Create a Link token for initiating Plaid Link.
 
         Args:
             user_id: Unique identifier for the user.
@@ -680,8 +669,7 @@ class PlaidClient:
         self,
         public_token: str,
     ) -> AccessToken:
-        """
-        Exchange a public token for an access token.
+        """Exchange a public token for an access token.
 
         Called after user completes Plaid Link flow.
 
@@ -706,8 +694,7 @@ class PlaidClient:
         self,
         access_token: str,
     ) -> list[PlaidAccount]:
-        """
-        Get accounts for an access token.
+        """Get accounts for an access token.
 
         Args:
             access_token: Plaid access token.
@@ -731,8 +718,7 @@ class PlaidClient:
         access_token: str,
         account_ids: list[str] | None = None,
     ) -> list[PlaidAccount]:
-        """
-        Get account balances.
+        """Get account balances.
 
         Args:
             access_token: Plaid access token.
@@ -758,8 +744,7 @@ class PlaidClient:
         cursor: str | None = None,
         count: int = 100,
     ) -> SyncResult:
-        """
-        Sync transactions for an access token.
+        """Sync transactions for an access token.
 
         Uses cursor-based pagination for incremental sync.
 
@@ -789,8 +774,7 @@ class PlaidClient:
         end_date: date,
         account_ids: list[str] | None = None,
     ) -> list[PlaidTransaction]:
-        """
-        Get transactions for a date range.
+        """Get transactions for a date range.
 
         Args:
             access_token: Plaid access token.
@@ -818,8 +802,7 @@ class PlaidClient:
         self,
         access_token: str,
     ) -> bool:
-        """
-        Request a refresh of transactions.
+        """Request a refresh of transactions.
 
         Triggers Plaid to fetch latest data from the institution.
 
@@ -841,8 +824,7 @@ class PlaidClient:
         self,
         access_token: str,
     ) -> bool:
-        """
-        Remove a connected item (bank connection).
+        """Remove a connected item (bank connection).
 
         Args:
             access_token: Plaid access token for the item.
@@ -860,8 +842,7 @@ class PlaidClient:
         query: str,
         country_codes: list[str] | None = None,
     ) -> list[PlaidInstitution]:
-        """
-        Search for financial institutions.
+        """Search for financial institutions.
 
         Args:
             query: Search query (institution name).
@@ -1100,8 +1081,7 @@ class PlaidClient:
     # =========================================================================
 
     def _api_create_link_token(self, request_data: dict[str, Any]) -> LinkToken:
-        """
-        Make API call to create link token.
+        """Make API call to create link token.
 
         Args:
             request_data: Link token request parameters
@@ -1169,8 +1149,7 @@ class PlaidClient:
             raise  # Should not reach here, but satisfies type checker
 
     def _api_exchange_token(self, public_token: str) -> AccessToken:
-        """
-        Make API call to exchange public token.
+        """Make API call to exchange public token.
 
         Args:
             public_token: Public token from Plaid Link
@@ -1243,8 +1222,7 @@ class PlaidClient:
             raise
 
     def _api_get_accounts(self, access_token: str) -> list[PlaidAccount]:
-        """
-        Make API call to get accounts.
+        """Make API call to get accounts.
 
         Args:
             access_token: Plaid access token
@@ -1297,8 +1275,7 @@ class PlaidClient:
         access_token: str,
         account_ids: list[str] | None,
     ) -> list[PlaidAccount]:
-        """
-        Make API call to get balances.
+        """Make API call to get balances.
 
         Args:
             access_token: Plaid access token
@@ -1366,8 +1343,7 @@ class PlaidClient:
         cursor: str | None,
         count: int,
     ) -> SyncResult:
-        """
-        Make API call to sync transactions.
+        """Make API call to sync transactions.
 
         Args:
             access_token: Plaid access token
@@ -1436,8 +1412,7 @@ class PlaidClient:
         end_date: date,
         account_ids: list[str] | None,
     ) -> list[PlaidTransaction]:
-        """
-        Make API call to get transactions.
+        """Make API call to get transactions.
 
         Args:
             access_token: Plaid access token
@@ -1521,8 +1496,7 @@ class PlaidClient:
             raise
 
     def _api_refresh_transactions(self, access_token: str) -> bool:
-        """
-        Make API call to refresh transactions.
+        """Make API call to refresh transactions.
 
         Args:
             access_token: Plaid access token
@@ -1557,8 +1531,7 @@ class PlaidClient:
         query: str,
         country_codes: list[str] | None,
     ) -> list[PlaidInstitution]:
-        """
-        Make API call to search institutions.
+        """Make API call to search institutions.
 
         Args:
             query: Search query string
@@ -1614,8 +1587,7 @@ class PlaidClient:
 
 
 class PlaidSyncManager:
-    """
-    Manager for Plaid sync operations.
+    """Manager for Plaid sync operations.
 
     Handles:
     - Scheduling automatic syncs
@@ -1624,9 +1596,9 @@ class PlaidSyncManager:
     - Storing sync state and cursors
 
     Example:
-        >>> manager = PlaidSyncManager(config)
-        >>> manager.add_connection(access_token)
-        >>> new_transactions = manager.sync_all()
+        >>> manager = PlaidSyncManager(config)  # doctest: +SKIP
+        >>> manager.add_connection(access_token)  # doctest: +SKIP
+        >>> new_transactions = manager.sync_all()  # doctest: +SKIP
     """
 
     def __init__(
@@ -1634,8 +1606,7 @@ class PlaidSyncManager:
         config: PlaidConfig,
         data_dir: Path | None = None,
     ) -> None:
-        """
-        Initialize sync manager.
+        """Initialize sync manager.
 
         Args:
             config: Plaid configuration.
@@ -1649,8 +1620,7 @@ class PlaidSyncManager:
         self._load_state()
 
     def add_connection(self, access_token: AccessToken) -> None:
-        """
-        Add a new bank connection.
+        """Add a new bank connection.
 
         Args:
             access_token: Access token from Plaid Link.
@@ -1659,8 +1629,7 @@ class PlaidSyncManager:
         self._save_state()
 
     def remove_connection(self, item_id: str) -> bool:
-        """
-        Remove a bank connection.
+        """Remove a bank connection.
 
         Args:
             item_id: Plaid item ID to remove.
@@ -1679,8 +1648,7 @@ class PlaidSyncManager:
         return False
 
     def list_connections(self) -> list[dict[str, Any]]:
-        """
-        List all bank connections.
+        """List all bank connections.
 
         Returns:
             List of connection info dictionaries.
@@ -1690,8 +1658,7 @@ class PlaidSyncManager:
         ]
 
     def sync_all(self) -> dict[str, SyncResult]:
-        """
-        Sync transactions for all connections.
+        """Sync transactions for all connections.
 
         Returns:
             Dictionary mapping item_id to SyncResult.
@@ -1727,8 +1694,7 @@ class PlaidSyncManager:
         return results
 
     def sync_connection(self, item_id: str) -> SyncResult:
-        """
-        Sync transactions for a specific connection.
+        """Sync transactions for a specific connection.
 
         Args:
             item_id: Plaid item ID.
@@ -1762,8 +1728,7 @@ class PlaidSyncManager:
         self,
         transactions: list[PlaidTransaction],
     ) -> list[dict[str, Any]]:
-        """
-        Convert Plaid transactions to expense entries.
+        """Convert Plaid transactions to expense entries.
 
         Args:
             transactions: List of Plaid transactions.

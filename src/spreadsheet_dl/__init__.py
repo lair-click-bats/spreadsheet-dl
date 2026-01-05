@@ -1,5 +1,4 @@
-"""
-SpreadsheetDL - The Spreadsheet Definition Language for Python
+"""SpreadsheetDL - The Spreadsheet Definition Language for Python.
 
 A universal spreadsheet definition language with declarative API, multi-format export,
 domain-specific templates, and native MCP server for AI integration.
@@ -70,9 +69,7 @@ Major Features (v4.0.0):
 For complete feature history and migration guides, see CHANGELOG.md
 """
 
-__version__ = "4.0.0"
-__author__ = "lair-click-bats"
-
+# Import version from dedicated module for fast CLI startup
 # Account Management
 # Format Adapters
 # =============================================================================
@@ -83,6 +80,7 @@ __author__ = "lair-click-bats"
 from spreadsheet_dl import _builder as builder_pkg  # noqa: F401
 from spreadsheet_dl import _cli as cli_pkg  # noqa: F401
 from spreadsheet_dl import _mcp as mcp_pkg  # noqa: F401
+from spreadsheet_dl._version import __author__, __version__
 from spreadsheet_dl.adapters import (
     AdapterOptions,
     AdapterRegistry,

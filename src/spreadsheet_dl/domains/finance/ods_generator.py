@@ -1,5 +1,4 @@
-"""
-ODS Spreadsheet Generator for family budget tracking.
+"""ODS Spreadsheet Generator for family budget tracking.
 
 Creates ODS files with formulas, formatting, and structure compatible
 with Collabora Office and mobile editing via Nextcloud.
@@ -70,8 +69,7 @@ class BudgetAllocation:
 
 
 class OdsGenerator:
-    """
-    Generate ODS spreadsheets for family budget tracking.
+    """Generate ODS spreadsheets for family budget tracking.
 
     Creates formatted spreadsheets with:
     - Expense tracking sheets
@@ -98,8 +96,7 @@ class OdsGenerator:
         theme: str | Theme | None = None,
         theme_dir: Path | str | None = None,
     ) -> None:
-        """
-        Initialize the ODS generator.
+        """Initialize the ODS generator.
 
         Args:
             theme: Theme name (e.g., "default", "corporate") or Theme object.
@@ -144,8 +141,7 @@ class OdsGenerator:
         budget_allocations: Sequence[BudgetAllocation] | None = None,
         expenses: Sequence[ExpenseEntry] | None = None,
     ) -> Path:
-        """
-        Create a complete budget tracking spreadsheet.
+        """Create a complete budget tracking spreadsheet.
 
         Args:
             output_path: Path to save the ODS file.
@@ -181,8 +177,7 @@ class OdsGenerator:
         *,
         categories: Sequence[ExpenseCategory] | None = None,
     ) -> Path:
-        """
-        Create a blank expense tracking template.
+        """Create a blank expense tracking template.
 
         Args:
             output_path: Path to save the ODS file.
@@ -586,8 +581,7 @@ def create_monthly_budget(
     year: int | None = None,
     theme: str | None = None,
 ) -> Path:
-    """
-    Convenience function to create a monthly budget spreadsheet.
+    """Convenience function to create a monthly budget spreadsheet.
 
     Args:
         output_dir: Directory to save the file.

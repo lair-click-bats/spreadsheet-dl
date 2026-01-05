@@ -1,5 +1,4 @@
-"""
-Electrical Engineering Domain Plugin for SpreadsheetDL.
+"""Electrical Engineering Domain Plugin for SpreadsheetDL.
 
 Implements:
     Electrical Engineering domain plugin
@@ -64,17 +63,16 @@ from spreadsheet_dl.domains.electrical_engineering.templates.pin_mapping import 
 from spreadsheet_dl.domains.electrical_engineering.templates.power_budget import (
     PowerBudgetTemplate,
 )
+from spreadsheet_dl.domains.electrical_engineering.templates.procedure_template import (
+    ProcedureTemplate,
+)
 from spreadsheet_dl.domains.electrical_engineering.templates.signal_routing import (
     SignalRoutingTemplate,
-)
-from spreadsheet_dl.domains.electrical_engineering.templates.test_procedure import (
-    TestProcedureTemplate,
 )
 
 
 class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
-    """
-    Electrical Engineering domain plugin.
+    """Electrical Engineering domain plugin.
 
     Implements:
         Complete Electrical Engineering domain plugin
@@ -89,13 +87,12 @@ class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
         >>> template_class = plugin.get_template("bom")
         >>> template = template_class(project_name="Widget Rev A")
         >>> builder = template.generate()
-        >>> builder.save("widget_bom.ods")
+        >>> path = builder.save("widget_bom.ods")
     """
 
     @property
     def metadata(self) -> PluginMetadata:
-        """
-        Get plugin metadata.
+        """Get plugin metadata.
 
         Returns:
             PluginMetadata with electrical engineering plugin information
@@ -122,8 +119,7 @@ class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
         )
 
     def initialize(self) -> None:
-        """
-        Initialize plugin resources.
+        """Initialize plugin resources.
 
         Registers all templates, formulas, and importers.
 
@@ -138,7 +134,7 @@ class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
         self.register_template("pin_mapping", PinMappingTemplate)
         self.register_template("power_budget", PowerBudgetTemplate)
         self.register_template("signal_routing", SignalRoutingTemplate)
-        self.register_template("test_procedure", TestProcedureTemplate)
+        self.register_template("test_procedure", ProcedureTemplate)
 
         # Register power formulas (4 total)
         self.register_formula("POWER_DISSIPATION", PowerDissipationFormula)
@@ -164,8 +160,7 @@ class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
         self.register_importer("component_csv", GenericComponentCSVImporter)
 
     def cleanup(self) -> None:
-        """
-        Cleanup plugin resources.
+        """Cleanup plugin resources.
 
         No resources need explicit cleanup for this plugin.
 
@@ -176,8 +171,7 @@ class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
         pass
 
     def validate(self) -> bool:
-        """
-        Validate plugin configuration.
+        """Validate plugin configuration.
 
         Returns:
             True if plugin has required templates and formulas registered

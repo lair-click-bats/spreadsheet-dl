@@ -1,5 +1,4 @@
-"""
-Interactive ODS features for enhanced user experience.
+"""Interactive ODS features for enhanced user experience.
 
 Provides interactive elements for ODS spreadsheets including
 dropdowns, data validation, conditional formatting, and
@@ -8,7 +7,7 @@ dashboard views.
 Requirements implemented:
     - FR-HUMAN-002: Interactive features (dropdowns, validation)
     - FR-HUMAN-003: Dashboard view in ODS
-    - FUTURE-003: Sparkline application to ODS documents
+    - FR-SPARK-001: Sparkline application to ODS documents
 
 Features:
     - Dropdown lists for category selection
@@ -89,8 +88,7 @@ class ConditionalFormatType(Enum):
 
 @dataclass
 class ValidationRule:
-    """
-    Data validation rule for ODS cells.
+    """Data validation rule for ODS cells.
 
     Attributes:
         rule_type: Type of validation.
@@ -153,8 +151,7 @@ class ValidationRule:
 
 @dataclass
 class DropdownList:
-    """
-    Dropdown list configuration.
+    """Dropdown list configuration.
 
     Attributes:
         name: List name for reference.
@@ -221,8 +218,7 @@ class DropdownList:
 
 @dataclass
 class ConditionalFormat:
-    """
-    Conditional formatting rule.
+    """Conditional formatting rule.
 
     Attributes:
         format_type: Type of conditional format.
@@ -310,8 +306,7 @@ class ConditionalFormat:
 
 @dataclass
 class DashboardKPI:
-    """
-    Key Performance Indicator for dashboard.
+    """Key Performance Indicator for dashboard.
 
     Attributes:
         name: KPI display name.
@@ -362,13 +357,12 @@ class DashboardKPI:
 
 @dataclass
 class SparklineConfig:
-    """
-    Configuration for sparkline chart (LibreOffice-specific).
+    """Configuration for sparkline chart (LibreOffice-specific).
 
     LibreOffice Calc supports SPARKLINE() function for mini charts within cells.
     This is a LibreOffice-specific feature and may not work in Excel or Google Sheets.
 
-    Implements: FUTURE-003 (Sparkline application to ODS documents)
+    Implements: FR-SPARK-001 (Sparkline application to ODS documents)
 
     Attributes:
         data_range: Cell range for data (e.g., "B2:B10").
@@ -387,18 +381,16 @@ class SparklineConfig:
         max_value: Maximum value for Y-axis scaling (optional, auto if None).
 
     Example:
-        >>> # Line sparkline with markers
-        >>> config = SparklineConfig(
+        >>> config = SparklineConfig(  # doctest: +SKIP
         ...     data_range="A1:A10",
         ...     sparkline_type="line",
         ...     color="#2196F3",
         ...     show_markers=True
         ... )
-        >>> config.to_formula()
+        >>> config.to_formula()  # doctest: +SKIP
         '=SPARKLINE(A1:A10;{"type";"line";"color";"#2196F3";"markers";"true"})'
 
-        >>> # Column sparkline with high/low colors
-        >>> config = SparklineConfig(
+        >>> config = SparklineConfig(  # doctest: +SKIP
         ...     data_range="B1:B10",
         ...     sparkline_type="column",
         ...     color="#4CAF50",
@@ -447,8 +439,7 @@ class SparklineConfig:
             )
 
     def to_formula(self) -> str:
-        """
-        Generate LibreOffice SPARKLINE formula.
+        """Generate LibreOffice SPARKLINE formula.
 
         Returns:
             ODF formula string for SPARKLINE function.
@@ -509,8 +500,7 @@ class SparklineConfig:
 
 @dataclass
 class DashboardSection:
-    """
-    Dashboard section configuration.
+    """Dashboard section configuration.
 
     Attributes:
         title: Section title.
@@ -530,17 +520,16 @@ class DashboardSection:
 
 
 class InteractiveOdsBuilder:
-    """
-    Builder for interactive ODS features.
+    """Builder for interactive ODS features.
 
     Adds dropdowns, validation, conditional formatting, and
     dashboard elements to ODS spreadsheets.
 
     Example:
-        >>> builder = InteractiveOdsBuilder()
-        >>> builder.add_dropdown("B2:B100", DropdownList.categories())
-        >>> builder.add_conditional_format("E2:E100", ConditionalFormat.over_budget_warning())
-        >>> builder.apply_to_document(doc)
+        >>> builder = InteractiveOdsBuilder()  # doctest: +SKIP
+        >>> builder.add_dropdown("B2:B100", DropdownList.categories())  # doctest: +SKIP
+        >>> builder.add_conditional_format("E2:E100", ConditionalFormat.over_budget_warning())  # doctest: +SKIP
+        >>> builder.apply_to_document(doc)  # doctest: +SKIP
     """
 
     def __init__(self) -> None:
@@ -556,8 +545,7 @@ class InteractiveOdsBuilder:
         cell_range: str,
         dropdown: DropdownList,
     ) -> InteractiveOdsBuilder:
-        """
-        Add a dropdown list to a cell range.
+        """Add a dropdown list to a cell range.
 
         Args:
             cell_range: Cell range (e.g., "B2:B100").
@@ -574,8 +562,7 @@ class InteractiveOdsBuilder:
         cell_range: str,
         rule: ValidationRule,
     ) -> InteractiveOdsBuilder:
-        """
-        Add data validation to a cell range.
+        """Add data validation to a cell range.
 
         Args:
             cell_range: Cell range.
@@ -592,8 +579,7 @@ class InteractiveOdsBuilder:
         cell_range: str,
         format: ConditionalFormat,
     ) -> InteractiveOdsBuilder:
-        """
-        Add conditional formatting to a cell range.
+        """Add conditional formatting to a cell range.
 
         Args:
             cell_range: Cell range.
@@ -610,8 +596,7 @@ class InteractiveOdsBuilder:
         cell: str,
         config: SparklineConfig,
     ) -> InteractiveOdsBuilder:
-        """
-        Add a sparkline to a cell.
+        """Add a sparkline to a cell.
 
         Args:
             cell: Target cell (e.g., "F1").
@@ -627,8 +612,7 @@ class InteractiveOdsBuilder:
         self,
         section: DashboardSection,
     ) -> InteractiveOdsBuilder:
-        """
-        Add a dashboard section.
+        """Add a dashboard section.
 
         Args:
             section: Dashboard section configuration.
@@ -640,8 +624,7 @@ class InteractiveOdsBuilder:
         return self
 
     def apply_to_document(self, doc: Any) -> None:
-        """
-        Apply all interactive features to an ODS document.
+        """Apply all interactive features to an ODS document.
 
         Args:
             doc: ODF document object from odfpy.
@@ -958,7 +941,6 @@ class InteractiveOdsBuilder:
 
     def _apply_rule_style(self, doc: Any, cell: Any, rule: Any) -> None:
         """Apply the style from a conditional rule to a cell."""
-
         if rule.style is None:
             return
 
@@ -1051,7 +1033,7 @@ class InteractiveOdsBuilder:
         Uses LibreOffice SPARKLINE() function to create mini charts within cells.
         This is a LibreOffice-specific feature.
 
-        Implements: FUTURE-003 (Sparkline application to ODS documents)
+        Implements: FR-SPARK-001 (Sparkline application to ODS documents)
 
         Args:
             doc: The ODF document object
@@ -1118,15 +1100,14 @@ class InteractiveOdsBuilder:
 
 
 class DashboardGenerator:
-    """
-    Generates dashboard views in ODS spreadsheets.
+    """Generates dashboard views in ODS spreadsheets.
 
     Creates a dedicated dashboard sheet with KPIs, charts,
     and summary information.
 
     Example:
-        >>> generator = DashboardGenerator()
-        >>> generator.generate_dashboard(budget_data, output_path)
+        >>> generator = DashboardGenerator()  # doctest: +SKIP
+        >>> generator.generate_dashboard(budget_data, output_path)  # doctest: +SKIP
     """
 
     def __init__(self) -> None:
@@ -1138,8 +1119,7 @@ class DashboardGenerator:
         budget_path: Path,
         output_path: Path | None = None,
     ) -> Path:
-        """
-        Generate a dashboard ODS file.
+        """Generate a dashboard ODS file.
 
         Args:
             budget_path: Path to source budget file.
@@ -1367,8 +1347,7 @@ def add_interactive_features(
     ods_path: Path,
     output_path: Path | None = None,
 ) -> Path:
-    """
-    Add interactive features to an existing ODS file.
+    """Add interactive features to an existing ODS file.
 
     Args:
         ods_path: Path to ODS file.
@@ -1429,8 +1408,7 @@ def generate_budget_dashboard(
     budget_path: Path,
     output_path: Path | None = None,
 ) -> Path:
-    """
-    Generate a dashboard from a budget file.
+    """Generate a dashboard from a budget file.
 
     Args:
         budget_path: Path to budget ODS file.

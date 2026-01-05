@@ -1,5 +1,4 @@
-"""
-Production Schedule Template for manufacturing capacity planning.
+"""Production Schedule Template for manufacturing capacity planning.
 
 Implements:
     ProductionScheduleTemplate for manufacturing domain
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class ProductionScheduleTemplate(BaseTemplate):
-    """
-    Production schedule with capacity planning and scheduling.
+    """Production schedule with capacity planning and scheduling.
 
     Implements:
         ProductionScheduleTemplate with capacity analysis
@@ -33,12 +31,12 @@ class ProductionScheduleTemplate(BaseTemplate):
     - Bottleneck identification
 
     Example:
-        >>> template = ProductionScheduleTemplate(
+        >>> template = ProductionScheduleTemplate(  # doctest: +SKIP
         ...     facility_name="Assembly Line A",
         ...     planning_periods=["Week 1", "Week 2", "Week 3", "Week 4"],
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("production_schedule.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("production_schedule.ods")  # doctest: +SKIP
     """
 
     facility_name: str = "Production Facility"
@@ -53,8 +51,7 @@ class ProductionScheduleTemplate(BaseTemplate):
 
     @property
     def metadata(self) -> TemplateMetadata:
-        """
-        Get template metadata.
+        """Get template metadata.
 
         Returns:
             TemplateMetadata for production schedule template
@@ -76,8 +73,7 @@ class ProductionScheduleTemplate(BaseTemplate):
         return self.num_products > 0
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate the production schedule spreadsheet.
+        """Generate the production schedule spreadsheet.
 
         Returns:
             Configured SpreadsheetBuilder instance

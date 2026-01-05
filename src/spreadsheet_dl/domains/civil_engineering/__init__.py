@@ -1,5 +1,4 @@
-"""
-Civil Engineering Domain Plugin for SpreadsheetDL.
+"""Civil Engineering Domain Plugin for SpreadsheetDL.
 
 Provides comprehensive civil engineering functionality including:
 - Load calculations and combinations

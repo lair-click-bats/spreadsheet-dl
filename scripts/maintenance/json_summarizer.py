@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-JSON Summarizer
+"""JSON Summarizer
 
 Extracts key metrics from large JSON files without loading entire contents into context.
 Provides compact summaries suitable for context-limited environments.

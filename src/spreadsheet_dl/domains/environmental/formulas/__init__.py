@@ -1,5 +1,4 @@
-"""
-Environmental domain formulas.
+"""Environmental domain formulas.
 
 Implements:
     Environmental domain formula extensions

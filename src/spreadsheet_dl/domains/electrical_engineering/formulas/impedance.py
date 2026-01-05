@@ -1,5 +1,4 @@
-"""
-Impedance calculation formulas for electrical engineering.
+"""Impedance calculation formulas for electrical engineering.
 
 Implements:
     Impedance formulas (PARALLEL_R, SERIES_R, CAPACITANCE, INDUCTANCE)
@@ -13,8 +12,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 
 class ParallelResistanceFormula(BaseFormula):
-    """
-    Parallel resistance formula: 1/R_total = 1/R1 + 1/R2 + ...
+    """Parallel resistance formula: 1/R_total = 1/R1 + 1/R2 + ...
 
     Calculates total resistance of resistors in parallel.
 
@@ -25,7 +23,6 @@ class ParallelResistanceFormula(BaseFormula):
         >>> formula = ParallelResistanceFormula()
         >>> formula.build("100", "100")
         '1/(1/100+1/100)'
-        # Result: 50 ohms
     """
 
     @property
@@ -64,8 +61,7 @@ class ParallelResistanceFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: r1, r2, r3, ... (variable number of resistances)
@@ -83,8 +79,7 @@ class ParallelResistanceFormula(BaseFormula):
 
 
 class SeriesResistanceFormula(BaseFormula):
-    """
-    Series resistance formula: R_total = R1 + R2 + ...
+    """Series resistance formula: R_total = R1 + R2 + ...
 
     Calculates total resistance of resistors in series.
 
@@ -95,7 +90,6 @@ class SeriesResistanceFormula(BaseFormula):
         >>> formula = SeriesResistanceFormula()
         >>> formula.build("100", "100")
         '100+100'
-        # Result: 200 ohms
     """
 
     @property
@@ -134,8 +128,7 @@ class SeriesResistanceFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: r1, r2, r3, ... (variable number of resistances)
@@ -151,8 +144,7 @@ class SeriesResistanceFormula(BaseFormula):
 
 
 class CapacitanceFormula(BaseFormula):
-    """
-    Capacitance formula: C = 1 / (2*pi * f * X_C).
+    """Capacitance formula: C = 1 / (2*pi * f * X_C).
 
     Calculates capacitance from frequency and capacitive reactance.
 
@@ -163,7 +155,6 @@ class CapacitanceFormula(BaseFormula):
         >>> formula = CapacitanceFormula()
         >>> formula.build("1000", "159.15")
         '1/(2*PI()*1000*159.15)'
-        # Result: approximately 1μF
     """
 
     @property
@@ -195,8 +186,7 @@ class CapacitanceFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: frequency, reactance
@@ -210,8 +200,7 @@ class CapacitanceFormula(BaseFormula):
 
 
 class InductanceFormula(BaseFormula):
-    """
-    Inductance formula: L = X_L / (2*pi * f).
+    """Inductance formula: L = X_L / (2*pi * f).
 
     Calculates inductance from frequency and inductive reactance.
 
@@ -222,7 +211,6 @@ class InductanceFormula(BaseFormula):
         >>> formula = InductanceFormula()
         >>> formula.build("1000", "628.3")
         '628.3/(2*PI()*1000)'
-        # Result: approximately 100mH
     """
 
     @property
@@ -254,8 +242,7 @@ class InductanceFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build ODF formula string.
+        """Build ODF formula string.
 
         Args:
             *args: frequency, reactance

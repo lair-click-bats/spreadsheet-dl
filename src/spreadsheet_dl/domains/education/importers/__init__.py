@@ -1,5 +1,4 @@
-"""
-Education domain importers.
+"""Education domain importers.
 
 Implements:
     Education domain data importers

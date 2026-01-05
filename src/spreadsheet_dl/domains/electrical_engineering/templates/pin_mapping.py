@@ -1,5 +1,4 @@
-"""
-Pin mapping template for ICs and connectors.
+"""Pin mapping template for ICs and connectors.
 
 Implements:
     PinMappingTemplate with IC grouping and pin usage analysis
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class PinMappingTemplate(BaseTemplate):
-    """
-    Pin mapping template for documenting IC pin assignments.
+    """Pin mapping template for documenting IC pin assignments.
 
     Implements:
         PinMappingTemplate requirements
@@ -33,9 +31,9 @@ class PinMappingTemplate(BaseTemplate):
         - Validation: Ensure no duplicate pin assignments
 
     Example:
-        >>> template = PinMappingTemplate(project_name="Main Board")
-        >>> builder = template.generate()
-        >>> builder.save("pin_mapping.ods")
+        >>> template = PinMappingTemplate(project_name="Main Board")  # doctest: +SKIP
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("pin_mapping.ods")  # doctest: +SKIP
     """
 
     project_name: str = "Electronic Design"
@@ -55,8 +53,7 @@ class PinMappingTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate pin mapping spreadsheet.
+        """Generate pin mapping spreadsheet.
 
         Returns:
             SpreadsheetBuilder configured with pin mapping template

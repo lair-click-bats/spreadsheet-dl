@@ -1,5 +1,4 @@
-"""
-Round-trip serialization for spreadsheet definitions.
+"""Round-trip serialization for spreadsheet definitions.
 
 Provides conversion between SpreadsheetDL internal representation
 and various formats (YAML, JSON) with full fidelity preservation.
@@ -42,8 +41,7 @@ T = TypeVar("T")
 
 
 class SpreadsheetEncoder(json.JSONEncoder):
-    """
-    JSON encoder for spreadsheet data structures.
+    """JSON encoder for spreadsheet data structures.
 
     Handles:
     - Dataclass instances
@@ -100,8 +98,7 @@ class SpreadsheetEncoder(json.JSONEncoder):
 
 
 class SpreadsheetDecoder:
-    """
-    Decoder for spreadsheet data structures.
+    """Decoder for spreadsheet data structures.
 
     JSON/YAML deserialization support.
 
@@ -134,8 +131,7 @@ class SpreadsheetDecoder:
 
     @classmethod
     def decode(cls, data: Any) -> Any:
-        """
-        Decode a value back to proper types.
+        """Decode a value back to proper types.
 
         Args:
             data: Value to decode (dict, list, or primitive)
@@ -194,8 +190,7 @@ class SpreadsheetDecoder:
 
 
 class Serializer:
-    """
-    Main serialization interface for spreadsheet definitions.
+    """Main serialization interface for spreadsheet definitions.
 
     Round-trip serialization with full fidelity preservation.
 
@@ -231,8 +226,7 @@ class Serializer:
         data: Any,
         indent: int = 2,
     ) -> str:
-        """
-        Serialize data to JSON string.
+        """Serialize data to JSON string.
 
         Args:
             data: Data to serialize (sheets, charts, etc.)
@@ -244,8 +238,7 @@ class Serializer:
         return json.dumps(data, cls=self._encoder, indent=indent)
 
     def from_json(self, json_str: str) -> Any:
-        """
-        Deserialize from JSON string.
+        """Deserialize from JSON string.
 
         Args:
             json_str: JSON string
@@ -266,8 +259,7 @@ class Serializer:
         file_path: Path | str,
         indent: int = 2,
     ) -> Path:
-        """
-        Save data to JSON file.
+        """Save data to JSON file.
 
         Args:
             data: Data to serialize
@@ -286,8 +278,7 @@ class Serializer:
         return path
 
     def load_json(self, file_path: Path | str) -> Any:
-        """
-        Load data from JSON file.
+        """Load data from JSON file.
 
         Args:
             file_path: Path to JSON file
@@ -310,8 +301,7 @@ class Serializer:
     # =========================================================================
 
     def to_yaml(self, data: Any) -> str:
-        """
-        Serialize data to YAML string.
+        """Serialize data to YAML string.
 
         Args:
             data: Data to serialize
@@ -326,8 +316,7 @@ class Serializer:
         return yaml.dump(json_data, default_flow_style=False, sort_keys=False)
 
     def from_yaml(self, yaml_str: str) -> Any:
-        """
-        Deserialize from YAML string.
+        """Deserialize from YAML string.
 
         Args:
             yaml_str: YAML string
@@ -347,8 +336,7 @@ class Serializer:
         data: Any,
         file_path: Path | str,
     ) -> Path:
-        """
-        Save data to YAML file.
+        """Save data to YAML file.
 
         Args:
             data: Data to serialize
@@ -366,8 +354,7 @@ class Serializer:
         return path
 
     def load_yaml(self, file_path: Path | str) -> Any:
-        """
-        Load data from YAML file.
+        """Load data from YAML file.
 
         Args:
             file_path: Path to YAML file
@@ -381,8 +368,7 @@ class Serializer:
 
 
 class DefinitionFormat:
-    """
-    High-level spreadsheet definition format.
+    """High-level spreadsheet definition format.
 
     Complete spreadsheet definition serialization.
 
@@ -411,8 +397,7 @@ class DefinitionFormat:
         named_ranges: list[NamedRange] | None = None,
         metadata: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
-        """
-        Create a complete definition document.
+        """Create a complete definition document.
 
         Args:
             sheets: Sheet specifications
@@ -441,8 +426,7 @@ class DefinitionFormat:
         metadata: dict[str, Any] | None = None,
         format: str = "yaml",
     ) -> Path:
-        """
-        Save a complete spreadsheet definition.
+        """Save a complete spreadsheet definition.
 
         Args:
             file_path: Output file path
@@ -464,8 +448,7 @@ class DefinitionFormat:
 
     @classmethod
     def load(cls, file_path: Path | str) -> Any:
-        """
-        Load a complete spreadsheet definition.
+        """Load a complete spreadsheet definition.
 
         Args:
             file_path: Path to definition file
@@ -489,8 +472,7 @@ def save_definition(
     sheets: list[SheetSpec],
     **kwargs: Any,
 ) -> Path:
-    """
-    Save spreadsheet definition to file.
+    """Save spreadsheet definition to file.
 
     Convenience function for DefinitionFormat.save().
 
@@ -506,8 +488,7 @@ def save_definition(
 
 
 def load_definition(file_path: Path | str) -> Any:
-    """
-    Load spreadsheet definition from file.
+    """Load spreadsheet definition from file.
 
     Convenience function for DefinitionFormat.load().
 

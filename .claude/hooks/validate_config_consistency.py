@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Comprehensive Configuration Consistency Validator
+"""Comprehensive Configuration Consistency Validator
 
 Validates all aspects of Claude Code configuration:
 - Cross-file consistency

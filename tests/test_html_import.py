@@ -1,7 +1,7 @@
 """
 Comprehensive tests for HTML import functionality.
 
-Implements tests for FUTURE-001: HTML import from HTML tables
+Implements tests for FR-HTML-001: HTML import from HTML tables
 
 Tests:
     - Simple table import
@@ -23,8 +23,16 @@ from typing import TYPE_CHECKING, Any
 
 import pytest
 
-from spreadsheet_dl.adapters import HtmlAdapter, HTMLImportOptions
-from spreadsheet_dl.builder import CellSpec, ColumnSpec, RowSpec, SheetSpec
+bs4 = pytest.importorskip("bs4", reason="HTML import requires beautifulsoup4")
+lxml = pytest.importorskip("lxml", reason="HTML import requires lxml")
+
+from spreadsheet_dl.adapters import HtmlAdapter, HTMLImportOptions  # noqa: E402
+from spreadsheet_dl.builder import (  # noqa: E402
+    CellSpec,
+    ColumnSpec,
+    RowSpec,
+    SheetSpec,
+)
 
 if TYPE_CHECKING:
     from pathlib import Path

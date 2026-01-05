@@ -1,5 +1,4 @@
-"""
-Enhanced fluent builder APIs for professional spreadsheet construction.
+"""Enhanced fluent builder APIs for professional spreadsheet construction.
 
 Implements:
     - FR-BUILDER-001: Extended SpreadsheetBuilder

@@ -1,5 +1,4 @@
-"""
-Air quality formulas.
+"""Air quality formulas.
 
 Implements:
     Air quality formulas
@@ -16,8 +15,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 @dataclass(slots=True, frozen=True)
 class AQICalculationFormula(BaseFormula):
-    """
-    Calculate Air Quality Index from pollutant concentration.
+    """Calculate Air Quality Index from pollutant concentration.
 
     Implements:
         AQI_CALCULATION formula for air quality
@@ -32,8 +30,7 @@ class AQICalculationFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for AQI_CALCULATION
@@ -68,8 +65,7 @@ class AQICalculationFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build AQI_CALCULATION formula string.
+        """Build AQI_CALCULATION formula string.
 
         Args:
             *args: concentration, [pollutant]
@@ -106,8 +102,7 @@ class AQICalculationFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class EmissionRateFormula(BaseFormula):
-    """
-    Calculate pollutant emission rate.
+    """Calculate pollutant emission rate.
 
     Implements:
         EMISSION_RATE formula for emissions calculations
@@ -122,8 +117,7 @@ class EmissionRateFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for EMISSION_RATE
@@ -164,8 +158,7 @@ class EmissionRateFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build EMISSION_RATE formula string.
+        """Build EMISSION_RATE formula string.
 
         Args:
             *args: flow_rate, concentration, [efficiency]
@@ -196,8 +189,7 @@ class EmissionRateFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class PollutionIndexFormula(BaseFormula):
-    """
-    Calculate combined pollution index.
+    """Calculate combined pollution index.
 
     Implements:
         POLLUTION_INDEX formula for multi-pollutant assessment
@@ -212,8 +204,7 @@ class PollutionIndexFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for POLLUTION_INDEX
@@ -255,8 +246,7 @@ class PollutionIndexFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build POLLUTION_INDEX formula string.
+        """Build POLLUTION_INDEX formula string.
 
         Args:
             *args: pm25_aqi, [o3_aqi], [no2_aqi]

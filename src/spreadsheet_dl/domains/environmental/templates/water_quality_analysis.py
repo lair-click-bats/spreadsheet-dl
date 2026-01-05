@@ -1,5 +1,4 @@
-"""
-Water Quality Analysis Template.
+"""Water Quality Analysis Template.
 
 Implements:
     WaterQualityAnalysisTemplate for environmental domain
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class WaterQualityAnalysisTemplate(BaseTemplate):
-    """
-    Water quality analysis template.
+    """Water quality analysis template.
 
     Implements:
         WaterQualityAnalysisTemplate with WQI calculations
@@ -32,12 +30,12 @@ class WaterQualityAnalysisTemplate(BaseTemplate):
     - Trend analysis data
 
     Example:
-        >>> template = WaterQualityAnalysisTemplate(
+        >>> template = WaterQualityAnalysisTemplate(  # doctest: +SKIP
         ...     site_name="River Station A",
         ...     num_samples=12,
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("water_quality.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("water_quality.ods")  # doctest: +SKIP
     """
 
     site_name: str = "Water Quality Site"
@@ -49,8 +47,7 @@ class WaterQualityAnalysisTemplate(BaseTemplate):
 
     @property
     def metadata(self) -> TemplateMetadata:
-        """
-        Get template metadata.
+        """Get template metadata.
 
         Returns:
             TemplateMetadata for water quality analysis template
@@ -68,8 +65,7 @@ class WaterQualityAnalysisTemplate(BaseTemplate):
         )
 
     def validate(self) -> bool:
-        """
-        Validate template parameters.
+        """Validate template parameters.
 
         Returns:
             True if parameters are valid
@@ -80,8 +76,7 @@ class WaterQualityAnalysisTemplate(BaseTemplate):
         return self.num_samples > 0
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate the water quality analysis spreadsheet.
+        """Generate the water quality analysis spreadsheet.
 
         Returns:
             Configured SpreadsheetBuilder instance

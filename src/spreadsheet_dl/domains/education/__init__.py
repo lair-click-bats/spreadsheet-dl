@@ -1,5 +1,4 @@
-"""
-Education Domain Plugin for SpreadsheetDL.
+"""Education Domain Plugin for SpreadsheetDL.
 
 Implements:
     Education domain plugin
@@ -24,7 +23,7 @@ Example:
     >>> from spreadsheet_dl.domains.education import CourseGradebookTemplate
     >>> template = CourseGradebookTemplate(course_name="Introduction to Python")
     >>> builder = template.generate()
-    >>> builder.save("gradebook.ods")
+    >>> path = builder.save("gradebook.ods")
 """
 
 # Plugin

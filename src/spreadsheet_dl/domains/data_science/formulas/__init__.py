@@ -1,5 +1,4 @@
-"""
-Data Science Formulas for SpreadsheetDL.
+"""Data Science Formulas for SpreadsheetDL.
 
 Implements:
     Data Science domain formulas

@@ -1,5 +1,4 @@
-"""
-GenBank format sequence file importer.
+"""GenBank format sequence file importer.
 
 Implements:
     GenBankImporter for annotated sequences
@@ -15,8 +14,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 
 class GenBankImporter(BaseImporter[list[dict[str, Any]]]):
-    """
-    Import GenBank format sequence files.
+    """Import GenBank format sequence files.
 
     Implements:
         GenBankImporter for annotated sequence data
@@ -29,9 +27,9 @@ class GenBankImporter(BaseImporter[list[dict[str, Any]]]):
     - Multi-record file support
 
     Example:
-        >>> importer = GenBankImporter()
-        >>> result = importer.import_data("sequence.gb")
-        >>> if result.success:
+        >>> importer = GenBankImporter()  # doctest: +SKIP
+        >>> result = importer.import_data("sequence.gb")  # doctest: +SKIP
+        >>> if result.success:  # doctest: +SKIP
         ...     for record in result.data:
         ...         print(f"{record['accession']}: {record['organism']}")
         ...         print(f"Features: {len(record['features'])}")
@@ -43,8 +41,7 @@ class GenBankImporter(BaseImporter[list[dict[str, Any]]]):
 
     @property
     def metadata(self) -> ImporterMetadata:
-        """
-        Get importer metadata.
+        """Get importer metadata.
 
         Returns:
             ImporterMetadata for GenBank importer
@@ -60,8 +57,7 @@ class GenBankImporter(BaseImporter[list[dict[str, Any]]]):
         )
 
     def validate_source(self, source: Path | str) -> bool:
-        """
-        Validate GenBank file.
+        """Validate GenBank file.
 
         Args:
             source: Path to GenBank file
@@ -86,8 +82,7 @@ class GenBankImporter(BaseImporter[list[dict[str, Any]]]):
             return False
 
     def import_data(self, source: Path | str) -> ImportResult[list[dict[str, Any]]]:
-        """
-        Import GenBank records.
+        """Import GenBank records.
 
         Args:
             source: Path to GenBank file
@@ -156,8 +151,7 @@ class GenBankImporter(BaseImporter[list[dict[str, Any]]]):
             )
 
     def _parse_genbank_record(self, text: str) -> dict[str, Any] | None:
-        """
-        Parse a single GenBank record.
+        """Parse a single GenBank record.
 
         Args:
             text: GenBank record text

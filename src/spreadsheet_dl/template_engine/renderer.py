@@ -1,5 +1,4 @@
-"""
-Template renderer for converting templates to spreadsheets.
+"""Template renderer for converting templates to spreadsheets.
 
 Implements:
     FR-TEMPLATE-001: Template Definition Schema
@@ -111,8 +110,7 @@ BUILTIN_FUNCTIONS: dict[str, Callable[..., Any]] = {
 
 @dataclass
 class RenderedCell:
-    """
-    A rendered cell ready for output.
+    """A rendered cell ready for output.
 
     Contains the final values after variable substitution
     and conditional evaluation.
@@ -160,8 +158,7 @@ class RenderedSpreadsheet:
 
 
 class ExpressionEvaluator:
-    """
-    Evaluate expressions in template strings.
+    """Evaluate expressions in template strings.
 
     Implements FR-TEMPLATE-002: Variable Substitution
 
@@ -181,8 +178,7 @@ class ExpressionEvaluator:
         variables: dict[str, Any],
         functions: dict[str, Callable[..., Any]] | None = None,
     ) -> None:
-        """
-        Initialize evaluator.
+        """Initialize evaluator.
 
         Args:
             variables: Variable values for substitution
@@ -194,8 +190,7 @@ class ExpressionEvaluator:
             self._functions.update(functions)
 
     def with_variables(self, additional: dict[str, Any]) -> ExpressionEvaluator:
-        """
-        Create new evaluator with additional variables merged.
+        """Create new evaluator with additional variables merged.
 
         Args:
             additional: Additional variables to add
@@ -207,8 +202,7 @@ class ExpressionEvaluator:
         return ExpressionEvaluator(merged, self._functions)
 
     def evaluate(self, text: str | Any) -> Any:
-        """
-        Evaluate a template string.
+        """Evaluate a template string.
 
         Args:
             text: Template string with ${...} expressions
@@ -233,8 +227,7 @@ class ExpressionEvaluator:
         return self.EXPR_PATTERN.sub(replace_expr, text)
 
     def _evaluate_expression(self, expr: str) -> Any:
-        """
-        Evaluate a single expression.
+        """Evaluate a single expression.
 
         Args:
             expr: Expression without ${} wrapper
@@ -263,8 +256,7 @@ class ExpressionEvaluator:
         return self._get_variable(expr)
 
     def _get_variable(self, name: str) -> Any:
-        """
-        Get a variable value, supporting nested access.
+        """Get a variable value, supporting nested access.
 
         Args:
             name: Variable name (supports dot notation)
@@ -290,8 +282,7 @@ class ExpressionEvaluator:
         return value
 
     def _apply_filter(self, expr: str) -> Any:
-        """
-        Apply a filter to a value.
+        """Apply a filter to a value.
 
         Supports:
         - default:value - Use default if None
@@ -360,8 +351,7 @@ class ExpressionEvaluator:
         return value
 
     def _call_function(self, expr: str) -> Any:
-        """
-        Call a template function.
+        """Call a template function.
 
         Args:
             expr: Function call expression
@@ -444,8 +434,7 @@ class ExpressionEvaluator:
         return args
 
     def _evaluate_arithmetic(self, expr: str) -> Any:
-        """
-        Evaluate simple arithmetic expressions.
+        """Evaluate simple arithmetic expressions.
 
         Args:
             expr: Arithmetic expression
@@ -492,8 +481,7 @@ class ExpressionEvaluator:
 
 
 class ConditionalEvaluator:
-    """
-    Evaluate conditional blocks in templates.
+    """Evaluate conditional blocks in templates.
 
     Implements FR-TEMPLATE-003: Conditional Content
 
@@ -501,8 +489,7 @@ class ConditionalEvaluator:
     """
 
     def __init__(self, evaluator: ExpressionEvaluator) -> None:
-        """
-        Initialize with expression evaluator.
+        """Initialize with expression evaluator.
 
         Args:
             evaluator: Expression evaluator for condition parsing
@@ -510,8 +497,7 @@ class ConditionalEvaluator:
         self._evaluator = evaluator
 
     def evaluate(self, condition: str) -> bool:
-        """
-        Evaluate a condition string.
+        """Evaluate a condition string.
 
         Args:
             condition: Condition expression
@@ -534,8 +520,7 @@ class ConditionalEvaluator:
         return bool(result)
 
     def select_content(self, block: ConditionalBlock) -> list[Any]:
-        """
-        Select content based on condition.
+        """Select content based on condition.
 
         Args:
             block: Conditional block
@@ -549,8 +534,7 @@ class ConditionalEvaluator:
 
 
 class TemplateRenderer:
-    """
-    Render templates to spreadsheet content.
+    """Render templates to spreadsheet content.
 
     Implements:
     - FR-TEMPLATE-001: Template Definition Schema
@@ -571,8 +555,7 @@ class TemplateRenderer:
         self,
         custom_functions: dict[str, Callable[..., Any]] | None = None,
     ) -> None:
-        """
-        Initialize renderer.
+        """Initialize renderer.
 
         Args:
             custom_functions: Additional template functions
@@ -585,8 +568,7 @@ class TemplateRenderer:
         template: SpreadsheetTemplate,
         variables: dict[str, Any],
     ) -> RenderedSpreadsheet:
-        """
-        Render a template with variable values.
+        """Render a template with variable values.
 
         Args:
             template: Template to render
@@ -719,8 +701,7 @@ class TemplateRenderer:
         expr_eval: ExpressionEvaluator,
         cond_eval: ConditionalEvaluator,
     ) -> list[RenderedRow]:
-        """
-        Render a component reference.
+        """Render a component reference.
 
         Implements FR-TEMPLATE-004: Reusable Components
 
@@ -782,8 +763,7 @@ class TemplateRenderer:
         expr_eval: ExpressionEvaluator,
         cond_eval: ConditionalEvaluator,
     ) -> list[RenderedRow]:
-        """
-        Render a row template.
+        """Render a row template.
 
         May return multiple rows if repeat > 1 or conditional content.
         """
@@ -851,8 +831,7 @@ def render_template(
     variables: dict[str, Any],
     custom_functions: dict[str, Callable[..., Any]] | None = None,
 ) -> RenderedSpreadsheet:
-    """
-    Render a template with variable values.
+    """Render a template with variable values.
 
     Convenience function for simple usage.
 

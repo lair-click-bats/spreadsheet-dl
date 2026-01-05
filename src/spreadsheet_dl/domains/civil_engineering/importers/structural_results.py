@@ -1,5 +1,4 @@
-"""
-Structural analysis results importer for civil engineering.
+"""Structural analysis results importer for civil engineering.
 
 Implements:
     StructuralResultsImporter for analysis software output
@@ -16,8 +15,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 
 class StructuralResultsImporter(BaseImporter[list[dict[str, Any]]]):
-    """
-    Import structural analysis results from various software packages.
+    """Import structural analysis results from various software packages.
 
     Implements:
         StructuralResultsImporter requirements
@@ -29,16 +27,15 @@ class StructuralResultsImporter(BaseImporter[list[dict[str, Any]]]):
         - Unit conversion support
 
     Example:
-        >>> importer = StructuralResultsImporter(software="SAP2000")
-        >>> result = importer.import_data("analysis_results.txt")
-        >>> if result.success:
+        >>> importer = StructuralResultsImporter(software="SAP2000")  # doctest: +SKIP
+        >>> result = importer.import_data("analysis_results.txt")  # doctest: +SKIP
+        >>> if result.success:  # doctest: +SKIP
         ...     for member in result.data:
         ...         print(f"{member['id']}: Axial={member['axial']} kN")
     """
 
     def __init__(self, software: str = "generic", **kwargs: Any) -> None:
-        """
-        Initialize importer with software type.
+        """Initialize importer with software type.
 
         Args:
             software: Analysis software type ("SAP2000", "STAAD", "ETABS", "generic")
@@ -58,8 +55,7 @@ class StructuralResultsImporter(BaseImporter[list[dict[str, Any]]]):
         )
 
     def validate_source(self, source: Path | str) -> bool:
-        """
-        Validate results file.
+        """Validate results file.
 
         Args:
             source: Path to results file
@@ -71,8 +67,7 @@ class StructuralResultsImporter(BaseImporter[list[dict[str, Any]]]):
         return path.exists() and path.suffix.lower() in (".txt", ".csv", ".out")
 
     def import_data(self, source: Path | str) -> ImportResult[list[dict[str, Any]]]:
-        """
-        Import structural analysis results from file.
+        """Import structural analysis results from file.
 
         Args:
             source: Path to results file
@@ -132,8 +127,7 @@ class StructuralResultsImporter(BaseImporter[list[dict[str, Any]]]):
         errors: list[str],
         warnings: list[str],
     ) -> list[dict[str, Any]]:
-        """
-        Parse CSV results file.
+        """Parse CSV results file.
 
         Args:
             path: Path to CSV file
@@ -197,8 +191,7 @@ class StructuralResultsImporter(BaseImporter[list[dict[str, Any]]]):
         errors: list[str],
         warnings: list[str],
     ) -> list[dict[str, Any]]:
-        """
-        Parse text-based results file.
+        """Parse text-based results file.
 
         Supports various text output formats from structural analysis software.
 
@@ -316,8 +309,7 @@ class StructuralResultsImporter(BaseImporter[list[dict[str, Any]]]):
         errors: list[str],
         warnings: list[str],
     ) -> list[dict[str, Any]]:
-        """
-        Parse generic tabular text format.
+        """Parse generic tabular text format.
 
         Attempts to extract numerical data from any tabular text format.
         """
@@ -351,8 +343,7 @@ class StructuralResultsImporter(BaseImporter[list[dict[str, Any]]]):
         return results
 
     def _detect_columns(self, fieldnames: list[str]) -> dict[str, str]:
-        """
-        Auto-detect column mapping from CSV headers.
+        """Auto-detect column mapping from CSV headers.
 
         Args:
             fieldnames: CSV column names
@@ -389,8 +380,7 @@ class StructuralResultsImporter(BaseImporter[list[dict[str, Any]]]):
         return mapping
 
     def _parse_float(self, value: str, default: float) -> float:
-        """
-        Parse float value with fallback.
+        """Parse float value with fallback.
 
         Args:
             value: String value to parse

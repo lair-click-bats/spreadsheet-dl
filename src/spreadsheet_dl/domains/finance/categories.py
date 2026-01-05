@@ -1,5 +1,4 @@
-"""
-Custom Category Management Module.
+"""Custom Category Management Module.
 
 Provides dynamic category management for expense tracking:
 - Built-in standard categories
@@ -36,8 +35,7 @@ except ImportError:
 
 
 class StandardCategory(Enum):
-    """
-    Standard expense categories (built-in).
+    """Standard expense categories (built-in).
 
     These are the 16 default categories that cannot be deleted,
     but can be hidden or renamed via aliases.
@@ -63,8 +61,7 @@ class StandardCategory(Enum):
 
 @dataclass
 class Category:
-    """
-    Represents a budget/expense category.
+    """Represents a budget/expense category.
 
     Supports both standard (built-in) and custom categories
     with optional color coding, icon, and parent category.
@@ -151,8 +148,7 @@ CATEGORY_COLORS = {
 
 
 class CategoryManager:
-    """
-    Manages expense categories including custom ones.
+    """Manages expense categories including custom ones.
 
     Provides CRUD operations for categories with persistence
     to YAML/JSON files and integration with MCP tools.
@@ -185,8 +181,7 @@ class CategoryManager:
         config_path: Path | str | None = None,
         auto_load: bool = True,
     ) -> None:
-        """
-        Initialize category manager.
+        """Initialize category manager.
 
         Args:
             config_path: Path to categories config file.
@@ -216,8 +211,7 @@ class CategoryManager:
         custom_only: bool = False,
         parent: str | None = None,
     ) -> list[Category]:
-        """
-        List all categories with optional filtering.
+        """List all categories with optional filtering.
 
         Args:
             include_hidden: Include hidden categories.
@@ -239,8 +233,7 @@ class CategoryManager:
         return sorted(categories, key=lambda c: (c.is_custom, c.name))
 
     def get_category(self, name: str) -> Category | None:
-        """
-        Get a category by name or alias.
+        """Get a category by name or alias.
 
         Args:
             name: Category name or alias.
@@ -268,8 +261,7 @@ class CategoryManager:
         return self.get_category(name) is not None
 
     def add_category(self, category: Category) -> Category:
-        """
-        Add a new custom category.
+        """Add a new custom category.
 
         Args:
             category: Category to add.
@@ -303,8 +295,7 @@ class CategoryManager:
         budget_default: float | None = None,
         new_name: str | None = None,
     ) -> Category:
-        """
-        Update an existing category.
+        """Update an existing category.
 
         Args:
             name: Current category name.
@@ -361,8 +352,7 @@ class CategoryManager:
         return cat
 
     def delete_category(self, name: str, force: bool = False) -> bool:
-        """
-        Delete a category.
+        """Delete a category.
 
         Args:
             name: Category name to delete.
@@ -401,8 +391,7 @@ class CategoryManager:
         return True
 
     def search_categories(self, query: str, limit: int = 10) -> list[Category]:
-        """
-        Search categories by name or alias.
+        """Search categories by name or alias.
 
         Args:
             query: Search query.
@@ -422,8 +411,7 @@ class CategoryManager:
         return matches
 
     def suggest_category(self, description: str) -> Category | None:
-        """
-        Suggest a category based on expense description.
+        """Suggest a category based on expense description.
 
         Uses keyword matching to suggest appropriate category.
 
@@ -491,8 +479,7 @@ class CategoryManager:
         return self.get_category("Miscellaneous")
 
     def get_category_tree(self) -> dict[str | None, list[Category]]:
-        """
-        Get categories organized as a tree by parent.
+        """Get categories organized as a tree by parent.
 
         Returns:
             Dictionary mapping parent names to child categories.
@@ -514,8 +501,7 @@ class CategoryManager:
         return tree
 
     def load(self, path: Path | str | None = None) -> None:
-        """
-        Load categories from configuration file.
+        """Load categories from configuration file.
 
         Args:
             path: Optional path override.
@@ -564,8 +550,7 @@ class CategoryManager:
             raise OSError(f"Failed to load categories from {load_path}: {e}") from e
 
     def save(self, path: Path | str | None = None) -> Path:
-        """
-        Save categories to configuration file.
+        """Save categories to configuration file.
 
         Args:
             path: Optional path override.
@@ -617,8 +602,7 @@ class CategoryManager:
         return save_path
 
     def export_to_list(self) -> list[str]:
-        """
-        Export category names as a simple list.
+        """Export category names as a simple list.
 
         Useful for dropdowns and validation lists.
 
@@ -645,8 +629,7 @@ _category_manager: CategoryManager | None = None
 
 
 def get_category_manager(reload: bool = False) -> CategoryManager:
-    """
-    Get the global category manager instance.
+    """Get the global category manager instance.
 
     Args:
         reload: Force reload from configuration.
@@ -661,8 +644,7 @@ def get_category_manager(reload: bool = False) -> CategoryManager:
 
 
 def category_from_string(name: str) -> Category | None:
-    """
-    Get a category by name string.
+    """Get a category by name string.
 
     Convenience function for CLI and MCP tools.
 

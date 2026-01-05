@@ -1,5 +1,4 @@
-"""
-Experiment Log Template for ML experiment tracking.
+"""Experiment Log Template for ML experiment tracking.
 
 Implements:
     ExperimentLogTemplate for data science domain
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class ExperimentLogTemplate(BaseTemplate):
-    """
-    ML experiment tracking template.
+    """ML experiment tracking template.
 
     Implements:
         ExperimentLogTemplate with auto-numbered IDs and metric trends
@@ -35,24 +33,24 @@ class ExperimentLogTemplate(BaseTemplate):
     - Chart showing metric trends over experiments
 
     Example:
-        >>> template = ExperimentLogTemplate(
+        >>> template = ExperimentLogTemplate(  # doctest: +SKIP
         ...     project_name="Image Classification",
         ...     metrics=["accuracy", "val_accuracy", "loss", "val_loss"],
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("experiments.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("experiments.ods")  # doctest: +SKIP
     """
 
     project_name: str = "ML Project"
     metrics: list[str] = field(default_factory=lambda: ["accuracy", "loss"])
     include_hyperparams: bool = True
+    include_reproducibility: bool = True  # Random seed, version tracking
     include_chart: bool = True
     theme: str = "default"
 
     @property
     def metadata(self) -> TemplateMetadata:
-        """
-        Get template metadata.
+        """Get template metadata.
 
         Returns:
             TemplateMetadata for experiment log template
@@ -70,8 +68,7 @@ class ExperimentLogTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate the experiment log spreadsheet.
+        """Generate the experiment log spreadsheet.
 
         Returns:
             Configured SpreadsheetBuilder instance
@@ -105,6 +102,12 @@ class ExperimentLogTemplate(BaseTemplate):
             builder.column("Batch Size", width="80pt", type="number")
             builder.column("Epochs", width="80pt", type="number")
 
+        # Reproducibility columns
+        if self.include_reproducibility:
+            builder.column("Random Seed", width="90pt", type="number")
+            builder.column("Dataset Ver", width="90pt", style="text")
+            builder.column("Code Ver", width="90pt", style="text")
+
         # Add metric columns
         for metric in self.metrics:
             builder.column(
@@ -128,6 +131,11 @@ class ExperimentLogTemplate(BaseTemplate):
             builder.cell("Learning Rate")
             builder.cell("Batch Size")
             builder.cell("Epochs")
+
+        if self.include_reproducibility:
+            builder.cell("Random Seed")
+            builder.cell("Dataset Ver")
+            builder.cell("Code Ver")
 
         for metric in self.metrics:
             builder.cell(metric.replace("_", " ").title())
@@ -155,6 +163,9 @@ class ExperimentLogTemplate(BaseTemplate):
                 "lr": 0.001,
                 "batch": 32,
                 "epochs": 50,
+                "seed": 42,
+                "dataset_ver": "v1.0.0",
+                "code_ver": "abc123",
                 "metrics": [0.92, 0.15],
                 "duration": 3600,
                 "status": "completed",
@@ -167,6 +178,9 @@ class ExperimentLogTemplate(BaseTemplate):
                 "lr": 0.01,
                 "batch": 64,
                 "epochs": 50,
+                "seed": 42,
+                "dataset_ver": "v1.0.0",
+                "code_ver": "def456",
                 "metrics": [0.89, 0.22],
                 "duration": 1800,
                 "status": "completed",
@@ -179,6 +193,9 @@ class ExperimentLogTemplate(BaseTemplate):
                 "lr": 0.0005,
                 "batch": 32,
                 "epochs": 50,
+                "seed": 123,
+                "dataset_ver": "v1.1.0",
+                "code_ver": "ghi789",
                 "metrics": [0.94, 0.12],
                 "duration": 4500,
                 "status": "completed",
@@ -196,6 +213,11 @@ class ExperimentLogTemplate(BaseTemplate):
                 builder.cell(exp["lr"])
                 builder.cell(exp["batch"])
                 builder.cell(exp["epochs"])
+
+            if self.include_reproducibility:
+                builder.cell(exp.get("seed", ""))
+                builder.cell(exp.get("dataset_ver", ""))
+                builder.cell(exp.get("code_ver", ""))
 
             metrics = exp["metrics"]
             if isinstance(metrics, list):
@@ -223,9 +245,13 @@ class ExperimentLogTemplate(BaseTemplate):
 
         # Add rows for each metric with formulas
         for idx, metric in enumerate(self.metrics):
-            col_letter = chr(
-                ord("D") + (3 if self.include_hyperparams else 0) + idx
-            )  # Column position
+            # Calculate column offset: D (base) + hyperparams (3) + reproducibility (3)
+            offset = 0
+            if self.include_hyperparams:
+                offset += 3
+            if self.include_reproducibility:
+                offset += 3
+            col_letter = chr(ord("D") + offset + idx)  # Column position
             builder.row()
             builder.cell(metric.replace("_", " ").title())
             builder.cell(f"=MAX(Experiments.{col_letter}:Experiments.{col_letter})")

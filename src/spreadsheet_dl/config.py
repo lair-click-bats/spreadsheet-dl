@@ -1,5 +1,4 @@
-"""
-Configuration management for SpreadsheetDL.
+"""Configuration management for SpreadsheetDL.
 
 Supports configuration from:
 1. YAML config file (~/.spreadsheet-dl.yaml or ~/.config/spreadsheet-dl/config.yaml)
@@ -76,8 +75,7 @@ class DisplaySettings:
 
 @dataclass
 class Config:
-    """
-    Main configuration container.
+    """Main configuration container.
 
     Aggregates all configuration settings with sensible defaults.
     """
@@ -89,8 +87,7 @@ class Config:
 
     @classmethod
     def load(cls, config_path: Path | str | None = None) -> Config:
-        """
-        Load configuration from all sources.
+        """Load configuration from all sources.
 
         Args:
             config_path: Optional explicit config file path.
@@ -287,8 +284,7 @@ class Config:
         }
 
     def save(self, path: Path | str) -> None:
-        """
-        Save configuration to a YAML file.
+        """Save configuration to a YAML file.
 
         Args:
             path: Path to save the configuration file.
@@ -316,8 +312,7 @@ _config: Config | None = None
 
 
 def get_config(reload: bool = False) -> Config:
-    """
-    Get the global configuration instance.
+    """Get the global configuration instance.
 
     Args:
         reload: Force reload configuration from sources.
@@ -332,8 +327,7 @@ def get_config(reload: bool = False) -> Config:
 
 
 def init_config_file(path: Path | str | None = None) -> Path:
-    """
-    Initialize a new configuration file with defaults.
+    """Initialize a new configuration file with defaults.
 
     Args:
         path: Path for the config file. Defaults to ~/.config/spreadsheet-dl/config.yaml

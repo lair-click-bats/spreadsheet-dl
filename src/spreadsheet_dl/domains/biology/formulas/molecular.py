@@ -1,5 +1,4 @@
-"""
-Molecular biology formulas.
+"""Molecular biology formulas.
 
 Implements:
     Molecular biology formulas
@@ -16,8 +15,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 @dataclass(slots=True, frozen=True)
 class ConcentrationFormula(BaseFormula):
-    """
-    Calculate nucleic acid concentration from absorbance.
+    """Calculate nucleic acid concentration from absorbance.
 
     Implements:
         CONCENTRATION formula for nucleic acid quantification
@@ -32,8 +30,7 @@ class ConcentrationFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for CONCENTRATION
@@ -75,8 +72,7 @@ class ConcentrationFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build CONCENTRATION formula string.
+        """Build CONCENTRATION formula string.
 
         Args:
             *args: a260, [a280], [dilution]
@@ -116,8 +112,7 @@ class ConcentrationFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class FoldChangeFormula(BaseFormula):
-    """
-    Calculate gene expression fold change using 2^-ΔΔCt method.
+    """Calculate gene expression fold change using 2^-ΔΔCt method.
 
     Implements:
         FOLD_CHANGE formula for qPCR analysis
@@ -130,8 +125,7 @@ class FoldChangeFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for FOLD_CHANGE
@@ -177,8 +171,7 @@ class FoldChangeFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build FOLD_CHANGE formula string.
+        """Build FOLD_CHANGE formula string.
 
         Args:
             *args: ct_target, ct_reference, ct_control_target, ct_control_reference
@@ -212,8 +205,7 @@ class FoldChangeFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class GCContentFormula(BaseFormula):
-    """
-    Calculate GC content percentage of DNA sequence.
+    """Calculate GC content percentage of DNA sequence.
 
     Implements:
         GC_CONTENT formula for sequence analysis
@@ -226,8 +218,7 @@ class GCContentFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for GC_CONTENT
@@ -255,8 +246,7 @@ class GCContentFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build GC_CONTENT formula string.
+        """Build GC_CONTENT formula string.
 
         Args:
             *args: sequence
@@ -287,8 +277,7 @@ class GCContentFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class MeltingTempFormula(BaseFormula):
-    """
-    Calculate DNA melting temperature estimation.
+    """Calculate DNA melting temperature estimation.
 
     Implements:
         MELTING_TEMP formula for primer design
@@ -303,8 +292,7 @@ class MeltingTempFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for MELTING_TEMP
@@ -339,8 +327,7 @@ class MeltingTempFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build MELTING_TEMP formula string.
+        """Build MELTING_TEMP formula string.
 
         Args:
             *args: sequence, [na_conc]

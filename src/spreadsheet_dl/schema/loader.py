@@ -1,5 +1,4 @@
-"""
-Theme loader from YAML files.
+"""Theme loader from YAML files.
 
 Loads and parses theme definitions from YAML files,
 handling inheritance and color reference resolution.
@@ -48,8 +47,7 @@ except ImportError:
 
 
 class ThemeLoader:
-    """
-    Load themes from YAML files.
+    """Load themes from YAML files.
 
     Handles:
     - YAML parsing with validation
@@ -63,8 +61,7 @@ class ThemeLoader:
     DEFAULT_THEME_DIR = Path(__file__).parent.parent / "themes"
 
     def __init__(self, theme_dir: Path | str | None = None) -> None:
-        """
-        Initialize theme loader.
+        """Initialize theme loader.
 
         Args:
             theme_dir: Directory containing theme YAML files.
@@ -78,8 +75,7 @@ class ThemeLoader:
         self._cache: dict[str, Theme] = {}
 
     def load(self, name: str) -> Theme:
-        """
-        Load theme by name.
+        """Load theme by name.
 
         Args:
             name: Theme name (filename without .yaml extension)
@@ -134,8 +130,7 @@ class ThemeLoader:
         return theme
 
     def load_from_string(self, yaml_content: str) -> Theme:
-        """
-        Load theme from YAML string.
+        """Load theme from YAML string.
 
         Args:
             yaml_content: YAML content as string
@@ -154,8 +149,7 @@ class ThemeLoader:
         return self._parse_theme(data)
 
     def load_from_dict(self, data: dict[str, Any]) -> Theme:
-        """
-        Load theme from dictionary.
+        """Load theme from dictionary.
 
         Useful for programmatic theme creation.
 
@@ -169,8 +163,7 @@ class ThemeLoader:
         return self._parse_theme(data)
 
     def list_themes(self) -> list[str]:
-        """
-        List available theme names.
+        """List available theme names.
 
         Returns:
             List of theme names
@@ -192,8 +185,7 @@ class ThemeLoader:
         self._cache.clear()
 
     def _parse_theme(self, data: dict[str, Any]) -> Theme:
-        """
-        Parse theme from YAML data.
+        """Parse theme from YAML data.
 
         Args:
             data: Raw YAML data
@@ -248,8 +240,7 @@ class ThemeLoader:
         )
 
     def _parse_colors(self, data: dict[str, str]) -> ColorPalette:
-        """
-        Parse color palette from YAML data.
+        """Parse color palette from YAML data.
 
         Args:
             data: Colors dictionary from YAML
@@ -288,8 +279,7 @@ class ThemeLoader:
         return palette
 
     def _parse_fonts(self, data: dict[str, Any]) -> dict[str, Font]:
-        """
-        Parse font definitions from YAML data.
+        """Parse font definitions from YAML data.
 
         Args:
             data: Fonts dictionary from YAML
@@ -313,8 +303,7 @@ class ThemeLoader:
         return fonts
 
     def _parse_variants(self, data: dict[str, Any]) -> dict[str, ThemeVariant]:
-        """
-        Parse theme variants from YAML data.
+        """Parse theme variants from YAML data.
 
         Implements Theme variants missing
 
@@ -353,8 +342,7 @@ class ThemeLoader:
         colors: ColorPalette,
         fonts: dict[str, Font],
     ) -> dict[str, StyleDefinition]:
-        """
-        Parse style definitions from YAML data.
+        """Parse style definitions from YAML data.
 
         Args:
             data: Styles dictionary from YAML
@@ -508,8 +496,7 @@ class ThemeLoader:
         return styles
 
     def _resolve_color(self, value: str, colors: ColorPalette) -> Color:
-        """
-        Resolve color value or reference.
+        """Resolve color value or reference.
 
         Args:
             value: Color value or reference like "{colors.primary}"
@@ -528,8 +515,7 @@ class ThemeLoader:
     def _parse_border(
         self, value: str | dict[str, Any], colors: ColorPalette
     ) -> Border:
-        """
-        Parse border from string or dict.
+        """Parse border from string or dict.
 
         Args:
             value: Border specification
@@ -566,8 +552,7 @@ class ThemeLoader:
     def _parse_pattern_fill(
         self, value: dict[str, Any], colors: ColorPalette
     ) -> PatternFill:
-        """
-        Parse pattern fill from YAML data.
+        """Parse pattern fill from YAML data.
 
         Implements PatternFill not parsed from YAML
 
@@ -600,8 +585,7 @@ class ThemeLoader:
     def _parse_gradient_fill(
         self, value: dict[str, Any], colors: ColorPalette
     ) -> GradientFill:
-        """
-        Parse gradient fill from YAML data.
+        """Parse gradient fill from YAML data.
 
         Implements GradientFill not parsed from YAML
 
@@ -640,8 +624,7 @@ class ThemeLoader:
         )
 
     def _merge_themes(self, parent: Theme, child: Theme) -> Theme:
-        """
-        Merge child theme over parent (inheritance).
+        """Merge child theme over parent (inheritance).
 
         Child values override parent values.
 
@@ -716,8 +699,7 @@ def get_default_loader() -> ThemeLoader:
 
 
 def load_theme(name: str) -> Theme:
-    """
-    Convenience function to load a theme.
+    """Convenience function to load a theme.
 
     Args:
         name: Theme name
@@ -729,8 +711,7 @@ def load_theme(name: str) -> Theme:
 
 
 def list_available_themes() -> list[str]:
-    """
-    List available themes.
+    """List available themes.
 
     Returns:
         List of theme names

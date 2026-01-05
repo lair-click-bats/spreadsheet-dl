@@ -1,5 +1,4 @@
-"""
-Education Domain Plugin for SpreadsheetDL.
+"""Education Domain Plugin for SpreadsheetDL.
 
 Implements:
     Education domain plugin
@@ -65,8 +64,7 @@ from spreadsheet_dl.domains.education.templates.student_attendance import (
 
 
 class EducationDomainPlugin(BaseDomainPlugin):
-    """
-    Education domain plugin.
+    """Education domain plugin.
 
     Implements:
         Complete Education domain plugin
@@ -113,13 +111,12 @@ class EducationDomainPlugin(BaseDomainPlugin):
         >>> template_class = plugin.get_template("course_gradebook")
         >>> template = template_class(course_name="Python 101")
         >>> builder = template.generate()
-        >>> builder.save("gradebook.ods")
+        >>> path = builder.save("gradebook.ods")
     """
 
     @property
     def metadata(self) -> PluginMetadata:
-        """
-        Get plugin metadata.
+        """Get plugin metadata.
 
         Returns:
             PluginMetadata with education plugin information
@@ -141,8 +138,7 @@ class EducationDomainPlugin(BaseDomainPlugin):
         )
 
     def initialize(self) -> None:
-        """
-        Initialize plugin resources.
+        """Initialize plugin resources.
 
         Registers all templates, formulas, and importers.
 
@@ -183,8 +179,7 @@ class EducationDomainPlugin(BaseDomainPlugin):
         self.register_importer("assessment_results", AssessmentResultsImporter)
 
     def cleanup(self) -> None:
-        """
-        Cleanup plugin resources.
+        """Cleanup plugin resources.
 
         No resources need explicit cleanup for this plugin.
 
@@ -195,8 +190,7 @@ class EducationDomainPlugin(BaseDomainPlugin):
         pass
 
     def validate(self) -> bool:
-        """
-        Validate plugin configuration.
+        """Validate plugin configuration.
 
         Returns:
             True if plugin has required templates and formulas registered

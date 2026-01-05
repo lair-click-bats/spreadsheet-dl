@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Context Optimizer
+"""Context Optimizer
 
 Analyzes project structure and suggests optimizations for context-limited environments.
 Identifies large files, redundant content, and provides actionable recommendations.

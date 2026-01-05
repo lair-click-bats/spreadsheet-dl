@@ -1,5 +1,4 @@
-"""
-Sensor Data Importer for IoT sensor data.
+"""Sensor Data Importer for IoT sensor data.
 
 Implements:
     SensorDataImporter for manufacturing domain
@@ -17,8 +16,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 
 class SensorDataImporter(BaseImporter[list[dict[str, Any]]]):
-    """
-    Import IoT sensor data (CSV/JSON time series).
+    """Import IoT sensor data (CSV/JSON time series).
 
     Implements:
         SensorDataImporter with time series data
@@ -32,9 +30,9 @@ class SensorDataImporter(BaseImporter[list[dict[str, Any]]]):
     - CSV and JSON format support
 
     Example:
-        >>> importer = SensorDataImporter()
-        >>> result = importer.import_data("sensor_data.csv")
-        >>> if result.success:
+        >>> importer = SensorDataImporter()  # doctest: +SKIP
+        >>> result = importer.import_data("sensor_data.csv")  # doctest: +SKIP
+        >>> if result.success:  # doctest: +SKIP
         ...     print(f"Imported {result.records_imported} sensor readings")
         ...     for record in result.data:
         ...         print(f"Time: {record['timestamp']}, Temp: {record['temperature']}")
@@ -46,8 +44,7 @@ class SensorDataImporter(BaseImporter[list[dict[str, Any]]]):
 
     @property
     def metadata(self) -> ImporterMetadata:
-        """
-        Get importer metadata.
+        """Get importer metadata.
 
         Returns:
             ImporterMetadata for sensor data importer
@@ -63,8 +60,7 @@ class SensorDataImporter(BaseImporter[list[dict[str, Any]]]):
         )
 
     def validate_source(self, source: Path | str) -> bool:
-        """
-        Validate sensor data source file.
+        """Validate sensor data source file.
 
         Args:
             source: Path to sensor data file
@@ -83,8 +79,7 @@ class SensorDataImporter(BaseImporter[list[dict[str, Any]]]):
         )
 
     def import_data(self, source: Path | str) -> ImportResult[list[dict[str, Any]]]:
-        """
-        Import data from sensor data file.
+        """Import data from sensor data file.
 
         Args:
             source: Path to sensor data file (CSV or JSON)
@@ -220,8 +215,7 @@ class SensorDataImporter(BaseImporter[list[dict[str, Any]]]):
             )
 
     def _parse_sensor_record(self, raw: dict[str, Any]) -> dict[str, Any]:
-        """
-        Parse sensor record with type conversion.
+        """Parse sensor record with type conversion.
 
         Args:
             raw: Raw sensor record data

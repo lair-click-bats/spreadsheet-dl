@@ -1,5 +1,4 @@
-"""
-MCP Server core implementation.
+"""MCP Server core implementation.
 
 This module contains the complete MCPServer class with all tool handlers.
 
@@ -25,8 +24,7 @@ from spreadsheet_dl.exceptions import FileError
 
 
 class MCPServer:
-    """
-    MCP server for spreadsheet-dl.
+    """MCP server for spreadsheet-dl.
 
     Exposes spreadsheet manipulation and budget analysis tools via MCP protocol,
     enabling natural language interaction with Claude Desktop and
@@ -77,8 +75,7 @@ class MCPServer:
         self,
         config: MCPConfig | None = None,
     ) -> None:
-        """
-        Initialize MCP server.
+        """Initialize MCP server.
 
         Args:
             config: Server configuration. Uses defaults if not provided.
@@ -678,8 +675,7 @@ class MCPServer:
         self._tools.update(self._registry.get_all_tools())
 
     def _validate_path(self, path: str | Path) -> Path:
-        """
-        Validate and resolve a file path.
+        """Validate and resolve a file path.
 
         Args:
             path: Path to validate.
@@ -2251,7 +2247,7 @@ colors:
                 )
                 doc.save(str(path))
             except Exception:
-                # If file doesn't exist or isn't valid, that's ok
+                # If file doesn't exist or isn't valid, that's ok - theme still applied
                 pass
 
             return MCPToolResult.json(
@@ -3155,7 +3151,7 @@ colors:
     ) -> MCPToolResult:
         """Export sheet to CSV format."""
         try:
-            from spreadsheet_dl.export import ExportFormat, MultiFormatExporter
+            from spreadsheet_dl.export import MultiExportFormat, MultiFormatExporter
 
             source_path = self._validate_path(file_path)
 
@@ -3164,7 +3160,9 @@ colors:
                 output_path = str(source_path.with_suffix(".csv"))
 
             exporter = MultiFormatExporter()
-            result_path = exporter.export(source_path, output_path, ExportFormat.CSV)
+            result_path = exporter.export(
+                source_path, output_path, MultiExportFormat.CSV
+            )
 
             return MCPToolResult.json(
                 {
@@ -3185,7 +3183,7 @@ colors:
     ) -> MCPToolResult:
         """Export sheet to TSV format."""
         try:
-            from spreadsheet_dl.export import ExportFormat, MultiFormatExporter
+            from spreadsheet_dl.export import MultiExportFormat, MultiFormatExporter
 
             source_path = self._validate_path(file_path)
 
@@ -3195,7 +3193,9 @@ colors:
 
             # Use CSV export with tab delimiter (TSV is CSV with tabs)
             exporter = MultiFormatExporter()
-            result_path = exporter.export(source_path, output_path, ExportFormat.CSV)
+            result_path = exporter.export(
+                source_path, output_path, MultiExportFormat.CSV
+            )
 
             return MCPToolResult.json(
                 {
@@ -3216,7 +3216,7 @@ colors:
     ) -> MCPToolResult:
         """Export sheet to JSON format."""
         try:
-            from spreadsheet_dl.export import ExportFormat, MultiFormatExporter
+            from spreadsheet_dl.export import MultiExportFormat, MultiFormatExporter
 
             source_path = self._validate_path(file_path)
 
@@ -3225,7 +3225,9 @@ colors:
                 output_path = str(source_path.with_suffix(".json"))
 
             exporter = MultiFormatExporter()
-            result_path = exporter.export(source_path, output_path, ExportFormat.JSON)
+            result_path = exporter.export(
+                source_path, output_path, MultiExportFormat.JSON
+            )
 
             return MCPToolResult.json(
                 {
@@ -3246,7 +3248,7 @@ colors:
     ) -> MCPToolResult:
         """Export to XLSX format."""
         try:
-            from spreadsheet_dl.export import ExportFormat, MultiFormatExporter
+            from spreadsheet_dl.export import MultiExportFormat, MultiFormatExporter
 
             source_path = self._validate_path(file_path)
 
@@ -3255,7 +3257,9 @@ colors:
                 output_path = str(source_path.with_suffix(".xlsx"))
 
             exporter = MultiFormatExporter()
-            result_path = exporter.export(source_path, output_path, ExportFormat.XLSX)
+            result_path = exporter.export(
+                source_path, output_path, MultiExportFormat.XLSX
+            )
 
             return MCPToolResult.json(
                 {
@@ -3800,8 +3804,7 @@ colors:
     # =========================================================================
 
     def handle_message(self, message: dict[str, Any]) -> dict[str, Any] | None:
-        """
-        Handle an incoming MCP message.
+        """Handle an incoming MCP message.
 
         Args:
             message: JSON-RPC message.
@@ -3929,8 +3932,7 @@ colors:
         }
 
     def run(self) -> None:
-        """
-        Run the MCP server in stdio mode.
+        """Run the MCP server in stdio mode.
 
         Reads JSON-RPC messages from stdin and writes responses to stdout.
         """
@@ -3968,8 +3970,7 @@ colors:
 def create_mcp_server(
     allowed_paths: list[str | Path] | None = None,
 ) -> MCPServer:
-    """
-    Create an MCP server with optional path restrictions.
+    """Create an MCP server with optional path restrictions.
 
     Args:
         allowed_paths: List of paths the server can access.

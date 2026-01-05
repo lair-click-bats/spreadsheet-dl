@@ -1,5 +1,4 @@
-"""
-Fluent DataValidationBuilder for data validation rules.
+"""Fluent DataValidationBuilder for data validation rules.
 
 Implements FR-BUILDER-002: DataValidationBuilder
 
@@ -25,8 +24,7 @@ from spreadsheet_dl.schema.data_validation import (
 
 @dataclass
 class DataValidationBuilder:
-    """
-    Fluent builder for data validation rules.
+    r"""Fluent builder for data validation rules.
 
     Implements FR-BUILDER-002: DataValidationBuilder
 
@@ -88,8 +86,7 @@ class DataValidationBuilder:
     # ========================================================================
 
     def list(self, items: list[str]) -> Self:
-        """
-        Set validation to list type with explicit items.
+        """Set validation to list type with explicit items.
 
         Args:
             items: List of allowed values
@@ -102,8 +99,7 @@ class DataValidationBuilder:
         return self
 
     def list_from_range(self, source_range: str) -> Self:
-        """
-        Set validation to list type from cell range.
+        """Set validation to list type from cell range.
 
         Args:
             source_range: Cell range containing allowed values
@@ -141,8 +137,7 @@ class DataValidationBuilder:
         return self
 
     def custom(self, formula: str) -> Self:
-        """
-        Set validation to custom formula type.
+        """Set validation to custom formula type.
 
         Args:
             formula: Validation formula
@@ -159,8 +154,7 @@ class DataValidationBuilder:
     # ========================================================================
 
     def between(self, min_value: Any, max_value: Any) -> Self:
-        """
-        Set between operator.
+        """Set between operator.
 
         Args:
             min_value: Minimum value
@@ -175,8 +169,7 @@ class DataValidationBuilder:
         return self
 
     def not_between(self, min_value: Any, max_value: Any) -> Self:
-        """
-        Set not between operator.
+        """Set not between operator.
 
         Args:
             min_value: Minimum value
@@ -191,8 +184,7 @@ class DataValidationBuilder:
         return self
 
     def equal_to(self, value: Any) -> Self:
-        """
-        Set equal operator.
+        """Set equal operator.
 
         Args:
             value: Value to compare
@@ -205,8 +197,7 @@ class DataValidationBuilder:
         return self
 
     def not_equal_to(self, value: Any) -> Self:
-        """
-        Set not equal operator.
+        """Set not equal operator.
 
         Args:
             value: Value to compare
@@ -219,8 +210,7 @@ class DataValidationBuilder:
         return self
 
     def greater_than(self, value: Any) -> Self:
-        """
-        Set greater than operator.
+        """Set greater than operator.
 
         Args:
             value: Value to compare
@@ -233,8 +223,7 @@ class DataValidationBuilder:
         return self
 
     def less_than(self, value: Any) -> Self:
-        """
-        Set less than operator.
+        """Set less than operator.
 
         Args:
             value: Value to compare
@@ -247,8 +236,7 @@ class DataValidationBuilder:
         return self
 
     def greater_than_or_equal(self, value: Any) -> Self:
-        """
-        Set greater than or equal operator.
+        """Set greater than or equal operator.
 
         Args:
             value: Value to compare
@@ -261,8 +249,7 @@ class DataValidationBuilder:
         return self
 
     def less_than_or_equal(self, value: Any) -> Self:
-        """
-        Set less than or equal operator.
+        """Set less than or equal operator.
 
         Args:
             value: Value to compare
@@ -279,8 +266,7 @@ class DataValidationBuilder:
     # ========================================================================
 
     def show_dropdown(self, show: bool = True) -> Self:
-        """
-        Show dropdown for list validation.
+        """Show dropdown for list validation.
 
         Args:
             show: Whether to show dropdown
@@ -292,8 +278,7 @@ class DataValidationBuilder:
         return self
 
     def allow_blank(self, allow: bool = True) -> Self:
-        """
-        Allow blank values.
+        """Allow blank values.
 
         Args:
             allow: Whether to allow blanks
@@ -309,8 +294,7 @@ class DataValidationBuilder:
     # ========================================================================
 
     def input_message(self, title: str, body: str = "") -> Self:
-        """
-        Set input message shown when cell is selected.
+        """Set input message shown when cell is selected.
 
         Args:
             title: Message title
@@ -328,8 +312,7 @@ class DataValidationBuilder:
         title: str,
         message: str,
     ) -> Self:
-        """
-        Set error alert shown on invalid entry.
+        """Set error alert shown on invalid entry.
 
         Args:
             style: Alert style ("stop", "warning", "information")
@@ -346,8 +329,7 @@ class DataValidationBuilder:
         return self
 
     def stop_alert(self, title: str, message: str) -> Self:
-        """
-        Set stop error alert (prevents invalid entry).
+        """Set stop error alert (prevents invalid entry).
 
         Args:
             title: Alert title
@@ -359,8 +341,7 @@ class DataValidationBuilder:
         return self.error_alert(ErrorAlertStyle.STOP, title, message)
 
     def warning_alert(self, title: str, message: str) -> Self:
-        """
-        Set warning alert (warns but allows entry).
+        """Set warning alert (warns but allows entry).
 
         Args:
             title: Alert title
@@ -372,8 +353,7 @@ class DataValidationBuilder:
         return self.error_alert(ErrorAlertStyle.WARNING, title, message)
 
     def info_alert(self, title: str, message: str) -> Self:
-        """
-        Set information alert.
+        """Set information alert.
 
         Args:
             title: Alert title
@@ -389,8 +369,7 @@ class DataValidationBuilder:
     # ========================================================================
 
     def build(self) -> DataValidation:
-        """
-        Build the DataValidation object.
+        """Build the DataValidation object.
 
         Returns:
             Configured DataValidation
@@ -444,8 +423,7 @@ def positive_number_validation(
     allow_zero: bool = False,
     message: str = "Enter a positive number",
 ) -> DataValidation:
-    """
-    Create ready-to-use positive number validation.
+    """Create ready-to-use positive number validation.
 
     Args:
         allow_zero: Whether to allow zero
@@ -466,8 +444,7 @@ def positive_number_validation(
 
 
 def category_validation(categories: list[str]) -> DataValidation:
-    """
-    Create ready-to-use category list validation.
+    """Create ready-to-use category list validation.
 
     Args:
         categories: List of categories

@@ -1,5 +1,4 @@
-"""
-CLI utility functions for SpreadsheetDL.
+"""CLI utility functions for SpreadsheetDL.
 
 Contains validation, formatting, and confirmation utilities used across CLI commands.
 
@@ -30,8 +29,7 @@ def confirm_action(
     default: bool = False,
     skip_confirm: bool = False,
 ) -> bool:
-    """
-    Prompt user for confirmation before destructive actions.
+    """Prompt user for confirmation before destructive actions.
 
     Args:
         message: Description of the action to confirm.
@@ -65,8 +63,7 @@ def confirm_action(
 
 
 def confirm_overwrite(file_path: Path, *, skip_confirm: bool = False) -> bool:
-    """
-    Confirm overwriting an existing file.
+    """Confirm overwriting an existing file.
 
     Args:
         file_path: Path to the file that would be overwritten.
@@ -86,8 +83,7 @@ def confirm_overwrite(file_path: Path, *, skip_confirm: bool = False) -> bool:
 
 
 def confirm_delete(file_path: Path, *, skip_confirm: bool = False) -> bool:
-    """
-    Confirm deleting a file.
+    """Confirm deleting a file.
 
     Args:
         file_path: Path to the file to delete.
@@ -109,8 +105,7 @@ def confirm_destructive_operation(
     *,
     skip_confirm: bool = False,
 ) -> bool:
-    """
-    Confirm a potentially destructive operation.
+    """Confirm a potentially destructive operation.
 
     Args:
         operation: Name of the operation.
@@ -132,8 +127,7 @@ def confirm_destructive_operation(
 
 
 def validate_amount(amount_str: str) -> Decimal:
-    """
-    Validate and parse an amount string.
+    """Validate and parse an amount string.
 
     Args:
         amount_str: Amount string (may include $ and commas)
@@ -161,8 +155,7 @@ def validate_amount(amount_str: str) -> Decimal:
 
 
 def validate_date(date_str: str) -> date:
-    """
-    Validate and parse a date string.
+    """Validate and parse a date string.
 
     Args:
         date_str: Date string in YYYY-MM-DD format

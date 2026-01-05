@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Stop Hook Verification
+"""Stop Hook Verification
 Verifies task completion before allowing agent to stop.
 Returns JSON response for Claude Code hook system.
 """
@@ -25,8 +24,7 @@ def log_error(message: str) -> None:
 
 
 def is_stale(work: dict[str, Any], max_age_hours: int = 24) -> bool:
-    """
-    Check if active work is stale (no update in max_age_hours).
+    """Check if active work is stale (no update in max_age_hours).
 
     Args:
         work: Active work dictionary from active_work.json
@@ -53,8 +51,7 @@ def is_stale(work: dict[str, Any], max_age_hours: int = 24) -> bool:
 
 
 def check_completion() -> dict[str, bool | str]:
-    """
-    Check if agent completed its task properly.
+    """Check if agent completed its task properly.
 
     Returns:
         dict: {"ok": True} or {"ok": False, "reason": "explanation"}

@@ -1,5 +1,4 @@
-"""
-Environmental Domain Plugin for SpreadsheetDL.
+"""Environmental Domain Plugin for SpreadsheetDL.
 
 Implements:
     Environmental domain plugin
@@ -25,7 +24,7 @@ Example:
     >>> from spreadsheet_dl.domains.environmental import AirQualityMonitoringTemplate
     >>> template = AirQualityMonitoringTemplate(station_name="Downtown Station")
     >>> builder = template.generate()
-    >>> builder.save("air_quality.ods")
+    >>> path = builder.save("air_quality.ods")
 """
 
 # Plugin

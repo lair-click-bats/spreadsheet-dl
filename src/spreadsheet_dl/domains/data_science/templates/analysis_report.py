@@ -1,5 +1,4 @@
-"""
-Analysis Report Template for statistical analysis documentation.
+"""Analysis Report Template for statistical analysis documentation.
 
 Implements:
     AnalysisReportTemplate for data science domain
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class AnalysisReportTemplate(BaseTemplate):
-    """
-    Statistical analysis report template.
+    """Statistical analysis report template.
 
     Implements:
         AnalysisReportTemplate with statistical tests and visualizations
@@ -37,12 +35,12 @@ class AnalysisReportTemplate(BaseTemplate):
     - Box plots (metadata)
 
     Example:
-        >>> template = AnalysisReportTemplate(
+        >>> template = AnalysisReportTemplate(  # doctest: +SKIP
         ...     analysis_name="Customer Segmentation Study",
         ...     variables=["age", "income", "purchases"],
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("analysis_report.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("analysis_report.ods")  # doctest: +SKIP
     """
 
     analysis_name: str = "Data Analysis Report"
@@ -52,8 +50,7 @@ class AnalysisReportTemplate(BaseTemplate):
 
     @property
     def metadata(self) -> TemplateMetadata:
-        """
-        Get template metadata.
+        """Get template metadata.
 
         Returns:
             TemplateMetadata for analysis report template
@@ -71,8 +68,7 @@ class AnalysisReportTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate the analysis report spreadsheet.
+        """Generate the analysis report spreadsheet.
 
         Returns:
             Configured SpreadsheetBuilder instance

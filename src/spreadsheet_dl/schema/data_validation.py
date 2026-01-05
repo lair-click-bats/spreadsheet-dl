@@ -1,5 +1,4 @@
-"""
-Data validation rules and configuration.
+"""Data validation rules and configuration.
 
 Implements:
     - FR-VALID-001: List Validation
@@ -66,8 +65,7 @@ class ErrorAlertStyle(Enum):
 
 @dataclass
 class InputMessage:
-    """
-    Input message shown when cell is selected.
+    """Input message shown when cell is selected.
 
     Implements FR-VALID-005: Input Messages
 
@@ -98,8 +96,7 @@ class InputMessage:
 
 @dataclass
 class ErrorAlert:
-    """
-    Error alert shown on invalid entry.
+    """Error alert shown on invalid entry.
 
     Implements FR-VALID-006: Error Alerts
 
@@ -156,8 +153,7 @@ class ErrorAlert:
 
 @dataclass
 class DataValidation:
-    """
-    Data validation rule configuration.
+    """Data validation rule configuration.
 
     Implements:
         - FR-VALID-001: List Validation
@@ -615,8 +611,7 @@ class DataValidation:
 
 @dataclass
 class ValidationConfig:
-    """
-    Data validation configuration for a cell range.
+    """Data validation configuration for a cell range.
 
     Combines range reference with validation rule.
 
@@ -646,9 +641,7 @@ class ValidationConfig:
 
 
 class FinancialValidations:
-    """
-    Pre-configured validations for financial use cases.
-    """
+    """Pre-configured validations for financial use cases."""
 
     @staticmethod
     def expense_category(categories: list[str] | None = None) -> DataValidation:

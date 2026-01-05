@@ -1,5 +1,4 @@
-"""
-ERP Data Importer for production and inventory data.
+"""ERP Data Importer for production and inventory data.
 
 Implements:
     ERPDataImporter for manufacturing domain
@@ -17,8 +16,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 
 class ERPDataImporter(BaseImporter[list[dict[str, Any]]]):
-    """
-    Import ERP production/inventory data (CSV/XML).
+    """Import ERP production/inventory data (CSV/XML).
 
     Implements:
         ERPDataImporter with production and inventory data
@@ -32,9 +30,9 @@ class ERPDataImporter(BaseImporter[list[dict[str, Any]]]):
     - CSV and XML format support
 
     Example:
-        >>> importer = ERPDataImporter()
-        >>> result = importer.import_data("erp_export.xml")
-        >>> if result.success:
+        >>> importer = ERPDataImporter()  # doctest: +SKIP
+        >>> result = importer.import_data("erp_export.xml")  # doctest: +SKIP
+        >>> if result.success:  # doctest: +SKIP
         ...     print(f"Imported {result.records_imported} ERP records")
         ...     for record in result.data:
         ...         print(f"Part: {record['part_number']}, Qty: {record['quantity']}")
@@ -46,8 +44,7 @@ class ERPDataImporter(BaseImporter[list[dict[str, Any]]]):
 
     @property
     def metadata(self) -> ImporterMetadata:
-        """
-        Get importer metadata.
+        """Get importer metadata.
 
         Returns:
             ImporterMetadata for ERP data importer
@@ -63,8 +60,7 @@ class ERPDataImporter(BaseImporter[list[dict[str, Any]]]):
         )
 
     def validate_source(self, source: Path | str) -> bool:
-        """
-        Validate ERP data source file.
+        """Validate ERP data source file.
 
         Args:
             source: Path to ERP data file
@@ -81,8 +77,7 @@ class ERPDataImporter(BaseImporter[list[dict[str, Any]]]):
         )
 
     def import_data(self, source: Path | str) -> ImportResult[list[dict[str, Any]]]:
-        """
-        Import data from ERP file.
+        """Import data from ERP file.
 
         Args:
             source: Path to ERP data file (CSV or XML)
@@ -233,8 +228,7 @@ class ERPDataImporter(BaseImporter[list[dict[str, Any]]]):
         return result
 
     def _parse_erp_record(self, raw: dict[str, Any]) -> dict[str, Any]:
-        """
-        Parse ERP record with type conversion.
+        """Parse ERP record with type conversion.
 
         Args:
             raw: Raw record data

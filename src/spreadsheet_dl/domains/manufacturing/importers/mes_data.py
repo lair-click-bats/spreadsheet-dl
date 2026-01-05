@@ -1,5 +1,4 @@
-"""
-MES Data Importer for Manufacturing Execution System data.
+"""MES Data Importer for Manufacturing Execution System data.
 
 Implements:
     MESDataImporter for manufacturing domain
@@ -17,8 +16,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 
 class MESDataImporter(BaseImporter[list[dict[str, Any]]]):
-    """
-    Import MES (Manufacturing Execution System) data (CSV/JSON).
+    """Import MES (Manufacturing Execution System) data (CSV/JSON).
 
     Implements:
         MESDataImporter with production and quality data
@@ -32,9 +30,9 @@ class MESDataImporter(BaseImporter[list[dict[str, Any]]]):
     - CSV and JSON format support
 
     Example:
-        >>> importer = MESDataImporter()
-        >>> result = importer.import_data("mes_export.csv")
-        >>> if result.success:
+        >>> importer = MESDataImporter()  # doctest: +SKIP
+        >>> result = importer.import_data("mes_export.csv")  # doctest: +SKIP
+        >>> if result.success:  # doctest: +SKIP
         ...     print(f"Imported {result.records_imported} MES records")
         ...     for record in result.data:
         ...         print(f"WO: {record['work_order']}, Status: {record['status']}")
@@ -46,8 +44,7 @@ class MESDataImporter(BaseImporter[list[dict[str, Any]]]):
 
     @property
     def metadata(self) -> ImporterMetadata:
-        """
-        Get importer metadata.
+        """Get importer metadata.
 
         Returns:
             ImporterMetadata for MES data importer
@@ -63,8 +60,7 @@ class MESDataImporter(BaseImporter[list[dict[str, Any]]]):
         )
 
     def validate_source(self, source: Path | str) -> bool:
-        """
-        Validate MES data source file.
+        """Validate MES data source file.
 
         Args:
             source: Path to MES data file
@@ -83,8 +79,7 @@ class MESDataImporter(BaseImporter[list[dict[str, Any]]]):
         )
 
     def import_data(self, source: Path | str) -> ImportResult[list[dict[str, Any]]]:
-        """
-        Import data from MES file.
+        """Import data from MES file.
 
         Args:
             source: Path to MES data file (CSV or JSON)
@@ -213,8 +208,7 @@ class MESDataImporter(BaseImporter[list[dict[str, Any]]]):
             )
 
     def _parse_mes_record(self, raw: dict[str, Any]) -> dict[str, Any]:
-        """
-        Parse MES record with type conversion.
+        """Parse MES record with type conversion.
 
         Args:
             raw: Raw record data

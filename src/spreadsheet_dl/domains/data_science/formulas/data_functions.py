@@ -1,5 +1,4 @@
-"""
-Data function formulas (wrappers around ODF built-ins).
+"""Data function formulas (wrappers around ODF built-ins).
 
 Implements:
     Data function formulas (AVERAGE, MEDIAN, STDEV, VARIANCE, CORRELATION)
@@ -15,8 +14,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 @dataclass(slots=True, frozen=True)
 class AverageFormula(BaseFormula):
-    """
-    Average (mean) calculation using ODF AVERAGE function.
+    """Average (mean) calculation using ODF AVERAGE function.
 
     Implements:
         DS_AVERAGE formula wrapper
@@ -29,8 +27,7 @@ class AverageFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for DS_AVERAGE
@@ -58,8 +55,7 @@ class AverageFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build AVERAGE formula string.
+        """Build AVERAGE formula string.
 
         Args:
             *args: range
@@ -82,8 +78,7 @@ class AverageFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class MedianFormula(BaseFormula):
-    """
-    Median calculation using ODF MEDIAN function.
+    """Median calculation using ODF MEDIAN function.
 
     Implements:
         DS_MEDIAN formula wrapper
@@ -96,8 +91,7 @@ class MedianFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for DS_MEDIAN
@@ -125,8 +119,7 @@ class MedianFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build MEDIAN formula string.
+        """Build MEDIAN formula string.
 
         Args:
             *args: range
@@ -149,8 +142,7 @@ class MedianFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class StdevFormula(BaseFormula):
-    """
-    Standard deviation calculation using ODF STDEV function.
+    """Standard deviation calculation using ODF STDEV function.
 
     Implements:
         DS_STDEV formula wrapper
@@ -163,8 +155,7 @@ class StdevFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for DS_STDEV
@@ -192,8 +183,7 @@ class StdevFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build STDEV formula string.
+        """Build STDEV formula string.
 
         Args:
             *args: range
@@ -216,8 +206,7 @@ class StdevFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class VarianceFormula(BaseFormula):
-    """
-    Variance calculation using ODF VAR function.
+    """Variance calculation using ODF VAR function.
 
     Implements:
         DS_VARIANCE formula wrapper
@@ -230,8 +219,7 @@ class VarianceFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for DS_VARIANCE
@@ -259,8 +247,7 @@ class VarianceFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build VAR formula string.
+        """Build VAR formula string.
 
         Args:
             *args: range
@@ -283,8 +270,7 @@ class VarianceFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class CorrelationFormula(BaseFormula):
-    """
-    Correlation calculation using ODF CORREL function.
+    """Correlation calculation using ODF CORREL function.
 
     Implements:
         DS_CORRELATION formula wrapper
@@ -297,8 +283,7 @@ class CorrelationFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for DS_CORRELATION
@@ -332,8 +317,7 @@ class CorrelationFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build CORREL formula string.
+        """Build CORREL formula string.
 
         Args:
             *args: array1, array2

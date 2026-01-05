@@ -1,5 +1,4 @@
-"""
-Budget Analyzer - Analyze ODS budget spreadsheets with pandas.
+"""Budget Analyzer - Analyze ODS budget spreadsheets with pandas.
 
 Provides analysis, insights, and trend tracking for family budget data
 stored in ODS format.
@@ -58,16 +57,14 @@ class SpendingTrend:
 
 
 class BudgetAnalyzer:
-    """
-    Analyze budget ODS files and provide insights.
+    """Analyze budget ODS files and provide insights.
 
     Uses pyexcel_ods3 for reliable ODS file reading with pandas
     for data analysis.
     """
 
     def __init__(self, ods_path: Path | str) -> None:
-        """
-        Initialize analyzer with an ODS file.
+        """Initialize analyzer with an ODS file.
 
         Args:
             ods_path: Path to the ODS budget file.
@@ -91,8 +88,7 @@ class BudgetAnalyzer:
         return self._budget_df
 
     def _read_ods_sheet(self, sheet_name: str) -> list[list[Any]]:
-        """
-        Read a sheet from ODS file using odfpy directly.
+        """Read a sheet from ODS file using odfpy directly.
 
         This is more reliable than pandas read_excel with odf engine
         and avoids pyexcel-ods3 currency cell bugs.
@@ -259,8 +255,7 @@ class BudgetAnalyzer:
             raise ValueError(f"Failed to load budget: {e}") from e
 
     def get_summary(self) -> BudgetSummary:
-        """
-        Get overall budget summary.
+        """Get overall budget summary.
 
         Returns:
             BudgetSummary with totals, category breakdown, and alerts.
@@ -335,8 +330,7 @@ class BudgetAnalyzer:
         self,
         months: int = 6,
     ) -> list[SpendingTrend]:
-        """
-        Get spending trends over recent months.
+        """Get spending trends over recent months.
 
         Args:
             months: Number of months to analyze.
@@ -374,8 +368,7 @@ class BudgetAnalyzer:
         return sorted(trends, key=lambda t: t.period)
 
     def get_category_breakdown(self) -> dict[str, Decimal]:
-        """
-        Get spending breakdown by category.
+        """Get spending breakdown by category.
 
         Returns:
             Dictionary mapping category to total spent.
@@ -390,8 +383,7 @@ class BudgetAnalyzer:
         }
 
     def get_daily_average(self) -> Decimal:
-        """
-        Calculate daily average spending.
+        """Calculate daily average spending.
 
         Returns:
             Average daily spending amount.
@@ -413,8 +405,7 @@ class BudgetAnalyzer:
         return Decimal(str(total / days))
 
     def filter_by_category(self, category: str) -> pd.DataFrame:
-        """
-        Get expenses for a specific category.
+        """Get expenses for a specific category.
 
         Args:
             category: Category name to filter.
@@ -430,8 +421,7 @@ class BudgetAnalyzer:
         start_date: date,
         end_date: date,
     ) -> pd.DataFrame:
-        """
-        Get expenses within a date range.
+        """Get expenses within a date range.
 
         Args:
             start_date: Start of range (inclusive).
@@ -447,8 +437,7 @@ class BudgetAnalyzer:
         return expenses[mask]
 
     def to_dict(self) -> dict[str, Any]:
-        """
-        Export analysis as dictionary (for JSON serialization).
+        """Export analysis as dictionary (for JSON serialization).
 
         Returns:
             Dictionary with all analysis data.
@@ -480,8 +469,7 @@ class BudgetAnalyzer:
 
 
 def analyze_budget(ods_path: Path | str) -> dict[str, Any]:
-    """
-    Convenience function to analyze a budget file.
+    """Convenience function to analyze a budget file.
 
     Args:
         ods_path: Path to ODS budget file.

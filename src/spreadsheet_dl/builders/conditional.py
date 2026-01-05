@@ -1,5 +1,4 @@
-"""
-Fluent ConditionalFormatBuilder for conditional formatting rules.
+"""Fluent ConditionalFormatBuilder for conditional formatting rules.
 
 Implements FR-BUILDER-003: ConditionalFormatBuilder
 
@@ -328,8 +327,7 @@ class ValueRuleBuilder:
 
 @dataclass
 class ConditionalFormatBuilder:
-    """
-    Fluent builder for conditional formatting.
+    r"""Fluent builder for conditional formatting.
 
     Implements FR-BUILDER-003: ConditionalFormatBuilder
 
@@ -595,8 +593,7 @@ def budget_variance_format(
     warning_style: str = "warning",
     success_style: str = "success",
 ) -> ConditionalFormat:
-    """
-    Create budget variance conditional format.
+    """Create budget variance conditional format.
 
     Highlights:
     - Negative values (over budget) in red

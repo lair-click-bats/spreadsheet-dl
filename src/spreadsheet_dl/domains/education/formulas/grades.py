@@ -1,5 +1,4 @@
-"""
-Grade calculation formulas.
+"""Grade calculation formulas.
 
 Implements:
     Grade calculation formulas
@@ -16,8 +15,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 @dataclass(slots=True, frozen=True)
 class GradeAverageFormula(BaseFormula):
-    """
-    Calculate simple grade average.
+    """Calculate simple grade average.
 
     Implements:
         GRADE_AVERAGE formula for grade calculation
@@ -32,8 +30,7 @@ class GradeAverageFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for GRADE_AVERAGE
@@ -68,8 +65,7 @@ class GradeAverageFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build GRADE_AVERAGE formula string.
+        """Build GRADE_AVERAGE formula string.
 
         Args:
             *args: grades_range, [exclude_zeros]
@@ -98,8 +94,7 @@ class GradeAverageFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class WeightedGradeFormula(BaseFormula):
-    """
-    Calculate weighted grade average.
+    """Calculate weighted grade average.
 
     Implements:
         WEIGHTED_GRADE formula for weighted calculations
@@ -114,8 +109,7 @@ class WeightedGradeFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for WEIGHTED_GRADE
@@ -149,8 +143,7 @@ class WeightedGradeFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build WEIGHTED_GRADE formula string.
+        """Build WEIGHTED_GRADE formula string.
 
         Args:
             *args: grades_range, weights_range
@@ -176,8 +169,7 @@ class WeightedGradeFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class GradeCurveFormula(BaseFormula):
-    """
-    Apply grade curve adjustment.
+    """Apply grade curve adjustment.
 
     Implements:
         GRADE_CURVE formula for curve adjustments
@@ -192,8 +184,7 @@ class GradeCurveFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for GRADE_CURVE
@@ -241,8 +232,7 @@ class GradeCurveFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build GRADE_CURVE formula string.
+        """Build GRADE_CURVE formula string.
 
         Args:
             *args: grade, all_grades, [method], [adjustment]

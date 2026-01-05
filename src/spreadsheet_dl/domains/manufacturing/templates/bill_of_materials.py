@@ -1,5 +1,4 @@
-"""
-Bill of Materials Template for manufacturing BOM with cost rollups.
+"""Bill of Materials Template for manufacturing BOM with cost rollups.
 
 Implements:
     BillOfMaterialsTemplate for manufacturing domain
@@ -18,8 +17,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class BillOfMaterialsTemplate(BaseTemplate):
-    """
-    Manufacturing BOM with yield, scrap rates, and cost rollups.
+    """Manufacturing BOM with yield, scrap rates, and cost rollups.
 
     Implements:
         BillOfMaterialsTemplate with multi-level BOM
@@ -35,12 +33,12 @@ class BillOfMaterialsTemplate(BaseTemplate):
     - Lead time tracking
 
     Example:
-        >>> template = BillOfMaterialsTemplate(
+        >>> template = BillOfMaterialsTemplate(  # doctest: +SKIP
         ...     product_name="Widget Assembly XL",
         ...     include_cost_rollup=True,
         ... )
-        >>> builder = template.generate()
-        >>> builder.save("bom.ods")
+        >>> builder = template.generate()  # doctest: +SKIP
+        >>> path = builder.save("bom.ods")  # doctest: +SKIP
     """
 
     product_name: str = "Product"
@@ -50,8 +48,7 @@ class BillOfMaterialsTemplate(BaseTemplate):
 
     @property
     def metadata(self) -> TemplateMetadata:
-        """
-        Get template metadata.
+        """Get template metadata.
 
         Returns:
             TemplateMetadata for BOM template
@@ -69,8 +66,7 @@ class BillOfMaterialsTemplate(BaseTemplate):
         )
 
     def generate(self) -> SpreadsheetBuilder:
-        """
-        Generate the BOM spreadsheet.
+        """Generate the BOM spreadsheet.
 
         Returns:
             Configured SpreadsheetBuilder instance

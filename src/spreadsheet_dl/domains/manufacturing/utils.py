@@ -1,5 +1,4 @@
-"""
-Manufacturing domain utility functions.
+"""Manufacturing domain utility functions.
 
 Implements:
     Manufacturing utility functions
@@ -11,8 +10,7 @@ from typing import Any
 
 
 def calculate_oee(availability: float, performance: float, quality: float) -> float:
-    """
-    Calculate Overall Equipment Effectiveness (OEE).
+    """Calculate Overall Equipment Effectiveness (OEE).
 
     Implements:
         OEE calculation utility
@@ -26,15 +24,14 @@ def calculate_oee(availability: float, performance: float, quality: float) -> fl
         OEE percentage (0-100)
 
     Example:
-        >>> oee = calculate_oee(95.0, 98.0, 99.5)
+        >>> oee = calculate_oee(95.0, 98.0, 99.5)  # doctest: +SKIP
         >>> # Returns: 92.621 (95% * 98% * 99.5%)
     """
     return (availability / 100) * (performance / 100) * (quality / 100) * 100
 
 
 def calculate_defect_rate(defects: int, total: int) -> float:
-    """
-    Calculate defect rate percentage.
+    """Calculate defect rate percentage.
 
     Implements:
         Defect rate calculation
@@ -47,7 +44,7 @@ def calculate_defect_rate(defects: int, total: int) -> float:
         Defect rate percentage
 
     Example:
-        >>> rate = calculate_defect_rate(25, 1000)
+        >>> rate = calculate_defect_rate(25, 1000)  # doctest: +SKIP
         >>> # Returns: 2.5
     """
     if total == 0:
@@ -56,8 +53,7 @@ def calculate_defect_rate(defects: int, total: int) -> float:
 
 
 def calculate_first_pass_yield(good_units: int, total_units: int) -> float:
-    """
-    Calculate first pass yield percentage.
+    """Calculate first pass yield percentage.
 
     Implements:
         First pass yield calculation
@@ -70,7 +66,7 @@ def calculate_first_pass_yield(good_units: int, total_units: int) -> float:
         First pass yield percentage
 
     Example:
-        >>> fpy = calculate_first_pass_yield(950, 1000)
+        >>> fpy = calculate_first_pass_yield(950, 1000)  # doctest: +SKIP
         >>> # Returns: 95.0
     """
     if total_units == 0:
@@ -79,8 +75,7 @@ def calculate_first_pass_yield(good_units: int, total_units: int) -> float:
 
 
 def calculate_cycle_time(production_time: float, units_produced: int) -> float:
-    """
-    Calculate manufacturing cycle time.
+    """Calculate manufacturing cycle time.
 
     Implements:
         Cycle time calculation
@@ -93,7 +88,7 @@ def calculate_cycle_time(production_time: float, units_produced: int) -> float:
         Cycle time in minutes per unit
 
     Example:
-        >>> cycle_time = calculate_cycle_time(480, 120)
+        >>> cycle_time = calculate_cycle_time(480, 120)  # doctest: +SKIP
         >>> # Returns: 4.0 (4 minutes per unit)
     """
     if units_produced == 0:
@@ -102,8 +97,7 @@ def calculate_cycle_time(production_time: float, units_produced: int) -> float:
 
 
 def calculate_takt_time(available_time: float, demand: int) -> float:
-    """
-    Calculate takt time.
+    """Calculate takt time.
 
     Implements:
         Takt time calculation
@@ -116,7 +110,7 @@ def calculate_takt_time(available_time: float, demand: int) -> float:
         Takt time in seconds per unit
 
     Example:
-        >>> takt = calculate_takt_time(28800, 1200)
+        >>> takt = calculate_takt_time(28800, 1200)  # doctest: +SKIP
         >>> # Returns: 24.0 (24 seconds per unit)
     """
     if demand == 0:
@@ -127,8 +121,7 @@ def calculate_takt_time(available_time: float, demand: int) -> float:
 def calculate_eoq(
     annual_demand: float, order_cost: float, holding_cost: float
 ) -> float:
-    """
-    Calculate Economic Order Quantity.
+    """Calculate Economic Order Quantity.
 
     Implements:
         EOQ calculation
@@ -142,7 +135,7 @@ def calculate_eoq(
         Economic order quantity
 
     Example:
-        >>> eoq = calculate_eoq(10000, 50, 5)
+        >>> eoq = calculate_eoq(10000, 50, 5)  # doctest: +SKIP
         >>> # Returns: 447.21 (approximately)
     """
     if holding_cost == 0:
@@ -153,8 +146,7 @@ def calculate_eoq(
 def calculate_reorder_point(
     demand_rate: float, lead_time: float, safety_stock: float
 ) -> float:
-    """
-    Calculate inventory reorder point.
+    """Calculate inventory reorder point.
 
     Implements:
         Reorder point calculation
@@ -168,7 +160,7 @@ def calculate_reorder_point(
         Reorder point quantity
 
     Example:
-        >>> rop = calculate_reorder_point(50, 7, 100)
+        >>> rop = calculate_reorder_point(50, 7, 100)  # doctest: +SKIP
         >>> # Returns: 450.0
     """
     return (demand_rate * lead_time) + safety_stock
@@ -177,8 +169,7 @@ def calculate_reorder_point(
 def calculate_safety_stock(
     z_score: float, demand_stddev: float, lead_time: float
 ) -> float:
-    """
-    Calculate safety stock quantity.
+    """Calculate safety stock quantity.
 
     Implements:
         Safety stock calculation
@@ -192,15 +183,14 @@ def calculate_safety_stock(
         Safety stock quantity
 
     Example:
-        >>> safety = calculate_safety_stock(1.65, 15, 7)
+        >>> safety = calculate_safety_stock(1.65, 15, 7)  # doctest: +SKIP
         >>> # Returns: 65.45 (approximately)
     """
     return float(z_score * demand_stddev * (lead_time**0.5))
 
 
 def parse_manufacturing_date(date_str: str) -> str:
-    """
-    Parse various manufacturing date formats to ISO format.
+    """Parse various manufacturing date formats to ISO format.
 
     Implements:
         Date parsing utility
@@ -212,7 +202,7 @@ def parse_manufacturing_date(date_str: str) -> str:
         ISO format date string (YYYY-MM-DD)
 
     Example:
-        >>> iso_date = parse_manufacturing_date("12/25/2024")
+        >>> iso_date = parse_manufacturing_date("12/25/2024")  # doctest: +SKIP
         >>> # Returns: "2024-12-25"
     """
     from datetime import datetime
@@ -239,8 +229,7 @@ def parse_manufacturing_date(date_str: str) -> str:
 
 
 def format_manufacturing_number(value: Any, decimals: int = 2) -> str:
-    """
-    Format number for manufacturing reports.
+    """Format number for manufacturing reports.
 
     Implements:
         Number formatting utility
@@ -253,7 +242,7 @@ def format_manufacturing_number(value: Any, decimals: int = 2) -> str:
         Formatted number string
 
     Example:
-        >>> formatted = format_manufacturing_number(1234.5678)
+        >>> formatted = format_manufacturing_number(1234.5678)  # doctest: +SKIP
         >>> # Returns: "1,234.57"
     """
     try:

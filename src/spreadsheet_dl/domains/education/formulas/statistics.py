@@ -1,5 +1,4 @@
-"""
-Statistical formulas for education.
+"""Statistical formulas for education.
 
 Implements:
     Statistical formulas
@@ -16,8 +15,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 @dataclass(slots=True, frozen=True)
 class StandardDeviationFormula(BaseFormula):
-    """
-    Calculate standard deviation of grades.
+    """Calculate standard deviation of grades.
 
     Implements:
         STANDARD_DEVIATION formula for grade statistics
@@ -32,8 +30,7 @@ class StandardDeviationFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for STANDARD_DEVIATION
@@ -68,8 +65,7 @@ class StandardDeviationFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build STANDARD_DEVIATION formula string.
+        """Build STANDARD_DEVIATION formula string.
 
         Args:
             *args: grades_range, [population]
@@ -97,8 +93,7 @@ class StandardDeviationFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class PercentileRankFormula(BaseFormula):
-    """
-    Calculate percentile rank of a grade.
+    """Calculate percentile rank of a grade.
 
     Implements:
         PERCENTILE_RANK formula for grade ranking
@@ -113,8 +108,7 @@ class PercentileRankFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for PERCENTILE_RANK
@@ -155,8 +149,7 @@ class PercentileRankFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build PERCENTILE_RANK formula string.
+        """Build PERCENTILE_RANK formula string.
 
         Args:
             *args: grade, all_grades, [significance]
@@ -182,8 +175,7 @@ class PercentileRankFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class CorrelationFormula(BaseFormula):
-    """
-    Calculate correlation coefficient between two datasets.
+    """Calculate correlation coefficient between two datasets.
 
     Implements:
         CORRELATION formula for grade correlation
@@ -198,8 +190,7 @@ class CorrelationFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for CORRELATION
@@ -233,8 +224,7 @@ class CorrelationFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build CORRELATION formula string.
+        """Build CORRELATION formula string.
 
         Args:
             *args: range1, range2

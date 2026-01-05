@@ -1,5 +1,4 @@
-"""
-Inventory metrics formulas for manufacturing.
+"""Inventory metrics formulas for manufacturing.
 
 Implements:
     Inventory metrics formulas (EOQ, REORDER_POINT, SAFETY_STOCK, INVENTORY_TURNOVER)
@@ -15,8 +14,7 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 
 @dataclass(slots=True, frozen=True)
 class EOQFormula(BaseFormula):
-    """
-    Economic Order Quantity calculation.
+    """Economic Order Quantity calculation.
 
     Implements:
         EOQ formula for inventory optimization
@@ -31,8 +29,7 @@ class EOQFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for EOQ
@@ -72,8 +69,7 @@ class EOQFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build EOQ formula string.
+        """Build EOQ formula string.
 
         Args:
             *args: annual_demand, order_cost, holding_cost
@@ -98,8 +94,7 @@ class EOQFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class ReorderPointFormula(BaseFormula):
-    """
-    Reorder point calculation.
+    """Reorder point calculation.
 
     Implements:
         REORDER_POINT formula for inventory management
@@ -114,8 +109,7 @@ class ReorderPointFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for REORDER_POINT
@@ -155,8 +149,7 @@ class ReorderPointFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build REORDER_POINT formula string.
+        """Build REORDER_POINT formula string.
 
         Args:
             *args: demand_rate, lead_time, safety_stock
@@ -181,8 +174,7 @@ class ReorderPointFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class SafetyStockFormula(BaseFormula):
-    """
-    Safety stock calculation.
+    """Safety stock calculation.
 
     Implements:
         SAFETY_STOCK formula for inventory management
@@ -197,8 +189,7 @@ class SafetyStockFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for SAFETY_STOCK
@@ -238,8 +229,7 @@ class SafetyStockFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build SAFETY_STOCK formula string.
+        """Build SAFETY_STOCK formula string.
 
         Args:
             *args: z_score, demand_stddev, lead_time
@@ -264,8 +254,7 @@ class SafetyStockFormula(BaseFormula):
 
 @dataclass(slots=True, frozen=True)
 class InventoryTurnoverFormula(BaseFormula):
-    """
-    Inventory turnover ratio.
+    """Inventory turnover ratio.
 
     Implements:
         INVENTORY_TURNOVER formula for inventory analysis
@@ -280,8 +269,7 @@ class InventoryTurnoverFormula(BaseFormula):
 
     @property
     def metadata(self) -> FormulaMetadata:
-        """
-        Get formula metadata.
+        """Get formula metadata.
 
         Returns:
             FormulaMetadata for INVENTORY_TURNOVER
@@ -315,8 +303,7 @@ class InventoryTurnoverFormula(BaseFormula):
         )
 
     def build(self, *args: Any, **kwargs: Any) -> str:
-        """
-        Build INVENTORY_TURNOVER formula string.
+        """Build INVENTORY_TURNOVER formula string.
 
         Args:
             *args: cogs, avg_inventory

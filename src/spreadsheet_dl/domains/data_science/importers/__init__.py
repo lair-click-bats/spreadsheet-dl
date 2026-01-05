@@ -1,5 +1,4 @@
-"""
-Data Science Importers for SpreadsheetDL.
+"""Data Science Importers for SpreadsheetDL.
 
 Implements:
     Data Science domain importers

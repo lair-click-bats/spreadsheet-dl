@@ -1,5 +1,4 @@
-"""
-Manufacturing templates module.
+"""Manufacturing templates module.
 
 Implements:
     Manufacturing template exports

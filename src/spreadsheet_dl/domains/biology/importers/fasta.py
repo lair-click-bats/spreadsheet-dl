@@ -1,5 +1,4 @@
-"""
-FASTA sequence file importer.
+"""FASTA sequence file importer.
 
 Implements:
     FASTAImporter for DNA/RNA/protein sequences
@@ -14,8 +13,7 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 
 
 class FASTAImporter(BaseImporter[list[dict[str, Any]]]):
-    """
-    Import FASTA format sequence files.
+    """Import FASTA format sequence files.
 
     Implements:
         FASTAImporter for sequence analysis
@@ -29,9 +27,9 @@ class FASTAImporter(BaseImporter[list[dict[str, Any]]]):
     - GC content calculation for DNA/RNA
 
     Example:
-        >>> importer = FASTAImporter()
-        >>> result = importer.import_data("sequences.fasta")
-        >>> if result.success:
+        >>> importer = FASTAImporter()  # doctest: +SKIP
+        >>> result = importer.import_data("sequences.fasta")  # doctest: +SKIP
+        >>> if result.success:  # doctest: +SKIP
         ...     for seq in result.data:
         ...         print(f"{seq['id']}: {len(seq['sequence'])} bp")
     """
@@ -42,8 +40,7 @@ class FASTAImporter(BaseImporter[list[dict[str, Any]]]):
 
     @property
     def metadata(self) -> ImporterMetadata:
-        """
-        Get importer metadata.
+        """Get importer metadata.
 
         Returns:
             ImporterMetadata for FASTA importer
@@ -59,8 +56,7 @@ class FASTAImporter(BaseImporter[list[dict[str, Any]]]):
         )
 
     def validate_source(self, source: Path | str) -> bool:
-        """
-        Validate FASTA file.
+        """Validate FASTA file.
 
         Args:
             source: Path to FASTA file
@@ -85,8 +81,7 @@ class FASTAImporter(BaseImporter[list[dict[str, Any]]]):
             return False
 
     def import_data(self, source: Path | str) -> ImportResult[list[dict[str, Any]]]:
-        """
-        Import FASTA sequences.
+        """Import FASTA sequences.
 
         Args:
             source: Path to FASTA file
@@ -194,8 +189,7 @@ class FASTAImporter(BaseImporter[list[dict[str, Any]]]):
         description: str,
         sequence: str,
     ) -> dict[str, Any]:
-        """
-        Create sequence record with metadata.
+        """Create sequence record with metadata.
 
         Args:
             seq_id: Sequence identifier
