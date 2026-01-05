@@ -10,11 +10,14 @@ The MCP Server provides a native implementation of the Model Context Protocol, e
 
 **Features:**
 
-- 144 tools across 5 categories
-- Budget analysis and financial operations
+- 96 tools across 8 categories
 - Complete spreadsheet manipulation (cells, styles, structure)
 - Advanced features (charts, validation, conditional formatting)
+- Workbook operations, theme management, print layout
+- Import/export across multiple formats
 - Security controls (path restrictions, rate limiting, audit logging)
+
+**Architecture Note**: Domain-specific functionality (budget analysis, account management, goal tracking, reporting) is available via Python APIs (BudgetAnalyzer, AccountManager, GoalManager, ReportGenerator), not as MCP tools.
 
 ---
 
@@ -50,278 +53,32 @@ MCPServer(config: MCPConfig | None = None)
 
 ### Tool Categories
 
-The server provides 145+ tools organized into 5 categories:
-
-1. **Budget Analysis** (8 tools) - Analyze budgets and track spending
-2. **Cell Operations** (12 tools) - Read, write, and manipulate cells
-3. **Style Operations** (11 tools) - Format and style cells
-4. **Structure Operations** (11 tools) - Modify spreadsheet structure
-5. **Advanced Operations** (8 tools) - Charts, validation, and queries
-
----
-
-## Budget Analysis Tools
-
-### analyze_budget
-
-Analyze a budget file and return spending summary.
-
-**Parameters:**
-
-- `file_path` (string, required): Path to ODS budget file
-- `analysis_type` (string, optional): Type of analysis ("summary", "detailed", "trends", "categories")
-  - Default: "summary"
-
-**Returns:** JSON with budget analysis
-
-**Example:**
-
-```json
-{
-  "total_budget": 5000.0,
-  "total_spent": 3250.5,
-  "remaining": 1749.5,
-  "percent_used": 65.01,
-  "status": "under_budget",
-  "alerts": []
-}
-```
-
-**Usage:**
-
-```javascript
-{
-  "name": "analyze_budget",
-  "arguments": {
-    "file_path": "/path/to/budget.ods",
-    "analysis_type": "detailed"
-  }
-}
-```
-
-### add_expense
-
-Add a new expense to the budget file.
-
-**Parameters:**
-
-- `date` (string, required): Expense date (YYYY-MM-DD format)
-- `category` (string, required): Expense category
-- `description` (string, required): Description of expense
-- `amount` (number, required): Expense amount
-- `file_path` (string, optional): Path to budget file (uses most recent if not provided)
-
-**Returns:** JSON with added expense details
-
-**Example:**
-
-```json
-{
-  "success": true,
-  "file": "/path/to/budget.ods",
-  "row": 15,
-  "expense": {
-    "date": "2024-12-15",
-    "category": "Groceries",
-    "description": "Weekly shopping",
-    "amount": 125.5
-  }
-}
-```
-
-### query_budget
-
-Answer natural language questions about budget data.
-
-**Parameters:**
-
-- `question` (string, required): Natural language question
-- `file_path` (string, required): Path to budget file
-
-**Returns:** JSON with question, answer, and relevant data
-
-**Example:**
-
-```json
-{
-  "question": "How much did I spend on groceries?",
-  "answer": "Spending on Groceries: $450.25",
-  "data": {
-    "category": "Groceries",
-    "amount": 450.25
-  }
-}
-```
-
-**Supported Question Types:**
-
-- Total spending: "How much have I spent?" "What's my total spending?"
-- Remaining budget: "How much is left?" "What's my remaining budget?"
-- Category-specific: "How much on groceries?" "Spending on utilities?"
-- Over budget: "Am I over budget?" "Did I exceed my budget?"
-
-### get_spending_trends
-
-Analyze spending trends over time.
-
-**Parameters:**
-
-- `file_path` (string, required): Path to budget file
-- `period` (string, optional): Time period ("week", "month", "quarter", "year")
-  - Default: "month"
-- `category` (string, optional): Specific category to analyze
-
-**Returns:** JSON with trend analysis
-
-**Example:**
-
-```json
-{
-  "period": "month",
-  "category": null,
-  "daily_spending": {
-    "2024-12-01": 125.5,
-    "2024-12-02": 45.0,
-    "2024-12-03": 89.25
-  },
-  "statistics": {
-    "average_daily": 86.58,
-    "highest_day": "2024-12-01",
-    "highest_amount": 125.5,
-    "total_days": 3
-  }
-}
-```
-
-### compare_periods
-
-Compare spending between two time periods.
-
-**Parameters:**
-
-- `file_path` (string, required): Path to budget file
-- `period1_start` (string, required): Start date of first period (YYYY-MM-DD)
-- `period1_end` (string, required): End date of first period (YYYY-MM-DD)
-- `period2_start` (string, required): Start date of second period (YYYY-MM-DD)
-- `period2_end` (string, required): End date of second period (YYYY-MM-DD)
-
-**Returns:** JSON with period comparison
-
-**Example:**
-
-```json
-{
-  "period1": {
-    "start": "2024-11-01",
-    "end": "2024-11-30",
-    "total": 3500.0,
-    "transaction_count": 45
-  },
-  "period2": {
-    "start": "2024-12-01",
-    "end": "2024-12-31",
-    "total": 4200.0,
-    "transaction_count": 52
-  },
-  "comparison": {
-    "difference": 700.0,
-    "percent_change": 20.0,
-    "trend": "increased"
-  }
-}
-```
-
-### generate_report
-
-Generate a formatted budget report.
-
-**Parameters:**
-
-- `file_path` (string, required): Path to budget file
-- `format` (string, optional): Report format ("text", "markdown", "json")
-  - Default: "markdown"
-- `include_recommendations` (boolean, optional): Include spending recommendations
-  - Default: true
-
-**Returns:** Formatted report (format depends on `format` parameter)
-
-**Example (Markdown):**
-
-```markdown
-# Budget Report
-
-## Summary
-
-- Total Budget: $5,000.00
-- Total Spent: $3,250.50
-- Remaining: $1,749.50
-- Percent Used: 65.0%
-
-## By Category
-
-- Groceries: $450.25 (13.8%)
-- Utilities: $325.00 (10.0%)
-- Transportation: $280.50 (8.6%)
-
-## Recommendations
-
-- You've used 65.0% of your budget. Be cautious with remaining spending.
-```
-
-### list_categories
-
-List available expense categories.
-
-**Parameters:** None
-
-**Returns:** JSON with category list
-
-**Example:**
-
-```json
-{
-  "categories": [
-    { "name": "Groceries", "id": "GROCERIES" },
-    { "name": "Utilities", "id": "UTILITIES" },
-    { "name": "Transportation", "id": "TRANSPORTATION" }
-  ]
-}
-```
-
-### get_alerts
-
-Get budget alerts and warnings.
-
-**Parameters:**
-
-- `file_path` (string, required): Path to budget file
-- `severity` (string, optional): Minimum alert severity ("info", "warning", "critical")
-  - Default: "warning"
-
-**Returns:** JSON with alerts
-
-**Example:**
-
-```json
-{
-  "total_alerts": 2,
-  "alerts": [
-    {
-      "message": "Groceries category over budget",
-      "category": "Groceries",
-      "severity": "warning",
-      "value": 520.0,
-      "threshold": 500.0
-    },
-    {
-      "message": "Overall budget 90% consumed",
-      "category": null,
-      "severity": "critical",
-      "value": 4500.0,
-      "threshold": 5000.0
-    }
-  ]
-}
+The server provides 96 universal spreadsheet tools organized into 8 categories:
+
+1. **Cell Operations** (11 tools) - Read, write, and manipulate cells
+2. **Style Operations** (11 tools) - Format and style cells
+3. **Structure Operations** (11 tools) - Modify spreadsheet structure
+4. **Advanced Operations** (8 tools) - Charts, validation, and queries
+5. **Workbook Operations** (16 tools) - Workbook-level properties and analysis
+6. **Theme Management** (12 tools) - Theme creation and application
+7. **Print Layout** (10 tools) - Page setup and PDF export
+8. **Import/Export** (17 tools) - Multi-format data exchange
+
+**Note on Domain-Specific Operations:**
+
+For budget analysis, account management, goal tracking, and reporting, use the Python APIs directly:
+
+```python
+from spreadsheet_dl.budget_analyzer import BudgetAnalyzer
+from spreadsheet_dl.report_generator import ReportGenerator
+
+# Analyze budget
+analyzer = BudgetAnalyzer("/path/to/budget.ods")
+analysis = analyzer.analyze()
+
+# Generate report
+generator = ReportGenerator("/path/to/budget.ods")
+report = generator.generate_monthly_report(format="markdown")
 ```
 
 ---
@@ -1168,20 +925,21 @@ server = MCPServer(config)
 server.run()  # Starts stdio-based MCP server
 ```
 
-### Example 2: Using Budget Analysis Tools
+### Example 2: Working with Cells
 
 **Via Claude Desktop:**
 
-> "Analyze my budget at /home/user/Documents/budget.ods"
+> "Get the value from cell B5 in my budget file"
 
 **Tool Call:**
 
 ```json
 {
-  "name": "analyze_budget",
+  "name": "cell_get",
   "arguments": {
     "file_path": "/home/user/Documents/budget.ods",
-    "analysis_type": "detailed"
+    "sheet": "Budget",
+    "cell": "B5"
   }
 }
 ```
@@ -1190,65 +948,44 @@ server.run()  # Starts stdio-based MCP server
 
 ```json
 {
-  "summary": {
-    "total_budget": 5000.0,
-    "total_spent": 3250.5,
-    "remaining": 1749.5,
-    "percent_used": 65.01
-  },
-  "by_category": {
-    "Groceries": 450.25,
-    "Utilities": 325.0,
-    "Transportation": 280.5
-  },
-  "transaction_count": 45,
-  "alerts": []
+  "cell": "B5",
+  "sheet": "Budget",
+  "value": 450.25
 }
 ```
 
-### Example 3: Natural Language Queries
+### Example 3: Applying Styles
 
-**User:** "How much did I spend on groceries this month?"
+**User:** "Make the first row of my spreadsheet bold with a blue background"
 
 **Tool Call:**
 
 ```json
 {
-  "name": "query_budget",
+  "name": "style_apply",
   "arguments": {
     "file_path": "/path/to/budget.ods",
-    "question": "How much did I spend on groceries this month?"
+    "sheet": "Budget",
+    "range": "A1:Z1",
+    "style_name": "header"
   }
 }
 ```
 
-**Response:**
+### Example 4: Creating Charts
 
-```json
-{
-  "question": "How much did I spend on groceries this month?",
-  "answer": "Spending on Groceries: $450.25",
-  "data": {
-    "category": "Groceries",
-    "amount": 450.25
-  }
-}
-```
-
-### Example 4: Adding Expenses
-
-**User:** "Add an expense for $45 at Starbucks yesterday"
+**User:** "Create a bar chart from the data in A1:D10"
 
 **Tool Call:**
 
 ```json
 {
-  "name": "add_expense",
+  "name": "chart_create",
   "arguments": {
-    "date": "2024-12-14",
-    "category": "Dining",
-    "description": "Starbucks",
-    "amount": 45.0
+    "file_path": "/path/to/budget.ods",
+    "sheet": "Budget",
+    "range": "A1:D10",
+    "chart_type": "bar"
   }
 }
 ```

@@ -19,15 +19,17 @@ Learn how to use SpreadsheetDL's Model Context Protocol (MCP) server for AI-powe
 
 ## What is MCP?
 
-Model Context Protocol (MCP) is Anthropic's standard for AI-tool integration. SpreadsheetDL's MCP server exposes spreadsheet operations as tools that AI assistants like Claude can use.
+Model Context Protocol (MCP) is Anthropic's standard for AI-tool integration. SpreadsheetDL's MCP server exposes universal spreadsheet operations as tools that AI assistants like Claude can use.
 
 **Benefits:**
 
-- Natural language spreadsheet creation
-- Intelligent data analysis
-- Automated report generation
-- Complex formula building
-- Multi-step workflows
+- Natural language spreadsheet manipulation
+- Cell operations via conversational interface
+- Style and formatting through AI assistance
+- Structure modifications (rows, columns, sheets)
+- Advanced features (charts, validation, formulas)
+
+**Architecture Note**: Domain-specific features (budget analysis, account management, reporting) are available via Python APIs, not MCP tools. This keeps MCP focused on universal spreadsheet operations.
 
 ## Step 1: Start the MCP Server
 
@@ -50,8 +52,8 @@ Output:
 SpreadsheetDL MCP Server v4.0.0
 ===============================
 Server running on: http://localhost:3000
-Tools available: 8
-Capabilities: read, write, analyze, generate
+Tools available: 96
+Categories: 8 (cell, style, structure, workbook, theme, print, import/export, advanced)
 
 Press Ctrl+C to stop
 ```
@@ -81,139 +83,170 @@ Add SpreadsheetDL to Claude Desktop's MCP configuration:
 4. Restart Claude Desktop
 5. Verify connection (you'll see "spreadsheet-dl" in available tools)
 
-## Step 3: Create Spreadsheets with Natural Language
+## Step 3: Manipulate Spreadsheets with Natural Language
 
-Once connected, ask Claude to create spreadsheets:
+Once connected, ask Claude to work with spreadsheet data:
 
-**Example 1: Simple Budget**
+**Example 1: Reading Cell Values**
 
-> Create a monthly budget spreadsheet for January 2026 with these categories: Housing $1800, Groceries $600, Transportation $400, Entertainment $150. Save it as family_budget.ods.
+> Get the values from cells A1 through E1 in my family_budget.ods file.
 
-Claude will use the MCP tools to:
+Claude will use the MCP cell_batch_get tool to retrieve the values.
 
-1. Create spreadsheet builder
-2. Add expense categories
-3. Set budget allocations
-4. Generate formulas
-5. Save file
+**Example 2: Styling Cells**
 
-**Example 2: Expense Tracking**
+> Make the first row of my budget spreadsheet bold with a blue background.
 
-> Add these expenses to my budget:
->
-> - Jan 5: Groceries at Whole Foods, $125.50
-> - Jan 7: Gas at Shell, $45.00
-> - Jan 10: Netflix subscription, $15.99
+Claude will use style formatting tools to apply the requested styling.
 
-Claude will categorize and add all expenses automatically.
+**Example 3: Structural Changes**
 
-## Step 4: Analyze Budgets with AI
+> Insert 3 blank rows above row 10 in Sheet1.
 
-Ask Claude to analyze your spending:
+Claude will use the row_insert tool with the appropriate parameters.
 
-**Example: Budget Analysis**
+## Step 4: Work with Spreadsheet Data
 
-> Analyze my January budget and tell me:
->
-> 1. Which categories are over budget?
-> 2. What's my savings rate?
-> 3. Recommendations for next month
+Ask Claude to help with data operations:
 
-Claude will:
+**Example: Finding Data**
 
-- Read budget file using MCP
-- Calculate statistics
-- Identify trends
-- Provide personalized recommendations
+> Find all cells in Sheet1 that contain the word "Total".
 
-**Example: Spending Patterns**
+Claude will use the cell_find tool to locate matching cells.
 
-> Look at my last 3 months of budgets and identify spending patterns. What categories are increasing?
+**Example: Creating Charts**
 
-## Step 5: Generate Reports Automatically
+> Create a bar chart from the data in cells A1:D10 in my budget file.
 
-> Generate a comprehensive monthly report for January with:
->
-> - Category breakdown
-> - Top 10 expenses
-> - Budget vs actual comparison
-> - Savings analysis
->   Save it as january_report.md in markdown format.
+Claude will use the chart_create tool with the appropriate data range.
 
-Claude will create a detailed report using MCP tools.
+**Example: Data Validation**
 
-## Step 6: Build Complex Formulas
+> Add data validation to column C so it only accepts numbers between 0 and 10000.
 
-**Example: Advanced Budget**
+Claude will use the validation_create tool to set up the constraint.
 
-> Create a budget spreadsheet with:
->
-> - Income tracking (bi-weekly paychecks)
-> - Auto-calculated 50/30/20 split
-> - Emergency fund goal tracker
-> - Debt payoff calculator
->   Use the corporate theme.
+## Step 5: Export and Import Data
 
-Claude will construct complex formulas and formatting.
+**Example: Export to Different Formats**
+
+> Export my budget spreadsheet to Excel format as budget_2026.xlsx.
+
+Claude will use the export tools to convert the file.
+
+**Example: Import CSV Data**
+
+> Import the data from transactions.csv into a new sheet called "Transactions".
+
+Claude will use the import_csv tool to load the data.
+
+**Note**: For domain-specific reporting (budget analysis, spending summaries), use the Python API directly:
+
+```python
+from spreadsheet_dl.report_generator import ReportGenerator
+
+generator = ReportGenerator("budget_2026_01.ods")
+report = generator.generate_monthly_report(format="markdown")
+print(report)
+```
+
+## Step 6: Apply Themes and Styling
+
+**Example: Apply a Theme**
+
+> Apply the corporate theme to my budget spreadsheet.
+
+Claude will use the theme_apply tool to change the overall appearance.
+
+**Example: Custom Styling**
+
+> Create a custom style called "warning" with yellow background and red text, then apply it to cells that are over budget.
+
+Claude will use style_create and style_apply to set up and use the custom style.
 
 ## Available MCP Tools
 
-The SpreadsheetDL MCP server provides these tools:
+The SpreadsheetDL MCP server provides 96 universal spreadsheet tools across 8 categories:
 
-| Tool                 | Description            | Example Use               |
-| -------------------- | ---------------------- | ------------------------- |
-| `create_spreadsheet` | Create new spreadsheet | "Create a blank budget"   |
-| `add_expense`        | Add expense entry      | "Add $50 grocery expense" |
-| `analyze_budget`     | Analyze spending       | "Analyze my budget"       |
-| `generate_report`    | Create report          | "Generate monthly report" |
-| `import_csv`         | Import bank data       | "Import transactions.csv" |
-| `export_file`        | Export to formats      | "Export to Excel"         |
-| `apply_theme`        | Change theme           | "Use dark theme"          |
-| `get_summary`        | Get quick summary      | "Show budget summary"     |
+| Category             | Tools | Example Use                             |
+| -------------------- | ----- | --------------------------------------- |
+| Cell Operations      | 11    | "Get cell A1", "Set B5 to 100"          |
+| Style Operations     | 11    | "Make row 1 bold", "Apply header style" |
+| Structure Operations | 11    | "Insert 3 rows", "Hide column D"        |
+| Advanced Operations  | 8     | "Create chart", "Add validation"        |
+| Workbook Operations  | 16    | "Get workbook properties"               |
+| Theme Management     | 12    | "Apply corporate theme"                 |
+| Print Layout         | 10    | "Export to PDF"                         |
+| Import/Export        | 17    | "Import CSV", "Export to Excel"         |
+
+**Domain-Specific APIs (use Python directly):**
+
+- `BudgetAnalyzer` - Budget analysis and spending insights
+- `AccountManager` - Multi-account tracking
+- `GoalManager` - Financial goal planning
+- `ReportGenerator` - Comprehensive financial reports
 
 ## Example Workflows
 
-### Workflow 1: Monthly Budget Setup
+### Workflow 1: Formatting a Budget Spreadsheet
 
 Prompt to Claude:
 
-> I need to set up my monthly budget for February 2026. My monthly income is $5,500. Create a budget following the 50/30/20 rule:
+> I have a budget spreadsheet at budget_2026_02.ods. Please:
 >
-> - 50% ($2,750) for needs: housing, groceries, utilities, transportation
-> - 30% ($1,650) for wants: dining out, entertainment, shopping
-> - 20% ($1,100) for savings and debt payment
->
-> Use these allocations:
->
-> - Housing: $1,650
-> - Groceries: $600
-> - Utilities: $250
-> - Transportation: $250
-> - Dining Out: $300
-> - Entertainment: $200
-> - Shopping: $150
-> - Savings: $800
-> - Debt Payment: $300
->
-> Apply the minimal theme and save as budget_2026_02.ods
+> 1. Make the first row bold with a dark blue background
+> 2. Apply number formatting to column C (currency with 2 decimals)
+> 3. Add borders around the data range A1:E20
+> 4. Freeze the first row so it stays visible when scrolling
+> 5. Apply the minimal theme to the entire sheet
 
-### Workflow 2: Import and Analyze
+Claude will use MCP tools (style_apply, format_number, format_border, freeze_set, theme_apply) to complete these tasks.
 
-> I've downloaded my bank transactions as chase_jan.csv. Import them, categorize automatically, and give me:
+### Workflow 2: Import and Organize Data
+
+> I've downloaded my bank transactions as chase_jan.csv. Please:
 >
-> 1. A spending summary by category
-> 2. Comparison to my budget
-> 3. Areas where I'm overspending
-> 4. Suggestions for reducing expenses
+> 1. Import the CSV into a new sheet called "Transactions"
+> 2. Apply the header style to the first row
+> 3. Add data validation to the Amount column (numbers only)
+> 4. Create a chart showing spending by category
 
-### Workflow 3: Monthly Reporting
+For analysis and categorization, use the Python API:
 
-> It's month-end. For my January 2026 budget:
+```python
+from spreadsheet_dl.budget_analyzer import BudgetAnalyzer
+
+analyzer = BudgetAnalyzer("budget_with_transactions.ods")
+analysis = analyzer.analyze()
+print(f"Total spending: ${analysis.total_spent:,.2f}")
+print(f"By category: {analysis.by_category}")
+```
+
+### Workflow 3: Export and Share
+
+> It's month-end. For my January 2026 budget, please:
 >
-> 1. Generate a comprehensive markdown report
-> 2. Create an HTML visualization dashboard
-> 3. Export to Excel for sharing with spouse
-> 4. Tell me my top 3 financial wins and areas to improve
+> 1. Export the main sheet to Excel format for sharing
+> 2. Create a PDF of the summary page for printing
+> 3. Export the raw data to CSV for backup
+
+For comprehensive reporting and analysis, use the Python API:
+
+```python
+from spreadsheet_dl.report_generator import ReportGenerator
+
+generator = ReportGenerator("budget_2026_01.ods")
+
+# Generate markdown report
+md_report = generator.generate_monthly_report(format="markdown")
+print(md_report)
+
+# Generate HTML dashboard
+html_dashboard = generator.generate_dashboard(format="html")
+with open("budget_dashboard.html", "w") as f:
+    f.write(html_dashboard)
+```
 
 ## Python API for MCP
 
@@ -307,30 +340,38 @@ spreadsheet-dl mcp-server --require-auth
 
 ## Example Prompts
 
-**Budget Creation:**
+**Cell Operations:**
 
-- "Create a student budget with $2000/month income"
-- "Set up a family budget for 4 people, $6000 monthly"
-- "Build a retirement budget with fixed income of $4500/month"
+- "Get the value from cell B5"
+- "Set cells A1 through A10 to the values from this list: [...]"
+- "Find all cells containing 'TOTAL'"
+- "Copy the range A1:D10 to E1:H10"
 
-**Expense Tracking:**
+**Formatting:**
 
-- "Add today's expenses: coffee $5, lunch $12, gas $45"
-- "Record my weekend spending from these receipts"
-- "Import last month's credit card statement and categorize"
+- "Make the header row bold and centered"
+- "Apply currency formatting to column C"
+- "Add borders around the data table"
+- "Create a style called 'highlight' with yellow background"
 
-**Analysis:**
+**Structure:**
 
-- "Compare this month to last month's spending"
-- "Find my largest expense category"
-- "Calculate my savings rate for the year"
-- "Show spending trends across categories"
+- "Insert 5 rows above row 10"
+- "Hide columns F through J"
+- "Create a new sheet called 'Summary'"
+- "Freeze the first 2 rows"
 
-**Reporting:**
+**Data Visualization:**
 
-- "Create a monthly summary for my spouse"
-- "Generate year-end financial report"
-- "Make a visualization of my spending by category"
+- "Create a bar chart from A1:B10"
+- "Add a pie chart showing category percentages"
+- "Generate sparklines for the trend data"
+
+**Import/Export:**
+
+- "Import transactions.csv into a new sheet"
+- "Export this sheet to Excel format"
+- "Convert the workbook to PDF"
 
 ## Next Steps
 

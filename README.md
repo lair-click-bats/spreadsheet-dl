@@ -8,7 +8,7 @@
 [![Coverage](https://img.shields.io/badge/coverage-71%25-brightgreen.svg)](tests/)
 [![MCP](https://img.shields.io/badge/MCP-8%20tools-purple.svg)](docs/api/mcp_server.md)
 
-> **🎉 First Public Release (v4.0.0)** - This version represents extensive private development through multiple major iterations. The codebase is production-ready with comprehensive testing, complete documentation, and 9 domain plugins.
+> **🎉 First Public Release (v4.0.0)** - This version represents extensive private development through multiple major iterations. The codebase is production-ready with comprehensive testing, complete documentation, and 8 domain plugins.
 
 **The Spreadsheet Definition Language for Python**
 
@@ -89,11 +89,11 @@ SpreadsheetDL is a universal spreadsheet definition language that lets you creat
 - **Mechanical**: Stress analysis, tolerance stack-up, material properties, CAD metadata, FEA results
 - **Civil**: Load calculations, structural analysis, concrete mix design, survey data, building codes
 
-#### 🏭 Manufacturing Domain (Planned - Phase 3)
+#### 🏭 Manufacturing Domain ✓ Implemented
 
-- **Templates**: OEE dashboard, quality control charts (SPC), production schedules
-- **Formulas**: OEE, Cpk, DPMO, control limits
-- **Importers**: SCADA data connectors
+- **Templates**: Production Schedule, Quality Control, Inventory Management, OEE Tracking, Bill of Materials
+- **Formulas**: CycleTime, TaktTime, Throughput, CapacityUtilization, DefectRate, FirstPassYield, ProcessCapability, ControlLimits, EOQ, ReorderPoint, SafetyStock, InventoryTurnover
+- **Importers**: MES Data, ERP Data, Sensor Data
 
 ## Documentation
 
@@ -661,7 +661,7 @@ See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
 
 ### Recent Releases
 
-- **v4.0.0** (2026-01-04) - First public release: Universal spreadsheet definition language with MCP server, 9 domain plugins, 3,206 tests
+- **v4.0.0** (2026-01-04) - First public release: Universal spreadsheet definition language with MCP server, 8 domain plugins, 3,206 tests
 - **v2.0.0** (2025-12-29) - Professional spreadsheet system with enterprise formatting
 - **v0.4.1** (2025-12-15) - Expense append functionality and comprehensive error codes
 - **v0.4.0** (2025-12-10) - Declarative DSL with themes and fluent builder API

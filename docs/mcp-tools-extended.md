@@ -1,12 +1,16 @@
 # Extended MCP Tools Documentation
 
-**TASK-501: Expansion from 49 to 145 MCP Tools**
+**TASK-501: Universal Spreadsheet MCP Tools**
 
-This document details the 95 new MCP tools added to SpreadsheetDL, bringing the total from 49 to 144 tools organized across 11 categories.
+This document details the MCP tools available in SpreadsheetDL for universal spreadsheet manipulation. The MCP server provides 8 categories of tools focused on spreadsheet operations.
 
 ## Overview
 
-SpreadsheetDL now provides 144 MCP tools for comprehensive spreadsheet manipulation and financial analysis. All tools are exposed via the Model Context Protocol (MCP), enabling natural language interaction through Claude and other MCP-compatible clients.
+SpreadsheetDL provides comprehensive MCP tools for spreadsheet manipulation. All tools are exposed via the Model Context Protocol (MCP), enabling natural language interaction through Claude and other MCP-compatible clients.
+
+## Architecture Change Notice
+
+**Domain-Specific APIs Available via Python**: Budget analysis, account management, goal tracking, and reporting functionality are available through Python APIs (BudgetAnalyzer, AccountManager, GoalManager, ReportGenerator) but are not exposed as MCP tools. This architectural decision keeps MCP tools focused on universal spreadsheet operations while domain-specific workflows use the Python APIs directly.
 
 ## Tool Categories
 
@@ -133,106 +137,27 @@ Comprehensive data import/export across multiple formats.
 - **column_mapping_apply** - Apply column mappings
 - **format_auto_detect** - Auto-detect file formats
 
-### 5. Account Operations (15 tools)
-
-Financial account management and tracking.
-
-#### Account Management
-
-- **account_create** - Create new financial account
-- **account_list** - List all accounts
-- **account_get** - Get account details
-- **account_update** - Update account information
-- **account_delete** - Delete an account
-
-#### Account Analysis
-
-- **account_balance** - Get current balance
-- **account_transactions** - List transactions
-- **account_reconcile** - Reconcile with statements
-- **account_analysis** - Analyze account activity
-- **account_trends** - Identify spending trends
-
-#### Statement Operations
-
-- **account_statement_import** - Import bank statements
-- **account_statement_export** - Export account statements
-
-#### Organization
-
-- **account_budgets** - Get associated budgets
-- **account_categories** - List account categories
-- **account_tags** - Get account tags
-
-### 6. Goal Tracking (12 tools)
-
-Financial goal planning and tracking.
-
-#### Goal Management
-
-- **goal_create** - Create new financial goal
-- **goal_list** - List all goals
-- **goal_get** - Get goal details
-- **goal_update** - Update goal information
-- **goal_delete** - Delete a goal
-
-#### Progress Tracking
-
-- **goal_progress** - Track goal progress
-- **goal_milestones** - List and track milestones
-- **goal_projections** - Generate projections
-
-#### Financial Planning
-
-- **debt_payoff_plan** - Generate debt payoff strategies
-- **savings_plan** - Create savings plans
-- **investment_plan** - Plan investment strategy
-- **goal_dashboard** - Get comprehensive goal dashboard
-
-### 7. Reporting (13 tools)
-
-Financial reporting and analysis tools.
-
-#### Report Management
-
-- **report_schedule** - Schedule report generation
-- **report_list** - List available reports
-- **report_templates** - List report templates
-
-#### Financial Statements
-
-- **cash_flow_report** - Cash flow statements
-- **income_statement** - Income/profit & loss statements
-- **balance_sheet** - Balance sheet generation
-
-#### Analysis Reports
-
-- **budget_variance** - Budget vs actual variance
-- **category_breakdown** - Spending by category
-- **trend_analysis** - Identify trends over time
-- **forecast** - Generate financial forecasts
-- **what_if_analysis** - Scenario analysis
-
-#### Report Distribution
-
-- **report_export** - Export reports to files
-- **report_email** - Email reports to recipients
-
 ## Implementation Status
 
-### Fully Implemented (49 tools)
+### Universal Spreadsheet Tools
 
-All original tools are fully implemented:
+Core spreadsheet manipulation tools are fully implemented:
 
-- **Budget Analysis** (8 tools): analyze_budget, add_expense, query_budget, etc.
 - **Cell Operations** (11 tools): cell_get, cell_set, cell_batch_get, etc.
 - **Style Operations** (11 tools): style_list, format_cells, format_number, etc.
 - **Structure Operations** (11 tools): row_insert, column_hide, freeze_set, etc.
 - **Advanced Operations** (8 tools): chart_create, validation_create, etc.
 
-### Documented Stubs (95 tools)
+### Extended Tools (Documented Stubs)
 
-All new tools have well-documented stub implementations that:
+Extended tools have well-documented stub implementations:
+
+- **Workbook Operations** (16 tools)
+- **Theme Management** (12 tools)
+- **Print Layout** (10 tools)
+- **Import/Export** (17 tools)
+
+These stubs:
 
 - Accept correct parameters with full validation
 - Return appropriate JSON schema responses
@@ -242,10 +167,11 @@ All new tools have well-documented stub implementations that:
 
 ## Usage Examples
 
-### Python API
+### Python API - Universal Spreadsheet Operations
 
 ```python
 from spreadsheet_dl.mcp_server import MCPServer, MCPConfig
+from pathlib import Path
 
 # Create server
 config = MCPConfig(
@@ -258,13 +184,32 @@ server = MCPServer(config)
 result = server._handle_workbook_properties_get("/path/to/file.ods")
 print(result.content)
 
-# Create a financial goal
-result = server._handle_goal_create("/path/to/budget.ods")
+# Get cell value
+result = server._handle_cell_get("/path/to/file.ods", "Sheet1", "A1")
 print(result.content)
 
-# Generate cash flow report
-result = server._handle_cash_flow_report("/path/to/budget.ods")
+# Apply style to range
+result = server._handle_style_apply("/path/to/file.ods", "Sheet1", "A1:E1", "header")
 print(result.content)
+```
+
+### Python API - Domain-Specific Operations
+
+For budget analysis, account management, and reporting, use the Python APIs directly:
+
+```python
+from spreadsheet_dl.budget_analyzer import BudgetAnalyzer
+from spreadsheet_dl.report_generator import ReportGenerator
+
+# Analyze budget
+analyzer = BudgetAnalyzer("/path/to/budget.ods")
+analysis = analyzer.analyze()
+print(f"Total spent: ${analysis.total_spent:,.2f}")
+
+# Generate report
+generator = ReportGenerator("/path/to/budget.ods")
+report = generator.generate_monthly_report(format="markdown")
+print(report)
 ```
 
 ### MCP Protocol (via Claude Desktop)
@@ -285,19 +230,20 @@ print(result.content)
 
 ### Natural Language (via Claude)
 
-With MCP integration:
+With MCP integration for universal spreadsheet operations:
 
 - "Show me the properties of my budget workbook"
-- "Create a debt payoff plan"
-- "Generate a cash flow report for last month"
+- "Get the value of cell A1 in Sheet1"
+- "Apply the header style to the first row"
 - "Export this sheet to PDF"
 - "What themes are available?"
+- "Insert 3 rows above row 10"
+- "Create a chart from data in A1:D10"
 
 ## Tool Categories Summary
 
 | Category             | Tool Count | Implementation Status |
 | -------------------- | ---------- | --------------------- |
-| Budget Analysis      | 8          | Fully Implemented     |
 | Cell Operations      | 11         | Fully Implemented     |
 | Style Operations     | 11         | Fully Implemented     |
 | Structure Operations | 11         | Fully Implemented     |
@@ -306,10 +252,9 @@ With MCP integration:
 | Theme Management     | 12         | Documented Stubs      |
 | Print Layout         | 10         | Documented Stubs      |
 | Import/Export        | 17         | Documented Stubs      |
-| Account Operations   | 15         | Documented Stubs      |
-| Goal Tracking        | 12         | Documented Stubs      |
-| Reporting            | 13         | Documented Stubs      |
-| **Total**            | **144**    | **49 + 95**           |
+| **Total**            | **96**     | **41 + 55**           |
+
+**Note**: Domain-specific functionality (budget analysis, account management, goal tracking, reporting) is available via Python APIs, not MCP tools.
 
 ## Architecture
 
@@ -384,14 +329,12 @@ All 144 tools verified for:
 
 ## Future Work
 
-Priority areas for full implementation:
+Priority areas for full implementation of extended universal tools:
 
-1. **Import/Export**: High value for data integration
-2. **Reporting**: Complete financial analysis suite
-3. **Print Layout**: Essential for professional outputs
-4. **Goal Tracking**: Unique financial planning features
-5. **Theme Management**: Professional appearance
-6. **Account Operations**: Multi-account tracking
+1. **Import/Export**: High value for data integration across formats
+2. **Print Layout**: Essential for professional outputs and PDF generation
+3. **Theme Management**: Professional appearance and branding
+4. **Workbook Operations**: Advanced workbook-level features
 
 ## References
 
@@ -401,4 +344,4 @@ Priority areas for full implementation:
 
 ## Version History
 
-- **v4.0.0** (2026-01-04): First public release with 144 MCP tools across 7 categories
+- **v4.0.0** (2026-01-04): First public release with 96 universal spreadsheet MCP tools across 8 categories

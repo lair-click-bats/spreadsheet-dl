@@ -4,8 +4,13 @@ This guide covers the native SpreadsheetDL MCP server for natural language
 interaction with spreadsheets via Claude Desktop, Claude CLI, and other
 MCP-compatible clients.
 
-**Version 4.0** introduces a comprehensive MCP server with 145+ tools for
-complete spreadsheet manipulation through AI assistants.
+**Version 4.0** introduces a comprehensive MCP server with 96 universal spreadsheet
+tools for complete spreadsheet manipulation through AI assistants.
+
+**Architecture Note**: Domain-specific functionality (budget analysis, account management,
+goal tracking, reporting) is available via Python APIs (BudgetAnalyzer, AccountManager,
+GoalManager, ReportGenerator), not as MCP tools. This keeps MCP focused on universal
+spreadsheet operations.
 
 ## Prerequisites
 
@@ -50,10 +55,10 @@ Add the SpreadsheetDL MCP server to your Claude configuration:
 Test the MCP server to ensure it's working:
 
 ```bash
-# List all 145+ available tools
+# List all 96 available tools
 python -m spreadsheet_dl.mcp_server --list-tools
 
-# Should output 13 categories with 145 total tools
+# Should output 8 categories with 96 total tools
 ```
 
 ### 4. Security Configuration
@@ -131,14 +136,14 @@ Claude: Uses sparkline_create for each row
 ### Data Analysis
 
 ```
-User: "Sort the data by column B in descending order"
-Claude: Uses query_sort with column=B, order=desc
+User: "Find all cells containing 'Total' in Sheet1"
+Claude: Uses cell_find to locate matching cells
 
-User: "Find all values greater than 1000 in column C"
-Claude: Uses query_filter with condition >1000
+User: "Create a chart from the data in A1:D10"
+Claude: Uses chart_create with appropriate range
 
-User: "Calculate the sum of all values in the Amount column"
-Claude: Uses query_aggregate with function=SUM
+User: "Apply data validation to column C (numbers only)"
+Claude: Uses validation_create with numeric constraints
 ```
 
 ### Multi-Format Operations
@@ -214,14 +219,22 @@ For security, limit which directories the MCP server can access:
    scp user@beelink:/nextcloud/data/budget_2025_01.ods ./budgets/
    ```
 
-5. **Analyze via Claude** (MCP):
+5. **Query Data via Claude** (MCP):
 
    ```
-   Claude: "Analyze my January budget and tell me if I'm on track"
+   Claude: "Get the total from cell B15 in my January budget"
+   Claude: "Apply the header style to row 1"
    ```
 
-6. **Generate Report** (Python):
+6. **Analyze and Report** (Python):
+
    ```bash
+   # Use Python API for domain-specific analysis
+   python -c "from spreadsheet_dl.budget_analyzer import BudgetAnalyzer; \
+              analyzer = BudgetAnalyzer('./budgets/budget_2025_01.ods'); \
+              print(analyzer.analyze())"
+
+   # Generate report
    uv run spreadsheet-dl report ./budgets/budget_2025_01.ods -f markdown
    ```
 
