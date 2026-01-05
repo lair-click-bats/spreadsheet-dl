@@ -394,12 +394,12 @@ The SpreadsheetDL has several unique features that distinguish it from competito
 
 ## Document References
 
-| Document                   | Location                                                     | Purpose                     |
-| -------------------------- | ------------------------------------------------------------ | --------------------------- |
-| Comprehensive Requirements | `.coordination/2025-12-28-comprehensive-requirements.md`     | Main requirements (106 req) |
-| Dual-Audience Requirements | `.coordination/2025-12-28-dual-audience-requirements.md`     | AI/LLM integration (19 req) |
-| Validation Report          | `.coordination/2025-12-28-requirements-validation-report.md` | 7-phase validation results  |
-| This Summary               | `.coordination/2025-12-28-requirements-summary.md`           | Executive overview          |
+| Document                   | Location                                   | Purpose                       |
+| -------------------------- | ------------------------------------------ | ----------------------------- |
+| Comprehensive Requirements | `comprehensive-requirements.md`            | Main requirements             |
+| Dual-Audience Requirements | `dual-audience-requirements.md`            | AI/LLM integration            |
+| Professional Requirements  | `professional-spreadsheet-requirements.md` | Professional use requirements |
+| Validation Report          | `validation-report.md`                     | Validation results            |
 
 ---
 

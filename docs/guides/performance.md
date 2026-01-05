@@ -979,7 +979,6 @@ print(f"Load time: {(time.time() - start) * 1000:.1f}ms")
 
 ## See Also
 
-- [Benchmark Results](../../.coordination/2026-01-04-phase11-performance-summary.md)
 - [Streaming API Documentation](../api/streaming.md)
 - [Best Practices Guide](./best-practices.md)
 - [Troubleshooting Guide](./troubleshooting.md)
