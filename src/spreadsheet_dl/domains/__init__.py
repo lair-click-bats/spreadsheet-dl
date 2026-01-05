@@ -37,6 +37,14 @@ __all__ = [
     "PluginMetadata",
     "PluginStatus",
     "TemplateMetadata",
-    # Domain Subpackages
+    # Domain Subpackages (9 domains)
+    "biology",
+    "civil_engineering",
+    "data_science",
+    "education",
+    "electrical_engineering",
+    "environmental",
     "finance",
+    "manufacturing",
+    "mechanical_engineering",
 ]
