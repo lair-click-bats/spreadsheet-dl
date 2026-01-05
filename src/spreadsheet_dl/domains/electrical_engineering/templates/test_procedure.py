@@ -41,6 +41,9 @@ class TestProcedureTemplate(BaseTemplate):
         >>> builder.save("test_procedure.ods")
     """
 
+    # Prevent pytest from collecting this class as a test
+    __test__ = False
+
     project_name: str = "Hardware Test"
     test_suite: str = "Functional Test Suite"
     num_test_steps: int = 25
