@@ -294,7 +294,10 @@ class MultiFormatExporter:
                     value = self._extract_cell_value(cell, odf_text)
 
                     # Add value (or repeat it)
-                    for _ in range(min(repeat_count, 100)):  # Limit repeats
+                    # Limit empty cell repeats to 100 (ODS often pads with many empties)
+                    # but allow up to 16384 for non-empty values (Excel max columns)
+                    max_repeat = 100 if (value is None or value == "") else 16384
+                    for _ in range(min(repeat_count, max_repeat)):
                         row_data.append(value)
 
                 # Skip empty rows at the end

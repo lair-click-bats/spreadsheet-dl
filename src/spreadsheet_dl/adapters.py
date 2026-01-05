@@ -848,6 +848,179 @@ class HtmlAdapter(FormatAdapter):
         return str(value)
 
 
+class XlsxAdapter(FormatAdapter):
+    """
+    XLSX format adapter.
+
+    Handles Microsoft Excel (.xlsx) export/import using openpyxl.
+    Requires openpyxl to be installed: pip install 'spreadsheet-dl[xlsx]'
+    """
+
+    @property
+    def format_name(self) -> str:
+        """Return format name."""
+        return "Microsoft Excel"
+
+    @property
+    def file_extension(self) -> str:
+        """Return file extension."""
+        return ".xlsx"
+
+    def export(
+        self,
+        sheets: list[SheetSpec],
+        output_path: Path,
+        options: AdapterOptions | None = None,
+    ) -> Path:
+        """Export to XLSX format."""
+        try:
+            from openpyxl import Workbook
+            from openpyxl.styles import Alignment, Font, PatternFill
+        except ImportError as e:
+            raise ImportError(
+                "XLSX export requires openpyxl. "
+                "Install with: pip install 'spreadsheet-dl[xlsx]'"
+            ) from e
+
+        options = options or AdapterOptions()
+        output_path = Path(output_path)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+
+        wb = Workbook()
+        # Remove default sheet
+        if wb.active:
+            wb.remove(wb.active)
+
+        for sheet_spec in sheets:
+            if options.sheet_names and sheet_spec.name not in options.sheet_names:
+                continue
+
+            ws = wb.create_sheet(title=sheet_spec.name[:31])  # XLSX 31 char limit
+
+            row_offset = 1
+
+            # Write header row if present
+            if options.include_headers and sheet_spec.columns:
+                for col_idx, col in enumerate(sheet_spec.columns, start=1):
+                    cell = ws.cell(row=1, column=col_idx, value=col.name)
+                    # Style header cells
+                    cell.font = Font(bold=True, color="FFFFFF")
+                    cell.fill = PatternFill(
+                        start_color="4472C4", end_color="4472C4", fill_type="solid"
+                    )
+                    cell.alignment = Alignment(horizontal="center")
+                row_offset = 2
+
+            # Write data rows
+            for row_idx, row_spec in enumerate(sheet_spec.rows, start=row_offset):
+                for col_idx, cell_spec in enumerate(row_spec.cells, start=1):
+                    value = cell_spec.value
+                    # Handle formula export
+                    if options.include_formulas and cell_spec.formula:
+                        value = cell_spec.formula
+                    ws.cell(row=row_idx, column=col_idx, value=value)
+
+            # Auto-size columns based on content
+            for col_idx, col in enumerate(sheet_spec.columns, start=1):
+                max_length = len(col.name) if col.name else 10
+                for row_idx in range(1, len(sheet_spec.rows) + row_offset):
+                    cell_value = ws.cell(row=row_idx, column=col_idx).value
+                    if cell_value:
+                        max_length = max(max_length, len(str(cell_value)))
+                # Set column width (max 50 chars)
+                from openpyxl.utils import get_column_letter
+
+                ws.column_dimensions[get_column_letter(col_idx)].width = min(
+                    max_length + 2, 50
+                )
+
+        # Ensure at least one sheet exists
+        if not wb.sheetnames:
+            wb.create_sheet("Sheet1")
+
+        wb.save(output_path)
+        return output_path
+
+    def import_file(
+        self,
+        input_path: Path,
+        options: AdapterOptions | None = None,
+    ) -> list[SheetSpec]:
+        """Import from XLSX format."""
+        try:
+            from openpyxl import load_workbook
+        except ImportError as e:
+            raise ImportError(
+                "XLSX import requires openpyxl. "
+                "Install with: pip install 'spreadsheet-dl[xlsx]'"
+            ) from e
+
+        from spreadsheet_dl.builder import CellSpec, ColumnSpec, RowSpec
+
+        options = options or AdapterOptions()
+        input_path = Path(input_path)
+
+        wb = load_workbook(input_path, data_only=not options.include_formulas)
+        sheets = []
+
+        for sheet_name in wb.sheetnames:
+            if options.sheet_names and sheet_name not in options.sheet_names:
+                continue
+
+            ws = wb[sheet_name]
+            rows = []
+            columns = []
+
+            # Determine dimensions
+            max_row = ws.max_row or 0
+            max_col = ws.max_column or 0
+
+            if max_row == 0 or max_col == 0:
+                # Empty sheet
+                sheets.append(SheetSpec(name=sheet_name, columns=[], rows=[]))
+                continue
+
+            # Extract header row if present
+            start_row = 1
+            if options.include_headers and max_row > 0:
+                for col_idx in range(1, max_col + 1):
+                    cell_value = ws.cell(row=1, column=col_idx).value
+                    col_name = (
+                        str(cell_value) if cell_value is not None else f"Col{col_idx}"
+                    )
+                    columns.append(ColumnSpec(name=col_name))
+                start_row = 2
+            else:
+                # Generate generic columns
+                for col_idx in range(1, max_col + 1):
+                    columns.append(ColumnSpec(name=f"Column{col_idx}"))
+
+            # Extract data rows
+            for row_idx in range(start_row, max_row + 1):
+                cells = []
+                for col_idx in range(1, max_col + 1):
+                    cell = ws.cell(row=row_idx, column=col_idx)
+                    value = cell.value
+                    formula = None
+
+                    # Get formula if requested and available
+                    if options.include_formulas and hasattr(cell, "value"):
+                        # In data_only=False mode, formulas are stored
+                        cell_value = ws.cell(row=row_idx, column=col_idx).value
+                        if isinstance(cell_value, str) and cell_value.startswith("="):
+                            formula = cell_value
+                            value = None  # Formula takes precedence
+
+                    cells.append(CellSpec(value=value, formula=formula))
+
+                rows.append(RowSpec(cells=cells))
+
+            sheets.append(SheetSpec(name=sheet_name, columns=columns, rows=rows))
+
+        wb.close()
+        return sheets
+
+
 class AdapterRegistry:
     """
     Registry of available format adapters.
@@ -870,6 +1043,7 @@ class AdapterRegistry:
 
     _adapters: ClassVar[dict[ExportFormat, type[FormatAdapter]]] = {
         ExportFormat.ODS: OdsAdapter,
+        ExportFormat.XLSX: XlsxAdapter,
         ExportFormat.CSV: CsvAdapter,
         ExportFormat.TSV: TsvAdapter,
         ExportFormat.JSON: JsonAdapter,
@@ -942,6 +1116,7 @@ class AdapterRegistry:
             ext = path.suffix.lower()
             format_map = {
                 ".ods": ExportFormat.ODS,
+                ".xlsx": ExportFormat.XLSX,
                 ".csv": ExportFormat.CSV,
                 ".tsv": ExportFormat.TSV,
                 ".json": ExportFormat.JSON,
@@ -978,6 +1153,7 @@ class AdapterRegistry:
             ext = path.suffix.lower()
             format_map = {
                 ".ods": ExportFormat.ODS,
+                ".xlsx": ExportFormat.XLSX,
                 ".csv": ExportFormat.CSV,
                 ".tsv": ExportFormat.TSV,
                 ".json": ExportFormat.JSON,

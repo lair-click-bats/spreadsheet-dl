@@ -594,10 +594,30 @@ class DashboardGenerator:
         ]
 
     def _get_trend_data(self) -> tuple[list[str], list[ChartSeries]]:
-        """Get spending trend data."""
-        # This would need actual trend data from analyzer
-        # For now, return placeholder
-        return [], []
+        """Get spending trend data from analyzer."""
+        if not self.analyzer:
+            return self._demo_trend_data()
+
+        # Get monthly trends from analyzer
+        trends = self.analyzer.get_monthly_trend(months=6)
+        if not trends:
+            return [], []
+
+        # Extract period labels
+        periods = [t.period for t in trends]
+
+        # Collect all categories across all periods
+        all_categories = set()
+        for trend in trends:
+            all_categories.update(trend.by_category.keys())
+
+        # Create series for each category
+        series = []
+        for category in sorted(all_categories):
+            data = [float(trend.by_category.get(category, 0)) for trend in trends]
+            series.append(ChartSeries(name=category, data=data))
+
+        return periods, series
 
     def _demo_summary(self) -> dict[str, Any]:
         """Generate demo summary data."""

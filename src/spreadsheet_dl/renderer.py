@@ -93,6 +93,8 @@ class OdsRenderer:
             set()
         )  # Track merged cell positions
         self._chart_counter = 0
+        self._tables: dict[str, Table] = {}  # Track tables by sheet name for charts
+        self._charts: list[dict[str, Any]] = []  # Track charts for embedding
 
     def render(
         self,
@@ -127,6 +129,8 @@ class OdsRenderer:
         self._styles.clear()
         self._style_counter = 0
         self._chart_counter = 0
+        self._tables.clear()
+        self._charts.clear()
 
         # Create default styles
         self._create_default_styles()
@@ -321,28 +325,234 @@ class OdsRenderer:
 
         table = Table(name=sheet_spec.name)
 
-        # Add columns with widths
+        # Add print area if specified
+        if sheet_spec.print_area:
+            # ODF format: "$SheetName.$A$1:$D$50"
+            print_range = self._format_print_range(
+                sheet_spec.name, sheet_spec.print_area
+            )
+            table.setAttribute("printranges", print_range)
+
+        # Add sheet protection if specified
+        if sheet_spec.protection.get("enabled"):
+            table.setAttribute("protected", "true")
+            # If password is provided, hash it for the protection-key
+            # Note: ODF uses a simple Base64-encoded hash for table protection
+            password = sheet_spec.protection.get("password")
+            if password:
+                protection_key = self._hash_protection_password(password)
+                table.setAttribute("protectionkey", protection_key)
+
+        # Add columns with widths and visibility
         for col_spec in sheet_spec.columns:
             col_style = self._create_column_style(col_spec)
-            table.addElement(TableColumn(stylename=col_style))
+            col = TableColumn(stylename=col_style)
+            # Set visibility if column is hidden
+            if col_spec.hidden:
+                col.setAttribute("visibility", "collapse")
+            table.addElement(col)
 
         # Add rows
         for row_idx, row_spec in enumerate(sheet_spec.rows):
             row = self._render_row(row_spec, sheet_spec.columns, row_idx)
             table.addElement(row)
 
+        # Store table reference for chart embedding
+        self._tables[sheet_spec.name] = table
         self._doc.spreadsheet.addElement(table)
 
+        # Add freeze panes configuration if specified
+        if sheet_spec.freeze_rows > 0 or sheet_spec.freeze_cols > 0:
+            self._add_freeze_panes(
+                sheet_spec.name, sheet_spec.freeze_rows, sheet_spec.freeze_cols
+            )
+
+    def _add_freeze_panes(
+        self, sheet_name: str, freeze_rows: int, freeze_cols: int
+    ) -> None:
+        """
+        Add freeze panes configuration for a sheet.
+
+        In ODF format, freeze panes are configured through settings.xml using
+        ConfigItem elements that specify the split position and mode.
+
+        Args:
+            sheet_name: Name of the sheet
+            freeze_rows: Number of rows to freeze (from top)
+            freeze_cols: Number of columns to freeze (from left)
+        """
+        from odf.config import (
+            ConfigItem,
+            ConfigItemMapEntry,
+            ConfigItemMapIndexed,
+            ConfigItemSet,
+        )
+
+        if self._doc is None:
+            return
+
+        # Get or create the view settings config-item-set
+        view_settings = None
+        for child in self._doc.settings.childNodes:
+            if (
+                hasattr(child, "getAttribute")
+                and child.getAttribute("name") == "ooo:view-settings"
+            ):
+                view_settings = child
+                break
+
+        if view_settings is None:
+            view_settings = ConfigItemSet(name="ooo:view-settings")
+            self._doc.settings.addElement(view_settings)
+
+        # Get or create the Views map
+        views_map = None
+        for child in view_settings.childNodes:
+            if hasattr(child, "getAttribute") and child.getAttribute("name") == "Views":
+                views_map = child
+                break
+
+        if views_map is None:
+            views_map = ConfigItemMapIndexed(name="Views")
+            view_settings.addElement(views_map)
+
+        # Get or create view entry
+        view_entry = None
+        for child in views_map.childNodes:
+            if hasattr(child, "tagName") and "config-item-map-entry" in child.tagName:
+                view_entry = child
+                break
+
+        if view_entry is None:
+            view_entry = ConfigItemMapEntry()
+            views_map.addElement(view_entry)
+
+        # Get or create Tables map for this view
+        tables_map = None
+        for child in view_entry.childNodes:
+            if (
+                hasattr(child, "getAttribute")
+                and child.getAttribute("name") == "Tables"
+            ):
+                tables_map = child
+                break
+
+        if tables_map is None:
+            tables_map = ConfigItemMapIndexed(name="Tables")
+            view_entry.addElement(tables_map)
+
+        # Create table entry with freeze settings
+        table_entry = ConfigItemMapEntry(name=sheet_name)
+
+        # Add horizontal split (frozen rows)
+        if freeze_rows > 0:
+            h_split = ConfigItem(name="HorizontalSplitMode", type="short")
+            h_split.addText("2")  # 2 = frozen
+            table_entry.addElement(h_split)
+
+            h_pos = ConfigItem(name="HorizontalSplitPosition", type="int")
+            h_pos.addText(str(freeze_rows))
+            table_entry.addElement(h_pos)
+
+        # Add vertical split (frozen columns)
+        if freeze_cols > 0:
+            v_split = ConfigItem(name="VerticalSplitMode", type="short")
+            v_split.addText("2")  # 2 = frozen
+            table_entry.addElement(v_split)
+
+            v_pos = ConfigItem(name="VerticalSplitPosition", type="int")
+            v_pos.addText(str(freeze_cols))
+            table_entry.addElement(v_pos)
+
+        # Set active split position (bottom-right pane)
+        active_pane = ConfigItem(name="ActiveSplitRange", type="short")
+        active_pane.addText("3")  # 3 = bottom-right pane
+        table_entry.addElement(active_pane)
+
+        tables_map.addElement(table_entry)
+
+    def _format_print_range(self, sheet_name: str, range_ref: str) -> str:
+        """
+        Format a cell range reference for ODF print range attribute.
+
+        ODF print ranges use the format: "$SheetName.$A$1:$D$50"
+        where column and row references are absolute.
+
+        Args:
+            sheet_name: Name of the sheet
+            range_ref: Range reference (e.g., "A1:D50")
+
+        Returns:
+            ODF-formatted print range string
+        """
+        import re
+
+        # Make cell references absolute
+        def make_absolute(match: re.Match[str]) -> str:
+            col = match.group(1)
+            row = match.group(2)
+            return f"${col}${row}"
+
+        # Pattern to match cell references like A1, AB123
+        cell_pattern = r"([A-Z]+)(\d+)"
+        abs_range = re.sub(cell_pattern, make_absolute, range_ref.upper())
+
+        # Format as ODF print range: $SheetName.$A$1:$D$50
+        return f"${sheet_name}.{abs_range}"
+
+    def _hash_protection_password(self, password: str) -> str:
+        """
+        Hash a protection password for ODF format.
+
+        ODF 1.2+ uses Base64-encoded SHA-256 hash for protection keys.
+
+        Args:
+            password: Plain text password
+
+        Returns:
+            Base64-encoded SHA-256 hash
+        """
+        import base64
+        import hashlib
+
+        # ODF uses SHA-256 hash of the password, Base64 encoded
+        password_bytes = password.encode("utf-8")
+        hash_bytes = hashlib.sha256(password_bytes).digest()
+        return base64.b64encode(hash_bytes).decode("ascii")
+
     def _create_column_style(self, col_spec: ColumnSpec) -> Style:
-        """Create column style with width."""
+        """Create column style with width and visibility."""
         if self._doc is None:
             raise ValueError("Document not initialized")
 
         self._style_counter += 1
         col_style = Style(name=f"Col_{self._style_counter}", family="table-column")
-        col_style.addElement(TableColumnProperties(columnwidth=col_spec.width))
+
+        # Create properties with width
+        props_kwargs = {"columnwidth": col_spec.width}
+
+        # Add break-before property if column is hidden
+        # ODF uses break-before="column" for hidden columns in some cases
+        # but the proper way is to use visibility style
+        col_style.addElement(TableColumnProperties(**props_kwargs))
+
+        # If column is hidden, set the visibility via table:visibility attribute
+        # This is handled at the TableColumn level, not in the style
         self._doc.automaticstyles.addElement(col_style)
         return col_style
+
+    def _create_row_style(self, height: str) -> Style:
+        """Create row style with height."""
+        from odf.style import TableRowProperties
+
+        if self._doc is None:
+            raise ValueError("Document not initialized")
+
+        self._style_counter += 1
+        row_style = Style(name=f"Row_{self._style_counter}", family="table-row")
+        row_style.addElement(TableRowProperties(rowheight=height))
+        self._doc.automaticstyles.addElement(row_style)
+        return row_style
 
     def _render_row(
         self, row_spec: RowSpec, columns: list[ColumnSpec], row_idx: int
@@ -360,7 +570,12 @@ class OdsRenderer:
         Returns:
             ODF TableRow
         """
-        row = TableRow()
+        # Create row with optional height style
+        if row_spec.height:
+            row_style = self._create_row_style(row_spec.height)
+            row = TableRow(stylename=row_style)
+        else:
+            row = TableRow()
 
         for col_idx, cell_spec in enumerate(row_spec.cells):
             # Check if this cell is covered by a previous merge
@@ -622,6 +837,9 @@ class OdsRenderer:
             # Render the chart to the target sheet
             self._render_chart(chart_spec, target_sheet_name)
 
+        # After all charts are rendered, embed frames into tables
+        self._embed_chart_frames()
+
     def _render_chart(self, chart_spec: ChartSpec, sheet_name: str) -> None:
         """
         Render a chart to the ODS document.
@@ -796,6 +1014,46 @@ class OdsRenderer:
                 "cell_ref": cell_ref,
             }
         )
+
+    def _embed_chart_frames(self) -> None:
+        """
+        Embed chart frames into tables.
+
+        This method iterates over all stored chart references and adds
+        the frame elements to the appropriate table's Shapes container.
+        Charts are positioned by their target sheet.
+        """
+        from odf.table import Shapes
+
+        if not self._charts:
+            return
+
+        # Group charts by sheet
+        charts_by_sheet: dict[str, list[dict[str, Any]]] = {}
+        for chart_info in self._charts:
+            sheet_name = chart_info["sheet"]
+            if sheet_name not in charts_by_sheet:
+                charts_by_sheet[sheet_name] = []
+            charts_by_sheet[sheet_name].append(chart_info)
+
+        # Add shapes container to each table that has charts
+        for sheet_name, chart_list in charts_by_sheet.items():
+            if sheet_name not in self._tables:
+                continue
+
+            table = self._tables[sheet_name]
+
+            # Create shapes container for the table
+            shapes = Shapes()
+
+            # Add all chart frames to the shapes container
+            for chart_info in chart_list:
+                frame = chart_info["frame"]
+                shapes.addElement(frame)
+
+            # Add shapes to the table (prepend to table)
+            # In ODF, table:shapes should come before table:table-column
+            table.insertBefore(shapes, table.firstChild)
 
     def _get_odf_chart_class(self, chart_type: ChartType) -> str:
         """
