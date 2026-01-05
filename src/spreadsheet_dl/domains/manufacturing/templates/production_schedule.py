@@ -31,12 +31,10 @@ class ProductionScheduleTemplate(BaseTemplate):
     - Bottleneck identification
 
     Example:
-        >>> template = ProductionScheduleTemplate(  # doctest: +SKIP
-        ...     facility_name="Assembly Line A",
-        ...     planning_periods=["Week 1", "Week 2", "Week 3", "Week 4"],
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("production_schedule.ods")  # doctest: +SKIP
+        >>> template = ProductionScheduleTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     facility_name: str = "Production Facility"

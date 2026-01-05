@@ -30,7 +30,9 @@ class ERPDataImporter(BaseImporter[list[dict[str, Any]]]):
     - CSV and XML format support
 
     Example:
-        >>> importer = ERPDataImporter()  # doctest: +SKIP
+        >>> importer = ERPDataImporter()
+        >>> importer.metadata is not None
+        True
         >>> result = importer.import_data("erp_export.xml")  # doctest: +SKIP
         >>> if result.success:  # doctest: +SKIP
         ...     print(f"Imported {result.records_imported} ERP records")

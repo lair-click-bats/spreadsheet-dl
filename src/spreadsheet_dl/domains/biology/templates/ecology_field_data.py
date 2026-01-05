@@ -31,12 +31,10 @@ class EcologyFieldDataTemplate(BaseTemplate):
     - GPS coordinates and habitat description
 
     Example:
-        >>> template = EcologyFieldDataTemplate(  # doctest: +SKIP
-        ...     site_name="Forest Biodiversity Study",
-        ...     num_species=50,
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("field_data.ods")  # doctest: +SKIP
+        >>> template = EcologyFieldDataTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     site_name: str = "Ecological Survey Site"

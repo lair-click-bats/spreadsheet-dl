@@ -30,12 +30,10 @@ class AssessmentRubricTemplate(BaseTemplate):
     - Total score calculation
 
     Example:
-        >>> template = AssessmentRubricTemplate(  # doctest: +SKIP
-        ...     assignment_name="Research Paper Rubric",
-        ...     num_criteria=5,
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("rubric.ods")  # doctest: +SKIP
+        >>> template = AssessmentRubricTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     assignment_name: str = "Assessment Rubric"

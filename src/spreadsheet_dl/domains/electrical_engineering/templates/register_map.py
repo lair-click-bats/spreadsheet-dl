@@ -33,13 +33,10 @@ class RegisterMapTemplate(BaseTemplate):
     - Cross-reference between related registers
 
     Example:
-        >>> template = RegisterMapTemplate(  # doctest: +SKIP
-        ...     device_name="STM32F4xx",
-        ...     peripheral_name="GPIO",
-        ...     base_address=0x40020000,
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("gpio_registers.ods")  # doctest: +SKIP
+        >>> template = RegisterMapTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     device_name: str = "Device"

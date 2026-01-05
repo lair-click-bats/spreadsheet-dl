@@ -35,9 +35,12 @@ class ManufacturingSpecsTemplate(BaseTemplate):
         - Inspection requirements
 
     Example:
-        >>> template = ManufacturingSpecsTemplate(part_name="Shaft Assembly")  # doctest: +SKIP
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("manufacturing_specs.ods")  # doctest: +SKIP
+        >>> template = ManufacturingSpecsTemplate()
+        >>> template.metadata.name
+        'Manufacturing Specifications'
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     part_name: str = "Part Specification"

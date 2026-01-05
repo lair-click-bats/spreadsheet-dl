@@ -34,13 +34,10 @@ class ModelComparisonTemplate(BaseTemplate):
     - Overall winner determination
 
     Example:
-        >>> template = ModelComparisonTemplate(  # doctest: +SKIP
-        ...     project_name="Image Classification",
-        ...     models=["ResNet50", "VGG16", "EfficientNet"],
-        ...     metrics=["accuracy", "precision", "recall", "f1"],
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("model_comparison.ods")  # doctest: +SKIP
+        >>> template = ModelComparisonTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     project_name: str = "ML Model Comparison"

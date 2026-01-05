@@ -31,12 +31,10 @@ class MaterialTakeoffTemplate(BaseTemplate):
         - Cost analysis
 
     Example:
-        >>> template = MaterialTakeoffTemplate(  # doctest: +SKIP
-        ...     project_name="Highway Bridge",
-        ...     num_items=30
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("material_takeoff.ods")  # doctest: +SKIP
+        >>> template = MaterialTakeoffTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     project_name: str = "Construction Project"

@@ -58,7 +58,9 @@ class FEAResultsImporter(BaseImporter[list[dict[str, Any]]]):
         - Handle large result sets efficiently
 
     Example:
-        >>> importer = FEAResultsImporter()  # doctest: +SKIP
+        >>> importer = FEAResultsImporter()
+        >>> importer.metadata is not None
+        True
         >>> result = importer.import_data("fea_results.csv")  # doctest: +SKIP
         >>> if result.success:  # doctest: +SKIP
         ...     for node in result.data:

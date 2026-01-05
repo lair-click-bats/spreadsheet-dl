@@ -32,12 +32,10 @@ class InventoryManagementTemplate(BaseTemplate):
     - Inventory turnover metrics
 
     Example:
-        >>> template = InventoryManagementTemplate(  # doctest: +SKIP
-        ...     warehouse_name="Main Warehouse",
-        ...     include_eoq: bool = True,
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("inventory.ods")  # doctest: +SKIP
+        >>> template = InventoryManagementTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     warehouse_name: str = "Warehouse"

@@ -31,12 +31,10 @@ class ExperimentProtocolTemplate(BaseTemplate):
     - Notes and observations tracking
 
     Example:
-        >>> template = ExperimentProtocolTemplate(  # doctest: +SKIP
-        ...     protocol_name="PCR Amplification",
-        ...     purpose="Amplify target gene for sequencing",
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("protocol.ods")  # doctest: +SKIP
+        >>> template = ExperimentProtocolTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     protocol_name: str = "Lab Experiment Protocol"

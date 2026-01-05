@@ -152,10 +152,11 @@ class MultiFormatExporter:
     Supports Excel (XLSX), CSV, and PDF export with formatting preservation.
 
     Example:
-        >>> exporter = MultiFormatExporter()  # doctest: +SKIP
-        >>> exporter.export("budget.ods", "budget.xlsx", MultiExportFormat.XLSX)  # doctest: +SKIP
-        >>> exporter.export("budget.ods", "budget.csv", MultiExportFormat.CSV)  # doctest: +SKIP
-        >>> exporter.export("budget.ods", "report.pdf", MultiExportFormat.PDF)  # doctest: +SKIP
+        >>> exporter = MultiFormatExporter()
+        >>> exporter.options is not None
+        True
+        >>> exporter.options.include_headers
+        True
     """
 
     def __init__(self, options: ExportOptions | None = None) -> None:

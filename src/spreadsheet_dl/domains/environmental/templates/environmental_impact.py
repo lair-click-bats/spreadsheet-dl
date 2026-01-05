@@ -30,12 +30,10 @@ class EnvironmentalImpactTemplate(BaseTemplate):
     - Cumulative impact assessment
 
     Example:
-        >>> template = EnvironmentalImpactTemplate(  # doctest: +SKIP
-        ...     project_name="Highway Extension",
-        ...     num_impacts=20,
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("eia.ods")  # doctest: +SKIP
+        >>> template = EnvironmentalImpactTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     project_name: str = "Environmental Impact Assessment"

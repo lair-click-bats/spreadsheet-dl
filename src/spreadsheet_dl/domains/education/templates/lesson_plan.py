@@ -31,12 +31,10 @@ class LessonPlanTemplate(BaseTemplate):
     - Differentiation notes
 
     Example:
-        >>> template = LessonPlanTemplate(  # doctest: +SKIP
-        ...     lesson_title="Introduction to Variables",
-        ...     grade_level="Grade 9",
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("lesson_plan.ods")  # doctest: +SKIP
+        >>> template = LessonPlanTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     lesson_title: str = "Lesson Plan"

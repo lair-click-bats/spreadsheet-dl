@@ -27,7 +27,9 @@ class FASTAImporter(BaseImporter[list[dict[str, Any]]]):
     - GC content calculation for DNA/RNA
 
     Example:
-        >>> importer = FASTAImporter()  # doctest: +SKIP
+        >>> importer = FASTAImporter()
+        >>> importer.metadata is not None
+        True
         >>> result = importer.import_data("sequences.fasta")  # doctest: +SKIP
         >>> if result.success:  # doctest: +SKIP
         ...     for seq in result.data:

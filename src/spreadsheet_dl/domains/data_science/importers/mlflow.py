@@ -31,7 +31,9 @@ class MLflowImporter(BaseImporter[list[dict[str, Any]]]):
     - MLflow runs export
 
     Example:
-        >>> importer = MLflowImporter()  # doctest: +SKIP
+        >>> importer = MLflowImporter()
+        >>> importer.metadata is not None
+        True
         >>> result = importer.import_data("mlflow_runs.json")  # doctest: +SKIP
         >>> if result.success:  # doctest: +SKIP
         ...     for run in result.data:

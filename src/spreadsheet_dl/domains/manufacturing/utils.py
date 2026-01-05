@@ -24,7 +24,7 @@ def calculate_oee(availability: float, performance: float, quality: float) -> fl
         OEE percentage (0-100)
 
     Example:
-        >>> oee = calculate_oee(95.0, 98.0, 99.5)  # doctest: +SKIP
+        >>> oee = calculate_oee(95.0, 98.0, 99.5)
         >>> # Returns: 92.621 (95% * 98% * 99.5%)
     """
     return (availability / 100) * (performance / 100) * (quality / 100) * 100
@@ -44,7 +44,7 @@ def calculate_defect_rate(defects: int, total: int) -> float:
         Defect rate percentage
 
     Example:
-        >>> rate = calculate_defect_rate(25, 1000)  # doctest: +SKIP
+        >>> rate = calculate_defect_rate(25, 1000)
         >>> # Returns: 2.5
     """
     if total == 0:
@@ -66,7 +66,7 @@ def calculate_first_pass_yield(good_units: int, total_units: int) -> float:
         First pass yield percentage
 
     Example:
-        >>> fpy = calculate_first_pass_yield(950, 1000)  # doctest: +SKIP
+        >>> fpy = calculate_first_pass_yield(950, 1000)
         >>> # Returns: 95.0
     """
     if total_units == 0:
@@ -88,7 +88,7 @@ def calculate_cycle_time(production_time: float, units_produced: int) -> float:
         Cycle time in minutes per unit
 
     Example:
-        >>> cycle_time = calculate_cycle_time(480, 120)  # doctest: +SKIP
+        >>> cycle_time = calculate_cycle_time(480, 120)
         >>> # Returns: 4.0 (4 minutes per unit)
     """
     if units_produced == 0:
@@ -110,7 +110,7 @@ def calculate_takt_time(available_time: float, demand: int) -> float:
         Takt time in seconds per unit
 
     Example:
-        >>> takt = calculate_takt_time(28800, 1200)  # doctest: +SKIP
+        >>> takt = calculate_takt_time(28800, 1200)
         >>> # Returns: 24.0 (24 seconds per unit)
     """
     if demand == 0:
@@ -135,7 +135,7 @@ def calculate_eoq(
         Economic order quantity
 
     Example:
-        >>> eoq = calculate_eoq(10000, 50, 5)  # doctest: +SKIP
+        >>> eoq = calculate_eoq(10000, 50, 5)
         >>> # Returns: 447.21 (approximately)
     """
     if holding_cost == 0:
@@ -160,7 +160,7 @@ def calculate_reorder_point(
         Reorder point quantity
 
     Example:
-        >>> rop = calculate_reorder_point(50, 7, 100)  # doctest: +SKIP
+        >>> rop = calculate_reorder_point(50, 7, 100)
         >>> # Returns: 450.0
     """
     return (demand_rate * lead_time) + safety_stock
@@ -183,7 +183,7 @@ def calculate_safety_stock(
         Safety stock quantity
 
     Example:
-        >>> safety = calculate_safety_stock(1.65, 15, 7)  # doctest: +SKIP
+        >>> safety = calculate_safety_stock(1.65, 15, 7)
         >>> # Returns: 65.45 (approximately)
     """
     return float(z_score * demand_stddev * (lead_time**0.5))
@@ -202,7 +202,7 @@ def parse_manufacturing_date(date_str: str) -> str:
         ISO format date string (YYYY-MM-DD)
 
     Example:
-        >>> iso_date = parse_manufacturing_date("12/25/2024")  # doctest: +SKIP
+        >>> iso_date = parse_manufacturing_date("12/25/2024")
         >>> # Returns: "2024-12-25"
     """
     from datetime import datetime
@@ -242,7 +242,7 @@ def format_manufacturing_number(value: Any, decimals: int = 2) -> str:
         Formatted number string
 
     Example:
-        >>> formatted = format_manufacturing_number(1234.5678)  # doctest: +SKIP
+        >>> formatted = format_manufacturing_number(1234.5678)
         >>> # Returns: "1,234.57"
     """
     try:

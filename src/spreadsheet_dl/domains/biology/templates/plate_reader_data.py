@@ -31,9 +31,12 @@ class PlateReaderDataTemplate(BaseTemplate):
     - Visualization-ready format
 
     Example:
-        >>> template = PlateReaderDataTemplate()  # doctest: +SKIP
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("plate_data.ods")  # doctest: +SKIP
+        >>> template = PlateReaderDataTemplate()
+        >>> template.metadata.name
+        'Plate Reader Data'
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     assay_name: str = "Plate Reader Assay"

@@ -30,7 +30,9 @@ class MESDataImporter(BaseImporter[list[dict[str, Any]]]):
     - CSV and JSON format support
 
     Example:
-        >>> importer = MESDataImporter()  # doctest: +SKIP
+        >>> importer = MESDataImporter()
+        >>> importer.metadata is not None
+        True
         >>> result = importer.import_data("mes_export.csv")  # doctest: +SKIP
         >>> if result.success:  # doctest: +SKIP
         ...     print(f"Imported {result.records_imported} MES records")

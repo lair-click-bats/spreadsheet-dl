@@ -27,7 +27,9 @@ class GenBankImporter(BaseImporter[list[dict[str, Any]]]):
     - Multi-record file support
 
     Example:
-        >>> importer = GenBankImporter()  # doctest: +SKIP
+        >>> importer = GenBankImporter()
+        >>> importer.metadata is not None
+        True
         >>> result = importer.import_data("sequence.gb")  # doctest: +SKIP
         >>> if result.success:  # doctest: +SKIP
         ...     for record in result.data:

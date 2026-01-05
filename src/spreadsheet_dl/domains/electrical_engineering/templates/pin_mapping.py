@@ -31,9 +31,12 @@ class PinMappingTemplate(BaseTemplate):
         - Validation: Ensure no duplicate pin assignments
 
     Example:
-        >>> template = PinMappingTemplate(project_name="Main Board")  # doctest: +SKIP
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("pin_mapping.ods")  # doctest: +SKIP
+        >>> template = PinMappingTemplate()
+        >>> template.metadata.name
+        'Pin Mapping'
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     project_name: str = "Electronic Design"

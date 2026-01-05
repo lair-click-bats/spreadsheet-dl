@@ -368,8 +368,12 @@ class DataAnonymizer:
     protect privacy while preserving statistical properties.
 
     Example:
-        >>> config = AnonymizationConfig(level=AnonymizationLevel.STANDARD)  # doctest: +SKIP
-        >>> anonymizer = DataAnonymizer(config)  # doctest: +SKIP
+        >>> config = AnonymizationConfig(level=AnonymizationLevel.STANDARD)
+        >>> config.level == AnonymizationLevel.STANDARD
+        True
+        >>> anonymizer = DataAnonymizer(config)
+        >>> anonymizer is not None
+        True
         >>> anon_tx = anonymizer.anonymize_transaction(transaction)  # doctest: +SKIP
     """
 

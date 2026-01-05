@@ -30,7 +30,9 @@ class ScientificCSVImporter(BaseImporter[list[dict[str, Any]]]):
     - Encoding detection (UTF-8, Latin-1)
 
     Example:
-        >>> importer = ScientificCSVImporter()  # doctest: +SKIP
+        >>> importer = ScientificCSVImporter()
+        >>> importer.metadata is not None
+        True
         >>> result = importer.import_data("experiment_data.csv")  # doctest: +SKIP
         >>> if result.success:  # doctest: +SKIP
         ...     print(f"Imported {result.records_imported} records")

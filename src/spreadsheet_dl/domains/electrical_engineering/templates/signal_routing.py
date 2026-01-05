@@ -30,9 +30,12 @@ class SignalRoutingTemplate(BaseTemplate):
         - Chart: Impedance distribution histogram
 
     Example:
-        >>> template = SignalRoutingTemplate(project_name="Main Board Rev B")  # doctest: +SKIP
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("signal_routing.ods")  # doctest: +SKIP
+        >>> template = SignalRoutingTemplate()
+        >>> template.metadata.name
+        'Signal Routing'
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     project_name: str = "PCB Design"

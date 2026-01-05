@@ -30,13 +30,10 @@ class StudentAttendanceTemplate(BaseTemplate):
     - Monthly/term summaries
 
     Example:
-        >>> template = StudentAttendanceTemplate(  # doctest: +SKIP
-        ...     class_name="Period 1 - Algebra",
-        ...     num_students=30,
-        ...     num_days=20,
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("attendance.ods")  # doctest: +SKIP
+        >>> template = StudentAttendanceTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     class_name: str = "Class Attendance"

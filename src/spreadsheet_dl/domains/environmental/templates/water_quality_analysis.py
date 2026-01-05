@@ -30,12 +30,10 @@ class WaterQualityAnalysisTemplate(BaseTemplate):
     - Trend analysis data
 
     Example:
-        >>> template = WaterQualityAnalysisTemplate(  # doctest: +SKIP
-        ...     site_name="River Station A",
-        ...     num_samples=12,
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("water_quality.ods")  # doctest: +SKIP
+        >>> template = WaterQualityAnalysisTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     site_name: str = "Water Quality Site"

@@ -27,7 +27,9 @@ class GradebookExportImporter(BaseImporter[list[dict[str, Any]]]):
     - Generic tabular grade data
 
     Example:
-        >>> importer = GradebookExportImporter()  # doctest: +SKIP
+        >>> importer = GradebookExportImporter()
+        >>> importer.metadata is not None
+        True
         >>> result = importer.import_data("gradebook.csv")  # doctest: +SKIP
         >>> print(f"Imported {result.records_imported} student grades")  # doctest: +SKIP
     """

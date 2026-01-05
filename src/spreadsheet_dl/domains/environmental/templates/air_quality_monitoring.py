@@ -30,12 +30,10 @@ class AirQualityMonitoringTemplate(BaseTemplate):
     - Trend visualization data
 
     Example:
-        >>> template = AirQualityMonitoringTemplate(  # doctest: +SKIP
-        ...     station_name="Downtown Station",
-        ...     num_readings=24,
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("air_quality.ods")  # doctest: +SKIP
+        >>> template = AirQualityMonitoringTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     station_name: str = "Air Quality Station"

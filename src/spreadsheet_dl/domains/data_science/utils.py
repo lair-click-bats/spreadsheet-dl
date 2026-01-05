@@ -20,7 +20,7 @@ def format_scientific_notation(value: float, precision: int = 2) -> str:
         Scientific notation string
 
     Example:
-        >>> format_scientific_notation(0.00012345, 2)  # doctest: +SKIP
+        >>> format_scientific_notation(0.00012345, 2)
         '1.23e-04'
     """
     return f"{value:.{precision}e}"
@@ -67,8 +67,8 @@ def calculate_confusion_matrix_metrics(
         Dictionary with accuracy, precision, recall, f1
 
     Example:
-        >>> metrics = calculate_confusion_matrix_metrics(85, 90, 10, 15)  # doctest: +SKIP
-        >>> print(metrics['accuracy'])  # doctest: +SKIP
+        >>> metrics = calculate_confusion_matrix_metrics(85, 90, 10, 15)
+        >>> print(metrics['accuracy'])
         0.875
     """
     total = tp + tn + fp + fn
@@ -114,9 +114,9 @@ def infer_data_type(value: Any) -> str:
         Type string: "number", "text", "date", "boolean"
 
     Example:
-        >>> infer_data_type(123)  # doctest: +SKIP
+        >>> infer_data_type(123)
         'number'
-        >>> infer_data_type("hello")  # doctest: +SKIP
+        >>> infer_data_type("hello")
         'text'
     """
     if isinstance(value, bool):

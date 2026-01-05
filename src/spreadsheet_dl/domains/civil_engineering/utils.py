@@ -78,7 +78,7 @@ def ft_to_m(ft: float) -> float:
         Length in meters
 
     Example:
-        >>> ft_to_m(100.0)  # doctest: +SKIP
+        >>> ft_to_m(100.0)
         30.48
     """
     return ft * 0.3048
@@ -198,8 +198,8 @@ def get_load_combinations(
         List of LoadCombination objects
 
     Example:
-        >>> combos = get_load_combinations(LoadCombinationCode.ASCE_7_16)  # doctest: +SKIP
-        >>> len(combos)  # doctest: +SKIP
+        >>> combos = get_load_combinations(LoadCombinationCode.ASCE_7_16)
+        >>> len(combos)
         7
     """
     if code in (LoadCombinationCode.ASCE_7_16, LoadCombinationCode.ASCE_7_22):
@@ -323,8 +323,8 @@ def bearing_capacity_factors(phi: float) -> tuple[float, float, float]:
         Tuple of (Nc, Nq, Ngamma) bearing capacity factors
 
     Example:
-        >>> nc, nq, ng = bearing_capacity_factors(30.0)  # doctest: +SKIP
-        >>> round(nc, 2)  # doctest: +SKIP
+        >>> nc, nq, ng = bearing_capacity_factors(30.0)
+        >>> round(nc, 2)
         30.14
     """
     import math
@@ -366,9 +366,9 @@ def consolidation_settlement(
         Settlement (mm)
 
     Example:
-        >>> s = consolidation_settlement(5000, 0.3, 0.8, 100, 50)  # doctest: +SKIP
-        >>> round(s, 1)  # doctest: +SKIP
-        290.3
+        >>> s = consolidation_settlement(5000, 0.3, 0.8, 100, 50)
+        >>> round(s, 1)
+        146.7
     """
     import math
 
@@ -417,8 +417,8 @@ def calculate_cement_content(
         Cement content (kg/m³)
 
     Example:
-        >>> cement = calculate_cement_content(25.0, 0.5)  # doctest: +SKIP
-        >>> round(cement)  # doctest: +SKIP
+        >>> cement = calculate_cement_content(25.0, 0.5)
+        >>> round(cement)
         350
     """
     # Typical relationship for normal weight concrete
@@ -444,8 +444,8 @@ def design_concrete_mix(
         ConcreteMix with proportions
 
     Example:
-        >>> mix = design_concrete_mix(25.0, 0.5, 75)  # doctest: +SKIP
-        >>> round(mix.cement)  # doctest: +SKIP
+        >>> mix = design_concrete_mix(25.0, 0.5, 75)
+        >>> round(mix.cement)
         350
     """
     # Calculate required w/c ratio for target strength
@@ -511,8 +511,8 @@ def beam_self_weight(
         Distributed load (kN/m)
 
     Example:
-        >>> w = beam_self_weight(300, 500, 6000)  # doctest: +SKIP
-        >>> round(w, 2)  # doctest: +SKIP
+        >>> w = beam_self_weight(300, 500, 6000)
+        >>> round(w, 2)
         3.53
     """
     # Convert to meters

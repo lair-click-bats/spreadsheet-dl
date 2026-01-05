@@ -35,7 +35,6 @@ class BOMTemplate(BaseTemplate):
     Example:
         >>> bom = BOMTemplate(project_name="Widget Rev A")  # doctest: +SKIP
         >>> builder = bom.generate()  # doctest: +SKIP
-        >>> path = builder.save("widget_bom.ods")  # doctest: +SKIP
     """
 
     project_name: str = "Electronic Assembly"

@@ -33,12 +33,10 @@ class BillOfMaterialsTemplate(BaseTemplate):
     - Lead time tracking
 
     Example:
-        >>> template = BillOfMaterialsTemplate(  # doctest: +SKIP
-        ...     product_name="Widget Assembly XL",
-        ...     include_cost_rollup=True,
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("bom.ods")  # doctest: +SKIP
+        >>> template = BillOfMaterialsTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     product_name: str = "Product"

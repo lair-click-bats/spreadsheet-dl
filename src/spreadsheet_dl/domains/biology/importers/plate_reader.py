@@ -30,7 +30,9 @@ class PlateReaderImporter(BaseImporter[dict[str, Any]]):
     - Metadata extraction (wavelengths, temperatures)
 
     Example:
-        >>> importer = PlateReaderImporter()  # doctest: +SKIP
+        >>> importer = PlateReaderImporter()
+        >>> importer.metadata is not None
+        True
         >>> result = importer.import_data("plate_data.csv")  # doctest: +SKIP
         >>> if result.success:  # doctest: +SKIP
         ...     plate_data = result.data

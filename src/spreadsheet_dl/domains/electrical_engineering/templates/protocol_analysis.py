@@ -35,13 +35,10 @@ class ProtocolAnalysisTemplate(BaseTemplate):
     Supports: I2C, SPI, UART, CAN, LIN, RS-485, custom protocols
 
     Example:
-        >>> template = ProtocolAnalysisTemplate(  # doctest: +SKIP
-        ...     protocol_name="I2C Sensor Bus",
-        ...     protocol_type="I2C",
-        ...     device_count=8,
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("i2c_protocol.ods")  # doctest: +SKIP
+        >>> template = ProtocolAnalysisTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     protocol_name: str = "Serial Protocol"

@@ -31,12 +31,10 @@ class ProcedureTemplate(BaseTemplate):
         - Conditional formatting: Green for Pass, Red for Fail, Gray for Skip
 
     Example:
-        >>> template = ProcedureTemplate(  # doctest: +SKIP
-        ...     project_name="Main Board Rev A",
-        ...     test_suite="Functional Test"
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("test_procedure.ods")  # doctest: +SKIP
+        >>> template = ProcedureTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     project_name: str = "Hardware Test"

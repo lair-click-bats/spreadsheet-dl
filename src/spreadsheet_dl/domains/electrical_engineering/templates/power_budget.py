@@ -31,12 +31,10 @@ class PowerBudgetTemplate(BaseTemplate):
         - Conditional formatting: Red for >80% budget, yellow for >60%
 
     Example:
-        >>> template = PowerBudgetTemplate(  # doctest: +SKIP
-        ...     project_name="IoT Device",
-        ...     total_budget_mw=5000
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("power_budget.ods")  # doctest: +SKIP
+        >>> template = PowerBudgetTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     project_name: str = "Electronic System"

@@ -35,9 +35,12 @@ class ToleranceStackupTemplate(BaseTemplate):
         - Pass/fail against specification
 
     Example:
-        >>> template = ToleranceStackupTemplate(analysis_name="Gap Analysis")  # doctest: +SKIP
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("tolerance_stackup.ods")  # doctest: +SKIP
+        >>> template = ToleranceStackupTemplate()
+        >>> template.metadata.name
+        'Tolerance Stackup Analysis'
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     analysis_name: str = "Tolerance Stackup"

@@ -31,12 +31,10 @@ class OEETrackingTemplate(BaseTemplate):
     - Loss analysis (availability, performance, quality losses)
 
     Example:
-        >>> template = OEETrackingTemplate(  # doctest: +SKIP
-        ...     equipment_name="CNC Machine #5",
-        ...     shifts=["Day", "Night"],
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("oee_tracking.ods")  # doctest: +SKIP
+        >>> template = OEETrackingTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     equipment_name: str = "Equipment"

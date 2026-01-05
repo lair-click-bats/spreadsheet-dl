@@ -34,9 +34,12 @@ class StressAnalysisTemplate(BaseTemplate):
         - Yield strength comparison
 
     Example:
-        >>> template = StressAnalysisTemplate(analysis_name="Beam Analysis")  # doctest: +SKIP
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("stress_analysis.ods")  # doctest: +SKIP
+        >>> template = StressAnalysisTemplate()
+        >>> template.metadata.name
+        'Stress Analysis'
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     analysis_name: str = "Stress Analysis"

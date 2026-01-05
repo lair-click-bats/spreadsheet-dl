@@ -31,12 +31,10 @@ class QualityControlTemplate(BaseTemplate):
     - Pareto analysis for defect types
 
     Example:
-        >>> template = QualityControlTemplate(  # doctest: +SKIP
-        ...     product_line="Widget Assembly",
-        ...     spec_limits=(95.0, 105.0),
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("quality_control.ods")  # doctest: +SKIP
+        >>> template = QualityControlTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     product_name: str = "Product"

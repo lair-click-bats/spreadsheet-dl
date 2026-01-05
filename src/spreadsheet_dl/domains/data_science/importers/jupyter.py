@@ -29,7 +29,9 @@ class JupyterMetadataImporter(BaseImporter[dict[str, Any]]):
     - Create summary metadata dict
 
     Example:
-        >>> importer = JupyterMetadataImporter()  # doctest: +SKIP
+        >>> importer = JupyterMetadataImporter()
+        >>> importer.metadata is not None
+        True
         >>> result = importer.import_data("analysis.ipynb")  # doctest: +SKIP
         >>> if result.success:  # doctest: +SKIP
         ...     metadata = result.data

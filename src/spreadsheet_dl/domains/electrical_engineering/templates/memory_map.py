@@ -33,13 +33,10 @@ class MemoryMapTemplate(BaseTemplate):
     - Memory utilization statistics
 
     Example:
-        >>> template = MemoryMapTemplate(  # doctest: +SKIP
-        ...     device_name="STM32F407",
-        ...     total_flash=1024*1024,
-        ...     total_ram=192*1024,
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("memory_map.ods")  # doctest: +SKIP
+        >>> template = MemoryMapTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     device_name: str = "Microcontroller"

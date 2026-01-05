@@ -30,12 +30,10 @@ class CarbonFootprintTemplate(BaseTemplate):
     - Offset calculations
 
     Example:
-        >>> template = CarbonFootprintTemplate(  # doctest: +SKIP
-        ...     organization="Acme Corp",
-        ...     reporting_year="2024",
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("carbon_footprint.ods")  # doctest: +SKIP
+        >>> template = CarbonFootprintTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     organization_name: str = "Organization"

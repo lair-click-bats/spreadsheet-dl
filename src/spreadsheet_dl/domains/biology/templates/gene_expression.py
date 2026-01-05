@@ -31,12 +31,12 @@ class GeneExpressionTemplate(BaseTemplate):
     - Normalized expression values
 
     Example:
-        >>> template = GeneExpressionTemplate(  # doctest: +SKIP
-        ...     experiment_name="Stress Response",
-        ...     num_genes=20,
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("gene_expression.ods")  # doctest: +SKIP
+        >>> template = GeneExpressionTemplate()
+        >>> template.metadata.name
+        'Gene Expression'
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     experiment_name: str = "Gene Expression Analysis"

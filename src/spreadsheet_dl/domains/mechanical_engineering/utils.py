@@ -23,7 +23,7 @@ def mpa_to_psi(mpa: float) -> float:
         Stress in pounds per square inch (psi)
 
     Example:
-        >>> mpa_to_psi(100)  # doctest: +SKIP
+        >>> mpa_to_psi(100)
         14503.77...
     """
     return mpa * 145.03773773
@@ -39,7 +39,7 @@ def psi_to_mpa(psi: float) -> float:
         Stress in megapascals (MPa)
 
     Example:
-        >>> psi_to_mpa(14503.77)  # doctest: +SKIP
+        >>> psi_to_mpa(14503.77)
         99.999...
     """
     return psi / 145.03773773
@@ -55,7 +55,7 @@ def mm_to_inch(mm: float) -> float:
         Length in inches
 
     Example:
-        >>> mm_to_inch(25.4)  # doctest: +SKIP
+        >>> mm_to_inch(25.4)
         1.0
     """
     return mm / 25.4
@@ -71,7 +71,7 @@ def inch_to_mm(inch: float) -> float:
         Length in millimeters
 
     Example:
-        >>> inch_to_mm(1.0)  # doctest: +SKIP
+        >>> inch_to_mm(1.0)
         25.4
     """
     return inch * 25.4
@@ -87,7 +87,7 @@ def kg_to_lb(kg: float) -> float:
         Mass in pounds
 
     Example:
-        >>> kg_to_lb(1.0)  # doctest: +SKIP
+        >>> kg_to_lb(1.0)
         2.204622...
     """
     return kg * 2.20462262185
@@ -136,8 +136,8 @@ def von_mises_stress(
         von Mises equivalent stress (MPa)
 
     Example:
-        >>> von_mises_stress(100, 50, 0, 25)  # doctest: +SKIP
-        91.855...
+        >>> von_mises_stress(100, 50, 0, 25)  # doctest: +ELLIPSIS
+        96.82...
     """
     # von Mises: sqrt(sigmax² + sigmay² + sigmaz² - sigmax*sigmay - sigmay*sigmaz - sigmaz*sigmax + 3(tauxy² + tauyz² + tauxz²))
     # For 2D plane stress (sigmaz=0): sqrt(sigmax² + sigmay² - sigmax*sigmay + 3*tauxy²)
@@ -168,8 +168,8 @@ def principal_stresses_2d(
         Tuple of (sigma_1, sigma_2) principal stresses (MPa)
 
     Example:
-        >>> principal_stresses_2d(100, 50, 25)  # doctest: +SKIP
-        (118.3012..., 31.6987...)
+        >>> principal_stresses_2d(100, 50, 25)  # doctest: +ELLIPSIS
+        (110.35..., 39.64...)
     """
     avg = (sigma_x + sigma_y) / 2.0
     radius = math.sqrt(((sigma_x - sigma_y) / 2.0) ** 2 + tau_xy**2)
@@ -236,7 +236,7 @@ def moment_of_inertia_rectangle(width: float, height: float) -> float:
         Moment of inertia (I) in mm⁴
 
     Example:
-        >>> moment_of_inertia_rectangle(10, 20)  # doctest: +SKIP
+        >>> moment_of_inertia_rectangle(10, 20)
         6666.666...
     """
     return (width * height**3) / 12.0
@@ -252,7 +252,7 @@ def moment_of_inertia_circle(diameter: float) -> float:
         Moment of inertia (I) in mm⁴
 
     Example:
-        >>> moment_of_inertia_circle(10)  # doctest: +SKIP
+        >>> moment_of_inertia_circle(10)
         490.873...
     """
     return (math.pi * diameter**4) / 64.0
@@ -268,7 +268,7 @@ def polar_moment_of_inertia_circle(diameter: float) -> float:
         Polar moment of inertia (J) in mm⁴
 
     Example:
-        >>> polar_moment_of_inertia_circle(10)  # doctest: +SKIP
+        >>> polar_moment_of_inertia_circle(10)
         981.747...
     """
     return (math.pi * diameter**4) / 32.0
@@ -285,7 +285,7 @@ def section_modulus_rectangle(width: float, height: float) -> float:
         Section modulus (S) in mm³
 
     Example:
-        >>> section_modulus_rectangle(10, 20)  # doctest: +SKIP
+        >>> section_modulus_rectangle(10, 20)
         666.666...
     """
     return (width * height**2) / 6.0
@@ -301,7 +301,7 @@ def section_modulus_circle(diameter: float) -> float:
         Section modulus (S) in mm³
 
     Example:
-        >>> section_modulus_circle(10)  # doctest: +SKIP
+        >>> section_modulus_circle(10)
         98.174...
     """
     return (math.pi * diameter**3) / 32.0

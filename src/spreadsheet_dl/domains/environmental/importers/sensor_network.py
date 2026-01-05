@@ -28,7 +28,9 @@ class SensorNetworkImporter(BaseImporter[list[dict[str, Any]]]):
     - Multi-parameter sensor readings
 
     Example:
-        >>> importer = SensorNetworkImporter()  # doctest: +SKIP
+        >>> importer = SensorNetworkImporter()
+        >>> importer.metadata is not None
+        True
         >>> result = importer.import_data("sensor_readings.csv")  # doctest: +SKIP
         >>> print(f"Imported {result.records_imported} sensor readings")  # doctest: +SKIP
     """

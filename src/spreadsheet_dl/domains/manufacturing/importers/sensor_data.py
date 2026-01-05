@@ -30,7 +30,9 @@ class SensorDataImporter(BaseImporter[list[dict[str, Any]]]):
     - CSV and JSON format support
 
     Example:
-        >>> importer = SensorDataImporter()  # doctest: +SKIP
+        >>> importer = SensorDataImporter()
+        >>> importer.metadata is not None
+        True
         >>> result = importer.import_data("sensor_data.csv")  # doctest: +SKIP
         >>> if result.success:  # doctest: +SKIP
         ...     print(f"Imported {result.records_imported} sensor readings")

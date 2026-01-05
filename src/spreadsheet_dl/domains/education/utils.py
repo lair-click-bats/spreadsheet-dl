@@ -62,7 +62,7 @@ def calculate_grade_average(grades: Sequence[float | int | None]) -> float | Non
         Grade average calculation
 
     Example:
-        >>> calculate_grade_average([85, 90, 88, None, 92])  # doctest: +SKIP
+        >>> calculate_grade_average([85, 90, 88, None, 92])
         88.75
     """
     valid_grades = [g for g in grades if g is not None]
@@ -88,7 +88,7 @@ def calculate_weighted_grade(
         Weighted grade calculation
 
     Example:
-        >>> calculate_weighted_grade([85, 90, 95], [0.3, 0.3, 0.4])  # doctest: +SKIP
+        >>> calculate_weighted_grade([85, 90, 95], [0.3, 0.3, 0.4])
         90.5
     """
     if len(grades) != len(weights):
@@ -120,9 +120,9 @@ def calculate_letter_grade(
         Letter grade conversion
 
     Example:
-        >>> calculate_letter_grade(92)  # doctest: +SKIP
+        >>> calculate_letter_grade(92)
         'A-'
-        >>> calculate_letter_grade(85)  # doctest: +SKIP
+        >>> calculate_letter_grade(85)
         'B'
     """
     thresholds = thresholds or GRADE_THRESHOLDS
@@ -147,7 +147,7 @@ def grade_to_points(grade: str) -> float:
         Grade to points conversion
 
     Example:
-        >>> grade_to_points("B+")  # doctest: +SKIP
+        >>> grade_to_points("B+")
         3.3
     """
     return GRADE_POINTS.get(grade.upper(), 0.0)
@@ -166,7 +166,7 @@ def points_to_grade(points: float) -> str:
         Points to grade conversion
 
     Example:
-        >>> points_to_grade(3.5)  # doctest: +SKIP
+        >>> points_to_grade(3.5)
         'B+'
     """
     # Reverse lookup with tolerance
@@ -193,9 +193,9 @@ def calculate_gpa(
         GPA calculation
 
     Example:
-        >>> calculate_gpa(["A", "B+", "B", "A-"])  # doctest: +SKIP
+        >>> calculate_gpa(["A", "B+", "B", "A-"])
         3.5
-        >>> calculate_gpa(["A", "B"], [4, 3])  # doctest: +SKIP
+        >>> calculate_gpa(["A", "B"], [4, 3])
         3.57...
     """
     if not grades:
@@ -236,7 +236,7 @@ def calculate_attendance_rate(
         Attendance rate calculation
 
     Example:
-        >>> calculate_attendance_rate(85, 90)  # doctest: +SKIP
+        >>> calculate_attendance_rate(85, 90)
         94.44...
     """
     if total_days == 0:
@@ -263,7 +263,7 @@ def format_percentage(
         Percentage formatting
 
     Example:
-        >>> format_percentage(85.678, 1)  # doctest: +SKIP
+        >>> format_percentage(85.678, 1)
         '85.7%'
     """
     formatted = f"{value:.{decimals}f}"

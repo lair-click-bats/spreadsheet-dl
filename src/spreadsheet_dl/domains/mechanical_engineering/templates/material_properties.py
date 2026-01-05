@@ -36,9 +36,12 @@ class MaterialPropertiesTemplate(BaseTemplate):
         - Common material presets (steel, aluminum, titanium, etc.)
 
     Example:
-        >>> template = MaterialPropertiesTemplate()  # doctest: +SKIP
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("materials.ods")  # doctest: +SKIP
+        >>> template = MaterialPropertiesTemplate()
+        >>> template.metadata.name
+        'Material Properties Database'
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     num_materials: int = 20

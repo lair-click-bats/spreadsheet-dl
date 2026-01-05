@@ -33,13 +33,10 @@ class BinaryAnalysisTemplate(BaseTemplate):
     - Analysis notes and findings
 
     Example:
-        >>> template = BinaryAnalysisTemplate(  # doctest: +SKIP
-        ...     binary_name="firmware.bin",
-        ...     architecture="ARM Cortex-M4",
-        ...     base_address=0x08000000,
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("firmware_analysis.ods")  # doctest: +SKIP
+        >>> template = BinaryAnalysisTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     binary_name: str = "binary.bin"

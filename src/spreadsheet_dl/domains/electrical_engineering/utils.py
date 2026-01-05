@@ -24,11 +24,11 @@ def parse_si_prefix(value: str) -> float:
         Numeric value in base units
 
     Example:
-        >>> parse_si_prefix("10k")  # doctest: +SKIP
+        >>> parse_si_prefix("10k")
         10000.0
-        >>> parse_si_prefix("100mA")  # doctest: +SKIP
+        >>> parse_si_prefix("100mA")
         0.1
-        >>> parse_si_prefix("3.3V")  # doctest: +SKIP
+        >>> parse_si_prefix("3.3V")
         3.3
     """
     # SI prefixes
@@ -80,9 +80,9 @@ def format_si_prefix(
         Formatted string with SI prefix
 
     Example:
-        >>> format_si_prefix(10000, "Ω")  # doctest: +SKIP
+        >>> format_si_prefix(10000, "Ω")
         '10.00kΩ'
-        >>> format_si_prefix(0.001, "A")  # doctest: +SKIP
+        >>> format_si_prefix(0.001, "A")
         '1.00mA'
     """
     if value == 0:
@@ -125,9 +125,9 @@ def calculate_parallel_resistance(resistances: Sequence[float]) -> float:
         ValueError: If any resistance is zero or negative
 
     Example:
-        >>> calculate_parallel_resistance([100, 100])  # doctest: +SKIP
+        >>> calculate_parallel_resistance([100, 100])
         50.0
-        >>> calculate_parallel_resistance([1000, 2000, 3000])  # doctest: +SKIP
+        >>> calculate_parallel_resistance([1000, 2000, 3000])
         545.45...
     """
     if not resistances:
@@ -153,10 +153,10 @@ def calculate_series_resistance(resistances: Sequence[float]) -> float:
         Total series resistance in ohms
 
     Example:
-        >>> calculate_series_resistance([100, 100])  # doctest: +SKIP
-        200.0
-        >>> calculate_series_resistance([1000, 2000, 3000])  # doctest: +SKIP
-        6000.0
+        >>> calculate_series_resistance([100, 100])
+        200
+        >>> calculate_series_resistance([1000, 2000, 3000])
+        6000
     """
     return sum(resistances)
 
@@ -172,7 +172,7 @@ def calculate_power_dissipation(voltage: float, current: float) -> float:
         Power in watts
 
     Example:
-        >>> calculate_power_dissipation(5.0, 0.1)  # doctest: +SKIP
+        >>> calculate_power_dissipation(5.0, 0.1)
         0.5
     """
     return voltage * current
@@ -215,7 +215,7 @@ def calculate_thermal_resistance(temp_rise: float, power: float) -> float:
         ValueError: If power is zero
 
     Example:
-        >>> calculate_thermal_resistance(50, 10)  # doctest: +SKIP
+        >>> calculate_thermal_resistance(50, 10)
         5.0
     """
     if power == 0:
@@ -235,8 +235,8 @@ def calculate_propagation_delay(length_mm: float, velocity_mm_per_s: float) -> f
         Propagation delay in seconds
 
     Example:
-        >>> calculate_propagation_delay(100, 2e8)  # 100mm at c/1.5  # doctest: +SKIP
-        5e-10  # 0.5 nanoseconds
+        >>> calculate_propagation_delay(100, 2e8)  # 100mm at c/1.5
+        5e-07
     """
     return length_mm / velocity_mm_per_s
 
@@ -255,7 +255,7 @@ def calculate_characteristic_impedance(
         Characteristic impedance in ohms
 
     Example:
-        >>> calculate_characteristic_impedance(2.5e-7, 1e-10)  # doctest: +SKIP
+        >>> calculate_characteristic_impedance(2.5e-7, 1e-10)
         50.0
     """
     return math.sqrt(inductance_per_length / capacitance_per_length)
@@ -273,13 +273,13 @@ def group_by_value(
         Dictionary mapping values to lists of components
 
     Example:
-        >>> components = [  # doctest: +SKIP
+        >>> components = [
         ...     {"ref": "R1", "value": "10k"},
         ...     {"ref": "R2", "value": "10k"},
         ...     {"ref": "C1", "value": "100nF"},
         ... ]
-        >>> grouped = group_by_value(components)  # doctest: +SKIP
-        >>> len(grouped["10k"])  # doctest: +SKIP
+        >>> grouped = group_by_value(components)
+        >>> len(grouped["10k"])
         2
     """
     groups: dict[str, list[dict[str, Any]]] = {}
@@ -301,9 +301,9 @@ def expand_ref_designators(ref_range: str) -> list[str]:
         List of individual reference designators
 
     Example:
-        >>> expand_ref_designators("R1-R5")  # doctest: +SKIP
+        >>> expand_ref_designators("R1-R5")
         ['R1', 'R2', 'R3', 'R4', 'R5']
-        >>> expand_ref_designators("C10")  # doctest: +SKIP
+        >>> expand_ref_designators("C10")
         ['C10']
     """
     # Check for range format: "R1-R10"

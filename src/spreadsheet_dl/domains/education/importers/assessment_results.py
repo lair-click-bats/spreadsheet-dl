@@ -29,7 +29,9 @@ class AssessmentResultsImporter(BaseImporter[list[dict[str, Any]]]):
     - Item analysis reports
 
     Example:
-        >>> importer = AssessmentResultsImporter()  # doctest: +SKIP
+        >>> importer = AssessmentResultsImporter()
+        >>> importer.metadata is not None
+        True
         >>> result = importer.import_data("quiz_results.csv")  # doctest: +SKIP
         >>> print(f"Imported {result.records_imported} assessment results")  # doctest: +SKIP
     """

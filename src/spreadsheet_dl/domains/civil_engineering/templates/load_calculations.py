@@ -32,12 +32,10 @@ class LoadCalculationsTemplate(BaseTemplate):
         - Conditional formatting for critical loads
 
     Example:
-        >>> template = LoadCalculationsTemplate(  # doctest: +SKIP
-        ...     project_name="Office Building",
-        ...     num_load_cases=15
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("load_calculations.ods")  # doctest: +SKIP
+        >>> template = LoadCalculationsTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     project_name: str = "Structural Project"

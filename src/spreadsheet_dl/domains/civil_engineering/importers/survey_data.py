@@ -27,7 +27,9 @@ class SurveyDataImporter(BaseImporter[list[dict[str, Any]]]):
         - Support multiple survey data formats
 
     Example:
-        >>> importer = SurveyDataImporter()  # doctest: +SKIP
+        >>> importer = SurveyDataImporter()
+        >>> importer.metadata is not None
+        True
         >>> result = importer.import_data("survey_points.csv")  # doctest: +SKIP
         >>> if result.success:  # doctest: +SKIP
         ...     for point in result.data:

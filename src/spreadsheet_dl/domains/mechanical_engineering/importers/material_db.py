@@ -58,7 +58,9 @@ class MaterialDatabaseImporter(BaseImporter[list[dict[str, Any]]]):
         - Handle multiple material categories
 
     Example:
-        >>> importer = MaterialDatabaseImporter()  # doctest: +SKIP
+        >>> importer = MaterialDatabaseImporter()
+        >>> importer.metadata is not None
+        True
         >>> result = importer.import_data("materials.csv")  # doctest: +SKIP
         >>> if result.success:  # doctest: +SKIP
         ...     for material in result.data:

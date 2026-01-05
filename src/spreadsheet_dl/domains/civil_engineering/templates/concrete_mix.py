@@ -31,12 +31,10 @@ class ConcreteMixTemplate(BaseTemplate):
         - Mix design parameters (slump, air content, strength)
 
     Example:
-        >>> template = ConcreteMixTemplate(  # doctest: +SKIP
-        ...     mix_id="C25/30",
-        ...     target_strength=25.0
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("concrete_mix.ods")  # doctest: +SKIP
+        >>> template = ConcreteMixTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     mix_id: str = "C25/30"

@@ -42,8 +42,8 @@ def ppm_to_ugm3(ppm: float, molecular_weight: float) -> float:
         Unit conversion for air quality
 
     Example:
-        >>> ppm_to_ugm3(0.1, 48.0)  # O3  # doctest: +SKIP
-        196.1...
+        >>> ppm_to_ugm3(0.1, 48.0)  # O3  # doctest: +ELLIPSIS
+        196.3...
     """
     # ug/m3 = ppm * MW * 1000 / (24.45)
     # 24.45 is molar volume at 25C, 1atm
@@ -64,8 +64,8 @@ def ugm3_to_ppm(ugm3: float, molecular_weight: float) -> float:
         Unit conversion for air quality
 
     Example:
-        >>> ugm3_to_ppm(196.0, 48.0)  # O3  # doctest: +SKIP
-        0.0999...
+        >>> ugm3_to_ppm(196.0, 48.0)  # O3  # doctest: +ELLIPSIS
+        0.099...
     """
     return ugm3 * 24.45 / (molecular_weight * 1000)
 
@@ -83,8 +83,8 @@ def calculate_aqi(pm25: float) -> int:
         AQI calculation utility
 
     Example:
-        >>> calculate_aqi(35.5)  # doctest: +SKIP
-        100
+        >>> calculate_aqi(35.5)
+        101
     """
     # EPA AQI breakpoints for PM2.5 (24-hour average)
     breakpoints = [
@@ -131,8 +131,8 @@ def calculate_wqi(
         WQI calculation utility
 
     Example:
-        >>> calculate_wqi(95, 2, 7.2)  # doctest: +SKIP
-        87.0
+        >>> calculate_wqi(95, 2, 7.2)  # doctest: +ELLIPSIS
+        90.66...
     """
     # DO sub-index: 100 at 100% saturation
     do_index = min(do_saturation, 100)
@@ -171,7 +171,7 @@ def calculate_bod(
         BOD calculation utility
 
     Example:
-        >>> calculate_bod(8.5, 3.2, 30)  # doctest: +SKIP
+        >>> calculate_bod(8.5, 3.2, 30)
         53.0
     """
     return (initial_do - final_do) * (bottle_volume / sample_volume)
@@ -190,7 +190,7 @@ def calculate_shannon_diversity(counts: Sequence[int | float]) -> float:
         Shannon diversity calculation
 
     Example:
-        >>> calculate_shannon_diversity([10, 10, 10, 10])  # doctest: +SKIP
+        >>> calculate_shannon_diversity([10, 10, 10, 10])
         1.386...
     """
     total = sum(counts)
@@ -219,7 +219,7 @@ def calculate_simpson_index(counts: Sequence[int | float]) -> float:
         Simpson index calculation
 
     Example:
-        >>> calculate_simpson_index([10, 10, 10, 10])  # doctest: +SKIP
+        >>> calculate_simpson_index([10, 10, 10, 10])
         0.75
     """
     total = sum(counts)
@@ -251,8 +251,8 @@ def calculate_carbon_equivalent(
         Carbon equivalent calculation
 
     Example:
-        >>> calculate_carbon_equivalent(100, "ch4")  # doctest: +SKIP
-        2800.0
+        >>> calculate_carbon_equivalent(100, "ch4")
+        2800
     """
     gwp_map = {
         "co2": 1,
@@ -286,7 +286,7 @@ def calculate_ecological_footprint(
         Ecological footprint calculation
 
     Example:
-        >>> calculate_ecological_footprint(5000)  # doctest: +SKIP
+        >>> calculate_ecological_footprint(5000)
         1.35
     """
     # Carbon: 1 tonne CO2 = ~0.27 gha
@@ -322,7 +322,7 @@ def format_concentration(
         Concentration formatting
 
     Example:
-        >>> format_concentration(35.56, "ug/m3", 1)  # doctest: +SKIP
+        >>> format_concentration(35.56, "ug/m3", 1)
         '35.6 ug/m3'
     """
     return f"{value:.{decimals}f} {unit}"

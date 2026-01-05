@@ -17,7 +17,7 @@ def calculate_gc_content(sequence: str) -> float:
         GC content as percentage (0-100)
 
     Example:
-        >>> calculate_gc_content("ATGCATGC")  # doctest: +SKIP
+        >>> calculate_gc_content("ATGCATGC")
         50.0
     """
     if not sequence:
@@ -44,7 +44,7 @@ def calculate_melting_temp(sequence: str) -> float:
         Melting temperature in Celsius
 
     Example:
-        >>> calculate_melting_temp("ATGCATGC")  # doctest: +SKIP
+        >>> calculate_melting_temp("ATGCATGC")
         24.0
     """
     if not sequence:
@@ -77,7 +77,7 @@ def normalize_sequence(sequence: str) -> str:
         Normalized sequence (uppercase, whitespace removed)
 
     Example:
-        >>> normalize_sequence("atg c")  # doctest: +SKIP
+        >>> normalize_sequence("atg c")
         'ATGC'
     """
     return "".join(sequence.split()).upper()
@@ -93,9 +93,9 @@ def is_valid_dna(sequence: str) -> bool:
         True if valid DNA sequence
 
     Example:
-        >>> is_valid_dna("ATGC")  # doctest: +SKIP
+        >>> is_valid_dna("ATGC")
         True
-        >>> is_valid_dna("ATGCX")  # doctest: +SKIP
+        >>> is_valid_dna("ATGCX")
         False
     """
     valid_bases = set("ATGCN")
@@ -112,9 +112,9 @@ def is_valid_rna(sequence: str) -> bool:
         True if valid RNA sequence
 
     Example:
-        >>> is_valid_rna("AUGC")  # doctest: +SKIP
+        >>> is_valid_rna("AUGC")
         True
-        >>> is_valid_rna("ATGC")  # doctest: +SKIP
+        >>> is_valid_rna("ATGC")
         False
     """
     valid_bases = set("AUGCN")
@@ -131,7 +131,7 @@ def complement_dna(sequence: str) -> str:
         Complement sequence
 
     Example:
-        >>> complement_dna("ATGC")  # doctest: +SKIP
+        >>> complement_dna("ATGC")
         'TACG'
     """
     complement_map = {"A": "T", "T": "A", "G": "C", "C": "G", "N": "N"}
@@ -149,7 +149,7 @@ def reverse_complement(sequence: str) -> str:
         Reverse complement sequence
 
     Example:
-        >>> reverse_complement("ATGC")  # doctest: +SKIP
+        >>> reverse_complement("ATGC")
         'GCAT'
     """
     return complement_dna(sequence)[::-1]
@@ -169,9 +169,9 @@ def calculate_od_to_concentration(
         Concentration in ug/mL
 
     Example:
-        >>> calculate_od_to_concentration(1.0, "DNA")  # doctest: +SKIP
+        >>> calculate_od_to_concentration(1.0, "DNA")
         50.0
-        >>> calculate_od_to_concentration(1.0, "RNA")  # doctest: +SKIP
+        >>> calculate_od_to_concentration(1.0, "RNA")
         40.0
     """
     # Extinction coefficients (ug/mL per A260 unit)
@@ -197,9 +197,9 @@ def calculate_dilution(dilution_factor: int, steps: int) -> int:
         Total dilution factor
 
     Example:
-        >>> calculate_dilution(10, 3)  # doctest: +SKIP
+        >>> calculate_dilution(10, 3)
         1000
-        >>> calculate_dilution(2, 5)  # doctest: +SKIP
+        >>> calculate_dilution(2, 5)
         32
     """
     return int(dilution_factor**steps)
@@ -216,9 +216,9 @@ def format_scientific_notation(value: float, precision: int = 2) -> str:
         Formatted string in scientific notation
 
     Example:
-        >>> format_scientific_notation(0.00123)  # doctest: +SKIP
+        >>> format_scientific_notation(0.00123)
         '1.23e-03'
-        >>> format_scientific_notation(1234567)  # doctest: +SKIP
+        >>> format_scientific_notation(1234567)
         '1.23e+06'
     """
     return f"{value:.{precision}e}"

@@ -31,12 +31,10 @@ class StructuralAnalysisTemplate(BaseTemplate):
         - Conditional formatting for overstressed members
 
     Example:
-        >>> template = StructuralAnalysisTemplate(  # doctest: +SKIP
-        ...     project_name="Truss Bridge",
-        ...     num_members=50
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("structural_analysis.ods")  # doctest: +SKIP
+        >>> template = StructuralAnalysisTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     project_name: str = "Structural System"

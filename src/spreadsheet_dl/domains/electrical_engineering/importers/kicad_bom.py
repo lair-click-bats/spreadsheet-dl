@@ -53,7 +53,9 @@ class KiCadBOMImporter(BaseImporter[list[dict[str, Any]]]):
         - Handle grouped components (R1-R10)
 
     Example:
-        >>> importer = KiCadBOMImporter()  # doctest: +SKIP
+        >>> importer = KiCadBOMImporter()
+        >>> importer.metadata is not None
+        True
         >>> result = importer.import_data("kicad_bom.xml")  # doctest: +SKIP
         >>> if result.success:  # doctest: +SKIP
         ...     for component in result.data:

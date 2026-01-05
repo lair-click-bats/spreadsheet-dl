@@ -33,13 +33,10 @@ class TimingAnalysisTemplate(BaseTemplate):
     - Critical path identification
 
     Example:
-        >>> template = TimingAnalysisTemplate(  # doctest: +SKIP
-        ...     design_name="FPGA_Top",
-        ...     target_frequency_mhz=100.0,
-        ...     num_paths=30,
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("timing_analysis.ods")  # doctest: +SKIP
+        >>> template = TimingAnalysisTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     design_name: str = "Digital Design"

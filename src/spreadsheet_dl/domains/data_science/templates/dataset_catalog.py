@@ -34,12 +34,10 @@ class DatasetCatalogTemplate(BaseTemplate):
     - Data type breakdown chart
 
     Example:
-        >>> template = DatasetCatalogTemplate(  # doctest: +SKIP
-        ...     organization="Acme Corp",
-        ...     include_chart=True,
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("dataset_catalog.ods")  # doctest: +SKIP
+        >>> template = DatasetCatalogTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     organization: str = "Data Science Team"

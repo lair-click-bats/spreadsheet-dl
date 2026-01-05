@@ -33,13 +33,10 @@ class ADCCalibrationTemplate(BaseTemplate):
     - Multi-channel support
 
     Example:
-        >>> template = ADCCalibrationTemplate(  # doctest: +SKIP
-        ...     adc_name="ADS1256",
-        ...     resolution_bits=24,
-        ...     reference_voltage=2.5,
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("adc_calibration.ods")  # doctest: +SKIP
+        >>> template = ADCCalibrationTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     adc_name: str = "ADC"

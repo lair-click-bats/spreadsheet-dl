@@ -57,7 +57,9 @@ class CADMetadataImporter(BaseImporter[list[dict[str, Any]]]):
         - Map to MaterialPropertiesTemplate format
 
     Example:
-        >>> importer = CADMetadataImporter()  # doctest: +SKIP
+        >>> importer = CADMetadataImporter()
+        >>> importer.metadata is not None
+        True
         >>> result = importer.import_data("part.step")  # doctest: +SKIP
         >>> if result.success:  # doctest: +SKIP
         ...     for part in result.data:

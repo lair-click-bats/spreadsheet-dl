@@ -34,13 +34,10 @@ class ABTestResultsTemplate(BaseTemplate):
     - Winner declaration based on significance
 
     Example:
-        >>> template = ABTestResultsTemplate(  # doctest: +SKIP
-        ...     test_name="Homepage CTA Test",
-        ...     variants=["Control", "Variant A", "Variant B"],
-        ...     confidence_level=0.95,
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("ab_test_results.ods")  # doctest: +SKIP
+        >>> template = ABTestResultsTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     test_name: str = "A/B Test"

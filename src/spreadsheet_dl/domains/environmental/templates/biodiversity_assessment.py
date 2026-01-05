@@ -31,12 +31,10 @@ class BiodiversityAssessmentTemplate(BaseTemplate):
     - Habitat assessment
 
     Example:
-        >>> template = BiodiversityAssessmentTemplate(  # doctest: +SKIP
-        ...     site_name="Forest Plot A",
-        ...     num_species=50,
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("biodiversity.ods")  # doctest: +SKIP
+        >>> template = BiodiversityAssessmentTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     site_name: str = "Biodiversity Site"

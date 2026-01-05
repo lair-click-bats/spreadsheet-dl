@@ -26,7 +26,9 @@ class EagleBOMImporter(BaseImporter[list[dict[str, Any]]]):
         - Handle multi-board projects
 
     Example:
-        >>> importer = EagleBOMImporter()  # doctest: +SKIP
+        >>> importer = EagleBOMImporter()
+        >>> importer.metadata is not None
+        True
         >>> result = importer.import_data("eagle_bom.txt")  # doctest: +SKIP
         >>> if result.success:  # doctest: +SKIP
         ...     for component in result.data:

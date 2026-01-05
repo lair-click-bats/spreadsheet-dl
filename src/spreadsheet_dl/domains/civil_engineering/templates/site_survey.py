@@ -31,12 +31,10 @@ class SiteSurveyTemplate(BaseTemplate):
         - Cut/fill calculations
 
     Example:
-        >>> template = SiteSurveyTemplate(  # doctest: +SKIP
-        ...     project_name="Highway Survey",
-        ...     num_points=100
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("site_survey.ods")  # doctest: +SKIP
+        >>> template = SiteSurveyTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     project_name: str = "Site Survey"

@@ -35,12 +35,10 @@ class AnalysisReportTemplate(BaseTemplate):
     - Box plots (metadata)
 
     Example:
-        >>> template = AnalysisReportTemplate(  # doctest: +SKIP
-        ...     analysis_name="Customer Segmentation Study",
-        ...     variables=["age", "income", "purchases"],
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("analysis_report.ods")  # doctest: +SKIP
+        >>> template = AnalysisReportTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     analysis_name: str = "Data Analysis Report"

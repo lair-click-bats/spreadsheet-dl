@@ -33,12 +33,10 @@ class ExperimentLogTemplate(BaseTemplate):
     - Chart showing metric trends over experiments
 
     Example:
-        >>> template = ExperimentLogTemplate(  # doctest: +SKIP
-        ...     project_name="Image Classification",
-        ...     metrics=["accuracy", "val_accuracy", "loss", "val_loss"],
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("experiments.ods")  # doctest: +SKIP
+        >>> template = ExperimentLogTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     project_name: str = "ML Project"

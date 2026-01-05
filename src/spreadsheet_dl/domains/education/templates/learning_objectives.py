@@ -30,12 +30,10 @@ class LearningObjectivesTemplate(BaseTemplate):
     - Progress tracking per objective
 
     Example:
-        >>> template = LearningObjectivesTemplate(  # doctest: +SKIP
-        ...     course_name="Introduction to Programming",
-        ...     num_objectives=15,
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("learning_objectives.ods")  # doctest: +SKIP
+        >>> template = LearningObjectivesTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     course_name: str = "Learning Objectives"

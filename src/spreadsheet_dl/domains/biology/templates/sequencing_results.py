@@ -31,12 +31,10 @@ class SequencingResultsTemplate(BaseTemplate):
     - Alignment statistics
 
     Example:
-        >>> template = SequencingResultsTemplate(  # doctest: +SKIP
-        ...     project_name="Genome Sequencing Project",
-        ...     sequencing_type="Illumina NextSeq",
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("sequencing_results.ods")  # doctest: +SKIP
+        >>> template = SequencingResultsTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     project_name: str = "Sequencing Project"

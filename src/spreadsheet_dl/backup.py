@@ -202,12 +202,12 @@ class BackupManager:
     and restore functionality with integrity verification.
 
     Example:
-        >>> manager = BackupManager()  # doctest: +SKIP
-        >>> manager.create_backup("budget.ods", BackupReason.MANUAL)  # doctest: +SKIP
-        BackupInfo(file=budget.ods, ...)
-        >>> manager.list_backups("budget.ods")  # doctest: +SKIP
-        [BackupInfo(...), ...]
-        >>> manager.restore_backup(backup_info, "budget_restored.ods")  # doctest: +SKIP
+        >>> import tempfile
+        >>> manager = BackupManager(backup_dir=tempfile.mkdtemp())
+        >>> manager.backup_dir.exists()
+        True
+        >>> manager.retention_days
+        30
     """
 
     DEFAULT_BACKUP_DIR = ".spreadsheet-dl-backups"

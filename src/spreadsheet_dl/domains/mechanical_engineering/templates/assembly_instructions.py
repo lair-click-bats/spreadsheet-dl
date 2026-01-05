@@ -35,9 +35,12 @@ class AssemblyInstructionsTemplate(BaseTemplate):
         - Critical step flagging
 
     Example:
-        >>> template = AssemblyInstructionsTemplate(assembly_name="Motor Assembly")  # doctest: +SKIP
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("assembly_instructions.ods")  # doctest: +SKIP
+        >>> template = AssemblyInstructionsTemplate()
+        >>> template.metadata.name
+        'Assembly Instructions'
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     assembly_name: str = "Mechanical Assembly"

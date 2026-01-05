@@ -31,13 +31,10 @@ class CourseGradebookTemplate(BaseTemplate):
     - Grade distribution chart data
 
     Example:
-        >>> template = CourseGradebookTemplate(  # doctest: +SKIP
-        ...     course_name="Introduction to Python",
-        ...     num_students=30,
-        ...     num_assignments=10,
-        ... )
-        >>> builder = template.generate()  # doctest: +SKIP
-        >>> path = builder.save("gradebook.ods")  # doctest: +SKIP
+        >>> template = CourseGradebookTemplate()
+        >>> builder = template.generate()
+        >>> builder is not None
+        True
     """
 
     course_name: str = "Course Gradebook"

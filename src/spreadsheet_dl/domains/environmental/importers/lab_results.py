@@ -27,7 +27,9 @@ class LabResultsImporter(BaseImporter[list[dict[str, Any]]]):
     - Chain of custody records
 
     Example:
-        >>> importer = LabResultsImporter()  # doctest: +SKIP
+        >>> importer = LabResultsImporter()
+        >>> importer.metadata is not None
+        True
         >>> result = importer.import_data("lab_results.csv")  # doctest: +SKIP
         >>> print(f"Imported {result.records_imported} lab results")  # doctest: +SKIP
     """

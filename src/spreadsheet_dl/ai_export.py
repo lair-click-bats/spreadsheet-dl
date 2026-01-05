@@ -366,9 +366,11 @@ class AIExporter:
     - Semantic cell tagging (FR-AI-003)
 
     Example:
-        >>> exporter = AIExporter()  # doctest: +SKIP
-        >>> result = exporter.export_to_json("budget.ods")  # doctest: +SKIP
-        >>> print(json.dumps(result, indent=2))  # doctest: +SKIP
+        >>> exporter = AIExporter()
+        >>> exporter.include_formulas
+        True
+        >>> exporter.include_relationships
+        True
     """
 
     # Enhanced formula descriptions with natural language
