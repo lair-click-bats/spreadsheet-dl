@@ -55,7 +55,7 @@ class BuilderError(SpreadsheetDLError):
     .. versionadded:: 4.0.0
     """
 
-    pass
+    pass  # Base class - subclasses provide specific error messages
 
 
 class NoSheetSelectedError(BuilderError):

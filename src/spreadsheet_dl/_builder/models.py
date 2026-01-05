@@ -273,7 +273,7 @@ class SheetSpec:
             >>> sheet = SheetSpec(name="Locked")
             >>> sheet.protection = {
             ...     "enabled": True,
-            ...     "password": "secret",
+            ...     "password": "your-password-here",
             ...     "edit_cells": False
             ... }
             >>> sheet.protection["enabled"]
