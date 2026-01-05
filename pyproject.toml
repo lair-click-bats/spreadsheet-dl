@@ -60,6 +60,17 @@ dev = [
     "pandas-stubs>=2.1.0",
     "types-requests>=2.31.0",
     "types-PyYAML>=6.0.0",
+    "towncrier>=24.8.0",
+]
+docs = [
+    "mkdocs>=1.6.0",
+    "mkdocs-material>=9.5.0",
+    "mkdocstrings[python]>=0.27.0",
+    "mkdocs-gen-files>=0.5.0",
+    "mkdocs-literate-nav>=0.6.0",
+    "mkdocs-section-index>=0.3.8",
+    "interrogate>=1.7.0",
+    "mike>=2.1.0",
 ]
 export = [
     "openpyxl>=3.1.0",
@@ -117,10 +128,23 @@ select = [
     "SIM",    # flake8-simplify
     "TCH",    # flake8-type-checking
     "RUF",    # Ruff-specific rules
+    "D",      # pydocstyle
 ]
 ignore = [
     "E501",   # line too long (handled by formatter)
+    "D100",   # missing docstring in public module (handled separately)
+    "D104",   # missing docstring in public package
+    "D105",   # missing docstring in magic method
+    "D107",   # missing docstring in __init__
 ]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D"]  # Don't require docstrings in tests
+"examples/*" = ["D"]  # Don't require docstrings in examples
+"src/spreadsheet_dl/domains/*/formulas/*" = ["D417"]  # **kwargs for API compat
 
 [tool.ruff.lint.isort]
 known-first-party = ["spreadsheet_dl"]
@@ -140,13 +164,15 @@ module = [
     "openpyxl.*",
     "reportlab.*",
     "bs4.*",
+    "plaid.*",
 ]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-q --tb=short -v"
+addopts = "-q --tb=short -v --doctest-modules"
 pythonpath = ["src"]
+doctest_optionflags = ["NORMALIZE_WHITESPACE", "ELLIPSIS"]
 markers = [
     # Test Level Markers
     "unit: Unit tests (fast, isolated, no I/O)",
@@ -189,6 +215,65 @@ exclude_lines = [
     "if TYPE_CHECKING:",
     "if __name__ == .__main__.:",
 ]
+
+[tool.interrogate]
+ignore-init-method = true
+ignore-init-module = true
+ignore-magic = true
+ignore-semiprivate = true
+ignore-private = true
+ignore-property-decorators = true
+ignore-module = false
+ignore-nested-functions = true
+ignore-nested-classes = true
+fail-under = 80
+exclude = ["tests", "examples", ".claude"]
+verbose = 2
+
+[tool.towncrier]
+package = "spreadsheet_dl"
+package_dir = "src"
+filename = "CHANGELOG.md"
+directory = "changelog.d"
+start_string = "<!-- towncrier release notes start -->\n"
+underlines = ["", "", ""]
+title_format = "## [{version}] - {project_date}"
+issue_format = "[#{issue}](https://github.com/lair-click-bats/spreadsheet-dl/issues/{issue})"
+
+[[tool.towncrier.type]]
+directory = "breaking"
+name = "Breaking Changes"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "feature"
+name = "New Features"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "fix"
+name = "Bug Fixes"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "improvement"
+name = "Improvements"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "doc"
+name = "Documentation"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "deprecation"
+name = "Deprecations"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "misc"
+name = "Miscellaneous"
+showcontent = true
 
 [dependency-groups]
 dev = [

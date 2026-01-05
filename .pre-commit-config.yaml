@@ -39,6 +39,28 @@ repos:
         types_or: [python, pyi]
 
     # ==========================================================================
+    # Python: Docstring coverage with interrogate
+    # ==========================================================================
+  - repo: https://github.com/econchick/interrogate
+    rev: 1.7.0
+    hooks:
+      - id: interrogate
+        args:
+          - --fail-under=80
+          - --ignore-init-method
+          - --ignore-init-module
+          - --ignore-magic
+          - --ignore-semiprivate
+          - --ignore-private
+          - --ignore-property-decorators
+          - --ignore-nested-functions
+          - --ignore-nested-classes
+          - --exclude=tests
+          - --exclude=examples
+          - --exclude=.claude
+        pass_filenames: false
+
+    # ==========================================================================
     # Shell scripts: ShellCheck
     # ==========================================================================
   - repo: https://github.com/shellcheck-py/shellcheck-py
