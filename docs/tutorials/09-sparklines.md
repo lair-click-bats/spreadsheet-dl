@@ -464,5 +464,5 @@ config.to_formula() -> str
 ## Additional Resources
 
 - [LibreOffice Calc SPARKLINE Documentation](https://help.libreoffice.org/)
-- [SparklineConfig API Docs](../api/interactive.md#sparklineconfig)
-- [InteractiveOdsBuilder API Docs](../api/interactive.md#interactiveodsbuilder)
+- [SparklineConfig API Docs](../api/interactive.md)
+- [InteractiveOdsBuilder API Docs](../api/interactive.md)

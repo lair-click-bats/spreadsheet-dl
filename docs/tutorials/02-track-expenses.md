@@ -470,4 +470,4 @@ spreadsheet-dl expense 150.00 "Car insurance" -d 2026-01-10 -c Transportation
 
 - [Available Expense Categories](../api/ods_generator.md#expensecategory)
 - [Custom Categories](../api/categories.md)
-- [CLI Reference](../cli.md#expense-command)
+- [CLI Reference](../cli.md)

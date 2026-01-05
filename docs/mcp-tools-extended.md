@@ -327,17 +327,7 @@ All 144 tools verified for:
 - Return value schemas
 - Error handling
 
-## Future Work
-
-Priority areas for full implementation of extended universal tools:
-
-1. **Import/Export**: High value for data integration across formats
-2. **Print Layout**: Essential for professional outputs and PDF generation
-3. **Theme Management**: Professional appearance and branding
-4. **Workbook Operations**: Advanced workbook-level features
-
 ## References
-
 
 - **IR-MCP-002**: Native MCP Server requirement
 - **MCP Specification**: https://modelcontextprotocol.io/

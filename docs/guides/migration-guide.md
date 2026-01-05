@@ -17,7 +17,7 @@ Future versions of this guide will include migration instructions when upgrading
 
 ## Future Version Migration
 
-SpreadsheetDL v4.0.0 is the first public release. This section will be updated with migration guides when future versions are released.
+SpreadsheetDL v4.0.0 is the first public release. Migration guides will be provided for future versions as they are released.
 
 ### Breaking Changes Policy
 

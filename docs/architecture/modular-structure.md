@@ -35,7 +35,7 @@ from spreadsheet_dl.mcp_server import MCPConfig, MCPServer
 
 ### Builder Package (`spreadsheet_dl._builder/`)
 
-The builder API will be organized into focused modules (future):
+The builder API will be organized into focused modules:
 
 ```
 src/spreadsheet_dl/_builder/
@@ -65,7 +65,7 @@ from spreadsheet_dl.builder import SpreadsheetBuilder
 
 ### CLI Package (`spreadsheet_dl._cli/`)
 
-The CLI implementation will be organized into focused modules (future):
+The CLI implementation will be organized into focused modules:
 
 ```
 src/spreadsheet_dl/_cli/
@@ -168,4 +168,4 @@ These are publicly accessible via the main package for users who want modular ac
 
 - [Architecture Overview](../ARCHITECTURE.md)
 - [Migration Guide](../guides/migration-guide.md)
-- [API Documentation](../api/)
+- [API Documentation](../api/index.md)

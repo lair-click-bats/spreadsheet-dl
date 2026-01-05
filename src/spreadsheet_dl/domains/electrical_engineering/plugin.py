@@ -14,7 +14,7 @@ Provides electrical engineering-specific functionality including:
 - KiCad, Eagle, and generic CSV importers
 
 Features:
-    - 5 professional templates for EE workflows
+    - 11 professional templates for EE workflows (5 PCB/BOM + 6 embedded systems)
     - 12 electrical engineering formula extensions
     - 3 importers for CAD tool exports
     - Integration with KiCad, Eagle, and other EDA tools
@@ -55,8 +55,17 @@ from spreadsheet_dl.domains.electrical_engineering.importers.kicad_bom import (
     KiCadBOMImporter,
 )
 
-# Import templates
+# Import templates (5 original + 6 advanced = 11 total)
+from spreadsheet_dl.domains.electrical_engineering.templates.adc_calibration import (
+    ADCCalibrationTemplate,
+)
+from spreadsheet_dl.domains.electrical_engineering.templates.binary_analysis import (
+    BinaryAnalysisTemplate,
+)
 from spreadsheet_dl.domains.electrical_engineering.templates.bom import BOMTemplate
+from spreadsheet_dl.domains.electrical_engineering.templates.memory_map import (
+    MemoryMapTemplate,
+)
 from spreadsheet_dl.domains.electrical_engineering.templates.pin_mapping import (
     PinMappingTemplate,
 )
@@ -66,8 +75,17 @@ from spreadsheet_dl.domains.electrical_engineering.templates.power_budget import
 from spreadsheet_dl.domains.electrical_engineering.templates.procedure_template import (
     ProcedureTemplate,
 )
+from spreadsheet_dl.domains.electrical_engineering.templates.protocol_analysis import (
+    ProtocolAnalysisTemplate,
+)
+from spreadsheet_dl.domains.electrical_engineering.templates.register_map import (
+    RegisterMapTemplate,
+)
 from spreadsheet_dl.domains.electrical_engineering.templates.signal_routing import (
     SignalRoutingTemplate,
+)
+from spreadsheet_dl.domains.electrical_engineering.templates.timing_analysis import (
+    TimingAnalysisTemplate,
 )
 
 
@@ -81,7 +99,8 @@ class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
     Provides comprehensive electrical engineering functionality for SpreadsheetDL
     with templates, formulas, and importers tailored for hardware/PCB design.
 
-    Example:
+    Example::
+
         >>> plugin = ElectricalEngineeringDomainPlugin()
         >>> plugin.initialize()
         >>> template_class = plugin.get_template("bom")
@@ -129,12 +148,19 @@ class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
         Raises:
             Exception: If initialization fails
         """
-        # Register templates (5 total)
+        # Register templates (11 total: 5 original + 6 advanced)
         self.register_template("bom", BOMTemplate)
         self.register_template("pin_mapping", PinMappingTemplate)
         self.register_template("power_budget", PowerBudgetTemplate)
         self.register_template("signal_routing", SignalRoutingTemplate)
         self.register_template("test_procedure", ProcedureTemplate)
+        # Advanced templates for embedded systems development
+        self.register_template("register_map", RegisterMapTemplate)
+        self.register_template("memory_map", MemoryMapTemplate)
+        self.register_template("timing_analysis", TimingAnalysisTemplate)
+        self.register_template("protocol_analysis", ProtocolAnalysisTemplate)
+        self.register_template("adc_calibration", ADCCalibrationTemplate)
+        self.register_template("binary_analysis", BinaryAnalysisTemplate)
 
         # Register power formulas (4 total)
         self.register_formula("POWER_DISSIPATION", PowerDissipationFormula)
@@ -180,7 +206,7 @@ class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
             Plugin validation
         """
         # Verify we have all required components
-        required_templates = 5
+        required_templates = 11  # 5 original + 6 advanced
         required_formulas = 12  # 4 power + 4 impedance + 4 signal
         required_importers = 3
 

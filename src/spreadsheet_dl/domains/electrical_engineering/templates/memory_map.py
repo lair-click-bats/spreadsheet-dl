@@ -100,15 +100,19 @@ class MemoryMapTemplate(BaseTemplate):
         builder.sheet("Memory Regions")
 
         # Define columns
-        builder.column("Region Name", width="140pt", style="text")
-        builder.column("Start Address", width="100pt", style="text")
-        builder.column("End Address", width="100pt", style="text")
-        builder.column("Size (Bytes)", width="90pt", type="number")
-        builder.column("Size (KB)", width="70pt", type="number")
-        builder.column("Type", width="80pt", style="text")
-        builder.column("Access", width="60pt", style="text")
-        builder.column("Usage", width="120pt", style="text")
-        builder.column("Notes", width="150pt", style="text")
+        builder.column("Region Name", width="130pt", style="text")
+        builder.column("Start Address", width="95pt", style="text")
+        builder.column("End Address", width="95pt", style="text")
+        builder.column("Size (Bytes)", width="85pt", type="number")
+        builder.column("Size (KB)", width="65pt", type="number")
+        builder.column("Gap (Bytes)", width="80pt", type="number")
+        builder.column("Type", width="70pt", style="text")
+        builder.column("Access", width="55pt", style="text")
+        builder.column("Cache", width="50pt", style="text")
+        builder.column("XN", width="40pt", style="text")
+        builder.column("Valid", width="55pt", style="text")
+        builder.column("Usage", width="100pt", style="text")
+        builder.column("Notes", width="130pt", style="text")
 
         builder.freeze(rows=2, cols=1)
 
@@ -117,7 +121,7 @@ class MemoryMapTemplate(BaseTemplate):
         builder.cell(
             f"Memory Map: {self.device_name} "
             f"(Flash: {self.total_flash // 1024}KB, RAM: {self.total_ram // 1024}KB)",
-            colspan=9,
+            colspan=13,
         )
 
         # Header row
@@ -127,8 +131,12 @@ class MemoryMapTemplate(BaseTemplate):
         builder.cell("End Address")
         builder.cell("Size (Bytes)")
         builder.cell("Size (KB)")
+        builder.cell("Gap (Bytes)")
         builder.cell("Type")
         builder.cell("Access")
+        builder.cell("Cache")
+        builder.cell("XN")
+        builder.cell("Valid")
         builder.cell("Usage")
         builder.cell("Notes")
 
@@ -136,55 +144,108 @@ class MemoryMapTemplate(BaseTemplate):
         for i in range(self.num_regions):
             row_num = i + 3
             builder.row()
-            builder.cell("", style="input")  # Region name
-            builder.cell("", style="input")  # Start address (hex)
-            builder.cell("", style="input")  # End address (hex)
-            # Size = End - Start + 1 (if both provided)
+            builder.cell("", style="input")  # Region name (A)
+            builder.cell("", style="input")  # Start address hex (B)
+            builder.cell("", style="input")  # End address hex (C)
+            # Size = End - Start + 1 (if both provided) (D)
             builder.cell(
                 f'=IF(OR(B{row_num}="";C{row_num}="");"";'
                 f'HEX2DEC(SUBSTITUTE(C{row_num};"0x";""))'
                 f'-HEX2DEC(SUBSTITUTE(B{row_num};"0x";""))+1)'
             )
-            # Size in KB
-            builder.cell(f'=IF(D{row_num}="";"";"D{row_num}/1024)', style="number")
-            builder.cell("", style="input")  # Type (Flash/RAM/EEPROM/Peripheral)
-            builder.cell("RWX", style="input")  # Access (R/W/X combinations)
-            builder.cell("", style="input")  # Usage
-            builder.cell("", style="input")  # Notes
+            # Size in KB (E)
+            builder.cell(f'=IF(D{row_num}="";"";D{row_num}/1024)', style="number")
+            # Gap = Current Start - Previous End - 1 (F)
+            if i == 0:
+                builder.cell("")  # No gap for first row
+            else:
+                builder.cell(
+                    f'=IF(OR(B{row_num}="";C{row_num - 1}="");"";'
+                    f'HEX2DEC(SUBSTITUTE(B{row_num};"0x";""))'
+                    f'-HEX2DEC(SUBSTITUTE(C{row_num - 1};"0x";""))-1)'
+                )
+            builder.cell("", style="input")  # Type (G)
+            builder.cell("RWX", style="input")  # Access (H)
+            builder.cell("Y", style="input")  # Cacheable (I)
+            builder.cell("N", style="input")  # Execute Never (J)
+            # Validation: check End >= Start and no overlap (K)
+            if i == 0:
+                # First row: just check End >= Start
+                builder.cell(
+                    f'=IF(OR(B{row_num}="";C{row_num}="");"";'
+                    f'IF(HEX2DEC(SUBSTITUTE(C{row_num};"0x";""))'
+                    f'>=HEX2DEC(SUBSTITUTE(B{row_num};"0x";""));"OK";"ERR"))'
+                )
+            else:
+                # Subsequent rows: check End >= Start AND no overlap with prev
+                builder.cell(
+                    f'=IF(OR(B{row_num}="";C{row_num}="");"";'
+                    f'IF(HEX2DEC(SUBSTITUTE(C{row_num};"0x";""))'
+                    f'<HEX2DEC(SUBSTITUTE(B{row_num};"0x";""));"RANGE";'
+                    f'IF(AND(C{row_num - 1}<>"";'
+                    f'HEX2DEC(SUBSTITUTE(B{row_num};"0x";""))'
+                    f'<=HEX2DEC(SUBSTITUTE(C{row_num - 1};"0x";"")));"OVERLAP";"OK")))'
+                )
+            builder.cell("", style="input")  # Usage (L)
+            builder.cell("", style="input")  # Notes (M)
 
         # Summary section
         builder.row()
         builder.row(style="section_header")
-        builder.cell("Memory Summary", colspan=9)
+        builder.cell("Memory Summary", colspan=13)
 
-        # Flash usage
+        # Flash usage row
         builder.row()
         builder.cell("Flash Regions:", colspan=2)
-        builder.cell(f'=COUNTIF(F3:F{self.num_regions + 2};"Flash")')
+        builder.cell(f'=COUNTIF(G3:G{self.num_regions + 2};"Flash")')
         builder.cell("")
         builder.cell("Flash Used (Bytes):", colspan=2)
         builder.cell(
-            f'=SUMIF(F3:F{self.num_regions + 2};"Flash";D3:D{self.num_regions + 2})'
+            f'=SUMIF(G3:G{self.num_regions + 2};"Flash";D3:D{self.num_regions + 2})'
+        )
+        builder.cell("")
+        # Count specific errors, not empty cells
+        builder.cell("Validation Errors:", colspan=2)
+        builder.cell(
+            f'=COUNTIF(K3:K{self.num_regions + 2};"ERR")'
+            f'+COUNTIF(K3:K{self.num_regions + 2};"RANGE")'
+            f'+COUNTIF(K3:K{self.num_regions + 2};"OVERLAP")'
         )
         builder.cell("")
         builder.cell("")
 
-        # RAM usage
+        # RAM usage row
         builder.row()
         builder.cell("RAM Regions:", colspan=2)
-        builder.cell(f'=COUNTIF(F3:F{self.num_regions + 2};"RAM")')
+        builder.cell(f'=COUNTIF(G3:G{self.num_regions + 2};"RAM")')
         builder.cell("")
         builder.cell("RAM Used (Bytes):", colspan=2)
         builder.cell(
-            f'=SUMIF(F3:F{self.num_regions + 2};"RAM";D3:D{self.num_regions + 2})'
+            f'=SUMIF(G3:G{self.num_regions + 2};"RAM";D3:D{self.num_regions + 2})'
         )
+        builder.cell("")
+        builder.cell("Overlaps:", colspan=2)
+        builder.cell(f'=COUNTIF(K3:K{self.num_regions + 2};"OVERLAP")')
+        builder.cell("")
+        builder.cell("")
+
+        # Gap statistics row
+        builder.row()
+        builder.cell("Total Regions:", colspan=2)
+        builder.cell(f"=COUNTA(A3:A{self.num_regions + 2})")
+        builder.cell("")
+        builder.cell("Total Gaps (Bytes):", colspan=2)
+        builder.cell(f"=SUM(F3:F{self.num_regions + 2})")
+        builder.cell("")
+        builder.cell("Negative Gaps:", colspan=2)
+        builder.cell(f'=COUNTIF(F3:F{self.num_regions + 2};"<0")')
         builder.cell("")
         builder.cell("")
 
         # Type legend
         builder.row()
         builder.row(style="section_header")
-        builder.cell("Memory Type Legend", colspan=9)
+        builder.cell("Memory Type Legend", colspan=13)
 
         types = [
             ("Flash", "Non-volatile program memory"),
@@ -199,7 +260,7 @@ class MemoryMapTemplate(BaseTemplate):
         for mem_type, desc in types:
             builder.row()
             builder.cell(mem_type)
-            builder.cell(desc, colspan=8)
+            builder.cell(desc, colspan=12)
 
     def _create_linker_reference(self, builder: SpreadsheetBuilder) -> None:
         """Create linker script reference sheet."""

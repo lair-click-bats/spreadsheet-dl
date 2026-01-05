@@ -430,7 +430,7 @@ builder.save("q4_budget_report.ods")
 ## See Also
 
 - [Builder API Reference](../api/builder.md) - Complete API documentation
-- [Formula Reference](../api/builder.md#formulabuilder) - All formula functions
+- [Formula Reference](../api/builder.md) - All formula functions
 - [Chart Reference](../api/charts.md) - Chart builder API
 - [Theme System](./theme-creation.md) - Custom themes
 - [Style Composition](./style-composition.md) - Style inheritance

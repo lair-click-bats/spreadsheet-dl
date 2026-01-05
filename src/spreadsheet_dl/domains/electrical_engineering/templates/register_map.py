@@ -96,6 +96,9 @@ class RegisterMapTemplate(BaseTemplate):
         if self.include_bit_fields:
             self._create_bitfield_sheet(builder)
 
+        # Create interrupt vector table
+        self._create_interrupts_sheet(builder)
+
         # Create quick reference sheet
         self._create_quick_reference(builder)
 
@@ -266,6 +269,128 @@ class RegisterMapTemplate(BaseTemplate):
             builder.cell("")
             builder.cell("")
             builder.cell(values)
+
+    def _create_interrupts_sheet(self, builder: SpreadsheetBuilder) -> None:
+        """Create interrupt vector table sheet."""
+        builder.sheet("Interrupts")
+
+        builder.column("IRQ #", width="60pt", type="number")
+        builder.column("Vector", width="80pt", style="text")
+        builder.column("Name", width="140pt", style="text")
+        builder.column("Priority", width="70pt", type="number")
+        builder.column("Enable Reg", width="100pt", style="text")
+        builder.column("Enable Bit", width="70pt", style="text")
+        builder.column("Flag Reg", width="100pt", style="text")
+        builder.column("Flag Bit", width="70pt", style="text")
+        builder.column("Handler", width="140pt", style="text")
+        builder.column("Notes", width="150pt", style="text")
+
+        builder.freeze(rows=2, cols=2)
+
+        # Title row
+        builder.row(style="header_primary")
+        builder.cell(
+            f"Interrupt Vector Table: {self.device_name} - {self.peripheral_name}",
+            colspan=10,
+        )
+
+        # Header row
+        builder.row(style="header_secondary")
+        builder.cell("IRQ #")
+        builder.cell("Vector")
+        builder.cell("Name")
+        builder.cell("Priority")
+        builder.cell("Enable Reg")
+        builder.cell("Enable Bit")
+        builder.cell("Flag Reg")
+        builder.cell("Flag Bit")
+        builder.cell("Handler")
+        builder.cell("Notes")
+
+        # Interrupt rows (16 typical for peripheral)
+        num_interrupts = min(16, self.num_registers)
+        for i in range(num_interrupts):
+            vector_addr = i * 4  # Typical ARM vector spacing
+            builder.row()
+            builder.cell(i, style="input")  # IRQ number
+            builder.cell(f"0x{vector_addr:04X}", style="input")  # Vector address
+            builder.cell("", style="input")  # Interrupt name
+            builder.cell(0, style="input")  # Priority level
+            builder.cell("", style="input")  # Enable register
+            builder.cell("", style="input")  # Enable bit
+            builder.cell("", style="input")  # Flag/status register
+            builder.cell("", style="input")  # Flag bit
+            builder.cell("", style="input")  # Handler function name
+            builder.cell("", style="input")  # Notes
+
+        # Summary section
+        builder.row()
+        builder.row(style="section_header")
+        builder.cell("Interrupt Configuration", colspan=10)
+
+        builder.row()
+        builder.cell("Total Interrupts:", colspan=2)
+        builder.cell(f"=COUNTA(C3:C{num_interrupts + 2})")
+        builder.cell("")
+        builder.cell("Global Enable:", colspan=2)
+        builder.cell("", style="input")
+        builder.cell("")
+        builder.cell("")
+        builder.cell("")
+
+        builder.row()
+        builder.cell("NVIC Base:", colspan=2)
+        builder.cell("0xE000E100", style="input")
+        builder.cell("")
+        builder.cell("Priority Bits:", colspan=2)
+        builder.cell("4", style="input")
+        builder.cell("")
+        builder.cell("")
+        builder.cell("")
+
+        # Priority levels reference
+        builder.row()
+        builder.row(style="section_header")
+        builder.cell("Priority Reference", colspan=10)
+
+        priority_info = [
+            ("0 (Highest)", "Reserved for critical system exceptions"),
+            ("1-3", "High priority - time-critical operations"),
+            ("4-7", "Normal priority - standard peripherals"),
+            ("8-15 (Lowest)", "Low priority - background tasks"),
+        ]
+
+        for level, desc in priority_info:
+            builder.row()
+            builder.cell("")
+            builder.cell("")
+            builder.cell("")
+            builder.cell(level)
+            builder.cell(desc, colspan=6)
+
+        # NVIC register reference
+        builder.row()
+        builder.row(style="section_header")
+        builder.cell("NVIC Registers (ARM Cortex-M)", colspan=10)
+
+        nvic_regs = [
+            ("ISER", "0xE000E100", "Interrupt Set Enable Register"),
+            ("ICER", "0xE000E180", "Interrupt Clear Enable Register"),
+            ("ISPR", "0xE000E200", "Interrupt Set Pending Register"),
+            ("ICPR", "0xE000E280", "Interrupt Clear Pending Register"),
+            ("IABR", "0xE000E300", "Interrupt Active Bit Register"),
+            ("IPR", "0xE000E400", "Interrupt Priority Registers"),
+        ]
+
+        for name, addr, desc in nvic_regs:
+            builder.row()
+            builder.cell("")
+            builder.cell("")
+            builder.cell(name)
+            builder.cell("")
+            builder.cell(addr)
+            builder.cell("")
+            builder.cell(desc, colspan=4)
 
     def _create_quick_reference(self, builder: SpreadsheetBuilder) -> None:
         """Create quick reference sheet with common operations."""

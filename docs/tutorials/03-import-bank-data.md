@@ -471,4 +471,4 @@ category = categorizer.categorize("MY GYM NAME MEMBERSHIP")
 
 - [Supported Bank Formats](../api/bank_formats.md)
 - [Custom Format Creation](../guides/custom-bank-formats.md)
-- [CLI Import Reference](../cli.md#import-command)
+- [CLI Import Reference](../cli.md)

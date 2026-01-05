@@ -430,6 +430,6 @@ Your budget spreadsheet should have:
 
 ## Additional Resources
 
-- [Available Templates](../index.md#budget-templates)
-- [Theme System](../index.md#built-in-themes)
-- [Python API Reference](../api/)
+- [Available Templates](../index.md)
+- [Theme System](../index.md)
+- [Python API Reference](../api/index.md)

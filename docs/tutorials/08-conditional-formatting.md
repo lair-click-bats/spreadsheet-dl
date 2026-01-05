@@ -474,22 +474,12 @@ budget_fmt = (
 - Try different value types (MIN, MAX, PERCENTILE, NUMBER)
 - Check color definitions are valid hex codes
 
-## Limitations and Future Work
-
-### Current Limitations
+## Current Limitations
 
 1. **Static Evaluation**: Conditions evaluated at export time only
 2. **No Formula Support**: Formula-based rules not supported in static mode
 3. **Limited ODF Support**: odfpy doesn't support native ODF conditional formats
 4. **No Top/Bottom Rules**: Top N, bottom N rules defined but not evaluated statically
-
-### Planned Features (v4.1.0+)
-
-- XLSX export with dynamic conditional formatting
-- Formula-based condition evaluation
-- Top/Bottom N rules
-- Above/below average rules
-- Duplicate value highlighting
 
 ## Additional Resources
 

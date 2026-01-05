@@ -548,4 +548,4 @@ email_report("budget_2026_01.ods", "recipient@example.com")
 
 - [Report API Reference](../api/report_generator.md)
 - [Visualization Guide](../guides/visualization.md)
-- [CLI Reference](../cli.md#report-command)
+- [CLI Reference](../cli.md)

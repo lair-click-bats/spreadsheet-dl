@@ -156,3 +156,4 @@ work-obj*.cf
 !.coordination/projects/.gitkeep
 !.coordination/spec/
 !.coordination/spec/incomplete-features.yaml
+site/

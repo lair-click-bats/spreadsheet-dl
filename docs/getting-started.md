@@ -20,7 +20,7 @@ SpreadsheetDL is a declarative toolkit for creating professional spreadsheets pr
 ### Using pip (Recommended)
 
 ```bash
-# Install from GitHub (PyPI coming soon)
+# Install from GitHub
 pip install git+https://github.com/lair-click-bats/spreadsheet-dl.git
 
 # Or install with all extras
@@ -326,7 +326,7 @@ Now that you have the basics, explore these topics:
 
 ### Advanced Topics
 
-- **[API Reference](api/)** - Complete Python API documentation
+- **[API Reference](api/index.md)** - Complete Python API documentation
 - **[CLI Reference](cli.md)** - All command-line options
 - **[Best Practices](guides/best-practices.md)** - Tips and recommendations
 - **[MCP Integration](MCP_INTEGRATION.md)** - Claude Desktop setup
