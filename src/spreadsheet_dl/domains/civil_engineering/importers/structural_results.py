@@ -2,7 +2,7 @@
 Structural analysis results importer for civil engineering.
 
 Implements:
-    REQ-C004-051: StructuralResultsImporter for analysis software output
+    StructuralResultsImporter for analysis software output
 """
 
 from __future__ import annotations
@@ -20,7 +20,7 @@ class StructuralResultsImporter(BaseImporter[list[dict[str, Any]]]):
     Import structural analysis results from various software packages.
 
     Implements:
-        REQ-C004-051: StructuralResultsImporter requirements
+        StructuralResultsImporter requirements
 
     Features:
         - Read SAP2000, STAAD, ETABS output files (text/CSV format)
@@ -81,7 +81,7 @@ class StructuralResultsImporter(BaseImporter[list[dict[str, Any]]]):
             ImportResult with structural results as list of dictionaries
 
         Implements:
-            REQ-C004-051: Structural results parsing with validation
+            Structural results parsing with validation
         """
         if not self.validate_source(source):
             return ImportResult(

@@ -2,7 +2,7 @@
 Ecology and population biology formulas.
 
 Implements:
-    TASK-C006: Ecology formulas
+    Ecology formulas
     (SHANNON_DIVERSITY, SIMPSON_INDEX, SPECIES_RICHNESS, POPULATION_GROWTH)
 """
 
@@ -20,7 +20,7 @@ class ShannonDiversityFormula(BaseFormula):
     Calculate Shannon diversity index.
 
     Implements:
-        TASK-C006: SHANNON_DIVERSITY formula for biodiversity analysis
+        SHANNON_DIVERSITY formula for biodiversity analysis
 
     Example:
         >>> formula = ShannonDiversityFormula()
@@ -37,7 +37,7 @@ class ShannonDiversityFormula(BaseFormula):
             FormulaMetadata for SHANNON_DIVERSITY
 
         Implements:
-            TASK-C006: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="SHANNON_DIVERSITY",
@@ -70,7 +70,7 @@ class ShannonDiversityFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C006: SHANNON_DIVERSITY formula building
+            SHANNON_DIVERSITY formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -92,7 +92,7 @@ class SimpsonIndexFormula(BaseFormula):
     Calculate Simpson's diversity index.
 
     Implements:
-        TASK-C006: SIMPSON_INDEX formula for biodiversity analysis
+        SIMPSON_INDEX formula for biodiversity analysis
 
     Example:
         >>> formula = SimpsonIndexFormula()
@@ -109,7 +109,7 @@ class SimpsonIndexFormula(BaseFormula):
             FormulaMetadata for SIMPSON_INDEX
 
         Implements:
-            TASK-C006: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="SIMPSON_INDEX",
@@ -149,7 +149,7 @@ class SimpsonIndexFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C006: SIMPSON_INDEX formula building
+            SIMPSON_INDEX formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -180,7 +180,7 @@ class SpeciesRichnessFormula(BaseFormula):
     Calculate species richness (number of species).
 
     Implements:
-        TASK-C006: SPECIES_RICHNESS formula for biodiversity analysis
+        SPECIES_RICHNESS formula for biodiversity analysis
 
     Example:
         >>> formula = SpeciesRichnessFormula()
@@ -197,7 +197,7 @@ class SpeciesRichnessFormula(BaseFormula):
             FormulaMetadata for SPECIES_RICHNESS
 
         Implements:
-            TASK-C006: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="SPECIES_RICHNESS",
@@ -230,7 +230,7 @@ class SpeciesRichnessFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C006: SPECIES_RICHNESS formula building
+            SPECIES_RICHNESS formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -249,7 +249,7 @@ class PopulationGrowthFormula(BaseFormula):
     Calculate population growth rate.
 
     Implements:
-        TASK-C006: POPULATION_GROWTH formula for population dynamics
+        POPULATION_GROWTH formula for population dynamics
 
     Example:
         >>> formula = PopulationGrowthFormula()
@@ -266,7 +266,7 @@ class PopulationGrowthFormula(BaseFormula):
             FormulaMetadata for POPULATION_GROWTH
 
         Implements:
-            TASK-C006: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="POPULATION_GROWTH",
@@ -320,7 +320,7 @@ class PopulationGrowthFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C006: POPULATION_GROWTH formula building
+            POPULATION_GROWTH formula building
 
         Raises:
             ValueError: If arguments are invalid

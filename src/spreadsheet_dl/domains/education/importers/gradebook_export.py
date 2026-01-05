@@ -2,7 +2,7 @@
 Gradebook Export Importer.
 
 Implements:
-    TASK-C007: GradebookExportImporter for education domain
+    GradebookExportImporter for education domain
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ class GradebookExportImporter(BaseImporter[list[dict[str, Any]]]):
     Gradebook export importer.
 
     Implements:
-        TASK-C007: GradebookExportImporter for CSV/Excel gradebook exports
+        GradebookExportImporter for CSV/Excel gradebook exports
 
     Supports importing gradebook data from:
     - CSV exports from various grade tracking tools
@@ -46,7 +46,7 @@ class GradebookExportImporter(BaseImporter[list[dict[str, Any]]]):
             ImporterMetadata for gradebook importer
 
         Implements:
-            TASK-C007: Importer metadata
+            Importer metadata
         """
         return ImporterMetadata(
             name="Gradebook Export Importer",
@@ -66,7 +66,7 @@ class GradebookExportImporter(BaseImporter[list[dict[str, Any]]]):
             ImportResult with grade data
 
         Implements:
-            TASK-C007: Gradebook data import
+            Gradebook data import
         """
         source_path = Path(source)
         data: list[dict[str, Any]] = []
@@ -226,7 +226,7 @@ class GradebookExportImporter(BaseImporter[list[dict[str, Any]]]):
             True if source is valid
 
         Implements:
-            TASK-C007: Source validation
+            Source validation
         """
         path = Path(source)
         return path.exists() and path.suffix.lower() in (".csv", ".xlsx", ".xls")

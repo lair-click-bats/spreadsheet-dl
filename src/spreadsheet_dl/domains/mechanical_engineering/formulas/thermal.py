@@ -2,7 +2,7 @@
 Thermal formulas for mechanical engineering.
 
 Implements:
-    REQ-C003-009: Thermal formulas (THERMAL_EXPANSION, THERMAL_STRESS)
+    Thermal formulas (THERMAL_EXPANSION, THERMAL_STRESS)
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class ThermalExpansionFormula(BaseFormula):
     original length, and temperature change.
 
     Implements:
-        REQ-C003-009: THERMAL_EXPANSION formula
+        THERMAL_EXPANSION formula
 
     Example:
         >>> formula = ThermalExpansionFormula()
@@ -89,7 +89,7 @@ class ThermalStressFormula(BaseFormula):
     coefficient of thermal expansion, and temperature change.
 
     Implements:
-        REQ-C003-009: THERMAL_STRESS formula
+        THERMAL_STRESS formula
 
     Example:
         >>> formula = ThermalStressFormula()

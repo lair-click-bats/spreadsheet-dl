@@ -2,7 +2,7 @@
 Data Science Importers for SpreadsheetDL.
 
 Implements:
-    TASK-C001: Data Science domain importers
+    Data Science domain importers
 
 Provides data import functionality for scientific formats:
 - ScientificCSVImporter: CSV with scientific notation and auto-type detection

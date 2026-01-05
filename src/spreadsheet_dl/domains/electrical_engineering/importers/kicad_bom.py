@@ -2,7 +2,7 @@
 KiCad BOM importer for electrical engineering.
 
 Implements:
-    TASK-C002: KiCadBOMImporter for KiCad XML/CSV exports
+    KiCadBOMImporter for KiCad XML/CSV exports
 """
 
 from __future__ import annotations
@@ -47,7 +47,7 @@ class KiCadBOMImporter(BaseImporter[list[dict[str, Any]]]):
     Import KiCad BOM exports (XML or CSV format).
 
     Implements:
-        TASK-C002: KiCadBOMImporter requirements
+        KiCadBOMImporter requirements
 
     Features:
         - Parse KiCad BOM XML/CSV exports
@@ -97,7 +97,7 @@ class KiCadBOMImporter(BaseImporter[list[dict[str, Any]]]):
             ImportResult with component data as list of dictionaries
 
         Implements:
-            TASK-C002: KiCad BOM parsing and mapping
+            KiCad BOM parsing and mapping
         """
         if not self.validate_source(source):
             return ImportResult(

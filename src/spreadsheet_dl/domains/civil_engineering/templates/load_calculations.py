@@ -2,7 +2,7 @@
 Load calculations template for civil engineering.
 
 Implements:
-    REQ-C004-030: LoadCalculationsTemplate with load combinations and safety factors
+    LoadCalculationsTemplate with load combinations and safety factors
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class LoadCalculationsTemplate(BaseTemplate):
     Load calculations template for structural design.
 
     Implements:
-        REQ-C004-030: LoadCalculationsTemplate requirements
+        LoadCalculationsTemplate requirements
 
     Features:
         - Columns: Load Type, Description, Dead Load (kN), Live Load (kN),

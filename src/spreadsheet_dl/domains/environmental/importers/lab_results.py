@@ -2,7 +2,7 @@
 Lab Results Importer.
 
 Implements:
-    TASK-C008: LabResultsImporter for environmental domain
+    LabResultsImporter for environmental domain
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ class LabResultsImporter(BaseImporter[list[dict[str, Any]]]):
     Laboratory analysis results importer.
 
     Implements:
-        TASK-C008: LabResultsImporter for environmental lab data
+        LabResultsImporter for environmental lab data
 
     Supports importing data from:
     - Environmental lab reports (CSV)

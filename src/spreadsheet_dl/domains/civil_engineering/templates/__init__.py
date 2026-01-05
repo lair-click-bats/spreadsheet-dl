@@ -2,7 +2,7 @@
 Civil Engineering templates for SpreadsheetDL.
 
 Implements:
-    REQ-C004-030 to REQ-C004-034: Civil Engineering domain templates
+    Civil Engineering domain templates
 
 Provides domain-specific templates for:
 - Load calculations with load combinations

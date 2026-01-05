@@ -2,7 +2,7 @@
 Power calculation formulas for electrical engineering.
 
 Implements:
-    TASK-C002: Power formulas (POWER_DISSIPATION, VOLTAGE_DROP, CURRENT_CALC, THERMAL_RESISTANCE)
+    Power formulas (POWER_DISSIPATION, VOLTAGE_DROP, CURRENT_CALC, THERMAL_RESISTANCE)
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ class PowerDissipationFormula(BaseFormula):
     Calculates power dissipation given voltage and current.
 
     Implements:
-        TASK-C002: POWER_DISSIPATION formula
+        POWER_DISSIPATION formula
 
     Example:
         >>> formula = PowerDissipationFormula()
@@ -78,7 +78,7 @@ class VoltageDropFormula(BaseFormula):
     Calculates voltage drop in a conductor given current, resistance, and length.
 
     Implements:
-        TASK-C002: VOLTAGE_DROP formula
+        VOLTAGE_DROP formula
 
     Example:
         >>> formula = VoltageDropFormula()
@@ -143,7 +143,7 @@ class CurrentCalcFormula(BaseFormula):
     Calculates current given power and voltage.
 
     Implements:
-        TASK-C002: CURRENT_CALC formula
+        CURRENT_CALC formula
 
     Example:
         >>> formula = CurrentCalcFormula()
@@ -202,7 +202,7 @@ class ThermalResistanceFormula(BaseFormula):
     Calculates thermal resistance given temperature rise and power.
 
     Implements:
-        TASK-C002: THERMAL_RESISTANCE formula
+        THERMAL_RESISTANCE formula
 
     Example:
         >>> formula = ThermalResistanceFormula()

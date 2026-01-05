@@ -2,7 +2,7 @@
 Material Database importer for mechanical engineering.
 
 Implements:
-    REQ-C003-013: MaterialDatabaseImporter for material property databases
+    MaterialDatabaseImporter for material property databases
 """
 
 from __future__ import annotations
@@ -51,7 +51,7 @@ class MaterialDatabaseImporter(BaseImporter[list[dict[str, Any]]]):
     Import material property databases from CSV or JSON files.
 
     Implements:
-        REQ-C003-013: MaterialDatabaseImporter requirements
+        MaterialDatabaseImporter requirements
 
     Features:
         - Parse material databases in CSV or JSON format
@@ -106,7 +106,7 @@ class MaterialDatabaseImporter(BaseImporter[list[dict[str, Any]]]):
             ImportResult with material data as list of dictionaries
 
         Implements:
-            REQ-C003-013: Material database parsing and mapping
+            Material database parsing and mapping
         """
         if not self.validate_source(source):
             return ImportResult(

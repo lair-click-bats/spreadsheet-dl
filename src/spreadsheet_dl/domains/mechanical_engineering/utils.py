@@ -2,7 +2,7 @@
 Utility functions for mechanical engineering domain.
 
 Implements:
-    REQ-C003-014: Utility functions for unit conversions and calculations
+    Utility functions for unit conversions and calculations
 """
 
 from __future__ import annotations

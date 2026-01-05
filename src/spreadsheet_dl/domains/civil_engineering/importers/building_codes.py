@@ -2,7 +2,7 @@
 Building codes importer for civil engineering.
 
 Implements:
-    REQ-C004-052: BuildingCodesImporter for load tables from standards
+    BuildingCodesImporter for load tables from standards
 """
 
 from __future__ import annotations
@@ -20,7 +20,7 @@ class BuildingCodesImporter(BaseImporter[list[dict[str, Any]]]):
     Import building code load tables (wind, snow, seismic coefficients).
 
     Implements:
-        REQ-C004-052: BuildingCodesImporter requirements
+        BuildingCodesImporter requirements
 
     Features:
         - Read CSV and JSON files with code tables
@@ -81,7 +81,7 @@ class BuildingCodesImporter(BaseImporter[list[dict[str, Any]]]):
             ImportResult with code tables as list of dictionaries
 
         Implements:
-            REQ-C004-052: Building code table parsing with validation
+            Building code table parsing with validation
         """
         if not self.validate_source(source):
             return ImportResult(

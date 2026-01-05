@@ -2,8 +2,6 @@
 
 Performance optimization utilities including caching, lazy loading, and batch processing.
 
-**Implements:** TASK-503 (Performance Optimization)
-
 ## Overview
 
 The performance module provides:

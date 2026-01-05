@@ -2,7 +2,7 @@
 Environmental Impact Assessment Template.
 
 Implements:
-    TASK-C008: EnvironmentalImpactTemplate for environmental domain
+    EnvironmentalImpactTemplate for environmental domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class EnvironmentalImpactTemplate(BaseTemplate):
     Environmental impact assessment template.
 
     Implements:
-        TASK-C008: EnvironmentalImpactTemplate with impact scoring
+        EnvironmentalImpactTemplate with impact scoring
 
     Features:
     - Impact identification matrix

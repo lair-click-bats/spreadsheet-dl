@@ -1,9 +1,6 @@
 """
 Streaming I/O for large spreadsheet files.
 
-Implements:
-    - TASK-401: Streaming I/O for large files (GAP-BUILDER-002)
-
 Provides row-by-row reading and chunk-by-chunk writing to handle
 spreadsheets with 100k+ rows without excessive memory usage.
 """
@@ -36,7 +33,7 @@ class StreamingCell:
     """
     Lightweight cell representation for streaming.
 
-    Implements TASK-401: Streaming I/O - memory-efficient cell structure.
+    Memory-efficient cell structure for streaming I/O.
 
     Attributes:
         value: Cell value (string, number, date string)
@@ -60,7 +57,7 @@ class StreamingRow:
     """
     Lightweight row representation for streaming.
 
-    Implements TASK-401: Streaming I/O - memory-efficient row structure.
+    Memory-efficient row structure for streaming I/O.
 
     Attributes:
         cells: List of cells in the row
@@ -84,8 +81,6 @@ class StreamingRow:
 class StreamingReader:
     """
     Stream-based ODS file reader for large files.
-
-    Implements TASK-401: Streaming I/O for large files (GAP-BUILDER-002)
 
     Reads ODS files row-by-row without loading the entire file into memory.
     Supports files with 100k+ rows efficiently.
@@ -210,7 +205,7 @@ class StreamingReader:
         """
         Iterate over rows in a sheet.
 
-        Implements TASK-401: Row-by-row iteration for memory efficiency.
+        Row-by-row iteration for memory efficiency.
 
         Args:
             sheet_name: Name of the sheet to read
@@ -309,8 +304,6 @@ class StreamingReader:
 class StreamingWriter:
     """
     Stream-based ODS file writer for large files.
-
-    Implements TASK-401: Streaming I/O for large files (GAP-BUILDER-002)
 
     Writes ODS files chunk-by-chunk without holding the entire spreadsheet
     in memory. Supports generating files with 100k+ rows efficiently.

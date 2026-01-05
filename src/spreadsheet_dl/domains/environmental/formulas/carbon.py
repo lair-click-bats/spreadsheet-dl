@@ -2,7 +2,7 @@
 Carbon and sustainability formulas.
 
 Implements:
-    TASK-C008: Carbon and sustainability formulas
+    Carbon and sustainability formulas
     (CARBON_EQUIVALENT, ECOLOGICAL_FOOTPRINT, SUSTAINABILITY_SCORE,
      ENVIRONMENTAL_IMPACT_SCORE)
 """
@@ -21,7 +21,7 @@ class CarbonEquivalentFormula(BaseFormula):
     Calculate CO2 equivalent from various emissions.
 
     Implements:
-        TASK-C008: CARBON_EQUIVALENT formula for emissions
+        CARBON_EQUIVALENT formula for emissions
 
     Converts various greenhouse gases to CO2 equivalent using GWP.
 
@@ -40,7 +40,7 @@ class CarbonEquivalentFormula(BaseFormula):
             FormulaMetadata for CARBON_EQUIVALENT
 
         Implements:
-            TASK-C008: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="CARBON_EQUIVALENT",
@@ -80,7 +80,7 @@ class CarbonEquivalentFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C008: CARBON_EQUIVALENT formula building
+            CARBON_EQUIVALENT formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -112,7 +112,7 @@ class EcologicalFootprintFormula(BaseFormula):
     Calculate ecological footprint.
 
     Implements:
-        TASK-C008: ECOLOGICAL_FOOTPRINT formula for sustainability
+        ECOLOGICAL_FOOTPRINT formula for sustainability
 
     Estimates ecological footprint in global hectares.
 
@@ -131,7 +131,7 @@ class EcologicalFootprintFormula(BaseFormula):
             FormulaMetadata for ECOLOGICAL_FOOTPRINT
 
         Implements:
-            TASK-C008: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="ECOLOGICAL_FOOTPRINT",
@@ -178,7 +178,7 @@ class EcologicalFootprintFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C008: ECOLOGICAL_FOOTPRINT formula building
+            ECOLOGICAL_FOOTPRINT formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -212,7 +212,7 @@ class SustainabilityScoreFormula(BaseFormula):
     Calculate sustainability score.
 
     Implements:
-        TASK-C008: SUSTAINABILITY_SCORE formula for ESG metrics
+        SUSTAINABILITY_SCORE formula for ESG metrics
 
     Calculates normalized sustainability score (0-100).
 
@@ -231,7 +231,7 @@ class SustainabilityScoreFormula(BaseFormula):
             FormulaMetadata for SUSTAINABILITY_SCORE
 
         Implements:
-            TASK-C008: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="SUSTAINABILITY_SCORE",
@@ -278,7 +278,7 @@ class SustainabilityScoreFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C008: SUSTAINABILITY_SCORE formula building
+            SUSTAINABILITY_SCORE formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -309,7 +309,7 @@ class EnvironmentalImpactScoreFormula(BaseFormula):
     Calculate environmental impact score.
 
     Implements:
-        TASK-C008: ENVIRONMENTAL_IMPACT_SCORE formula for EIA
+        ENVIRONMENTAL_IMPACT_SCORE formula for EIA
 
     Calculates normalized environmental impact score.
 
@@ -328,7 +328,7 @@ class EnvironmentalImpactScoreFormula(BaseFormula):
             FormulaMetadata for ENVIRONMENTAL_IMPACT_SCORE
 
         Implements:
-            TASK-C008: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="ENVIRONMENTAL_IMPACT_SCORE",
@@ -380,7 +380,7 @@ class EnvironmentalImpactScoreFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C008: ENVIRONMENTAL_IMPACT_SCORE formula building
+            ENVIRONMENTAL_IMPACT_SCORE formula building
 
         Raises:
             ValueError: If arguments are invalid

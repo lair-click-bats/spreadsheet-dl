@@ -2,7 +2,7 @@
 Education domain importers.
 
 Implements:
-    TASK-C007: Education domain data importers
+    Education domain data importers
 
 Provides 3 specialized importers:
 - LMSDataImporter: Learning Management System data

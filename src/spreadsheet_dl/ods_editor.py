@@ -1,11 +1,6 @@
 """
 ODS file editing module for appending expenses to existing spreadsheets.
 
-Implements:
-    - FR-CORE-003: Expense append functionality
-    - G-02: Fix expense command to actually write to ODS files
-    - TASK-302: Cell operations for MCP server
-
 Provides safe modification of existing ODS files while preserving
 structure, formulas, and formatting.
 """
@@ -264,7 +259,7 @@ class OdsEditor:
             raise OdsWriteError(f"Failed to save document: {e}", "SAVE_FAILED") from e
 
     # =========================================================================
-    # Cell Operations (TASK-302)
+    # Cell Operations
     # =========================================================================
 
     @staticmethod

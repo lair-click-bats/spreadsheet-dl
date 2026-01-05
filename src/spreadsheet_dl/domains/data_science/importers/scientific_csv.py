@@ -2,7 +2,7 @@
 Scientific CSV importer with automatic type detection.
 
 Implements:
-    TASK-C001: ScientificCSVImporter for data science domain
+    ScientificCSVImporter for data science domain
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ class ScientificCSVImporter(BaseImporter[list[dict[str, Any]]]):
     Scientific CSV importer with type inference and scientific notation support.
 
     Implements:
-        TASK-C001: ScientificCSVImporter with auto-type detection
+        ScientificCSVImporter with auto-type detection
 
     Features:
     - Automatic delimiter detection (comma, tab, semicolon)
@@ -53,7 +53,7 @@ class ScientificCSVImporter(BaseImporter[list[dict[str, Any]]]):
             ImporterMetadata for scientific CSV importer
 
         Implements:
-            TASK-C001: Importer metadata
+            Importer metadata
         """
         return ImporterMetadata(
             name="Scientific CSV Importer",
@@ -73,7 +73,7 @@ class ScientificCSVImporter(BaseImporter[list[dict[str, Any]]]):
             True if source is valid CSV file
 
         Implements:
-            TASK-C001: Source validation
+            Source validation
         """
         path = Path(source) if isinstance(source, str) else source
         return (
@@ -93,7 +93,7 @@ class ScientificCSVImporter(BaseImporter[list[dict[str, Any]]]):
             ImportResult with parsed data
 
         Implements:
-            TASK-C001: Data import with type inference
+            Data import with type inference
 
         Raises:
             ValueError: If source is invalid
@@ -202,7 +202,7 @@ class ScientificCSVImporter(BaseImporter[list[dict[str, Any]]]):
             Converted value (int, float, datetime, or str)
 
         Implements:
-            TASK-C001: Type inference with scientific notation support
+            Type inference with scientific notation support
         """
         # Handle empty values
         if not value or value.strip() in ("", "NA", "N/A", "null", "NULL", "None"):

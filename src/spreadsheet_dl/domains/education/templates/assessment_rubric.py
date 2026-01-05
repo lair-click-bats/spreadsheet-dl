@@ -2,7 +2,7 @@
 Assessment Rubric Template.
 
 Implements:
-    TASK-C007: AssessmentRubricTemplate for education domain
+    AssessmentRubricTemplate for education domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class AssessmentRubricTemplate(BaseTemplate):
     Assessment rubric template for scoring criteria.
 
     Implements:
-        TASK-C007: AssessmentRubricTemplate with scoring levels
+        AssessmentRubricTemplate with scoring levels
 
     Features:
     - Multiple criteria rows
@@ -59,7 +59,7 @@ class AssessmentRubricTemplate(BaseTemplate):
             TemplateMetadata for assessment rubric template
 
         Implements:
-            TASK-C007: Template metadata
+            Template metadata
         """
         return TemplateMetadata(
             name="Assessment Rubric",
@@ -78,7 +78,7 @@ class AssessmentRubricTemplate(BaseTemplate):
             True if parameters are valid
 
         Implements:
-            TASK-C007: Template validation
+            Template validation
         """
         return self.num_criteria > 0 and self.num_levels >= 2 and self.max_points > 0
 
@@ -90,7 +90,7 @@ class AssessmentRubricTemplate(BaseTemplate):
             Configured SpreadsheetBuilder instance
 
         Implements:
-            TASK-C007: AssessmentRubricTemplate generation
+            AssessmentRubricTemplate generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

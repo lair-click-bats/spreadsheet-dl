@@ -2,7 +2,7 @@
 Course Gradebook Template.
 
 Implements:
-    TASK-C007: CourseGradebookTemplate for education domain
+    CourseGradebookTemplate for education domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class CourseGradebookTemplate(BaseTemplate):
     Course gradebook template for grade tracking.
 
     Implements:
-        TASK-C007: CourseGradebookTemplate with grade calculations
+        CourseGradebookTemplate with grade calculations
 
     Features:
     - Student roster with IDs
@@ -67,7 +67,7 @@ class CourseGradebookTemplate(BaseTemplate):
             TemplateMetadata for course gradebook template
 
         Implements:
-            TASK-C007: Template metadata
+            Template metadata
         """
         return TemplateMetadata(
             name="Course Gradebook",
@@ -86,7 +86,7 @@ class CourseGradebookTemplate(BaseTemplate):
             True if parameters are valid
 
         Implements:
-            TASK-C007: Template validation
+            Template validation
         """
         return (
             self.num_students > 0
@@ -102,7 +102,7 @@ class CourseGradebookTemplate(BaseTemplate):
             Configured SpreadsheetBuilder instance
 
         Implements:
-            TASK-C007: CourseGradebookTemplate generation
+            CourseGradebookTemplate generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

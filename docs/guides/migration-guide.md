@@ -1,6 +1,6 @@
 # Migration Guide
 
-**Implements: DOC-PROF-006: Migration Guide | TASK-502: v4.0 Documentation**
+**Implements: DOC-PROF-006: Migration Guide | v4.0 Documentation**
 
 This guide helps you migrate from other spreadsheet tools (openpyxl, pandas, Excel VBA) to the universal SpreadsheetDL v4.0.
 

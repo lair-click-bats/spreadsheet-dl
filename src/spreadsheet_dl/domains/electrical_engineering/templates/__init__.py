@@ -2,7 +2,7 @@
 Electrical Engineering templates for SpreadsheetDL.
 
 Implements:
-    TASK-C002: Electrical Engineering domain templates
+    Electrical Engineering domain templates
 
 Provides professional templates for:
 - Bill of Materials (BOM) tracking

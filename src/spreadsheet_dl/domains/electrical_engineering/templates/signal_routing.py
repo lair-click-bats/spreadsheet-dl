@@ -2,7 +2,7 @@
 Signal routing template for PCB design documentation.
 
 Implements:
-    TASK-C002: SignalRoutingTemplate with trace analysis
+    SignalRoutingTemplate with trace analysis
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class SignalRoutingTemplate(BaseTemplate):
     Signal routing template for PCB trace documentation.
 
     Implements:
-        TASK-C002: SignalRoutingTemplate requirements
+        SignalRoutingTemplate requirements
 
     Features:
         - Columns: Signal Name, Source, Destination, Impedance (Ω), Length (mm),

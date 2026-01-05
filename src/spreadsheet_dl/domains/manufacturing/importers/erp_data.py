@@ -2,7 +2,7 @@
 ERP Data Importer for production and inventory data.
 
 Implements:
-    TASK-C005: ERPDataImporter for manufacturing domain
+    ERPDataImporter for manufacturing domain
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ class ERPDataImporter(BaseImporter[list[dict[str, Any]]]):
     Import ERP production/inventory data (CSV/XML).
 
     Implements:
-        TASK-C005: ERPDataImporter with production and inventory data
+        ERPDataImporter with production and inventory data
 
     Features:
     - Production order data
@@ -53,7 +53,7 @@ class ERPDataImporter(BaseImporter[list[dict[str, Any]]]):
             ImporterMetadata for ERP data importer
 
         Implements:
-            TASK-C005: Importer metadata
+            Importer metadata
         """
         return ImporterMetadata(
             name="ERP Data Importer",
@@ -73,7 +73,7 @@ class ERPDataImporter(BaseImporter[list[dict[str, Any]]]):
             True if source is valid file
 
         Implements:
-            TASK-C005: Source validation
+            Source validation
         """
         path = Path(source) if isinstance(source, str) else source
         return (
@@ -91,7 +91,7 @@ class ERPDataImporter(BaseImporter[list[dict[str, Any]]]):
             ImportResult with parsed ERP data
 
         Implements:
-            TASK-C005: Data import with error handling
+            Data import with error handling
 
         Raises:
             ValueError: If source is invalid
@@ -243,7 +243,7 @@ class ERPDataImporter(BaseImporter[list[dict[str, Any]]]):
             Parsed ERP record with standardized fields
 
         Implements:
-            TASK-C005: ERP record parsing
+            ERP record parsing
         """
         # Standardize field names (handle various ERP system formats)
         record: dict[str, Any] = {

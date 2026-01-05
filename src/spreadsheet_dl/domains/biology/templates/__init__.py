@@ -2,7 +2,7 @@
 Biology domain templates.
 
 Implements:
-    TASK-C006: Biology template implementations
+    Biology template implementations
 """
 
 from __future__ import annotations

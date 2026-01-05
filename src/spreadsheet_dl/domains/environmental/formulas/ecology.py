@@ -2,7 +2,7 @@
 Ecology and biodiversity formulas.
 
 Implements:
-    TASK-C008: Ecology formulas
+    Ecology formulas
     (SHANNON_DIVERSITY, SIMPSON_INDEX, SPECIES_RICHNESS)
 """
 
@@ -20,7 +20,7 @@ class ShannonDiversityFormula(BaseFormula):
     Calculate Shannon Diversity Index.
 
     Implements:
-        TASK-C008: SHANNON_DIVERSITY formula for biodiversity assessment
+        SHANNON_DIVERSITY formula for biodiversity assessment
 
     H' = -SUM(pi * ln(pi)) where pi is proportion of species i.
 
@@ -39,7 +39,7 @@ class ShannonDiversityFormula(BaseFormula):
             FormulaMetadata for SHANNON_DIVERSITY
 
         Implements:
-            TASK-C008: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="SHANNON_DIVERSITY",
@@ -72,7 +72,7 @@ class ShannonDiversityFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C008: SHANNON_DIVERSITY formula building
+            SHANNON_DIVERSITY formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -98,7 +98,7 @@ class SimpsonIndexFormula(BaseFormula):
     Calculate Simpson's Diversity Index.
 
     Implements:
-        TASK-C008: SIMPSON_INDEX formula for biodiversity assessment
+        SIMPSON_INDEX formula for biodiversity assessment
 
     D = 1 - SUM(pi^2) where pi is proportion of species i.
 
@@ -117,7 +117,7 @@ class SimpsonIndexFormula(BaseFormula):
             FormulaMetadata for SIMPSON_INDEX
 
         Implements:
-            TASK-C008: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="SIMPSON_INDEX",
@@ -150,7 +150,7 @@ class SimpsonIndexFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C008: SIMPSON_INDEX formula building
+            SIMPSON_INDEX formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -174,7 +174,7 @@ class SpeciesRichnessFormula(BaseFormula):
     Calculate Species Richness.
 
     Implements:
-        TASK-C008: SPECIES_RICHNESS formula for biodiversity assessment
+        SPECIES_RICHNESS formula for biodiversity assessment
 
     Simple count of distinct species with non-zero abundance.
 
@@ -193,7 +193,7 @@ class SpeciesRichnessFormula(BaseFormula):
             FormulaMetadata for SPECIES_RICHNESS
 
         Implements:
-            TASK-C008: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="SPECIES_RICHNESS",
@@ -226,7 +226,7 @@ class SpeciesRichnessFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C008: SPECIES_RICHNESS formula building
+            SPECIES_RICHNESS formula building
 
         Raises:
             ValueError: If arguments are invalid

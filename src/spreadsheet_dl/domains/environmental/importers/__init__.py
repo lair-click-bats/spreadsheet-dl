@@ -2,7 +2,7 @@
 Environmental domain importers.
 
 Implements:
-    TASK-C008: Environmental domain data importers
+    Environmental domain data importers
 
 Provides 3 specialized importers:
 - SensorNetworkImporter: IoT sensor data

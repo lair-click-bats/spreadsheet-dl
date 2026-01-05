@@ -2,7 +2,7 @@
 Environmental Domain Plugin for SpreadsheetDL.
 
 Implements:
-    TASK-C008: Environmental domain plugin
+    Environmental domain plugin
     PHASE-C: Domain plugin implementations
 
 Provides environmental science-specific functionality including:
@@ -75,7 +75,7 @@ class EnvironmentalDomainPlugin(BaseDomainPlugin):
     Environmental domain plugin.
 
     Implements:
-        TASK-C008: Complete Environmental domain plugin
+        Complete Environmental domain plugin
         PHASE-C: Domain plugin implementations
 
     Provides comprehensive environmental science functionality for SpreadsheetDL
@@ -133,7 +133,7 @@ class EnvironmentalDomainPlugin(BaseDomainPlugin):
             PluginMetadata with environmental plugin information
 
         Implements:
-            TASK-C008: Plugin metadata requirements
+            Plugin metadata requirements
         """
         return PluginMetadata(
             name="environmental",
@@ -159,7 +159,7 @@ class EnvironmentalDomainPlugin(BaseDomainPlugin):
         Registers all templates, formulas, and importers.
 
         Implements:
-            TASK-C008: Plugin initialization with all components
+            Plugin initialization with all components
 
         Raises:
             Exception: If initialization fails
@@ -207,7 +207,7 @@ class EnvironmentalDomainPlugin(BaseDomainPlugin):
         No resources need explicit cleanup for this plugin.
 
         Implements:
-            TASK-C008: Plugin cleanup method
+            Plugin cleanup method
         """
         # No cleanup needed for this plugin
         pass
@@ -220,7 +220,7 @@ class EnvironmentalDomainPlugin(BaseDomainPlugin):
             True if plugin has required templates and formulas registered
 
         Implements:
-            TASK-C008: Plugin validation
+            Plugin validation
         """
         # Verify we have all required components
         required_templates = 5

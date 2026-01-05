@@ -2,7 +2,7 @@
 Generic component CSV importer for electrical engineering.
 
 Implements:
-    TASK-C002: GenericComponentCSVImporter with flexible column mapping
+    GenericComponentCSVImporter with flexible column mapping
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class GenericComponentCSVImporter(BaseImporter[list[dict[str, Any]]]):
     Import generic component CSV files with flexible column mapping.
 
     Implements:
-        TASK-C002: GenericComponentCSVImporter requirements
+        GenericComponentCSVImporter requirements
 
     Features:
         - Read generic CSV component lists
@@ -97,7 +97,7 @@ class GenericComponentCSVImporter(BaseImporter[list[dict[str, Any]]]):
             ImportResult with component data as list of dictionaries
 
         Implements:
-            TASK-C002: Generic CSV parsing with validation
+            Generic CSV parsing with validation
         """
         if not self.validate_source(source):
             return ImportResult(

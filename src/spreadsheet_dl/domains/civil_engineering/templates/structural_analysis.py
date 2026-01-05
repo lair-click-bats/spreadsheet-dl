@@ -2,7 +2,7 @@
 Structural analysis template for member forces and reactions.
 
 Implements:
-    REQ-C004-032: StructuralAnalysisTemplate with force and stress calculations
+    StructuralAnalysisTemplate with force and stress calculations
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class StructuralAnalysisTemplate(BaseTemplate):
     Structural analysis template for forces, reactions, and deflections.
 
     Implements:
-        REQ-C004-032: StructuralAnalysisTemplate requirements
+        StructuralAnalysisTemplate requirements
 
     Features:
         - Columns: Member ID, Type, Length, Axial Force, Shear Force,

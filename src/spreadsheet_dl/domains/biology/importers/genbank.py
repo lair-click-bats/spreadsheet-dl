@@ -2,7 +2,7 @@
 GenBank format sequence file importer.
 
 Implements:
-    TASK-C006: GenBankImporter for annotated sequences
+    GenBankImporter for annotated sequences
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ class GenBankImporter(BaseImporter[list[dict[str, Any]]]):
     Import GenBank format sequence files.
 
     Implements:
-        TASK-C006: GenBankImporter for annotated sequence data
+        GenBankImporter for annotated sequence data
 
     Features:
     - GenBank flat file format parsing
@@ -50,7 +50,7 @@ class GenBankImporter(BaseImporter[list[dict[str, Any]]]):
             ImporterMetadata for GenBank importer
 
         Implements:
-            TASK-C006: Importer metadata
+            Importer metadata
         """
         return ImporterMetadata(
             name="GenBank Importer",
@@ -70,7 +70,7 @@ class GenBankImporter(BaseImporter[list[dict[str, Any]]]):
             True if source is valid GenBank file
 
         Implements:
-            TASK-C006: Source validation
+            Source validation
         """
         path = Path(source) if isinstance(source, str) else source
         if not path.exists() or not path.is_file():
@@ -96,7 +96,7 @@ class GenBankImporter(BaseImporter[list[dict[str, Any]]]):
             ImportResult with sequence records and annotations
 
         Implements:
-            TASK-C006: GenBank data import
+            GenBank data import
 
         Raises:
             ValueError: If source is invalid

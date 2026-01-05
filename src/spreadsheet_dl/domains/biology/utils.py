@@ -2,7 +2,7 @@
 Utility functions for biology domain.
 
 Implements:
-    TASK-C006: Biology domain utility functions
+    Biology domain utility functions
 """
 
 from __future__ import annotations

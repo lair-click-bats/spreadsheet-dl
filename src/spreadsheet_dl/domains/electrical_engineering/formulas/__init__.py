@@ -2,7 +2,7 @@
 Electrical Engineering formulas for SpreadsheetDL.
 
 Implements:
-    TASK-C002: Electrical Engineering domain formulas
+    Electrical Engineering domain formulas
 
 Provides domain-specific formulas for:
 - Power calculations (dissipation, voltage drop, current)

@@ -1,9 +1,6 @@
 """
 Round-trip serialization for spreadsheet definitions.
 
-Implements:
-    - TASK-402: Round-trip serialization (GAP-BUILDER-001)
-
 Provides conversion between SpreadsheetDL internal representation
 and various formats (YAML, JSON) with full fidelity preservation.
 """
@@ -47,8 +44,6 @@ T = TypeVar("T")
 class SpreadsheetEncoder(json.JSONEncoder):
     """
     JSON encoder for spreadsheet data structures.
-
-    Implements TASK-402: JSON serialization support.
 
     Handles:
     - Dataclass instances
@@ -108,7 +103,7 @@ class SpreadsheetDecoder:
     """
     Decoder for spreadsheet data structures.
 
-    Implements TASK-402: JSON/YAML deserialization support.
+    JSON/YAML deserialization support.
 
     Reconstructs dataclass instances and special types from
     serialized dictionaries.
@@ -202,7 +197,7 @@ class Serializer:
     """
     Main serialization interface for spreadsheet definitions.
 
-    Implements TASK-402: Round-trip serialization (GAP-BUILDER-001)
+    Round-trip serialization with full fidelity preservation.
 
     Provides save/load operations in JSON and YAML formats with
     full fidelity preservation of all data types and structures.
@@ -389,7 +384,7 @@ class DefinitionFormat:
     """
     High-level spreadsheet definition format.
 
-    Implements TASK-402: Complete spreadsheet definition serialization.
+    Complete spreadsheet definition serialization.
 
     Provides a structured format for saving/loading complete spreadsheet
     definitions including sheets, charts, named ranges, and metadata.

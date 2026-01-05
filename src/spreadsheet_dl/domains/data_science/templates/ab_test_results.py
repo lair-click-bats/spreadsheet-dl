@@ -2,7 +2,7 @@
 A/B Test Results Template for hypothesis testing.
 
 Implements:
-    TASK-C001: ABTestResultsTemplate for data science domain
+    ABTestResultsTemplate for data science domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class ABTestResultsTemplate(BaseTemplate):
     A/B test results and analysis template.
 
     Implements:
-        TASK-C001: ABTestResultsTemplate with statistical significance testing
+        ABTestResultsTemplate with statistical significance testing
 
     Features:
     - Variant comparison (A/B or multivariate)
@@ -65,7 +65,7 @@ class ABTestResultsTemplate(BaseTemplate):
             TemplateMetadata for A/B test results template
 
         Implements:
-            TASK-C001: Template metadata
+            Template metadata
         """
         return TemplateMetadata(
             name="A/B Test Results",
@@ -84,7 +84,7 @@ class ABTestResultsTemplate(BaseTemplate):
             Configured SpreadsheetBuilder instance
 
         Implements:
-            TASK-C001: ABTestResultsTemplate generation
+            ABTestResultsTemplate generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

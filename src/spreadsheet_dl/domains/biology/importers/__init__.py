@@ -2,7 +2,7 @@
 Biology domain importers.
 
 Implements:
-    TASK-C006: Biology importer implementations
+    Biology importer implementations
 """
 
 from __future__ import annotations

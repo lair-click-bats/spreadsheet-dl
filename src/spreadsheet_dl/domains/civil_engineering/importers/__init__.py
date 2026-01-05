@@ -2,7 +2,7 @@
 Civil Engineering importers for SpreadsheetDL.
 
 Implements:
-    REQ-C004-050 to REQ-C004-052: Civil Engineering domain importers
+    Civil Engineering domain importers
 
 Provides domain-specific importers for:
 - Survey data (CSV/XML surveying data)

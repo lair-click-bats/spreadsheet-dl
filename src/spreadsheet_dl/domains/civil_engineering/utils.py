@@ -2,7 +2,7 @@
 Utility functions for civil engineering calculations.
 
 Implements:
-    REQ-C004-060: Civil engineering utility functions
+    Civil engineering utility functions
 
 Provides helper functions for:
 - Unit conversions (kN/lbf, m/ft, MPa/psi, kN/m to lb/ft)

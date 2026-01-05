@@ -2,7 +2,7 @@
 Tests for Electrical Engineering domain plugin.
 
 Implements:
-    TASK-C002: Comprehensive tests for EE domain (95%+ coverage target)
+    Comprehensive tests for EE domain (95%+ coverage target)
 """
 
 from __future__ import annotations

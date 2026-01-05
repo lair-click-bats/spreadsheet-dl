@@ -20,8 +20,8 @@ class MCPToolRegistry:
     Registry for MCP tools with decorator-based registration.
 
     Implements:
-        - TASK-301: MCPToolRegistry with decorator registration
-        - GAP-MCP: Tool discovery system
+        - MCPToolRegistry with decorator registration
+        - Tool discovery system
 
     Features:
         - Decorator-based tool registration

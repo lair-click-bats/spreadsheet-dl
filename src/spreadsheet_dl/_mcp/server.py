@@ -5,9 +5,6 @@ This module contains the complete MCPServer class with all tool handlers.
 
 Future modularization will extract tool handlers into separate category files
 in the tools/ subpackage. For now, all functionality is consolidated here.
-
-Requirements implemented:
-    - IR-MCP-002: Native MCP Server (Gap G-AI-05)
 """
 
 from __future__ import annotations
@@ -46,26 +43,26 @@ class MCPServer:
             - list_categories: List expense categories
             - get_alerts: Check budget alerts
 
-        Cell Operations (TASK-302):
+        Cell Operations:
             - cell_get, cell_set, cell_clear
             - cell_copy, cell_move
             - cell_batch_get, cell_batch_set
             - cell_find, cell_replace
             - cell_merge, cell_unmerge
 
-        Style Operations (TASK-303):
+        Style Operations:
             - style_list, style_get, style_create
             - style_update, style_delete, style_apply
             - format_cells, format_number
             - format_font, format_fill, format_border
 
-        Structure Operations (TASK-304):
+        Structure Operations:
             - row_insert, row_delete, row_hide
             - column_insert, column_delete, column_hide
             - freeze_set, freeze_clear
             - sheet_create, sheet_delete, sheet_copy
 
-        Advanced Tools (TASK-305):
+        Advanced Tools:
             - chart_create, chart_update
             - validation_create, cf_create
             - named_range_create, table_create
@@ -97,7 +94,7 @@ class MCPServer:
     def _register_tools(self) -> None:
         """Register all available tools."""
         # =====================================================================
-        # Cell Operation Tools (TASK-302)
+        # Cell Operation Tools
         # =====================================================================
 
         # cell_get tool
@@ -410,7 +407,7 @@ class MCPServer:
         )
 
         # =====================================================================
-        # Style Operation Tools (TASK-303)
+        # Style Operation Tools
         # =====================================================================
 
         style_tools = [
@@ -456,7 +453,7 @@ class MCPServer:
             )
 
         # =====================================================================
-        # Structure Operation Tools (TASK-304)
+        # Structure Operation Tools
         # =====================================================================
 
         structure_tools = [
@@ -494,7 +491,7 @@ class MCPServer:
             )
 
         # =====================================================================
-        # Advanced MCP Tools (TASK-305)
+        # Advanced MCP Tools
         # =====================================================================
 
         advanced_tools = [
@@ -529,7 +526,7 @@ class MCPServer:
             )
 
         # =====================================================================
-        # Workbook Operation Tools (TASK-501)
+        # Workbook Operation Tools
         # =====================================================================
 
         workbook_tools = [
@@ -567,7 +564,7 @@ class MCPServer:
             )
 
         # =====================================================================
-        # Theme Management Tools (TASK-501)
+        # Theme Management Tools
         # =====================================================================
 
         theme_tools = [
@@ -601,7 +598,7 @@ class MCPServer:
             )
 
         # =====================================================================
-        # Print Layout Tools (TASK-501)
+        # Print Layout Tools
         # =====================================================================
 
         print_tools = [
@@ -638,7 +635,7 @@ class MCPServer:
             )
 
         # =====================================================================
-        # Import/Export Operation Tools (TASK-501)
+        # Import/Export Operation Tools
         # =====================================================================
 
         import_export_tools = [
@@ -755,7 +752,7 @@ class MCPServer:
     # =========================================================================
 
     # =========================================================================
-    # Cell Operation Handlers (TASK-302)
+    # Cell Operation Handlers
     # =========================================================================
 
     def _handle_cell_get(
@@ -1126,7 +1123,7 @@ class MCPServer:
             return MCPToolResult.error(str(e))
 
     # =========================================================================
-    # Style Operation Handlers (TASK-303)
+    # Style Operation Handlers
     # =========================================================================
 
     def _handle_style_list(
@@ -1274,7 +1271,7 @@ class MCPServer:
             return MCPToolResult.error(str(e))
 
     # =========================================================================
-    # Structure Operation Handlers (TASK-304)
+    # Structure Operation Handlers
     # =========================================================================
 
     def _handle_row_insert(self, file_path: str, sheet: str) -> MCPToolResult:
@@ -1432,7 +1429,7 @@ class MCPServer:
             return MCPToolResult.error(str(e))
 
     # =========================================================================
-    # Advanced Operation Handlers (TASK-305)
+    # Advanced Operation Handlers
     # =========================================================================
 
     def _handle_chart_create(self, file_path: str, sheet: str) -> MCPToolResult:
@@ -1548,7 +1545,7 @@ class MCPServer:
             return MCPToolResult.error(str(e))
 
     # =========================================================================
-    # Workbook Operation Handlers (TASK-501)
+    # Workbook Operation Handlers
     # =========================================================================
 
     def _handle_workbook_properties_get(self, file_path: str) -> MCPToolResult:
@@ -1997,7 +1994,7 @@ class MCPServer:
             return MCPToolResult.error(str(e))
 
     # =========================================================================
-    # Theme Management Handlers (TASK-501)
+    # Theme Management Handlers
     # =========================================================================
 
     def _handle_theme_list(self, file_path: str) -> MCPToolResult:
@@ -2686,7 +2683,7 @@ colors:
             return MCPToolResult.error(str(e))
 
     # =========================================================================
-    # Print Layout Handlers (TASK-501)
+    # Print Layout Handlers
     # =========================================================================
 
     def _handle_page_setup(
@@ -2969,7 +2966,7 @@ colors:
             return MCPToolResult.error(str(e))
 
     # =========================================================================
-    # Import/Export Handlers (TASK-501)
+    # Import/Export Handlers
     # =========================================================================
 
     def _handle_csv_import(

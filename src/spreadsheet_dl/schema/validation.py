@@ -2,7 +2,7 @@
 Schema validation utilities.
 
 Implements:
-    - GAP-FORMULA-006: Formula syntax validation (TASK-203)
+    - Formula syntax validation
 
 Provides validation functions for themes, styles, colors, and formulas
 to catch configuration errors early.
@@ -459,7 +459,7 @@ def validate_yaml_data(data: dict[str, Any]) -> list[str]:
 
 
 # ============================================================================
-# Formula Validation (TASK-203: GAP-FORMULA-006)
+# Formula Validation
 # ============================================================================
 
 
@@ -467,7 +467,7 @@ class FormulaValidationError(Exception):
     """
     Error raised when formula validation fails.
 
-    Implements GAP-FORMULA-006: Formula syntax validation (TASK-203)
+    Implements Formula syntax validation
 
     Attributes:
         formula: The formula that failed validation
@@ -605,7 +605,7 @@ class FormulaValidator:
     """
     Validates ODF formula syntax.
 
-    Implements GAP-FORMULA-006: Formula syntax validation (TASK-203)
+    Implements Formula syntax validation
 
     Provides validation for:
     - Parentheses matching

@@ -1,8 +1,7 @@
 """
 Performance optimization module.
 
-Implements:
-    - TASK-503: Performance optimization
+Provides:
     - Caching layer for frequently accessed data
     - Lazy loading for expensive operations
     - Batch processing for bulk operations
@@ -40,7 +39,7 @@ class LRUCache[K, V]:
     """
     Thread-safe Least Recently Used (LRU) cache.
 
-    Implements TASK-503: Caching layer for frequently accessed data.
+    Implements Caching layer for frequently accessed data.
 
     Example:
         cache = LRUCache(maxsize=100)
@@ -178,8 +177,6 @@ def cached(
     """
     Decorator for caching function results.
 
-    Implements TASK-503: Function-level caching.
-
     Example:
         @cached(maxsize=100, ttl=3600)
         def expensive_operation(param):
@@ -253,8 +250,6 @@ class Lazy[T]:
     """
     Lazy evaluation wrapper.
 
-    Implements TASK-503: Lazy loading for expensive operations.
-
     Example:
         def load_large_data():
             # Expensive operation
@@ -312,8 +307,6 @@ class LazyProperty[T]:
     """
     Lazy property descriptor.
 
-    Implements TASK-503: Lazy class properties.
-
     Example:
         class MyClass:
             @LazyProperty
@@ -367,8 +360,6 @@ class BatchResult[T]:
 class BatchProcessor[T]:
     """
     Batch processor for bulk operations.
-
-    Implements TASK-503: Batch processing for bulk operations.
 
     Example:
         def process_item(item):
@@ -526,8 +517,6 @@ class Benchmark:
     """
     Performance benchmarking utility.
 
-    Implements TASK-503: Performance benchmarks.
-
     Example:
         bench = Benchmark("MyOperation")
 
@@ -675,8 +664,6 @@ def timed[T](func: Callable[..., T]) -> Callable[..., T]:
 class FileCache:
     """
     File-based persistent cache.
-
-    Implements TASK-503: Persistent caching for expensive computations.
 
     Example:
         cache = FileCache("~/.cache/spreadsheet-dl")

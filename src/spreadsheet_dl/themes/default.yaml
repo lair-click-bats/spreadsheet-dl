@@ -147,7 +147,7 @@ conditional_formats:
         style: cell_warning
       - default: cell_normal
 
-# Theme variants (GAP-THEME-016, TASK-122)
+# Theme variants for different display modes
 variants:
   dark:
     description: "Dark mode variant with inverted colors for reduced eye strain"

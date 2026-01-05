@@ -2,7 +2,7 @@
 LMS Data Importer.
 
 Implements:
-    TASK-C007: LMSDataImporter for education domain
+    LMSDataImporter for education domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class LMSDataImporter(BaseImporter[list[dict[str, Any]]]):
     Learning Management System data importer.
 
     Implements:
-        TASK-C007: LMSDataImporter for Canvas, Moodle, Blackboard exports
+        LMSDataImporter for Canvas, Moodle, Blackboard exports
 
     Supports importing data from various LMS platforms:
     - Canvas CSV exports
@@ -49,7 +49,7 @@ class LMSDataImporter(BaseImporter[list[dict[str, Any]]]):
             ImporterMetadata for LMS data importer
 
         Implements:
-            TASK-C007: Importer metadata
+            Importer metadata
         """
         return ImporterMetadata(
             name="LMS Data Importer",
@@ -69,7 +69,7 @@ class LMSDataImporter(BaseImporter[list[dict[str, Any]]]):
             ImportResult with student data
 
         Implements:
-            TASK-C007: LMS data import
+            LMS data import
         """
         source_path = Path(source)
         data: list[dict[str, Any]] = []
@@ -233,7 +233,7 @@ class LMSDataImporter(BaseImporter[list[dict[str, Any]]]):
             True if source is valid
 
         Implements:
-            TASK-C007: Source validation
+            Source validation
         """
         path = Path(source)
         return path.exists() and path.suffix.lower() in (".csv", ".json", ".xlsx")

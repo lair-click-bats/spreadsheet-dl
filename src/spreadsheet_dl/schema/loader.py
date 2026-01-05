@@ -234,7 +234,7 @@ class ThemeLoader:
         # Parse conditional formats
         conditional_formats = data.get("conditional_formats", {})
 
-        # Parse variants (GAP-THEME-016)
+        # Parse variants
         variants = self._parse_variants(data.get("variants", {}))
 
         return Theme(
@@ -316,7 +316,7 @@ class ThemeLoader:
         """
         Parse theme variants from YAML data.
 
-        Implements GAP-THEME-016: Theme variants missing
+        Implements Theme variants missing
 
         Args:
             data: Variants dictionary from YAML
@@ -405,7 +405,7 @@ class ThemeLoader:
                 style.italic = bool(style_data["italic"])
 
             if "underline" in style_data:
-                # Parse as UnderlineStyle enum (GAP-THEME-005)
+                # Parse as UnderlineStyle enum
                 underline_val = style_data["underline"]
                 if isinstance(underline_val, bool):
                     # Backward compatibility: bool -> enum
@@ -417,7 +417,7 @@ class ThemeLoader:
                         style.underline = UnderlineStyle(underline_val)
 
             if "strikethrough" in style_data:
-                # Parse strikethrough (GAP-THEME-006)
+                # Parse strikethrough
                 strikethrough_val = style_data["strikethrough"]
                 if isinstance(strikethrough_val, bool):
                     # Backward compatibility: bool -> enum
@@ -431,7 +431,7 @@ class ThemeLoader:
                         style.strikethrough = StrikethroughStyle(strikethrough_val)
 
             if "letter_spacing" in style_data:
-                # Parse letter_spacing (GAP-THEME-004)
+                # Parse letter_spacing
                 style.letter_spacing = style_data["letter_spacing"]
 
             if "text_align" in style_data:
@@ -442,7 +442,7 @@ class ThemeLoader:
                 with contextlib.suppress(ValueError):
                     style.vertical_align = VerticalAlign(style_data["vertical_align"])
 
-            # Alignment properties (GAP-THEME-009, 010, 011, 012)
+            # Alignment properties
             if "text_rotation" in style_data:
                 style.text_rotation = int(style_data["text_rotation"])
 
@@ -569,7 +569,7 @@ class ThemeLoader:
         """
         Parse pattern fill from YAML data.
 
-        Implements GAP-THEME-001: PatternFill not parsed from YAML
+        Implements PatternFill not parsed from YAML
 
         Args:
             value: Pattern fill specification dict
@@ -603,7 +603,7 @@ class ThemeLoader:
         """
         Parse gradient fill from YAML data.
 
-        Implements GAP-THEME-002: GradientFill not parsed from YAML
+        Implements GradientFill not parsed from YAML
 
         Args:
             value: Gradient fill specification dict

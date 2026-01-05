@@ -2,7 +2,7 @@
 Biodiversity Assessment Template.
 
 Implements:
-    TASK-C008: BiodiversityAssessmentTemplate for environmental domain
+    BiodiversityAssessmentTemplate for environmental domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class BiodiversityAssessmentTemplate(BaseTemplate):
     Biodiversity assessment template.
 
     Implements:
-        TASK-C008: BiodiversityAssessmentTemplate with diversity indices
+        BiodiversityAssessmentTemplate with diversity indices
 
     Features:
     - Species inventory tracking

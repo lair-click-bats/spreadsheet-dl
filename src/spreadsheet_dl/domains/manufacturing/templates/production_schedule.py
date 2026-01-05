@@ -2,7 +2,7 @@
 Production Schedule Template for manufacturing capacity planning.
 
 Implements:
-    TASK-C005: ProductionScheduleTemplate for manufacturing domain
+    ProductionScheduleTemplate for manufacturing domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class ProductionScheduleTemplate(BaseTemplate):
     Production schedule with capacity planning and scheduling.
 
     Implements:
-        TASK-C005: ProductionScheduleTemplate with capacity analysis
+        ProductionScheduleTemplate with capacity analysis
 
     Features:
     - Work order tracking with priority
@@ -60,7 +60,7 @@ class ProductionScheduleTemplate(BaseTemplate):
             TemplateMetadata for production schedule template
 
         Implements:
-            TASK-C005: Template metadata
+            Template metadata
         """
         return TemplateMetadata(
             name="Production Schedule",
@@ -83,7 +83,7 @@ class ProductionScheduleTemplate(BaseTemplate):
             Configured SpreadsheetBuilder instance
 
         Implements:
-            TASK-C005: ProductionScheduleTemplate generation
+            ProductionScheduleTemplate generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

@@ -2,7 +2,7 @@
 Model Comparison Template for ML model evaluation.
 
 Implements:
-    TASK-C001: ModelComparisonTemplate for data science domain
+    ModelComparisonTemplate for data science domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class ModelComparisonTemplate(BaseTemplate):
     ML model comparison and evaluation template.
 
     Implements:
-        TASK-C001: ModelComparisonTemplate with multi-metric evaluation
+        ModelComparisonTemplate with multi-metric evaluation
 
     Features:
     - Multiple model comparison
@@ -62,7 +62,7 @@ class ModelComparisonTemplate(BaseTemplate):
             TemplateMetadata for model comparison template
 
         Implements:
-            TASK-C001: Template metadata
+            Template metadata
         """
         return TemplateMetadata(
             name="Model Comparison",
@@ -81,7 +81,7 @@ class ModelComparisonTemplate(BaseTemplate):
             Configured SpreadsheetBuilder instance
 
         Implements:
-            TASK-C001: ModelComparisonTemplate generation
+            ModelComparisonTemplate generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

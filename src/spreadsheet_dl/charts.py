@@ -143,9 +143,9 @@ class ChartTitle:
 @dataclass(slots=True)
 class AxisConfig:
     """
-    Axis configuration (FR-CHART-002).
+    Axis configuration for chart axes.
 
-    Implements GAP-002: Missing __slots__ declarations
+    Uses __slots__ for memory efficiency.
 
     Attributes:
         axis_type: Type of axis (category, value, secondary_value)
@@ -257,9 +257,9 @@ class Trendline:
 @dataclass(slots=True)
 class DataSeries:
     """
-    Chart data series configuration (FR-CHART-005).
+    Chart data series configuration.
 
-    Implements GAP-002: Missing __slots__ declarations
+    Uses __slots__ for memory efficiency.
 
     Attributes:
         name: Series name (for legend)
@@ -403,12 +403,10 @@ class Sparkline:
 @dataclass(slots=True)
 class ChartSpec:
     """
-    Complete chart specification (FR-CHART-001, FR-CHART-002).
+    Complete chart specification.
 
-    Implements GAP-002: Missing __slots__ declarations
-
-    This is the output of ChartBuilder and contains all configuration
-    needed to render a chart.
+    Uses __slots__ for memory efficiency. This is the output of ChartBuilder
+    and contains all configuration needed to render a chart.
 
     Attributes:
         chart_type: Type of chart

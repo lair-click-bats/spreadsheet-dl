@@ -9,7 +9,7 @@ Provides comprehensive mechanical engineering functionality including:
 - CAD metadata, FEA results, and material database importers
 
 Implements:
-    REQ-C003-001: Mechanical Engineering domain plugin
+    Mechanical Engineering domain plugin
 """
 
 # Plugin

@@ -2,7 +2,7 @@
 Learning metrics formulas.
 
 Implements:
-    TASK-C007: Learning metrics formulas
+    Learning metrics formulas
     (LEARNING_GAIN, MASTERY_LEVEL, ATTENDANCE_RATE, COMPLETION_RATE,
      BLOOM_TAXONOMY_LEVEL, READABILITY_SCORE)
 """
@@ -21,7 +21,7 @@ class LearningGainFormula(BaseFormula):
     Calculate normalized learning gain.
 
     Implements:
-        TASK-C007: LEARNING_GAIN formula for pre/post assessment
+        LEARNING_GAIN formula for pre/post assessment
 
     Uses Hake's normalized gain: g = (post - pre) / (max - pre)
 
@@ -40,7 +40,7 @@ class LearningGainFormula(BaseFormula):
             FormulaMetadata for LEARNING_GAIN
 
         Implements:
-            TASK-C007: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="LEARNING_GAIN",
@@ -86,7 +86,7 @@ class LearningGainFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C007: LEARNING_GAIN formula building
+            LEARNING_GAIN formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -108,7 +108,7 @@ class MasteryLevelFormula(BaseFormula):
     Calculate mastery level for competency-based grading.
 
     Implements:
-        TASK-C007: MASTERY_LEVEL formula for mastery grading
+        MASTERY_LEVEL formula for mastery grading
 
     Returns mastery level (1-4 or custom scale) based on score.
 
@@ -127,7 +127,7 @@ class MasteryLevelFormula(BaseFormula):
             FormulaMetadata for MASTERY_LEVEL
 
         Implements:
-            TASK-C007: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="MASTERY_LEVEL",
@@ -167,7 +167,7 @@ class MasteryLevelFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C007: MASTERY_LEVEL formula building
+            MASTERY_LEVEL formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -191,7 +191,7 @@ class AttendanceRateFormula(BaseFormula):
     Calculate student attendance rate.
 
     Implements:
-        TASK-C007: ATTENDANCE_RATE formula for attendance tracking
+        ATTENDANCE_RATE formula for attendance tracking
 
     Calculates percentage of days attended.
 
@@ -210,7 +210,7 @@ class AttendanceRateFormula(BaseFormula):
             FormulaMetadata for ATTENDANCE_RATE
 
         Implements:
-            TASK-C007: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="ATTENDANCE_RATE",
@@ -249,7 +249,7 @@ class AttendanceRateFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C007: ATTENDANCE_RATE formula building
+            ATTENDANCE_RATE formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -268,7 +268,7 @@ class CompletionRateFormula(BaseFormula):
     Calculate assignment completion rate.
 
     Implements:
-        TASK-C007: COMPLETION_RATE formula for assignment tracking
+        COMPLETION_RATE formula for assignment tracking
 
     Calculates percentage of assignments completed.
 
@@ -287,7 +287,7 @@ class CompletionRateFormula(BaseFormula):
             FormulaMetadata for COMPLETION_RATE
 
         Implements:
-            TASK-C007: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="COMPLETION_RATE",
@@ -326,7 +326,7 @@ class CompletionRateFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C007: COMPLETION_RATE formula building
+            COMPLETION_RATE formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -345,7 +345,7 @@ class BloomTaxonomyLevelFormula(BaseFormula):
     Categorize learning objective by Bloom's Taxonomy level.
 
     Implements:
-        TASK-C007: BLOOM_TAXONOMY_LEVEL formula for learning design
+        BLOOM_TAXONOMY_LEVEL formula for learning design
 
     Returns taxonomy level (1-6) based on action verb keywords.
 
@@ -364,7 +364,7 @@ class BloomTaxonomyLevelFormula(BaseFormula):
             FormulaMetadata for BLOOM_TAXONOMY_LEVEL
 
         Implements:
-            TASK-C007: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="BLOOM_TAXONOMY_LEVEL",
@@ -397,7 +397,7 @@ class BloomTaxonomyLevelFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C007: BLOOM_TAXONOMY_LEVEL formula building
+            BLOOM_TAXONOMY_LEVEL formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -436,7 +436,7 @@ class ReadabilityScoreFormula(BaseFormula):
     Calculate Flesch-Kincaid readability grade level.
 
     Implements:
-        TASK-C007: READABILITY_SCORE formula for content analysis
+        READABILITY_SCORE formula for content analysis
 
     Calculates approximate grade level for text readability.
 
@@ -455,7 +455,7 @@ class ReadabilityScoreFormula(BaseFormula):
             FormulaMetadata for READABILITY_SCORE
 
         Implements:
-            TASK-C007: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="READABILITY_SCORE",
@@ -500,7 +500,7 @@ class ReadabilityScoreFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C007: READABILITY_SCORE formula building
+            READABILITY_SCORE formula building
 
         Raises:
             ValueError: If arguments are invalid

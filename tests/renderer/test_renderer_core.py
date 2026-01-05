@@ -391,7 +391,7 @@ class TestOdsRenderer:
 
 
 class TestOdsRendererCellMerging:
-    """Tests for cell merge rendering (TASK-201)."""
+    """Tests for cell merge rendering."""
 
     def test_render_with_colspan(self, tmp_path: Path) -> None:
         """Test rendering with column span."""
@@ -498,7 +498,7 @@ class TestOdsRendererCellMerging:
 
 
 class TestOdsRendererNamedRanges:
-    """Tests for named range rendering (TASK-202)."""
+    """Tests for named range rendering."""
 
     def test_render_with_named_range(self, tmp_path: Path) -> None:
         """Test rendering with sheet-scoped named ranges (lines 531-567)."""
@@ -912,5 +912,5 @@ class TestRendererIntegration:
 
 
 # =============================================================================
-# Chart Rendering Tests (TASK-231)
+# Chart Rendering Tests
 # =============================================================================

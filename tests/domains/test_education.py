@@ -2,7 +2,7 @@
 Tests for Education domain plugin.
 
 Implements:
-    REQ-C007: Comprehensive tests for Education domain (95%+ coverage target)
+    Comprehensive tests for Education domain (95%+ coverage target)
 """
 
 from __future__ import annotations

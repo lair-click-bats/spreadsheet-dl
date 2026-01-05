@@ -2,7 +2,7 @@
 Tests for Data Science domain plugin.
 
 Implements:
-    TASK-C001: Comprehensive tests for data science domain
+    Comprehensive tests for data science domain
     - Template tests (5 templates)
     - Formula tests (14 formulas)
     - Importer tests (3 importers)

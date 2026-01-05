@@ -2,7 +2,7 @@
 Quality metrics formulas for manufacturing.
 
 Implements:
-    TASK-C005: Quality metrics formulas (DEFECT_RATE, FIRST_PASS_YIELD, PROCESS_CAPABILITY, CONTROL_LIMITS)
+    Quality metrics formulas (DEFECT_RATE, FIRST_PASS_YIELD, PROCESS_CAPABILITY, CONTROL_LIMITS)
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ class DefectRateFormula(BaseFormula):
     Defect rate calculation (defects / total units).
 
     Implements:
-        TASK-C005: DEFECT_RATE formula for quality metrics
+        DEFECT_RATE formula for quality metrics
 
     Defect Rate = (Defects / Total Units) * 100
 
@@ -38,7 +38,7 @@ class DefectRateFormula(BaseFormula):
             FormulaMetadata for DEFECT_RATE
 
         Implements:
-            TASK-C005: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="DEFECT_RATE",
@@ -77,7 +77,7 @@ class DefectRateFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C005: DEFECT_RATE formula building
+            DEFECT_RATE formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -96,7 +96,7 @@ class FirstPassYieldFormula(BaseFormula):
     First pass yield percentage.
 
     Implements:
-        TASK-C005: FIRST_PASS_YIELD formula for quality metrics
+        FIRST_PASS_YIELD formula for quality metrics
 
     First Pass Yield = (Good Units / Total Units) * 100
 
@@ -115,7 +115,7 @@ class FirstPassYieldFormula(BaseFormula):
             FormulaMetadata for FIRST_PASS_YIELD
 
         Implements:
-            TASK-C005: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="FIRST_PASS_YIELD",
@@ -154,7 +154,7 @@ class FirstPassYieldFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C005: FIRST_PASS_YIELD formula building
+            FIRST_PASS_YIELD formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -173,7 +173,7 @@ class ProcessCapabilityFormula(BaseFormula):
     Process capability index (Cp, Cpk).
 
     Implements:
-        TASK-C005: PROCESS_CAPABILITY formula for quality metrics
+        PROCESS_CAPABILITY formula for quality metrics
 
     Cp = (USL - LSL) / (6 * StdDev)
     Cpk = MIN((USL - Mean) / (3 * StdDev), (Mean - LSL) / (3 * StdDev))
@@ -193,7 +193,7 @@ class ProcessCapabilityFormula(BaseFormula):
             FormulaMetadata for PROCESS_CAPABILITY
 
         Implements:
-            TASK-C005: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="PROCESS_CAPABILITY",
@@ -244,7 +244,7 @@ class ProcessCapabilityFormula(BaseFormula):
             ODF formula string for Cp
 
         Implements:
-            TASK-C005: PROCESS_CAPABILITY formula building
+            PROCESS_CAPABILITY formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -263,7 +263,7 @@ class ControlLimitsFormula(BaseFormula):
     Statistical control limits (UCL, LCL).
 
     Implements:
-        TASK-C005: CONTROL_LIMITS formula for quality metrics
+        CONTROL_LIMITS formula for quality metrics
 
     UCL = Mean + (3 * StdDev)
     LCL = Mean - (3 * StdDev)
@@ -283,7 +283,7 @@ class ControlLimitsFormula(BaseFormula):
             FormulaMetadata for CONTROL_LIMITS
 
         Implements:
-            TASK-C005: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="CONTROL_LIMITS",
@@ -329,7 +329,7 @@ class ControlLimitsFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C005: CONTROL_LIMITS formula building
+            CONTROL_LIMITS formula building
 
         Raises:
             ValueError: If arguments are invalid

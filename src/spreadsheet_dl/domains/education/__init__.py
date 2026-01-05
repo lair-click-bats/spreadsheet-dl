@@ -2,7 +2,7 @@
 Education Domain Plugin for SpreadsheetDL.
 
 Implements:
-    TASK-C007: Education domain plugin
+    Education domain plugin
     PHASE-C: Domain plugin implementations
 
 Provides education-specific functionality including:

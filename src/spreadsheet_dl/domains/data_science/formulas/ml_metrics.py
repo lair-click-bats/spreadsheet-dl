@@ -2,7 +2,7 @@
 Machine learning metrics formulas.
 
 Implements:
-    TASK-C001: ML metrics formulas (ACCURACY, PRECISION, RECALL, F1SCORE, CONFUSION_MATRIX_METRIC)
+    ML metrics formulas (ACCURACY, PRECISION, RECALL, F1SCORE, CONFUSION_MATRIX_METRIC)
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ class AccuracyFormula(BaseFormula):
     Accuracy metric: (TP+TN)/(TP+TN+FP+FN).
 
     Implements:
-        TASK-C001: ACCURACY formula for ML evaluation
+        ACCURACY formula for ML evaluation
 
     Example:
         >>> formula = AccuracyFormula()
@@ -36,7 +36,7 @@ class AccuracyFormula(BaseFormula):
             FormulaMetadata for ACCURACY
 
         Implements:
-            TASK-C001: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="ACCURACY",
@@ -87,7 +87,7 @@ class AccuracyFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C001: ACCURACY formula building
+            ACCURACY formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -106,7 +106,7 @@ class PrecisionFormula(BaseFormula):
     Precision metric: TP/(TP+FP).
 
     Implements:
-        TASK-C001: PRECISION formula for ML evaluation
+        PRECISION formula for ML evaluation
 
     Example:
         >>> formula = PrecisionFormula()
@@ -123,7 +123,7 @@ class PrecisionFormula(BaseFormula):
             FormulaMetadata for PRECISION
 
         Implements:
-            TASK-C001: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="PRECISION",
@@ -162,7 +162,7 @@ class PrecisionFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C001: PRECISION formula building
+            PRECISION formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -181,7 +181,7 @@ class RecallFormula(BaseFormula):
     Recall metric: TP/(TP+FN).
 
     Implements:
-        TASK-C001: RECALL formula for ML evaluation
+        RECALL formula for ML evaluation
 
     Example:
         >>> formula = RecallFormula()
@@ -198,7 +198,7 @@ class RecallFormula(BaseFormula):
             FormulaMetadata for RECALL
 
         Implements:
-            TASK-C001: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="RECALL",
@@ -237,7 +237,7 @@ class RecallFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C001: RECALL formula building
+            RECALL formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -256,7 +256,7 @@ class F1ScoreFormula(BaseFormula):
     F1 Score metric: 2*(Precision*Recall)/(Precision+Recall).
 
     Implements:
-        TASK-C001: F1SCORE formula for ML evaluation
+        F1SCORE formula for ML evaluation
 
     Example:
         >>> formula = F1ScoreFormula()
@@ -273,7 +273,7 @@ class F1ScoreFormula(BaseFormula):
             FormulaMetadata for F1SCORE
 
         Implements:
-            TASK-C001: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="F1SCORE",
@@ -312,7 +312,7 @@ class F1ScoreFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C001: F1SCORE formula building
+            F1SCORE formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -331,7 +331,7 @@ class ConfusionMatrixMetricFormula(BaseFormula):
     Extract metrics from confusion matrix.
 
     Implements:
-        TASK-C001: CONFUSION_MATRIX_METRIC formula for metric extraction
+        CONFUSION_MATRIX_METRIC formula for metric extraction
 
     Example:
         >>> formula = ConfusionMatrixMetricFormula()
@@ -348,7 +348,7 @@ class ConfusionMatrixMetricFormula(BaseFormula):
             FormulaMetadata for CONFUSION_MATRIX_METRIC
 
         Implements:
-            TASK-C001: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="CONFUSION_MATRIX_METRIC",
@@ -387,7 +387,7 @@ class ConfusionMatrixMetricFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C001: CONFUSION_MATRIX_METRIC formula building
+            CONFUSION_MATRIX_METRIC formula building
 
         Raises:
             ValueError: If arguments are invalid

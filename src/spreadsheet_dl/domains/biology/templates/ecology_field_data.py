@@ -2,7 +2,7 @@
 Ecology Field Data Template for field observations.
 
 Implements:
-    TASK-C006: EcologyFieldDataTemplate for biology domain
+    EcologyFieldDataTemplate for biology domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class EcologyFieldDataTemplate(BaseTemplate):
     Ecology field observations template.
 
     Implements:
-        TASK-C006: EcologyFieldDataTemplate with species diversity metrics
+        EcologyFieldDataTemplate with species diversity metrics
 
     Features:
     - Site and survey information
@@ -57,7 +57,7 @@ class EcologyFieldDataTemplate(BaseTemplate):
             TemplateMetadata for ecology field data template
 
         Implements:
-            TASK-C006: Template metadata
+            Template metadata
         """
         return TemplateMetadata(
             name="Ecology Field Data",
@@ -76,7 +76,7 @@ class EcologyFieldDataTemplate(BaseTemplate):
             Configured SpreadsheetBuilder instance
 
         Implements:
-            TASK-C006: EcologyFieldDataTemplate generation
+            EcologyFieldDataTemplate generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

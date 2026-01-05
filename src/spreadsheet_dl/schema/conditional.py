@@ -141,7 +141,7 @@ class ColorScalePoint:
     """
     A point on a color scale.
 
-    Implements GAP-001: Missing frozen=True on value objects
+    Implements Missing frozen=True on value objects
     """
 
     value_type: ValueType
@@ -166,7 +166,7 @@ class ColorScale:
     Color scale configuration for gradient-style conditional formatting.
 
     Implements FR-COND-003: Color Scales
-    Implements GAP-001: Missing frozen=True on value objects
+    Implements Missing frozen=True on value objects
 
     Examples:
         # Two-color scale (red to green)
@@ -292,7 +292,7 @@ class DataBar:
     Data bar configuration for bar-style conditional formatting.
 
     Implements FR-COND-004: Data Bars
-    Implements GAP-001: Missing frozen=True on value objects
+    Implements Missing frozen=True on value objects
 
     Examples:
         # Default blue bars
@@ -381,7 +381,7 @@ class IconSetThreshold:
     """
     A threshold for icon set rules.
 
-    Implements GAP-001: Missing frozen=True on value objects
+    Implements Missing frozen=True on value objects
     """
 
     value_type: ValueType
@@ -396,7 +396,7 @@ class IconSet:
     Icon set configuration.
 
     Implements FR-COND-005: Icon Sets
-    Implements GAP-001: Missing frozen=True on value objects
+    Implements Missing frozen=True on value objects
 
     Examples:
         # Three arrows

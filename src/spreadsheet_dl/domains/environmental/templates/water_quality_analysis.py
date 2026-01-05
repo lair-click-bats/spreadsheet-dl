@@ -2,7 +2,7 @@
 Water Quality Analysis Template.
 
 Implements:
-    TASK-C008: WaterQualityAnalysisTemplate for environmental domain
+    WaterQualityAnalysisTemplate for environmental domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class WaterQualityAnalysisTemplate(BaseTemplate):
     Water quality analysis template.
 
     Implements:
-        TASK-C008: WaterQualityAnalysisTemplate with WQI calculations
+        WaterQualityAnalysisTemplate with WQI calculations
 
     Features:
     - Physical parameters (temperature, turbidity, conductivity)
@@ -56,7 +56,7 @@ class WaterQualityAnalysisTemplate(BaseTemplate):
             TemplateMetadata for water quality analysis template
 
         Implements:
-            TASK-C008: Template metadata
+            Template metadata
         """
         return TemplateMetadata(
             name="Water Quality Analysis",
@@ -75,7 +75,7 @@ class WaterQualityAnalysisTemplate(BaseTemplate):
             True if parameters are valid
 
         Implements:
-            TASK-C008: Template validation
+            Template validation
         """
         return self.num_samples > 0
 
@@ -87,7 +87,7 @@ class WaterQualityAnalysisTemplate(BaseTemplate):
             Configured SpreadsheetBuilder instance
 
         Implements:
-            TASK-C008: WaterQualityAnalysisTemplate generation
+            WaterQualityAnalysisTemplate generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

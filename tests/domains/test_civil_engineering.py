@@ -2,7 +2,7 @@
 Tests for Civil Engineering domain plugin.
 
 Implements:
-    REQ-C004: Comprehensive tests for Civil Engineering domain (95%+ coverage target)
+    Comprehensive tests for Civil Engineering domain (95%+ coverage target)
 """
 
 from __future__ import annotations

@@ -2,7 +2,7 @@
 Learning Objectives Template.
 
 Implements:
-    TASK-C007: LearningObjectivesTemplate for education domain
+    LearningObjectivesTemplate for education domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class LearningObjectivesTemplate(BaseTemplate):
     Learning objectives mapping template.
 
     Implements:
-        TASK-C007: LearningObjectivesTemplate with curriculum mapping
+        LearningObjectivesTemplate with curriculum mapping
 
     Features:
     - Learning objective statements
@@ -57,7 +57,7 @@ class LearningObjectivesTemplate(BaseTemplate):
             TemplateMetadata for learning objectives template
 
         Implements:
-            TASK-C007: Template metadata
+            Template metadata
         """
         return TemplateMetadata(
             name="Learning Objectives",
@@ -76,7 +76,7 @@ class LearningObjectivesTemplate(BaseTemplate):
             True if parameters are valid
 
         Implements:
-            TASK-C007: Template validation
+            Template validation
         """
         return self.num_objectives > 0
 
@@ -88,7 +88,7 @@ class LearningObjectivesTemplate(BaseTemplate):
             Configured SpreadsheetBuilder instance
 
         Implements:
-            TASK-C007: LearningObjectivesTemplate generation
+            LearningObjectivesTemplate generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

@@ -2,7 +2,7 @@
 Manufacturing importers module.
 
 Implements:
-    TASK-C005: Manufacturing importer exports
+    Manufacturing importer exports
 """
 
 from spreadsheet_dl.domains.manufacturing.importers.erp_data import ERPDataImporter

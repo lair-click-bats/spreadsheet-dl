@@ -2,7 +2,7 @@
 Tests for Mechanical Engineering domain plugin.
 
 Implements:
-    REQ-C003-015: Comprehensive tests for mechanical engineering domain (95%+ coverage target)
+    Comprehensive tests for mechanical engineering domain (95%+ coverage target)
 """
 
 from __future__ import annotations

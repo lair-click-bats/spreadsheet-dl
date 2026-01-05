@@ -2,7 +2,7 @@
 Civil Engineering formulas for SpreadsheetDL.
 
 Implements:
-    REQ-C004-010 to REQ-C004-022: Civil Engineering domain formulas
+    Civil Engineering domain formulas
 
 Provides domain-specific formulas for:
 - Beam calculations (deflection, shear stress, moment)

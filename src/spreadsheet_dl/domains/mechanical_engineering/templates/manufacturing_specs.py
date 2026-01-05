@@ -2,7 +2,7 @@
 Manufacturing Specifications template for mechanical engineering.
 
 Implements:
-    REQ-C003-006: ManufacturingSpecsTemplate with part specifications
+    ManufacturingSpecsTemplate with part specifications
 """
 
 from __future__ import annotations
@@ -25,7 +25,7 @@ class ManufacturingSpecsTemplate(BaseTemplate):
     surface finish, and material specifications.
 
     Implements:
-        REQ-C003-006: ManufacturingSpecsTemplate requirements
+        ManufacturingSpecsTemplate requirements
 
     Features:
         - Part identification and revision control
@@ -68,7 +68,7 @@ class ManufacturingSpecsTemplate(BaseTemplate):
             SpreadsheetBuilder configured with manufacturing specs template
 
         Implements:
-            REQ-C003-006: Manufacturing specs template generation
+            Manufacturing specs template generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

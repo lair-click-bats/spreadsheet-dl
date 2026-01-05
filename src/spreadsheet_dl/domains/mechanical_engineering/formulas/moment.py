@@ -2,7 +2,7 @@
 Moment and bending formulas for mechanical engineering.
 
 Implements:
-    REQ-C003-008: Moment formulas (MOMENT_OF_INERTIA, BENDING_STRESS, TORSIONAL_STRESS)
+    Moment formulas (MOMENT_OF_INERTIA, BENDING_STRESS, TORSIONAL_STRESS)
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ class MomentOfInertiaFormula(BaseFormula):
     Calculates second moment of area for bending calculations.
 
     Implements:
-        REQ-C003-008: MOMENT_OF_INERTIA formula
+        MOMENT_OF_INERTIA formula
 
     Example:
         >>> formula = MomentOfInertiaFormula()
@@ -82,7 +82,7 @@ class BendingStressFormula(BaseFormula):
     neutral axis, and moment of inertia.
 
     Implements:
-        REQ-C003-008: BENDING_STRESS formula
+        BENDING_STRESS formula
 
     Example:
         >>> formula = BendingStressFormula()
@@ -149,7 +149,7 @@ class TorsionalStressFormula(BaseFormula):
     and polar moment of inertia.
 
     Implements:
-        REQ-C003-008: TORSIONAL_STRESS formula
+        TORSIONAL_STRESS formula
 
     Example:
         >>> formula = TorsionalStressFormula()

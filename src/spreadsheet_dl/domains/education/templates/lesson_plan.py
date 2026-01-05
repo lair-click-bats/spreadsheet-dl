@@ -2,7 +2,7 @@
 Lesson Plan Template.
 
 Implements:
-    TASK-C007: LessonPlanTemplate for education domain
+    LessonPlanTemplate for education domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class LessonPlanTemplate(BaseTemplate):
     Lesson plan template for curriculum design.
 
     Implements:
-        TASK-C007: LessonPlanTemplate with structured planning
+        LessonPlanTemplate with structured planning
 
     Features:
     - Lesson information (title, date, duration)
@@ -60,7 +60,7 @@ class LessonPlanTemplate(BaseTemplate):
             TemplateMetadata for lesson plan template
 
         Implements:
-            TASK-C007: Template metadata
+            Template metadata
         """
         return TemplateMetadata(
             name="Lesson Plan",
@@ -79,7 +79,7 @@ class LessonPlanTemplate(BaseTemplate):
             True if parameters are valid
 
         Implements:
-            TASK-C007: Template validation
+            Template validation
         """
         return len(self.lesson_title) > 0
 
@@ -91,7 +91,7 @@ class LessonPlanTemplate(BaseTemplate):
             Configured SpreadsheetBuilder instance
 
         Implements:
-            TASK-C007: LessonPlanTemplate generation
+            LessonPlanTemplate generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

@@ -2,7 +2,7 @@
 Molecular biology formulas.
 
 Implements:
-    TASK-C006: Molecular biology formulas
+    Molecular biology formulas
     (CONCENTRATION, FOLD_CHANGE, GC_CONTENT, MELTING_TEMP)
 """
 
@@ -20,7 +20,7 @@ class ConcentrationFormula(BaseFormula):
     Calculate nucleic acid concentration from absorbance.
 
     Implements:
-        TASK-C006: CONCENTRATION formula for nucleic acid quantification
+        CONCENTRATION formula for nucleic acid quantification
 
     Uses A260/A280 ratio for purity assessment.
 
@@ -39,7 +39,7 @@ class ConcentrationFormula(BaseFormula):
             FormulaMetadata for CONCENTRATION
 
         Implements:
-            TASK-C006: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="CONCENTRATION",
@@ -86,7 +86,7 @@ class ConcentrationFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C006: CONCENTRATION formula building
+            CONCENTRATION formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -120,7 +120,7 @@ class FoldChangeFormula(BaseFormula):
     Calculate gene expression fold change using 2^-ΔΔCt method.
 
     Implements:
-        TASK-C006: FOLD_CHANGE formula for qPCR analysis
+        FOLD_CHANGE formula for qPCR analysis
 
     Example:
         >>> formula = FoldChangeFormula()
@@ -137,7 +137,7 @@ class FoldChangeFormula(BaseFormula):
             FormulaMetadata for FOLD_CHANGE
 
         Implements:
-            TASK-C006: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="FOLD_CHANGE",
@@ -188,7 +188,7 @@ class FoldChangeFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C006: FOLD_CHANGE formula building
+            FOLD_CHANGE formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -216,7 +216,7 @@ class GCContentFormula(BaseFormula):
     Calculate GC content percentage of DNA sequence.
 
     Implements:
-        TASK-C006: GC_CONTENT formula for sequence analysis
+        GC_CONTENT formula for sequence analysis
 
     Example:
         >>> formula = GCContentFormula()
@@ -233,7 +233,7 @@ class GCContentFormula(BaseFormula):
             FormulaMetadata for GC_CONTENT
 
         Implements:
-            TASK-C006: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="GC_CONTENT",
@@ -266,7 +266,7 @@ class GCContentFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C006: GC_CONTENT formula building
+            GC_CONTENT formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -291,7 +291,7 @@ class MeltingTempFormula(BaseFormula):
     Calculate DNA melting temperature estimation.
 
     Implements:
-        TASK-C006: MELTING_TEMP formula for primer design
+        MELTING_TEMP formula for primer design
 
     Uses nearest-neighbor method approximation.
 
@@ -310,7 +310,7 @@ class MeltingTempFormula(BaseFormula):
             FormulaMetadata for MELTING_TEMP
 
         Implements:
-            TASK-C006: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="MELTING_TEMP",
@@ -350,7 +350,7 @@ class MeltingTempFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C006: MELTING_TEMP formula building
+            MELTING_TEMP formula building
 
         Raises:
             ValueError: If arguments are invalid

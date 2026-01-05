@@ -1,10 +1,6 @@
 """
 Builder-specific exceptions with actionable error messages.
 
-Implements:
-    - PHASE0-004: Perfect Builder API (v4.0.0)
-    - GAP-FORMULA-001: Circular reference detection (TASK-204)
-
 All builder exceptions inherit from BuilderError which provides
 enhanced error messages with actionable guidance for developers.
 """
@@ -89,8 +85,6 @@ class EmptySheetError(BuilderError):
 class CircularReferenceError(BuilderError):
     """
     Error raised when circular references are detected in formulas.
-
-    Implements GAP-FORMULA-001: Circular reference detection (TASK-204)
 
     Attributes:
         cell: The cell that contains the circular reference

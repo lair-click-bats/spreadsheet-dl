@@ -2,7 +2,7 @@
 Material Properties template for mechanical engineering.
 
 Implements:
-    REQ-C003-003: MaterialPropertiesTemplate with material database
+    MaterialPropertiesTemplate with material database
 """
 
 from __future__ import annotations
@@ -25,7 +25,7 @@ class MaterialPropertiesTemplate(BaseTemplate):
     including yield strength, ultimate strength, Young's modulus, etc.
 
     Implements:
-        REQ-C003-003: MaterialPropertiesTemplate requirements
+        MaterialPropertiesTemplate requirements
 
     Features:
         - Material name and specification
@@ -67,7 +67,7 @@ class MaterialPropertiesTemplate(BaseTemplate):
             SpreadsheetBuilder configured with material properties template
 
         Implements:
-            REQ-C003-003: Material properties template generation
+            Material properties template generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

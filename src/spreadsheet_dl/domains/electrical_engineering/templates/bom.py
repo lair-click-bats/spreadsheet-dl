@@ -2,7 +2,7 @@
 Bill of Materials (BOM) template for electrical engineering.
 
 Implements:
-    TASK-C002: BOMTemplate with auto-numbering, cost calculations, and charts
+    BOMTemplate with auto-numbering, cost calculations, and charts
 """
 
 from __future__ import annotations
@@ -25,7 +25,7 @@ class BOMTemplate(BaseTemplate):
     costs, and automatic calculations.
 
     Implements:
-        TASK-C002: BOMTemplate requirements
+        BOMTemplate requirements
 
     Features:
         - Auto-numbering for items
@@ -65,7 +65,7 @@ class BOMTemplate(BaseTemplate):
             SpreadsheetBuilder configured with BOM template
 
         Implements:
-            TASK-C002: BOM template generation
+            BOM template generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

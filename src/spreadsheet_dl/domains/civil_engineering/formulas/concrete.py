@@ -2,7 +2,7 @@
 Concrete design formulas for civil engineering.
 
 Implements:
-    REQ-C004-016: Concrete formulas (CONCRETE_STRENGTH, REINFORCEMENT_RATIO, CRACK_WIDTH)
+    Concrete formulas (CONCRETE_STRENGTH, REINFORCEMENT_RATIO, CRACK_WIDTH)
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ class ConcreteStrengthFormula(BaseFormula):
     Calculates concrete compressive strength from test cylinder results.
 
     Implements:
-        REQ-C004-016: CONCRETE_STRENGTH formula
+        CONCRETE_STRENGTH formula
 
     Example:
         >>> formula = ConcreteStrengthFormula()
@@ -81,7 +81,7 @@ class ReinforcementRatioFormula(BaseFormula):
     Calculates reinforcement ratio for concrete beam design.
 
     Implements:
-        REQ-C004-017: REINFORCEMENT_RATIO formula
+        REINFORCEMENT_RATIO formula
 
     Example:
         >>> formula = ReinforcementRatioFormula()
@@ -147,7 +147,7 @@ class CrackWidthFormula(BaseFormula):
     Calculates maximum crack width in reinforced concrete.
 
     Implements:
-        REQ-C004-018: CRACK_WIDTH formula
+        CRACK_WIDTH formula
 
     Example:
         >>> formula = CrackWidthFormula()

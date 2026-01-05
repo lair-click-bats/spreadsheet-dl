@@ -699,7 +699,7 @@ class SpreadsheetBuilder:
         """
         Generate and save the ODS file.
 
-        Implements TASK-202: Export named ranges to ODS
+        Exports all sheets, named ranges, and styling to ODS format.
 
         Args:
             path: Output file path

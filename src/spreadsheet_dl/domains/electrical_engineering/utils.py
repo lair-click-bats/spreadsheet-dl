@@ -2,7 +2,7 @@
 Utility functions for electrical engineering domain.
 
 Implements:
-    TASK-C002: Helper functions for EE domain
+    Helper functions for EE domain
 """
 
 from __future__ import annotations

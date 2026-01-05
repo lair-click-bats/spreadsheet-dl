@@ -2,7 +2,7 @@
 Electrical Engineering importers for SpreadsheetDL.
 
 Implements:
-    TASK-C002: Electrical Engineering domain importers
+    Electrical Engineering domain importers
 
 Provides data importers for:
 - KiCad BOM exports (XML/CSV)

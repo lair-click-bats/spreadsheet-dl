@@ -2,7 +2,7 @@
 Dataset Catalog Template for data inventory management.
 
 Implements:
-    TASK-C001: DatasetCatalogTemplate for data science domain
+    DatasetCatalogTemplate for data science domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class DatasetCatalogTemplate(BaseTemplate):
     Dataset catalog and inventory template.
 
     Implements:
-        TASK-C001: DatasetCatalogTemplate with dataset metadata and statistics
+        DatasetCatalogTemplate with dataset metadata and statistics
 
     Features:
     - Dataset name and source tracking
@@ -57,7 +57,7 @@ class DatasetCatalogTemplate(BaseTemplate):
             TemplateMetadata for dataset catalog template
 
         Implements:
-            TASK-C001: Template metadata
+            Template metadata
         """
         return TemplateMetadata(
             name="Dataset Catalog",
@@ -76,7 +76,7 @@ class DatasetCatalogTemplate(BaseTemplate):
             Configured SpreadsheetBuilder instance
 
         Implements:
-            TASK-C001: DatasetCatalogTemplate generation
+            DatasetCatalogTemplate generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

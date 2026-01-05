@@ -2,7 +2,7 @@
 Soil mechanics formulas for civil engineering.
 
 Implements:
-    REQ-C004-013: Soil formulas (BEARING_CAPACITY, SETTLEMENT, SOIL_PRESSURE)
+    Soil formulas (BEARING_CAPACITY, SETTLEMENT, SOIL_PRESSURE)
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ class BearingCapacityFormula(BaseFormula):
     Calculates ultimate bearing capacity of soil using Terzaghi's equation.
 
     Implements:
-        REQ-C004-013: BEARING_CAPACITY formula
+        BEARING_CAPACITY formula
 
     Example:
         >>> formula = BearingCapacityFormula()
@@ -111,7 +111,7 @@ class SettlementFormula(BaseFormula):
     Calculates soil settlement under applied stress.
 
     Implements:
-        REQ-C004-014: SETTLEMENT formula
+        SETTLEMENT formula
 
     Example:
         >>> formula = SettlementFormula()
@@ -177,7 +177,7 @@ class SoilPressureFormula(BaseFormula):
     Calculates soil bearing pressure under applied load.
 
     Implements:
-        REQ-C004-015: SOIL_PRESSURE formula
+        SOIL_PRESSURE formula
 
     Example:
         >>> formula = SoilPressureFormula()

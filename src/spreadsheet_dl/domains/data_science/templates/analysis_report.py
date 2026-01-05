@@ -2,7 +2,7 @@
 Analysis Report Template for statistical analysis documentation.
 
 Implements:
-    TASK-C001: AnalysisReportTemplate for data science domain
+    AnalysisReportTemplate for data science domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class AnalysisReportTemplate(BaseTemplate):
     Statistical analysis report template.
 
     Implements:
-        TASK-C001: AnalysisReportTemplate with statistical tests and visualizations
+        AnalysisReportTemplate with statistical tests and visualizations
 
     Features:
     - Summary section
@@ -59,7 +59,7 @@ class AnalysisReportTemplate(BaseTemplate):
             TemplateMetadata for analysis report template
 
         Implements:
-            TASK-C001: Template metadata
+            Template metadata
         """
         return TemplateMetadata(
             name="Analysis Report",
@@ -78,7 +78,7 @@ class AnalysisReportTemplate(BaseTemplate):
             Configured SpreadsheetBuilder instance
 
         Implements:
-            TASK-C001: AnalysisReportTemplate generation
+            AnalysisReportTemplate generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

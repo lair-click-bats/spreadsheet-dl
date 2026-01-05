@@ -2,7 +2,7 @@
 Inventory Management Template for stock tracking and optimization.
 
 Implements:
-    TASK-C005: InventoryManagementTemplate for manufacturing domain
+    InventoryManagementTemplate for manufacturing domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class InventoryManagementTemplate(BaseTemplate):
     Inventory tracking with reorder points and safety stock.
 
     Implements:
-        TASK-C005: InventoryManagementTemplate with EOQ and safety stock
+        InventoryManagementTemplate with EOQ and safety stock
 
     Features:
     - Current stock levels
@@ -56,7 +56,7 @@ class InventoryManagementTemplate(BaseTemplate):
             TemplateMetadata for inventory management template
 
         Implements:
-            TASK-C005: Template metadata
+            Template metadata
         """
         return TemplateMetadata(
             name="Inventory Management",
@@ -75,7 +75,7 @@ class InventoryManagementTemplate(BaseTemplate):
             Configured SpreadsheetBuilder instance
 
         Implements:
-            TASK-C005: InventoryManagementTemplate generation
+            InventoryManagementTemplate generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

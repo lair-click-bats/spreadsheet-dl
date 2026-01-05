@@ -2,7 +2,7 @@
 Manufacturing Domain Plugin for SpreadsheetDL.
 
 Implements:
-    TASK-C005: Manufacturing domain plugin
+    Manufacturing domain plugin
     PHASE-C: Domain plugin implementations
 
 Provides manufacturing-specific functionality including:
@@ -75,7 +75,7 @@ class ManufacturingDomainPlugin(BaseDomainPlugin):
     Manufacturing domain plugin.
 
     Implements:
-        TASK-C005: Complete Manufacturing domain plugin
+        Complete Manufacturing domain plugin
         PHASE-C: Domain plugin implementations
 
     Provides comprehensive manufacturing functionality for SpreadsheetDL
@@ -100,7 +100,7 @@ class ManufacturingDomainPlugin(BaseDomainPlugin):
             PluginMetadata with manufacturing plugin information
 
         Implements:
-            TASK-C005: Plugin metadata requirements
+            Plugin metadata requirements
         """
         return PluginMetadata(
             name="manufacturing",
@@ -120,7 +120,7 @@ class ManufacturingDomainPlugin(BaseDomainPlugin):
         Registers all templates, formulas, and importers.
 
         Implements:
-            TASK-C005: Plugin initialization with all components
+            Plugin initialization with all components
 
         Raises:
             Exception: If initialization fails
@@ -162,7 +162,7 @@ class ManufacturingDomainPlugin(BaseDomainPlugin):
         No resources need explicit cleanup for this plugin.
 
         Implements:
-            TASK-C005: Plugin cleanup method
+            Plugin cleanup method
         """
         # No cleanup needed for this plugin
         pass
@@ -175,7 +175,7 @@ class ManufacturingDomainPlugin(BaseDomainPlugin):
             True if plugin has required templates and formulas registered
 
         Implements:
-            TASK-C005: Plugin validation
+            Plugin validation
         """
         # Verify we have all required components
         required_templates = 5

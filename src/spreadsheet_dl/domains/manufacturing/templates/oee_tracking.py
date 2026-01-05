@@ -2,7 +2,7 @@
 OEE Tracking Template for Overall Equipment Effectiveness analysis.
 
 Implements:
-    TASK-C005: OEETrackingTemplate for manufacturing domain
+    OEETrackingTemplate for manufacturing domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class OEETrackingTemplate(BaseTemplate):
     Overall Equipment Effectiveness (OEE) tracking and analysis.
 
     Implements:
-        TASK-C005: OEETrackingTemplate with availability, performance, and quality
+        OEETrackingTemplate with availability, performance, and quality
 
     Features:
     - Availability calculation (uptime / planned time)
@@ -54,7 +54,7 @@ class OEETrackingTemplate(BaseTemplate):
             TemplateMetadata for OEE tracking template
 
         Implements:
-            TASK-C005: Template metadata
+            Template metadata
         """
         return TemplateMetadata(
             name="OEE Tracking",
@@ -73,7 +73,7 @@ class OEETrackingTemplate(BaseTemplate):
             Configured SpreadsheetBuilder instance
 
         Implements:
-            TASK-C005: OEETrackingTemplate generation
+            OEETrackingTemplate generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

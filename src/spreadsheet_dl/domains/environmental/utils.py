@@ -2,7 +2,7 @@
 Environmental domain utility functions.
 
 Implements:
-    TASK-C008: Environmental domain utilities
+    Environmental domain utilities
 
 Provides helper functions for environmental calculations,
 unit conversions, and data processing.
@@ -41,7 +41,7 @@ def ppm_to_ugm3(ppm: float, molecular_weight: float) -> float:
         Concentration in micrograms per cubic meter
 
     Implements:
-        TASK-C008: Unit conversion for air quality
+        Unit conversion for air quality
 
     Example:
         >>> ppm_to_ugm3(0.1, 48.0)  # O3
@@ -64,7 +64,7 @@ def ugm3_to_ppm(ugm3: float, molecular_weight: float) -> float:
         Concentration in parts per million
 
     Implements:
-        TASK-C008: Unit conversion for air quality
+        Unit conversion for air quality
 
     Example:
         >>> ugm3_to_ppm(196.0, 48.0)  # O3
@@ -84,7 +84,7 @@ def calculate_aqi(pm25: float) -> int:
         AQI value (0-500+)
 
     Implements:
-        TASK-C008: AQI calculation utility
+        AQI calculation utility
 
     Example:
         >>> calculate_aqi(35.5)
@@ -133,7 +133,7 @@ def calculate_wqi(
         WQI score (0-100)
 
     Implements:
-        TASK-C008: WQI calculation utility
+        WQI calculation utility
 
     Example:
         >>> calculate_wqi(95, 2, 7.2)
@@ -174,7 +174,7 @@ def calculate_bod(
         BOD value (mg/L)
 
     Implements:
-        TASK-C008: BOD calculation utility
+        BOD calculation utility
 
     Example:
         >>> calculate_bod(8.5, 3.2, 30)
@@ -194,7 +194,7 @@ def calculate_shannon_diversity(counts: Sequence[int | float]) -> float:
         Shannon diversity index (H')
 
     Implements:
-        TASK-C008: Shannon diversity calculation
+        Shannon diversity calculation
 
     Example:
         >>> calculate_shannon_diversity([10, 10, 10, 10])
@@ -224,7 +224,7 @@ def calculate_simpson_index(counts: Sequence[int | float]) -> float:
         Simpson's diversity index (1-D)
 
     Implements:
-        TASK-C008: Simpson index calculation
+        Simpson index calculation
 
     Example:
         >>> calculate_simpson_index([10, 10, 10, 10])
@@ -257,7 +257,7 @@ def calculate_carbon_equivalent(
         CO2 equivalent
 
     Implements:
-        TASK-C008: Carbon equivalent calculation
+        Carbon equivalent calculation
 
     Example:
         >>> calculate_carbon_equivalent(100, "ch4")
@@ -293,7 +293,7 @@ def calculate_ecological_footprint(
         Ecological footprint (global hectares)
 
     Implements:
-        TASK-C008: Ecological footprint calculation
+        Ecological footprint calculation
 
     Example:
         >>> calculate_ecological_footprint(5000)
@@ -330,7 +330,7 @@ def format_concentration(
         Formatted concentration string
 
     Implements:
-        TASK-C008: Concentration formatting
+        Concentration formatting
 
     Example:
         >>> format_concentration(35.56, "ug/m3", 1)

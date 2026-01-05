@@ -2,7 +2,7 @@
 Assembly Instructions template for mechanical engineering.
 
 Implements:
-    REQ-C003-004: AssemblyInstructionsTemplate with step-by-step assembly
+    AssemblyInstructionsTemplate with step-by-step assembly
 """
 
 from __future__ import annotations
@@ -25,7 +25,7 @@ class AssemblyInstructionsTemplate(BaseTemplate):
     sequence numbers, tools required, and time estimates.
 
     Implements:
-        REQ-C003-004: AssemblyInstructionsTemplate requirements
+        AssemblyInstructionsTemplate requirements
 
     Features:
         - Sequential step numbering
@@ -66,7 +66,7 @@ class AssemblyInstructionsTemplate(BaseTemplate):
             SpreadsheetBuilder configured with assembly instructions template
 
         Implements:
-            REQ-C003-004: Assembly instructions template generation
+            Assembly instructions template generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

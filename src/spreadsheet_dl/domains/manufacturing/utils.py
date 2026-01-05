@@ -2,7 +2,7 @@
 Manufacturing domain utility functions.
 
 Implements:
-    TASK-C005: Manufacturing utility functions
+    Manufacturing utility functions
 """
 
 from __future__ import annotations
@@ -15,7 +15,7 @@ def calculate_oee(availability: float, performance: float, quality: float) -> fl
     Calculate Overall Equipment Effectiveness (OEE).
 
     Implements:
-        TASK-C005: OEE calculation utility
+        OEE calculation utility
 
     Args:
         availability: Availability percentage (0-100)
@@ -37,7 +37,7 @@ def calculate_defect_rate(defects: int, total: int) -> float:
     Calculate defect rate percentage.
 
     Implements:
-        TASK-C005: Defect rate calculation
+        Defect rate calculation
 
     Args:
         defects: Number of defective units
@@ -60,7 +60,7 @@ def calculate_first_pass_yield(good_units: int, total_units: int) -> float:
     Calculate first pass yield percentage.
 
     Implements:
-        TASK-C005: First pass yield calculation
+        First pass yield calculation
 
     Args:
         good_units: Number of units passing first inspection
@@ -83,7 +83,7 @@ def calculate_cycle_time(production_time: float, units_produced: int) -> float:
     Calculate manufacturing cycle time.
 
     Implements:
-        TASK-C005: Cycle time calculation
+        Cycle time calculation
 
     Args:
         production_time: Total production time in minutes
@@ -106,7 +106,7 @@ def calculate_takt_time(available_time: float, demand: int) -> float:
     Calculate takt time.
 
     Implements:
-        TASK-C005: Takt time calculation
+        Takt time calculation
 
     Args:
         available_time: Available production time in seconds
@@ -131,7 +131,7 @@ def calculate_eoq(
     Calculate Economic Order Quantity.
 
     Implements:
-        TASK-C005: EOQ calculation
+        EOQ calculation
 
     Args:
         annual_demand: Annual demand in units
@@ -157,7 +157,7 @@ def calculate_reorder_point(
     Calculate inventory reorder point.
 
     Implements:
-        TASK-C005: Reorder point calculation
+        Reorder point calculation
 
     Args:
         demand_rate: Average daily demand
@@ -181,7 +181,7 @@ def calculate_safety_stock(
     Calculate safety stock quantity.
 
     Implements:
-        TASK-C005: Safety stock calculation
+        Safety stock calculation
 
     Args:
         z_score: Z-score for desired service level (e.g., 1.65 for 95%)
@@ -203,7 +203,7 @@ def parse_manufacturing_date(date_str: str) -> str:
     Parse various manufacturing date formats to ISO format.
 
     Implements:
-        TASK-C005: Date parsing utility
+        Date parsing utility
 
     Args:
         date_str: Date string in various formats
@@ -243,7 +243,7 @@ def format_manufacturing_number(value: Any, decimals: int = 2) -> str:
     Format number for manufacturing reports.
 
     Implements:
-        TASK-C005: Number formatting utility
+        Number formatting utility
 
     Args:
         value: Numeric value to format

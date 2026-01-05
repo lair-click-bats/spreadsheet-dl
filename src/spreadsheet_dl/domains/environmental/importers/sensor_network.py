@@ -2,7 +2,7 @@
 Sensor Network Data Importer.
 
 Implements:
-    TASK-C008: SensorNetworkImporter for environmental domain
+    SensorNetworkImporter for environmental domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class SensorNetworkImporter(BaseImporter[list[dict[str, Any]]]):
     IoT sensor network data importer.
 
     Implements:
-        TASK-C008: SensorNetworkImporter for environmental monitoring
+        SensorNetworkImporter for environmental monitoring
 
     Supports importing data from:
     - IoT sensor exports (CSV, JSON)

@@ -2,7 +2,7 @@
 Stress Analysis template for mechanical engineering.
 
 Implements:
-    REQ-C003-002: StressAnalysisTemplate with load cases and stress calculations
+    StressAnalysisTemplate with load cases and stress calculations
 """
 
 from __future__ import annotations
@@ -25,7 +25,7 @@ class StressAnalysisTemplate(BaseTemplate):
     principal stresses, and von Mises stress calculations.
 
     Implements:
-        REQ-C003-002: StressAnalysisTemplate requirements
+        StressAnalysisTemplate requirements
 
     Features:
         - Multiple load cases (axial, bending, torsion)
@@ -66,7 +66,7 @@ class StressAnalysisTemplate(BaseTemplate):
             SpreadsheetBuilder configured with stress analysis template
 
         Implements:
-            REQ-C003-002: Stress analysis template generation
+            Stress analysis template generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

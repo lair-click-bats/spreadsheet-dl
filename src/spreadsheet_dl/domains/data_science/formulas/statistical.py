@@ -2,7 +2,7 @@
 Statistical formulas for data science.
 
 Implements:
-    TASK-C001: Statistical formulas (TTEST, FTEST, ZTEST, CHISQ_TEST)
+    Statistical formulas (TTEST, FTEST, ZTEST, CHISQ_TEST)
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ class TTestFormula(BaseFormula):
     T-test for comparing means of two samples.
 
     Implements:
-        TASK-C001: TTEST formula for statistical testing
+        TTEST formula for statistical testing
 
     Example:
         >>> formula = TTestFormula()
@@ -36,7 +36,7 @@ class TTestFormula(BaseFormula):
             FormulaMetadata for TTEST
 
         Implements:
-            TASK-C001: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="TTEST",
@@ -89,7 +89,7 @@ class TTestFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C001: TTEST formula building
+            TTEST formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -110,7 +110,7 @@ class FTestFormula(BaseFormula):
     F-test for comparing variances of two samples.
 
     Implements:
-        TASK-C001: FTEST formula for variance comparison
+        FTEST formula for variance comparison
 
     Example:
         >>> formula = FTestFormula()
@@ -127,7 +127,7 @@ class FTestFormula(BaseFormula):
             FormulaMetadata for FTEST
 
         Implements:
-            TASK-C001: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="FTEST",
@@ -166,7 +166,7 @@ class FTestFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C001: FTEST formula building
+            FTEST formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -185,7 +185,7 @@ class ZTestFormula(BaseFormula):
     Z-test for hypothesis testing with known population variance.
 
     Implements:
-        TASK-C001: ZTEST formula for hypothesis testing
+        ZTEST formula for hypothesis testing
 
     Example:
         >>> formula = ZTestFormula()
@@ -202,7 +202,7 @@ class ZTestFormula(BaseFormula):
             FormulaMetadata for ZTEST
 
         Implements:
-            TASK-C001: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="ZTEST",
@@ -248,7 +248,7 @@ class ZTestFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C001: ZTEST formula building
+            ZTEST formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -270,7 +270,7 @@ class ChiSquareTestFormula(BaseFormula):
     Chi-square test for independence or goodness of fit.
 
     Implements:
-        TASK-C001: CHISQ_TEST formula for categorical data analysis
+        CHISQ_TEST formula for categorical data analysis
 
     Example:
         >>> formula = ChiSquareTestFormula()
@@ -287,7 +287,7 @@ class ChiSquareTestFormula(BaseFormula):
             FormulaMetadata for CHISQ_TEST
 
         Implements:
-            TASK-C001: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="CHISQ_TEST",
@@ -326,7 +326,7 @@ class ChiSquareTestFormula(BaseFormula):
             ODF formula string (uses CHITEST which is the ODF name)
 
         Implements:
-            TASK-C001: CHISQ_TEST formula building
+            CHISQ_TEST formula building
 
         Raises:
             ValueError: If arguments are invalid

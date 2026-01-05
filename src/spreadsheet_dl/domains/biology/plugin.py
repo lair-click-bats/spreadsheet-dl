@@ -2,7 +2,7 @@
 Biology Domain Plugin for SpreadsheetDL.
 
 Implements:
-    TASK-C006: Biology domain plugin
+    Biology domain plugin
     PHASE-C: Domain plugin implementations
 
 Provides biology-specific functionality including:
@@ -64,7 +64,7 @@ class BiologyDomainPlugin(BaseDomainPlugin):
     Biology domain plugin.
 
     Implements:
-        TASK-C006: Complete Biology domain plugin
+        Complete Biology domain plugin
         PHASE-C: Domain plugin implementations
 
     Provides comprehensive biology functionality for SpreadsheetDL
@@ -119,7 +119,7 @@ class BiologyDomainPlugin(BaseDomainPlugin):
             PluginMetadata with biology plugin information
 
         Implements:
-            TASK-C006: Plugin metadata requirements
+            Plugin metadata requirements
         """
         return PluginMetadata(
             name="biology",
@@ -141,7 +141,7 @@ class BiologyDomainPlugin(BaseDomainPlugin):
         Registers all templates, formulas, and importers.
 
         Implements:
-            TASK-C006: Plugin initialization with all components
+            Plugin initialization with all components
 
         Raises:
             Exception: If initialization fails
@@ -183,7 +183,7 @@ class BiologyDomainPlugin(BaseDomainPlugin):
         No resources need explicit cleanup for this plugin.
 
         Implements:
-            TASK-C006: Plugin cleanup method
+            Plugin cleanup method
         """
         # No cleanup needed for this plugin
         pass
@@ -196,7 +196,7 @@ class BiologyDomainPlugin(BaseDomainPlugin):
             True if plugin has required templates and formulas registered
 
         Implements:
-            TASK-C006: Plugin validation
+            Plugin validation
         """
         # Verify we have all required components
         required_templates = 5

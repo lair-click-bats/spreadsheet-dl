@@ -2,7 +2,7 @@
 CAD Metadata importer for mechanical engineering.
 
 Implements:
-    REQ-C003-011: CADMetadataImporter for STEP/IGES file metadata
+    CADMetadataImporter for STEP/IGES file metadata
 """
 
 from __future__ import annotations
@@ -50,7 +50,7 @@ class CADMetadataImporter(BaseImporter[list[dict[str, Any]]]):
     Import metadata from CAD files (STEP/IGES format).
 
     Implements:
-        REQ-C003-011: CADMetadataImporter requirements
+        CADMetadataImporter requirements
 
     Features:
         - Parse STEP (ISO 10303-21) file headers
@@ -110,7 +110,7 @@ class CADMetadataImporter(BaseImporter[list[dict[str, Any]]]):
             ImportResult with metadata as list of dictionaries
 
         Implements:
-            REQ-C003-011: CAD metadata parsing and extraction
+            CAD metadata parsing and extraction
         """
         if not self.validate_source(source):
             return ImportResult(

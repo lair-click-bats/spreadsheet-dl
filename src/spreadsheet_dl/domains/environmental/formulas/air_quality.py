@@ -2,7 +2,7 @@
 Air quality formulas.
 
 Implements:
-    TASK-C008: Air quality formulas
+    Air quality formulas
     (AQI_CALCULATION, EMISSION_RATE, POLLUTION_INDEX)
 """
 
@@ -20,7 +20,7 @@ class AQICalculationFormula(BaseFormula):
     Calculate Air Quality Index from pollutant concentration.
 
     Implements:
-        TASK-C008: AQI_CALCULATION formula for air quality
+        AQI_CALCULATION formula for air quality
 
     Uses EPA AQI calculation methodology.
 
@@ -39,7 +39,7 @@ class AQICalculationFormula(BaseFormula):
             FormulaMetadata for AQI_CALCULATION
 
         Implements:
-            TASK-C008: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="AQI_CALCULATION",
@@ -79,7 +79,7 @@ class AQICalculationFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C008: AQI_CALCULATION formula building
+            AQI_CALCULATION formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -110,7 +110,7 @@ class EmissionRateFormula(BaseFormula):
     Calculate pollutant emission rate.
 
     Implements:
-        TASK-C008: EMISSION_RATE formula for emissions calculations
+        EMISSION_RATE formula for emissions calculations
 
     Calculates mass emission rate from flow and concentration.
 
@@ -129,7 +129,7 @@ class EmissionRateFormula(BaseFormula):
             FormulaMetadata for EMISSION_RATE
 
         Implements:
-            TASK-C008: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="EMISSION_RATE",
@@ -175,7 +175,7 @@ class EmissionRateFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C008: EMISSION_RATE formula building
+            EMISSION_RATE formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -200,7 +200,7 @@ class PollutionIndexFormula(BaseFormula):
     Calculate combined pollution index.
 
     Implements:
-        TASK-C008: POLLUTION_INDEX formula for multi-pollutant assessment
+        POLLUTION_INDEX formula for multi-pollutant assessment
 
     Calculates a normalized pollution severity index.
 
@@ -219,7 +219,7 @@ class PollutionIndexFormula(BaseFormula):
             FormulaMetadata for POLLUTION_INDEX
 
         Implements:
-            TASK-C008: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="POLLUTION_INDEX",
@@ -266,7 +266,7 @@ class PollutionIndexFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C008: POLLUTION_INDEX formula building
+            POLLUTION_INDEX formula building
 
         Raises:
             ValueError: If arguments are invalid

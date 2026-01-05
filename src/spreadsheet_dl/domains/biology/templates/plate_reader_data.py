@@ -2,7 +2,7 @@
 Plate Reader Data Template for microplate assays.
 
 Implements:
-    TASK-C006: PlateReaderDataTemplate for biology domain
+    PlateReaderDataTemplate for biology domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class PlateReaderDataTemplate(BaseTemplate):
     Microplate reader data analysis template.
 
     Implements:
-        TASK-C006: PlateReaderDataTemplate with absorbance/fluorescence analysis
+        PlateReaderDataTemplate with absorbance/fluorescence analysis
 
     Features:
     - 96-well or 384-well plate layout
@@ -56,7 +56,7 @@ class PlateReaderDataTemplate(BaseTemplate):
             TemplateMetadata for plate reader template
 
         Implements:
-            TASK-C006: Template metadata
+            Template metadata
         """
         return TemplateMetadata(
             name="Plate Reader Data",
@@ -84,7 +84,7 @@ class PlateReaderDataTemplate(BaseTemplate):
             Configured SpreadsheetBuilder instance
 
         Implements:
-            TASK-C006: PlateReaderDataTemplate generation
+            PlateReaderDataTemplate generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

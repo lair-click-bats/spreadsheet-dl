@@ -1,13 +1,6 @@
 """
 Fluent builder API for spreadsheet construction.
 
-Implements:
-    - FR-BUILDER-001: Extended SpreadsheetBuilder
-    - FR-BUILDER-004: ChartBuilder (via charts module)
-    - FR-BUILDER-005: Formula Builder Enhancement
-    - GAP-FORMULA-001: Circular reference detection (TASK-204)
-    - PHASE0-004: Perfect Builder API (v4.0.0)
-
 Public API entry point for the builder functionality.
 Implementation is modularized in the _builder package.
 

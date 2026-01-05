@@ -2,7 +2,7 @@
 Data Science Templates for SpreadsheetDL.
 
 Implements:
-    TASK-C001: Data Science domain templates
+    Data Science domain templates
 
 Provides professional templates for common data science workflows:
 - ExperimentLogTemplate: ML experiment tracking

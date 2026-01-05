@@ -2,7 +2,7 @@
 Satellite Data Importer.
 
 Implements:
-    TASK-C008: SatelliteDataImporter for environmental domain
+    SatelliteDataImporter for environmental domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class SatelliteDataImporter(BaseImporter[list[dict[str, Any]]]):
     Remote sensing / satellite data importer.
 
     Implements:
-        TASK-C008: SatelliteDataImporter for environmental monitoring
+        SatelliteDataImporter for environmental monitoring
 
     Supports importing data from:
     - Satellite imagery metadata

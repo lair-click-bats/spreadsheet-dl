@@ -2,7 +2,7 @@
 Water quality formulas.
 
 Implements:
-    TASK-C008: Water quality formulas
+    Water quality formulas
     (WATER_QUALITY_INDEX, BOD_CALCULATION)
 """
 
@@ -20,7 +20,7 @@ class WaterQualityIndexFormula(BaseFormula):
     Calculate Water Quality Index (WQI).
 
     Implements:
-        TASK-C008: WATER_QUALITY_INDEX formula for water quality assessment
+        WATER_QUALITY_INDEX formula for water quality assessment
 
     Uses weighted arithmetic index method.
 
@@ -39,7 +39,7 @@ class WaterQualityIndexFormula(BaseFormula):
             FormulaMetadata for WATER_QUALITY_INDEX
 
         Implements:
-            TASK-C008: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="WATER_QUALITY_INDEX",
@@ -91,7 +91,7 @@ class WaterQualityIndexFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C008: WATER_QUALITY_INDEX formula building
+            WATER_QUALITY_INDEX formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -126,7 +126,7 @@ class BODCalculationFormula(BaseFormula):
     Calculate Biochemical Oxygen Demand (BOD).
 
     Implements:
-        TASK-C008: BOD_CALCULATION formula for water quality
+        BOD_CALCULATION formula for water quality
 
     Calculates BOD from initial and final DO measurements.
 
@@ -145,7 +145,7 @@ class BODCalculationFormula(BaseFormula):
             FormulaMetadata for BOD_CALCULATION
 
         Implements:
-            TASK-C008: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="BOD_CALCULATION",
@@ -197,7 +197,7 @@ class BODCalculationFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C008: BOD_CALCULATION formula building
+            BOD_CALCULATION formula building
 
         Raises:
             ValueError: If arguments are invalid

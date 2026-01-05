@@ -2,7 +2,7 @@
 Jupyter notebook metadata importer.
 
 Implements:
-    TASK-C001: JupyterMetadataImporter for data science domain
+    JupyterMetadataImporter for data science domain
 """
 
 from __future__ import annotations
@@ -20,7 +20,7 @@ class JupyterMetadataImporter(BaseImporter[dict[str, Any]]):
     Jupyter notebook metadata extractor.
 
     Implements:
-        TASK-C001: JupyterMetadataImporter for notebook analysis
+        JupyterMetadataImporter for notebook analysis
 
     Features:
     - Read .ipynb files
@@ -52,7 +52,7 @@ class JupyterMetadataImporter(BaseImporter[dict[str, Any]]):
             ImporterMetadata for Jupyter importer
 
         Implements:
-            TASK-C001: Importer metadata
+            Importer metadata
         """
         return ImporterMetadata(
             name="Jupyter Metadata Importer",
@@ -72,7 +72,7 @@ class JupyterMetadataImporter(BaseImporter[dict[str, Any]]):
             True if source is valid notebook file
 
         Implements:
-            TASK-C001: Source validation
+            Source validation
         """
         path = Path(source) if isinstance(source, str) else source
         return path.exists() and path.is_file() and path.suffix.lower() == ".ipynb"
@@ -88,7 +88,7 @@ class JupyterMetadataImporter(BaseImporter[dict[str, Any]]):
             ImportResult with notebook metadata
 
         Implements:
-            TASK-C001: Jupyter metadata extraction
+            Jupyter metadata extraction
 
         Raises:
             ValueError: If source is invalid
@@ -146,7 +146,7 @@ class JupyterMetadataImporter(BaseImporter[dict[str, Any]]):
             Dictionary with notebook metadata
 
         Implements:
-            TASK-C001: Metadata extraction logic
+            Metadata extraction logic
         """
         # Get cells
         cells = notebook.get("cells", [])

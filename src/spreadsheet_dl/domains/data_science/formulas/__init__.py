@@ -2,7 +2,7 @@
 Data Science Formulas for SpreadsheetDL.
 
 Implements:
-    TASK-C001: Data Science domain formulas
+    Data Science domain formulas
 
 Provides statistical and ML formula extensions:
 - Statistical formulas: TTEST, FTEST, ZTEST, CHISQ_TEST

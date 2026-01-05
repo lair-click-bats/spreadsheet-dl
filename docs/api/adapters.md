@@ -2,8 +2,6 @@
 
 Format adapters for spreadsheet export/import.
 
-**Implements:** TASK-403 (Format adapters)
-
 ## Overview
 
 The adapters module provides:

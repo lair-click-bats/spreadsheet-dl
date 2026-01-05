@@ -2,7 +2,7 @@
 Production metrics formulas for manufacturing.
 
 Implements:
-    TASK-C005: Production metrics formulas (CYCLE_TIME, TAKT_TIME, THROUGHPUT, CAPACITY_UTILIZATION)
+    Production metrics formulas (CYCLE_TIME, TAKT_TIME, THROUGHPUT, CAPACITY_UTILIZATION)
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ class CycleTimeFormula(BaseFormula):
     Manufacturing cycle time calculation.
 
     Implements:
-        TASK-C005: CYCLE_TIME formula for production metrics
+        CYCLE_TIME formula for production metrics
 
     Cycle Time = Production Time / Units Produced
 
@@ -38,7 +38,7 @@ class CycleTimeFormula(BaseFormula):
             FormulaMetadata for CYCLE_TIME
 
         Implements:
-            TASK-C005: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="CYCLE_TIME",
@@ -77,7 +77,7 @@ class CycleTimeFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C005: CYCLE_TIME formula building
+            CYCLE_TIME formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -96,7 +96,7 @@ class TaktTimeFormula(BaseFormula):
     Takt time calculation (available time / customer demand).
 
     Implements:
-        TASK-C005: TAKT_TIME formula for production metrics
+        TAKT_TIME formula for production metrics
 
     Takt Time = Available Production Time / Customer Demand
 
@@ -115,7 +115,7 @@ class TaktTimeFormula(BaseFormula):
             FormulaMetadata for TAKT_TIME
 
         Implements:
-            TASK-C005: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="TAKT_TIME",
@@ -154,7 +154,7 @@ class TaktTimeFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C005: TAKT_TIME formula building
+            TAKT_TIME formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -173,7 +173,7 @@ class ThroughputFormula(BaseFormula):
     Production throughput rate.
 
     Implements:
-        TASK-C005: THROUGHPUT formula for production metrics
+        THROUGHPUT formula for production metrics
 
     Throughput = Units Produced / Production Time
 
@@ -192,7 +192,7 @@ class ThroughputFormula(BaseFormula):
             FormulaMetadata for THROUGHPUT
 
         Implements:
-            TASK-C005: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="THROUGHPUT",
@@ -231,7 +231,7 @@ class ThroughputFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C005: THROUGHPUT formula building
+            THROUGHPUT formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -250,7 +250,7 @@ class CapacityUtilizationFormula(BaseFormula):
     Capacity utilization percentage.
 
     Implements:
-        TASK-C005: CAPACITY_UTILIZATION formula for production metrics
+        CAPACITY_UTILIZATION formula for production metrics
 
     Capacity Utilization = (Actual Output / Maximum Capacity) * 100
 
@@ -269,7 +269,7 @@ class CapacityUtilizationFormula(BaseFormula):
             FormulaMetadata for CAPACITY_UTILIZATION
 
         Implements:
-            TASK-C005: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="CAPACITY_UTILIZATION",
@@ -308,7 +308,7 @@ class CapacityUtilizationFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C005: CAPACITY_UTILIZATION formula building
+            CAPACITY_UTILIZATION formula building
 
         Raises:
             ValueError: If arguments are invalid

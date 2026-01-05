@@ -2,7 +2,7 @@
 Bill of Materials Template for manufacturing BOM with cost rollups.
 
 Implements:
-    TASK-C005: BillOfMaterialsTemplate for manufacturing domain
+    BillOfMaterialsTemplate for manufacturing domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class BillOfMaterialsTemplate(BaseTemplate):
     Manufacturing BOM with yield, scrap rates, and cost rollups.
 
     Implements:
-        TASK-C005: BillOfMaterialsTemplate with multi-level BOM
+        BillOfMaterialsTemplate with multi-level BOM
 
     Features:
     - Multi-level BOM structure (parent-child)
@@ -57,7 +57,7 @@ class BillOfMaterialsTemplate(BaseTemplate):
             TemplateMetadata for BOM template
 
         Implements:
-            TASK-C005: Template metadata
+            Template metadata
         """
         return TemplateMetadata(
             name="Bill of Materials",
@@ -76,7 +76,7 @@ class BillOfMaterialsTemplate(BaseTemplate):
             Configured SpreadsheetBuilder instance
 
         Implements:
-            TASK-C005: BillOfMaterialsTemplate generation
+            BillOfMaterialsTemplate generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

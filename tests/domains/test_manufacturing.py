@@ -2,7 +2,7 @@
 Tests for Manufacturing domain plugin.
 
 Implements:
-    REQ-C005: Comprehensive tests for Manufacturing domain (95%+ coverage target)
+    Comprehensive tests for Manufacturing domain (95%+ coverage target)
 """
 
 from __future__ import annotations

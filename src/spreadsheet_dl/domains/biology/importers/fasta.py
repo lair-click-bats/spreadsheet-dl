@@ -2,7 +2,7 @@
 FASTA sequence file importer.
 
 Implements:
-    TASK-C006: FASTAImporter for DNA/RNA/protein sequences
+    FASTAImporter for DNA/RNA/protein sequences
 """
 
 from __future__ import annotations
@@ -18,7 +18,7 @@ class FASTAImporter(BaseImporter[list[dict[str, Any]]]):
     Import FASTA format sequence files.
 
     Implements:
-        TASK-C006: FASTAImporter for sequence analysis
+        FASTAImporter for sequence analysis
 
     Features:
     - Standard FASTA format parsing
@@ -49,7 +49,7 @@ class FASTAImporter(BaseImporter[list[dict[str, Any]]]):
             ImporterMetadata for FASTA importer
 
         Implements:
-            TASK-C006: Importer metadata
+            Importer metadata
         """
         return ImporterMetadata(
             name="FASTA Importer",
@@ -69,7 +69,7 @@ class FASTAImporter(BaseImporter[list[dict[str, Any]]]):
             True if source is valid FASTA file
 
         Implements:
-            TASK-C006: Source validation
+            Source validation
         """
         path = Path(source) if isinstance(source, str) else source
         if not path.exists() or not path.is_file():
@@ -95,7 +95,7 @@ class FASTAImporter(BaseImporter[list[dict[str, Any]]]):
             ImportResult with sequence data
 
         Implements:
-            TASK-C006: FASTA data import
+            FASTA data import
 
         Raises:
             ValueError: If source is invalid

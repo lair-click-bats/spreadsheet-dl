@@ -2,7 +2,7 @@
 Survey data importer for civil engineering.
 
 Implements:
-    REQ-C004-050: SurveyDataImporter for CSV/XML surveying data
+    SurveyDataImporter for CSV/XML surveying data
 """
 
 from __future__ import annotations
@@ -20,7 +20,7 @@ class SurveyDataImporter(BaseImporter[list[dict[str, Any]]]):
     Import survey data from CSV or XML files.
 
     Implements:
-        REQ-C004-050: SurveyDataImporter requirements
+        SurveyDataImporter requirements
 
     Features:
         - Read CSV and XML survey data formats
@@ -79,7 +79,7 @@ class SurveyDataImporter(BaseImporter[list[dict[str, Any]]]):
             ImportResult with survey points as list of dictionaries
 
         Implements:
-            REQ-C004-050: Survey data parsing with validation
+            Survey data parsing with validation
         """
         if not self.validate_source(source):
             return ImportResult(

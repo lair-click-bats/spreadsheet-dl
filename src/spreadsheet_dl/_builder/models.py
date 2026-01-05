@@ -1,11 +1,6 @@
 """
 Data models for spreadsheet specifications.
 
-Implements:
-    - FR-BUILDER-001: Extended SpreadsheetBuilder
-    - GAP-002: Missing __slots__ declarations
-    - PHASE0-004: Perfect Builder API (v4.0.0)
-
 Provides dataclasses for specifying spreadsheet structure:
 - CellSpec: Individual cell specification
 - RowSpec: Row specification
@@ -25,8 +20,7 @@ class CellSpec:
     """
     Specification for a single cell.
 
-    Implements GAP-002: Missing __slots__ declarations
-    Implements PHASE0-004: Enhanced validation and edge case handling
+    Uses __slots__ for memory efficiency.
 
     Attributes:
         value: Cell value (string, number, date, etc.)
@@ -71,7 +65,7 @@ class RowSpec:
     """
     Specification for a row.
 
-    Implements GAP-002: Missing __slots__ declarations
+    Uses __slots__ for memory efficiency.
 
     Attributes:
         cells: List of cell specifications
@@ -89,7 +83,7 @@ class ColumnSpec:
     """
     Specification for a column.
 
-    Implements GAP-002: Missing __slots__ declarations
+    Uses __slots__ for memory efficiency.
 
     Attributes:
         name: Column header name
@@ -115,8 +109,7 @@ class SheetSpec:
     """
     Specification for a sheet.
 
-    Implements FR-BUILDER-001: Extended sheet properties
-    Implements GAP-002: Missing __slots__ declarations
+    Uses __slots__ for memory efficiency.
 
     Attributes:
         name: Sheet name

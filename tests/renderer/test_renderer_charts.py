@@ -24,9 +24,9 @@ pytestmark = [pytest.mark.unit, pytest.mark.rendering]
 
 
 class TestChartRendering:
-    """Tests for chart rendering functionality (TASK-231).
+    """Tests for chart rendering functionality.
 
-    Implements validation for GAP-BUILDER-006: Charts defined but not rendered.
+    Implements validation for Charts defined but not rendered.
     """
 
     def test_render_with_chart_spec(self, tmp_path: Path) -> None:
@@ -468,7 +468,7 @@ class TestChartRendering:
 
 
 class TestConditionalFormatRendering:
-    """Tests for conditional format rendering (TASK-211)."""
+    """Tests for conditional format rendering."""
 
     def test_render_with_color_scale(self, tmp_path: Path) -> None:
         """Test rendering with color scale conditional format."""
@@ -608,7 +608,7 @@ class TestConditionalFormatRendering:
 
 
 class TestDataValidationRendering:
-    """Tests for data validation rendering (TASK-221)."""
+    """Tests for data validation rendering."""
 
     def test_render_with_list_validation(self, tmp_path: Path) -> None:
         """Test rendering with list validation."""

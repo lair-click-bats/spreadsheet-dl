@@ -2,7 +2,7 @@
 Grade calculation formulas.
 
 Implements:
-    TASK-C007: Grade calculation formulas
+    Grade calculation formulas
     (GRADE_AVERAGE, WEIGHTED_GRADE, GRADE_CURVE)
 """
 
@@ -20,7 +20,7 @@ class GradeAverageFormula(BaseFormula):
     Calculate simple grade average.
 
     Implements:
-        TASK-C007: GRADE_AVERAGE formula for grade calculation
+        GRADE_AVERAGE formula for grade calculation
 
     Calculates the arithmetic mean of a range of grades.
 
@@ -39,7 +39,7 @@ class GradeAverageFormula(BaseFormula):
             FormulaMetadata for GRADE_AVERAGE
 
         Implements:
-            TASK-C007: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="GRADE_AVERAGE",
@@ -79,7 +79,7 @@ class GradeAverageFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C007: GRADE_AVERAGE formula building
+            GRADE_AVERAGE formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -102,7 +102,7 @@ class WeightedGradeFormula(BaseFormula):
     Calculate weighted grade average.
 
     Implements:
-        TASK-C007: WEIGHTED_GRADE formula for weighted calculations
+        WEIGHTED_GRADE formula for weighted calculations
 
     Calculates weighted average using grades and corresponding weights.
 
@@ -121,7 +121,7 @@ class WeightedGradeFormula(BaseFormula):
             FormulaMetadata for WEIGHTED_GRADE
 
         Implements:
-            TASK-C007: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="WEIGHTED_GRADE",
@@ -160,7 +160,7 @@ class WeightedGradeFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C007: WEIGHTED_GRADE formula building
+            WEIGHTED_GRADE formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -180,7 +180,7 @@ class GradeCurveFormula(BaseFormula):
     Apply grade curve adjustment.
 
     Implements:
-        TASK-C007: GRADE_CURVE formula for curve adjustments
+        GRADE_CURVE formula for curve adjustments
 
     Adjusts grades based on various curving methods.
 
@@ -199,7 +199,7 @@ class GradeCurveFormula(BaseFormula):
             FormulaMetadata for GRADE_CURVE
 
         Implements:
-            TASK-C007: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="GRADE_CURVE",
@@ -252,7 +252,7 @@ class GradeCurveFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C007: GRADE_CURVE formula building
+            GRADE_CURVE formula building
 
         Raises:
             ValueError: If arguments are invalid

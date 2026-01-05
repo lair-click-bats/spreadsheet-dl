@@ -2,7 +2,7 @@
 Biology domain formulas.
 
 Implements:
-    TASK-C006: Biology formula implementations
+    Biology formula implementations
 """
 
 from __future__ import annotations

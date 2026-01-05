@@ -8,7 +8,7 @@ Tests:
     - Error handling and edge cases
     - File operations
 
-Implements comprehensive coverage for TASK-403: Format adapters
+Implements comprehensive coverage for Format adapters
 """
 
 from __future__ import annotations

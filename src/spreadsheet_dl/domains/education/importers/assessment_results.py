@@ -2,7 +2,7 @@
 Assessment Results Importer.
 
 Implements:
-    TASK-C007: AssessmentResultsImporter for education domain
+    AssessmentResultsImporter for education domain
 """
 
 from __future__ import annotations
@@ -23,7 +23,7 @@ class AssessmentResultsImporter(BaseImporter[list[dict[str, Any]]]):
     Assessment and quiz results importer.
 
     Implements:
-        TASK-C007: AssessmentResultsImporter for quiz/test results
+        AssessmentResultsImporter for quiz/test results
 
     Supports importing assessment data from:
     - Quiz/test result exports
@@ -48,7 +48,7 @@ class AssessmentResultsImporter(BaseImporter[list[dict[str, Any]]]):
             ImporterMetadata for assessment results importer
 
         Implements:
-            TASK-C007: Importer metadata
+            Importer metadata
         """
         return ImporterMetadata(
             name="Assessment Results Importer",
@@ -68,7 +68,7 @@ class AssessmentResultsImporter(BaseImporter[list[dict[str, Any]]]):
             ImportResult with assessment data
 
         Implements:
-            TASK-C007: Assessment results import
+            Assessment results import
         """
         source_path = Path(source)
         data: list[dict[str, Any]] = []
@@ -322,7 +322,7 @@ class AssessmentResultsImporter(BaseImporter[list[dict[str, Any]]]):
             True if source is valid
 
         Implements:
-            TASK-C007: Source validation
+            Source validation
         """
         path = Path(source)
         return path.exists() and path.suffix.lower() in (".csv", ".json", ".xlsx")

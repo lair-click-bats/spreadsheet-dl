@@ -2,7 +2,7 @@
 MES Data Importer for Manufacturing Execution System data.
 
 Implements:
-    TASK-C005: MESDataImporter for manufacturing domain
+    MESDataImporter for manufacturing domain
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ class MESDataImporter(BaseImporter[list[dict[str, Any]]]):
     Import MES (Manufacturing Execution System) data (CSV/JSON).
 
     Implements:
-        TASK-C005: MESDataImporter with production and quality data
+        MESDataImporter with production and quality data
 
     Features:
     - Production order data import
@@ -53,7 +53,7 @@ class MESDataImporter(BaseImporter[list[dict[str, Any]]]):
             ImporterMetadata for MES data importer
 
         Implements:
-            TASK-C005: Importer metadata
+            Importer metadata
         """
         return ImporterMetadata(
             name="MES Data Importer",
@@ -73,7 +73,7 @@ class MESDataImporter(BaseImporter[list[dict[str, Any]]]):
             True if source is valid file
 
         Implements:
-            TASK-C005: Source validation
+            Source validation
         """
         path = Path(source) if isinstance(source, str) else source
         return (
@@ -93,7 +93,7 @@ class MESDataImporter(BaseImporter[list[dict[str, Any]]]):
             ImportResult with parsed MES data
 
         Implements:
-            TASK-C005: Data import with error handling
+            Data import with error handling
 
         Raises:
             ValueError: If source is invalid
@@ -223,7 +223,7 @@ class MESDataImporter(BaseImporter[list[dict[str, Any]]]):
             Parsed MES record with standardized fields
 
         Implements:
-            TASK-C005: MES record parsing
+            MES record parsing
         """
         # Standardize field names (handle various MES system formats)
         record: dict[str, Any] = {

@@ -1,14 +1,6 @@
 """
 Builder package - Fluent API for spreadsheet construction.
 
-Implements:
-    - FR-BUILDER-001: Extended SpreadsheetBuilder
-    - FR-BUILDER-004: ChartBuilder (via charts module)
-    - FR-BUILDER-005: Formula Builder Enhancement
-    - GAP-FORMULA-001: Circular reference detection (TASK-204)
-    - PHASE0-004: Perfect Builder API (v4.0.0)
-    - PHASE0-005: Complete FormulaBuilder with 100+ functions
-
 Modular structure:
     - exceptions.py: Builder-specific exceptions
     - models.py: Data models (CellSpec, RowSpec, SheetSpec, etc.)

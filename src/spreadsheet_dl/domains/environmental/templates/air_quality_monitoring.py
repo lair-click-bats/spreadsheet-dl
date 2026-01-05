@@ -2,7 +2,7 @@
 Air Quality Monitoring Template.
 
 Implements:
-    TASK-C008: AirQualityMonitoringTemplate for environmental domain
+    AirQualityMonitoringTemplate for environmental domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class AirQualityMonitoringTemplate(BaseTemplate):
     Air quality monitoring template.
 
     Implements:
-        TASK-C008: AirQualityMonitoringTemplate with AQI calculations
+        AirQualityMonitoringTemplate with AQI calculations
 
     Features:
     - Pollutant concentration tracking (PM2.5, PM10, O3, NO2, SO2, CO)
@@ -56,7 +56,7 @@ class AirQualityMonitoringTemplate(BaseTemplate):
             TemplateMetadata for air quality monitoring template
 
         Implements:
-            TASK-C008: Template metadata
+            Template metadata
         """
         return TemplateMetadata(
             name="Air Quality Monitoring",
@@ -75,7 +75,7 @@ class AirQualityMonitoringTemplate(BaseTemplate):
             True if parameters are valid
 
         Implements:
-            TASK-C008: Template validation
+            Template validation
         """
         return self.num_readings > 0
 
@@ -87,7 +87,7 @@ class AirQualityMonitoringTemplate(BaseTemplate):
             Configured SpreadsheetBuilder instance
 
         Implements:
-            TASK-C008: AirQualityMonitoringTemplate generation
+            AirQualityMonitoringTemplate generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

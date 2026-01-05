@@ -2,7 +2,7 @@
 Site survey template for surveying data management.
 
 Implements:
-    REQ-C004-033: SiteSurveyTemplate with survey points and benchmarks
+    SiteSurveyTemplate with survey points and benchmarks
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class SiteSurveyTemplate(BaseTemplate):
     Site survey template for survey points and topographic data.
 
     Implements:
-        REQ-C004-033: SiteSurveyTemplate requirements
+        SiteSurveyTemplate requirements
 
     Features:
         - Columns: Station, Point ID, Northing, Easting, Elevation,

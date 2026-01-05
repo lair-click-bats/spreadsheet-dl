@@ -2,7 +2,7 @@
 Tests for Biology domain plugin.
 
 Implements:
-    REQ-C006: Comprehensive tests for Biology domain (95%+ coverage target)
+    Comprehensive tests for Biology domain (95%+ coverage target)
 """
 
 from __future__ import annotations

@@ -2,7 +2,7 @@
 Biology Domain Plugin for SpreadsheetDL.
 
 Implements:
-    TASK-C006: Biology domain plugin
+    Biology domain plugin
     PHASE-C: Domain plugin implementations
 
 Provides biology-specific functionality including:

@@ -2,7 +2,7 @@
 Data Science Domain Plugin for SpreadsheetDL.
 
 Implements:
-    TASK-C001: Data Science domain plugin
+    Data Science domain plugin
     PHASE-C: Domain plugin implementations
 
 Provides data science-specific functionality including:
@@ -78,7 +78,7 @@ class DataScienceDomainPlugin(BaseDomainPlugin):
     Data Science domain plugin.
 
     Implements:
-        TASK-C001: Complete Data Science domain plugin
+        Complete Data Science domain plugin
         PHASE-C: Domain plugin implementations
 
     Provides comprehensive data science functionality for SpreadsheetDL
@@ -102,7 +102,7 @@ class DataScienceDomainPlugin(BaseDomainPlugin):
             PluginMetadata with data science plugin information
 
         Implements:
-            TASK-C001: Plugin metadata requirements
+            Plugin metadata requirements
         """
         return PluginMetadata(
             name="data_science",
@@ -122,7 +122,7 @@ class DataScienceDomainPlugin(BaseDomainPlugin):
         Registers all templates, formulas, and importers.
 
         Implements:
-            TASK-C001: Plugin initialization with all components
+            Plugin initialization with all components
 
         Raises:
             Exception: If initialization fails
@@ -166,7 +166,7 @@ class DataScienceDomainPlugin(BaseDomainPlugin):
         No resources need explicit cleanup for this plugin.
 
         Implements:
-            TASK-C001: Plugin cleanup method
+            Plugin cleanup method
         """
         # No cleanup needed for this plugin
         pass
@@ -179,7 +179,7 @@ class DataScienceDomainPlugin(BaseDomainPlugin):
             True if plugin has required templates and formulas registered
 
         Implements:
-            TASK-C001: Plugin validation
+            Plugin validation
         """
         # Verify we have all required components
         required_templates = 5

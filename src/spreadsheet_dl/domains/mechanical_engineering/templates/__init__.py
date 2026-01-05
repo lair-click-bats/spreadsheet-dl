@@ -2,7 +2,7 @@
 Templates for mechanical engineering domain.
 
 Implements:
-    REQ-C003-002: Mechanical engineering template modules
+    Mechanical engineering template modules
 """
 
 from spreadsheet_dl.domains.mechanical_engineering.templates.assembly_instructions import (

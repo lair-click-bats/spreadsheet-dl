@@ -2,7 +2,7 @@
 Carbon Footprint Template.
 
 Implements:
-    TASK-C008: CarbonFootprintTemplate for environmental domain
+    CarbonFootprintTemplate for environmental domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class CarbonFootprintTemplate(BaseTemplate):
     Carbon footprint tracking template.
 
     Implements:
-        TASK-C008: CarbonFootprintTemplate with emissions calculations
+        CarbonFootprintTemplate with emissions calculations
 
     Features:
     - Scope 1, 2, 3 emissions tracking

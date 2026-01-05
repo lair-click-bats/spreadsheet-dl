@@ -2,7 +2,7 @@
 Education domain templates.
 
 Implements:
-    TASK-C007: Education domain templates
+    Education domain templates
 
 Provides 5 specialized templates:
 - CourseGradebookTemplate: Course grades and student tracking

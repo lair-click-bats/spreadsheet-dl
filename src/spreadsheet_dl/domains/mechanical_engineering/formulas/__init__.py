@@ -2,7 +2,7 @@
 Formulas for mechanical engineering domain.
 
 Implements:
-    REQ-C003-007: Mechanical engineering formula modules
+    Mechanical engineering formula modules
 """
 
 from spreadsheet_dl.domains.mechanical_engineering.formulas.fatigue import (

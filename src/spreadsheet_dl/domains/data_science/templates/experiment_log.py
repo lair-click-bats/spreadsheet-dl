@@ -2,7 +2,7 @@
 Experiment Log Template for ML experiment tracking.
 
 Implements:
-    TASK-C001: ExperimentLogTemplate for data science domain
+    ExperimentLogTemplate for data science domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class ExperimentLogTemplate(BaseTemplate):
     ML experiment tracking template.
 
     Implements:
-        TASK-C001: ExperimentLogTemplate with auto-numbered IDs and metric trends
+        ExperimentLogTemplate with auto-numbered IDs and metric trends
 
     Features:
     - Auto-numbered experiment IDs
@@ -58,7 +58,7 @@ class ExperimentLogTemplate(BaseTemplate):
             TemplateMetadata for experiment log template
 
         Implements:
-            TASK-C001: Template metadata
+            Template metadata
         """
         return TemplateMetadata(
             name="Experiment Log",
@@ -77,7 +77,7 @@ class ExperimentLogTemplate(BaseTemplate):
             Configured SpreadsheetBuilder instance
 
         Implements:
-            TASK-C001: ExperimentLogTemplate generation
+            ExperimentLogTemplate generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

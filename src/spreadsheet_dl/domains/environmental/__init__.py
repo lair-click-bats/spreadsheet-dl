@@ -2,7 +2,7 @@
 Environmental Domain Plugin for SpreadsheetDL.
 
 Implements:
-    TASK-C008: Environmental domain plugin
+    Environmental domain plugin
     PHASE-C: Domain plugin implementations
 
 Provides environmental science-specific functionality including:

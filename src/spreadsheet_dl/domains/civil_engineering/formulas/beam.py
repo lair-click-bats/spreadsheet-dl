@@ -2,7 +2,7 @@
 Beam calculation formulas for civil engineering.
 
 Implements:
-    REQ-C004-010: Beam formulas (BEAM_DEFLECTION, SHEAR_STRESS, MOMENT)
+    Beam formulas (BEAM_DEFLECTION, SHEAR_STRESS, MOMENT)
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class BeamDeflectionFormula(BaseFormula):
     uniformly distributed load.
 
     Implements:
-        REQ-C004-010: BEAM_DEFLECTION formula
+        BEAM_DEFLECTION formula
 
     Example:
         >>> formula = BeamDeflectionFormula()
@@ -94,7 +94,7 @@ class ShearStressFormula(BaseFormula):
     Calculates shear stress in a beam cross-section.
 
     Implements:
-        REQ-C004-011: SHEAR_STRESS formula
+        SHEAR_STRESS formula
 
     Example:
         >>> formula = ShearStressFormula()
@@ -167,7 +167,7 @@ class MomentFormula(BaseFormula):
     with uniformly distributed load.
 
     Implements:
-        REQ-C004-012: MOMENT formula
+        MOMENT formula
 
     Example:
         >>> formula = MomentFormula()

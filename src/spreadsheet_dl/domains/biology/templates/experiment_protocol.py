@@ -2,7 +2,7 @@
 Experiment Protocol Template for lab experiments.
 
 Implements:
-    TASK-C006: ExperimentProtocolTemplate for biology domain
+    ExperimentProtocolTemplate for biology domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class ExperimentProtocolTemplate(BaseTemplate):
     Lab experiment protocol template.
 
     Implements:
-        TASK-C006: ExperimentProtocolTemplate with materials and procedures
+        ExperimentProtocolTemplate with materials and procedures
 
     Features:
     - Protocol information (title, purpose, date)
@@ -58,7 +58,7 @@ class ExperimentProtocolTemplate(BaseTemplate):
             TemplateMetadata for experiment protocol template
 
         Implements:
-            TASK-C006: Template metadata
+            Template metadata
         """
         return TemplateMetadata(
             name="Experiment Protocol",
@@ -77,7 +77,7 @@ class ExperimentProtocolTemplate(BaseTemplate):
             Configured SpreadsheetBuilder instance
 
         Implements:
-            TASK-C006: ExperimentProtocolTemplate generation
+            ExperimentProtocolTemplate generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

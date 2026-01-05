@@ -2,7 +2,7 @@
 FEA Results importer for mechanical engineering.
 
 Implements:
-    REQ-C003-012: FEAResultsImporter for FEA simulation results
+    FEAResultsImporter for FEA simulation results
 """
 
 from __future__ import annotations
@@ -51,7 +51,7 @@ class FEAResultsImporter(BaseImporter[list[dict[str, Any]]]):
     Import FEA (Finite Element Analysis) results from CSV or JSON files.
 
     Implements:
-        REQ-C003-012: FEAResultsImporter requirements
+        FEAResultsImporter requirements
 
     Features:
         - Parse FEA results in CSV or JSON format
@@ -106,7 +106,7 @@ class FEAResultsImporter(BaseImporter[list[dict[str, Any]]]):
             ImportResult with node data as list of dictionaries
 
         Implements:
-            REQ-C003-012: FEA results parsing and mapping
+            FEA results parsing and mapping
         """
         if not self.validate_source(source):
             return ImportResult(

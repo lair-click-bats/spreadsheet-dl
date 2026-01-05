@@ -9,7 +9,7 @@ Tests:
     - Round-trip fidelity
     - DefinitionFormat
 
-Implements comprehensive coverage for TASK-402: Round-trip serialization
+Implements comprehensive coverage for Round-trip serialization
 """
 
 from __future__ import annotations

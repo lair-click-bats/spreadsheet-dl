@@ -2,7 +2,7 @@
 Quality Control Template for SPC and defect tracking.
 
 Implements:
-    TASK-C005: QualityControlTemplate for manufacturing domain
+    QualityControlTemplate for manufacturing domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class QualityControlTemplate(BaseTemplate):
     Quality control charts with statistical process control (SPC).
 
     Implements:
-        TASK-C005: QualityControlTemplate with SPC analysis
+        QualityControlTemplate with SPC analysis
 
     Features:
     - Inspection data tracking
@@ -56,7 +56,7 @@ class QualityControlTemplate(BaseTemplate):
             TemplateMetadata for quality control template
 
         Implements:
-            TASK-C005: Template metadata
+            Template metadata
         """
         return TemplateMetadata(
             name="Quality Control",
@@ -75,7 +75,7 @@ class QualityControlTemplate(BaseTemplate):
             True if configuration is valid
 
         Implements:
-            TASK-C005: Template validation
+            Template validation
         """
         if self.num_measurements <= 0:
             return False
@@ -89,7 +89,7 @@ class QualityControlTemplate(BaseTemplate):
             Configured SpreadsheetBuilder instance
 
         Implements:
-            TASK-C005: QualityControlTemplate generation
+            QualityControlTemplate generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

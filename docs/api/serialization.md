@@ -2,8 +2,6 @@
 
 Round-trip serialization for spreadsheet definitions.
 
-**Implements:** TASK-402 (Round-trip serialization)
-
 ## Overview
 
 The serialization module provides:

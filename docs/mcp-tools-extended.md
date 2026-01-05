@@ -1,6 +1,6 @@
 # Extended MCP Tools Documentation
 
-**TASK-501: Universal Spreadsheet MCP Tools**
+**Universal Spreadsheet MCP Tools**
 
 This document details the MCP tools available in SpreadsheetDL for universal spreadsheet manipulation. The MCP server provides 8 categories of tools focused on spreadsheet operations.
 
@@ -162,7 +162,7 @@ These stubs:
 - Accept correct parameters with full validation
 - Return appropriate JSON schema responses
 - Include clear "Stub: [feature] not yet implemented" messages
-- Marked with TASK-501 requirement ID
+
 - Ready for full implementation
 
 ## Usage Examples
@@ -283,7 +283,7 @@ def _handle_workbook_properties_get(self, file_path: str) -> MCPToolResult:
     """
     Get workbook properties and metadata.
 
-    TASK-501: Stub implementation.
+    Stub implementation.
 
     Args:
         file_path: Path to spreadsheet file
@@ -338,7 +338,7 @@ Priority areas for full implementation of extended universal tools:
 
 ## References
 
-- **TASK-501**: MCP Tool Expansion
+
 - **IR-MCP-002**: Native MCP Server requirement
 - **MCP Specification**: https://modelcontextprotocol.io/
 

@@ -2,7 +2,7 @@
 Impedance calculation formulas for electrical engineering.
 
 Implements:
-    TASK-C002: Impedance formulas (PARALLEL_R, SERIES_R, CAPACITANCE, INDUCTANCE)
+    Impedance formulas (PARALLEL_R, SERIES_R, CAPACITANCE, INDUCTANCE)
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ class ParallelResistanceFormula(BaseFormula):
     Calculates total resistance of resistors in parallel.
 
     Implements:
-        TASK-C002: PARALLEL_RESISTANCE formula
+        PARALLEL_RESISTANCE formula
 
     Example:
         >>> formula = ParallelResistanceFormula()
@@ -89,7 +89,7 @@ class SeriesResistanceFormula(BaseFormula):
     Calculates total resistance of resistors in series.
 
     Implements:
-        TASK-C002: SERIES_RESISTANCE formula
+        SERIES_RESISTANCE formula
 
     Example:
         >>> formula = SeriesResistanceFormula()
@@ -157,7 +157,7 @@ class CapacitanceFormula(BaseFormula):
     Calculates capacitance from frequency and capacitive reactance.
 
     Implements:
-        TASK-C002: CAPACITANCE formula
+        CAPACITANCE formula
 
     Example:
         >>> formula = CapacitanceFormula()
@@ -216,7 +216,7 @@ class InductanceFormula(BaseFormula):
     Calculates inductance from frequency and inductive reactance.
 
     Implements:
-        TASK-C002: INDUCTANCE formula
+        INDUCTANCE formula
 
     Example:
         >>> formula = InductanceFormula()

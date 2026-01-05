@@ -2,7 +2,7 @@
 Concrete mix design template for mix proportioning.
 
 Implements:
-    REQ-C004-034: ConcreteMixTemplate with mix design calculations
+    ConcreteMixTemplate with mix design calculations
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class ConcreteMixTemplate(BaseTemplate):
     Concrete mix design template for proportioning and quality control.
 
     Implements:
-        REQ-C004-034: ConcreteMixTemplate requirements
+        ConcreteMixTemplate requirements
 
     Features:
         - Columns: Material, SG, Density, Weight (kg/m³), Volume (m³),

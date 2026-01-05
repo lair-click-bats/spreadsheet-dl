@@ -2,7 +2,7 @@
 Mechanical Engineering Domain Plugin for SpreadsheetDL.
 
 Implements:
-    REQ-C003-001: Mechanical Engineering domain plugin
+    Mechanical Engineering domain plugin
     PHASE-C: Domain plugin implementations
 
 Provides mechanical engineering-specific functionality including:
@@ -80,7 +80,7 @@ class MechanicalEngineeringDomainPlugin(BaseDomainPlugin):
     Mechanical Engineering domain plugin.
 
     Implements:
-        REQ-C003-001: Complete Mechanical Engineering domain plugin
+        Complete Mechanical Engineering domain plugin
         PHASE-C: Domain plugin implementations
 
     Provides comprehensive mechanical engineering functionality for SpreadsheetDL
@@ -104,7 +104,7 @@ class MechanicalEngineeringDomainPlugin(BaseDomainPlugin):
             PluginMetadata with mechanical engineering plugin information
 
         Implements:
-            REQ-C003-001: Plugin metadata requirements
+            Plugin metadata requirements
         """
         return PluginMetadata(
             name="mechanical_engineering",
@@ -131,7 +131,7 @@ class MechanicalEngineeringDomainPlugin(BaseDomainPlugin):
         Registers all templates, formulas, and importers.
 
         Implements:
-            REQ-C003-001: Plugin initialization with all components
+            Plugin initialization with all components
 
         Raises:
             Exception: If initialization fails
@@ -174,7 +174,7 @@ class MechanicalEngineeringDomainPlugin(BaseDomainPlugin):
         No resources need explicit cleanup for this plugin.
 
         Implements:
-            REQ-C003-001: Plugin cleanup method
+            Plugin cleanup method
         """
         # No cleanup needed for this plugin
         pass
@@ -187,7 +187,7 @@ class MechanicalEngineeringDomainPlugin(BaseDomainPlugin):
             True if plugin has required templates and formulas registered
 
         Implements:
-            REQ-C003-001: Plugin validation
+            Plugin validation
         """
         # Verify we have all required components
         required_templates = 5

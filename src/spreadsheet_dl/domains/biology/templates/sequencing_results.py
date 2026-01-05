@@ -2,7 +2,7 @@
 Sequencing Results Template for DNA/RNA sequencing.
 
 Implements:
-    TASK-C006: SequencingResultsTemplate for biology domain
+    SequencingResultsTemplate for biology domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class SequencingResultsTemplate(BaseTemplate):
     DNA/RNA sequencing results template.
 
     Implements:
-        TASK-C006: SequencingResultsTemplate with quality metrics
+        SequencingResultsTemplate with quality metrics
 
     Features:
     - Sample information and metadata
@@ -56,7 +56,7 @@ class SequencingResultsTemplate(BaseTemplate):
             TemplateMetadata for sequencing results template
 
         Implements:
-            TASK-C006: Template metadata
+            Template metadata
         """
         return TemplateMetadata(
             name="Sequencing Results",
@@ -75,7 +75,7 @@ class SequencingResultsTemplate(BaseTemplate):
             Configured SpreadsheetBuilder instance
 
         Implements:
-            TASK-C006: SequencingResultsTemplate generation
+            SequencingResultsTemplate generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

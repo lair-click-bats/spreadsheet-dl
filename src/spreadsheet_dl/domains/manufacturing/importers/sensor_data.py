@@ -2,7 +2,7 @@
 Sensor Data Importer for IoT sensor data.
 
 Implements:
-    TASK-C005: SensorDataImporter for manufacturing domain
+    SensorDataImporter for manufacturing domain
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ class SensorDataImporter(BaseImporter[list[dict[str, Any]]]):
     Import IoT sensor data (CSV/JSON time series).
 
     Implements:
-        TASK-C005: SensorDataImporter with time series data
+        SensorDataImporter with time series data
 
     Features:
     - Equipment sensor readings
@@ -53,7 +53,7 @@ class SensorDataImporter(BaseImporter[list[dict[str, Any]]]):
             ImporterMetadata for sensor data importer
 
         Implements:
-            TASK-C005: Importer metadata
+            Importer metadata
         """
         return ImporterMetadata(
             name="Sensor Data Importer",
@@ -73,7 +73,7 @@ class SensorDataImporter(BaseImporter[list[dict[str, Any]]]):
             True if source is valid file
 
         Implements:
-            TASK-C005: Source validation
+            Source validation
         """
         path = Path(source) if isinstance(source, str) else source
         return (
@@ -93,7 +93,7 @@ class SensorDataImporter(BaseImporter[list[dict[str, Any]]]):
             ImportResult with parsed sensor data
 
         Implements:
-            TASK-C005: Data import with error handling
+            Data import with error handling
 
         Raises:
             ValueError: If source is invalid
@@ -230,7 +230,7 @@ class SensorDataImporter(BaseImporter[list[dict[str, Any]]]):
             Parsed sensor record with standardized fields
 
         Implements:
-            TASK-C005: Sensor record parsing
+            Sensor record parsing
         """
         # Standardize field names (handle various sensor formats)
         record: dict[str, Any] = {

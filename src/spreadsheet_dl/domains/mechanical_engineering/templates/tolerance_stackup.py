@@ -2,7 +2,7 @@
 Tolerance Stackup template for mechanical engineering.
 
 Implements:
-    REQ-C003-005: ToleranceStackupTemplate with dimension chain analysis
+    ToleranceStackupTemplate with dimension chain analysis
 """
 
 from __future__ import annotations
@@ -25,7 +25,7 @@ class ToleranceStackupTemplate(BaseTemplate):
     dimension chains, and stack-up calculations.
 
     Implements:
-        REQ-C003-005: ToleranceStackupTemplate requirements
+        ToleranceStackupTemplate requirements
 
     Features:
         - Dimension chain components
@@ -68,7 +68,7 @@ class ToleranceStackupTemplate(BaseTemplate):
             SpreadsheetBuilder configured with tolerance stackup template
 
         Implements:
-            REQ-C003-005: Tolerance stackup template generation
+            Tolerance stackup template generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

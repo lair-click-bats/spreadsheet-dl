@@ -11,7 +11,7 @@ Provides comprehensive civil engineering functionality including:
 - Survey data, structural results, and building code importers
 
 Implements:
-    REQ-C004: Civil Engineering domain plugin
+    Civil Engineering domain plugin
 
 Example:
     >>> from spreadsheet_dl.domains.civil_engineering import CivilEngineeringDomainPlugin

@@ -2,7 +2,7 @@
 Plate reader data importer.
 
 Implements:
-    TASK-C006: PlateReaderImporter for microplate data
+    PlateReaderImporter for microplate data
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ class PlateReaderImporter(BaseImporter[dict[str, Any]]):
     Import plate reader data from various instruments.
 
     Implements:
-        TASK-C006: PlateReaderImporter with CSV/XML support
+        PlateReaderImporter with CSV/XML support
 
     Features:
     - CSV format support (common export format)
@@ -53,7 +53,7 @@ class PlateReaderImporter(BaseImporter[dict[str, Any]]):
             ImporterMetadata for plate reader importer
 
         Implements:
-            TASK-C006: Importer metadata
+            Importer metadata
         """
         return ImporterMetadata(
             name="Plate Reader Importer",
@@ -73,7 +73,7 @@ class PlateReaderImporter(BaseImporter[dict[str, Any]]):
             True if source is valid
 
         Implements:
-            TASK-C006: Source validation
+            Source validation
         """
         path = Path(source) if isinstance(source, str) else source
         return (
@@ -93,7 +93,7 @@ class PlateReaderImporter(BaseImporter[dict[str, Any]]):
             ImportResult with plate data
 
         Implements:
-            TASK-C006: Plate reader data import
+            Plate reader data import
 
         Raises:
             ValueError: If source is invalid

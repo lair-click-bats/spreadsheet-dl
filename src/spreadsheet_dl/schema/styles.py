@@ -238,7 +238,7 @@ class Color:
     Color specification supporting hex, RGB, HSL values and manipulation.
 
     Implements FR-SCHEMA-001: Extended Color Dataclass
-    Implements GAP-001: Missing frozen=True on value objects
+    Implements Missing frozen=True on value objects
 
     Examples:
         # Multiple creation methods
@@ -666,7 +666,7 @@ class Font:
     Comprehensive font specification with full typographic control.
 
     Implements FR-SCHEMA-003: Font Dataclass Enhancement
-    Implements GAP-001: Missing frozen=True on value objects
+    Implements Missing frozen=True on value objects
 
     Examples:
         font = Font(
@@ -796,7 +796,7 @@ class BorderEdge:
     Single border edge specification.
 
     Implements FR-SCHEMA-004: Border Edge and Borders Dataclass
-    Implements GAP-001: Missing frozen=True on value objects
+    Implements Missing frozen=True on value objects
     """
 
     style: BorderStyle = BorderStyle.NONE
@@ -840,7 +840,7 @@ class Border:
     """
     Border specification (backward compatible).
 
-    Implements GAP-001: Missing frozen=True on value objects
+    Implements Missing frozen=True on value objects
 
     Examples:
         Border()  # 1px solid black
@@ -1013,7 +1013,7 @@ class GradientStop:
     """
     A color stop in a gradient.
 
-    Implements GAP-001: Missing frozen=True on value objects
+    Implements Missing frozen=True on value objects
     """
 
     position: float  # 0.0 to 1.0
@@ -1026,7 +1026,7 @@ class PatternFill:
     Pattern fill specification.
 
     Implements FR-SCHEMA-005: Cell Fill Dataclass
-    Implements GAP-001: Missing frozen=True on value objects
+    Implements Missing frozen=True on value objects
     """
 
     pattern_type: PatternType = PatternType.SOLID
@@ -1040,7 +1040,7 @@ class GradientFill:
     Gradient fill specification.
 
     Implements FR-SCHEMA-005: Cell Fill Dataclass
-    Implements GAP-001: Missing frozen=True on value objects
+    Implements Missing frozen=True on value objects
     """
 
     type: GradientType = GradientType.LINEAR
@@ -1056,7 +1056,7 @@ class CellFill:
     Cell background fill specification.
 
     Implements FR-SCHEMA-005: Cell Fill Dataclass
-    Implements GAP-001: Missing frozen=True on value objects
+    Implements Missing frozen=True on value objects
 
     Supports solid colors, patterns, and gradients.
 
@@ -1121,7 +1121,7 @@ class NumberFormat:
     Number format specification with ODF format code generation.
 
     Implements FR-SCHEMA-006: Number Format Dataclass
-    Implements GAP-001: Missing frozen=True on value objects
+    Implements Missing frozen=True on value objects
 
     Examples:
         # Currency with accounting format
@@ -1610,7 +1610,7 @@ class ThemeSchema:
     """
     Theme metadata schema.
 
-    Implements GAP-001: Missing frozen=True on value objects
+    Implements Missing frozen=True on value objects
 
     Contains theme identification and inheritance information.
     """
@@ -1627,7 +1627,7 @@ class ThemeVariant:
     """
     Theme variant configuration for alternate color schemes.
 
-    Implements GAP-THEME-016: Theme variants missing
+    Implements Theme variants missing
 
     Allows defining alternate color palettes (dark mode, high contrast, etc.)
     that can be switched at runtime while keeping the same style definitions.
@@ -1707,7 +1707,7 @@ class Theme:
         """
         Switch to a different theme variant.
 
-        Implements GAP-THEME-016: Theme variants missing
+        Implements Theme variants missing
 
         Args:
             variant_name: Variant name (e.g., "dark", "high_contrast") or None for base theme

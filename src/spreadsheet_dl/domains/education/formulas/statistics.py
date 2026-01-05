@@ -2,7 +2,7 @@
 Statistical formulas for education.
 
 Implements:
-    TASK-C007: Statistical formulas
+    Statistical formulas
     (STANDARD_DEVIATION, PERCENTILE_RANK, CORRELATION)
 """
 
@@ -20,7 +20,7 @@ class StandardDeviationFormula(BaseFormula):
     Calculate standard deviation of grades.
 
     Implements:
-        TASK-C007: STANDARD_DEVIATION formula for grade statistics
+        STANDARD_DEVIATION formula for grade statistics
 
     Calculates standard deviation (sample or population).
 
@@ -39,7 +39,7 @@ class StandardDeviationFormula(BaseFormula):
             FormulaMetadata for STANDARD_DEVIATION
 
         Implements:
-            TASK-C007: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="STANDARD_DEVIATION",
@@ -79,7 +79,7 @@ class StandardDeviationFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C007: STANDARD_DEVIATION formula building
+            STANDARD_DEVIATION formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -101,7 +101,7 @@ class PercentileRankFormula(BaseFormula):
     Calculate percentile rank of a grade.
 
     Implements:
-        TASK-C007: PERCENTILE_RANK formula for grade ranking
+        PERCENTILE_RANK formula for grade ranking
 
     Calculates the percentile rank of a value within a dataset.
 
@@ -120,7 +120,7 @@ class PercentileRankFormula(BaseFormula):
             FormulaMetadata for PERCENTILE_RANK
 
         Implements:
-            TASK-C007: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="PERCENTILE_RANK",
@@ -166,7 +166,7 @@ class PercentileRankFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C007: PERCENTILE_RANK formula building
+            PERCENTILE_RANK formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -186,7 +186,7 @@ class CorrelationFormula(BaseFormula):
     Calculate correlation coefficient between two datasets.
 
     Implements:
-        TASK-C007: CORRELATION formula for grade correlation
+        CORRELATION formula for grade correlation
 
     Calculates Pearson correlation coefficient.
 
@@ -205,7 +205,7 @@ class CorrelationFormula(BaseFormula):
             FormulaMetadata for CORRELATION
 
         Implements:
-            TASK-C007: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="CORRELATION",
@@ -244,7 +244,7 @@ class CorrelationFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C007: CORRELATION formula building
+            CORRELATION formula building
 
         Raises:
             ValueError: If arguments are invalid

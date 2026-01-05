@@ -2,7 +2,7 @@
 Material takeoff template for construction quantity estimation.
 
 Implements:
-    REQ-C004-031: MaterialTakeoffTemplate with quantity calculations
+    MaterialTakeoffTemplate with quantity calculations
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class MaterialTakeoffTemplate(BaseTemplate):
     Material takeoff template for quantity estimation.
 
     Implements:
-        REQ-C004-031: MaterialTakeoffTemplate requirements
+        MaterialTakeoffTemplate requirements
 
     Features:
         - Columns: Item, Description, Material Type, Length/Area/Volume,

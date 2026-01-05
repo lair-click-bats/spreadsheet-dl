@@ -1,11 +1,6 @@
 """
 Formula builder and dependency tracking.
 
-Implements:
-    - FR-BUILDER-005: Formula Builder Enhancement
-    - PHASE0-005: Complete FormulaBuilder with 100+ functions
-    - GAP-FORMULA-001: Circular reference detection (TASK-204)
-
 Provides type-safe formula construction with 100+ spreadsheet functions
 and circular reference detection.
 """
@@ -21,10 +16,6 @@ from spreadsheet_dl._builder.references import CellRef, RangeRef, SheetRef
 class FormulaBuilder:
     """
     Type-safe formula builder for ODF formulas with 100+ functions.
-
-    Implements:
-        - FR-BUILDER-005: Formula Builder Enhancement
-        - PHASE0-005: Complete FormulaBuilder with 100+ functions
 
     Provides methods for common spreadsheet functions with
     proper ODF syntax generation, including:
@@ -84,8 +75,6 @@ class FormulaBuilder:
     def named_range(self, name: str) -> str:
         """
         Reference a named range in a formula.
-
-        Implements GAP-FORMULA-005: Named range integration (TASK-202)
 
         Args:
             name: Named range name
@@ -1202,7 +1191,7 @@ class FormulaBuilder:
 
 
 # ============================================================================
-# Circular Reference Detection (TASK-204: GAP-FORMULA-001)
+# Circular Reference Detection
 # ============================================================================
 
 
@@ -1210,10 +1199,8 @@ class FormulaDependencyGraph:
     """
     Tracks formula dependencies and detects circular references.
 
-    Implements GAP-FORMULA-001: Circular reference detection (TASK-204)
-
-    This class builds a directed graph of formula dependencies
-    and can detect cycles (circular references).
+    Builds a directed graph of formula dependencies and can
+    detect cycles (circular references).
     """
 
     # Pattern to find cell references in formulas

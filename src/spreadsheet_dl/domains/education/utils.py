@@ -2,7 +2,7 @@
 Education domain utility functions.
 
 Implements:
-    TASK-C007: Education domain utilities
+    Education domain utilities
 
 Provides helper functions for grade calculations, GPA conversions,
 and other educational computations.
@@ -61,7 +61,7 @@ def calculate_grade_average(grades: Sequence[float | int | None]) -> float | Non
         Average grade or None if no valid grades
 
     Implements:
-        TASK-C007: Grade average calculation
+        Grade average calculation
 
     Example:
         >>> calculate_grade_average([85, 90, 88, None, 92])
@@ -88,7 +88,7 @@ def calculate_weighted_grade(
         Weighted average grade
 
     Implements:
-        TASK-C007: Weighted grade calculation
+        Weighted grade calculation
 
     Example:
         >>> calculate_weighted_grade([85, 90, 95], [0.3, 0.3, 0.4])
@@ -121,7 +121,7 @@ def calculate_letter_grade(
         Letter grade (A+, A, A-, etc.)
 
     Implements:
-        TASK-C007: Letter grade conversion
+        Letter grade conversion
 
     Example:
         >>> calculate_letter_grade(92)
@@ -149,7 +149,7 @@ def grade_to_points(grade: str) -> float:
         Grade points (0.0-4.0)
 
     Implements:
-        TASK-C007: Grade to points conversion
+        Grade to points conversion
 
     Example:
         >>> grade_to_points("B+")
@@ -169,7 +169,7 @@ def points_to_grade(points: float) -> str:
         Letter grade
 
     Implements:
-        TASK-C007: Points to grade conversion
+        Points to grade conversion
 
     Example:
         >>> points_to_grade(3.5)
@@ -197,7 +197,7 @@ def calculate_gpa(
         GPA on 4.0 scale
 
     Implements:
-        TASK-C007: GPA calculation
+        GPA calculation
 
     Example:
         >>> calculate_gpa(["A", "B+", "B", "A-"])
@@ -241,7 +241,7 @@ def calculate_attendance_rate(
         Attendance percentage (0-100)
 
     Implements:
-        TASK-C007: Attendance rate calculation
+        Attendance rate calculation
 
     Example:
         >>> calculate_attendance_rate(85, 90)
@@ -269,7 +269,7 @@ def format_percentage(
         Formatted percentage string
 
     Implements:
-        TASK-C007: Percentage formatting
+        Percentage formatting
 
     Example:
         >>> format_percentage(85.678, 1)

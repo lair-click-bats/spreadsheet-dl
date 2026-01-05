@@ -2,7 +2,7 @@
 Environmental domain formulas.
 
 Implements:
-    TASK-C008: Environmental domain formula extensions
+    Environmental domain formula extensions
 
 Provides 12 specialized formulas for environmental science:
 - Air quality (AQI, emission rate, pollution index)

@@ -2,7 +2,7 @@
 Education domain formulas.
 
 Implements:
-    TASK-C007: Education domain formula extensions
+    Education domain formula extensions
 
 Provides 12 specialized formulas for education:
 - Grade calculations (average, weighted, curve)

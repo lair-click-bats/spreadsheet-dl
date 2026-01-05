@@ -2,7 +2,7 @@
 Gene Expression Analysis Template for qPCR data.
 
 Implements:
-    TASK-C006: GeneExpressionTemplate for biology domain
+    GeneExpressionTemplate for biology domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class GeneExpressionTemplate(BaseTemplate):
     Gene expression analysis template (qPCR).
 
     Implements:
-        TASK-C006: GeneExpressionTemplate with fold change calculations
+        GeneExpressionTemplate with fold change calculations
 
     Features:
     - Sample information tracking
@@ -56,7 +56,7 @@ class GeneExpressionTemplate(BaseTemplate):
             TemplateMetadata for gene expression template
 
         Implements:
-            TASK-C006: Template metadata
+            Template metadata
         """
         return TemplateMetadata(
             name="Gene Expression",
@@ -84,7 +84,7 @@ class GeneExpressionTemplate(BaseTemplate):
             Configured SpreadsheetBuilder instance
 
         Implements:
-            TASK-C006: GeneExpressionTemplate generation
+            GeneExpressionTemplate generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

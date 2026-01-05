@@ -8,9 +8,9 @@ This module implements several critical features including cell merging, named r
 
 **New in v4.0.0:**
 
-- Chart rendering to ODS (TASK-231, GAP-BUILDER-006)
-- Conditional format rendering (TASK-211, GAP-BUILDER-007)
-- Data validation rendering (TASK-221, GAP-BUILDER-008)
+- Chart rendering to ODS
+- Conditional format rendering
+- Data validation rendering
 
 ## Key Classes
 
@@ -70,10 +70,10 @@ Render sheets to an ODS file.
 
 **Implements:**
 
-- TASK-202: Named range export to ODS
-- TASK-231: Chart rendering to ODS
-- TASK-211: Conditional format rendering
-- TASK-221: Data validation rendering
+- Named range export to ODS
+- Chart rendering to ODS
+- Conditional format rendering
+- Data validation rendering
 
 **Example:**
 
@@ -117,7 +117,7 @@ Create styles from theme definitions. Converts theme CellStyle objects to ODF St
 
 #### `_render_sheet(sheet_spec: SheetSpec) -> None`
 
-Render a single sheet with columns and rows. Implements cell merge rendering with covered cells (TASK-201).
+Render a single sheet with columns and rows. Implements cell merge rendering with covered cells.
 
 **Parameters:**
 
@@ -148,7 +148,7 @@ Render a single cell with appropriate type, value, formula, and styling.
 
 #### `_add_named_ranges(named_ranges: list[NamedRangeSpec]) -> None`
 
-Add named ranges to the ODS document (TASK-202).
+Add named ranges to the ODS document.
 
 **Parameters:**
 
@@ -168,7 +168,7 @@ renderer.render(sheets, output_path, named_ranges=[named_range])
 
 #### `_add_charts(charts: list[ChartSpec], sheets: list[SheetSpec]) -> None`
 
-Add charts to the ODS document (TASK-231).
+Add charts to the ODS document.
 
 **Parameters:**
 
@@ -200,7 +200,7 @@ renderer.render(sheets, output_path, charts=[chart])
 
 #### `_add_conditional_formats(conditional_formats: list[ConditionalFormat]) -> None`
 
-Add conditional formatting to the ODS document (TASK-211).
+Add conditional formatting to the ODS document.
 
 **Parameters:**
 
@@ -216,7 +216,7 @@ Add conditional formatting to the ODS document (TASK-211).
 
 #### `_add_data_validations(validations: list[ValidationConfig]) -> None`
 
-Add data validations to the ODS document (TASK-221).
+Add data validations to the ODS document.
 
 **Parameters:**
 

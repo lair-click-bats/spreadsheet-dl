@@ -2,7 +2,7 @@
 Eagle BOM importer for electrical engineering.
 
 Implements:
-    TASK-C002: EagleBOMImporter for Eagle CAD exports
+    EagleBOMImporter for Eagle CAD exports
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ class EagleBOMImporter(BaseImporter[list[dict[str, Any]]]):
     Import Eagle BOM exports (text or CSV format).
 
     Implements:
-        TASK-C002: EagleBOMImporter requirements
+        EagleBOMImporter requirements
 
     Features:
         - Parse Eagle BOM text/CSV exports
@@ -69,7 +69,7 @@ class EagleBOMImporter(BaseImporter[list[dict[str, Any]]]):
             ImportResult with component data as list of dictionaries
 
         Implements:
-            TASK-C002: Eagle BOM parsing and mapping
+            Eagle BOM parsing and mapping
         """
         if not self.validate_source(source):
             return ImportResult(

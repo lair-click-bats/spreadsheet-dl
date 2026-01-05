@@ -2,7 +2,7 @@
 Power budget template for power consumption analysis.
 
 Implements:
-    TASK-C002: PowerBudgetTemplate with power calculations and status indicators
+    PowerBudgetTemplate with power calculations and status indicators
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class PowerBudgetTemplate(BaseTemplate):
     Power budget template for analyzing power consumption.
 
     Implements:
-        TASK-C002: PowerBudgetTemplate requirements
+        PowerBudgetTemplate requirements
 
     Features:
         - Columns: Component, Supply Voltage, Current (mA), Power (mW),

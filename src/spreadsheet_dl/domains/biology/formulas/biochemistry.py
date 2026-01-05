@@ -2,7 +2,7 @@
 Biochemistry and protein formulas.
 
 Implements:
-    TASK-C006: Biochemistry formulas
+    Biochemistry formulas
     (BRADFORD_ASSAY, ENZYME_ACTIVITY, MICHAELIS_MENTEN, DILUTION_FACTOR)
 """
 
@@ -20,7 +20,7 @@ class BradfordAssayFormula(BaseFormula):
     Calculate protein concentration from Bradford assay.
 
     Implements:
-        TASK-C006: BRADFORD_ASSAY formula for protein quantification
+        BRADFORD_ASSAY formula for protein quantification
 
     Example:
         >>> formula = BradfordAssayFormula()
@@ -37,7 +37,7 @@ class BradfordAssayFormula(BaseFormula):
             FormulaMetadata for BRADFORD_ASSAY
 
         Implements:
-            TASK-C006: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="BRADFORD_ASSAY",
@@ -91,7 +91,7 @@ class BradfordAssayFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C006: BRADFORD_ASSAY formula building
+            BRADFORD_ASSAY formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -113,7 +113,7 @@ class EnzymeActivityFormula(BaseFormula):
     Calculate enzyme specific activity.
 
     Implements:
-        TASK-C006: ENZYME_ACTIVITY formula for enzyme kinetics
+        ENZYME_ACTIVITY formula for enzyme kinetics
 
     Example:
         >>> formula = EnzymeActivityFormula()
@@ -130,7 +130,7 @@ class EnzymeActivityFormula(BaseFormula):
             FormulaMetadata for ENZYME_ACTIVITY
 
         Implements:
-            TASK-C006: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="ENZYME_ACTIVITY",
@@ -182,7 +182,7 @@ class EnzymeActivityFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C006: ENZYME_ACTIVITY formula building
+            ENZYME_ACTIVITY formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -205,7 +205,7 @@ class MichaelisMentenFormula(BaseFormula):
     Calculate reaction velocity using Michaelis-Menten kinetics.
 
     Implements:
-        TASK-C006: MICHAELIS_MENTEN formula for enzyme kinetics
+        MICHAELIS_MENTEN formula for enzyme kinetics
 
     Example:
         >>> formula = MichaelisMentenFormula()
@@ -222,7 +222,7 @@ class MichaelisMentenFormula(BaseFormula):
             FormulaMetadata for MICHAELIS_MENTEN
 
         Implements:
-            TASK-C006: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="MICHAELIS_MENTEN",
@@ -267,7 +267,7 @@ class MichaelisMentenFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C006: MICHAELIS_MENTEN formula building
+            MICHAELIS_MENTEN formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -288,7 +288,7 @@ class DilutionFactorFormula(BaseFormula):
     Calculate serial dilution factor.
 
     Implements:
-        TASK-C006: DILUTION_FACTOR formula for serial dilutions
+        DILUTION_FACTOR formula for serial dilutions
 
     Example:
         >>> formula = DilutionFactorFormula()
@@ -305,7 +305,7 @@ class DilutionFactorFormula(BaseFormula):
             FormulaMetadata for DILUTION_FACTOR
 
         Implements:
-            TASK-C006: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="DILUTION_FACTOR",
@@ -344,7 +344,7 @@ class DilutionFactorFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C006: DILUTION_FACTOR formula building
+            DILUTION_FACTOR formula building
 
         Raises:
             ValueError: If arguments are invalid

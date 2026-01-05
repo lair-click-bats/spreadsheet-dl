@@ -2,7 +2,7 @@
 Student Attendance Template.
 
 Implements:
-    TASK-C007: StudentAttendanceTemplate for education domain
+    StudentAttendanceTemplate for education domain
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class StudentAttendanceTemplate(BaseTemplate):
     Student attendance tracking template.
 
     Implements:
-        TASK-C007: StudentAttendanceTemplate with attendance calculations
+        StudentAttendanceTemplate with attendance calculations
 
     Features:
     - Student roster with IDs
@@ -58,7 +58,7 @@ class StudentAttendanceTemplate(BaseTemplate):
             TemplateMetadata for student attendance template
 
         Implements:
-            TASK-C007: Template metadata
+            Template metadata
         """
         return TemplateMetadata(
             name="Student Attendance",
@@ -77,7 +77,7 @@ class StudentAttendanceTemplate(BaseTemplate):
             True if parameters are valid
 
         Implements:
-            TASK-C007: Template validation
+            Template validation
         """
         return self.num_students > 0 and self.num_days > 0
 
@@ -89,7 +89,7 @@ class StudentAttendanceTemplate(BaseTemplate):
             Configured SpreadsheetBuilder instance
 
         Implements:
-            TASK-C007: StudentAttendanceTemplate generation
+            StudentAttendanceTemplate generation
         """
         from spreadsheet_dl.builder import SpreadsheetBuilder
 

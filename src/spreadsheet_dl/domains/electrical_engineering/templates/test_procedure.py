@@ -2,7 +2,7 @@
 Test procedure template for hardware testing documentation.
 
 Implements:
-    TASK-C002: TestProcedureTemplate with pass/fail tracking
+    TestProcedureTemplate with pass/fail tracking
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class TestProcedureTemplate(BaseTemplate):
     Test procedure template for hardware test documentation.
 
     Implements:
-        TASK-C002: TestProcedureTemplate requirements
+        TestProcedureTemplate requirements
 
     Features:
         - Columns: Test Step, Description, Expected Result, Actual Result,

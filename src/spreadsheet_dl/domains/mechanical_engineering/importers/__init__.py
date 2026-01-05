@@ -2,7 +2,7 @@
 Importers for mechanical engineering domain.
 
 Implements:
-    REQ-C003-011: Mechanical engineering importer modules
+    Mechanical engineering importer modules
 """
 
 from spreadsheet_dl.domains.mechanical_engineering.importers.cad_metadata import (

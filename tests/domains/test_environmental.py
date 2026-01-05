@@ -2,7 +2,7 @@
 Tests for Environmental domain plugin.
 
 Implements:
-    REQ-C008: Comprehensive tests for Environmental domain (95%+ coverage target)
+    Comprehensive tests for Environmental domain (95%+ coverage target)
 """
 
 from __future__ import annotations

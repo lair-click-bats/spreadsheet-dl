@@ -2,7 +2,7 @@
 Civil Engineering Domain Plugin for SpreadsheetDL.
 
 Implements:
-    REQ-C004-001: Civil Engineering domain plugin
+    Civil Engineering domain plugin
     PHASE-C: Domain plugin implementations
 
 Provides civil engineering-specific functionality including:
@@ -82,7 +82,7 @@ class CivilEngineeringDomainPlugin(BaseDomainPlugin):
     Civil Engineering domain plugin.
 
     Implements:
-        REQ-C004-001: Complete Civil Engineering domain plugin
+        Complete Civil Engineering domain plugin
         PHASE-C: Domain plugin implementations
 
     Provides comprehensive civil engineering functionality for SpreadsheetDL
@@ -107,7 +107,7 @@ class CivilEngineeringDomainPlugin(BaseDomainPlugin):
             PluginMetadata with civil engineering plugin information
 
         Implements:
-            REQ-C004-001: Plugin metadata requirements
+            Plugin metadata requirements
         """
         return PluginMetadata(
             name="civil_engineering",
@@ -134,7 +134,7 @@ class CivilEngineeringDomainPlugin(BaseDomainPlugin):
         Registers all templates, formulas, and importers.
 
         Implements:
-            REQ-C004-002: Plugin initialization with all components
+            Plugin initialization with all components
 
         Raises:
             Exception: If initialization fails
@@ -179,7 +179,7 @@ class CivilEngineeringDomainPlugin(BaseDomainPlugin):
         No resources need explicit cleanup for this plugin.
 
         Implements:
-            REQ-C004-003: Plugin cleanup method
+            Plugin cleanup method
         """
         # No cleanup needed for this plugin
         pass
@@ -192,7 +192,7 @@ class CivilEngineeringDomainPlugin(BaseDomainPlugin):
             True if plugin has required templates and formulas registered
 
         Implements:
-            REQ-C004-004: Plugin validation
+            Plugin validation
         """
         # Verify we have all required components
         required_templates = 5

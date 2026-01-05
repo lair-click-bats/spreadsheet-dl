@@ -1,10 +1,6 @@
 """
 Format adapters for spreadsheet export/import.
 
-Implements:
-    - TASK-403: Format adapters (FR-EXPORT-001)
-    - FUTURE-001: HTML import from HTML tables
-
 Provides adapter interfaces for converting between SpreadsheetDL's
 internal representation and various file formats.
 
@@ -110,8 +106,6 @@ class HTMLImportOptions(AdapterOptions):
 class FormatAdapter(ABC):
     """
     Abstract base class for format adapters.
-
-    Implements TASK-403: Format adapter interface (FR-EXPORT-001)
 
     Subclasses implement specific format conversions.
     """
@@ -1024,8 +1018,6 @@ class XlsxAdapter(FormatAdapter):
 class AdapterRegistry:
     """
     Registry of available format adapters.
-
-    Implements TASK-403: Format adapter registry (FR-EXPORT-001)
 
     Provides discovery and instantiation of format adapters.
 

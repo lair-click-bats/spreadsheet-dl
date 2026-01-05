@@ -11,7 +11,7 @@ Tests:
     - Context manager support
     - Error handling
 
-Implements comprehensive coverage for TASK-401: Streaming I/O
+Implements comprehensive coverage for Streaming I/O
 """
 
 from __future__ import annotations

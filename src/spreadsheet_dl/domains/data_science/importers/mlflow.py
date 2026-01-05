@@ -2,7 +2,7 @@
 MLflow experiment data importer.
 
 Implements:
-    TASK-C001: MLflowImporter for data science domain
+    MLflowImporter for data science domain
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ class MLflowImporter(BaseImporter[list[dict[str, Any]]]):
     MLflow experiment data importer.
 
     Implements:
-        TASK-C001: MLflowImporter for ML experiment tracking
+        MLflowImporter for ML experiment tracking
 
     Features:
     - Parse MLflow JSON exports
@@ -53,7 +53,7 @@ class MLflowImporter(BaseImporter[list[dict[str, Any]]]):
             ImporterMetadata for MLflow importer
 
         Implements:
-            TASK-C001: Importer metadata
+            Importer metadata
         """
         return ImporterMetadata(
             name="MLflow Importer",
@@ -73,7 +73,7 @@ class MLflowImporter(BaseImporter[list[dict[str, Any]]]):
             True if source is valid JSON file
 
         Implements:
-            TASK-C001: Source validation
+            Source validation
         """
         path = Path(source) if isinstance(source, str) else source
         return path.exists() and path.is_file() and path.suffix.lower() == ".json"
@@ -89,7 +89,7 @@ class MLflowImporter(BaseImporter[list[dict[str, Any]]]):
             ImportResult with experiment data
 
         Implements:
-            TASK-C001: MLflow data import
+            MLflow data import
 
         Expected JSON format:
             [
@@ -183,7 +183,7 @@ class MLflowImporter(BaseImporter[list[dict[str, Any]]]):
             Parsed experiment data for ExperimentLogTemplate
 
         Implements:
-            TASK-C001: MLflow run parsing
+            MLflow run parsing
         """
         # Extract core fields
         run_id = run.get("run_id", run.get("info", {}).get("run_id", "unknown"))

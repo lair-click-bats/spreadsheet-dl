@@ -2,7 +2,7 @@
 Pin mapping template for ICs and connectors.
 
 Implements:
-    TASK-C002: PinMappingTemplate with IC grouping and pin usage analysis
+    PinMappingTemplate with IC grouping and pin usage analysis
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ class PinMappingTemplate(BaseTemplate):
     Pin mapping template for documenting IC pin assignments.
 
     Implements:
-        TASK-C002: PinMappingTemplate requirements
+        PinMappingTemplate requirements
 
     Features:
         - Columns: IC Name, Pin Number, Pin Name, Signal Name, Direction,

@@ -2,8 +2,6 @@
 
 Stream-based I/O for large spreadsheet files.
 
-**Implements:** TASK-401 (Streaming I/O for large files)
-
 ## Overview
 
 The streaming module provides memory-efficient reading and writing for large ODS files:

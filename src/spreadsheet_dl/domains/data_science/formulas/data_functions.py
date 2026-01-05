@@ -2,7 +2,7 @@
 Data function formulas (wrappers around ODF built-ins).
 
 Implements:
-    TASK-C001: Data function formulas (AVERAGE, MEDIAN, STDEV, VARIANCE, CORRELATION)
+    Data function formulas (AVERAGE, MEDIAN, STDEV, VARIANCE, CORRELATION)
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ class AverageFormula(BaseFormula):
     Average (mean) calculation using ODF AVERAGE function.
 
     Implements:
-        TASK-C001: DS_AVERAGE formula wrapper
+        DS_AVERAGE formula wrapper
 
     Example:
         >>> formula = AverageFormula()
@@ -36,7 +36,7 @@ class AverageFormula(BaseFormula):
             FormulaMetadata for DS_AVERAGE
 
         Implements:
-            TASK-C001: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="DS_AVERAGE",
@@ -69,7 +69,7 @@ class AverageFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C001: DS_AVERAGE formula building
+            DS_AVERAGE formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -86,7 +86,7 @@ class MedianFormula(BaseFormula):
     Median calculation using ODF MEDIAN function.
 
     Implements:
-        TASK-C001: DS_MEDIAN formula wrapper
+        DS_MEDIAN formula wrapper
 
     Example:
         >>> formula = MedianFormula()
@@ -103,7 +103,7 @@ class MedianFormula(BaseFormula):
             FormulaMetadata for DS_MEDIAN
 
         Implements:
-            TASK-C001: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="DS_MEDIAN",
@@ -136,7 +136,7 @@ class MedianFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C001: DS_MEDIAN formula building
+            DS_MEDIAN formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -153,7 +153,7 @@ class StdevFormula(BaseFormula):
     Standard deviation calculation using ODF STDEV function.
 
     Implements:
-        TASK-C001: DS_STDEV formula wrapper
+        DS_STDEV formula wrapper
 
     Example:
         >>> formula = StdevFormula()
@@ -170,7 +170,7 @@ class StdevFormula(BaseFormula):
             FormulaMetadata for DS_STDEV
 
         Implements:
-            TASK-C001: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="DS_STDEV",
@@ -203,7 +203,7 @@ class StdevFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C001: DS_STDEV formula building
+            DS_STDEV formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -220,7 +220,7 @@ class VarianceFormula(BaseFormula):
     Variance calculation using ODF VAR function.
 
     Implements:
-        TASK-C001: DS_VARIANCE formula wrapper
+        DS_VARIANCE formula wrapper
 
     Example:
         >>> formula = VarianceFormula()
@@ -237,7 +237,7 @@ class VarianceFormula(BaseFormula):
             FormulaMetadata for DS_VARIANCE
 
         Implements:
-            TASK-C001: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="DS_VARIANCE",
@@ -270,7 +270,7 @@ class VarianceFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C001: DS_VARIANCE formula building
+            DS_VARIANCE formula building
 
         Raises:
             ValueError: If arguments are invalid
@@ -287,7 +287,7 @@ class CorrelationFormula(BaseFormula):
     Correlation calculation using ODF CORREL function.
 
     Implements:
-        TASK-C001: DS_CORRELATION formula wrapper
+        DS_CORRELATION formula wrapper
 
     Example:
         >>> formula = CorrelationFormula()
@@ -304,7 +304,7 @@ class CorrelationFormula(BaseFormula):
             FormulaMetadata for DS_CORRELATION
 
         Implements:
-            TASK-C001: Formula metadata
+            Formula metadata
         """
         return FormulaMetadata(
             name="DS_CORRELATION",
@@ -343,7 +343,7 @@ class CorrelationFormula(BaseFormula):
             ODF formula string
 
         Implements:
-            TASK-C001: DS_CORRELATION formula building
+            DS_CORRELATION formula building
 
         Raises:
             ValueError: If arguments are invalid

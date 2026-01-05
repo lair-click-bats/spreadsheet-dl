@@ -2,7 +2,7 @@
 Manufacturing templates module.
 
 Implements:
-    TASK-C005: Manufacturing template exports
+    Manufacturing template exports
 """
 
 from spreadsheet_dl.domains.manufacturing.templates.bill_of_materials import (

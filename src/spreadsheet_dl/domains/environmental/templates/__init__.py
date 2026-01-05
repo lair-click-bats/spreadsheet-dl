@@ -2,7 +2,7 @@
 Environmental domain templates.
 
 Implements:
-    TASK-C008: Environmental domain templates
+    Environmental domain templates
 
 Provides 5 specialized templates:
 - AirQualityMonitoringTemplate: Air pollutant monitoring

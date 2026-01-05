@@ -4,12 +4,12 @@ ODS Renderer - Converts builder specifications to ODS files.
 This module bridges the builder API with odfpy, translating
 theme-based styles and sheet specifications into actual ODS documents.
 
-Implements:
-    - TASK-201: Cell merge rendering
-    - TASK-202: Named range integration
-    - TASK-231: Chart rendering to ODS (GAP-BUILDER-006)
-    - TASK-211: Conditional format rendering (GAP-BUILDER-007)
-    - TASK-221: Data validation rendering (GAP-BUILDER-008)
+Features:
+    - Cell merge rendering with covered cells
+    - Named range integration
+    - Chart rendering to ODS
+    - Conditional format rendering
+    - Data validation rendering
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ from decimal import Decimal
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-# Chart imports for TASK-231
+# Chart imports
 from odf import chart as odfchart
 from odf.draw import Frame, Object
 from odf.opendocument import OpenDocumentSpreadsheet
@@ -59,13 +59,6 @@ if TYPE_CHECKING:
 class OdsRenderer:
     """
     Render sheet specifications to ODS files.
-
-    Implements:
-        - GAP-BUILDER-005: Cell merge rendering (TASK-201)
-        - GAP-FORMULA-005: Named range integration (TASK-202)
-        - GAP-BUILDER-006: Chart rendering to ODS (TASK-231)
-        - GAP-BUILDER-007: Conditional format rendering (TASK-211)
-        - GAP-BUILDER-008: Data validation rendering (TASK-221)
 
     Handles:
     - Theme-based style generation
@@ -108,11 +101,8 @@ class OdsRenderer:
         """
         Render sheets to ODS file.
 
-        Implements:
-            - TASK-202: Named range export to ODS
-            - TASK-231: Chart rendering to ODS
-            - TASK-211: Conditional format rendering
-            - TASK-221: Data validation rendering
+        Supports named range export, chart rendering, conditional formatting,
+        and data validation.
 
         Args:
             sheets: List of sheet specifications
@@ -147,15 +137,15 @@ class OdsRenderer:
         if named_ranges:
             self._add_named_ranges(named_ranges)
 
-        # Add charts if provided (TASK-231)
+        # Add charts if provided
         if charts:
             self._add_charts(charts, sheets)
 
-        # Add conditional formats if provided (TASK-211)
+        # Add conditional formats if provided
         if conditional_formats:
             self._add_conditional_formats(conditional_formats)
 
-        # Add data validations if provided (TASK-221)
+        # Add data validations if provided
         if validations:
             self._add_data_validations(validations)
 
@@ -312,7 +302,7 @@ class OdsRenderer:
         """
         Render a single sheet.
 
-        Implements TASK-201: Cell merge rendering with covered cells
+        Handles cell merge rendering with covered cells.
 
         Args:
             sheet_spec: Sheet specification
@@ -560,7 +550,7 @@ class OdsRenderer:
         """
         Render a single row.
 
-        Implements TASK-201: Cell merge rendering with covered cells
+        Handles cell merge rendering with covered cells.
 
         Args:
             row_spec: Row specification
@@ -614,7 +604,7 @@ class OdsRenderer:
         """
         Render a single cell.
 
-        Implements TASK-201: Cell merge rendering with colspan/rowspan
+        Handles cell merge rendering with colspan/rowspan.
 
         Args:
             cell_spec: Cell specification
@@ -737,7 +727,7 @@ class OdsRenderer:
         """
         Add named ranges to the ODS document.
 
-        Implements TASK-202: Named range export to ODS
+        Exports named range definitions to ODS format.
 
         Args:
             named_ranges: List of named range specifications
@@ -785,14 +775,12 @@ class OdsRenderer:
             named_expressions.addElement(odf_named_range)
 
     # =========================================================================
-    # Chart Rendering (TASK-231)
+    # Chart Rendering
     # =========================================================================
 
     def _add_charts(self, charts: list[ChartSpec], sheets: list[SheetSpec]) -> None:
         """
         Add charts to the ODS document.
-
-        Implements TASK-231: Chart rendering to ODS (GAP-BUILDER-006)
 
         This method processes a list of ChartSpec objects and embeds them
         into the ODS document. Charts are positioned according to their
@@ -843,8 +831,6 @@ class OdsRenderer:
     def _render_chart(self, chart_spec: ChartSpec, sheet_name: str) -> None:
         """
         Render a chart to the ODS document.
-
-        Implements TASK-231: Chart rendering to ODS (GAP-BUILDER-006)
 
         Supports:
         - Column, bar, line, pie, area charts
@@ -1123,9 +1109,7 @@ class OdsRenderer:
         """
         Create an ODF chart series element with color styling.
 
-        Implements:
-            FR-CHART-004: Chart Styling
-            FUTURE-005: Chart series color application
+        Applies chart styling and series color configuration.
 
         Args:
             series: DataSeries specification
@@ -1171,10 +1155,6 @@ class OdsRenderer:
         """
         Apply color styling to a chart series element.
 
-        Implements:
-            FR-CHART-004: Chart Styling
-            FUTURE-005: Chart series color application via ODS styles
-
         Creates an ODF style with graphic properties for fill and stroke colors,
         adds it to the document's automatic styles, and applies it to the series.
 
@@ -1210,9 +1190,6 @@ class OdsRenderer:
     def _normalize_hex_color(self, color: str) -> str:
         """
         Normalize color to ODF hex format (#RRGGBB).
-
-        Implements:
-            FR-CHART-004: Chart Styling
 
         Args:
             color: Color string (hex with or without #, or named color)
@@ -1267,7 +1244,7 @@ class OdsRenderer:
         return color.upper()
 
     # =========================================================================
-    # Conditional Format Rendering (TASK-211)
+    # Conditional Format Rendering
     # =========================================================================
 
     def _add_conditional_formats(
@@ -1275,8 +1252,6 @@ class OdsRenderer:
     ) -> None:
         """
         Add conditional formatting to the ODS document.
-
-        Implements TASK-211: Apply ConditionalFormat during render (GAP-BUILDER-007)
 
         Supports:
         - Color scales (2-color and 3-color)
@@ -1437,14 +1412,12 @@ class OdsRenderer:
         )
 
     # =========================================================================
-    # Data Validation Rendering (TASK-221)
+    # Data Validation Rendering
     # =========================================================================
 
     def _add_data_validations(self, validations: list[ValidationConfig]) -> None:
         """
         Add data validations to the ODS document.
-
-        Implements TASK-221: Apply DataValidation during render (GAP-BUILDER-008)
 
         Supports:
         - List validation with dropdowns
@@ -1614,11 +1587,7 @@ def render_sheets(
     """
     Convenience function to render sheets to ODS.
 
-    Implements:
-        - TASK-202: Named range export
-        - TASK-231: Chart rendering
-        - TASK-211: Conditional format rendering
-        - TASK-221: Data validation rendering
+    Supports named ranges, charts, conditional formatting, and data validation.
 
     Args:
         sheets: Sheet specifications
