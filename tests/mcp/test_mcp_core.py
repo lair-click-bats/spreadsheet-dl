@@ -6,7 +6,6 @@ Tests IR-MCP-002: Native MCP Server - Core Classes.
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 import pytest
@@ -457,14 +456,14 @@ class TestMCPServer:
     def test_registered_tools(self, server: MCPServer) -> None:
         """Test that standard tools are registered."""
         expected_tools = [
-            "analyze_budget",
-            "add_expense",
-            "query_budget",
-            "get_spending_trends",
-            "compare_periods",
-            "generate_report",
-            "list_categories",
-            "get_alerts",
+            "cell_get",
+            "cell_set",
+            "cell_clear",
+            "style_apply",
+            "row_insert",
+            "column_insert",
+            "sheet_create",
+            "theme_list",
         ]
 
         for tool_name in expected_tools:
@@ -544,31 +543,6 @@ class TestMCPServer:
         assert "error" in response
         assert response["error"]["code"] == -32601
         assert "not found" in response["error"]["message"].lower()
-
-    def test_handle_list_categories(self, server: MCPServer) -> None:
-        """Test list_categories tool."""
-        message = {
-            "jsonrpc": "2.0",
-            "id": 4,
-            "method": "tools/call",
-            "params": {
-                "name": "list_categories",
-                "arguments": {},
-            },
-        }
-
-        response = server.handle_message(message)
-        assert response is not None
-
-        assert response["jsonrpc"] == "2.0"
-        assert "result" in response
-        assert "content" in response["result"]
-        assert response["result"]["isError"] is False
-
-        # Parse the content
-        content = json.loads(response["result"]["content"][0]["text"])
-        assert "categories" in content
-        assert len(content["categories"]) > 0
 
     def test_handle_unknown_tool(self, server: MCPServer) -> None:
         """Test calling unknown tool."""

@@ -81,8 +81,8 @@ class TestMCPServerMessageProtocol:
             "id": 1,
             "method": "tools/call",
             "params": {
-                "name": "list_categories",
-                "arguments": {},
+                "name": "theme_list",
+                "arguments": {"file_path": "/tmp/test.ods"},
             },
         }
 

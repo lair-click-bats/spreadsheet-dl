@@ -8,7 +8,6 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from unittest.mock import patch
 
 import pytest
 
@@ -18,129 +17,6 @@ from spreadsheet_dl.mcp_server import (
 )
 
 pytestmark = [pytest.mark.unit, pytest.mark.mcp]
-
-
-class TestMCPServerToolHandlers:
-    """Tests for MCP server tool handlers."""
-
-    @pytest.fixture
-    def server(self, tmp_path: Path) -> MCPServer:
-        """Create a test server with budget file."""
-        config = MCPConfig(
-            allowed_paths=[tmp_path, Path.cwd()],
-        )
-        return MCPServer(config)
-
-    def test_handle_query_budget_total_spent(
-        self, server: MCPServer, tmp_path: Path
-    ) -> None:
-        """Test query_budget for total spending question."""
-        pytest.skip("BudgetAnalyzer not integrated into MCP server yet")
-
-    def test_handle_query_budget_remaining(
-        self, server: MCPServer, tmp_path: Path
-    ) -> None:
-        """Test query_budget for remaining budget question."""
-        pytest.skip("BudgetAnalyzer not integrated into MCP server yet")
-
-    def test_handle_list_categories_returns_default(self, server: MCPServer) -> None:
-        """Test list_categories returns default categories."""
-        result = server._handle_list_categories()
-
-        assert result.is_error is False
-        content = json.loads(result.content[0]["text"])
-        assert "categories" in content
-        assert isinstance(content["categories"], list)
-        assert len(content["categories"]) > 0
-
-    def test_handle_analyze_budget_invalid_path(self, server: MCPServer) -> None:
-        """Test analyze_budget with invalid file path."""
-        result = server._handle_analyze_budget(
-            file_path="/etc/nonexistent.ods",
-            analysis_type="summary",
-        )
-
-        assert result.is_error is True
-
-    def test_handle_add_expense_invalid_date(
-        self, server: MCPServer, tmp_path: Path
-    ) -> None:
-        """Test add_expense with invalid date format."""
-        test_file = tmp_path / "budget.ods"
-        test_file.write_bytes(b"test")
-
-        result = server._handle_add_expense(
-            date="invalid-date",
-            category="Groceries",
-            description="Test",
-            amount=50.0,
-            file_path=str(test_file),
-        )
-
-        assert result.is_error is True
-
-    def test_handle_spending_trends(self, server: MCPServer, tmp_path: Path) -> None:
-        """Test get_spending_trends handler."""
-        with patch(
-            "spreadsheet_dl.domains.finance.budget_analyzer.BudgetAnalyzer", create=True
-        ) as MockAnalyzer:
-            mock_analyzer = MockAnalyzer.return_value
-            mock_analyzer.get_trends.return_value = {
-                "direction": "increasing",
-                "avg_weekly": 250.0,
-            }
-
-            test_file = tmp_path / "budget.ods"
-            test_file.write_bytes(b"test")
-
-            result = server._handle_spending_trends(
-                file_path=str(test_file),
-                period="month",
-                category=None,
-            )
-
-            # Should return result (may or may not be error depending on impl)
-            assert result is not None
-
-    def test_handle_compare_periods(self, server: MCPServer, tmp_path: Path) -> None:
-        """Test compare_periods handler."""
-        test_file = tmp_path / "budget.ods"
-        test_file.write_bytes(b"test")
-
-        result = server._handle_compare_periods(
-            file_path=str(test_file),
-            period1_start="2025-01-01",
-            period1_end="2025-01-31",
-            period2_start="2025-02-01",
-            period2_end="2025-02-28",
-        )
-
-        assert result is not None
-
-    def test_handle_generate_report(self, server: MCPServer, tmp_path: Path) -> None:
-        """Test generate_report handler."""
-        test_file = tmp_path / "budget.ods"
-        test_file.write_bytes(b"test")
-
-        result = server._handle_generate_report(
-            file_path=str(test_file),
-            format="markdown",
-            include_recommendations=True,
-        )
-
-        assert result is not None
-
-    def test_handle_get_alerts(self, server: MCPServer, tmp_path: Path) -> None:
-        """Test get_alerts handler."""
-        test_file = tmp_path / "budget.ods"
-        test_file.write_bytes(b"test")
-
-        result = server._handle_get_alerts(
-            file_path=str(test_file),
-            severity="warning",
-        )
-
-        assert result is not None
 
 
 class TestMCPServerCellOperations:
