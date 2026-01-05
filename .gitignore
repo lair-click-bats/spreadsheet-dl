@@ -98,16 +98,9 @@ logs/
 # Generated outputs
 output/
 
-# Claude Code work files
+# Coverage and work tracking files
 coverage.json
 active_work.json
-.claude/hooks/orchestration-metrics.json
-.claude/hooks/*.log
-.claude/agent-registry.json
-.claude/settings.local.json
-.claude/hooks/.context_state.json
-.claude/workflow-progress-*.json
-.claude/settings.backup*.json
 
 # =============================================================================
 # LaTeX Generated Files
@@ -123,22 +116,43 @@ examples/latex/*.pdf
 work-obj*.cf
 
 # =============================================================================
-# Claude Code Configuration
+# Claude Code Runtime Files
 # =============================================================================
-# Track agents, commands, and hooks (critical for repo functionality)
-# These files MUST be in git for clones to work properly
-# Only ignore runtime-generated agent outputs
-
+# Runtime-generated files (not tracked)
 .claude/agent-outputs/*
 !.claude/agent-outputs/.gitkeep
+.claude/checkpoints/*
+!.claude/checkpoints/.gitkeep
+.claude/summaries/*
+!.claude/summaries/.gitkeep
 
-# Coordination files are ephemeral (runtime state)
-# Strengthen: exclude everything except spec tracking
+# Runtime state files
+.claude/agent-registry.json
+.claude/workflow-progress*.json
+.claude/settings.local.json
+.claude/settings.backup*.json
+.claude/template.lock
+
+# Hook logs (generated at runtime)
+.claude/hooks/*.log
+.claude/hooks/.context_state.json
+.claude/hooks/orchestration-metrics.json
+
+# =============================================================================
+# Coordination Files
+# =============================================================================
+# Coordination files are ephemeral runtime state
 .coordination/**
+!.coordination/README.md
+!.coordination/checkpoints/
+!.coordination/checkpoints/.archive/
+!.coordination/checkpoints/.archive/.gitkeep
+!.coordination/checkpoints/README.md
+!.coordination/locks/
+!.coordination/locks/.gitkeep
+!.coordination/handoffs/
+!.coordination/handoffs/.gitkeep
+!.coordination/projects/
+!.coordination/projects/.gitkeep
 !.coordination/spec/
 !.coordination/spec/incomplete-features.yaml
-
-# Keep all configuration files (already tracked by default now)
-!.claude/settings.json
-!.claude/paths.yaml
-!.claude/template.lock
