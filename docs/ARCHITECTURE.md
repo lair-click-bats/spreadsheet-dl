@@ -548,8 +548,9 @@ SpreadsheetDL follows semantic versioning:
 
 ## Related Documentation
 
-- [API Reference](./API.md)
-- [Template Guide](./TEMPLATES.md)
-- [Theme System](./THEMES.md)
+- [API Reference](./api/index.md)
+- [Plugin Development](./guides/plugin-development.md)
+- [Template Creation](./guides/template-creation.md)
+- [Theme Creation](./guides/theme-creation.md)
 - [Security Guide](./SECURITY.md)
-- [CLI Reference](./CLI.md)
+- [CLI Reference](./cli.md)

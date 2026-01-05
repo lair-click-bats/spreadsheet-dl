@@ -1556,7 +1556,7 @@ def create_report(data: list[dict]) -> str:
 ## See Also
 
 - [API Reference](../api/index.md)
-- [Best Practices Guide](./best-practices.md)
+- [Best Practices Guide](best-practices.md)
 - [Integration Guide](./integration.md)
 - [Performance Guide](./performance.md)
 - [Examples Gallery](../examples/gallery.md)

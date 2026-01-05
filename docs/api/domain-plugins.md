@@ -1726,5 +1726,4 @@ else:
 **See Also**:
 
 - [Plugin Development Guide](../guides/plugin-development.md)
-- [Finance Plugin Source](../../src/spreadsheet_dl/domains/finance/)
-- [Base Classes Source](../../src/spreadsheet_dl/domains/base.py)
+- [Architecture Overview](../ARCHITECTURE.md)

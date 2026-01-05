@@ -57,6 +57,7 @@ The plugin system provides:
    ```
 
 4. Enable the plugin:
+
    ```bash
    spreadsheet-dl plugin enable my_plugin
    ```
@@ -687,9 +688,9 @@ See module documentation for complete API:
 
 ## Further Reading
 
-- [API Documentation](./api-reference.md)
-- [Best Practices](./best-practices.md)
-- [Example Plugins](../examples/)
+- [API Documentation](./api/index.md)
+- [Best Practices](guides/best-practices.md)
+- [Example Plugins](./examples/index.md)
 - [GitHub Repository](https://github.com/lair-click-bats/spreadsheet-dl)
 
 ---

@@ -328,7 +328,7 @@ Now that you have the basics, explore these topics:
 
 - **[API Reference](api/)** - Complete Python API documentation
 - **[CLI Reference](cli.md)** - All command-line options
-- **[Best Practices](best-practices.md)** - Tips and recommendations
+- **[Best Practices](guides/best-practices.md)** - Tips and recommendations
 - **[MCP Integration](MCP_INTEGRATION.md)** - Claude Desktop setup
 
 ### Getting Help
@@ -336,7 +336,7 @@ Now that you have the basics, explore these topics:
 - **Documentation**: [docs/index.md](index.md)
 - **Examples**: See `examples/` directory in the repository
 - **Issues**: Report bugs on GitHub
-- **Contributing**: See [CONTRIBUTING.md](../CONTRIBUTING.md)
+- **Contributing**: See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## Common Questions
 

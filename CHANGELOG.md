@@ -5,7 +5,9 @@ All notable changes to SpreadsheetDL will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [4.0.0] - 2026-01-04 - 🎉 First Public Release
+<!-- towncrier release notes start -->
+
+## [4.0.0] - 2026-01-04 - First Public Release
 
 **Note:** This is the first public release of SpreadsheetDL. The v4.0.0 version number reflects extensive private development and refinement through multiple major iterations. This version represents a mature, production-ready codebase with comprehensive testing (3,206 tests, 71% coverage) and complete documentation.
 

@@ -542,7 +542,7 @@ email_report("budget_2026_01.ods", "recipient@example.com")
 
 - **[Tutorial 5: Use MCP Tools](05-use-mcp-tools.md)** - AI-powered analysis
 - **[Tutorial 6: Customize Themes](06-customize-themes.md)** - Custom styling
-- **[Best Practices](../best-practices.md)** - Advanced reporting strategies
+- **[Best Practices](../guides/best-practices.md)** - Advanced reporting strategies
 
 ## Additional Resources
 

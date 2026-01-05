@@ -140,6 +140,8 @@ class PlaidInstitution:
     url: str | None = None
 ```
 
+#### Methods
+
 ##### `to_dict() -> dict[str, Any]`
 
 Convert to dictionary.
@@ -163,6 +165,8 @@ class PlaidAccount:
     available_balance: Decimal | None = None
     currency: str = "USD"
 ```
+
+#### Methods
 
 ##### `to_dict() -> dict[str, Any]`
 
@@ -190,6 +194,8 @@ class PlaidTransaction:
     iso_currency_code: str = "USD"
 ```
 
+#### Methods
+
 ##### `to_dict() -> dict[str, Any]`
 
 Convert to dictionary.
@@ -207,6 +213,8 @@ class LinkToken:
     expiration: datetime
     request_id: str
 ```
+
+#### Methods
 
 ##### `is_expired -> bool`
 
@@ -229,6 +237,8 @@ class AccessToken:
     last_sync: datetime | None = None
     error: str | None = None
 ```
+
+#### Methods
 
 ##### `to_dict(include_token: bool = False) -> dict[str, Any]`
 
@@ -256,6 +266,8 @@ class SyncResult:
     has_more: bool = False
     error: str | None = None
 ```
+
+#### Methods
 
 ##### `to_dict() -> dict[str, Any]`
 

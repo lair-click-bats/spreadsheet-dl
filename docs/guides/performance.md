@@ -855,6 +855,7 @@ profiler.print_stats()  # Identify bottleneck
    ```
 
 3. **Switch to streaming for large files**:
+
    ```python
    if num_rows > 10_000:
        use_streaming_writer()
@@ -899,6 +900,7 @@ print(f"Peak: {peak / 1024 / 1024:.1f} MB")
    ```
 
 3. **Clear references**:
+
    ```python
    builder.save("output.ods")
    del builder  # Explicit cleanup
@@ -934,6 +936,7 @@ unzip -l output.ods | head -20  # Inspect file contents
    ```
 
 3. **Reduce style complexity**:
+
    ```python
    # Use theme with fewer style variations
    builder = SpreadsheetBuilder(theme="minimal")
@@ -972,6 +975,7 @@ print(f"Load time: {(time.time() - start) * 1000:.1f}ms")
    ```
 
 2. **Use simpler themes**:
+
    ```python
    # Minimal theme loads faster
    builder = SpreadsheetBuilder(theme="minimal")
@@ -980,6 +984,6 @@ print(f"Load time: {(time.time() - start) * 1000:.1f}ms")
 ## See Also
 
 - [Streaming API Documentation](../api/streaming.md)
-- [Best Practices Guide](./best-practices.md)
+- [Best Practices Guide](best-practices.md)
 - [Troubleshooting Guide](./troubleshooting.md)
 - [Architecture Documentation](../ARCHITECTURE.md)

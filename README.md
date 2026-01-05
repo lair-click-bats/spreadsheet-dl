@@ -521,35 +521,48 @@ export NEXTCLOUD_PATH=/Finance
 
 ```
 spreadsheet-dl/
-├── src/
-│   └── spreadsheet_dl/
-│       ├── __init__.py           # Package exports
-│       ├── ods_generator.py      # ODS file creation
-│       ├── budget_analyzer.py    # Pandas-based analysis
-│       ├── report_generator.py   # Report generation
-│       ├── cli.py                # Command-line interface
-│       ├── csv_import.py         # Bank CSV import
-│       ├── webdav_upload.py      # Nextcloud WebDAV
-│       ├── analytics.py          # Dashboard analytics
-│       ├── alerts.py             # Alert system
-│       ├── recurring.py          # Recurring expenses
-│       ├── templates.py          # Budget templates
-│       ├── builder.py            # Fluent builder API
-│       ├── renderer.py           # Builder -> ODS renderer
-│       ├── schema/               # Theme schema
-│       │   ├── styles.py         # Style dataclasses
-│       │   ├── loader.py         # YAML loader
-│       │   └── validation.py     # Schema validation
-│       └── themes/               # Theme YAML files
-│           ├── default.yaml
-│           ├── corporate.yaml
-│           ├── minimal.yaml
-│           ├── dark.yaml
-│           └── high_contrast.yaml
-├── tests/                        # Test suite (3,206 tests)
-├── examples/                     # Usage examples
-├── docs/                         # Documentation
-├── pyproject.toml               # Project configuration
+├── src/spreadsheet_dl/
+│   ├── __init__.py              # Package exports (500+ public APIs)
+│   ├── builder.py               # Fluent builder API entry point
+│   ├── renderer.py              # Builder -> ODS renderer
+│   ├── adapters.py              # Multi-format adapters (ODS/XLSX/CSV/HTML)
+│   ├── streaming.py             # Streaming I/O for large files
+│   ├── charts.py                # Chart builder (60+ chart types)
+│   ├── export.py                # Multi-format export
+│   ├── security.py              # Encryption (AES-256-GCM)
+│   ├── plugins.py               # Plugin system framework
+│   ├── exceptions.py            # Exception hierarchy (50+ types)
+│   ├── _builder/                # Builder implementation
+│   │   ├── core.py              # SheetBuilder, RowBuilder
+│   │   ├── formulas.py          # FormulaBuilder (60+ functions)
+│   │   ├── models.py            # Data models
+│   │   └── references.py        # Cell reference handling
+│   ├── _cli/                    # CLI implementation
+│   │   ├── app.py               # Click application
+│   │   └── commands.py          # CLI commands
+│   ├── _mcp/                    # MCP server
+│   │   └── server.py            # 144 MCP tools
+│   ├── schema/                  # Theme schema
+│   │   ├── styles.py            # Style dataclasses
+│   │   ├── loader.py            # YAML loader
+│   │   └── validation.py        # Schema validation
+│   ├── template_engine/         # Template system
+│   │   ├── schema.py            # Template schema
+│   │   └── renderer.py          # Template renderer
+│   ├── domains/                 # Domain plugins (8 domains)
+│   │   ├── finance/             # Budget, invoices, statements
+│   │   ├── data_science/        # Experiment logs, ML reports
+│   │   ├── biology/             # Plate layouts, qPCR
+│   │   ├── manufacturing/       # OEE, quality control
+│   │   ├── electrical_engineering/
+│   │   ├── mechanical_engineering/
+│   │   ├── civil_engineering/
+│   │   └── education/           # Gradebooks, rubrics
+│   └── themes/                  # Theme YAML files (5 built-in)
+├── tests/                       # Test suite (3,206 tests)
+├── examples/                    # Usage examples
+├── docs/                        # Documentation (97 files)
+├── pyproject.toml              # Project configuration
 └── README.md
 ```
 

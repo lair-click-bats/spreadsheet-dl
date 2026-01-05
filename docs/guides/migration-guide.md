@@ -14,7 +14,6 @@ Future versions of this guide will include migration instructions when upgrading
 4. [Migrating from pandas](#migrating-from-pandas)
 5. [Migrating from Excel VBA](#migrating-from-excel-vba)
 6. [Migrating Themes](#migrating-themes)
-7. [Using the MCP Server](#using-the-mcp-server)
 
 ## Future Version Migration
 
@@ -413,7 +412,7 @@ header_primary:
 If you encounter issues during migration:
 
 1. Check the [API Reference](../api/builder.md)
-2. Review [Best Practices](./best-practices.md)
+2. Review [Best Practices](best-practices.md)
 3. See [Examples](../examples/index.md)
 4. Open an issue on GitHub
 

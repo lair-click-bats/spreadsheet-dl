@@ -493,10 +493,10 @@ budget_fmt = (
 
 ## Additional Resources
 
-- [Conditional Formatting Schema](../api/conditional.md)
+- [Conditional Formatting Reference](../api/conditional.md)
 - [Builder Pattern Guide](../guides/builders.md)
-- [Style System](../api/styles.md)
-- [Financial Formats](../domains/finance.md)
+- [Style System Reference](../api/styles.md)
+- [Finance Domain API](../api/domain-plugins.md)
 
 ## Example Gallery
 

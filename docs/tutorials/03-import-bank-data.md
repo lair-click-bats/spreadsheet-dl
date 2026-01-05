@@ -465,7 +465,7 @@ category = categorizer.categorize("MY GYM NAME MEMBERSHIP")
 
 - **[Tutorial 4: Create Reports](04-create-reports.md)** - Generate spending reports
 - **[Tutorial 5: Use MCP Tools](05-use-mcp-tools.md)** - AI-powered analysis
-- **[Best Practices](../best-practices.md)** - Advanced import strategies
+- **[Best Practices](../guides/best-practices.md)** - Advanced import strategies
 
 ## Additional Resources
 

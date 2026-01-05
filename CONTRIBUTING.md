@@ -12,10 +12,10 @@ SpreadsheetDL follows [Semantic Versioning](https://semver.org/) (SemVer):
 
 **Stability Commitment:**
 
-- ✅ **Backwards compatibility** - Maintained within major versions
-- ✅ **Deprecation warnings** - Added before removing features
-- ✅ **Migration guides** - Provided for major version upgrades
-- ✅ **Semantic versioning** - Strictly followed for all releases
+- Backwards compatibility - Maintained within major versions
+- Deprecation warnings - Added before removing features
+- Migration guides - Provided for major version upgrades
+- Semantic versioning - Strictly followed for all releases
 
 ## Code of Conduct
 
@@ -91,6 +91,9 @@ uv run ruff format src/ tests/
 
 # Type check
 uv run mypy src/
+
+# Build and serve documentation locally
+scripts/docs.sh serve
 ```
 
 ## Coding Standards
@@ -147,6 +150,50 @@ test(mcp): increase coverage to 95%
 - Include code examples where helpful
 - Keep README.md up to date
 
+## Documentation Checklist
+
+Before submitting a PR that includes new code, ensure:
+
+- [ ] All new public functions have docstrings
+- [ ] Docstrings follow Google style format
+- [ ] Args section lists all parameters with descriptions
+- [ ] Returns section describes the return value
+- [ ] Raises section documents all exceptions (if applicable)
+- [ ] Examples are included for complex functionality
+- [ ] Doctests pass: `uv run pytest --doctest-modules src/spreadsheet_dl/`
+- [ ] User-facing docs updated if behavior changes
+- [ ] CHANGELOG.md updated for user-visible changes
+
+### Docstring Format
+
+Use Google-style docstrings:
+
+```python
+def example_function(param1: str, param2: int = 0) -> bool:
+    """Brief one-line description.
+
+    Extended description if needed. Can span multiple lines
+    and provide additional context.
+
+    Args:
+        param1: Description of first parameter.
+        param2: Description of second parameter. Defaults to 0.
+
+    Returns:
+        Description of return value.
+
+    Raises:
+        ValueError: When param1 is empty.
+        TypeError: When param2 is not an integer.
+
+    Examples:
+        >>> example_function("value", 10)
+        True
+    """
+```
+
+For detailed templates, see `.claude/templates/docstring.md`.
+
 ### Branding & Naming
 
 We have official branding guidelines to ensure consistency across all project materials. Please review [BRANDING.md](BRANDING.md) for:
@@ -172,6 +219,7 @@ spreadsheet-dl/
 │   ├── charts.py           # Chart builder
 │   ├── renderer.py         # ODS renderer
 │   ├── mcp_server.py       # MCP server
+│   ├── domains/            # Domain plugins
 │   ├── schema/             # Data models
 │   └── template_engine/    # Template system
 ├── tests/                  # Test suite

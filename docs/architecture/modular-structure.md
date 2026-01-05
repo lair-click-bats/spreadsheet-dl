@@ -166,6 +166,6 @@ These are publicly accessible via the main package for users who want modular ac
 
 ## See Also
 
-- [Architecture Overview](./ARCHITECTURE.md)
+- [Architecture Overview](../ARCHITECTURE.md)
 - [Migration Guide](../guides/migration-guide.md)
 - [API Documentation](../api/)

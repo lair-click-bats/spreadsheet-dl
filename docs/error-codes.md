@@ -24,6 +24,7 @@ All error codes follow the format: `FT-<CATEGORY>-<NUMBER>`
 | TMPL     | 700-799    | Template and theme errors    |
 | FMT      | 800-899    | Formatting errors            |
 | EXT      | 900-999    | Extension/plugin errors      |
+| SEC      | 1000-1099  | Security errors              |
 
 ---
 
@@ -964,6 +965,146 @@ A plugin hook failed during execution.
 - Check plugin logs for details
 - Disable the problematic plugin
 - Report issue to plugin author
+
+---
+
+## Security Errors (FT-SEC-xxx)
+
+### FT-SEC-1000: Security Error
+
+**Severity:** Error
+
+A general security-related error occurred.
+
+**Common Causes:**
+
+- Security policy violation
+- Unauthorized operation attempted
+
+**Resolution:**
+
+- Check security configuration
+- Verify permissions and access rights
+
+---
+
+### FT-SEC-1001: Encryption Error
+
+**Severity:** Error
+
+Failed to encrypt data.
+
+**Common Causes:**
+
+- Invalid encryption key
+- Corrupted key material
+- Unsupported encryption algorithm
+
+**Resolution:**
+
+- Verify encryption key is valid
+- Regenerate encryption keys if needed
+- Check algorithm compatibility
+
+---
+
+### FT-SEC-1002: Decryption Error
+
+**Severity:** Error
+
+Failed to decrypt data.
+
+**Common Causes:**
+
+- Wrong decryption key
+- Corrupted encrypted data
+- Data was encrypted with different algorithm
+
+**Resolution:**
+
+- Verify using correct decryption key
+- Check data integrity
+- Ensure key matches encryption method
+
+---
+
+### FT-SEC-1003: Key Derivation Error
+
+**Severity:** Error
+
+Failed to derive encryption key from password.
+
+**Common Causes:**
+
+- Invalid password
+- Corrupted salt value
+- Insufficient system resources
+
+**Resolution:**
+
+- Verify password is correct
+- Check salt integrity
+- Ensure sufficient memory available
+
+---
+
+### FT-SEC-1004: Integrity Error
+
+**Severity:** Error
+
+Data integrity verification failed.
+
+**Common Causes:**
+
+- Data was tampered with
+- Transmission corruption
+- Wrong authentication tag
+
+**Resolution:**
+
+- Re-download or re-transfer data
+- Verify data source authenticity
+- Check for transmission errors
+
+---
+
+### FT-SEC-1005: Credential Error
+
+**Severity:** Error
+
+Credential operation failed.
+
+**Common Causes:**
+
+- Invalid credentials format
+- Credential storage corrupted
+- Access to credential store denied
+
+**Resolution:**
+
+- Re-enter credentials
+- Clear and recreate credential store
+- Check credential store permissions
+
+---
+
+### FT-SEC-1006: Weak Password Error
+
+**Severity:** Warning
+
+Password does not meet security requirements.
+
+**Requirements:**
+
+- Minimum 12 characters
+- Mix of uppercase and lowercase
+- Include numbers and special characters
+
+**Resolution:**
+
+- Choose a stronger password
+- Use a password manager
+- Consider using a passphrase
 
 ---
 

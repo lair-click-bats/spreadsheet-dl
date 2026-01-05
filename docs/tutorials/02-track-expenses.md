@@ -464,7 +464,7 @@ spreadsheet-dl expense 150.00 "Car insurance" -d 2026-01-10 -c Transportation
 
 - **[Tutorial 3: Import Bank Data](03-import-bank-data.md)** - Automate expense entry
 - **[Tutorial 4: Create Reports](04-create-reports.md)** - Generate spending reports
-- **[Best Practices](../best-practices.md)** - Advanced tracking strategies
+- **[Best Practices](../guides/best-practices.md)** - Advanced tracking strategies
 
 ## Additional Resources
 

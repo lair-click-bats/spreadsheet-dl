@@ -1264,7 +1264,7 @@ def test_integration_with_pandas():
 ## See Also
 
 - [API Reference](../api/index.md)
-- [Best Practices Guide](./best-practices.md)
+- [Best Practices Guide](best-practices.md)
 - [Plugin Development Guide](./plugin-development.md)
 - [MCP Integration Documentation](../MCP_INTEGRATION.md)
 - [Architecture Overview](../ARCHITECTURE.md)

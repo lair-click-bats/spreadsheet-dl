@@ -651,6 +651,6 @@ When reporting issues, include:
 
 ## See Also
 
-- [Best Practices](./best-practices.md)
+- [Best Practices](best-practices.md)
 - [API Reference](../api/builder.md)
 - [Examples Gallery](../examples/gallery.md)

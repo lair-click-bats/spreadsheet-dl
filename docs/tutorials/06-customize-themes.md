@@ -445,7 +445,7 @@ for theme in ["default", "corporate", "minimal", "dark", "sunset"]:
 
 ## Next Steps
 
-- **[Best Practices](../best-practices.md)** - Advanced usage tips
+- **[Best Practices](../guides/best-practices.md)** - Advanced usage tips
 - **[API Reference](../api/)** - Complete API documentation
 - **[Theme Schema](../api/schema.md)** - Full theme specification
 

@@ -80,8 +80,8 @@ Add SpreadsheetDL to Claude Desktop's MCP configuration:
 }
 ```
 
-4. Restart Claude Desktop
-5. Verify connection (you'll see "spreadsheet-dl" in available tools)
+1. Restart Claude Desktop
+2. Verify connection (you'll see "spreadsheet-dl" in available tools)
 
 ## Step 3: Manipulate Spreadsheets with Natural Language
 
@@ -376,7 +376,7 @@ spreadsheet-dl mcp-server --require-auth
 ## Next Steps
 
 - **[Tutorial 6: Customize Themes](06-customize-themes.md)** - Create custom themes
-- **[Best Practices](../best-practices.md)** - Advanced tips
+- **[Best Practices](../guides/best-practices.md)** - Advanced tips
 - **[MCP Integration Guide](../MCP_INTEGRATION.md)** - Detailed setup
 
 ## Additional Resources

@@ -426,10 +426,10 @@ Your budget spreadsheet should have:
 
 - **[Tutorial 2: Track Expenses](02-track-expenses.md)** - Daily expense tracking
 - **[Tutorial 3: Import Bank Data](03-import-bank-data.md)** - Automate from bank CSV
-- **[Best Practices](../best-practices.md)** - Budget management tips
+- **[Best Practices](../guides/best-practices.md)** - Budget management tips
 
 ## Additional Resources
 
-- [Available Templates](../README.md#budget-templates)
-- [Theme System](../README.md#built-in-themes)
+- [Available Templates](../index.md#budget-templates)
+- [Theme System](../index.md#built-in-themes)
 - [Python API Reference](../api/)

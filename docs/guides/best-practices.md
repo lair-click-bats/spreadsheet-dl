@@ -558,6 +558,6 @@ git commit -m "feat(themes): add quarterly report theme"
 
 ## See Also
 
-- [Style Composition Guide](./style-composition.md)
-- [Theme Creation Guide](./theme-creation.md)
+- [Style Composition Guide](style-composition.md)
+- [Theme Creation Guide](theme-creation.md)
 - [Builder API Reference](../api/builder.md)
