@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""SSOT Validation Hook
+"""SSOT Validation Hook.
+
 Ensures no duplicate configuration exists across the repository.
 Validates against .claude/project-metadata.yaml as single source of truth.
 

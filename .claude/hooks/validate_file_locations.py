@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""File Location Validation Script for Claude Code PostToolUse Hook
+"""File Location Validation Script for Claude Code PostToolUse Hook.
 
 Detects when intermediate/analysis files are created in project directories
 instead of .coordination/ and provides guidance to move them.

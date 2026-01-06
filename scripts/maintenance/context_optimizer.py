@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Context Optimizer
+"""Context Optimizer.
 
 Analyzes project structure and suggests optimizations for context-limited environments.
 Identifies large files, redundant content, and provides actionable recommendations.
@@ -322,6 +322,7 @@ def generate_report(analysis: dict[str, Any]) -> str:
 
 
 def main() -> None:
+    """Analyze project for context optimization opportunities."""
     parser = argparse.ArgumentParser(
         description="Analyze project for context optimization opportunities"
     )

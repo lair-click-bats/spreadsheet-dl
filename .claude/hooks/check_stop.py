@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Stop Hook Verification
+"""Stop Hook Verification.
+
 Verifies task completion before allowing agent to stop.
 Returns JSON response for Claude Code hook system.
 """

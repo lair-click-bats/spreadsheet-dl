@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""SubagentStop Hook Verification
+"""SubagentStop Hook Verification.
+
 Verifies subagent completion before returning to orchestrator.
 Returns JSON response for Claude Code hook system.
 """

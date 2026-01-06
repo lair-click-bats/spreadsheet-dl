@@ -6,11 +6,25 @@ spreadsheets with 100k+ rows without excessive memory usage.
 
 from __future__ import annotations
 
-import xml.etree.ElementTree as ET
 import zipfile
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
+
+# Use defusedxml if available for security (protects against XXE/Billion Laughs)
+# Falls back to standard library if defusedxml not installed
+try:
+    from defusedxml import ElementTree as ET
+except ImportError:
+    import warnings
+    import xml.etree.ElementTree as ET
+
+    warnings.warn(
+        "defusedxml not installed. XML parsing is vulnerable to XXE and "
+        "billion laughs attacks. Install defusedxml: pip install defusedxml",
+        UserWarning,
+        stacklevel=2,
+    )
 
 from spreadsheet_dl.progress import BatchProgress
 
@@ -118,15 +132,71 @@ class StreamingReader:
         self.close()
 
     def open(self) -> None:
-        """Open the ODS file for reading."""
+        """Open the ODS file for reading.
+
+        Implements ZIP bomb detection to prevent denial of service attacks.
+        """
         if not self._file_path.exists():
             raise FileNotFoundError(f"File not found: {self._file_path}")
 
         self._zipfile = zipfile.ZipFile(self._file_path, "r")
 
+        # ZIP bomb detection (prevents DoS attacks)
+        self._check_zip_bomb()
+
         # Parse content.xml
         with self._zipfile.open("content.xml") as content_file:
             self._content_xml = ET.parse(content_file).getroot()
+
+    def _check_zip_bomb(self) -> None:
+        """Check for ZIP bomb attack.
+
+        Validates:
+        - Total uncompressed size < 100MB
+        - Compression ratio < 100:1 for any file
+        - File count < 10000
+
+        Raises:
+            ValueError: If ZIP file appears to be a ZIP bomb
+        """
+        if not self._zipfile:
+            return
+
+        # Security limits
+        MAX_UNCOMPRESSED_SIZE = 100 * 1024 * 1024  # 100MB
+        MAX_COMPRESSION_RATIO = 100  # 100:1
+        MAX_FILE_COUNT = 10000
+
+        total_size = 0
+
+        for file_count, info in enumerate(self._zipfile.infolist(), start=1):
+            total_size += info.file_size
+
+            # Check total uncompressed size
+            if total_size > MAX_UNCOMPRESSED_SIZE:
+                msg = (
+                    f"ZIP file too large: {total_size} bytes uncompressed "
+                    f"(max {MAX_UNCOMPRESSED_SIZE}). Possible ZIP bomb attack."
+                )
+                raise ValueError(msg)
+
+            # Check compression ratio (ZIP bomb detection)
+            if info.compress_size > 0:
+                ratio = info.file_size / info.compress_size
+                if ratio > MAX_COMPRESSION_RATIO:
+                    msg = (
+                        f"Suspicious compression ratio for {info.filename}: {ratio:.1f}:1 "
+                        f"(max {MAX_COMPRESSION_RATIO}:1). Possible ZIP bomb attack."
+                    )
+                    raise ValueError(msg)
+
+            # Check file count (nested ZIP bomb)
+            if file_count > MAX_FILE_COUNT:
+                msg = (
+                    f"Too many files in ZIP: {file_count} "
+                    f"(max {MAX_FILE_COUNT}). Possible nested ZIP bomb."
+                )
+                raise ValueError(msg)
 
     def close(self) -> None:
         """Close the ODS file."""

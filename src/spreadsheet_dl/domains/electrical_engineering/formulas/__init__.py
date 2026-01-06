@@ -52,10 +52,10 @@ from spreadsheet_dl.domains.electrical_engineering.formulas.signal import (
 )
 
 __all__ = [
-    # Signal formulas
-    "BandwidthFormula",
     # Filter formulas
     "BandPassCenterFormula",
+    # Signal formulas
+    "BandwidthFormula",
     # Digital formulas
     "BinaryToDecimalFormula",
     "CapacitanceFormula",

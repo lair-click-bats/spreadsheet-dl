@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Stale Agent Cleanup Hook
+"""Stale Agent Cleanup Hook.
 
 Safely cleans up stale agents from the registry, with proper handling for:
 - Active agents with recent activity (preserved)

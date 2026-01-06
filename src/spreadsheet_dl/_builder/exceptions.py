@@ -301,3 +301,15 @@ class CircularReferenceError(BuilderError):
             f"Circular reference detected at {self.cell}: {cycle_str}\n"
             f"Fix: Remove the circular dependency by breaking the reference chain."
         )
+
+
+class FormulaError(BuilderError):
+    """Raised when a formula contains invalid or unsafe content.
+
+    This includes:
+    - Invalid cell references
+    - Formula injection attempts
+    - Malformed formula syntax
+    """
+
+    error_code = "FT-BUILD-0303"

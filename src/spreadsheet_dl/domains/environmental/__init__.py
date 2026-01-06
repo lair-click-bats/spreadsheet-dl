@@ -91,9 +91,9 @@ __all__ = [
     "AQICalculationFormula",
     # Formulas - Water Quality
     "BODCalculationFormula",
+    "CapacityFactorFormula",
     # Formulas - Carbon
     "CarbonEquivalentFormula",
-    "CapacityFactorFormula",
     # Formulas - Climate
     "ClimateSensitivityFormula",
     "EcologicalFootprintFormula",

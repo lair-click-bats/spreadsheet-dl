@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""JSON Summarizer
+"""JSON Summarizer.
 
 Extracts key metrics from large JSON files without loading entire contents into context.
 Provides compact summaries suitable for context-limited environments.
@@ -243,6 +243,7 @@ def summarize_json_file(
 
 
 def main() -> None:
+    """Extract key metrics from large JSON files."""
     parser = argparse.ArgumentParser(
         description="Extract key metrics from large JSON files"
     )

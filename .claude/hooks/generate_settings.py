@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate settings.json from coding-standards.yaml (SSOT)
+"""Generate settings.json from coding-standards.yaml (SSOT).
 
 Ensures that .claude/settings.json is always derived from the authoritative
 coding-standards.yaml configuration, preventing configuration drift.

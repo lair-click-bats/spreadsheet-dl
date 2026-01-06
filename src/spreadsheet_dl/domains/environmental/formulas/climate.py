@@ -251,8 +251,8 @@ class SeaLevelRiseFormula(BaseFormula):
         ocean_depth = args[1] if len(args) > 1 else 3700
         expansion_coeff = args[2] if len(args) > 2 else 0.000214
 
-        # Sea level rise from thermal expansion: ΔH = α * H * ΔT
-        # Where α is expansion coefficient, H is ocean depth, ΔT is temp change
+        # Sea level rise from thermal expansion: ΔH = alpha * H * ΔT
+        # Where alpha is expansion coefficient, H is ocean depth, ΔT is temp change
         return f"{temp_change}*{ocean_depth}*{expansion_coeff}"
 
 

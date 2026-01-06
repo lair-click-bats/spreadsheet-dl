@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Stale File Cleanup Script for Claude Code SessionStart Hook
+"""Stale File Cleanup Script for Claude Code SessionStart Hook.
 
 Automatically archives or removes stale intermediate files to prevent:
 1. Context pollution from outdated coordination files

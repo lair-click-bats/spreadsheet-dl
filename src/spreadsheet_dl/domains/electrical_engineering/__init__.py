@@ -78,10 +78,10 @@ from spreadsheet_dl.domains.electrical_engineering.plugin import (
 )
 
 __all__ = [
-    # Formulas - Signal
-    "BandwidthFormula",
     # Formulas - Filters
     "BandPassCenterFormula",
+    # Formulas - Signal
+    "BandwidthFormula",
     # Formulas - Digital
     "BinaryToDecimalFormula",
     # Formulas - Impedance

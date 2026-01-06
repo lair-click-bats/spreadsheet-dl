@@ -185,7 +185,7 @@ def test_capacity_factor_realistic_values() -> None:
 
     # Solar: ~20% capacity factor
     # 1000 kW rated, 8760 hours/year, 1,752,000 kWh actual
-    result = formula.build("1752000", "1000", "8760")
+    _ = formula.build("1752000", "1000", "8760")
     # Result should be 0.2 when calculated
 
     # Wind: ~35% capacity factor

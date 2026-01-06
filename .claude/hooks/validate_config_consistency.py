@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Comprehensive Configuration Consistency Validator
+"""Comprehensive Configuration Consistency Validator.
 
 Validates all aspects of Claude Code configuration:
 - Cross-file consistency
@@ -31,18 +31,24 @@ PROJECT_DIR = REPO_ROOT
 
 
 class ConfigValidator:
+    """Validator for configuration consistency across the project."""
+
     def __init__(self):
+        """Initialize the config validator."""
         self.errors = []
         self.warnings = []
         self.info = []
 
     def error(self, msg: str):
+        """Record an error message."""
         self.errors.append(msg)
 
     def warning(self, msg: str):
+        """Record a warning message."""
         self.warnings.append(msg)
 
     def info_msg(self, msg: str):
+        """Record an info message."""
         self.info.append(msg)
 
     def validate_yaml_versions(self) -> None:
@@ -274,7 +280,8 @@ class ConfigValidator:
         }
 
 
-def main():
+def main() -> None:
+    """Run configuration consistency validation."""
     validator = ConfigValidator()
     result = validator.run_all_validations()
 
