@@ -98,8 +98,30 @@ CLAUDE_PROJECT_DIR=$(pwd) .claude/hooks/pre_compact_cleanup.sh
 
 ## Utility Scripts
 
-| Script                   | Purpose                        |
-| ------------------------ | ------------------------------ |
-| `checkpoint_state.sh`    | Create/manage task checkpoints |
-| `restore_checkpoint.sh`  | Restore checkpoint state       |
-| `check_context_usage.sh` | Monitor context usage          |
+Available for manual execution (not auto-triggered):
+
+| Script                            | Purpose                                  |
+| --------------------------------- | ---------------------------------------- |
+| `archive_old_checkpoints.py`      | Archive old checkpoint files             |
+| `auto_format.py`                  | Auto-format code files                   |
+| `auto_validate.py`                | Validate project structure               |
+| `check_context_usage.sh`          | Monitor context usage                    |
+| `check_dependencies.sh`           | Check project dependencies               |
+| `check_not_implemented.sh`        | Find not-implemented code                |
+| `check_report_proliferation.py`   | Monitor agent output proliferation       |
+| `checkpoint_state.sh`             | Create/manage task checkpoints           |
+| `cleanup_completed_workflows.sh`  | Clean completed workflow files           |
+| `cleanup_stale_files.py`          | Clean stale project files                |
+| `generate_settings.py`            | Generate settings configuration          |
+| `init_agent_registry.sh`          | Initialize agent registry                |
+| `lint_todos.py`                   | Lint TODO items                          |
+| `manage_agent_registry.py`        | Manage agent state registry              |
+| `pre_commit_config_validate.sh`   | Validate pre-commit config               |
+| `pre_commit_version_check.sh`     | Check versions in pre-commit             |
+| `python_quality_enforce.py`       | Python quality enforcement               |
+| `python_type_check.py`            | Python type checking                     |
+| `restore_checkpoint.sh`           | Restore checkpoint state                 |
+| `validate_config_consistency.py`  | Validate configuration consistency       |
+| `validate_file_locations.py`      | Validate file locations against SSOT     |
+| `validate_incomplete_features.py` | Check incomplete features manifest       |
+| `validate_ssot.py`                | Validate single source of truth patterns |
