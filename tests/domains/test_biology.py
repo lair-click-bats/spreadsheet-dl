@@ -17,20 +17,15 @@ from spreadsheet_dl.domains.biology import (
     BradfordAssayFormula,
     ConcentrationFormula,
     DilutionFactorFormula,
-    EcologyFieldDataTemplate,
     EnzymeActivityFormula,
-    ExperimentProtocolTemplate,
     FASTAImporter,
     FoldChangeFormula,
     GCContentFormula,
     GenBankImporter,
-    GeneExpressionTemplate,
     MeltingTempFormula,
     MichaelisMentenFormula,
-    PlateReaderDataTemplate,
     PlateReaderImporter,
     PopulationGrowthFormula,
-    SequencingResultsTemplate,
     ShannonDiversityFormula,
     SimpsonIndexFormula,
     SpeciesRichnessFormula,
@@ -65,13 +60,6 @@ def test_plugin_initialization() -> None:
     """Test plugin initialization."""
     plugin = BiologyDomainPlugin()
     plugin.initialize()
-
-    # Verify templates registered (5 total)
-    assert plugin.get_template("experiment_protocol") == ExperimentProtocolTemplate
-    assert plugin.get_template("plate_reader_data") == PlateReaderDataTemplate
-    assert plugin.get_template("gene_expression") == GeneExpressionTemplate
-    assert plugin.get_template("ecology_field_data") == EcologyFieldDataTemplate
-    assert plugin.get_template("sequencing_results") == SequencingResultsTemplate
 
     # Verify molecular biology formulas registered (4 total)
     assert plugin.get_formula("CONCENTRATION") == ConcentrationFormula
@@ -270,92 +258,6 @@ def test_population_growth_formula() -> None:
 
 
 # ============================================================================
-# Template Tests
-# ============================================================================
-
-
-def test_experiment_protocol_template() -> None:
-    """Test experiment protocol template generation."""
-    template = ExperimentProtocolTemplate(
-        protocol_name="PCR Amplification",
-        purpose="Amplify target gene for sequencing",
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "Experiment Protocol"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_plate_reader_data_template() -> None:
-    """Test plate reader data template generation."""
-    template = PlateReaderDataTemplate(
-        assay_name="ELISA",
-        plate_format=96,
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "Plate Reader Data"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_gene_expression_template() -> None:
-    """Test gene expression template generation."""
-    template = GeneExpressionTemplate(
-        experiment_name="Stress Response Study",
-        num_genes=20,
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "Gene Expression"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_ecology_field_data_template() -> None:
-    """Test ecology field data template generation."""
-    template = EcologyFieldDataTemplate(
-        site_name="Forest Plot A",
-        num_species=50,
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "Ecology Field Data"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_sequencing_results_template() -> None:
-    """Test sequencing results template generation."""
-    template = SequencingResultsTemplate(
-        project_name="Genome Sequencing",
-        num_samples=12,
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "Sequencing Results"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_template_validation_failures() -> None:
-    """Test template validation with invalid parameters."""
-    # Invalid plate format
-    template = PlateReaderDataTemplate(plate_format=0)
-    assert template.validate() is False
-
-    # Invalid gene count
-    template2 = GeneExpressionTemplate(num_genes=0)
-    assert template2.validate() is False
-
-
-# ============================================================================
 # Importer Tests
 # ============================================================================
 
@@ -491,24 +393,6 @@ def test_format_scientific_notation() -> None:
 # ============================================================================
 
 
-def test_full_workflow_gene_expression() -> None:
-    """Test complete workflow for gene expression analysis."""
-    # Initialize plugin
-    plugin = BiologyDomainPlugin()
-    plugin.initialize()
-
-    # Get template class
-    template_class = plugin.get_template("gene_expression")
-    assert template_class is not None
-
-    # Create template instance
-    template = template_class(experiment_name="Integration Test", num_genes=10)
-
-    # Generate spreadsheet
-    builder = template.generate()
-    assert builder is not None
-
-
 def test_formula_argument_validation() -> None:
     """Test formula argument validation."""
     formula = FoldChangeFormula()
@@ -548,15 +432,6 @@ def test_empty_sequence_gc_content() -> None:
     """Test GC content with empty sequence."""
     gc = calculate_gc_content("")
     assert gc == 0.0
-
-
-def test_plate_reader_96_vs_384() -> None:
-    """Test plate reader template with different formats."""
-    template_96 = PlateReaderDataTemplate(plate_format=96)
-    assert template_96.validate() is True
-
-    template_384 = PlateReaderDataTemplate(plate_format=384)
-    assert template_384.validate() is True
 
 
 def test_diversity_formulas_with_cell_references() -> None:

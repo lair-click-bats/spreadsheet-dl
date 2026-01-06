@@ -14,24 +14,19 @@ from pathlib import Path
 import pytest
 
 from spreadsheet_dl.domains.mechanical_engineering import (
-    AssemblyInstructionsTemplate,
     BendingStressFormula,
     CADMetadataImporter,
     FatigueLifeFormula,
     FEAResultsImporter,
-    ManufacturingSpecsTemplate,
     MaterialDatabaseImporter,
-    MaterialPropertiesTemplate,
     MechanicalEngineeringDomainPlugin,
     MomentOfInertiaFormula,
     SafetyFactorFormula,
     StrainFormula,
-    StressAnalysisTemplate,
     StressConcentrationFormula,
     StressFormula,
     ThermalExpansionFormula,
     ThermalStressFormula,
-    ToleranceStackupTemplate,
     TorsionalStressFormula,
     YoungsModulusFormula,
 )
@@ -75,13 +70,6 @@ def test_plugin_initialization() -> None:
     plugin = MechanicalEngineeringDomainPlugin()
     plugin.initialize()
 
-    # Verify templates registered (5 total)
-    assert plugin.get_template("stress_analysis") == StressAnalysisTemplate
-    assert plugin.get_template("material_properties") == MaterialPropertiesTemplate
-    assert plugin.get_template("assembly_instructions") == AssemblyInstructionsTemplate
-    assert plugin.get_template("tolerance_stackup") == ToleranceStackupTemplate
-    assert plugin.get_template("manufacturing_specs") == ManufacturingSpecsTemplate
-
     # Verify formulas registered (11 total)
     assert plugin.get_formula("STRESS") == StressFormula
     assert plugin.get_formula("STRAIN") == StrainFormula
@@ -114,137 +102,6 @@ def test_plugin_cleanup() -> None:
     plugin = MechanicalEngineeringDomainPlugin()
     plugin.initialize()
     plugin.cleanup()  # Should not raise
-
-
-# ============================================================================
-# Template Tests
-# ============================================================================
-
-
-def test_stress_analysis_template_metadata() -> None:
-    """Test StressAnalysisTemplate metadata."""
-    template = StressAnalysisTemplate()
-    metadata = template.metadata
-
-    assert metadata.name == "Stress Analysis"
-    assert "stress" in metadata.tags
-    assert metadata.category == "mechanical_engineering"
-
-
-def test_stress_analysis_template_generate() -> None:
-    """Test StressAnalysisTemplate generation."""
-    template = StressAnalysisTemplate(
-        analysis_name="Test Analysis",
-        num_load_cases=5,
-        yield_strength=250.0,
-    )
-
-    builder = template.generate()
-    assert builder is not None
-
-    # Check workbook properties
-    props = builder._workbook_properties
-    assert "Test Analysis" in props.title
-
-
-def test_stress_analysis_template_validation() -> None:
-    """Test StressAnalysisTemplate validation."""
-    template = StressAnalysisTemplate(num_load_cases=10)
-    assert template.validate() is True
-
-    # Invalid: zero load cases
-    invalid_template = StressAnalysisTemplate(num_load_cases=0)
-    assert invalid_template.validate() is False
-
-
-def test_material_properties_template_metadata() -> None:
-    """Test MaterialPropertiesTemplate metadata."""
-    template = MaterialPropertiesTemplate()
-    metadata = template.metadata
-
-    assert metadata.name == "Material Properties Database"
-    assert "materials" in metadata.tags
-
-
-def test_material_properties_template_generate() -> None:
-    """Test MaterialPropertiesTemplate generation."""
-    template = MaterialPropertiesTemplate(
-        num_materials=10,
-        include_presets=True,
-    )
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_material_properties_template_validation() -> None:
-    """Test MaterialPropertiesTemplate validation."""
-    template = MaterialPropertiesTemplate(num_materials=5)
-    assert template.validate() is True
-
-
-def test_assembly_instructions_template_metadata() -> None:
-    """Test AssemblyInstructionsTemplate metadata."""
-    template = AssemblyInstructionsTemplate()
-    metadata = template.metadata
-
-    assert metadata.name == "Assembly Instructions"
-    assert "assembly" in metadata.tags
-
-
-def test_assembly_instructions_template_generate() -> None:
-    """Test AssemblyInstructionsTemplate generation."""
-    template = AssemblyInstructionsTemplate(
-        assembly_name="Motor Assembly",
-        num_steps=8,
-    )
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_tolerance_stackup_template_metadata() -> None:
-    """Test ToleranceStackupTemplate metadata."""
-    template = ToleranceStackupTemplate()
-    metadata = template.metadata
-
-    assert metadata.name == "Tolerance Stackup Analysis"
-    assert "tolerance" in metadata.tags
-
-
-def test_tolerance_stackup_template_generate() -> None:
-    """Test ToleranceStackupTemplate generation."""
-    template = ToleranceStackupTemplate(
-        analysis_name="Gap Analysis",
-        num_dimensions=6,
-        target_dimension=10.0,
-        tolerance_spec=0.5,
-    )
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_manufacturing_specs_template_metadata() -> None:
-    """Test ManufacturingSpecsTemplate metadata."""
-    template = ManufacturingSpecsTemplate()
-    metadata = template.metadata
-
-    assert metadata.name == "Manufacturing Specifications"
-    assert "manufacturing" in metadata.tags
-
-
-def test_manufacturing_specs_template_generate() -> None:
-    """Test ManufacturingSpecsTemplate generation."""
-    template = ManufacturingSpecsTemplate(
-        part_name="Shaft",
-        part_number="SH-001",
-        revision="B",
-        num_features=10,
-    )
-
-    builder = template.generate()
-    assert builder is not None
 
 
 # ============================================================================
@@ -706,31 +563,17 @@ def test_full_plugin_workflow() -> None:
     plugin = MechanicalEngineeringDomainPlugin()
     plugin.initialize()
 
-    # Get template and generate
-    template_class = plugin.get_template("stress_analysis")
-    assert template_class is not None
+    # Get formula and use it
+    formula_class = plugin.get_formula("STRESS")
+    assert formula_class is not None
 
-    template = template_class(analysis_name="Integration Test")
-    builder = template.generate()
-    assert builder is not None
+    formula = formula_class()
+    result = formula.build("1000", "100")
+    assert result is not None
 
     # Validate and cleanup
     assert plugin.validate() is True
     plugin.cleanup()
-
-
-def test_template_with_builder_integration() -> None:
-    """Test template integration with SpreadsheetBuilder."""
-    template = StressAnalysisTemplate(
-        analysis_name="Builder Test",
-        num_load_cases=3,
-    )
-
-    builder = template.generate()
-    assert builder is not None
-
-    # Verify builder has content
-    assert len(builder._sheets) > 0
 
 
 # ============================================================================
@@ -810,43 +653,3 @@ def test_principal_stresses_3d_with_shear() -> None:
     # With shear, uses approximation
     assert sigma_1 > 0
     assert sigma_3 <= min(100, 50, 25)
-
-
-def test_assembly_instructions_validation() -> None:
-    """Test AssemblyInstructionsTemplate validation."""
-    template = AssemblyInstructionsTemplate(num_steps=5, assembly_name="Test")
-    assert template.validate() is True
-
-    # Invalid: zero steps
-    invalid = AssemblyInstructionsTemplate(num_steps=0)
-    assert invalid.validate() is False
-
-    # Invalid: empty name
-    invalid2 = AssemblyInstructionsTemplate(assembly_name="")
-    assert invalid2.validate() is False
-
-
-def test_tolerance_stackup_validation() -> None:
-    """Test ToleranceStackupTemplate validation."""
-    template = ToleranceStackupTemplate(num_dimensions=5, tolerance_spec=0.1)
-    assert template.validate() is True
-
-    # Invalid: zero spec
-    invalid = ToleranceStackupTemplate(tolerance_spec=0)
-    assert invalid.validate() is False
-
-
-def test_manufacturing_specs_validation() -> None:
-    """Test ManufacturingSpecsTemplate validation."""
-    template = ManufacturingSpecsTemplate(
-        part_name="Shaft", part_number="SH-001", num_features=5
-    )
-    assert template.validate() is True
-
-    # Invalid: empty part name
-    invalid = ManufacturingSpecsTemplate(part_name="", part_number="SH-001")
-    assert invalid.validate() is False
-
-    # Invalid: empty part number
-    invalid2 = ManufacturingSpecsTemplate(part_name="Shaft", part_number="")
-    assert invalid2.validate() is False

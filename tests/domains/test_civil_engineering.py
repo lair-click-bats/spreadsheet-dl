@@ -18,23 +18,18 @@ from spreadsheet_dl.domains.civil_engineering import (
     BuildingCodesImporter,
     CivilEngineeringDomainPlugin,
     ConcreteMix,
-    ConcreteMixTemplate,
     ConcreteStrengthFormula,
     CrackWidthFormula,
     DeadLoadFormula,
     LiveLoadFormula,
-    LoadCalculationsTemplate,
     LoadCombination,
     LoadCombinationCode,
-    MaterialTakeoffTemplate,
     MomentFormula,
     ReinforcementRatioFormula,
     SeismicLoadFormula,
     SettlementFormula,
     ShearStressFormula,
-    SiteSurveyTemplate,
     SoilPressureFormula,
-    StructuralAnalysisTemplate,
     StructuralResultsImporter,
     SurveyDataImporter,
     WindLoadFormula,
@@ -78,13 +73,6 @@ def test_plugin_initialization() -> None:
     """Test plugin initialization."""
     plugin = CivilEngineeringDomainPlugin()
     plugin.initialize()
-
-    # Verify templates registered (5 total)
-    assert plugin.get_template("load_calculations") == LoadCalculationsTemplate
-    assert plugin.get_template("material_takeoff") == MaterialTakeoffTemplate
-    assert plugin.get_template("structural_analysis") == StructuralAnalysisTemplate
-    assert plugin.get_template("site_survey") == SiteSurveyTemplate
-    assert plugin.get_template("concrete_mix") == ConcreteMixTemplate
 
     # Verify formulas registered (13 total)
     # Beam formulas
@@ -291,96 +279,6 @@ def test_seismic_load_formula() -> None:
 
     result = formula.build("0.15", "10000")
     assert result == "0.15*10000"
-
-
-# ============================================================================
-# Template Tests
-# ============================================================================
-
-
-def test_load_calculations_template() -> None:
-    """Test load calculations template generation."""
-    template = LoadCalculationsTemplate(
-        project_name="Test Bridge",
-        num_load_cases=10,
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "Load Calculations"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_material_takeoff_template() -> None:
-    """Test material takeoff template generation."""
-    template = MaterialTakeoffTemplate(
-        project_name="Test Building",
-        num_items=15,
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "Material Takeoff"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_structural_analysis_template() -> None:
-    """Test structural analysis template generation."""
-    template = StructuralAnalysisTemplate(
-        project_name="Test Structure",
-        num_members=20,
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "Structural Analysis"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_site_survey_template() -> None:
-    """Test site survey template generation."""
-    template = SiteSurveyTemplate(
-        project_name="Test Site",
-        num_points=30,
-        datum="WGS84",
-        coordinate_system="UTM Zone 10N",
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "Site Survey"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_concrete_mix_template() -> None:
-    """Test concrete mix design template generation."""
-    template = ConcreteMixTemplate(
-        mix_id="C30/37",
-        target_strength=30.0,
-        slump=100,
-        max_aggregate_size=20,
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "Concrete Mix Design"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_template_validation_failures() -> None:
-    """Test template validation with invalid parameters."""
-    # Invalid load cases
-    template = LoadCalculationsTemplate(num_load_cases=0)
-    assert template.validate() is False
-
-    # Invalid concrete strength
-    template2 = ConcreteMixTemplate(target_strength=0)
-    assert template2.validate() is False
 
 
 # ============================================================================
@@ -603,25 +501,20 @@ def test_beam_self_weight() -> None:
 # ============================================================================
 
 
-def test_full_workflow_load_calculations() -> None:
-    """Test complete workflow for load calculations."""
+def test_full_workflow_formulas() -> None:
+    """Test complete workflow for formulas."""
     # Initialize plugin
     plugin = CivilEngineeringDomainPlugin()
     plugin.initialize()
 
-    # Get template class
-    template_class = plugin.get_template("load_calculations")
-    assert template_class is not None
+    # Get formula class
+    formula_class = plugin.get_formula("BEAM_DEFLECTION")
+    assert formula_class is not None
 
-    # Create template instance
-    template = template_class(project_name="Integration Test", num_load_cases=5)
-
-    # Generate spreadsheet
-    builder = template.generate()
-    assert builder is not None
-
-    # Could save to file here if needed
-    # builder.save("/tmp/test_load_calc.ods")
+    # Create formula instance and use it
+    formula = formula_class()
+    result = formula.build("10", "5000", "200000", "8.33e6")
+    assert result is not None
 
 
 def test_formula_argument_validation() -> None:

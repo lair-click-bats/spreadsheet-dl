@@ -18,22 +18,17 @@ from typing import TYPE_CHECKING
 import pytest
 
 from spreadsheet_dl.domains.data_science import (
-    ABTestResultsTemplate,
     AccuracyFormula,
-    AnalysisReportTemplate,
     AverageFormula,
     ChiSquareTestFormula,
     ConfusionMatrixMetricFormula,
     CorrelationFormula,
     DataScienceDomainPlugin,
-    DatasetCatalogTemplate,
-    ExperimentLogTemplate,
     F1ScoreFormula,
     FTestFormula,
     JupyterMetadataImporter,
     MedianFormula,
     MLflowImporter,
-    ModelComparisonTemplate,
     PrecisionFormula,
     RecallFormula,
     ScientificCSVImporter,
@@ -75,14 +70,6 @@ class TestDataScienceDomainPlugin:
         plugin = DataScienceDomainPlugin()
         plugin.initialize()
 
-        # Check templates registered
-        assert len(plugin.list_templates()) == 5
-        assert "experiment_log" in plugin.list_templates()
-        assert "dataset_catalog" in plugin.list_templates()
-        assert "analysis_report" in plugin.list_templates()
-        assert "ab_test_results" in plugin.list_templates()
-        assert "model_comparison" in plugin.list_templates()
-
         # Check formulas registered
         assert len(plugin.list_formulas()) >= 14
         assert "TTEST" in plugin.list_formulas()
@@ -107,158 +94,6 @@ class TestDataScienceDomainPlugin:
         plugin = DataScienceDomainPlugin()
         plugin.initialize()
         plugin.cleanup()  # Should not raise
-
-
-# ============================================================================
-# Template Tests
-# ============================================================================
-
-
-class TestExperimentLogTemplate:
-    """Test ExperimentLogTemplate."""
-
-    def test_template_metadata(self) -> None:
-        """Test template metadata."""
-        template = ExperimentLogTemplate()
-        metadata = template.metadata
-
-        assert metadata.name == "Experiment Log"
-        assert metadata.category == "data_science"
-        assert "ml" in metadata.tags
-
-    def test_template_generation(self) -> None:
-        """Test template generates spreadsheet."""
-        template = ExperimentLogTemplate(
-            project_name="Test Project",
-            metrics=["accuracy", "loss"],
-        )
-        builder = template.generate()
-
-        # Should have sheets
-        assert builder is not None
-        # Should not raise errors during generation
-
-    def test_template_with_hyperparams(self) -> None:
-        """Test template with hyperparameters."""
-        template = ExperimentLogTemplate(
-            include_hyperparams=True,
-        )
-        builder = template.generate()
-
-        assert builder is not None
-
-
-class TestDatasetCatalogTemplate:
-    """Test DatasetCatalogTemplate."""
-
-    def test_template_metadata(self) -> None:
-        """Test template metadata."""
-        template = DatasetCatalogTemplate()
-        metadata = template.metadata
-
-        assert metadata.name == "Dataset Catalog"
-        assert "datasets" in metadata.tags
-
-    def test_template_generation(self) -> None:
-        """Test template generates spreadsheet."""
-        template = DatasetCatalogTemplate(
-            organization="Test Org",
-        )
-        builder = template.generate()
-
-        assert builder is not None
-
-
-class TestAnalysisReportTemplate:
-    """Test AnalysisReportTemplate."""
-
-    def test_template_metadata(self) -> None:
-        """Test template metadata."""
-        template = AnalysisReportTemplate()
-        metadata = template.metadata
-
-        assert metadata.name == "Analysis Report"
-        assert "statistics" in metadata.tags
-
-    def test_template_generation(self) -> None:
-        """Test template generates spreadsheet."""
-        template = AnalysisReportTemplate(
-            analysis_name="Test Analysis",
-            variables=["age", "income", "score"],
-        )
-        builder = template.generate()
-
-        assert builder is not None
-
-    def test_template_with_correlation(self) -> None:
-        """Test template with correlation matrix."""
-        template = AnalysisReportTemplate(
-            include_correlation=True,
-        )
-        builder = template.generate()
-
-        assert builder is not None
-
-
-class TestABTestResultsTemplate:
-    """Test ABTestResultsTemplate."""
-
-    def test_template_metadata(self) -> None:
-        """Test template metadata."""
-        template = ABTestResultsTemplate()
-        metadata = template.metadata
-
-        assert metadata.name == "A/B Test Results"
-        assert "ab-test" in metadata.tags
-
-    def test_template_generation(self) -> None:
-        """Test template generates spreadsheet."""
-        template = ABTestResultsTemplate(
-            test_name="Homepage Test",
-            variants=["Control", "Variant A", "Variant B"],
-        )
-        builder = template.generate()
-
-        assert builder is not None
-
-    def test_template_default_variants(self) -> None:
-        """Test template with default variants."""
-        template = ABTestResultsTemplate()
-
-        # Should have default variants
-        assert template.variants is not None
-        assert len(template.variants) >= 2
-
-
-class TestModelComparisonTemplate:
-    """Test ModelComparisonTemplate."""
-
-    def test_template_metadata(self) -> None:
-        """Test template metadata."""
-        template = ModelComparisonTemplate()
-        metadata = template.metadata
-
-        assert metadata.name == "Model Comparison"
-        assert "models" in metadata.tags
-
-    def test_template_generation(self) -> None:
-        """Test template generates spreadsheet."""
-        template = ModelComparisonTemplate(
-            project_name="Image Classification",
-            models=["ResNet50", "VGG16"],
-        )
-        builder = template.generate()
-
-        assert builder is not None
-
-    def test_template_with_confusion_matrix(self) -> None:
-        """Test template with confusion matrices."""
-        template = ModelComparisonTemplate(
-            include_confusion_matrix=True,
-        )
-        builder = template.generate()
-
-        assert builder is not None
 
 
 # ============================================================================
@@ -797,21 +632,6 @@ class TestUtilities:
 
 class TestIntegration:
     """Integration tests for data science domain."""
-
-    def test_plugin_template_integration(self) -> None:
-        """Test plugin can retrieve and use templates."""
-        plugin = DataScienceDomainPlugin()
-        plugin.initialize()
-
-        # Get template class
-        template_class = plugin.get_template("experiment_log")
-        assert template_class is not None
-
-        # Create template instance
-        template = template_class(project_name="Integration Test")
-        builder = template.generate()
-
-        assert builder is not None
 
     def test_plugin_formula_integration(self) -> None:
         """Test plugin can retrieve and use formulas."""

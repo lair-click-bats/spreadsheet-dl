@@ -13,7 +13,6 @@ import pytest
 
 from spreadsheet_dl.domains.electrical_engineering import (
     BandwidthFormula,
-    BOMTemplate,
     CapacitanceFormula,
     CurrentCalcFormula,
     EagleBOMImporter,
@@ -23,14 +22,10 @@ from spreadsheet_dl.domains.electrical_engineering import (
     KiCadBOMImporter,
     KiCadComponent,
     ParallelResistanceFormula,
-    PinMappingTemplate,
-    PowerBudgetTemplate,
     PowerDissipationFormula,
-    ProcedureTemplate,
     PropagationDelayFormula,
     RiseTimeFormula,
     SeriesResistanceFormula,
-    SignalRoutingTemplate,
     SignalToNoiseRatioFormula,
     ThermalResistanceFormula,
     VoltageDropFormula,
@@ -70,13 +65,6 @@ def test_plugin_initialization() -> None:
     """Test plugin initialization."""
     plugin = ElectricalEngineeringDomainPlugin()
     plugin.initialize()
-
-    # Verify templates registered
-    assert plugin.get_template("bom") == BOMTemplate
-    assert plugin.get_template("pin_mapping") == PinMappingTemplate
-    assert plugin.get_template("power_budget") == PowerBudgetTemplate
-    assert plugin.get_template("signal_routing") == SignalRoutingTemplate
-    assert plugin.get_template("test_procedure") == ProcedureTemplate
 
     # Verify formulas registered
     assert plugin.get_formula("POWER_DISSIPATION") == PowerDissipationFormula
@@ -262,68 +250,6 @@ def test_propagation_delay_formula() -> None:
 
     result = formula.build("100", "2e8")
     assert result == "100/2e8"
-
-
-# ============================================================================
-# Template Tests
-# ============================================================================
-
-
-def test_bom_template_renders() -> None:
-    """Test BOM template generates valid builder."""
-    template = BOMTemplate(project_name="Test Widget", revision="B", num_items=5)
-
-    # Test metadata
-    assert template.metadata.name == "Bill of Materials (BOM)"
-    assert "bom" in template.metadata.tags
-
-    # Test generation
-    builder = template.generate()
-    assert builder is not None
-
-    # Validate template
-    assert template.validate() is True
-
-
-def test_pin_mapping_template_renders() -> None:
-    """Test pin mapping template generates valid builder."""
-    template = PinMappingTemplate(project_name="Main Board", num_pins=10)
-
-    assert template.metadata.name == "Pin Mapping"
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_power_budget_template_renders() -> None:
-    """Test power budget template generates valid builder."""
-    template = PowerBudgetTemplate(
-        project_name="IoT Device", total_budget_mw=5000, num_components=10
-    )
-
-    assert template.metadata.name == "Power Budget"
-    builder = template.generate()
-    assert builder is not None
-    assert template.validate() is True
-
-
-def test_signal_routing_template_renders() -> None:
-    """Test signal routing template generates valid builder."""
-    template = SignalRoutingTemplate(project_name="PCB Rev A", num_signals=15)
-
-    assert template.metadata.name == "Signal Routing"
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_test_procedure_template_renders() -> None:
-    """Test test procedure template generates valid builder."""
-    template = ProcedureTemplate(
-        project_name="Hardware Test", test_suite="Functional Tests", num_test_steps=10
-    )
-
-    assert template.metadata.name == "Test Procedure"
-    builder = template.generate()
-    assert builder is not None
 
 
 # ============================================================================
@@ -592,17 +518,6 @@ def test_formula_validation_errors() -> None:
         formula.build("5", "0.1", "extra")
 
 
-def test_template_validation() -> None:
-    """Test template validation."""
-    # Invalid configuration
-    template = BOMTemplate(project_name="", num_items=0)
-    assert template.validate() is False
-
-    # Valid configuration
-    template = BOMTemplate(project_name="Test", num_items=10)
-    assert template.validate() is True
-
-
 def test_importer_invalid_file() -> None:
     """Test importer with invalid file."""
     importer = KiCadBOMImporter()
@@ -634,61 +549,38 @@ def test_kicad_component_dataclass() -> None:
 
 
 def test_full_workflow() -> None:
-    """Test complete workflow: plugin -> template -> builder."""
+    """Test complete workflow: plugin -> formulas."""
     # Initialize plugin
     plugin = ElectricalEngineeringDomainPlugin()
     plugin.initialize()
 
-    # Get template
-    template_class = plugin.get_template("bom")
-    assert template_class is not None
+    # Get formula
+    formula_class = plugin.get_formula("POWER_DISSIPATION")
+    assert formula_class is not None
 
     # Create instance
-    template = template_class(project_name="Integration Test", num_items=5)
+    formula = formula_class()
 
-    # Generate builder
-    builder = template.generate()
-    assert builder is not None
+    # Use formula
+    result = formula.build("5", "0.1")
+    assert result is not None
 
     # Cleanup
     plugin.cleanup()
 
 
-def test_formula_in_template_context() -> None:
-    """Test using formulas in template context."""
+def test_formula_with_cell_references() -> None:
+    """Test using formulas with cell references."""
     formula = PowerDissipationFormula()
 
     # Formulas should work with cell references
     result = formula.build("B2", "C2")
     assert result == "B2*C2"
 
-    # Could be used in template generation
-    template = PowerBudgetTemplate(num_components=5)
-    builder = template.generate()
-    assert builder is not None
-
 
 # ============================================================================
 # Coverage Boosters
 # ============================================================================
-
-
-def test_all_templates_have_metadata() -> None:
-    """Ensure all templates have proper metadata."""
-    templates = [
-        BOMTemplate,
-        PinMappingTemplate,
-        PowerBudgetTemplate,
-        SignalRoutingTemplate,
-        ProcedureTemplate,
-    ]
-
-    for template_class in templates:
-        template = template_class()
-        metadata = template.metadata
-        assert metadata.name
-        assert metadata.category == "electrical_engineering"
-        assert len(metadata.tags) > 0
 
 
 def test_all_formulas_have_metadata() -> None:

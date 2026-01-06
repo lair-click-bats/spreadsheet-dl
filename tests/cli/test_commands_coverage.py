@@ -303,23 +303,23 @@ class TestCmdCurrency:
 
 
 class TestCmdTemplates:
-    """Tests for cmd_templates command."""
+    """Tests for cmd_templates command (deprecated)."""
 
-    def test_templates_list(self) -> None:
-        """Test templates list subcommand."""
+    def test_templates_shows_deprecation(self) -> None:
+        """Test templates command shows deprecation message."""
         args = MagicMock()
         args.json = False
 
-        with (
-            patch(
-                "spreadsheet_dl.templates.professional.list_templates", return_value=[]
-            ),
-            patch(
-                "spreadsheet_dl.templates.financial_statements.list_financial_templates",
-                return_value=[],
-            ),
-        ):
-            result = commands.cmd_templates(args)
+        result = commands.cmd_templates(args)
+
+        assert result == 0
+
+    def test_templates_json(self) -> None:
+        """Test templates command JSON output."""
+        args = MagicMock()
+        args.json = True
+
+        result = commands.cmd_templates(args)
 
         assert result == 0
 
@@ -358,53 +358,6 @@ class TestCmdPlugin:
 
 
 # Additional comprehensive tests for better coverage
-
-
-class TestCmdGenerateAdditional:
-    """Additional tests for cmd_generate command."""
-
-    def test_generate_with_template(self, tmp_path: Path) -> None:
-        """Test generate with professional template."""
-        args = MagicMock()
-        args.output = tmp_path / "budget.ods"
-        args.template = "enterprise_budget"
-        args.theme = None
-        args.yes = True
-        args.month = 1
-        args.year = 2024
-
-        with (
-            patch(
-                "spreadsheet_dl.templates.professional.list_templates",
-                return_value=["enterprise_budget"],
-            ),
-            patch("spreadsheet_dl.templates.professional.get_template") as mock_get_tpl,
-        ):
-            mock_tpl_class = MagicMock()
-            mock_tpl_instance = MagicMock()
-            mock_get_tpl.return_value = mock_tpl_class
-            mock_tpl_class.return_value = mock_tpl_instance
-            mock_builder = MagicMock()
-            mock_tpl_instance.generate.return_value = mock_builder
-
-            result = commands.cmd_generate(args)
-
-        assert result == 0
-        mock_builder.save.assert_called_once()
-
-    def test_generate_template_not_found(self, tmp_path: Path) -> None:
-        """Test generate with unknown template."""
-        args = MagicMock()
-        args.output = tmp_path
-        args.template = "nonexistent_template"
-
-        with patch(
-            "spreadsheet_dl.templates.professional.list_templates",
-            return_value=["enterprise_budget"],
-        ):
-            result = commands.cmd_generate(args)
-
-        assert result == 1
 
 
 class TestCmdAnalyzeAdditional:

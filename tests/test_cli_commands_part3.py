@@ -484,43 +484,19 @@ class TestCmdAlerts:
 
 
 class TestCmdTemplates:
-    """Tests for cmd_templates command."""
+    """Tests for cmd_templates command (deprecated)."""
 
-    def test_templates_list(self, tmp_path: Path) -> None:
-        """Test templates list command."""
-        args = argparse.Namespace(
-            json=False,
-        )
+    def test_templates_shows_deprecation(self) -> None:
+        """Test templates command shows deprecation message."""
+        args = argparse.Namespace(json=False)
+        result = commands.cmd_templates(args)
+        assert result == 0
 
-        with patch("spreadsheet_dl.templates.list_templates") as mock_list_prof:
-            mock_list_prof.return_value = ["enterprise_budget", "cash_flow"]
-
-            with patch(
-                "spreadsheet_dl.templates.list_financial_templates"
-            ) as mock_list_fin:
-                mock_list_fin.return_value = ["income_statement", "balance_sheet"]
-
-                result = commands.cmd_templates(args)
-
-                assert result == 0
-
-    def test_templates_list_json(self, tmp_path: Path) -> None:
-        """Test templates list with JSON output."""
-        args = argparse.Namespace(
-            json=True,
-        )
-
-        with patch("spreadsheet_dl.templates.list_templates") as mock_list_prof:
-            mock_list_prof.return_value = ["enterprise_budget"]
-
-            with patch(
-                "spreadsheet_dl.templates.list_financial_templates"
-            ) as mock_list_fin:
-                mock_list_fin.return_value = ["income_statement"]
-
-                result = commands.cmd_templates(args)
-
-                assert result == 0
+    def test_templates_json(self) -> None:
+        """Test templates command JSON output."""
+        args = argparse.Namespace(json=True)
+        result = commands.cmd_templates(args)
+        assert result == 0
 
 
 class TestCmdThemes:

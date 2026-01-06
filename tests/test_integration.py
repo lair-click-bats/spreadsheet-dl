@@ -219,24 +219,6 @@ class TestRecurringIntegration:
         assert housing.percent_used == 100.0
 
 
-class TestProfessionalTemplates:
-    """Test professional templates integration."""
-
-    def test_enterprise_budget_template(self, tmp_path: Path) -> None:
-        """Test that enterprise budget template creates valid spreadsheet."""
-        from spreadsheet_dl.templates import get_template
-
-        template_cls = get_template("enterprise_budget")
-        assert template_cls is not None
-        template = template_cls()
-        builder = template.generate()
-
-        output_path = tmp_path / "enterprise.ods"
-        builder.save(output_path)
-
-        assert output_path.exists()
-
-
 class TestAnalyticsIntegration:
     """Test analytics and dashboard integration."""
 

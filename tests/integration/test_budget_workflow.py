@@ -39,19 +39,6 @@ class TestBudgetCreationWorkflow:
 
         assert budget_path.exists()
 
-    def test_professional_template_workflow(self, tmp_path: Path) -> None:
-        """Test using professional templates."""
-        from spreadsheet_dl.templates.professional import get_template
-
-        template_cls = get_template("enterprise_budget")
-        if template_cls:
-            template = template_cls()
-            builder = template.generate()
-            output_path = tmp_path / "enterprise.ods"
-            builder.save(output_path)
-
-            assert output_path.exists()
-
 
 class TestExportImportRoundtrip:
     """Test export and import round-trip fidelity."""

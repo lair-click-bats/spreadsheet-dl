@@ -108,27 +108,6 @@ class TestCliGenerateWithTheme:
         assert "Using theme:" not in result.stdout  # No theme message
         assert "Created:" in result.stdout
 
-    def test_generate_with_template_and_theme(self, tmp_path: Path) -> None:
-        """Test generate with both template and theme."""
-        result = subprocess.run(
-            [
-                sys.executable,
-                "-m",
-                "spreadsheet_dl.cli",
-                "generate",
-                "-o",
-                str(tmp_path),
-                "-t",
-                "enterprise_budget",
-                "--theme",
-                "minimal",
-            ],
-            capture_output=True,
-            text=True,
-        )
-        assert result.returncode == 0
-        assert "Using professional template: enterprise_budget" in result.stdout
-
 
 class TestCliVersionOutput:
     """Tests for CLI version output."""

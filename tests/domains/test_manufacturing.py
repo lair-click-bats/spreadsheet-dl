@@ -13,7 +13,6 @@ from pathlib import Path
 import pytest
 
 from spreadsheet_dl.domains.manufacturing import (
-    BillOfMaterialsTemplate,
     CapacityUtilizationFormula,
     ControlLimitsFormula,
     CycleTimeFormula,
@@ -21,14 +20,10 @@ from spreadsheet_dl.domains.manufacturing import (
     EOQFormula,
     ERPDataImporter,
     FirstPassYieldFormula,
-    InventoryManagementTemplate,
     InventoryTurnoverFormula,
     ManufacturingDomainPlugin,
     MESDataImporter,
-    OEETrackingTemplate,
     ProcessCapabilityFormula,
-    ProductionScheduleTemplate,
-    QualityControlTemplate,
     ReorderPointFormula,
     SafetyStockFormula,
     SensorDataImporter,
@@ -70,13 +65,6 @@ def test_plugin_initialization() -> None:
     """Test plugin initialization."""
     plugin = ManufacturingDomainPlugin()
     plugin.initialize()
-
-    # Verify templates registered (5 total)
-    assert plugin.get_template("production_schedule") == ProductionScheduleTemplate
-    assert plugin.get_template("quality_control") == QualityControlTemplate
-    assert plugin.get_template("inventory_management") == InventoryManagementTemplate
-    assert plugin.get_template("oee_tracking") == OEETrackingTemplate
-    assert plugin.get_template("bill_of_materials") == BillOfMaterialsTemplate
 
     # Verify production metrics formulas registered (4 total)
     assert plugin.get_formula("CYCLE_TIME") == CycleTimeFormula
@@ -273,92 +261,6 @@ def test_inventory_turnover_formula() -> None:
 
 
 # ============================================================================
-# Template Tests
-# ============================================================================
-
-
-def test_production_schedule_template() -> None:
-    """Test production schedule template generation."""
-    template = ProductionScheduleTemplate(
-        facility_name="Assembly Line A",
-        num_products=10,
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "Production Schedule"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_quality_control_template() -> None:
-    """Test quality control template generation."""
-    template = QualityControlTemplate(
-        product_name="Widget A",
-        num_measurements=20,
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "Quality Control"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_inventory_management_template() -> None:
-    """Test inventory management template generation."""
-    template = InventoryManagementTemplate(
-        warehouse_name="Main Warehouse",
-        num_items=50,
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "Inventory Management"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_oee_tracking_template() -> None:
-    """Test OEE tracking template generation."""
-    template = OEETrackingTemplate(
-        equipment_name="CNC Machine 1",
-        num_shifts=3,
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "OEE Tracking"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_bill_of_materials_template() -> None:
-    """Test bill of materials template generation."""
-    template = BillOfMaterialsTemplate(
-        product_name="Finished Product",
-        num_components=15,
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "Bill of Materials"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_template_validation_failures() -> None:
-    """Test template validation with invalid parameters."""
-    # Invalid product count
-    template = ProductionScheduleTemplate(num_products=0)
-    assert template.validate() is False
-
-    # Invalid measurement count
-    template2 = QualityControlTemplate(num_measurements=0)
-    assert template2.validate() is False
-
-
-# ============================================================================
 # Importer Tests
 # ============================================================================
 
@@ -546,22 +448,20 @@ def test_parse_manufacturing_date() -> None:
 # ============================================================================
 
 
-def test_full_workflow_production() -> None:
-    """Test complete workflow for production scheduling."""
+def test_full_workflow_formulas() -> None:
+    """Test complete workflow for formulas."""
     # Initialize plugin
     plugin = ManufacturingDomainPlugin()
     plugin.initialize()
 
-    # Get template class
-    template_class = plugin.get_template("production_schedule")
-    assert template_class is not None
+    # Get formula class
+    formula_class = plugin.get_formula("CYCLE_TIME")
+    assert formula_class is not None
 
-    # Create template instance
-    template = template_class(facility_name="Integration Test", num_products=5)
-
-    # Generate spreadsheet
-    builder = template.generate()
-    assert builder is not None
+    # Create formula instance and use it
+    formula = formula_class()
+    result = formula.build("480", "120")
+    assert result is not None
 
 
 def test_formula_argument_validation() -> None:
@@ -665,16 +565,3 @@ def test_quality_control_spc_calculations() -> None:
 
     # Should include 3-sigma calculation
     assert "3" in result or "5" in result
-
-
-def test_bom_cost_rollup() -> None:
-    """Test bill of materials template with cost calculations."""
-    template = BillOfMaterialsTemplate(
-        product_name="Assembly",
-        num_components=5,
-        include_cost_rollup=True,
-    )
-
-    assert template.validate() is True
-    builder = template.generate()
-    assert builder is not None

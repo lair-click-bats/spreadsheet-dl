@@ -13,17 +13,13 @@ from pathlib import Path
 import pytest
 
 from spreadsheet_dl.domains.environmental import (
-    AirQualityMonitoringTemplate,
     AQICalculationFormula,
-    BiodiversityAssessmentTemplate,
     BODCalculationFormula,
     CarbonEquivalentFormula,
-    CarbonFootprintTemplate,
     EcologicalFootprintFormula,
     EmissionRateFormula,
     EnvironmentalDomainPlugin,
     EnvironmentalImpactScoreFormula,
-    EnvironmentalImpactTemplate,
     LabResultsImporter,
     PollutionIndexFormula,
     SatelliteDataImporter,
@@ -32,7 +28,6 @@ from spreadsheet_dl.domains.environmental import (
     SimpsonIndexFormula,
     SpeciesRichnessFormula,
     SustainabilityScoreFormula,
-    WaterQualityAnalysisTemplate,
     WaterQualityIndexFormula,
 )
 from spreadsheet_dl.domains.environmental.utils import (
@@ -70,15 +65,6 @@ def test_plugin_initialization() -> None:
     """Test plugin initialization."""
     plugin = EnvironmentalDomainPlugin()
     plugin.initialize()
-
-    # Verify templates registered (5 total)
-    assert plugin.get_template("air_quality_monitoring") == AirQualityMonitoringTemplate
-    assert plugin.get_template("water_quality_analysis") == WaterQualityAnalysisTemplate
-    assert plugin.get_template("carbon_footprint") == CarbonFootprintTemplate
-    assert (
-        plugin.get_template("biodiversity_assessment") == BiodiversityAssessmentTemplate
-    )
-    assert plugin.get_template("environmental_impact") == EnvironmentalImpactTemplate
 
     # Verify formulas registered (12 total)
     # Air quality formulas
@@ -369,92 +355,6 @@ def test_environmental_impact_score_with_probability() -> None:
 
 
 # ============================================================================
-# Template Tests
-# ============================================================================
-
-
-def test_air_quality_monitoring_template() -> None:
-    """Test air quality monitoring template generation."""
-    template = AirQualityMonitoringTemplate(
-        station_name="Downtown Station",
-        num_readings=24,
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "Air Quality Monitoring"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_water_quality_analysis_template() -> None:
-    """Test water quality analysis template generation."""
-    template = WaterQualityAnalysisTemplate(
-        site_name="River Sample Site",
-        num_samples=12,
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "Water Quality Analysis"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_carbon_footprint_template() -> None:
-    """Test carbon footprint template generation."""
-    template = CarbonFootprintTemplate(
-        organization_name="Test Corp",
-        reporting_year=2024,
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "Carbon Footprint"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_biodiversity_assessment_template() -> None:
-    """Test biodiversity assessment template generation."""
-    template = BiodiversityAssessmentTemplate(
-        site_name="Forest Reserve",
-        num_species=50,
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "Biodiversity Assessment"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_environmental_impact_template() -> None:
-    """Test environmental impact assessment template generation."""
-    template = EnvironmentalImpactTemplate(
-        project_name="Highway Extension",
-        num_impact_factors=10,
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "Environmental Impact Assessment"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_template_validation_failures() -> None:
-    """Test template validation with invalid parameters."""
-    # Invalid number of readings
-    template = AirQualityMonitoringTemplate(num_readings=0)
-    assert template.validate() is False
-
-    # Invalid number of species
-    template2 = BiodiversityAssessmentTemplate(num_species=0)
-    assert template2.validate() is False
-
-
-# ============================================================================
 # Importer Tests
 # ============================================================================
 
@@ -696,22 +596,20 @@ def test_format_concentration() -> None:
 # ============================================================================
 
 
-def test_full_workflow_air_quality() -> None:
-    """Test complete workflow for air quality monitoring."""
+def test_full_workflow_formulas() -> None:
+    """Test complete workflow for formulas."""
     # Initialize plugin
     plugin = EnvironmentalDomainPlugin()
     plugin.initialize()
 
-    # Get template class
-    template_class = plugin.get_template("air_quality_monitoring")
-    assert template_class is not None
+    # Get formula class
+    formula_class = plugin.get_formula("AQI_CALCULATION")
+    assert formula_class is not None
 
-    # Create template instance
-    template = template_class(station_name="Integration Test", num_readings=10)
-
-    # Generate spreadsheet
-    builder = template.generate()
-    assert builder is not None
+    # Create formula instance and use it
+    formula = formula_class()
+    result = formula.build("35.5")
+    assert result is not None
 
 
 def test_formula_argument_validation() -> None:

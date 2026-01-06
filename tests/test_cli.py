@@ -68,7 +68,7 @@ class TestGenerateCommand:
         assert "--output" in result.stdout
         assert "--month" in result.stdout
         assert "--year" in result.stdout
-        assert "--template" in result.stdout
+        assert "--theme" in result.stdout
 
     def test_generate_creates_file(self, tmp_path: Path) -> None:
         """Test generate creates an ODS file."""
@@ -88,36 +88,25 @@ class TestGenerateCommand:
         # Check correct filename
         assert (tmp_path / "budget_2025_06.ods").exists()
 
-    def test_generate_with_template(self, tmp_path: Path) -> None:
-        """Test generate with a professional template."""
-        result = run_cli("generate", "-o", str(tmp_path), "-t", "enterprise_budget")
-        assert result.returncode == 0
-        assert "Using professional template: enterprise_budget" in result.stdout
-
 
 class TestTemplatesCommand:
-    """Tests for templates command."""
+    """Tests for templates command (deprecated)."""
 
-    def test_templates_list(self) -> None:
-        """Test templates command lists templates."""
+    def test_templates_shows_deprecation(self) -> None:
+        """Test templates command shows deprecation message."""
         result = run_cli("templates")
         assert result.returncode == 0
-        assert "enterprise_budget" in result.stdout
-        assert "cash_flow" in result.stdout
-        assert "invoice" in result.stdout
+        assert "removed" in result.stdout.lower() or "examples" in result.stdout.lower()
 
     def test_templates_json(self) -> None:
-        """Test templates --json output."""
+        """Test templates --json output shows deprecation."""
         result = run_cli("templates", "--json")
         assert result.returncode == 0
 
-        # Should be valid JSON
+        # Should be valid JSON with deprecation message
         data = json.loads(result.stdout)
-        assert isinstance(data, list)
-        assert len(data) > 0
-        assert "name" in data[0]
-        assert "category" in data[0]
-        assert "description" in data[0]
+        assert isinstance(data, dict)
+        assert "message" in data
 
 
 class TestConfigCommand:

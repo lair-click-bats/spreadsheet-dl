@@ -14,25 +14,20 @@ import pytest
 
 from spreadsheet_dl.domains.education import (
     AssessmentResultsImporter,
-    AssessmentRubricTemplate,
     AttendanceRateFormula,
     BloomTaxonomyLevelFormula,
     CompletionRateFormula,
     CorrelationFormula,
-    CourseGradebookTemplate,
     EducationDomainPlugin,
     GradeAverageFormula,
     GradebookExportImporter,
     GradeCurveFormula,
     LearningGainFormula,
-    LearningObjectivesTemplate,
-    LessonPlanTemplate,
     LMSDataImporter,
     MasteryLevelFormula,
     PercentileRankFormula,
     ReadabilityScoreFormula,
     StandardDeviationFormula,
-    StudentAttendanceTemplate,
     WeightedGradeFormula,
 )
 from spreadsheet_dl.domains.education.utils import (
@@ -68,13 +63,6 @@ def test_plugin_initialization() -> None:
     """Test plugin initialization."""
     plugin = EducationDomainPlugin()
     plugin.initialize()
-
-    # Verify templates registered (5 total)
-    assert plugin.get_template("course_gradebook") == CourseGradebookTemplate
-    assert plugin.get_template("lesson_plan") == LessonPlanTemplate
-    assert plugin.get_template("assessment_rubric") == AssessmentRubricTemplate
-    assert plugin.get_template("student_attendance") == StudentAttendanceTemplate
-    assert plugin.get_template("learning_objectives") == LearningObjectivesTemplate
 
     # Verify formulas registered (12 total)
     # Grade formulas
@@ -289,95 +277,6 @@ def test_readability_score_formula() -> None:
 
 
 # ============================================================================
-# Template Tests
-# ============================================================================
-
-
-def test_course_gradebook_template() -> None:
-    """Test course gradebook template generation."""
-    template = CourseGradebookTemplate(
-        course_name="Introduction to Python",
-        num_students=30,
-        num_assignments=10,
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "Course Gradebook"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_lesson_plan_template() -> None:
-    """Test lesson plan template generation."""
-    template = LessonPlanTemplate(
-        subject="Mathematics",
-        grade_level="Grade 10",
-        duration_minutes=50,
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "Lesson Plan"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_assessment_rubric_template() -> None:
-    """Test assessment rubric template generation."""
-    template = AssessmentRubricTemplate(
-        assignment_name="Research Paper",
-        num_criteria=5,
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "Assessment Rubric"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_student_attendance_template() -> None:
-    """Test student attendance template generation."""
-    template = StudentAttendanceTemplate(
-        class_name="Period 3 Algebra",
-        num_students=28,
-        num_days=20,
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "Student Attendance"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_learning_objectives_template() -> None:
-    """Test learning objectives template generation."""
-    template = LearningObjectivesTemplate(
-        course_name="Biology 101",
-        num_objectives=8,
-    )
-
-    assert template.validate() is True
-    assert template.metadata.name == "Learning Objectives"
-
-    builder = template.generate()
-    assert builder is not None
-
-
-def test_template_validation_failures() -> None:
-    """Test template validation with invalid parameters."""
-    # Invalid number of students
-    template = CourseGradebookTemplate(num_students=0)
-    assert template.validate() is False
-
-    # Invalid number of criteria
-    template2 = AssessmentRubricTemplate(num_criteria=0)
-    assert template2.validate() is False
-
-
-# ============================================================================
 # Importer Tests
 # ============================================================================
 
@@ -565,22 +464,20 @@ def test_format_percentage() -> None:
 # ============================================================================
 
 
-def test_full_workflow_gradebook() -> None:
-    """Test complete workflow for gradebook."""
+def test_full_workflow_formulas() -> None:
+    """Test complete workflow for formulas."""
     # Initialize plugin
     plugin = EducationDomainPlugin()
     plugin.initialize()
 
-    # Get template class
-    template_class = plugin.get_template("course_gradebook")
-    assert template_class is not None
+    # Get formula class
+    formula_class = plugin.get_formula("GRADE_AVERAGE")
+    assert formula_class is not None
 
-    # Create template instance
-    template = template_class(course_name="Integration Test", num_students=5)
-
-    # Generate spreadsheet
-    builder = template.generate()
-    assert builder is not None
+    # Create formula instance and use it
+    formula = formula_class()
+    result = formula.build("A1:A10")
+    assert result is not None
 
 
 def test_formula_argument_validation() -> None:
@@ -698,20 +595,6 @@ def test_importer_error_handling() -> None:
         assert result.success in (True, False)
     finally:
         csv_path.unlink()
-
-
-def test_template_with_custom_weights() -> None:
-    """Test gradebook template with custom assignment weights."""
-    template = CourseGradebookTemplate(
-        course_name="Advanced Math",
-        num_students=25,
-        num_assignments=5,
-        weights={"assignments": 0.30, "midterm": 0.30, "final": 0.40},
-    )
-
-    assert template.validate() is True
-    builder = template.generate()
-    assert builder is not None
 
 
 def test_utils_edge_cases() -> None:
