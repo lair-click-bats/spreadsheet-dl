@@ -14,6 +14,7 @@ Provides MCP tools for:
 
 from __future__ import annotations
 
+from dataclasses import replace
 from typing import Any
 
 from spreadsheet_dl._mcp.models import MCPToolParameter, MCPToolResult
@@ -383,13 +384,13 @@ def _make_csv_import_handler(validate_path: Any) -> Any:
             from spreadsheet_dl.adapters import CsvAdapter
 
             adapter = CsvAdapter()
-            sheets = adapter.load(Path(csv_path), delimiter=delimiter)  # type: ignore[attr-defined]
+            sheets = adapter.load(Path(csv_path), delimiter=delimiter)
 
             if sheet and sheets:
-                sheets[0] = sheets[0]._replace(name=sheet)
+                sheets[0] = replace(sheets[0], name=sheet)
 
             # Save to target file
-            from spreadsheet_dl.renderer import render_ods  # type: ignore[attr-defined]
+            from spreadsheet_dl.renderer import render_ods
 
             render_ods(sheets, Path(file_path))
 
@@ -421,12 +422,12 @@ def _make_tsv_import_handler(validate_path: Any) -> Any:
             from spreadsheet_dl.adapters import TsvAdapter
 
             adapter = TsvAdapter()
-            sheets = adapter.load(Path(tsv_path))  # type: ignore[attr-defined]
+            sheets = adapter.load(Path(tsv_path))
 
             if sheet and sheets:
-                sheets[0] = sheets[0]._replace(name=sheet)
+                sheets[0] = replace(sheets[0], name=sheet)
 
-            from spreadsheet_dl.renderer import render_ods  # type: ignore[attr-defined]
+            from spreadsheet_dl.renderer import render_ods
 
             render_ods(sheets, Path(file_path))
 
@@ -457,12 +458,12 @@ def _make_json_import_handler(validate_path: Any) -> Any:
             from spreadsheet_dl.adapters import JsonAdapter
 
             adapter = JsonAdapter()
-            sheets = adapter.load(Path(json_path))  # type: ignore[attr-defined]
+            sheets = adapter.load(Path(json_path))
 
             if sheet and sheets:
-                sheets[0] = sheets[0]._replace(name=sheet)
+                sheets[0] = replace(sheets[0], name=sheet)
 
-            from spreadsheet_dl.renderer import render_ods  # type: ignore[attr-defined]
+            from spreadsheet_dl.renderer import render_ods
 
             render_ods(sheets, Path(file_path))
 
@@ -487,11 +488,10 @@ def _make_xlsx_import_handler(validate_path: Any) -> Any:
             from pathlib import Path
 
             from spreadsheet_dl.adapters import XlsxAdapter
+            from spreadsheet_dl.renderer import render_ods
 
             adapter = XlsxAdapter()
-            sheets = adapter.load(Path(xlsx_path))  # type: ignore[attr-defined]
-
-            from spreadsheet_dl.renderer import render_ods  # type: ignore[attr-defined]
+            sheets = adapter.load(Path(xlsx_path))
 
             render_ods(sheets, Path(file_path))
 
@@ -559,17 +559,17 @@ def _make_csv_export_handler(validate_path: Any) -> Any:
             path = validate_path(file_path)
             from pathlib import Path
 
-            from spreadsheet_dl.adapters import CsvAdapter
-            from spreadsheet_dl.ods_editor import OdsEditor
+            from spreadsheet_dl.adapters import CsvAdapter, OdsAdapter
 
-            editor = OdsEditor(path)
-            sheets = editor.get_sheets()  # type: ignore[attr-defined]
+            # Load ODS file to get SheetSpec objects
+            ods_adapter = OdsAdapter()
+            sheets = ods_adapter.load(path)
 
             if sheet:
                 sheets = [s for s in sheets if s.name == sheet]
 
             adapter = CsvAdapter()
-            adapter.save(sheets, Path(output_path), delimiter=delimiter)  # type: ignore[attr-defined]
+            adapter.save(sheets, Path(output_path), delimiter=delimiter)
 
             return MCPToolResult.json(
                 {
@@ -596,17 +596,17 @@ def _make_tsv_export_handler(validate_path: Any) -> Any:
             path = validate_path(file_path)
             from pathlib import Path
 
-            from spreadsheet_dl.adapters import TsvAdapter
-            from spreadsheet_dl.ods_editor import OdsEditor
+            from spreadsheet_dl.adapters import OdsAdapter, TsvAdapter
 
-            editor = OdsEditor(path)
-            sheets = editor.get_sheets()  # type: ignore[attr-defined]
+            # Load ODS file to get SheetSpec objects
+            ods_adapter = OdsAdapter()
+            sheets = ods_adapter.load(path)
 
             if sheet:
                 sheets = [s for s in sheets if s.name == sheet]
 
             adapter = TsvAdapter()
-            adapter.save(sheets, Path(output_path))  # type: ignore[attr-defined]
+            adapter.save(sheets, Path(output_path))
 
             return MCPToolResult.json(
                 {
@@ -632,17 +632,17 @@ def _make_json_export_handler(validate_path: Any) -> Any:
             path = validate_path(file_path)
             from pathlib import Path
 
-            from spreadsheet_dl.adapters import JsonAdapter
-            from spreadsheet_dl.ods_editor import OdsEditor
+            from spreadsheet_dl.adapters import JsonAdapter, OdsAdapter
 
-            editor = OdsEditor(path)
-            sheets = editor.get_sheets()  # type: ignore[attr-defined]
+            # Load ODS file to get SheetSpec objects
+            ods_adapter = OdsAdapter()
+            sheets = ods_adapter.load(path)
 
             if sheet:
                 sheets = [s for s in sheets if s.name == sheet]
 
             adapter = JsonAdapter()
-            adapter.save(sheets, Path(output_path))  # type: ignore[attr-defined]
+            adapter.save(sheets, Path(output_path))
 
             return MCPToolResult.json(
                 {
@@ -664,11 +664,12 @@ def _make_xlsx_export_handler(validate_path: Any) -> Any:
             path = validate_path(file_path)
             from pathlib import Path
 
-            from spreadsheet_dl.ods_editor import OdsEditor
+            from spreadsheet_dl.adapters import OdsAdapter
             from spreadsheet_dl.xlsx_renderer import render_xlsx
 
-            editor = OdsEditor(path)
-            sheets = editor.get_sheets()  # type: ignore[attr-defined]
+            # Load ODS file to get SheetSpec objects
+            ods_adapter = OdsAdapter()
+            sheets = ods_adapter.load(path)
 
             render_xlsx(sheets, Path(output_path))
 
@@ -697,17 +698,17 @@ def _make_html_export_handler(validate_path: Any) -> Any:
             path = validate_path(file_path)
             from pathlib import Path
 
-            from spreadsheet_dl.adapters import HtmlAdapter
-            from spreadsheet_dl.ods_editor import OdsEditor
+            from spreadsheet_dl.adapters import HtmlAdapter, OdsAdapter
 
-            editor = OdsEditor(path)
-            sheets = editor.get_sheets()  # type: ignore[attr-defined]
+            # Load ODS file to get SheetSpec objects
+            ods_adapter = OdsAdapter()
+            sheets = ods_adapter.load(path)
 
             if sheet:
                 sheets = [s for s in sheets if s.name == sheet]
 
             adapter = HtmlAdapter()
-            adapter.save(sheets, Path(output_path))  # type: ignore[attr-defined]
+            adapter.save(sheets, Path(output_path))
 
             return MCPToolResult.json(
                 {
@@ -762,7 +763,7 @@ def _make_batch_import_handler(validate_path: Any) -> Any:
             from pathlib import Path
 
             from spreadsheet_dl.adapters import AdapterRegistry
-            from spreadsheet_dl.renderer import render_ods  # type: ignore[attr-defined]
+            from spreadsheet_dl.renderer import render_ods
 
             source_list = json.loads(sources)
             all_sheets = []
@@ -771,8 +772,7 @@ def _make_batch_import_handler(validate_path: Any) -> Any:
 
             for source in source_list:
                 source_path = Path(source)
-                adapter = registry.get_adapter(source_path.suffix.lstrip("."))  # type: ignore[arg-type]
-                sheets = adapter.load(source_path)  # type: ignore[attr-defined]
+                sheets = registry.import_file(source_path)
                 all_sheets.extend(sheets)
 
             render_ods(all_sheets, Path(file_path))
@@ -799,14 +799,14 @@ def _make_batch_export_handler(validate_path: Any) -> Any:
             path = validate_path(file_path)
             from pathlib import Path
 
-            from spreadsheet_dl.adapters import AdapterRegistry
-            from spreadsheet_dl.ods_editor import OdsEditor
+            from spreadsheet_dl.adapters import AdapterRegistry, OdsAdapter
 
-            editor = OdsEditor(path)
-            sheets = editor.get_sheets()  # type: ignore[attr-defined]
+            # Load ODS file to get SheetSpec objects
+            ods_adapter = OdsAdapter()
+            sheets = ods_adapter.load(path)
 
             registry = AdapterRegistry()
-            adapter = registry.get_adapter(format)  # type: ignore[arg-type]
+            adapter = registry.get_adapter(format)
 
             output_path = Path(output_dir)
             output_path.mkdir(parents=True, exist_ok=True)
@@ -814,7 +814,7 @@ def _make_batch_export_handler(validate_path: Any) -> Any:
             exported = []
             for sheet in sheets:
                 sheet_file = output_path / f"{sheet.name}.{format}"
-                adapter.save([sheet], sheet_file)  # type: ignore[attr-defined]
+                adapter.save([sheet], sheet_file)
                 exported.append(str(sheet_file))
 
             return MCPToolResult.json(

@@ -50,6 +50,35 @@ class ImportFormat(Enum):
     JSON = "json"  # JSON data
 
 
+# Valid AdapterOptions fields for filtering kwargs
+_ADAPTER_OPTIONS_FIELDS = frozenset(
+    {
+        "include_headers",
+        "include_styles",
+        "include_formulas",
+        "include_charts",
+        "encoding",
+        "delimiter",
+        "quote_char",
+        "date_format",
+        "decimal_places",
+        "sheet_names",
+    }
+)
+
+
+def _filter_adapter_options_kwargs(kwargs: dict[str, Any]) -> dict[str, Any]:
+    """Filter kwargs to only include valid AdapterOptions fields.
+
+    Args:
+        kwargs: Dictionary of keyword arguments
+
+    Returns:
+        Filtered dictionary with only valid AdapterOptions fields
+    """
+    return {k: v for k, v in kwargs.items() if k in _ADAPTER_OPTIONS_FIELDS}
+
+
 @dataclass
 class AdapterOptions:
     """Configuration options for format adapters.
@@ -153,6 +182,92 @@ class FormatAdapter(ABC):
             List of imported sheet specifications
         """
         ...  # pragma: no cover
+
+    def load(
+        self,
+        input_path: Path,
+        options: AdapterOptions | None = None,
+        **kwargs: Any,
+    ) -> list[SheetSpec]:
+        """Load sheets from file (alias for import_file).
+
+        This is an alias for import_file() to provide a simpler API
+        for MCP tools and other consumers.
+
+        Args:
+            input_path: Input file path
+            options: Import options
+            **kwargs: Additional options (merged with options)
+
+        Returns:
+            List of imported sheet specifications
+        """
+        if kwargs:
+            filtered_kwargs = _filter_adapter_options_kwargs(kwargs)
+            if options is None:
+                options = AdapterOptions(**filtered_kwargs)
+            else:
+                # Merge kwargs into a new options object
+                opt_dict = {
+                    "include_headers": options.include_headers,
+                    "include_styles": options.include_styles,
+                    "include_formulas": options.include_formulas,
+                    "include_charts": options.include_charts,
+                    "encoding": options.encoding,
+                    "delimiter": options.delimiter,
+                    "quote_char": options.quote_char,
+                    "date_format": options.date_format,
+                    "decimal_places": options.decimal_places,
+                    "sheet_names": options.sheet_names,
+                }
+                opt_dict.update(filtered_kwargs)
+                options = AdapterOptions(**opt_dict)
+
+        return self.import_file(input_path, options)
+
+    def save(
+        self,
+        sheets: list[SheetSpec],
+        output_path: Path,
+        options: AdapterOptions | None = None,
+        **kwargs: Any,
+    ) -> Path:
+        """Save sheets to file (alias for export).
+
+        This is an alias for export() to provide a simpler API
+        for MCP tools and other consumers.
+
+        Args:
+            sheets: Sheet specifications to export
+            output_path: Output file path
+            options: Export options
+            **kwargs: Additional options (merged with options)
+
+        Returns:
+            Path to created file
+        """
+        if kwargs:
+            filtered_kwargs = _filter_adapter_options_kwargs(kwargs)
+            if options is None:
+                options = AdapterOptions(**filtered_kwargs)
+            else:
+                # Merge kwargs into a new options object
+                opt_dict = {
+                    "include_headers": options.include_headers,
+                    "include_styles": options.include_styles,
+                    "include_formulas": options.include_formulas,
+                    "include_charts": options.include_charts,
+                    "encoding": options.encoding,
+                    "delimiter": options.delimiter,
+                    "quote_char": options.quote_char,
+                    "date_format": options.date_format,
+                    "decimal_places": options.decimal_places,
+                    "sheet_names": options.sheet_names,
+                }
+                opt_dict.update(filtered_kwargs)
+                options = AdapterOptions(**opt_dict)
+
+        return self.export(sheets, output_path, options)
 
 
 class OdsAdapter(FormatAdapter):
@@ -1030,11 +1145,11 @@ class AdapterRegistry:
     }
 
     @classmethod
-    def get_adapter(cls, format: ExportFormat) -> FormatAdapter:
+    def get_adapter(cls, format: ExportFormat | str) -> FormatAdapter:
         """Get adapter instance for format.
 
         Args:
-            format: Export format
+            format: Export format (enum or string like 'csv', 'xlsx')
 
         Returns:
             FormatAdapter instance
@@ -1042,6 +1157,13 @@ class AdapterRegistry:
         Raises:
             ValueError: If format not supported
         """
+        # Convert string to enum if needed
+        if isinstance(format, str):
+            try:
+                format = ExportFormat(format.lower())
+            except ValueError:
+                raise ValueError(f"Unsupported format: {format}") from None
+
         adapter_class = cls._adapters.get(format)
         if adapter_class is None:
             raise ValueError(f"Unsupported format: {format}")
@@ -1166,7 +1288,8 @@ def export_to(
     if isinstance(format, str):
         format = ExportFormat(format)
 
-    options = AdapterOptions(**kwargs) if kwargs else None
+    filtered_kwargs = _filter_adapter_options_kwargs(kwargs)
+    options = AdapterOptions(**filtered_kwargs) if filtered_kwargs else None
     return AdapterRegistry.export(sheets, output_path, format, options)
 
 
@@ -1190,5 +1313,6 @@ def import_from(
     if isinstance(format, str):
         format = ImportFormat(format)
 
-    options = AdapterOptions(**kwargs) if kwargs else None
+    filtered_kwargs = _filter_adapter_options_kwargs(kwargs)
+    options = AdapterOptions(**filtered_kwargs) if filtered_kwargs else None
     return AdapterRegistry.import_file(input_path, format, options)

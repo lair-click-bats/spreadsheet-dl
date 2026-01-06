@@ -323,13 +323,13 @@ def _make_chart_create_handler(validate_path: Any) -> Any:
             from spreadsheet_dl.ods_editor import OdsEditor
 
             editor = OdsEditor(path)
-            chart_id = editor.create_chart(  # type: ignore[attr-defined]
-                sheet=sheet,
-                chart_type=chart_type,
-                data_range=data_range,
-                title=title,
-                position=position or "E1",
-            )
+            chart_spec = {
+                "type": chart_type,
+                "data_range": data_range,
+                "title": title,
+                "position": position or "E1",
+            }
+            chart_id = editor.create_chart(sheet, chart_spec)
             editor.save()
 
             return MCPToolResult.json(
@@ -362,7 +362,7 @@ def _make_chart_update_handler(validate_path: Any) -> Any:
 
             editor = OdsEditor(path)
             props = json.loads(properties)
-            editor.update_chart(sheet, chart_id, props)  # type: ignore[attr-defined]
+            editor.update_chart(sheet, chart_id, props)
             editor.save()
 
             return MCPToolResult.json(
@@ -391,7 +391,12 @@ def _make_cf_create_handler(validate_path: Any) -> Any:
 
             editor = OdsEditor(path)
             cfg = json.loads(config)
-            editor.add_conditional_format(sheet, range, rule_type, cfg)  # type: ignore[attr-defined]
+            cf_spec = {
+                "range": range,
+                "rule_type": rule_type,
+                "config": cfg,
+            }
+            editor.add_conditional_format(sheet, cf_spec)
             editor.save()
 
             return MCPToolResult.json(
@@ -425,7 +430,12 @@ def _make_validation_create_handler(validate_path: Any) -> Any:
 
             editor = OdsEditor(path)
             cfg = json.loads(config)
-            editor.add_data_validation(sheet, range, validation_type, cfg)  # type: ignore[attr-defined]
+            validation_spec = {
+                "range": range,
+                "type": validation_type,
+                "config": cfg,
+            }
+            editor.add_data_validation(sheet, validation_spec)
             editor.save()
 
             return MCPToolResult.json(
@@ -456,7 +466,7 @@ def _make_named_range_create_handler(validate_path: Any) -> Any:
             from spreadsheet_dl.ods_editor import OdsEditor
 
             editor = OdsEditor(path)
-            editor.create_named_range(name, sheet, range)  # type: ignore[attr-defined]
+            editor.create_named_range(name, range, sheet)
             editor.save()
 
             return MCPToolResult.json(
@@ -488,11 +498,14 @@ def _make_table_create_handler(validate_path: Any) -> Any:
             from spreadsheet_dl.ods_editor import OdsEditor
 
             editor = OdsEditor(path)
-            table_name = editor.create_table(  # type: ignore[attr-defined]
-                sheet=sheet,
-                range=range,
-                name=name,
-                has_headers=has_headers,
+            # create_table expects: sheet_name, range_ref, name, style
+            # Build fully qualified range reference
+            range_ref = f"{sheet}.{range}"
+            table_name = editor.create_table(
+                sheet_name=sheet,
+                range_ref=range_ref,
+                name=name or "Table1",
+                style=None,
             )
             editor.save()
 
@@ -519,7 +532,7 @@ def _make_query_select_handler(validate_path: Any) -> Any:
             from spreadsheet_dl.ods_editor import OdsEditor
 
             editor = OdsEditor(path)
-            results = editor.query_data(sheet, query)  # type: ignore[attr-defined]
+            results = editor.query_data(sheet, query)
 
             return MCPToolResult.json(
                 {"sheet": sheet, "query": query, "results": results}
@@ -541,7 +554,7 @@ def _make_query_find_handler(validate_path: Any) -> Any:
 
             editor = OdsEditor(path)
             crit = json.loads(criteria)
-            matches = editor.find_rows(sheet, crit)  # type: ignore[attr-defined]
+            matches = editor.find_rows(sheet, crit)
 
             return MCPToolResult.json(
                 {"sheet": sheet, "criteria": crit, "matches": matches}

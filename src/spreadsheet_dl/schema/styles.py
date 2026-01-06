@@ -250,6 +250,12 @@ class Color:
         darker = c1.darken(0.15)   # 15% darker
         muted = c1.desaturate(0.3)  # 30% less saturated
 
+        # Color schemes
+        comp = c1.complementary()      # 180 degrees on color wheel
+        ana1, ana2 = c1.analogous()    # +/-30 degrees
+        tri1, tri2 = c1.triadic()      # 120 degrees apart
+        sp1, sp2 = c1.split_complementary()  # 150/210 degrees
+
         # Accessibility
         ratio = c1.contrast_ratio(Color("#FFFFFF"))
         assert c1.is_wcag_aa(Color("#FFFFFF"))  # True if ratio >= 4.5
@@ -519,6 +525,113 @@ class Color:
         ratio = self.contrast_ratio(background)
         required = 4.5 if large_text else 7.0
         return ratio >= required
+
+    def rotate_hue(self, degrees: float) -> Color:
+        """Rotate the hue by a specified number of degrees.
+
+        Args:
+            degrees: Degrees to rotate (positive = clockwise)
+
+        Returns:
+            New Color with rotated hue
+        """
+        hue, saturation, lightness = self.to_hsl()
+        new_hue = (hue + degrees) % 360
+        return Color.from_hsl(new_hue, saturation, lightness)
+
+    def analogous(self) -> tuple[Color, Color]:
+        """Generate analogous colors (+/- 30 degrees on color wheel).
+
+        Analogous colors are adjacent on the color wheel and create
+        harmonious, cohesive color schemes.
+
+        Returns:
+            Tuple of (color at -30 degrees, color at +30 degrees)
+
+        Examples:
+            >>> blue = Color("#0000FF")
+            >>> ana1, ana2 = blue.analogous()
+            >>> # ana1 is blue-violet, ana2 is blue-green
+        """
+        return (self.rotate_hue(-30), self.rotate_hue(30))
+
+    def complementary(self) -> Color:
+        """Generate complementary color (180 degrees on color wheel).
+
+        Complementary colors are opposite on the color wheel and create
+        high-contrast, vibrant combinations.
+
+        Returns:
+            Complementary color
+
+        Examples:
+            >>> blue = Color("#0000FF")
+            >>> comp = blue.complementary()
+            >>> # comp is yellow/orange
+        """
+        return self.rotate_hue(180)
+
+    def triadic(self) -> tuple[Color, Color]:
+        """Generate triadic colors (120 degrees apart).
+
+        Triadic colors are evenly spaced around the color wheel,
+        creating balanced, vibrant color schemes.
+
+        Returns:
+            Tuple of (color at +120 degrees, color at +240 degrees)
+
+        Examples:
+            >>> red = Color("#FF0000")
+            >>> tri1, tri2 = red.triadic()
+            >>> # tri1 is green, tri2 is blue
+        """
+        return (self.rotate_hue(120), self.rotate_hue(240))
+
+    def split_complementary(self) -> tuple[Color, Color]:
+        """Generate split complementary colors (150 and 210 degrees).
+
+        Split complementary uses colors adjacent to the complement,
+        providing high contrast with less tension than complementary.
+
+        Returns:
+            Tuple of (color at +150 degrees, color at +210 degrees)
+
+        Examples:
+            >>> blue = Color("#0000FF")
+            >>> sp1, sp2 = blue.split_complementary()
+            >>> # sp1 and sp2 are yellow-orange variants
+        """
+        return (self.rotate_hue(150), self.rotate_hue(210))
+
+    def tetradic(self) -> tuple[Color, Color, Color]:
+        """Generate tetradic (rectangular) colors (90, 180, 270 degrees).
+
+        Tetradic colors form a rectangle on the color wheel,
+        offering rich variety while maintaining balance.
+
+        Returns:
+            Tuple of three colors at 90, 180, and 270 degrees
+
+        Examples:
+            >>> red = Color("#FF0000")
+            >>> t1, t2, t3 = red.tetradic()
+            >>> # Returns yellow-green, cyan, and blue-violet
+        """
+        return (self.rotate_hue(90), self.rotate_hue(180), self.rotate_hue(270))
+
+    def square(self) -> tuple[Color, Color, Color]:
+        """Generate square colors (90 degrees apart).
+
+        Square colors are evenly spaced at 90-degree intervals,
+        creating bold, dynamic color schemes.
+
+        Returns:
+            Tuple of three colors at 90, 180, and 270 degrees
+
+        Note:
+            Same as tetradic() - both produce colors at 90-degree intervals.
+        """
+        return self.tetradic()
 
     def __str__(self) -> str:
         """Return string representation."""

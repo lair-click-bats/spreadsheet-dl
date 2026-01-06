@@ -1162,8 +1162,8 @@ class OdsRenderer:
         chart_style.addElement(graphic_props)
 
         # Add style to document's automatic styles
-        if hasattr(self, "doc") and self.doc:
-            self.doc.automaticstyles.addElement(chart_style)
+        if self._doc is not None:
+            self._doc.automaticstyles.addElement(chart_style)
 
         # Apply style to series element
         series_elem.setAttribute("stylename", style_name)
@@ -1572,6 +1572,44 @@ def render_sheets(
     return renderer.render(
         sheets,
         Path(output_path),
+        named_ranges,
+        charts,
+        conditional_formats,
+        validations,
+    )
+
+
+# Alias for render_ods (used by MCP tools)
+def render_ods(
+    sheets: list[SheetSpec],
+    output_path: Path | str,
+    theme: Theme | None = None,
+    named_ranges: list[NamedRangeSpec] | None = None,
+    charts: list[ChartSpec] | None = None,
+    conditional_formats: list[ConditionalFormat] | None = None,
+    validations: list[ValidationConfig] | None = None,
+) -> Path:
+    """Render sheets to ODS file.
+
+    This is an alias for render_sheets() for backward compatibility
+    with MCP tools that expect the render_ods function name.
+
+    Args:
+        sheets: Sheet specifications
+        output_path: Output file path
+        theme: Optional theme
+        named_ranges: Optional named ranges
+        charts: Optional chart specifications
+        conditional_formats: Optional conditional formats
+        validations: Optional data validations
+
+    Returns:
+        Path to created file
+    """
+    return render_sheets(
+        sheets,
+        output_path,
+        theme,
         named_ranges,
         charts,
         conditional_formats,

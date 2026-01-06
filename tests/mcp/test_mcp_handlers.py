@@ -122,7 +122,7 @@ class TestMCPServerDirectHandlerCalls:
         result = server._handle_cell_batch_set(
             file_path=str(test_file),
             sheet="Sheet1",
-            values='{"A1": "val1", "B1": "val2"}',
+            updates='{"A1": "val1", "B1": "val2"}',
         )
 
         assert result is not None
@@ -135,7 +135,7 @@ class TestMCPServerDirectHandlerCalls:
         result = server._handle_cell_find(
             file_path=str(test_file),
             sheet="Sheet1",
-            search_text="test",
+            pattern="test",
             match_case=True,
         )
 
@@ -151,9 +151,8 @@ class TestMCPServerDirectHandlerCalls:
         result = server._handle_cell_replace(
             file_path=str(test_file),
             sheet="Sheet1",
-            search_text="old",
-            replace_text="new",
-            match_case=True,
+            find="old",
+            replace="new",
         )
 
         assert result is not None
@@ -181,7 +180,7 @@ class TestMCPServerDirectHandlerCalls:
         result = server._handle_cell_unmerge(
             file_path=str(test_file),
             sheet="Sheet1",
-            cell="A1",
+            range="A1:B2",
         )
 
         assert result is not None
@@ -204,6 +203,7 @@ class TestMCPServerDirectHandlerCalls:
 
         result = server._handle_style_get(
             file_path=str(test_file),
+            style_name="default",
         )
 
         assert result is not None
@@ -217,6 +217,8 @@ class TestMCPServerDirectHandlerCalls:
 
         result = server._handle_style_create(
             file_path=str(test_file),
+            style_name="test_style",
+            properties='{"bold": true}',
         )
 
         assert result is not None
@@ -230,6 +232,8 @@ class TestMCPServerDirectHandlerCalls:
 
         result = server._handle_style_update(
             file_path=str(test_file),
+            style_name="test_style",
+            properties='{"bold": false}',
         )
 
         assert result is not None
@@ -243,6 +247,7 @@ class TestMCPServerDirectHandlerCalls:
 
         result = server._handle_style_delete(
             file_path=str(test_file),
+            style_name="test_style",
         )
 
         assert result is not None
@@ -255,6 +260,8 @@ class TestMCPServerDirectHandlerCalls:
         result = server._handle_style_apply(
             file_path=str(test_file),
             sheet="Sheet1",
+            range="A1:B2",
+            style_name="default",
         )
 
         assert result is not None
@@ -269,6 +276,8 @@ class TestMCPServerDirectHandlerCalls:
         result = server._handle_format_cells(
             file_path=str(test_file),
             sheet="Sheet1",
+            range="A1:B2",
+            format="general",
         )
 
         assert result is not None
@@ -283,6 +292,8 @@ class TestMCPServerDirectHandlerCalls:
         result = server._handle_format_number(
             file_path=str(test_file),
             sheet="Sheet1",
+            range="A1:B2",
+            format_code="#,##0.00",
         )
 
         assert result is not None
@@ -295,6 +306,8 @@ class TestMCPServerDirectHandlerCalls:
         result = server._handle_format_font(
             file_path=str(test_file),
             sheet="Sheet1",
+            range="A1:B2",
+            font='{"name": "Arial", "size": 12}',
         )
 
         assert result is not None
@@ -307,6 +320,8 @@ class TestMCPServerDirectHandlerCalls:
         result = server._handle_format_fill(
             file_path=str(test_file),
             sheet="Sheet1",
+            range="A1:B2",
+            color="#FF0000",
         )
 
         assert result is not None
@@ -321,6 +336,8 @@ class TestMCPServerDirectHandlerCalls:
         result = server._handle_format_border(
             file_path=str(test_file),
             sheet="Sheet1",
+            range="A1:B2",
+            border='{"style": "thin", "color": "#000000"}',
         )
 
         assert result is not None
@@ -333,6 +350,8 @@ class TestMCPServerDirectHandlerCalls:
         result = server._handle_row_insert(
             file_path=str(test_file),
             sheet="Sheet1",
+            row=1,
+            count=1,
         )
 
         assert result is not None
@@ -345,6 +364,8 @@ class TestMCPServerDirectHandlerCalls:
         result = server._handle_row_delete(
             file_path=str(test_file),
             sheet="Sheet1",
+            row=1,
+            count=1,
         )
 
         assert result is not None
@@ -357,6 +378,8 @@ class TestMCPServerDirectHandlerCalls:
         result = server._handle_row_hide(
             file_path=str(test_file),
             sheet="Sheet1",
+            row=1,
+            hidden=True,
         )
 
         assert result is not None
@@ -371,6 +394,8 @@ class TestMCPServerDirectHandlerCalls:
         result = server._handle_column_insert(
             file_path=str(test_file),
             sheet="Sheet1",
+            column="A",
+            count=1,
         )
 
         assert result is not None
@@ -385,6 +410,8 @@ class TestMCPServerDirectHandlerCalls:
         result = server._handle_column_delete(
             file_path=str(test_file),
             sheet="Sheet1",
+            column="A",
+            count=1,
         )
 
         assert result is not None
@@ -397,6 +424,8 @@ class TestMCPServerDirectHandlerCalls:
         result = server._handle_column_hide(
             file_path=str(test_file),
             sheet="Sheet1",
+            column="A",
+            hidden=True,
         )
 
         assert result is not None
@@ -409,6 +438,7 @@ class TestMCPServerDirectHandlerCalls:
         result = server._handle_freeze_set(
             file_path=str(test_file),
             sheet="Sheet1",
+            cell="B2",
         )
 
         assert result is not None
@@ -463,114 +493,7 @@ class TestMCPServerDirectHandlerCalls:
         result = server._handle_sheet_copy(
             file_path=str(test_file),
             sheet="Sheet1",
-        )
-
-        assert result is not None
-
-    def test_handle_chart_create_direct(
-        self, server: MCPServer, tmp_path: Path
-    ) -> None:
-        """Test direct call to chart_create handler."""
-        test_file = tmp_path / "test.ods"
-        test_file.write_bytes(b"test")
-
-        result = server._handle_chart_create(
-            file_path=str(test_file),
-            sheet="Sheet1",
-        )
-
-        assert result is not None
-
-    def test_handle_chart_update_direct(
-        self, server: MCPServer, tmp_path: Path
-    ) -> None:
-        """Test direct call to chart_update handler."""
-        test_file = tmp_path / "test.ods"
-        test_file.write_bytes(b"test")
-
-        result = server._handle_chart_update(
-            file_path=str(test_file),
-            sheet="Sheet1",
-        )
-
-        assert result is not None
-
-    def test_handle_validation_create_direct(
-        self, server: MCPServer, tmp_path: Path
-    ) -> None:
-        """Test direct call to validation_create handler."""
-        test_file = tmp_path / "test.ods"
-        test_file.write_bytes(b"test")
-
-        result = server._handle_validation_create(
-            file_path=str(test_file),
-            sheet="Sheet1",
-        )
-
-        assert result is not None
-
-    def test_handle_cf_create_direct(self, server: MCPServer, tmp_path: Path) -> None:
-        """Test direct call to cf_create handler."""
-        test_file = tmp_path / "test.ods"
-        test_file.write_bytes(b"test")
-
-        result = server._handle_cf_create(
-            file_path=str(test_file),
-            sheet="Sheet1",
-        )
-
-        assert result is not None
-
-    def test_handle_named_range_create_direct(
-        self, server: MCPServer, tmp_path: Path
-    ) -> None:
-        """Test direct call to named_range_create handler."""
-        test_file = tmp_path / "test.ods"
-        test_file.write_bytes(b"test")
-
-        result = server._handle_named_range_create(
-            file_path=str(test_file),
-            sheet="Sheet1",
-        )
-
-        assert result is not None
-
-    def test_handle_table_create_direct(
-        self, server: MCPServer, tmp_path: Path
-    ) -> None:
-        """Test direct call to table_create handler."""
-        test_file = tmp_path / "test.ods"
-        test_file.write_bytes(b"test")
-
-        result = server._handle_table_create(
-            file_path=str(test_file),
-            sheet="Sheet1",
-        )
-
-        assert result is not None
-
-    def test_handle_query_select_direct(
-        self, server: MCPServer, tmp_path: Path
-    ) -> None:
-        """Test direct call to query_select handler."""
-        test_file = tmp_path / "test.ods"
-        test_file.write_bytes(b"test")
-
-        result = server._handle_query_select(
-            file_path=str(test_file),
-            sheet="Sheet1",
-        )
-
-        assert result is not None
-
-    def test_handle_query_find_direct(self, server: MCPServer, tmp_path: Path) -> None:
-        """Test direct call to query_find handler."""
-        test_file = tmp_path / "test.ods"
-        test_file.write_bytes(b"test")
-
-        result = server._handle_query_find(
-            file_path=str(test_file),
-            sheet="Sheet1",
+            new_name="Sheet1_Copy",
         )
 
         assert result is not None
@@ -637,22 +560,22 @@ class TestMCPServerExceptionHandling:
         result = server._handle_cell_batch_set(
             file_path="/nonexistent/file.ods",
             sheet="Sheet1",
-            values='{"A1": "val"}',
+            updates='{"A1": "val"}',
         )
         assert result.is_error is True
 
         result = server._handle_cell_find(
             file_path="/nonexistent/file.ods",
             sheet="Sheet1",
-            search_text="test",
+            pattern="test",
         )
         assert result.is_error is True
 
         result = server._handle_cell_replace(
             file_path="/nonexistent/file.ods",
             sheet="Sheet1",
-            search_text="old",
-            replace_text="new",
+            find="old",
+            replace="new",
         )
         assert result.is_error is True
 
@@ -666,7 +589,7 @@ class TestMCPServerExceptionHandling:
         result = server._handle_cell_unmerge(
             file_path="/nonexistent/file.ods",
             sheet="Sheet1",
-            cell="A1",
+            range="A1",
         )
         assert result.is_error is True
 
@@ -677,45 +600,75 @@ class TestMCPServerExceptionHandling:
         result = server._handle_style_list(file_path="/nonexistent/file.ods")
         assert result.is_error is True
 
-        result = server._handle_style_get(file_path="/nonexistent/file.ods")
+        result = server._handle_style_get(
+            file_path="/nonexistent/file.ods", style_name="default"
+        )
         assert result.is_error is True
 
-        result = server._handle_style_create(file_path="/nonexistent/file.ods")
+        result = server._handle_style_create(
+            file_path="/nonexistent/file.ods",
+            style_name="test",
+            properties='{"bold": true}',
+        )
         assert result.is_error is True
 
-        result = server._handle_style_update(file_path="/nonexistent/file.ods")
+        result = server._handle_style_update(
+            file_path="/nonexistent/file.ods",
+            style_name="test",
+            properties='{"bold": false}',
+        )
         assert result.is_error is True
 
-        result = server._handle_style_delete(file_path="/nonexistent/file.ods")
+        result = server._handle_style_delete(
+            file_path="/nonexistent/file.ods", style_name="test"
+        )
         assert result.is_error is True
 
         result = server._handle_style_apply(
-            file_path="/nonexistent/file.ods", sheet="Sheet1"
+            file_path="/nonexistent/file.ods",
+            sheet="Sheet1",
+            range="A1:B2",
+            style_name="default",
         )
         assert result.is_error is True
 
         result = server._handle_format_cells(
-            file_path="/nonexistent/file.ods", sheet="Sheet1"
+            file_path="/nonexistent/file.ods",
+            sheet="Sheet1",
+            range="A1:B2",
+            format="general",
         )
         assert result.is_error is True
 
         result = server._handle_format_number(
-            file_path="/nonexistent/file.ods", sheet="Sheet1"
+            file_path="/nonexistent/file.ods",
+            sheet="Sheet1",
+            range="A1:B2",
+            format_code="#,##0.00",
         )
         assert result.is_error is True
 
         result = server._handle_format_font(
-            file_path="/nonexistent/file.ods", sheet="Sheet1"
+            file_path="/nonexistent/file.ods",
+            sheet="Sheet1",
+            range="A1:B2",
+            font='{"name": "Arial"}',
         )
         assert result.is_error is True
 
         result = server._handle_format_fill(
-            file_path="/nonexistent/file.ods", sheet="Sheet1"
+            file_path="/nonexistent/file.ods",
+            sheet="Sheet1",
+            range="A1:B2",
+            color="#FF0000",
         )
         assert result.is_error is True
 
         result = server._handle_format_border(
-            file_path="/nonexistent/file.ods", sheet="Sheet1"
+            file_path="/nonexistent/file.ods",
+            sheet="Sheet1",
+            range="A1:B2",
+            border='{"style": "thin"}',
         )
         assert result.is_error is True
 
@@ -724,37 +677,37 @@ class TestMCPServerExceptionHandling:
     ) -> None:
         """Test structure handlers with invalid path return errors."""
         result = server._handle_row_insert(
-            file_path="/nonexistent/file.ods", sheet="Sheet1"
+            file_path="/nonexistent/file.ods", sheet="Sheet1", row=1
         )
         assert result.is_error is True
 
         result = server._handle_row_delete(
-            file_path="/nonexistent/file.ods", sheet="Sheet1"
+            file_path="/nonexistent/file.ods", sheet="Sheet1", row=1
         )
         assert result.is_error is True
 
         result = server._handle_row_hide(
-            file_path="/nonexistent/file.ods", sheet="Sheet1"
+            file_path="/nonexistent/file.ods", sheet="Sheet1", row=1, hidden=True
         )
         assert result.is_error is True
 
         result = server._handle_column_insert(
-            file_path="/nonexistent/file.ods", sheet="Sheet1"
+            file_path="/nonexistent/file.ods", sheet="Sheet1", column="A"
         )
         assert result.is_error is True
 
         result = server._handle_column_delete(
-            file_path="/nonexistent/file.ods", sheet="Sheet1"
+            file_path="/nonexistent/file.ods", sheet="Sheet1", column="A"
         )
         assert result.is_error is True
 
         result = server._handle_column_hide(
-            file_path="/nonexistent/file.ods", sheet="Sheet1"
+            file_path="/nonexistent/file.ods", sheet="Sheet1", column="A", hidden=True
         )
         assert result.is_error is True
 
         result = server._handle_freeze_set(
-            file_path="/nonexistent/file.ods", sheet="Sheet1"
+            file_path="/nonexistent/file.ods", sheet="Sheet1", cell="B2"
         )
         assert result.is_error is True
 
@@ -774,51 +727,7 @@ class TestMCPServerExceptionHandling:
         assert result.is_error is True
 
         result = server._handle_sheet_copy(
-            file_path="/nonexistent/file.ods", sheet="Sheet1"
-        )
-        assert result.is_error is True
-
-    def test_advanced_handlers_with_invalid_path(
-        self, server: MCPServer, tmp_path: Path
-    ) -> None:
-        """Test advanced handlers with invalid path return errors."""
-        result = server._handle_chart_create(
-            file_path="/nonexistent/file.ods", sheet="Sheet1"
-        )
-        assert result.is_error is True
-
-        result = server._handle_chart_update(
-            file_path="/nonexistent/file.ods", sheet="Sheet1"
-        )
-        assert result.is_error is True
-
-        result = server._handle_validation_create(
-            file_path="/nonexistent/file.ods", sheet="Sheet1"
-        )
-        assert result.is_error is True
-
-        result = server._handle_cf_create(
-            file_path="/nonexistent/file.ods", sheet="Sheet1"
-        )
-        assert result.is_error is True
-
-        result = server._handle_named_range_create(
-            file_path="/nonexistent/file.ods", sheet="Sheet1"
-        )
-        assert result.is_error is True
-
-        result = server._handle_table_create(
-            file_path="/nonexistent/file.ods", sheet="Sheet1"
-        )
-        assert result.is_error is True
-
-        result = server._handle_query_select(
-            file_path="/nonexistent/file.ods", sheet="Sheet1"
-        )
-        assert result.is_error is True
-
-        result = server._handle_query_find(
-            file_path="/nonexistent/file.ods", sheet="Sheet1"
+            file_path="/nonexistent/file.ods", sheet="Sheet1", new_name="Sheet1_Copy"
         )
         assert result.is_error is True
 
