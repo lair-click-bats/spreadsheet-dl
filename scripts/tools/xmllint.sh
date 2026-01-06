@@ -14,7 +14,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../lib/common.sh"
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 # Configuration
 TOOL_NAME="xmllint"
@@ -80,90 +80,90 @@ done
 [[ ${#PATHS[@]} -eq 0 ]] && PATHS=(".")
 
 # Main
-print_tool "$TOOL_NAME ($MODE)"
+print_tool "${TOOL_NAME} (${MODE})"
 
 # Check tool installed
-if ! require_tool "$TOOL_CMD" "$INSTALL_HINT"; then
-    json_result "$TOOL_CMD" "skip" "Tool not installed"
+if ! require_tool "${TOOL_CMD}" "${INSTALL_HINT}"; then
+    json_result "${TOOL_CMD}" "skip" "Tool not installed"
     exit 0
 fi
 
 # Find XML files
 xml_files=()
 for path in "${PATHS[@]}"; do
-    if [[ -f "$path" ]]; then
-        xml_files+=("$path")
-    elif [[ -d "$path" ]]; then
+    if [[ -f "${path}" ]]; then
+        xml_files+=("${path}")
+    elif [[ -d "${path}" ]]; then
         while IFS= read -r -d '' file; do
-            xml_files+=("$file")
-        done < <(find "$path" -type f \( -name "*.xml" -o -name "*.xsd" -o -name "*.xsl" -o -name "*.xslt" \) \
+            xml_files+=("${file}")
+        done < <(find "${path}" -type f \( -name "*.xml" -o -name "*.xsd" -o -name "*.xsl" -o -name "*.xslt" \) \
             -not -path "*/.git/*" -not -path "*/.venv/*" -not -path "*/node_modules/*" -print0 2>/dev/null)
     fi
 done
 
 if [[ ${#xml_files[@]} -eq 0 ]]; then
     print_skip "No XML files found"
-    json_result "$TOOL_CMD" "skip" "No files found"
+    json_result "${TOOL_CMD}" "skip" "No files found"
     exit 0
 fi
 
 file_count=${#xml_files[@]}
-$VERBOSE && print_info "Found $file_count XML file(s)"
+${VERBOSE} && print_info "Found ${file_count} XML file(s)"
 
 # Mode: Check (validation)
-if [[ "$MODE" == "check" ]]; then
+if [[ "${MODE}" == "check" ]]; then
     has_errors=false
     error_count=0
 
     for file in "${xml_files[@]}"; do
-        if $VERBOSE; then
-            if ! xmllint --noout "$file" 2>&1; then
+        if ${VERBOSE}; then
+            if ! xmllint --noout "${file}" 2>&1; then
                 has_errors=true
                 ((error_count++)) || true
             fi
         else
-            if ! xmllint --noout "$file" 2>/dev/null; then
+            if ! xmllint --noout "${file}" 2>/dev/null; then
                 has_errors=true
                 ((error_count++)) || true
-                print_fail "Invalid: $(basename "$file")"
+                print_fail "Invalid: $(basename "${file}")"
             fi
         fi
     done
 
-    if $has_errors; then
-        print_fail "$error_count file(s) with errors"
-        json_result "$TOOL_CMD" "fail" "$error_count errors"
+    if ${has_errors}; then
+        print_fail "${error_count} file(s) with errors"
+        json_result "${TOOL_CMD}" "fail" "${error_count} errors"
         exit 1
     else
-        print_pass "All $file_count XML files valid"
-        json_result "$TOOL_CMD" "pass" ""
+        print_pass "All ${file_count} XML files valid"
+        json_result "${TOOL_CMD}" "pass" ""
         exit 0
     fi
 fi
 
 # Mode: Format
-if [[ "$MODE" == "format" ]]; then
+if [[ "${MODE}" == "format" ]]; then
     formatted_count=0
 
     for file in "${xml_files[@]}"; do
         # Format in place
         temp_file=$(mktemp)
-        if xmllint --format "$file" >"$temp_file" 2>/dev/null; then
-            if ! diff -q "$file" "$temp_file" &>/dev/null; then
-                mv "$temp_file" "$file"
+        if xmllint --format "${file}" >"${temp_file}" 2>/dev/null; then
+            if ! diff -q "${file}" "${temp_file}" &>/dev/null; then
+                mv "${temp_file}" "${file}"
                 ((formatted_count++)) || true
-                $VERBOSE && echo "    Formatted: $(basename "$file")"
+                ${VERBOSE} && echo "    Formatted: $(basename "${file}")"
             else
-                rm "$temp_file"
-                $VERBOSE && echo "    Unchanged: $(basename "$file")"
+                rm "${temp_file}"
+                ${VERBOSE} && echo "    Unchanged: $(basename "${file}")"
             fi
         else
-            rm -f "$temp_file"
-            print_fail "Format failed: $(basename "$file")"
+            rm -f "${temp_file}"
+            print_fail "Format failed: $(basename "${file}")"
         fi
     done
 
-    print_pass "Formatted $formatted_count of $file_count files"
-    json_result "$TOOL_CMD" "pass" "Formatted $formatted_count files"
+    print_pass "Formatted ${formatted_count} of ${file_count} files"
+    json_result "${TOOL_CMD}" "pass" "Formatted ${formatted_count} files"
     exit 0
 fi

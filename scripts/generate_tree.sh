@@ -48,7 +48,7 @@ show_help() {
 is_excluded() {
     local name=$1
     for pattern in "${EXCLUDE_PATTERNS[@]}"; do
-        if [[ "$name" == "$pattern" ]] || [[ "$name" == *"$pattern"* ]]; then
+        if [[ "${name}" == "${pattern}" ]] || [[ "${name}" == *"${pattern}"* ]]; then
             return 0
         fi
     done
@@ -66,7 +66,7 @@ generate_tree() {
     local max_depth=$4
 
     # Check depth limit
-    if [[ $depth -gt $max_depth ]]; then
+    if [[ ${depth} -gt ${max_depth} ]]; then
         return
     fi
 
@@ -76,19 +76,19 @@ generate_tree() {
 
     while IFS= read -r -d '' entry; do
         local name
-        name=$(basename "$entry")
+        name=$(basename "${entry}")
 
         # Skip excluded patterns
-        if is_excluded "$name"; then
+        if is_excluded "${name}"; then
             continue
         fi
 
-        if [[ -d "$entry" ]]; then
-            dirs+=("$entry")
+        if [[ -d "${entry}" ]]; then
+            dirs+=("${entry}")
         else
-            files+=("$entry")
+            files+=("${entry}")
         fi
-    done < <(find "$dir" -maxdepth 1 -mindepth 1 -print0 2>/dev/null | sort -z)
+    done < <(find "${dir}" -maxdepth 1 -mindepth 1 -print0 2>/dev/null | sort -z)
 
     # Combine: directories first, then files
     local all_entries=("${dirs[@]}" "${files[@]}")
@@ -98,14 +98,14 @@ generate_tree() {
     for entry in "${all_entries[@]}"; do
         ((++count)) # Pre-increment to avoid exit code 1 when count starts at 0
         local name is_last connector new_prefix
-        name=$(basename "$entry")
-        is_last=$([[ $count -eq $total ]] && echo "true" || echo "false")
-        connector=$([[ "$is_last" == "true" ]] && echo "$ELBOW" || echo "$TEE")
-        new_prefix=$([[ "$is_last" == "true" ]] && echo "${prefix}${SPACE}" || echo "${prefix}${PIPE_SPACE}")
+        name=$(basename "${entry}")
+        is_last=$([[ ${count} -eq ${total} ]] && echo "true" || echo "false")
+        connector=$([[ "${is_last}" == "true" ]] && echo "${ELBOW}" || echo "${TEE}")
+        new_prefix=$([[ "${is_last}" == "true" ]] && echo "${prefix}${SPACE}" || echo "${prefix}${PIPE_SPACE}")
 
-        if [[ -d "$entry" ]]; then
+        if [[ -d "${entry}" ]]; then
             echo "${prefix}${connector} ${name}/"
-            generate_tree "$entry" "$new_prefix" $((depth + 1)) "$max_depth"
+            generate_tree "${entry}" "${new_prefix}" $((depth + 1)) "${max_depth}"
         else
             echo "${prefix}${connector} ${name}"
         fi
@@ -147,16 +147,16 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Resolve path
-if [[ ! -d "$TARGET_PATH" ]]; then
-    echo "Error: '$TARGET_PATH' is not a directory"
+if [[ ! -d "${TARGET_PATH}" ]]; then
+    echo "Error: '${TARGET_PATH}' is not a directory"
     exit 1
 fi
 
-TARGET_PATH=$(cd "$TARGET_PATH" && pwd)
+TARGET_PATH=$(cd "${TARGET_PATH}" && pwd)
 
 # =============================================================================
 # Generate Output
 # =============================================================================
 
-echo "$(basename "$TARGET_PATH")/"
-generate_tree "$TARGET_PATH" "" 1 "$MAX_DEPTH"
+echo "$(basename "${TARGET_PATH}")/"
+generate_tree "${TARGET_PATH}" "" 1 "${MAX_DEPTH}"

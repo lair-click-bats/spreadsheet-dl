@@ -15,7 +15,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/lib/common.sh"
+source "${SCRIPT_DIR}/lib/common.sh"
 
 # Defaults
 CHECK_ONLY=false
@@ -28,9 +28,6 @@ RUN_PYTHON=false
 RUN_MARKDOWN=false
 RUN_YAML=false
 RUN_JSON=false
-RUN_LATEX=false
-RUN_PERL=false
-RUN_VHDL=false
 
 # Parse arguments
 while [[ $# -gt 0 ]]; do
@@ -68,21 +65,6 @@ while [[ $# -gt 0 ]]; do
         RUN_JSON=true
         shift
         ;;
-    --latex)
-        RUN_ALL=false
-        RUN_LATEX=true
-        shift
-        ;;
-    --perl)
-        RUN_ALL=false
-        RUN_PERL=true
-        shift
-        ;;
-    --vhdl)
-        RUN_ALL=false
-        RUN_VHDL=true
-        shift
-        ;;
     -h | --help)
         echo "Usage: $0 [OPTIONS]"
         echo ""
@@ -96,9 +78,6 @@ while [[ $# -gt 0 ]]; do
         echo "  --markdown    Format only Markdown files"
         echo "  --yaml        Format only YAML files"
         echo "  --json-files  Format only JSON files"
-        echo "  --latex       Format only LaTeX files"
-        echo "  --perl        Format only Perl files"
-        echo "  --vhdl        Format only VHDL files"
         echo "  -h, --help    Show this help message"
         exit 0
         ;;
@@ -109,15 +88,15 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-if $CHECK_ONLY; then
+if ${CHECK_ONLY}; then
     print_header "WORKSPACE TEMPLATE - FORMAT CHECK"
 else
     print_header "WORKSPACE TEMPLATE - FORMAT ALL"
 fi
 echo ""
-echo -e "  ${DIM}Repository:${NC} $REPO_ROOT"
+echo -e "  ${DIM}Repository:${NC} ${REPO_ROOT}"
 echo -e "  ${DIM}Timestamp:${NC}  $(date '+%Y-%m-%d %H:%M:%S')"
-if $CHECK_ONLY; then
+if ${CHECK_ONLY}; then
     echo -e "  ${DIM}Mode:${NC}       Check only (no changes)"
 fi
 
@@ -125,25 +104,25 @@ reset_counters
 
 # Determine mode argument
 MODE_ARG="--fix"
-$CHECK_ONLY && MODE_ARG="--check"
+${CHECK_ONLY} && MODE_ARG="--check"
 
 run_formatter() {
     local script="$1"
-    local mode="${2:-$MODE_ARG}"
+    local mode="${2:-${MODE_ARG}}"
 
     # shellcheck disable=SC2086
-    if "$SCRIPT_DIR/tools/$script" $mode $JSON_ARGS $VERBOSE_ARGS; then
-        if $CHECK_ONLY; then
+    if "${SCRIPT_DIR}/tools/${script}" ${mode} ${JSON_ARGS} ${VERBOSE_ARGS}; then
+        if ${CHECK_ONLY}; then
             increment_unchanged
         else
             increment_formatted
         fi
     else
         local exit_code=$?
-        if [[ $exit_code -eq 0 ]]; then
+        if [[ ${exit_code} -eq 0 ]]; then
             increment_skipped
         else
-            if $CHECK_ONLY; then
+            if ${CHECK_ONLY}; then
                 increment_formatted # Would format
             else
                 increment_failed
@@ -153,78 +132,60 @@ run_formatter() {
 }
 
 # Python
-if $RUN_ALL || $RUN_PYTHON; then
+if ${RUN_ALL} || ${RUN_PYTHON}; then
     print_header "Python"
     run_formatter "ruff.sh" "--format"
-    if ! $CHECK_ONLY; then
+    if ! ${CHECK_ONLY}; then
         run_formatter "ruff.sh" "--fix"
     fi
 fi
 
 # Markdown
-if $RUN_ALL || $RUN_MARKDOWN; then
+if ${RUN_ALL} || ${RUN_MARKDOWN}; then
     print_header "Markdown"
     run_formatter "markdownlint.sh"
-    run_formatter "prettier.sh" "$MODE_ARG --md-only"
+    run_formatter "prettier.sh" "${MODE_ARG} --md-only"
 fi
 
 # YAML
-if $RUN_ALL || $RUN_YAML; then
+if ${RUN_ALL} || ${RUN_YAML}; then
     print_header "YAML"
-    run_formatter "prettier.sh" "$MODE_ARG --yaml-only"
+    run_formatter "prettier.sh" "${MODE_ARG} --yaml-only"
 fi
 
 # JSON
-if $RUN_ALL || $RUN_JSON; then
+if ${RUN_ALL} || ${RUN_JSON}; then
     print_header "JSON"
-    run_formatter "prettier.sh" "$MODE_ARG --json-only"
-fi
-
-# LaTeX
-if $RUN_ALL || $RUN_LATEX; then
-    print_header "LaTeX"
-    run_formatter "latexindent.sh"
-fi
-
-# Perl
-if $RUN_ALL || $RUN_PERL; then
-    print_header "Perl"
-    run_formatter "perltidy.sh"
-fi
-
-# VHDL
-if $RUN_ALL || $RUN_VHDL; then
-    print_header "VHDL"
-    run_formatter "vsg.sh"
+    run_formatter "prettier.sh" "${MODE_ARG} --json-only"
 fi
 
 # Summary
 print_header "SUMMARY"
 echo ""
-if $CHECK_ONLY; then
-    echo -e "  ${YELLOW}Would format:${NC} $FORMATTED"
+if ${CHECK_ONLY}; then
+    echo -e "  ${YELLOW}Would format:${NC} ${FORMATTED}"
 else
-    echo -e "  ${GREEN}Formatted:${NC}   $FORMATTED"
+    echo -e "  ${GREEN}Formatted:${NC}   ${FORMATTED}"
 fi
-echo -e "  ${DIM}Unchanged:${NC}   $UNCHANGED"
-echo -e "  ${RED}Failed:${NC}      $FAILED"
-echo -e "  ${YELLOW}Skipped:${NC}     $SKIPPED"
+echo -e "  ${DIM}Unchanged:${NC}   ${UNCHANGED}"
+echo -e "  ${RED}Failed:${NC}      ${FAILED}"
+echo -e "  ${YELLOW}Skipped:${NC}     ${SKIPPED}"
 echo ""
 
-if [[ $FAILED -eq 0 ]]; then
-    if $CHECK_ONLY; then
-        if [[ $FORMATTED -eq 0 ]]; then
+if [[ ${FAILED} -eq 0 ]]; then
+    if ${CHECK_ONLY}; then
+        if [[ ${FORMATTED} -eq 0 ]]; then
             echo -e "  ${GREEN}${BOLD}All files are properly formatted!${NC}"
         else
-            echo -e "  ${YELLOW}${BOLD}$FORMATTED file(s) would be formatted${NC}"
+            echo -e "  ${YELLOW}${BOLD}${FORMATTED} file(s) would be formatted${NC}"
             echo -e "  ${DIM}Run without --check to apply changes${NC}"
             exit 1
         fi
     else
-        if [[ $FORMATTED -eq 0 ]]; then
+        if [[ ${FORMATTED} -eq 0 ]]; then
             echo -e "  ${GREEN}${BOLD}All files are properly formatted!${NC}"
         else
-            echo -e "  ${GREEN}${BOLD}Formatted $FORMATTED file(s) successfully!${NC}"
+            echo -e "  ${GREEN}${BOLD}Formatted ${FORMATTED} file(s) successfully!${NC}"
         fi
     fi
     exit 0

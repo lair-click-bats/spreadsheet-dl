@@ -14,7 +14,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../lib/common.sh"
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 # Configuration
 TOOL_NAME="lychee"
@@ -78,37 +78,37 @@ done
 [[ ${#PATHS[@]} -eq 0 ]] && PATHS=(".")
 
 # Main
-print_tool "$TOOL_NAME ($MODE mode)"
+print_tool "${TOOL_NAME} (${MODE} mode)"
 
 # Check tool installed
-if ! require_tool "$TOOL_CMD" "$INSTALL_HINT"; then
-    json_result "$TOOL_CMD" "skip" "Tool not installed"
+if ! require_tool "${TOOL_CMD}" "${INSTALL_HINT}"; then
+    json_result "${TOOL_CMD}" "skip" "Tool not installed"
     exit 0
 fi
 
 # Build file list for lychee
 files_to_check=()
 for path in "${PATHS[@]}"; do
-    if [[ -f "$path" ]]; then
-        files_to_check+=("$path")
-    elif [[ -d "$path" ]]; then
+    if [[ -f "${path}" ]]; then
+        files_to_check+=("${path}")
+    elif [[ -d "${path}" ]]; then
         # Find all markdown files recursively
         while IFS= read -r -d '' file; do
-            files_to_check+=("$file")
-        done < <(find "$path" -type f -name "*.md" -print0 2>/dev/null)
+            files_to_check+=("${file}")
+        done < <(find "${path}" -type f -name "*.md" -print0 2>/dev/null)
     fi
 done
 
 if [[ ${#files_to_check[@]} -eq 0 ]]; then
     print_skip "No markdown files found"
-    json_result "$TOOL_CMD" "skip" "No files"
+    json_result "${TOOL_CMD}" "skip" "No files"
     exit 0
 fi
 
 # Check for config file
 config_args=()
-if [[ -f "$REPO_ROOT/lychee.toml" ]]; then
-    config_args+=("--config" "$REPO_ROOT/lychee.toml")
+if [[ -f "${REPO_ROOT}/lychee.toml" ]]; then
+    config_args+=("--config" "${REPO_ROOT}/lychee.toml")
 fi
 
 # Common exclusion patterns
@@ -126,12 +126,12 @@ exclude_patterns=(
 # Build exclude arguments
 exclude_args=()
 for pattern in "${exclude_patterns[@]}"; do
-    exclude_args+=("--exclude" "$pattern")
+    exclude_args+=("--exclude" "${pattern}")
 done
 
 # Mode-specific arguments
 mode_args=()
-case $MODE in
+case ${MODE} in
 offline)
     mode_args+=("--offline")
     ;;
@@ -144,7 +144,7 @@ esac
 
 # Verbose arguments
 verbose_args=()
-if $VERBOSE; then
+if ${VERBOSE}; then
     verbose_args+=("--verbose")
 else
     verbose_args+=("--no-progress")
@@ -160,23 +160,23 @@ if lychee \
     "${files_to_check[@]}"; then
 
     print_pass "All links valid"
-    json_result "$TOOL_CMD" "pass" ""
+    json_result "${TOOL_CMD}" "pass" ""
     exit 0
 else
     exit_code=$?
 
-    if [[ $exit_code -eq 2 ]]; then
+    if [[ ${exit_code} -eq 2 ]]; then
         # Exit code 2 means broken links found
         print_fail "Broken links found"
-        if ! $VERBOSE; then
+        if ! ${VERBOSE}; then
             print_info "Run with -v for details"
         fi
-        json_result "$TOOL_CMD" "fail" "Broken links"
+        json_result "${TOOL_CMD}" "fail" "Broken links"
         exit 1
     else
         # Other error (tool error, config error, etc.)
         print_fail "Link check failed"
-        json_result "$TOOL_CMD" "fail" "Check error"
+        json_result "${TOOL_CMD}" "fail" "Check error"
         exit 1
     fi
 fi

@@ -15,7 +15,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../lib/common.sh"
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 # Configuration
 TOOL_NAME="ShellCheck"
@@ -63,54 +63,54 @@ done
 [[ ${#PATHS[@]} -eq 0 ]] && PATHS=(".")
 
 # Main
-print_tool "$TOOL_NAME"
+print_tool "${TOOL_NAME}"
 
 # Check tool installed
-if ! require_tool "$TOOL_CMD" "$INSTALL_HINT"; then
-    json_result "$TOOL_CMD" "skip" "Tool not installed"
+if ! require_tool "${TOOL_CMD}" "${INSTALL_HINT}"; then
+    json_result "${TOOL_CMD}" "skip" "Tool not installed"
     exit 0
 fi
 
 # Find shell scripts
 shell_files=()
 for path in "${PATHS[@]}"; do
-    if [[ -f "$path" ]]; then
+    if [[ -f "${path}" ]]; then
         # Single file
-        shell_files+=("$path")
-    elif [[ -d "$path" ]]; then
+        shell_files+=("${path}")
+    elif [[ -d "${path}" ]]; then
         # Directory - find .sh files
         while IFS= read -r -d '' file; do
-            shell_files+=("$file")
-        done < <(find "$path" -type f -name "*.sh" -not -path "*/.git/*" -not -path "*/.venv/*" -not -path "*/node_modules/*" -print0 2>/dev/null)
+            shell_files+=("${file}")
+        done < <(find "${path}" -type f -name "*.sh" -not -path "*/.git/*" -not -path "*/.venv/*" -not -path "*/node_modules/*" -print0 2>/dev/null)
     fi
 done
 
 if [[ ${#shell_files[@]} -eq 0 ]]; then
     print_skip "No shell scripts found"
-    json_result "$TOOL_CMD" "skip" "No files found"
+    json_result "${TOOL_CMD}" "skip" "No files found"
     exit 0
 fi
 
 # Run shellcheck
-if $VERBOSE; then
+if ${VERBOSE}; then
     if shellcheck "${shell_files[@]}"; then
         print_pass "All scripts passed"
-        json_result "$TOOL_CMD" "pass" ""
+        json_result "${TOOL_CMD}" "pass" ""
         exit 0
     else
         print_fail "Issues found"
-        json_result "$TOOL_CMD" "fail" "Linting issues"
+        json_result "${TOOL_CMD}" "fail" "Linting issues"
         exit 1
     fi
 else
     if shellcheck "${shell_files[@]}" &>/dev/null; then
         print_pass "All scripts passed"
-        json_result "$TOOL_CMD" "pass" ""
+        json_result "${TOOL_CMD}" "pass" ""
         exit 0
     else
         print_fail "Issues found"
         print_info "Run with -v for details"
-        json_result "$TOOL_CMD" "fail" "Linting issues"
+        json_result "${TOOL_CMD}" "fail" "Linting issues"
         exit 1
     fi
 fi

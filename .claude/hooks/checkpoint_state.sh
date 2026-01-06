@@ -18,19 +18,19 @@
 set -euo pipefail
 
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-.}"
-CHECKPOINT_DIR="$PROJECT_DIR/.coordination/checkpoints"
-LOG_FILE="$PROJECT_DIR/.claude/hooks/checkpoints.log"
+CHECKPOINT_DIR="${PROJECT_DIR}/.coordination/checkpoints"
+LOG_FILE="${PROJECT_DIR}/.claude/hooks/checkpoints.log"
 
 # Ensure directories exist
-mkdir -p "$CHECKPOINT_DIR"
-mkdir -p "$(dirname "$LOG_FILE")"
+mkdir -p "${CHECKPOINT_DIR}"
+mkdir -p "$(dirname "${LOG_FILE}")"
 
 # ============================================================
 # Utility Functions
 # ============================================================
 
 log() {
-    echo "[$(date -Iseconds)] CHECKPOINT: $*" >>"$LOG_FILE"
+    echo "[$(date -Iseconds)] CHECKPOINT: $*" >>"${LOG_FILE}"
 }
 
 get_iso_timestamp() {
@@ -52,32 +52,32 @@ generate_task_id() {
 cmd_create() {
     local task_id="${1:-$(generate_task_id)}"
     local description="${2:-Checkpoint created at $(get_iso_timestamp)}"
-    local checkpoint_path="$CHECKPOINT_DIR/$task_id"
+    local checkpoint_path="${CHECKPOINT_DIR}/${task_id}"
 
-    if [ -d "$checkpoint_path" ]; then
-        echo "Error: Checkpoint '$task_id' already exists" >&2
-        echo "Use 'checkpoint_state.sh delete $task_id' to remove it first" >&2
+    if [[ -d "${checkpoint_path}" ]]; then
+        echo "Error: Checkpoint '${task_id}' already exists" >&2
+        echo "Use 'checkpoint_state.sh delete ${task_id}' to remove it first" >&2
         exit 1
     fi
 
-    mkdir -p "$checkpoint_path/artifacts"
+    mkdir -p "${checkpoint_path}/artifacts"
 
     # Create manifest
-    cat > "$checkpoint_path/manifest.json" <<EOF
+    cat >"${checkpoint_path}/manifest.json" <<EOF
 {
-    "task_id": "$task_id",
+    "task_id": "${task_id}",
     "created_at": "$(get_iso_timestamp)",
     "created_timestamp": $(get_timestamp),
-    "description": "$description",
+    "description": "${description}",
     "version": "1.0",
     "status": "active"
 }
 EOF
 
     # Create empty state file (to be populated by user/agent)
-    cat > "$checkpoint_path/state.json" <<EOF
+    cat >"${checkpoint_path}/state.json" <<EOF
 {
-    "task_id": "$task_id",
+    "task_id": "${task_id}",
     "phase": "initial",
     "progress": {
         "current_step": 0,
@@ -93,11 +93,11 @@ EOF
 EOF
 
     # Create context template
-    cat > "$checkpoint_path/context.md" <<EOF
-# Checkpoint: $task_id
+    cat >"${checkpoint_path}/context.md" <<EOF
+# Checkpoint: ${task_id}
 
 **Created:** $(get_iso_timestamp)
-**Description:** $description
+**Description:** ${description}
 
 ## Current State
 
@@ -125,8 +125,8 @@ _List any important files or outputs_
 _Additional context for resumption_
 EOF
 
-    log "Created checkpoint: $task_id"
-    echo "Checkpoint created: $checkpoint_path"
+    log "Created checkpoint: ${task_id}"
+    echo "Checkpoint created: ${checkpoint_path}"
     echo ""
     echo "Files created:"
     echo "  - manifest.json (checkpoint metadata)"
@@ -134,35 +134,35 @@ EOF
     echo "  - context.md (human-readable summary)"
     echo "  - artifacts/ (place important files here)"
     echo ""
-    echo "To update state: edit $checkpoint_path/state.json"
-    echo "To restore: .claude/hooks/restore_checkpoint.sh $task_id"
+    echo "To update state: edit ${checkpoint_path}/state.json"
+    echo "To restore: .claude/hooks/restore_checkpoint.sh ${task_id}"
 }
 
 cmd_list() {
     echo "Available Checkpoints:"
     echo "======================"
 
-    if [ ! -d "$CHECKPOINT_DIR" ] || [ -z "$(ls -A "$CHECKPOINT_DIR" 2>/dev/null)" ]; then
+    if [[ ! -d "${CHECKPOINT_DIR}" ]] || [[ -z "$(ls -A "${CHECKPOINT_DIR}" 2>/dev/null)" ]]; then
         echo "No checkpoints found."
         return 0
     fi
 
-    for checkpoint in "$CHECKPOINT_DIR"/*/; do
-        if [ -d "$checkpoint" ]; then
+    for checkpoint in "${CHECKPOINT_DIR}"/*/; do
+        if [[ -d "${checkpoint}" ]]; then
             local task_id
-            task_id=$(basename "$checkpoint")
-            local manifest="$checkpoint/manifest.json"
+            task_id=$(basename "${checkpoint}")
+            local manifest="${checkpoint}/manifest.json"
 
-            if [ -f "$manifest" ]; then
+            if [[ -f "${manifest}" ]]; then
                 local created_at description status
-                created_at=$(jq -r '.created_at // "unknown"' "$manifest" 2>/dev/null || echo "unknown")
-                description=$(jq -r '.description // "No description"' "$manifest" 2>/dev/null || echo "No description")
-                status=$(jq -r '.status // "unknown"' "$manifest" 2>/dev/null || echo "unknown")
+                created_at=$(jq -r '.created_at // "unknown"' "${manifest}" 2>/dev/null || echo "unknown")
+                description=$(jq -r '.description // "No description"' "${manifest}" 2>/dev/null || echo "No description")
+                status=$(jq -r '.status // "unknown"' "${manifest}" 2>/dev/null || echo "unknown")
 
-                printf "%-20s [%s] %s\n" "$task_id" "$status" "$created_at"
-                printf "                     %s\n" "$description"
+                printf "%-20s [%s] %s\n" "${task_id}" "${status}" "${created_at}"
+                printf "                     %s\n" "${description}"
             else
-                printf "%-20s [corrupted] Missing manifest\n" "$task_id"
+                printf "%-20s [corrupted] Missing manifest\n" "${task_id}"
             fi
         fi
     done
@@ -170,84 +170,84 @@ cmd_list() {
 
 cmd_show() {
     local task_id="$1"
-    local checkpoint_path="$CHECKPOINT_DIR/$task_id"
+    local checkpoint_path="${CHECKPOINT_DIR}/${task_id}"
 
-    if [ ! -d "$checkpoint_path" ]; then
-        echo "Error: Checkpoint '$task_id' not found" >&2
+    if [[ ! -d "${checkpoint_path}" ]]; then
+        echo "Error: Checkpoint '${task_id}' not found" >&2
         exit 1
     fi
 
-    echo "Checkpoint: $task_id"
+    echo "Checkpoint: ${task_id}"
     echo "========================"
     echo ""
 
-    if [ -f "$checkpoint_path/manifest.json" ]; then
+    if [[ -f "${checkpoint_path}/manifest.json" ]]; then
         echo "Manifest:"
-        jq '.' "$checkpoint_path/manifest.json" 2>/dev/null || cat "$checkpoint_path/manifest.json"
+        jq '.' "${checkpoint_path}/manifest.json" 2>/dev/null || cat "${checkpoint_path}/manifest.json"
         echo ""
     fi
 
-    if [ -f "$checkpoint_path/state.json" ]; then
+    if [[ -f "${checkpoint_path}/state.json" ]]; then
         echo "State:"
-        jq '.' "$checkpoint_path/state.json" 2>/dev/null || cat "$checkpoint_path/state.json"
+        jq '.' "${checkpoint_path}/state.json" 2>/dev/null || cat "${checkpoint_path}/state.json"
         echo ""
     fi
 
-    if [ -f "$checkpoint_path/context.md" ]; then
+    if [[ -f "${checkpoint_path}/context.md" ]]; then
         echo "Context Summary:"
-        head -50 "$checkpoint_path/context.md"
+        head -50 "${checkpoint_path}/context.md"
         echo ""
     fi
 
-    if [ -d "$checkpoint_path/artifacts" ]; then
+    if [[ -d "${checkpoint_path}/artifacts" ]]; then
         local artifact_count
-        artifact_count=$(find "$checkpoint_path/artifacts" -type f 2>/dev/null | wc -l)
-        echo "Artifacts: $artifact_count files"
-        if [ "$artifact_count" -gt 0 ]; then
-            find "$checkpoint_path/artifacts" -type f -exec ls -lh {} \; 2>/dev/null | head -10
+        artifact_count=$(find "${checkpoint_path}/artifacts" -type f 2>/dev/null | wc -l)
+        echo "Artifacts: ${artifact_count} files"
+        if [[ "${artifact_count}" -gt 0 ]]; then
+            find "${checkpoint_path}/artifacts" -type f -exec ls -lh {} \; 2>/dev/null | head -10
         fi
     fi
 }
 
 cmd_delete() {
     local task_id="$1"
-    local checkpoint_path="$CHECKPOINT_DIR/$task_id"
+    local checkpoint_path="${CHECKPOINT_DIR}/${task_id}"
 
-    if [ ! -d "$checkpoint_path" ]; then
-        echo "Error: Checkpoint '$task_id' not found" >&2
+    if [[ ! -d "${checkpoint_path}" ]]; then
+        echo "Error: Checkpoint '${task_id}' not found" >&2
         exit 1
     fi
 
     # Archive before deleting
-    local archive_dir="$CHECKPOINT_DIR/.archive"
-    mkdir -p "$archive_dir"
+    local archive_dir="${CHECKPOINT_DIR}/.archive"
+    mkdir -p "${archive_dir}"
 
     local archive_name="${task_id}-$(date +%Y%m%d%H%M%S)"
-    mv "$checkpoint_path" "$archive_dir/$archive_name"
+    mv "${checkpoint_path}" "${archive_dir}/${archive_name}"
 
-    log "Deleted checkpoint: $task_id (archived as $archive_name)"
-    echo "Checkpoint '$task_id' deleted (archived to .archive/$archive_name)"
+    log "Deleted checkpoint: ${task_id} (archived as ${archive_name})"
+    echo "Checkpoint '${task_id}' deleted (archived to .archive/${archive_name})"
 }
 
 cmd_update_state() {
     local task_id="$1"
     local key="$2"
     local value="$3"
-    local checkpoint_path="$CHECKPOINT_DIR/$task_id"
-    local state_file="$checkpoint_path/state.json"
+    local checkpoint_path="${CHECKPOINT_DIR}/${task_id}"
+    local state_file="${checkpoint_path}/state.json"
 
-    if [ ! -f "$state_file" ]; then
-        echo "Error: State file not found for checkpoint '$task_id'" >&2
+    if [[ ! -f "${state_file}" ]]; then
+        echo "Error: State file not found for checkpoint '${task_id}'" >&2
         exit 1
     fi
 
     # Update the state file
     local tmp_file
     tmp_file=$(mktemp)
-    jq --arg key "$key" --arg value "$value" '.[$key] = $value | .last_updated = (now | todate)' "$state_file" > "$tmp_file" && mv "$tmp_file" "$state_file"
+    jq --arg key "${key}" --arg value "${value}" '.[${key}] = ${value} | .last_updated = (now | todate)' "${state_file}" >"${tmp_file}" && mv "${tmp_file}" "${state_file}"
 
-    log "Updated state for $task_id: $key"
-    echo "State updated: $key"
+    log "Updated state for ${task_id}: ${key}"
+    echo "State updated: ${key}"
 }
 
 cmd_help() {
@@ -302,40 +302,40 @@ EOF
 COMMAND="${1:-help}"
 shift || true
 
-case "$COMMAND" in
-    create)
-        cmd_create "$@"
-        ;;
-    list)
-        cmd_list
-        ;;
-    show)
-        if [ -z "${1:-}" ]; then
-            echo "Error: task-id required" >&2
-            exit 1
-        fi
-        cmd_show "$1"
-        ;;
-    delete)
-        if [ -z "${1:-}" ]; then
-            echo "Error: task-id required" >&2
-            exit 1
-        fi
-        cmd_delete "$1"
-        ;;
-    update)
-        if [ -z "${1:-}" ] || [ -z "${2:-}" ] || [ -z "${3:-}" ]; then
-            echo "Error: task-id, key, and value required" >&2
-            exit 1
-        fi
-        cmd_update_state "$1" "$2" "$3"
-        ;;
-    help|--help|-h)
-        cmd_help
-        ;;
-    *)
-        echo "Unknown command: $COMMAND" >&2
-        echo "Run 'checkpoint_state.sh help' for usage" >&2
+case "${COMMAND}" in
+create)
+    cmd_create "$@"
+    ;;
+list)
+    cmd_list
+    ;;
+show)
+    if [[ -z "${1:-}" ]]; then
+        echo "Error: task-id required" >&2
         exit 1
-        ;;
+    fi
+    cmd_show "$1"
+    ;;
+delete)
+    if [[ -z "${1:-}" ]]; then
+        echo "Error: task-id required" >&2
+        exit 1
+    fi
+    cmd_delete "$1"
+    ;;
+update)
+    if [[ -z "${1:-}" ]] || [[ -z "${2:-}" ]] || [[ -z "${3:-}" ]]; then
+        echo "Error: task-id, key, and value required" >&2
+        exit 1
+    fi
+    cmd_update_state "$1" "$2" "$3"
+    ;;
+help | --help | -h)
+    cmd_help
+    ;;
+*)
+    echo "Unknown command: ${COMMAND}" >&2
+    echo "Run 'checkpoint_state.sh help' for usage" >&2
+    exit 1
+    ;;
 esac

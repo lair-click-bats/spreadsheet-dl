@@ -14,7 +14,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../lib/common.sh"
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 # Configuration
 TOOL_NAME="yamllint"
@@ -62,59 +62,59 @@ done
 [[ ${#PATHS[@]} -eq 0 ]] && PATHS=(".")
 
 # Main
-print_tool "$TOOL_NAME"
+print_tool "${TOOL_NAME}"
 
 # Check tool installed
-if ! require_tool "$TOOL_CMD" "$INSTALL_HINT"; then
-    json_result "$TOOL_CMD" "skip" "Tool not installed"
+if ! require_tool "${TOOL_CMD}" "${INSTALL_HINT}"; then
+    json_result "${TOOL_CMD}" "skip" "Tool not installed"
     exit 0
 fi
 
 # Find YAML files
 yaml_files=()
 for path in "${PATHS[@]}"; do
-    if [[ -f "$path" ]]; then
-        yaml_files+=("$path")
-    elif [[ -d "$path" ]]; then
+    if [[ -f "${path}" ]]; then
+        yaml_files+=("${path}")
+    elif [[ -d "${path}" ]]; then
         while IFS= read -r -d '' file; do
-            yaml_files+=("$file")
-        done < <(find "$path" -type f \( -name "*.yaml" -o -name "*.yml" \) -not -path "*/.git/*" -not -path "*/.venv/*" -not -path "*/node_modules/*" -print0 2>/dev/null)
+            yaml_files+=("${file}")
+        done < <(find "${path}" -type f \( -name "*.yaml" -o -name "*.yml" \) -not -path "*/.git/*" -not -path "*/.venv/*" -not -path "*/node_modules/*" -print0 2>/dev/null)
     fi
 done
 
 if [[ ${#yaml_files[@]} -eq 0 ]]; then
     print_skip "No YAML files found"
-    json_result "$TOOL_CMD" "skip" "No files found"
+    json_result "${TOOL_CMD}" "skip" "No files found"
     exit 0
 fi
 
 # Build config argument if config exists
 config_args=()
 config_file=$(find_config ".yamllint.yaml")
-if [[ -n "$config_file" ]]; then
-    config_args+=("-c" "$config_file")
+if [[ -n "${config_file}" ]]; then
+    config_args+=("-c" "${config_file}")
 fi
 
 # Run yamllint
-if $VERBOSE; then
+if ${VERBOSE}; then
     if yamllint "${config_args[@]}" "${yaml_files[@]}"; then
         print_pass "All YAML files valid"
-        json_result "$TOOL_CMD" "pass" ""
+        json_result "${TOOL_CMD}" "pass" ""
         exit 0
     else
         print_fail "Issues found"
-        json_result "$TOOL_CMD" "fail" "YAML issues"
+        json_result "${TOOL_CMD}" "fail" "YAML issues"
         exit 1
     fi
 else
     if yamllint "${config_args[@]}" "${yaml_files[@]}" &>/dev/null; then
         print_pass "All YAML files valid"
-        json_result "$TOOL_CMD" "pass" ""
+        json_result "${TOOL_CMD}" "pass" ""
         exit 0
     else
         print_fail "Issues found"
         print_info "Run with -v for details"
-        json_result "$TOOL_CMD" "fail" "YAML issues"
+        json_result "${TOOL_CMD}" "fail" "YAML issues"
         exit 1
     fi
 fi

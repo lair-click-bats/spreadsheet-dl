@@ -29,7 +29,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../lib/common.sh"
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 # Configuration
 DEFAULT_DAYS=30
@@ -38,7 +38,7 @@ AGENT_OUTPUTS_DIR="${REPO_ROOT}/.claude/agent-outputs"
 TIMESTAMP=$(date '+%Y-%m-%d_%H%M%S')
 
 # Options
-DAYS=$DEFAULT_DAYS
+DAYS=${DEFAULT_DAYS}
 DRY_RUN=false
 CRON_MODE=false
 VERBOSE=false
@@ -158,7 +158,7 @@ get_file_age_days() {
     local age_seconds
 
     now=$(date +%s)
-    file_mtime=$(stat -c %Y "$file" 2>/dev/null || stat -f %m "$file" 2>/dev/null)
+    file_mtime=$(stat -c %Y "${file}" 2>/dev/null || stat -f %m "${file}" 2>/dev/null)
     age_seconds=$((now - file_mtime))
     echo $((age_seconds / 86400))
 }
@@ -166,67 +166,67 @@ get_file_age_days() {
 # Get file modification time in ISO format
 get_file_mtime_iso() {
     local file="$1"
-    stat -c %y "$file" 2>/dev/null | cut -d. -f1 | tr ' ' 'T' ||
-        date -r "$file" '+%Y-%m-%dT%H:%M:%S' 2>/dev/null ||
+    stat -c %y "${file}" 2>/dev/null | cut -d. -f1 | tr ' ' 'T' ||
+        date -r "${file}" '+%Y-%m-%dT%H:%M:%S' 2>/dev/null ||
         echo "unknown"
 }
 
 # Get file size in bytes
 get_file_size() {
     local file="$1"
-    stat -c %s "$file" 2>/dev/null || stat -f %z "$file" 2>/dev/null || echo 0
+    stat -c %s "${file}" 2>/dev/null || stat -f %z "${file}" 2>/dev/null || echo 0
 }
 
 # Create archive directory
 create_archive_dir() {
     local base_dir="$1"
-    local archive_dir="$base_dir/archive/$TIMESTAMP"
+    local archive_dir="${base_dir}/archive/${TIMESTAMP}"
 
-    if ! $DRY_RUN; then
-        mkdir -p "$archive_dir"
+    if ! ${DRY_RUN}; then
+        mkdir -p "${archive_dir}"
     fi
-    echo "$archive_dir"
+    echo "${archive_dir}"
 }
 
 # Generate manifest JSON
 generate_manifest() {
     local archive_dir="$1"
-    local manifest_file="$archive_dir/manifest.json"
+    local manifest_file="${archive_dir}/manifest.json"
     local files_json=""
     local i=0
 
     for entry in "${ARCHIVED_FILES[@]}"; do
         # Parse entry: name|original_path|size|mtime
-        IFS='|' read -r name original size mtime <<<"$entry"
+        IFS='|' read -r name original size mtime <<<"${entry}"
 
-        if [[ $i -gt 0 ]]; then
+        if [[ ${i} -gt 0 ]]; then
             files_json+=","
         fi
         files_json+="
         {
-            \"name\": \"$name\",
-            \"original_path\": \"$original\",
-            \"size_bytes\": $size,
-            \"modified_at\": \"$mtime\"
+            \"name\": \"${name}\",
+            \"original_path\": \"${original}\",
+            \"size_bytes\": ${size},
+            \"modified_at\": \"${mtime}\"
         }"
         ((i++)) || true
     done
 
-    if ! $DRY_RUN; then
-        cat >"$manifest_file" <<EOF
+    if ! ${DRY_RUN}; then
+        cat >"${manifest_file}" <<EOF
 {
     "archived_at": "$(date -Iseconds)",
-    "threshold_days": $DAYS,
-    "files": [$files_json
+    "threshold_days": ${DAYS},
+    "files": [${files_json}
     ],
-    "total_files": $ARCHIVED_COUNT,
-    "total_size_bytes": $TOTAL_SIZE
+    "total_files": ${ARCHIVED_COUNT},
+    "total_size_bytes": ${TOTAL_SIZE}
 }
 EOF
     fi
 
-    if $VERBOSE && ! $CRON_MODE; then
-        print_pass "Created manifest: $manifest_file"
+    if ${VERBOSE} && ! ${CRON_MODE}; then
+        print_pass "Created manifest: ${manifest_file}"
     fi
 }
 
@@ -240,42 +240,42 @@ archive_directory() {
     local archived_from_dir=0
     local archive_dir=""
 
-    if [[ ! -d "$source_dir" ]]; then
-        if ! $CRON_MODE; then
-            print_skip "$dir_name: Directory not found"
+    if [[ ! -d "${source_dir}" ]]; then
+        if ! ${CRON_MODE}; then
+            print_skip "${dir_name}: Directory not found"
         fi
         return 0
     fi
 
-    if ! $CRON_MODE; then
-        print_section "Archiving $dir_name"
+    if ! ${CRON_MODE}; then
+        print_section "Archiving ${dir_name}"
     fi
 
     # Find old files
     local old_files=()
     while IFS= read -r -d '' file; do
         # Skip archive directory itself
-        [[ "$file" == *"/archive/"* ]] && continue
+        [[ "${file}" == *"/archive/"* ]] && continue
 
         local age
-        age=$(get_file_age_days "$file")
-        if [[ $age -ge $DAYS ]]; then
-            old_files+=("$file")
+        age=$(get_file_age_days "${file}")
+        if [[ ${age} -ge ${DAYS} ]]; then
+            old_files+=("${file}")
         fi
-    done < <(find "$source_dir" -maxdepth 1 -type f -print0 2>/dev/null)
+    done < <(find "${source_dir}" -maxdepth 1 -type f -print0 2>/dev/null)
 
     if [[ ${#old_files[@]} -eq 0 ]]; then
-        if ! $CRON_MODE; then
-            print_info "No files older than $DAYS days"
+        if ! ${CRON_MODE}; then
+            print_info "No files older than ${DAYS} days"
         fi
         return 0
     fi
 
     # Create archive directory
-    archive_dir=$(create_archive_dir "$source_dir")
+    archive_dir=$(create_archive_dir "${source_dir}")
 
-    if $VERBOSE && ! $CRON_MODE; then
-        print_info "Archive destination: $archive_dir"
+    if ${VERBOSE} && ! ${CRON_MODE}; then
+        print_info "Archive destination: ${archive_dir}"
     fi
 
     # Archive each file
@@ -285,47 +285,47 @@ archive_directory() {
         local mtime
         local age
 
-        filename=$(basename "$file")
-        size=$(get_file_size "$file")
-        mtime=$(get_file_mtime_iso "$file")
-        age=$(get_file_age_days "$file")
+        filename=$(basename "${file}")
+        size=$(get_file_size "${file}")
+        mtime=$(get_file_mtime_iso "${file}")
+        age=$(get_file_age_days "${file}")
 
-        if $DRY_RUN; then
-            if ! $CRON_MODE; then
-                print_info "Would archive: $filename (${age}d old, ${size} bytes)"
+        if ${DRY_RUN}; then
+            if ! ${CRON_MODE}; then
+                print_info "Would archive: ${filename} (${age}d old, ${size} bytes)"
             fi
         else
-            if mv "$file" "$archive_dir/"; then
-                if $VERBOSE && ! $CRON_MODE; then
-                    print_pass "Archived: $filename"
+            if mv "${file}" "${archive_dir}/"; then
+                if ${VERBOSE} && ! ${CRON_MODE}; then
+                    print_pass "Archived: ${filename}"
                 fi
             else
-                if ! $CRON_MODE; then
-                    print_fail "Failed to archive: $filename"
+                if ! ${CRON_MODE}; then
+                    print_fail "Failed to archive: ${filename}"
                 fi
                 continue
             fi
         fi
 
         # Track for manifest
-        ARCHIVED_FILES+=("$filename|$source_dir/$filename|$size|$mtime")
+        ARCHIVED_FILES+=("${filename}|${source_dir}/${filename}|${size}|${mtime}")
         ((ARCHIVED_COUNT++)) || true
         ((TOTAL_SIZE += size)) || true
         ((archived_from_dir++)) || true
     done
 
     # Generate manifest if files were archived
-    if [[ $archived_from_dir -gt 0 ]] && [[ ${#ARCHIVED_FILES[@]} -gt 0 ]]; then
-        if ! $DRY_RUN; then
-            generate_manifest "$archive_dir"
+    if [[ ${archived_from_dir} -gt 0 ]] && [[ ${#ARCHIVED_FILES[@]} -gt 0 ]]; then
+        if ! ${DRY_RUN}; then
+            generate_manifest "${archive_dir}"
         fi
     fi
 
-    if ! $CRON_MODE; then
-        if $DRY_RUN; then
-            print_info "Would archive $archived_from_dir file(s) from $dir_name"
+    if ! ${CRON_MODE}; then
+        if ${DRY_RUN}; then
+            print_info "Would archive ${archived_from_dir} file(s) from ${dir_name}"
         else
-            print_pass "Archived $archived_from_dir file(s) from $dir_name"
+            print_pass "Archived ${archived_from_dir} file(s) from ${dir_name}"
         fi
     fi
 }
@@ -382,13 +382,13 @@ done
 
 main() {
     # Header
-    if ! $CRON_MODE; then
+    if ! ${CRON_MODE}; then
         print_header "COORDINATION FILE ARCHIVAL"
         echo ""
-        print_info "Repository: $REPO_ROOT"
-        print_info "Threshold:  $DAYS days"
+        print_info "Repository: ${REPO_ROOT}"
+        print_info "Threshold:  ${DAYS} days"
         print_info "Timestamp:  $(date '+%Y-%m-%d %H:%M:%S')"
-        if $DRY_RUN; then
+        if ${DRY_RUN}; then
             echo ""
             echo -e "  ${YELLOW}DRY RUN MODE - No changes will be made${NC}"
         fi
@@ -402,26 +402,26 @@ main() {
     ARCHIVED_FILES=()
 
     # Archive coordination files
-    archive_directory "$COORDINATION_DIR" ".coordination"
+    archive_directory "${COORDINATION_DIR}" ".coordination"
 
     # Reset file list for second directory
     ARCHIVED_FILES=()
 
     # Archive agent outputs
-    archive_directory "$AGENT_OUTPUTS_DIR" ".claude/agent-outputs"
+    archive_directory "${AGENT_OUTPUTS_DIR}" ".claude/agent-outputs"
 
     # Summary
-    if ! $CRON_MODE; then
+    if ! ${CRON_MODE}; then
         print_header "SUMMARY"
         echo ""
-        printf "  %-25s %d\n" "Files archived:" "$ARCHIVED_COUNT"
-        printf "  %-25s %s\n" "Total size:" "$(numfmt --to=iec $TOTAL_SIZE 2>/dev/null || echo "${TOTAL_SIZE} bytes")"
-        printf "  %-25s %d days\n" "Age threshold:" "$DAYS"
+        printf "  %-25s %d\n" "Files archived:" "${ARCHIVED_COUNT}"
+        printf "  %-25s %s\n" "Total size:" "$(numfmt --to=iec ${TOTAL_SIZE} 2>/dev/null || echo "${TOTAL_SIZE} bytes")"
+        printf "  %-25s %d days\n" "Age threshold:" "${DAYS}"
         echo ""
 
-        if $DRY_RUN; then
+        if ${DRY_RUN}; then
             print_info "Dry run complete - no files were moved"
-        elif [[ $ARCHIVED_COUNT -eq 0 ]]; then
+        elif [[ ${ARCHIVED_COUNT} -eq 0 ]]; then
             print_pass "No files needed archiving"
         else
             print_pass "Archival complete"
@@ -431,7 +431,7 @@ main() {
     # JSON output
     if is_json_mode; then
         printf '{"archived_count":%d,"total_size_bytes":%d,"threshold_days":%d,"dry_run":%s,"timestamp":"%s"}\n' \
-            "$ARCHIVED_COUNT" "$TOTAL_SIZE" "$DAYS" "$DRY_RUN" "$(date -Iseconds)"
+            "${ARCHIVED_COUNT}" "${TOTAL_SIZE}" "${DAYS}" "${DRY_RUN}" "$(date -Iseconds)"
     fi
 
     exit 0

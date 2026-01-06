@@ -15,7 +15,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/lib/common.sh"
+source "${SCRIPT_DIR}/lib/common.sh"
 
 # Defaults
 JSON_ARGS=""
@@ -53,7 +53,7 @@ done
 
 print_header "QUALITY CHECK"
 echo ""
-echo -e "  ${DIM}Repository:${NC} $REPO_ROOT"
+echo -e "  ${DIM}Repository:${NC} ${REPO_ROOT}"
 echo -e "  ${DIM}Timestamp:${NC}  $(date '+%Y-%m-%d %H:%M:%S')"
 
 # Run all tool scripts in check mode
@@ -64,12 +64,12 @@ run_check() {
     local args="${2:-}"
 
     # Check if script exists
-    if [[ ! -f "$SCRIPT_DIR/tools/$script" ]]; then
+    if [[ ! -f "${SCRIPT_DIR}/tools/${script}" ]]; then
         return 0
     fi
 
     # shellcheck disable=SC2086
-    if ! "$SCRIPT_DIR/tools/$script" $args $JSON_ARGS $VERBOSE_ARGS; then
+    if ! "${SCRIPT_DIR}/tools/${script}" ${args} ${JSON_ARGS} ${VERBOSE_ARGS}; then
         ((failed++)) || true
     fi
 }
@@ -99,11 +99,11 @@ run_check "mermaid.sh" "--check"
 # Summary
 print_header "SUMMARY"
 echo ""
-if [[ $failed -eq 0 ]]; then
+if [[ ${failed} -eq 0 ]]; then
     echo -e "  ${GREEN}${BOLD}All checks passed!${NC}"
     exit 0
 else
-    echo -e "  ${RED}${BOLD}$failed check(s) failed${NC}"
+    echo -e "  ${RED}${BOLD}${failed} check(s) failed${NC}"
     echo -e "  ${DIM}Run ./scripts/fix.sh to auto-fix issues${NC}"
     exit 1
 fi

@@ -55,7 +55,7 @@ log_skip() {
 }
 
 log_info() {
-    if $VERBOSE; then
+    if ${VERBOSE}; then
         echo -e "  ${BLUE}[INFO]${NC} $*"
     fi
 }
@@ -73,7 +73,7 @@ setup_test_env() {
 
     # Create temporary directory
     TEST_DIR=$(mktemp -d)
-    log_info "Test directory: $TEST_DIR"
+    log_info "Test directory: ${TEST_DIR}"
 
     # Check for required tools
     echo -e "${BLUE}Checking dependencies...${NC}"
@@ -128,10 +128,10 @@ setup_test_env() {
 
 create_test_files() {
     # Create test text files
-    mkdir -p "$TEST_DIR/src" "$TEST_DIR/docs"
+    mkdir -p "${TEST_DIR}/src" "${TEST_DIR}/docs"
 
     # Python file
-    cat >"$TEST_DIR/src/example.py" <<'EOF'
+    cat >"${TEST_DIR}/src/example.py" <<'EOF'
 #!/usr/bin/env python3
 """Example Python script for testing search."""
 
@@ -149,7 +149,7 @@ if __name__ == "__main__":
 EOF
 
     # JavaScript file
-    cat >"$TEST_DIR/src/example.js" <<'EOF'
+    cat >"${TEST_DIR}/src/example.js" <<'EOF'
 // Example JavaScript file for testing
 
 function helloWorld() {
@@ -166,7 +166,7 @@ module.exports = { helloWorld, searchTest };
 EOF
 
     # Markdown file
-    cat >"$TEST_DIR/docs/README.md" <<'EOF'
+    cat >"${TEST_DIR}/docs/README.md" <<'EOF'
 # Test Documentation
 
 This is a test README file for search testing.
@@ -184,14 +184,14 @@ This is a test README file for search testing.
 EOF
 
     # Hidden file
-    cat >"$TEST_DIR/.hidden_file" <<'EOF'
+    cat >"${TEST_DIR}/.hidden_file" <<'EOF'
 This is a hidden file for testing --hidden flag.
 TODO: Hidden TODO
 EOF
 
     # Create a simple test PDF if pdftotext is available
     # (We'll create a text file that mimics what pdftotext would output)
-    cat >"$TEST_DIR/docs/sample.txt" <<'EOF'
+    cat >"${TEST_DIR}/docs/sample.txt" <<'EOF'
 Sample PDF Content
 
 This is sample text content that would be in a PDF file.
@@ -203,25 +203,25 @@ Keywords: test, sample, search, document
 EOF
 
     # Create .gitignore
-    cat >"$TEST_DIR/.gitignore" <<'EOF'
+    cat >"${TEST_DIR}/.gitignore" <<'EOF'
 *.tmp
 ignored_dir/
 EOF
 
-    mkdir -p "$TEST_DIR/ignored_dir"
-    echo "This should be ignored" >"$TEST_DIR/ignored_dir/ignored.txt"
-    echo "Temporary file" >"$TEST_DIR/temp.tmp"
+    mkdir -p "${TEST_DIR}/ignored_dir"
+    echo "This should be ignored" >"${TEST_DIR}/ignored_dir/ignored.txt"
+    echo "Temporary file" >"${TEST_DIR}/temp.tmp"
 
     log_info "Created test files"
 }
 
 cleanup_test_env() {
-    if [[ -n "$TEST_DIR" ]] && [[ -d "$TEST_DIR" ]]; then
-        if $KEEP_TEMP; then
+    if [[ -n "${TEST_DIR}" ]] && [[ -d "${TEST_DIR}" ]]; then
+        if ${KEEP_TEMP}; then
             echo ""
-            echo -e "${BLUE}Test files preserved at: $TEST_DIR${NC}"
+            echo -e "${BLUE}Test files preserved at: ${TEST_DIR}${NC}"
         else
-            rm -rf "$TEST_DIR"
+            rm -rf "${TEST_DIR}"
             log_info "Cleaned up test directory"
         fi
     fi
@@ -232,16 +232,16 @@ cleanup_test_env() {
 # =============================================================================
 
 test_search_help() {
-    local script="$SCRIPT_DIR/search.sh"
+    local script="${SCRIPT_DIR}/search.sh"
     ((TESTS_RUN++))
     log_test "search.sh: Help flag (--help)"
 
-    if [[ ! -x "$script" ]]; then
-        log_fail "Script not executable: $script"
+    if [[ ! -x "${script}" ]]; then
+        log_fail "Script not executable: ${script}"
         return 1
     fi
 
-    if "$script" --help &>/dev/null; then
+    if "${script}" --help &>/dev/null; then
         log_pass "search.sh help works"
     else
         log_fail "search.sh help failed"
@@ -250,11 +250,11 @@ test_search_help() {
 }
 
 test_search_no_args() {
-    local script="$SCRIPT_DIR/search.sh"
+    local script="${SCRIPT_DIR}/search.sh"
     ((TESTS_RUN++))
     log_test "search.sh: No arguments shows help"
 
-    if "$script" &>/dev/null; then
+    if "${script}" &>/dev/null; then
         log_pass "search.sh shows help with no args"
     else
         log_fail "search.sh failed with no args"
@@ -263,13 +263,13 @@ test_search_no_args() {
 }
 
 test_search_version() {
-    local script="$SCRIPT_DIR/search.sh"
+    local script="${SCRIPT_DIR}/search.sh"
     ((TESTS_RUN++))
     log_test "search.sh: Version command"
 
     local output
-    if output=$("$script" version 2>&1); then
-        if echo "$output" | grep -q "ripgrep\|grep\|ag"; then
+    if output=$("${script}" version 2>&1); then
+        if echo "${output}" | grep -q "ripgrep\|grep\|ag"; then
             log_pass "search.sh version works"
         else
             log_fail "search.sh version output unexpected"
@@ -282,13 +282,13 @@ test_search_version() {
 }
 
 test_search_text_basic() {
-    local script="$SCRIPT_DIR/search.sh"
+    local script="${SCRIPT_DIR}/search.sh"
     ((TESTS_RUN++))
     log_test "search.sh: Basic text search"
 
     local output
-    if output=$("$script" text "hello" "$TEST_DIR" 2>&1); then
-        if echo "$output" | grep -qi "hello"; then
+    if output=$("${script}" text "hello" "${TEST_DIR}" 2>&1); then
+        if echo "${output}" | grep -qi "hello"; then
             log_pass "Basic text search works"
         else
             log_fail "Text search found no matches"
@@ -301,13 +301,13 @@ test_search_text_basic() {
 }
 
 test_search_text_case_insensitive() {
-    local script="$SCRIPT_DIR/search.sh"
+    local script="${SCRIPT_DIR}/search.sh"
     ((TESTS_RUN++))
     log_test "search.sh: Case insensitive text search (-i)"
 
     local output
-    if output=$("$script" text -i "HELLO" "$TEST_DIR" 2>&1); then
-        if echo "$output" | grep -qi "hello"; then
+    if output=$("${script}" text -i "HELLO" "${TEST_DIR}" 2>&1); then
+        if echo "${output}" | grep -qi "hello"; then
             log_pass "Case insensitive search works"
         else
             log_fail "Case insensitive search found no matches"
@@ -320,13 +320,13 @@ test_search_text_case_insensitive() {
 }
 
 test_search_text_count() {
-    local script="$SCRIPT_DIR/search.sh"
+    local script="${SCRIPT_DIR}/search.sh"
     ((TESTS_RUN++))
     log_test "search.sh: Count matches (-c)"
 
     local output
-    if output=$("$script" text -c "TODO" "$TEST_DIR" 2>&1); then
-        if echo "$output" | grep -qE '[0-9]+'; then
+    if output=$("${script}" text -c "TODO" "${TEST_DIR}" 2>&1); then
+        if echo "${output}" | grep -qE '[0-9]+'; then
             log_pass "Count option works"
         else
             log_fail "Count option produced no numbers"
@@ -339,16 +339,16 @@ test_search_text_count() {
 }
 
 test_search_text_list_files() {
-    local script="$SCRIPT_DIR/search.sh"
+    local script="${SCRIPT_DIR}/search.sh"
     ((TESTS_RUN++))
     log_test "search.sh: List files only (-l)"
 
     local output
-    if output=$("$script" text -l "TODO" "$TEST_DIR" 2>&1); then
-        if echo "$output" | grep -qE '\.(py|js|md)'; then
+    if output=$("${script}" text -l "TODO" "${TEST_DIR}" 2>&1); then
+        if echo "${output}" | grep -qE '\.(py|js|md)'; then
             log_pass "List files option works"
         else
-            log_info "Output: $output"
+            log_info "Output: ${output}"
             log_fail "List files option produced unexpected output"
             return 1
         fi
@@ -359,7 +359,7 @@ test_search_text_list_files() {
 }
 
 test_search_text_type_filter() {
-    local script="$SCRIPT_DIR/search.sh"
+    local script="${SCRIPT_DIR}/search.sh"
     ((TESTS_RUN++))
     log_test "search.sh: File type filter (-t py)"
 
@@ -370,8 +370,8 @@ test_search_text_type_filter() {
     fi
 
     local output
-    if output=$("$script" text -t py "def" "$TEST_DIR" 2>&1); then
-        if echo "$output" | grep -q "example.py"; then
+    if output=$("${script}" text -t py "def" "${TEST_DIR}" 2>&1); then
+        if echo "${output}" | grep -q "example.py"; then
             log_pass "Type filter works"
         else
             log_fail "Type filter found no Python files"
@@ -384,13 +384,13 @@ test_search_text_type_filter() {
 }
 
 test_search_text_dry_run() {
-    local script="$SCRIPT_DIR/search.sh"
+    local script="${SCRIPT_DIR}/search.sh"
     ((TESTS_RUN++))
     log_test "search.sh: Dry run mode"
 
     local output
-    if output=$("$script" text --dry-run "pattern" "$TEST_DIR" 2>&1); then
-        if echo "$output" | grep -qi "dry.run"; then
+    if output=$("${script}" text --dry-run "pattern" "${TEST_DIR}" 2>&1); then
+        if echo "${output}" | grep -qi "dry.run"; then
             log_pass "Dry run mode works"
         else
             log_fail "Dry run output unexpected"
@@ -403,18 +403,18 @@ test_search_text_dry_run() {
 }
 
 test_search_text_json() {
-    local script="$SCRIPT_DIR/search.sh"
+    local script="${SCRIPT_DIR}/search.sh"
     ((TESTS_RUN++))
     log_test "search.sh: JSON output mode"
 
     # JSON mode behavior depends on whether ripgrep is available
     local output
-    if output=$("$script" text --json "hello" "$TEST_DIR" 2>&1); then
+    if output=$("${script}" text --json "hello" "${TEST_DIR}" 2>&1); then
         # Either ripgrep JSON or our wrapper JSON
-        if echo "$output" | grep -qE '\{|\[|"'; then
+        if echo "${output}" | grep -qE '\{|\[|"'; then
             log_pass "JSON output mode works"
         else
-            log_info "Output: $output"
+            log_info "Output: ${output}"
             log_fail "JSON output not valid"
             return 1
         fi
@@ -425,13 +425,13 @@ test_search_text_json() {
 }
 
 test_search_find_basic() {
-    local script="$SCRIPT_DIR/search.sh"
+    local script="${SCRIPT_DIR}/search.sh"
     ((TESTS_RUN++))
     log_test "search.sh: Find files by name"
 
     local output
-    if output=$("$script" find "*.py" "$TEST_DIR" 2>&1); then
-        if echo "$output" | grep -q "example.py"; then
+    if output=$("${script}" find "*.py" "${TEST_DIR}" 2>&1); then
+        if echo "${output}" | grep -q "example.py"; then
             log_pass "Find files works"
         else
             log_fail "Find didn't locate Python file"
@@ -444,13 +444,13 @@ test_search_find_basic() {
 }
 
 test_search_find_case_insensitive() {
-    local script="$SCRIPT_DIR/search.sh"
+    local script="${SCRIPT_DIR}/search.sh"
     ((TESTS_RUN++))
     log_test "search.sh: Find files case insensitive"
 
     local output
-    if output=$("$script" find -i "README*" "$TEST_DIR" 2>&1); then
-        if echo "$output" | grep -qi "readme"; then
+    if output=$("${script}" find -i "README*" "${TEST_DIR}" 2>&1); then
+        if echo "${output}" | grep -qi "readme"; then
             log_pass "Find case insensitive works"
         else
             log_fail "Find didn't locate README"
@@ -463,13 +463,13 @@ test_search_find_case_insensitive() {
 }
 
 test_search_hidden() {
-    local script="$SCRIPT_DIR/search.sh"
+    local script="${SCRIPT_DIR}/search.sh"
     ((TESTS_RUN++))
     log_test "search.sh: Include hidden files (--hidden)"
 
     local output
-    if output=$("$script" text --hidden "Hidden TODO" "$TEST_DIR" 2>&1); then
-        if echo "$output" | grep -q "hidden"; then
+    if output=$("${script}" text --hidden "Hidden TODO" "${TEST_DIR}" 2>&1); then
+        if echo "${output}" | grep -q "hidden"; then
             log_pass "Hidden files search works"
         else
             log_fail "Hidden file not found"
@@ -486,16 +486,16 @@ test_search_hidden() {
 # =============================================================================
 
 test_pdf_help() {
-    local script="$SCRIPT_DIR/pdf_tools.sh"
+    local script="${SCRIPT_DIR}/pdf_tools.sh"
     ((TESTS_RUN++))
     log_test "pdf_tools.sh: Help flag (--help)"
 
-    if [[ ! -x "$script" ]]; then
-        log_fail "Script not executable: $script"
+    if [[ ! -x "${script}" ]]; then
+        log_fail "Script not executable: ${script}"
         return 1
     fi
 
-    if "$script" --help &>/dev/null; then
+    if "${script}" --help &>/dev/null; then
         log_pass "pdf_tools.sh help works"
     else
         log_fail "pdf_tools.sh help failed"
@@ -504,11 +504,11 @@ test_pdf_help() {
 }
 
 test_pdf_no_args() {
-    local script="$SCRIPT_DIR/pdf_tools.sh"
+    local script="${SCRIPT_DIR}/pdf_tools.sh"
     ((TESTS_RUN++))
     log_test "pdf_tools.sh: No arguments shows help"
 
-    if "$script" &>/dev/null; then
+    if "${script}" &>/dev/null; then
         log_pass "pdf_tools.sh shows help with no args"
     else
         log_fail "pdf_tools.sh failed with no args"
@@ -517,13 +517,13 @@ test_pdf_no_args() {
 }
 
 test_pdf_version() {
-    local script="$SCRIPT_DIR/pdf_tools.sh"
+    local script="${SCRIPT_DIR}/pdf_tools.sh"
     ((TESTS_RUN++))
     log_test "pdf_tools.sh: Version command"
 
     local output
-    if output=$("$script" version 2>&1); then
-        if echo "$output" | grep -qE "pdftotext|pdfinfo|tesseract|ocrmypdf"; then
+    if output=$("${script}" version 2>&1); then
+        if echo "${output}" | grep -qE "pdftotext|pdfinfo|tesseract|ocrmypdf"; then
             log_pass "pdf_tools.sh version works"
         else
             log_fail "pdf_tools.sh version output unexpected"
@@ -536,16 +536,16 @@ test_pdf_version() {
 }
 
 test_pdf_missing_file() {
-    local script="$SCRIPT_DIR/pdf_tools.sh"
+    local script="${SCRIPT_DIR}/pdf_tools.sh"
     ((TESTS_RUN++))
     log_test "pdf_tools.sh: Missing file error"
 
     local output
-    if output=$("$script" info "/nonexistent/file.pdf" 2>&1); then
+    if output=$("${script}" info "/nonexistent/file.pdf" 2>&1); then
         log_fail "Should fail on missing file"
         return 1
     else
-        if echo "$output" | grep -qi "not found"; then
+        if echo "${output}" | grep -qi "not found"; then
             log_pass "Missing file error handled correctly"
         else
             log_fail "Missing file error message unexpected"
@@ -555,20 +555,20 @@ test_pdf_missing_file() {
 }
 
 test_pdf_invalid_file() {
-    local script="$SCRIPT_DIR/pdf_tools.sh"
+    local script="${SCRIPT_DIR}/pdf_tools.sh"
     ((TESTS_RUN++))
     log_test "pdf_tools.sh: Invalid PDF file error"
 
     # Use a text file as invalid PDF
     local output
-    if output=$("$script" info "$TEST_DIR/src/example.py" 2>&1); then
+    if output=$("${script}" info "${TEST_DIR}/src/example.py" 2>&1); then
         log_fail "Should fail on non-PDF file"
         return 1
     else
-        if echo "$output" | grep -qi "not.*valid\|not.*pdf"; then
+        if echo "${output}" | grep -qi "not.*valid\|not.*pdf"; then
             log_pass "Invalid PDF error handled correctly"
         else
-            log_info "Output: $output"
+            log_info "Output: ${output}"
             log_fail "Invalid PDF error message unexpected"
             return 1
         fi
@@ -576,16 +576,16 @@ test_pdf_invalid_file() {
 }
 
 test_pdf_dry_run() {
-    local script="$SCRIPT_DIR/pdf_tools.sh"
+    local script="${SCRIPT_DIR}/pdf_tools.sh"
     ((TESTS_RUN++))
     log_test "pdf_tools.sh: Dry run mode"
 
     # Create a minimal valid-looking PDF header
-    echo -e "%PDF-1.4\n%%EOF" >"$TEST_DIR/minimal.pdf"
+    echo -e "%PDF-1.4\n%%EOF" >"${TEST_DIR}/minimal.pdf"
 
     local output
-    if output=$("$script" extract --dry-run "$TEST_DIR/minimal.pdf" 2>&1); then
-        if echo "$output" | grep -qi "dry.run"; then
+    if output=$("${script}" extract --dry-run "${TEST_DIR}/minimal.pdf" 2>&1); then
+        if echo "${output}" | grep -qi "dry.run"; then
             log_pass "pdf_tools.sh dry run works"
         else
             log_fail "Dry run output unexpected"
@@ -598,7 +598,7 @@ test_pdf_dry_run() {
 }
 
 test_pdf_extract_with_real_pdf() {
-    local script="$SCRIPT_DIR/pdf_tools.sh"
+    local script="${SCRIPT_DIR}/pdf_tools.sh"
     ((TESTS_RUN++))
     log_test "pdf_tools.sh: Extract from real PDF"
 
@@ -627,25 +627,25 @@ test_shellcheck() {
     fi
 
     local scripts=(
-        "$SCRIPT_DIR/search.sh"
-        "$SCRIPT_DIR/pdf_tools.sh"
+        "${SCRIPT_DIR}/search.sh"
+        "${SCRIPT_DIR}/pdf_tools.sh"
     )
 
     for script in "${scripts[@]}"; do
         ((TESTS_RUN++))
         local name
-        name=$(basename "$script")
-        log_test "ShellCheck: $name"
+        name=$(basename "${script}")
+        log_test "ShellCheck: ${name}"
 
-        if [[ ! -f "$script" ]]; then
-            log_skip "Script not found: $name"
+        if [[ ! -f "${script}" ]]; then
+            log_skip "Script not found: ${name}"
             continue
         fi
 
-        if shellcheck "$script" 2>/dev/null; then
-            log_pass "$name passes ShellCheck"
+        if shellcheck "${script}" 2>/dev/null; then
+            log_pass "${name} passes ShellCheck"
         else
-            log_fail "$name has ShellCheck issues"
+            log_fail "${name} has ShellCheck issues"
         fi
     done
 }
@@ -659,12 +659,12 @@ test_exit_codes() {
     echo -e "${BLUE}Testing: Exit Codes${NC}"
     echo "----------------------------------------"
 
-    local script="$SCRIPT_DIR/search.sh"
+    local script="${SCRIPT_DIR}/search.sh"
 
     # Test exit code 0 (matches found)
     ((TESTS_RUN++))
     log_test "Exit code 0 when matches found"
-    if "$script" text "hello" "$TEST_DIR" &>/dev/null; then
+    if "${script}" text "hello" "${TEST_DIR}" &>/dev/null; then
         log_pass "Exit 0 on matches"
     else
         log_fail "Expected exit 0 on matches"
@@ -673,28 +673,28 @@ test_exit_codes() {
     # Test exit code 1 (no matches)
     ((TESTS_RUN++))
     log_test "Exit code 1 when no matches found"
-    if "$script" text "nonexistent_pattern_xyz123" "$TEST_DIR" &>/dev/null; then
+    if "${script}" text "nonexistent_pattern_xyz123" "${TEST_DIR}" &>/dev/null; then
         log_fail "Expected exit 1 on no matches"
     else
         local code=$?
-        if [[ $code -eq 1 ]]; then
+        if [[ ${code} -eq 1 ]]; then
             log_pass "Exit 1 on no matches"
         else
-            log_fail "Expected exit 1, got $code"
+            log_fail "Expected exit 1, got ${code}"
         fi
     fi
 
     # Test exit code 2 (error)
     ((TESTS_RUN++))
     log_test "Exit code 2 on invalid command"
-    if "$script" invalid_command pattern 2>/dev/null; then
+    if "${script}" invalid_command pattern 2>/dev/null; then
         log_fail "Expected exit 2 on invalid command"
     else
         local code=$?
-        if [[ $code -eq 2 ]]; then
+        if [[ ${code} -eq 2 ]]; then
             log_pass "Exit 2 on invalid command"
         else
-            log_fail "Expected exit 2, got $code"
+            log_fail "Expected exit 2, got ${code}"
         fi
     fi
 }
@@ -708,16 +708,16 @@ test_integration() {
     echo -e "${BLUE}Testing: Integration${NC}"
     echo "----------------------------------------"
 
-    local search_script="$SCRIPT_DIR/search.sh"
-    local pdf_script="$SCRIPT_DIR/pdf_tools.sh"
+    local search_script="${SCRIPT_DIR}/search.sh"
+    local pdf_script="${SCRIPT_DIR}/pdf_tools.sh"
 
     # Test search.sh all command
     ((TESTS_RUN++))
     log_test "search.sh: Combined text+PDF search (all)"
 
     local output
-    if output=$("$search_script" all "hello" "$TEST_DIR" 2>&1); then
-        if echo "$output" | grep -q "Text Files"; then
+    if output=$("${search_script}" all "hello" "${TEST_DIR}" 2>&1); then
+        if echo "${output}" | grep -q "Text Files"; then
             log_pass "Combined search works"
         else
             log_fail "Combined search output unexpected"
@@ -725,7 +725,7 @@ test_integration() {
         fi
     else
         # Might return 1 if no PDF matches
-        if echo "$output" | grep -q "Text Files"; then
+        if echo "${output}" | grep -q "Text Files"; then
             log_pass "Combined search works (no PDFs)"
         else
             log_fail "Combined search failed"
@@ -775,8 +775,8 @@ main() {
     trap cleanup_test_env EXIT
 
     # Make scripts executable
-    chmod +x "$SCRIPT_DIR/search.sh" 2>/dev/null || true
-    chmod +x "$SCRIPT_DIR/pdf_tools.sh" 2>/dev/null || true
+    chmod +x "${SCRIPT_DIR}/search.sh" 2>/dev/null || true
+    chmod +x "${SCRIPT_DIR}/pdf_tools.sh" 2>/dev/null || true
 
     # Run search.sh tests
     echo ""
@@ -819,21 +819,21 @@ main() {
     echo "  Test Summary"
     echo "=========================================="
     echo ""
-    echo "Tests run:    $TESTS_RUN"
-    echo -e "${GREEN}Tests passed: $TESTS_PASSED${NC}"
-    if [[ $TESTS_FAILED -gt 0 ]]; then
-        echo -e "${RED}Tests failed: $TESTS_FAILED${NC}"
+    echo "Tests run:    ${TESTS_RUN}"
+    echo -e "${GREEN}Tests passed: ${TESTS_PASSED}${NC}"
+    if [[ ${TESTS_FAILED} -gt 0 ]]; then
+        echo -e "${RED}Tests failed: ${TESTS_FAILED}${NC}"
     else
-        echo "Tests failed: $TESTS_FAILED"
+        echo "Tests failed: ${TESTS_FAILED}"
     fi
-    if [[ $TESTS_SKIPPED -gt 0 ]]; then
-        echo -e "${YELLOW}Tests skipped: $TESTS_SKIPPED${NC}"
+    if [[ ${TESTS_SKIPPED} -gt 0 ]]; then
+        echo -e "${YELLOW}Tests skipped: ${TESTS_SKIPPED}${NC}"
     else
-        echo "Tests skipped: $TESTS_SKIPPED"
+        echo "Tests skipped: ${TESTS_SKIPPED}"
     fi
     echo ""
 
-    if [[ $TESTS_FAILED -eq 0 ]]; then
+    if [[ ${TESTS_FAILED} -eq 0 ]]; then
         echo -e "${GREEN}All tests passed!${NC}"
         exit 0
     else

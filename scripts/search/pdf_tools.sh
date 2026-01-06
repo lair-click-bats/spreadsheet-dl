@@ -24,7 +24,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/common.sh
-source "$SCRIPT_DIR/../lib/common.sh"
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 # =============================================================================
 # Configuration
@@ -161,16 +161,16 @@ detect_tools() {
 check_pdf_exists() {
     local input="$1"
 
-    if [[ ! -f "$input" ]]; then
-        print_fail "File not found: $input"
+    if [[ ! -f "${input}" ]]; then
+        print_fail "File not found: ${input}"
         return 1
     fi
 
     # Check if it's actually a PDF (magic bytes)
     local magic
-    magic=$(head -c 4 "$input" 2>/dev/null)
-    if [[ "$magic" != "%PDF" ]]; then
-        print_fail "Not a valid PDF file: $input"
+    magic=$(head -c 4 "${input}" 2>/dev/null)
+    if [[ "${magic}" != "%PDF" ]]; then
+        print_fail "Not a valid PDF file: ${input}"
         return 1
     fi
 
@@ -184,25 +184,25 @@ check_pdf_exists() {
 extract_text() {
     local input="$1"
 
-    if ! check_pdf_exists "$input"; then
+    if ! check_pdf_exists "${input}"; then
         return 1
     fi
 
-    if ! $HAS_PDFTOTEXT; then
+    if ! ${HAS_PDFTOTEXT}; then
         print_fail "pdftotext not installed (part of poppler-utils)"
         print_info "Install with: sudo apt install poppler-utils"
         return 2
     fi
 
-    if $VERBOSE; then
-        print_info "Extracting text from: $input"
-        print_info "Layout mode: $LAYOUT_MODE"
+    if ${VERBOSE}; then
+        print_info "Extracting text from: ${input}"
+        print_info "Layout mode: ${LAYOUT_MODE}"
     fi
 
     local cmd_args=("pdftotext")
 
     # Layout options
-    case "$LAYOUT_MODE" in
+    case "${LAYOUT_MODE}" in
     layout)
         cmd_args+=("-layout")
         ;;
@@ -218,44 +218,44 @@ extract_text() {
     esac
 
     # Page range
-    if [[ -n "$PAGE_FIRST" ]]; then
-        cmd_args+=("-f" "$PAGE_FIRST")
+    if [[ -n "${PAGE_FIRST}" ]]; then
+        cmd_args+=("-f" "${PAGE_FIRST}")
     fi
-    if [[ -n "$PAGE_LAST" ]]; then
-        cmd_args+=("-l" "$PAGE_LAST")
+    if [[ -n "${PAGE_LAST}" ]]; then
+        cmd_args+=("-l" "${PAGE_LAST}")
     fi
 
     # Input file
-    cmd_args+=("$input")
+    cmd_args+=("${input}")
 
     # Output: file or stdout
-    if [[ -n "$OUTPUT_FILE" ]]; then
-        cmd_args+=("$OUTPUT_FILE")
+    if [[ -n "${OUTPUT_FILE}" ]]; then
+        cmd_args+=("${OUTPUT_FILE}")
     else
         cmd_args+=("-") # stdout
     fi
 
-    if $DRY_RUN; then
+    if ${DRY_RUN}; then
         echo "[DRY RUN] ${cmd_args[*]}"
         return 0
     fi
 
-    if $VERBOSE; then
+    if ${VERBOSE}; then
         print_info "Command: ${cmd_args[*]}"
     fi
 
     local exit_code=0
-    if [[ -n "$OUTPUT_FILE" ]]; then
+    if [[ -n "${OUTPUT_FILE}" ]]; then
         if "${cmd_args[@]}" 2>/dev/null; then
-            if $JSON_OUTPUT; then
+            if ${JSON_OUTPUT}; then
                 local size
-                size=$(stat -c%s "$OUTPUT_FILE" 2>/dev/null || stat -f%z "$OUTPUT_FILE" 2>/dev/null)
-                printf '{"command":"extract","status":"pass","output":"%s","size":%d}\n' "$OUTPUT_FILE" "$size"
+                size=$(stat -c%s "${OUTPUT_FILE}" 2>/dev/null || stat -f%z "${OUTPUT_FILE}" 2>/dev/null)
+                printf '{"command":"extract","status":"pass","output":"%s","size":%d}\n' "${OUTPUT_FILE}" "${size}"
             else
-                print_pass "Extracted to: $OUTPUT_FILE"
+                print_pass "Extracted to: ${OUTPUT_FILE}"
             fi
         else
-            if $JSON_OUTPUT; then
+            if ${JSON_OUTPUT}; then
                 json_result "extract" "fail" "Extraction failed"
             else
                 print_fail "Extraction failed"
@@ -265,7 +265,7 @@ extract_text() {
     else
         # Output to stdout
         "${cmd_args[@]}" || exit_code=$?
-        if [[ $exit_code -ne 0 ]]; then
+        if [[ ${exit_code} -ne 0 ]]; then
             return 1
         fi
     fi
@@ -278,63 +278,63 @@ extract_text() {
 get_info() {
     local input="$1"
 
-    if ! check_pdf_exists "$input"; then
+    if ! check_pdf_exists "${input}"; then
         return 1
     fi
 
-    if ! $HAS_PDFINFO; then
+    if ! ${HAS_PDFINFO}; then
         print_fail "pdfinfo not installed (part of poppler-utils)"
         print_info "Install with: sudo apt install poppler-utils"
         return 2
     fi
 
-    if $VERBOSE; then
-        print_info "Getting info for: $input"
+    if ${VERBOSE}; then
+        print_info "Getting info for: ${input}"
     fi
 
-    if $DRY_RUN; then
-        echo "[DRY RUN] pdfinfo $input"
+    if ${DRY_RUN}; then
+        echo "[DRY RUN] pdfinfo ${input}"
         return 0
     fi
 
     local info
-    info=$(pdfinfo "$input" 2>/dev/null) || {
+    info=$(pdfinfo "${input}" 2>/dev/null) || {
         print_fail "Failed to read PDF info"
         return 1
     }
 
-    if $JSON_OUTPUT; then
+    if ${JSON_OUTPUT}; then
         # Parse pdfinfo output into JSON
         local title author subject keywords creator producer
         local created modified pages page_size pdf_version encrypted
 
-        title=$(echo "$info" | grep "^Title:" | sed 's/^Title:[[:space:]]*//' || echo "")
-        author=$(echo "$info" | grep "^Author:" | sed 's/^Author:[[:space:]]*//' || echo "")
-        subject=$(echo "$info" | grep "^Subject:" | sed 's/^Subject:[[:space:]]*//' || echo "")
-        keywords=$(echo "$info" | grep "^Keywords:" | sed 's/^Keywords:[[:space:]]*//' || echo "")
-        creator=$(echo "$info" | grep "^Creator:" | sed 's/^Creator:[[:space:]]*//' || echo "")
-        producer=$(echo "$info" | grep "^Producer:" | sed 's/^Producer:[[:space:]]*//' || echo "")
-        created=$(echo "$info" | grep "^CreationDate:" | sed 's/^CreationDate:[[:space:]]*//' || echo "")
-        modified=$(echo "$info" | grep "^ModDate:" | sed 's/^ModDate:[[:space:]]*//' || echo "")
-        pages=$(echo "$info" | grep "^Pages:" | sed 's/^Pages:[[:space:]]*//' || echo "0")
-        page_size=$(echo "$info" | grep "^Page size:" | sed 's/^Page size:[[:space:]]*//' || echo "")
-        pdf_version=$(echo "$info" | grep "^PDF version:" | sed 's/^PDF version:[[:space:]]*//' || echo "")
-        encrypted=$(echo "$info" | grep "^Encrypted:" | sed 's/^Encrypted:[[:space:]]*//' || echo "no")
+        title=$(echo "${info}" | grep "^Title:" | sed 's/^Title:[[:space:]]*//' || echo "")
+        author=$(echo "${info}" | grep "^Author:" | sed 's/^Author:[[:space:]]*//' || echo "")
+        subject=$(echo "${info}" | grep "^Subject:" | sed 's/^Subject:[[:space:]]*//' || echo "")
+        keywords=$(echo "${info}" | grep "^Keywords:" | sed 's/^Keywords:[[:space:]]*//' || echo "")
+        creator=$(echo "${info}" | grep "^Creator:" | sed 's/^Creator:[[:space:]]*//' || echo "")
+        producer=$(echo "${info}" | grep "^Producer:" | sed 's/^Producer:[[:space:]]*//' || echo "")
+        created=$(echo "${info}" | grep "^CreationDate:" | sed 's/^CreationDate:[[:space:]]*//' || echo "")
+        modified=$(echo "${info}" | grep "^ModDate:" | sed 's/^ModDate:[[:space:]]*//' || echo "")
+        pages=$(echo "${info}" | grep "^Pages:" | sed 's/^Pages:[[:space:]]*//' || echo "0")
+        page_size=$(echo "${info}" | grep "^Page size:" | sed 's/^Page size:[[:space:]]*//' || echo "")
+        pdf_version=$(echo "${info}" | grep "^PDF version:" | sed 's/^PDF version:[[:space:]]*//' || echo "")
+        encrypted=$(echo "${info}" | grep "^Encrypted:" | sed 's/^Encrypted:[[:space:]]*//' || echo "no")
 
         # Get file size
         local file_size
-        file_size=$(stat -c%s "$input" 2>/dev/null || stat -f%z "$input" 2>/dev/null)
+        file_size=$(stat -c%s "${input}" 2>/dev/null || stat -f%z "${input}" 2>/dev/null)
 
         printf '{"file":"%s","title":"%s","author":"%s","subject":"%s","keywords":"%s","creator":"%s","producer":"%s","created":"%s","modified":"%s","pages":%s,"page_size":"%s","pdf_version":"%s","encrypted":"%s","size_bytes":%d}\n' \
-            "$input" "$title" "$author" "$subject" "$keywords" "$creator" "$producer" "$created" "$modified" "$pages" "$page_size" "$pdf_version" "$encrypted" "$file_size"
+            "${input}" "${title}" "${author}" "${subject}" "${keywords}" "${creator}" "${producer}" "${created}" "${modified}" "${pages}" "${page_size}" "${pdf_version}" "${encrypted}" "${file_size}"
     else
-        echo "File:        $input"
-        echo "$info"
+        echo "File:        ${input}"
+        echo "${info}"
 
         # Add file size
         local file_size
-        file_size=$(stat -c%s "$input" 2>/dev/null || stat -f%z "$input" 2>/dev/null)
-        echo "File size:   $(numfmt --to=iec-i --suffix=B "$file_size" 2>/dev/null || echo "${file_size} bytes")"
+        file_size=$(stat -c%s "${input}" 2>/dev/null || stat -f%z "${input}" 2>/dev/null)
+        echo "File size:   $(numfmt --to=iec-i --suffix=B "${file_size}" 2>/dev/null || echo "${file_size} bytes")"
     fi
 }
 
@@ -345,27 +345,27 @@ get_info() {
 get_pages() {
     local input="$1"
 
-    if ! check_pdf_exists "$input"; then
+    if ! check_pdf_exists "${input}"; then
         return 1
     fi
 
-    if ! $HAS_PDFINFO; then
+    if ! ${HAS_PDFINFO}; then
         print_fail "pdfinfo not installed"
         return 2
     fi
 
     local pages
-    pages=$(pdfinfo "$input" 2>/dev/null | grep "^Pages:" | awk '{print $2}')
+    pages=$(pdfinfo "${input}" 2>/dev/null | grep "^Pages:" | awk '{print $2}')
 
-    if [[ -z "$pages" ]]; then
+    if [[ -z "${pages}" ]]; then
         print_fail "Could not determine page count"
         return 1
     fi
 
-    if $JSON_OUTPUT; then
-        printf '{"file":"%s","pages":%s}\n' "$input" "$pages"
+    if ${JSON_OUTPUT}; then
+        printf '{"file":"%s","pages":%s}\n' "${input}" "${pages}"
     else
-        echo "$pages"
+        echo "${pages}"
     fi
 }
 
@@ -377,20 +377,20 @@ do_ocr() {
     local input="$1"
     local output="${2:-}"
 
-    if ! check_pdf_exists "$input"; then
+    if ! check_pdf_exists "${input}"; then
         return 1
     fi
 
     # Default output name
-    if [[ -z "$output" ]]; then
+    if [[ -z "${output}" ]]; then
         local base="${input%.pdf}"
         output="${base}_ocr.pdf"
     fi
 
-    if $HAS_OCRMYPDF; then
-        ocr_with_ocrmypdf "$input" "$output"
-    elif $HAS_TESSERACT; then
-        ocr_with_tesseract "$input" "$output"
+    if ${HAS_OCRMYPDF}; then
+        ocr_with_ocrmypdf "${input}" "${output}"
+    elif ${HAS_TESSERACT}; then
+        ocr_with_tesseract "${input}" "${output}"
     else
         print_fail "No OCR tool available"
         print_info "Install ocrmypdf: sudo apt install ocrmypdf"
@@ -403,30 +403,30 @@ ocr_with_ocrmypdf() {
     local input="$1"
     local output="$2"
 
-    if $VERBOSE; then
+    if ${VERBOSE}; then
         print_info "Using ocrmypdf for OCR"
-        print_info "Input: $input"
-        print_info "Output: $output"
-        print_info "Language: $LANGUAGE"
+        print_info "Input: ${input}"
+        print_info "Output: ${output}"
+        print_info "Language: ${LANGUAGE}"
     fi
 
     local cmd_args=("ocrmypdf")
 
     # Language
-    cmd_args+=("-l" "$LANGUAGE")
+    cmd_args+=("-l" "${LANGUAGE}")
 
     # Options
-    if $FORCE_OCR; then
+    if ${FORCE_OCR}; then
         cmd_args+=("--force-ocr")
     else
         cmd_args+=("--skip-text")
     fi
 
-    if $DESKEW; then
+    if ${DESKEW}; then
         cmd_args+=("--deskew")
     fi
 
-    if $CLEAN; then
+    if ${CLEAN}; then
         cmd_args+=("--clean")
     fi
 
@@ -434,27 +434,27 @@ ocr_with_ocrmypdf() {
     cmd_args+=("--output-type" "pdfa")
 
     # Input/output
-    cmd_args+=("$input" "$output")
+    cmd_args+=("${input}" "${output}")
 
-    if $DRY_RUN; then
+    if ${DRY_RUN}; then
         echo "[DRY RUN] ${cmd_args[*]}"
         return 0
     fi
 
-    if $VERBOSE; then
+    if ${VERBOSE}; then
         print_info "Command: ${cmd_args[*]}"
     fi
 
     if "${cmd_args[@]}"; then
-        if $JSON_OUTPUT; then
+        if ${JSON_OUTPUT}; then
             local size
-            size=$(stat -c%s "$output" 2>/dev/null || stat -f%z "$output" 2>/dev/null)
-            printf '{"command":"ocr","status":"pass","input":"%s","output":"%s","size":%d}\n' "$input" "$output" "$size"
+            size=$(stat -c%s "${output}" 2>/dev/null || stat -f%z "${output}" 2>/dev/null)
+            printf '{"command":"ocr","status":"pass","input":"%s","output":"%s","size":%d}\n' "${input}" "${output}" "${size}"
         else
-            print_pass "OCR complete: $output"
+            print_pass "OCR complete: ${output}"
         fi
     else
-        if $JSON_OUTPUT; then
+        if ${JSON_OUTPUT}; then
             json_result "ocr" "fail" "OCR failed"
         else
             print_fail "OCR failed"
@@ -467,7 +467,7 @@ ocr_with_tesseract() {
     local input="$1"
     local output="$2"
 
-    if $VERBOSE; then
+    if ${VERBOSE}; then
         print_info "Using tesseract for OCR (basic mode)"
         print_info "Note: For better results, install ocrmypdf"
     fi
@@ -485,23 +485,23 @@ ocr_with_tesseract() {
     local temp_dir
     temp_dir=$(mktemp -d)
 
-    if $VERBOSE; then
+    if ${VERBOSE}; then
         print_info "Converting PDF to images..."
     fi
 
     # Convert PDF pages to images
-    pdftoppm -png "$input" "$temp_dir/page" || {
-        rm -rf "$temp_dir"
+    pdftoppm -png "${input}" "${temp_dir}/page" || {
+        rm -rf "${temp_dir}"
         print_fail "Failed to convert PDF to images"
         return 1
     }
 
     # OCR each page
     local text_files=()
-    for img in "$temp_dir"/page-*.png; do
-        if [[ -f "$img" ]]; then
+    for img in "${temp_dir}"/page-*.png; do
+        if [[ -f "${img}" ]]; then
             local base="${img%.png}"
-            if tesseract "$img" "$base" -l "$LANGUAGE" 2>/dev/null; then
+            if tesseract "${img}" "${base}" -l "${LANGUAGE}" 2>/dev/null; then
                 text_files+=("${base}.txt")
             fi
         fi
@@ -510,7 +510,7 @@ ocr_with_tesseract() {
     # Combine text files
     if [[ ${#text_files[@]} -gt 0 ]]; then
         cat "${text_files[@]}" >"${output%.pdf}.txt"
-        if $JSON_OUTPUT; then
+        if ${JSON_OUTPUT}; then
             json_result "ocr" "pass" "Text extracted to ${output%.pdf}.txt"
         else
             print_pass "Text extracted to: ${output%.pdf}.txt"
@@ -518,11 +518,11 @@ ocr_with_tesseract() {
         fi
     else
         print_fail "OCR produced no output"
-        rm -rf "$temp_dir"
+        rm -rf "${temp_dir}"
         return 1
     fi
 
-    rm -rf "$temp_dir"
+    rm -rf "${temp_dir}"
 }
 
 # =============================================================================
@@ -558,27 +558,27 @@ batch_process() {
         return 1
     fi
 
-    if [[ -n "$output_dir" ]]; then
-        mkdir -p "$output_dir"
+    if [[ -n "${output_dir}" ]]; then
+        mkdir -p "${output_dir}"
     fi
 
     local processed=0
     local failed=0
 
     for file in "${files[@]}"; do
-        if [[ ! -f "$file" ]]; then
-            print_skip "File not found: $file"
+        if [[ ! -f "${file}" ]]; then
+            print_skip "File not found: ${file}"
             continue
         fi
 
         local basename
-        basename=$(basename "$file" .pdf)
+        basename=$(basename "${file}" .pdf)
 
-        case "$command" in
+        case "${command}" in
         extract)
             local output="${output_dir:-.}/${basename}.txt"
-            OUTPUT_FILE="$output"
-            if extract_text "$file"; then
+            OUTPUT_FILE="${output}"
+            if extract_text "${file}"; then
                 ((processed++))
             else
                 ((failed++))
@@ -586,7 +586,7 @@ batch_process() {
             OUTPUT_FILE=""
             ;;
         info)
-            if get_info "$file"; then
+            if get_info "${file}"; then
                 ((processed++))
             else
                 ((failed++))
@@ -595,27 +595,27 @@ batch_process() {
             ;;
         ocr)
             local output="${output_dir:-.}/${basename}_ocr.pdf"
-            if do_ocr "$file" "$output"; then
+            if do_ocr "${file}" "${output}"; then
                 ((processed++))
             else
                 ((failed++))
             fi
             ;;
         *)
-            print_fail "Unknown batch command: $command"
+            print_fail "Unknown batch command: ${command}"
             return 2
             ;;
         esac
     done
 
     echo ""
-    if $JSON_OUTPUT; then
-        printf '{"command":"batch","subcommand":"%s","processed":%d,"failed":%d}\n' "$command" "$processed" "$failed"
+    if ${JSON_OUTPUT}; then
+        printf '{"command":"batch","subcommand":"%s","processed":%d,"failed":%d}\n' "${command}" "${processed}" "${failed}"
     else
-        print_info "Processed: $processed, Failed: $failed"
+        print_info "Processed: ${processed}, Failed: ${failed}"
     fi
 
-    [[ $failed -eq 0 ]]
+    [[ ${failed} -eq 0 ]]
 }
 
 # =============================================================================
@@ -627,42 +627,42 @@ show_version() {
     echo ""
     echo "Available tools:"
 
-    if $HAS_PDFTOTEXT; then
+    if ${HAS_PDFTOTEXT}; then
         local version
         version=$(pdftotext -v 2>&1 | head -1 || echo "unknown")
-        echo "  pdftotext: $version"
+        echo "  pdftotext: ${version}"
     else
         echo "  pdftotext: not installed"
     fi
 
-    if $HAS_PDFINFO; then
+    if ${HAS_PDFINFO}; then
         local version
         version=$(pdfinfo -v 2>&1 | head -1 || echo "unknown")
-        echo "  pdfinfo: $version"
+        echo "  pdfinfo: ${version}"
     else
         echo "  pdfinfo: not installed"
     fi
 
-    if $HAS_OCRMYPDF; then
+    if ${HAS_OCRMYPDF}; then
         local version
         version=$(ocrmypdf --version 2>/dev/null | head -1 || echo "unknown")
-        echo "  ocrmypdf: $version"
+        echo "  ocrmypdf: ${version}"
     else
         echo "  ocrmypdf: not installed"
     fi
 
-    if $HAS_TESSERACT; then
+    if ${HAS_TESSERACT}; then
         local version
         version=$(tesseract --version 2>&1 | head -1 || echo "unknown")
-        echo "  tesseract: $version"
+        echo "  tesseract: ${version}"
     else
         echo "  tesseract: not installed"
     fi
 
-    if $HAS_EXIFTOOL; then
+    if ${HAS_EXIFTOOL}; then
         local version
         version=$(exiftool -ver 2>/dev/null || echo "unknown")
-        echo "  exiftool: $version"
+        echo "  exiftool: ${version}"
     else
         echo "  exiftool: not installed"
     fi
@@ -687,7 +687,7 @@ main() {
     shift
 
     # Handle version
-    if [[ "$command" == "version" ]] || [[ "$command" == "--version" ]]; then
+    if [[ "${command}" == "version" ]] || [[ "${command}" == "--version" ]]; then
         show_version
         exit 0
     fi
@@ -767,7 +767,7 @@ main() {
     # Restore positional
     set -- "${positional[@]}"
 
-    case "$command" in
+    case "${command}" in
     extract)
         if [[ $# -lt 1 ]]; then
             print_fail "Usage: pdf_tools.sh extract <input.pdf>"
@@ -807,7 +807,7 @@ main() {
         show_version
         ;;
     *)
-        print_fail "Unknown command: $command"
+        print_fail "Unknown command: ${command}"
         echo "Run 'pdf_tools.sh --help' for usage."
         exit 2
         ;;

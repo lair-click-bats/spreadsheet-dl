@@ -14,7 +14,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../lib/common.sh"
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 # Configuration
 TOOL_NAME="Mypy"
@@ -63,49 +63,49 @@ done
 [[ ${#PATHS[@]} -eq 0 ]] && PATHS=(".")
 
 # Main
-print_tool "$TOOL_NAME"
+print_tool "${TOOL_NAME}"
 
 # Check tool installed
-if ! require_tool "$TOOL_CMD" "$INSTALL_HINT"; then
-    json_result "$TOOL_CMD" "skip" "Tool not installed"
+if ! require_tool "${TOOL_CMD}" "${INSTALL_HINT}"; then
+    json_result "${TOOL_CMD}" "skip" "Tool not installed"
     exit 0
 fi
 
 # Check for Python files
 has_python_files=false
 for path in "${PATHS[@]}"; do
-    if [[ -f "$path" && "$path" == *.py ]] || has_files "$FILE_PATTERN" "$path"; then
+    if [[ -f "${path}" && "${path}" == *.py ]] || has_files "${FILE_PATTERN}" "${path}"; then
         has_python_files=true
         break
     fi
 done
 
-if ! $has_python_files; then
+if ! ${has_python_files}; then
     print_skip "No Python files found"
-    json_result "$TOOL_CMD" "skip" "No files found"
+    json_result "${TOOL_CMD}" "skip" "No files found"
     exit 0
 fi
 
 # Run mypy
-if $VERBOSE; then
+if ${VERBOSE}; then
     if run_py_tool mypy "${PATHS[@]}"; then
         print_pass "Type check passed"
-        json_result "$TOOL_CMD" "pass" ""
+        json_result "${TOOL_CMD}" "pass" ""
         exit 0
     else
         print_fail "Type errors found"
-        json_result "$TOOL_CMD" "fail" "Type errors"
+        json_result "${TOOL_CMD}" "fail" "Type errors"
         exit 1
     fi
 else
     if run_py_tool mypy "${PATHS[@]}" &>/dev/null; then
         print_pass "Type check passed"
-        json_result "$TOOL_CMD" "pass" ""
+        json_result "${TOOL_CMD}" "pass" ""
         exit 0
     else
         print_fail "Type errors found"
         print_info "Run with -v for details"
-        json_result "$TOOL_CMD" "fail" "Type errors"
+        json_result "${TOOL_CMD}" "fail" "Type errors"
         exit 1
     fi
 fi

@@ -24,7 +24,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../lib/common.sh"
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 # Options
 PRESERVE_IGNORED=true
@@ -149,7 +149,7 @@ get_default_branch() {
     local default
     default=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
 
-    if [[ -z "$default" ]]; then
+    if [[ -z "${default}" ]]; then
         # Fallback to common defaults
         if git show-ref --verify --quiet refs/remotes/origin/main; then
             default="main"
@@ -160,7 +160,7 @@ get_default_branch() {
         fi
     fi
 
-    echo "$default"
+    echo "${default}"
 }
 
 check_uncommitted_changes() {
@@ -173,8 +173,8 @@ check_uncommitted_changes() {
 check_unpushed_commits() {
     local branch="$1"
     local count
-    count=$(git rev-list --count "origin/$branch..HEAD" 2>/dev/null || echo "0")
-    [[ "$count" -gt 0 ]]
+    count=$(git rev-list --count "origin/${branch}..HEAD" 2>/dev/null || echo "0")
+    [[ "${count}" -gt 0 ]]
 }
 
 stash_changes() {
@@ -182,8 +182,8 @@ stash_changes() {
 
     local stash_message="git_sync auto-stash $(date '+%Y-%m-%d %H:%M:%S')"
 
-    if git stash push -m "$stash_message" --include-untracked; then
-        print_pass "Changes stashed: $stash_message"
+    if git stash push -m "${stash_message}" --include-untracked; then
+        print_pass "Changes stashed: ${stash_message}"
         print_info "Recover with: git stash pop"
         return 0
     else
@@ -199,7 +199,7 @@ do_sync() {
 
     # Fetch
     print_section "Fetching from origin..."
-    if $dry_run; then
+    if ${dry_run}; then
         print_info "[DRY RUN] Would run: git fetch origin"
     else
         if ! git fetch origin; then
@@ -210,20 +210,20 @@ do_sync() {
     fi
 
     # Check if branch exists on remote
-    if ! git show-ref --verify --quiet "refs/remotes/origin/$target_branch"; then
-        print_fail "Branch not found on remote: origin/$target_branch"
+    if ! git show-ref --verify --quiet "refs/remotes/origin/${target_branch}"; then
+        print_fail "Branch not found on remote: origin/${target_branch}"
         print_info "Available branches:"
         git branch -r | head -10
         return 1
     fi
 
     # Reset to remote
-    print_section "Resetting to origin/$target_branch..."
-    if $dry_run; then
-        print_info "[DRY RUN] Would run: git reset --hard origin/$target_branch"
+    print_section "Resetting to origin/${target_branch}..."
+    if ${dry_run}; then
+        print_info "[DRY RUN] Would run: git reset --hard origin/${target_branch}"
     else
-        if ! git reset --hard "origin/$target_branch"; then
-            print_fail "Failed to reset to origin/$target_branch"
+        if ! git reset --hard "origin/${target_branch}"; then
+            print_fail "Failed to reset to origin/${target_branch}"
             return 1
         fi
         print_pass "Reset complete"
@@ -232,11 +232,11 @@ do_sync() {
     # Clean untracked files
     print_section "Cleaning untracked files..."
     local clean_opts=(-fd)
-    if ! $preserve; then
+    if ! ${preserve}; then
         clean_opts+=(-x) # Also remove ignored files
     fi
 
-    if $dry_run; then
+    if ${dry_run}; then
         print_info "[DRY RUN] Would run: git clean ${clean_opts[*]}"
         echo ""
         print_info "Files that would be removed:"
@@ -316,24 +316,24 @@ main() {
     fi
 
     # Determine target branch
-    if [[ -z "$BRANCH" ]]; then
+    if [[ -z "${BRANCH}" ]]; then
         BRANCH=$(get_current_branch)
         # If detached HEAD, use default branch
-        if [[ -z "$BRANCH" ]]; then
+        if [[ -z "${BRANCH}" ]]; then
             BRANCH=$(get_default_branch)
         fi
     fi
 
     print_header "GIT SYNC"
     echo ""
-    print_info "Repository: $REPO_ROOT"
-    print_info "Target:     origin/$BRANCH"
-    if $PRESERVE_IGNORED; then
+    print_info "Repository: ${REPO_ROOT}"
+    print_info "Target:     origin/${BRANCH}"
+    if ${PRESERVE_IGNORED}; then
         print_info "Mode:       Preserve .gitignored files"
     else
         print_info "Mode:       Clean ALL (including .gitignored)"
     fi
-    $DRY_RUN && print_info "Dry run:    Yes (no changes will be made)"
+    ${DRY_RUN} && print_info "Dry run:    Yes (no changes will be made)"
     echo ""
 
     # Check for uncommitted changes
@@ -348,18 +348,18 @@ main() {
 
     # Check for unpushed commits
     local has_unpushed=false
-    if check_unpushed_commits "$BRANCH"; then
+    if check_unpushed_commits "${BRANCH}"; then
         has_unpushed=true
         local count
-        count=$(git rev-list --count "origin/$BRANCH..HEAD" 2>/dev/null)
-        print_section "Warning: $count unpushed commit(s) will be lost!"
+        count=$(git rev-list --count "origin/${BRANCH}..HEAD" 2>/dev/null)
+        print_section "Warning: ${count} unpushed commit(s) will be lost!"
         echo ""
-        git log --oneline "origin/$BRANCH..HEAD" | head -5
+        git log --oneline "origin/${BRANCH}..HEAD" | head -5
         echo ""
     fi
 
     # Stash if requested
-    if $STASH_CHANGES && $has_changes; then
+    if ${STASH_CHANGES} && ${has_changes}; then
         if ! stash_changes; then
             exit 1
         fi
@@ -367,16 +367,16 @@ main() {
     fi
 
     # Confirmation
-    if ! $FORCE && ! $DRY_RUN; then
-        if $has_changes || $has_unpushed; then
+    if ! ${FORCE} && ! ${DRY_RUN}; then
+        if ${has_changes} || ${has_unpushed}; then
             echo ""
             echo -e "${YELLOW}WARNING: This will DESTROY local commits and uncommitted changes!${NC}"
-            if ! $PRESERVE_IGNORED; then
+            if ! ${PRESERVE_IGNORED}; then
                 echo -e "${YELLOW}WARNING: This will also DELETE all .gitignored files!${NC}"
             fi
             echo ""
             read -r -p "Continue? [y/N] " response
-            if [[ ! "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+            if [[ ! "${response}" =~ ^([yY][eE][sS]|[yY])$ ]]; then
                 print_info "Aborted"
                 exit 0
             fi
@@ -384,7 +384,7 @@ main() {
     fi
 
     # Perform sync
-    if ! do_sync "$BRANCH" "$PRESERVE_IGNORED" "$DRY_RUN"; then
+    if ! do_sync "${BRANCH}" "${PRESERVE_IGNORED}" "${DRY_RUN}"; then
         print_fail "Sync failed"
         json_result "sync" "fail" "Sync failed"
         exit 1
@@ -392,19 +392,19 @@ main() {
 
     # Summary
     echo ""
-    if $DRY_RUN; then
+    if ${DRY_RUN}; then
         print_pass "Dry run complete - no changes made"
         json_result "sync" "dry-run" "No changes"
     else
         print_pass "Sync complete!"
-        print_info "Local repository now matches origin/$BRANCH"
-        if $PRESERVE_IGNORED; then
+        print_info "Local repository now matches origin/${BRANCH}"
+        if ${PRESERVE_IGNORED}; then
             print_info ".gitignored files were preserved"
         fi
-        if $STASH_CHANGES; then
+        if ${STASH_CHANGES}; then
             print_info "Previous changes saved in stash"
         fi
-        json_result "sync" "pass" "origin/$BRANCH"
+        json_result "sync" "pass" "origin/${BRANCH}"
     fi
 }
 

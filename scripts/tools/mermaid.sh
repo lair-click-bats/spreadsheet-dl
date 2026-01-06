@@ -14,7 +14,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../lib/common.sh"
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 # Configuration
 TOOL_NAME="Mermaid"
@@ -96,10 +96,10 @@ done
 [[ ${#PATHS[@]} -eq 0 ]] && PATHS=(".")
 
 # Main
-print_tool "$TOOL_NAME ($MODE)"
+print_tool "${TOOL_NAME} (${MODE})"
 
 # Check tool installed
-if ! require_tool "$TOOL_CMD" "$INSTALL_HINT"; then
+if ! require_tool "${TOOL_CMD}" "${INSTALL_HINT}"; then
     json_result "mermaid" "skip" "Tool not installed"
     exit 0
 fi
@@ -107,12 +107,12 @@ fi
 # Find Mermaid files
 mmd_files=()
 for path in "${PATHS[@]}"; do
-    if [[ -f "$path" ]]; then
-        mmd_files+=("$path")
-    elif [[ -d "$path" ]]; then
+    if [[ -f "${path}" ]]; then
+        mmd_files+=("${path}")
+    elif [[ -d "${path}" ]]; then
         while IFS= read -r -d '' file; do
-            mmd_files+=("$file")
-        done < <(find "$path" -type f \( -name "*.mmd" -o -name "*.mermaid" \) \
+            mmd_files+=("${file}")
+        done < <(find "${path}" -type f \( -name "*.mmd" -o -name "*.mermaid" \) \
             -not -path "*/.git/*" -not -path "*/.venv/*" -not -path "*/node_modules/*" -print0 2>/dev/null)
     fi
 done
@@ -124,81 +124,81 @@ if [[ ${#mmd_files[@]} -eq 0 ]]; then
 fi
 
 file_count=${#mmd_files[@]}
-$VERBOSE && print_info "Found $file_count Mermaid file(s)"
+${VERBOSE} && print_info "Found ${file_count} Mermaid file(s)"
 
 # Create temp directory for validation outputs
 TEMP_DIR=$(mktemp -d)
 cleanup() {
-    rm -rf "$TEMP_DIR"
+    rm -rf "${TEMP_DIR}"
 }
 trap cleanup EXIT
 
 # Mode: Check (syntax validation)
-if [[ "$MODE" == "check" ]]; then
+if [[ "${MODE}" == "check" ]]; then
     has_errors=false
     error_count=0
 
     for file in "${mmd_files[@]}"; do
         # mmdc validates by attempting to render to /dev/null or temp file
-        temp_output="$TEMP_DIR/$(basename "$file").png"
-        if $VERBOSE; then
-            if ! mmdc -i "$file" -o "$temp_output" 2>&1; then
+        temp_output="${TEMP_DIR}/$(basename "${file}").png"
+        if ${VERBOSE}; then
+            if ! mmdc -i "${file}" -o "${temp_output}" 2>&1; then
                 has_errors=true
                 ((error_count++)) || true
             fi
         else
-            if ! mmdc -i "$file" -o "$temp_output" &>/dev/null; then
+            if ! mmdc -i "${file}" -o "${temp_output}" &>/dev/null; then
                 has_errors=true
                 ((error_count++)) || true
-                print_fail "Syntax error: $(basename "$file")"
+                print_fail "Syntax error: $(basename "${file}")"
             fi
         fi
     done
 
-    if $has_errors; then
-        print_fail "$error_count file(s) with syntax errors"
-        json_result "mermaid" "fail" "$error_count syntax errors"
+    if ${has_errors}; then
+        print_fail "${error_count} file(s) with syntax errors"
+        json_result "mermaid" "fail" "${error_count} syntax errors"
         exit 1
     else
-        print_pass "All $file_count Mermaid files valid"
+        print_pass "All ${file_count} Mermaid files valid"
         json_result "mermaid" "pass" ""
         exit 0
     fi
 fi
 
 # Mode: Export
-if [[ "$MODE" == "export" ]]; then
+if [[ "${MODE}" == "export" ]]; then
     has_errors=false
     exported_count=0
 
     for file in "${mmd_files[@]}"; do
         # Generate output filename next to input
-        output_file="${file%.*}.$OUTPUT_FORMAT"
+        output_file="${file%.*}.${OUTPUT_FORMAT}"
 
-        if $VERBOSE; then
-            echo "    Exporting: $(basename "$file") -> $(basename "$output_file")"
-            if mmdc -i "$file" -o "$output_file" -e "$OUTPUT_FORMAT"; then
+        if ${VERBOSE}; then
+            echo "    Exporting: $(basename "${file}") -> $(basename "${output_file}")"
+            if mmdc -i "${file}" -o "${output_file}" -e "${OUTPUT_FORMAT}"; then
                 ((exported_count++)) || true
             else
                 has_errors=true
             fi
         else
-            if mmdc -i "$file" -o "$output_file" -e "$OUTPUT_FORMAT" &>/dev/null; then
+            if mmdc -i "${file}" -o "${output_file}" -e "${OUTPUT_FORMAT}" &>/dev/null; then
                 ((exported_count++)) || true
             else
                 has_errors=true
-                print_fail "Export failed: $(basename "$file")"
+                print_fail "Export failed: $(basename "${file}")"
             fi
         fi
     done
 
-    if $has_errors; then
+    if ${has_errors}; then
         print_fail "Some exports failed"
         json_result "mermaid" "fail" "Export errors"
         exit 1
     else
-        print_pass "Exported $exported_count file(s) to $OUTPUT_FORMAT"
-        json_result "mermaid" "pass" "Exported $exported_count files"
+        print_pass "Exported ${exported_count} file(s) to ${OUTPUT_FORMAT}"
+        json_result "mermaid" "pass" "Exported ${exported_count} files"
         exit 0
     fi
 fi

@@ -17,7 +17,7 @@ NC='\033[0m' # No Color
 
 # Script directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
 # Flags
 DEV_MODE=false
@@ -88,12 +88,12 @@ MISSING_DEPS=()
 # Python 3.11+
 if check_command python3; then
     PYTHON_VERSION=$(python3 -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')
-    PYTHON_MAJOR=$(echo "$PYTHON_VERSION" | cut -d. -f1)
-    PYTHON_MINOR=$(echo "$PYTHON_VERSION" | cut -d. -f2)
-    if [[ "$PYTHON_MAJOR" -ge 3 && "$PYTHON_MINOR" -ge 11 ]]; then
-        log_success "Python $PYTHON_VERSION"
+    PYTHON_MAJOR=$(echo "${PYTHON_VERSION}" | cut -d. -f1)
+    PYTHON_MINOR=$(echo "${PYTHON_VERSION}" | cut -d. -f2)
+    if [[ "${PYTHON_MAJOR}" -ge 3 && "${PYTHON_MINOR}" -ge 11 ]]; then
+        log_success "Python ${PYTHON_VERSION}"
     else
-        log_warning "Python $PYTHON_VERSION (3.11+ recommended)"
+        log_warning "Python ${PYTHON_VERSION} (3.11+ recommended)"
     fi
 else
     log_error "Python 3 not found"
@@ -103,7 +103,7 @@ fi
 # uv package manager
 if check_command uv; then
     UV_VERSION=$(uv --version 2>/dev/null | head -1)
-    log_success "uv: $UV_VERSION"
+    log_success "uv: ${UV_VERSION}"
 else
     log_error "uv not found"
     MISSING_DEPS+=("uv")
@@ -112,7 +112,7 @@ fi
 # Git
 if check_command git; then
     GIT_VERSION=$(git --version | cut -d' ' -f3)
-    log_success "Git $GIT_VERSION"
+    log_success "Git ${GIT_VERSION}"
 else
     log_error "Git not found"
     MISSING_DEPS+=("git")
@@ -121,7 +121,7 @@ fi
 # Optional: pre-commit
 if check_command pre-commit; then
     PRECOMMIT_VERSION=$(pre-commit --version | cut -d' ' -f2)
-    log_success "pre-commit $PRECOMMIT_VERSION"
+    log_success "pre-commit ${PRECOMMIT_VERSION}"
 else
     log_warning "pre-commit not found (optional, install with: uv tool install pre-commit)"
 fi
@@ -129,7 +129,7 @@ fi
 # Optional: check-jsonschema (for VS Code settings validation)
 if check_command check-jsonschema; then
     JSONSCHEMA_VERSION=$(check-jsonschema --version 2>/dev/null | head -1)
-    log_success "check-jsonschema $JSONSCHEMA_VERSION"
+    log_success "check-jsonschema ${JSONSCHEMA_VERSION}"
 else
     log_warning "check-jsonschema not found (optional, will be installed with --dev)"
 fi
@@ -137,7 +137,7 @@ fi
 # Optional: prettier (for markdown formatting)
 if check_command prettier; then
     PRETTIER_VERSION=$(prettier --version 2>/dev/null)
-    log_success "prettier $PRETTIER_VERSION"
+    log_success "prettier ${PRETTIER_VERSION}"
 else
     log_warning "prettier not found (optional, install with: npm install -g prettier)"
 fi
@@ -152,7 +152,7 @@ fi
 # Optional: shellcheck (for shell script linting)
 if check_command shellcheck; then
     SHELLCHECK_VERSION=$(shellcheck --version | grep version: | cut -d' ' -f2)
-    log_success "shellcheck $SHELLCHECK_VERSION"
+    log_success "shellcheck ${SHELLCHECK_VERSION}"
 else
     log_warning "shellcheck not found (optional, install with: apt install shellcheck)"
 fi
@@ -166,7 +166,7 @@ if [[ ${#MISSING_DEPS[@]} -gt 0 ]]; then
     echo ""
     echo "Installation instructions:"
     for dep in "${MISSING_DEPS[@]}"; do
-        case $dep in
+        case ${dep} in
         python3)
             echo "  Python 3.11+: https://www.python.org/downloads/"
             ;;
@@ -181,7 +181,7 @@ if [[ ${#MISSING_DEPS[@]} -gt 0 ]]; then
     exit 1
 fi
 
-if [[ "$CHECK_ONLY" == "true" ]]; then
+if [[ "${CHECK_ONLY}" == "true" ]]; then
     log_success "All critical dependencies present"
     exit 0
 fi
@@ -192,10 +192,10 @@ fi
 
 log_info "Setting up Python environment..."
 
-cd "$REPO_ROOT"
+cd "${REPO_ROOT}"
 
 # Create virtual environment and install dependencies
-if [[ "$DEV_MODE" == "true" ]]; then
+if [[ "${DEV_MODE}" == "true" ]]; then
     log_info "Installing with development dependencies..."
     uv sync --dev
 
@@ -226,24 +226,24 @@ fi
 
 # Verify scripts are executable
 log_info "Checking script executability..."
-for script in "$REPO_ROOT"/.claude/hooks/*.sh; do
-    if [[ -f "$script" ]]; then
-        if [[ -x "$script" ]]; then
-            log_success "$(basename "$script") is executable"
+for script in "${REPO_ROOT}"/.claude/hooks/*.sh; do
+    if [[ -f "${script}" ]]; then
+        if [[ -x "${script}" ]]; then
+            log_success "$(basename "${script}") is executable"
         else
-            chmod +x "$script"
-            log_info "Made $(basename "$script") executable"
+            chmod +x "${script}"
+            log_info "Made $(basename "${script}") executable"
         fi
     fi
 done
 
-for script in "$REPO_ROOT"/.claude/hooks/*.py; do
-    if [[ -f "$script" ]]; then
-        if [[ -x "$script" ]]; then
-            log_success "$(basename "$script") is executable"
+for script in "${REPO_ROOT}"/.claude/hooks/*.py; do
+    if [[ -f "${script}" ]]; then
+        if [[ -x "${script}" ]]; then
+            log_success "$(basename "${script}") is executable"
         else
-            chmod +x "$script"
-            log_info "Made $(basename "$script") executable"
+            chmod +x "${script}"
+            log_info "Made $(basename "${script}") executable"
         fi
     fi
 done
@@ -252,9 +252,9 @@ done
 # Pre-commit Setup (Optional)
 # =============================================================================
 
-if [[ "$DEV_MODE" == "true" ]] && check_command pre-commit; then
+if [[ "${DEV_MODE}" == "true" ]] && check_command pre-commit; then
     log_info "Setting up pre-commit hooks..."
-    if [[ -f "$REPO_ROOT/.pre-commit-config.yaml" ]]; then
+    if [[ -f "${REPO_ROOT}/.pre-commit-config.yaml" ]]; then
         pre-commit install
         log_success "Pre-commit hooks installed"
     else

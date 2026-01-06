@@ -23,7 +23,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/common.sh
-source "$SCRIPT_DIR/../lib/common.sh"
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 # =============================================================================
 # Configuration
@@ -143,9 +143,9 @@ detect_tools() {
 }
 
 get_text_search_tool() {
-    if $HAS_RIPGREP; then
+    if ${HAS_RIPGREP}; then
         echo "ripgrep"
-    elif $HAS_AG; then
+    elif ${HAS_AG}; then
         echo "ag"
     else
         echo "grep"
@@ -168,53 +168,53 @@ search_text() {
     local tool
     tool=$(get_text_search_tool)
 
-    if $VERBOSE; then
-        print_info "Using $tool for text search"
-        print_info "Pattern: $pattern"
+    if ${VERBOSE}; then
+        print_info "Using ${tool} for text search"
+        print_info "Pattern: ${pattern}"
         print_info "Paths: ${paths[*]}"
     fi
 
     local cmd_args=()
 
-    if $HAS_RIPGREP; then
+    if ${HAS_RIPGREP}; then
         # ripgrep
         cmd_args=("rg")
 
-        if $CASE_INSENSITIVE; then cmd_args+=("-i"); fi
-        if $WORD_MATCH; then cmd_args+=("-w"); fi
-        if $FIXED_STRINGS; then cmd_args+=("-F"); fi
-        if $COUNT_ONLY; then cmd_args+=("-c"); fi
-        if $LIST_FILES; then cmd_args+=("-l"); fi
-        if [[ $CONTEXT_LINES -gt 0 ]]; then cmd_args+=("-C" "$CONTEXT_LINES"); fi
-        if [[ -n "$MAX_COUNT" ]]; then cmd_args+=("-m" "$MAX_COUNT"); fi
-        if [[ -n "$FILE_TYPE" ]]; then cmd_args+=("-t" "$FILE_TYPE"); fi
-        if $INCLUDE_HIDDEN; then cmd_args+=("--hidden"); fi
-        if $NO_IGNORE; then cmd_args+=("--no-ignore"); fi
-        if [[ "$COLOR" != "auto" ]]; then cmd_args+=("--color=$COLOR"); fi
+        if ${CASE_INSENSITIVE}; then cmd_args+=("-i"); fi
+        if ${WORD_MATCH}; then cmd_args+=("-w"); fi
+        if ${FIXED_STRINGS}; then cmd_args+=("-F"); fi
+        if ${COUNT_ONLY}; then cmd_args+=("-c"); fi
+        if ${LIST_FILES}; then cmd_args+=("-l"); fi
+        if [[ ${CONTEXT_LINES} -gt 0 ]]; then cmd_args+=("-C" "${CONTEXT_LINES}"); fi
+        if [[ -n "${MAX_COUNT}" ]]; then cmd_args+=("-m" "${MAX_COUNT}"); fi
+        if [[ -n "${FILE_TYPE}" ]]; then cmd_args+=("-t" "${FILE_TYPE}"); fi
+        if ${INCLUDE_HIDDEN}; then cmd_args+=("--hidden"); fi
+        if ${NO_IGNORE}; then cmd_args+=("--no-ignore"); fi
+        if [[ "${COLOR}" != "auto" ]]; then cmd_args+=("--color=${COLOR}"); fi
 
-        if $JSON_OUTPUT; then
+        if ${JSON_OUTPUT}; then
             cmd_args+=("--json")
         fi
 
-        cmd_args+=("$pattern")
+        cmd_args+=("${pattern}")
         cmd_args+=("${paths[@]}")
 
-    elif $HAS_AG; then
+    elif ${HAS_AG}; then
         # The Silver Searcher
         cmd_args=("ag")
 
-        if $CASE_INSENSITIVE; then cmd_args+=("-i"); fi
-        if $WORD_MATCH; then cmd_args+=("-w"); fi
-        if $FIXED_STRINGS; then cmd_args+=("-Q"); fi
-        if $COUNT_ONLY; then cmd_args+=("-c"); fi
-        if $LIST_FILES; then cmd_args+=("-l"); fi
-        if [[ $CONTEXT_LINES -gt 0 ]]; then cmd_args+=("-C" "$CONTEXT_LINES"); fi
-        if [[ -n "$MAX_COUNT" ]]; then cmd_args+=("-m" "$MAX_COUNT"); fi
-        if $INCLUDE_HIDDEN; then cmd_args+=("--hidden"); fi
-        if $NO_IGNORE; then cmd_args+=("--skip-vcs-ignores"); fi
-        if [[ "$COLOR" == "never" ]]; then cmd_args+=("--nocolor"); fi
+        if ${CASE_INSENSITIVE}; then cmd_args+=("-i"); fi
+        if ${WORD_MATCH}; then cmd_args+=("-w"); fi
+        if ${FIXED_STRINGS}; then cmd_args+=("-Q"); fi
+        if ${COUNT_ONLY}; then cmd_args+=("-c"); fi
+        if ${LIST_FILES}; then cmd_args+=("-l"); fi
+        if [[ ${CONTEXT_LINES} -gt 0 ]]; then cmd_args+=("-C" "${CONTEXT_LINES}"); fi
+        if [[ -n "${MAX_COUNT}" ]]; then cmd_args+=("-m" "${MAX_COUNT}"); fi
+        if ${INCLUDE_HIDDEN}; then cmd_args+=("--hidden"); fi
+        if ${NO_IGNORE}; then cmd_args+=("--skip-vcs-ignores"); fi
+        if [[ "${COLOR}" == "never" ]]; then cmd_args+=("--nocolor"); fi
 
-        cmd_args+=("$pattern")
+        cmd_args+=("${pattern}")
         cmd_args+=("${paths[@]}")
 
     else
@@ -223,26 +223,26 @@ search_text() {
         cmd_args+=("-r")
         cmd_args+=("-n")
 
-        if $CASE_INSENSITIVE; then cmd_args+=("-i"); fi
-        if $WORD_MATCH; then cmd_args+=("-w"); fi
-        if $FIXED_STRINGS; then cmd_args+=("-F"); fi
-        if $COUNT_ONLY; then cmd_args+=("-c"); fi
-        if $LIST_FILES; then cmd_args+=("-l"); fi
-        if [[ $CONTEXT_LINES -gt 0 ]]; then cmd_args+=("-C" "$CONTEXT_LINES"); fi
-        if [[ -n "$MAX_COUNT" ]]; then cmd_args+=("-m" "$MAX_COUNT"); fi
-        if [[ "$COLOR" == "always" ]]; then cmd_args+=("--color=always"); fi
-        if [[ "$COLOR" == "never" ]]; then cmd_args+=("--color=never"); fi
+        if ${CASE_INSENSITIVE}; then cmd_args+=("-i"); fi
+        if ${WORD_MATCH}; then cmd_args+=("-w"); fi
+        if ${FIXED_STRINGS}; then cmd_args+=("-F"); fi
+        if ${COUNT_ONLY}; then cmd_args+=("-c"); fi
+        if ${LIST_FILES}; then cmd_args+=("-l"); fi
+        if [[ ${CONTEXT_LINES} -gt 0 ]]; then cmd_args+=("-C" "${CONTEXT_LINES}"); fi
+        if [[ -n "${MAX_COUNT}" ]]; then cmd_args+=("-m" "${MAX_COUNT}"); fi
+        if [[ "${COLOR}" == "always" ]]; then cmd_args+=("--color=always"); fi
+        if [[ "${COLOR}" == "never" ]]; then cmd_args+=("--color=never"); fi
 
-        cmd_args+=("$pattern")
+        cmd_args+=("${pattern}")
         cmd_args+=("${paths[@]}")
     fi
 
-    if $DRY_RUN; then
+    if ${DRY_RUN}; then
         echo "[DRY RUN] ${cmd_args[*]}"
         return 0
     fi
 
-    if $VERBOSE; then
+    if ${VERBOSE}; then
         print_info "Command: ${cmd_args[*]}"
     fi
 
@@ -250,19 +250,19 @@ search_text() {
     local output
     output=$("${cmd_args[@]}" 2>&1) || exit_code=$?
 
-    if [[ $exit_code -eq 0 ]] || [[ $exit_code -eq 1 && -z "$output" ]]; then
+    if [[ ${exit_code} -eq 0 ]] || [[ ${exit_code} -eq 1 && -z "${output}" ]]; then
         # ripgrep/grep return 1 for no matches
-        if [[ -n "$output" ]]; then
-            echo "$output"
-            if $JSON_OUTPUT && ! $HAS_RIPGREP; then
+        if [[ -n "${output}" ]]; then
+            echo "${output}"
+            if ${JSON_OUTPUT} && ! ${HAS_RIPGREP}; then
                 # For non-ripgrep, wrap in JSON
                 local count
-                count=$(echo "$output" | wc -l)
-                json_result "text_search" "pass" "Found $count matches"
+                count=$(echo "${output}" | wc -l)
+                json_result "text_search" "pass" "Found ${count} matches"
             fi
             return 0
         else
-            if $JSON_OUTPUT; then
+            if ${JSON_OUTPUT}; then
                 json_result "text_search" "pass" "No matches found"
             else
                 print_info "No matches found"
@@ -270,10 +270,10 @@ search_text() {
             return 1
         fi
     else
-        if $JSON_OUTPUT; then
+        if ${JSON_OUTPUT}; then
             json_result "text_search" "fail" "Search error"
         else
-            print_fail "Search failed: $output"
+            print_fail "Search failed: ${output}"
         fi
         return 2
     fi
@@ -292,10 +292,10 @@ search_pdf() {
         paths=(".")
     fi
 
-    if ! $HAS_PDFGREP; then
+    if ! ${HAS_PDFGREP}; then
         if command -v pdftotext &>/dev/null; then
             # Fallback: use pdftotext + grep
-            search_pdf_fallback "$pattern" "${paths[@]}"
+            search_pdf_fallback "${pattern}" "${paths[@]}"
             return $?
         else
             print_fail "pdfgrep not installed"
@@ -305,37 +305,37 @@ search_pdf() {
         fi
     fi
 
-    if $VERBOSE; then
+    if ${VERBOSE}; then
         print_info "Using pdfgrep for PDF search"
-        print_info "Pattern: $pattern"
+        print_info "Pattern: ${pattern}"
         print_info "Paths: ${paths[*]}"
     fi
 
     local cmd_args=("pdfgrep")
 
-    if $CASE_INSENSITIVE; then cmd_args+=("-i"); fi
-    if $COUNT_ONLY; then cmd_args+=("-c"); fi
-    if $LIST_FILES; then cmd_args+=("-l"); fi
-    if [[ $CONTEXT_LINES -gt 0 ]]; then cmd_args+=("-C" "$CONTEXT_LINES"); fi
-    if [[ -n "$MAX_COUNT" ]]; then cmd_args+=("--max-count=$MAX_COUNT"); fi
-    if $RECURSIVE; then cmd_args+=("-r"); fi
+    if ${CASE_INSENSITIVE}; then cmd_args+=("-i"); fi
+    if ${COUNT_ONLY}; then cmd_args+=("-c"); fi
+    if ${LIST_FILES}; then cmd_args+=("-l"); fi
+    if [[ ${CONTEXT_LINES} -gt 0 ]]; then cmd_args+=("-C" "${CONTEXT_LINES}"); fi
+    if [[ -n "${MAX_COUNT}" ]]; then cmd_args+=("--max-count=${MAX_COUNT}"); fi
+    if ${RECURSIVE}; then cmd_args+=("-r"); fi
 
     # Always show page numbers and filenames
     cmd_args+=("-n")
     cmd_args+=("-H")
 
-    if [[ "$COLOR" == "always" ]]; then cmd_args+=("--color=always"); fi
-    if [[ "$COLOR" == "never" ]]; then cmd_args+=("--color=never"); fi
+    if [[ "${COLOR}" == "always" ]]; then cmd_args+=("--color=always"); fi
+    if [[ "${COLOR}" == "never" ]]; then cmd_args+=("--color=never"); fi
 
-    cmd_args+=("$pattern")
+    cmd_args+=("${pattern}")
     cmd_args+=("${paths[@]}")
 
-    if $DRY_RUN; then
+    if ${DRY_RUN}; then
         echo "[DRY RUN] ${cmd_args[*]}"
         return 0
     fi
 
-    if $VERBOSE; then
+    if ${VERBOSE}; then
         print_info "Command: ${cmd_args[*]}"
     fi
 
@@ -343,39 +343,39 @@ search_pdf() {
     local output
     output=$("${cmd_args[@]}" 2>&1) || exit_code=$?
 
-    if [[ $exit_code -eq 0 ]]; then
-        if [[ -n "$output" ]]; then
-            if $JSON_OUTPUT; then
+    if [[ ${exit_code} -eq 0 ]]; then
+        if [[ -n "${output}" ]]; then
+            if ${JSON_OUTPUT}; then
                 # Parse pdfgrep output into JSON
                 local count
-                count=$(echo "$output" | wc -l)
-                echo "$output"
-                json_result "pdf_search" "pass" "Found $count matches"
+                count=$(echo "${output}" | wc -l)
+                echo "${output}"
+                json_result "pdf_search" "pass" "Found ${count} matches"
             else
-                echo "$output"
+                echo "${output}"
             fi
             return 0
         else
-            if $JSON_OUTPUT; then
+            if ${JSON_OUTPUT}; then
                 json_result "pdf_search" "pass" "No matches found"
             else
                 print_info "No matches found"
             fi
             return 1
         fi
-    elif [[ $exit_code -eq 1 ]]; then
+    elif [[ ${exit_code} -eq 1 ]]; then
         # No matches
-        if $JSON_OUTPUT; then
+        if ${JSON_OUTPUT}; then
             json_result "pdf_search" "pass" "No matches found"
         else
             print_info "No matches found"
         fi
         return 1
     else
-        if $JSON_OUTPUT; then
+        if ${JSON_OUTPUT}; then
             json_result "pdf_search" "fail" "Search error"
         else
-            print_fail "PDF search failed: $output"
+            print_fail "PDF search failed: ${output}"
         fi
         return 2
     fi
@@ -386,27 +386,27 @@ search_pdf_fallback() {
     shift
     local paths=("$@")
 
-    if $VERBOSE; then
+    if ${VERBOSE}; then
         print_info "Using pdftotext + grep fallback for PDF search"
     fi
 
     local found=0
     local grep_opts=("-n")
 
-    if $CASE_INSENSITIVE; then grep_opts+=("-i"); fi
-    if $COUNT_ONLY; then grep_opts+=("-c"); fi
-    if [[ $CONTEXT_LINES -gt 0 ]]; then grep_opts+=("-C" "$CONTEXT_LINES"); fi
-    if [[ -n "$MAX_COUNT" ]]; then grep_opts+=("-m" "$MAX_COUNT"); fi
+    if ${CASE_INSENSITIVE}; then grep_opts+=("-i"); fi
+    if ${COUNT_ONLY}; then grep_opts+=("-c"); fi
+    if [[ ${CONTEXT_LINES} -gt 0 ]]; then grep_opts+=("-C" "${CONTEXT_LINES}"); fi
+    if [[ -n "${MAX_COUNT}" ]]; then grep_opts+=("-m" "${MAX_COUNT}"); fi
 
     # Find all PDF files
     local pdf_files=()
     for path in "${paths[@]}"; do
-        if [[ -f "$path" ]] && [[ "${path,,}" == *.pdf ]]; then
-            pdf_files+=("$path")
-        elif [[ -d "$path" ]]; then
+        if [[ -f "${path}" ]] && [[ "${path,,}" == *.pdf ]]; then
+            pdf_files+=("${path}")
+        elif [[ -d "${path}" ]]; then
             while IFS= read -r -d '' file; do
-                pdf_files+=("$file")
-            done < <(find "$path" -type f -iname "*.pdf" -print0 2>/dev/null)
+                pdf_files+=("${file}")
+            done < <(find "${path}" -type f -iname "*.pdf" -print0 2>/dev/null)
         fi
     done
 
@@ -416,29 +416,29 @@ search_pdf_fallback() {
     fi
 
     for pdf in "${pdf_files[@]}"; do
-        if $VERBOSE; then
-            print_info "Searching: $pdf"
+        if ${VERBOSE}; then
+            print_info "Searching: ${pdf}"
         fi
 
         local text
-        if text=$(pdftotext -layout "$pdf" - 2>/dev/null); then
+        if text=$(pdftotext -layout "${pdf}" - 2>/dev/null); then
             local result
-            if result=$(echo "$text" | grep "${grep_opts[@]}" "$pattern" 2>/dev/null); then
-                echo "=== $pdf ==="
-                echo "$result"
+            if result=$(echo "${text}" | grep "${grep_opts[@]}" "${pattern}" 2>/dev/null); then
+                echo "=== ${pdf} ==="
+                echo "${result}"
                 echo ""
                 ((found++))
             fi
         fi
     done
 
-    if [[ $found -gt 0 ]]; then
-        if $JSON_OUTPUT; then
-            json_result "pdf_search" "pass" "Found matches in $found files"
+    if [[ ${found} -gt 0 ]]; then
+        if ${JSON_OUTPUT}; then
+            json_result "pdf_search" "pass" "Found matches in ${found} files"
         fi
         return 0
     else
-        if $JSON_OUTPUT; then
+        if ${JSON_OUTPUT}; then
             json_result "pdf_search" "pass" "No matches found"
         else
             print_info "No matches found"
@@ -460,25 +460,25 @@ search_find() {
         paths=(".")
     fi
 
-    if $VERBOSE; then
-        print_info "Finding files matching: $pattern"
+    if ${VERBOSE}; then
+        print_info "Finding files matching: ${pattern}"
         print_info "Paths: ${paths[*]}"
     fi
 
     local find_opts=()
     find_opts+=("-type" "f")
 
-    if $CASE_INSENSITIVE; then
-        find_opts+=("-iname" "$pattern")
+    if ${CASE_INSENSITIVE}; then
+        find_opts+=("-iname" "${pattern}")
     else
-        find_opts+=("-name" "$pattern")
+        find_opts+=("-name" "${pattern}")
     fi
 
-    if ! $INCLUDE_HIDDEN; then
+    if ! ${INCLUDE_HIDDEN}; then
         find_opts+=("-not" "-path" "*/.*")
     fi
 
-    if $DRY_RUN; then
+    if ${DRY_RUN}; then
         echo "[DRY RUN] find ${paths[*]} ${find_opts[*]}"
         return 0
     fi
@@ -487,26 +487,26 @@ search_find() {
     local exit_code=0
     output=$(find "${paths[@]}" "${find_opts[@]}" 2>/dev/null | sort) || exit_code=$?
 
-    if [[ -n "$output" ]]; then
-        if $COUNT_ONLY; then
+    if [[ -n "${output}" ]]; then
+        if ${COUNT_ONLY}; then
             local count
-            count=$(echo "$output" | wc -l)
-            if $JSON_OUTPUT; then
-                printf '{"command":"find","count":%d}\n' "$count"
+            count=$(echo "${output}" | wc -l)
+            if ${JSON_OUTPUT}; then
+                printf '{"command":"find","count":%d}\n' "${count}"
             else
-                echo "$count"
+                echo "${count}"
             fi
         else
-            echo "$output"
-            if $JSON_OUTPUT; then
+            echo "${output}"
+            if ${JSON_OUTPUT}; then
                 local count
-                count=$(echo "$output" | wc -l)
-                json_result "find" "pass" "Found $count files"
+                count=$(echo "${output}" | wc -l)
+                json_result "find" "pass" "Found ${count} files"
             fi
         fi
         return 0
     else
-        if $JSON_OUTPUT; then
+        if ${JSON_OUTPUT}; then
             json_result "find" "pass" "No files found"
         else
             print_info "No files found matching pattern"
@@ -528,7 +528,7 @@ search_all() {
         paths=(".")
     fi
 
-    if $VERBOSE; then
+    if ${VERBOSE}; then
         print_info "Searching all files (text + PDF)"
     fi
 
@@ -537,23 +537,23 @@ search_all() {
 
     # Search text files
     echo "=== Text Files ==="
-    if search_text "$pattern" "${paths[@]}"; then
+    if search_text "${pattern}" "${paths[@]}"; then
         text_results=1
     fi
 
     echo ""
     echo "=== PDF Files ==="
-    if search_pdf "$pattern" "${paths[@]}"; then
+    if search_pdf "${pattern}" "${paths[@]}"; then
         pdf_results=1
     fi
 
-    if $JSON_OUTPUT; then
+    if ${JSON_OUTPUT}; then
         printf '{"command":"all","text_found":%s,"pdf_found":%s}\n' \
-            "$([[ $text_results -eq 1 ]] && echo "true" || echo "false")" \
-            "$([[ $pdf_results -eq 1 ]] && echo "true" || echo "false")"
+            "$([[ ${text_results} -eq 1 ]] && echo "true" || echo "false")" \
+            "$([[ ${pdf_results} -eq 1 ]] && echo "true" || echo "false")"
     fi
 
-    if [[ $text_results -eq 1 ]] || [[ $pdf_results -eq 1 ]]; then
+    if [[ ${text_results} -eq 1 ]] || [[ ${pdf_results} -eq 1 ]]; then
         return 0
     else
         return 1
@@ -569,26 +569,26 @@ show_version() {
     echo ""
     echo "Available tools:"
 
-    if $HAS_RIPGREP; then
+    if ${HAS_RIPGREP}; then
         local version
         version=$(rg --version 2>/dev/null | head -1)
-        echo "  ripgrep: $version"
+        echo "  ripgrep: ${version}"
     else
         echo "  ripgrep: not installed"
     fi
 
-    if $HAS_AG; then
+    if ${HAS_AG}; then
         local version
         version=$(ag --version 2>/dev/null | head -1)
-        echo "  ag: $version"
+        echo "  ag: ${version}"
     else
         echo "  ag: not installed"
     fi
 
-    if $HAS_PDFGREP; then
+    if ${HAS_PDFGREP}; then
         local version
         version=$(pdfgrep --version 2>/dev/null | head -1)
-        echo "  pdfgrep: $version"
+        echo "  pdfgrep: ${version}"
     else
         echo "  pdfgrep: not installed"
     fi
@@ -596,7 +596,7 @@ show_version() {
     if command -v grep &>/dev/null; then
         local version
         version=$(grep --version 2>/dev/null | head -1)
-        echo "  grep: $version"
+        echo "  grep: ${version}"
     fi
 }
 
@@ -619,7 +619,7 @@ main() {
     shift
 
     # Handle version command
-    if [[ "$command" == "version" ]] || [[ "$command" == "--version" ]]; then
+    if [[ "${command}" == "version" ]] || [[ "${command}" == "--version" ]]; then
         show_version
         exit 0
     fi
@@ -704,12 +704,12 @@ main() {
     set -- "${positional[@]}"
 
     # Need at least a pattern for search commands
-    if [[ "$command" != "version" ]] && [[ $# -lt 1 ]]; then
-        print_fail "Usage: search.sh $command <pattern> [paths...]"
+    if [[ "${command}" != "version" ]] && [[ $# -lt 1 ]]; then
+        print_fail "Usage: search.sh ${command} <pattern> [paths...]"
         exit 2
     fi
 
-    case "$command" in
+    case "${command}" in
     text)
         search_text "$@"
         ;;
@@ -726,7 +726,7 @@ main() {
         show_version
         ;;
     *)
-        print_fail "Unknown command: $command"
+        print_fail "Unknown command: ${command}"
         echo "Run 'search.sh --help' for usage."
         exit 2
         ;;

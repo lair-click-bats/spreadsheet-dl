@@ -9,10 +9,10 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
 # Colors for output (detect terminal capability)
-if [[ -t 1 ]] && [[ -n "${TERM:-}" ]] && [[ "$TERM" != "dumb" ]]; then
+if [[ -t 1 ]] && [[ -n "${TERM:-}" ]] && [[ "${TERM}" != "dumb" ]]; then
     RED='\033[0;31m'
     GREEN='\033[0;32m'
     YELLOW='\033[1;33m'
@@ -27,7 +27,7 @@ fi
 # Configuration
 # =============================================================================
 
-EXTENSIONS_FILE="$REPO_ROOT/.vscode/extensions.json"
+EXTENSIONS_FILE="${REPO_ROOT}/.vscode/extensions.json"
 
 # =============================================================================
 # Helper Functions
@@ -54,14 +54,14 @@ log_error() {
 parse_extensions_json() {
     local file="$1"
 
-    if [[ ! -f "$file" ]]; then
+    if [[ ! -f "${file}" ]]; then
         return 1
     fi
 
     # Try jq first (most reliable)
     if command -v jq &>/dev/null; then
         # Strip comments and parse with jq
-        sed 's|//.*||g' "$file" | jq -r '.recommendations[]' 2>/dev/null
+        sed 's|//.*||g' "${file}" | jq -r '.recommendations[]' 2>/dev/null
         return $?
     fi
 
@@ -69,7 +69,7 @@ parse_extensions_json() {
     # 1. Remove single-line comments (// ...)
     # 2. Extract strings that look like extension IDs (publisher.extension-name)
     # 3. Filter to only lines within "recommendations" context
-    grep -E '"[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+"' "$file" |
+    grep -E '"[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+"' "${file}" |
         sed 's|//.*||g' |
         grep -oE '"[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+"' |
         tr -d '"' |
@@ -80,15 +80,15 @@ parse_extensions_json() {
 load_extensions() {
     EXTENSIONS=()
 
-    if [[ ! -f "$EXTENSIONS_FILE" ]]; then
+    if [[ ! -f "${EXTENSIONS_FILE}" ]]; then
         log_warning "No .vscode/extensions.json found"
         return 1
     fi
 
     local ext
     while IFS= read -r ext; do
-        [[ -n "$ext" ]] && EXTENSIONS+=("$ext")
-    done < <(parse_extensions_json "$EXTENSIONS_FILE")
+        [[ -n "${ext}" ]] && EXTENSIONS+=("${ext}")
+    done < <(parse_extensions_json "${EXTENSIONS_FILE}")
 
     if [[ ${#EXTENSIONS[@]} -eq 0 ]]; then
         log_warning "No extensions found in extensions.json"
@@ -117,8 +117,8 @@ is_installed() {
     local extension=$2
     # Normalize both to lowercase for comparison
     local extension_lower
-    extension_lower=$(echo "$extension" | tr '[:upper:]' '[:lower:]')
-    "$vscode_cmd" --list-extensions 2>/dev/null | tr '[:upper:]' '[:lower:]' | grep -q "^${extension_lower}$"
+    extension_lower=$(echo "${extension}" | tr '[:upper:]' '[:lower:]')
+    "${vscode_cmd}" --list-extensions 2>/dev/null | tr '[:upper:]' '[:lower:]' | grep -q "^${extension_lower}$"
 }
 
 # =============================================================================
@@ -157,13 +157,13 @@ list_extensions() {
     fi
 
     local count=${#EXTENSIONS[@]}
-    echo "Recommended VS Code Extensions ($count total):"
+    echo "Recommended VS Code Extensions (${count} total):"
     echo ""
     echo "Source: .vscode/extensions.json"
     echo ""
 
     for ext in "${EXTENSIONS[@]}"; do
-        echo "  - $ext"
+        echo "  - ${ext}"
     done
 }
 
@@ -176,24 +176,24 @@ check_extensions() {
     echo ""
 
     for ext in "${EXTENSIONS[@]}"; do
-        if is_installed "$vscode_cmd" "$ext"; then
-            log_success "$ext"
+        if is_installed "${vscode_cmd}" "${ext}"; then
+            log_success "${ext}"
             ((installed++)) || true
         else
-            log_warning "$ext (not installed)"
+            log_warning "${ext} (not installed)"
             ((missing++)) || true
         fi
     done
 
     echo ""
-    echo "Summary: $installed installed, $missing missing"
+    echo "Summary: ${installed} installed, ${missing} missing"
 
-    if $JSON_MODE; then
+    if ${JSON_MODE}; then
         printf '{"installed":%d,"missing":%d,"total":%d}\n' \
-            "$installed" "$missing" "${#EXTENSIONS[@]}"
+            "${installed}" "${missing}" "${#EXTENSIONS[@]}"
     fi
 
-    return "$missing"
+    return "${missing}"
 }
 
 install_extensions() {
@@ -206,30 +206,30 @@ install_extensions() {
     echo ""
 
     for ext in "${EXTENSIONS[@]}"; do
-        if is_installed "$vscode_cmd" "$ext"; then
-            log_success "$ext (already installed)"
+        if is_installed "${vscode_cmd}" "${ext}"; then
+            log_success "${ext} (already installed)"
             ((skipped++)) || true
         else
-            log_info "Installing $ext..."
-            if "$vscode_cmd" --install-extension "$ext" --force &>/dev/null; then
-                log_success "$ext installed"
+            log_info "Installing ${ext}..."
+            if "${vscode_cmd}" --install-extension "${ext}" --force &>/dev/null; then
+                log_success "${ext} installed"
                 ((installed++)) || true
             else
-                log_error "Failed to install $ext"
+                log_error "Failed to install ${ext}"
                 ((failed++)) || true
             fi
         fi
     done
 
     echo ""
-    echo "Summary: $installed installed, $skipped already present, $failed failed"
+    echo "Summary: ${installed} installed, ${skipped} already present, ${failed} failed"
 
-    if $JSON_MODE; then
+    if ${JSON_MODE}; then
         printf '{"installed":%d,"skipped":%d,"failed":%d}\n' \
-            "$installed" "$skipped" "$failed"
+            "${installed}" "${skipped}" "${failed}"
     fi
 
-    if [[ $failed -gt 0 ]]; then
+    if [[ ${failed} -gt 0 ]]; then
         return 1
     fi
     return 0
@@ -271,7 +271,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 # List only mode (doesn't need VS Code)
-if [[ "$LIST_ONLY" == "true" ]]; then
+if [[ "${LIST_ONLY}" == "true" ]]; then
     list_extensions
     exit 0
 fi
@@ -287,7 +287,7 @@ fi
 # Detect VS Code
 VSCODE_CMD=$(detect_vscode)
 
-if [[ -z "$VSCODE_CMD" ]]; then
+if [[ -z "${VSCODE_CMD}" ]]; then
     log_error "VS Code command not found"
     echo ""
     echo "Make sure one of these is in your PATH:"
@@ -297,20 +297,20 @@ if [[ -z "$VSCODE_CMD" ]]; then
     echo ""
     echo "To install extensions manually, run:"
     for ext in "${EXTENSIONS[@]}"; do
-        echo "  code --install-extension $ext"
+        echo "  code --install-extension ${ext}"
     done
     exit 2
 fi
 
-log_info "Using: $VSCODE_CMD"
-log_info "Extensions source: $EXTENSIONS_FILE (${#EXTENSIONS[@]} extensions)"
+log_info "Using: ${VSCODE_CMD}"
+log_info "Extensions source: ${EXTENSIONS_FILE} (${#EXTENSIONS[@]} extensions)"
 echo ""
 
 # Check or install
-if [[ "$CHECK_ONLY" == "true" ]]; then
-    check_extensions "$VSCODE_CMD"
+if [[ "${CHECK_ONLY}" == "true" ]]; then
+    check_extensions "${VSCODE_CMD}"
     exit_code=$?
-    [[ $exit_code -eq 0 ]] && exit 0 || exit 1
+    [[ ${exit_code} -eq 0 ]] && exit 0 || exit 1
 else
-    install_extensions "$VSCODE_CMD"
+    install_extensions "${VSCODE_CMD}"
 fi

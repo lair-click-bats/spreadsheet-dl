@@ -3,7 +3,7 @@
 # common.sh - Shared Functions for Workspace Template Scripts
 # =============================================================================
 # Source this file: source "$(dirname "$0")/lib/common.sh"
-# Or from tools/: source "$SCRIPT_DIR/../lib/common.sh"
+# Or from tools/: source "${SCRIPT_DIR}/../lib/common.sh"
 # =============================================================================
 
 # Strict mode
@@ -13,7 +13,7 @@ set -euo pipefail
 # Colors (detect terminal capability)
 # =============================================================================
 
-if [[ -t 1 ]] && [[ -n "${TERM:-}" ]] && [[ "$TERM" != "dumb" ]]; then
+if [[ -t 1 ]] && [[ -n "${TERM:-}" ]] && [[ "${TERM}" != "dumb" ]]; then
     RED='\033[0;31m'
     GREEN='\033[0;32m'
     YELLOW='\033[1;33m'
@@ -90,8 +90,8 @@ require_tool() {
     local tool="$1"
     local install_hint="${2:-}"
 
-    if ! has_tool "$tool"; then
-        print_skip "$tool not installed${install_hint:+ ($install_hint)}"
+    if ! has_tool "${tool}"; then
+        print_skip "${tool} not installed${install_hint:+ (${install_hint})}"
         return 1
     fi
     return 0
@@ -107,9 +107,9 @@ run_py_tool() {
     local tool="$1"
     shift
     if has_uv; then
-        uv run "$tool" "$@"
+        uv run "${tool}" "$@"
     else
-        "$tool" "$@"
+        "${tool}" "$@"
     fi
 }
 
@@ -122,7 +122,7 @@ has_files() {
     local path="${2:-.}"
 
     # Use find to check if any files match
-    [[ -n "$(find "$path" -type f -name "$pattern" -print -quit 2>/dev/null)" ]]
+    [[ -n "$(find "${path}" -type f -name "${pattern}" -print -quit 2>/dev/null)" ]]
 }
 
 has_files_glob() {
@@ -132,7 +132,7 @@ has_files_glob() {
     # Use glob pattern matching
     shopt -s nullglob globstar
     # shellcheck disable=SC2206
-    local files=("$path"/**/"$pattern")
+    local files=("${path}"/**/"${pattern}")
     shopt -u nullglob globstar
     [[ ${#files[@]} -gt 0 ]]
 }
@@ -143,12 +143,12 @@ find_files() {
     local exclude="${3:-.git,.venv,node_modules,__pycache__,*.egg-info}"
 
     local exclude_args=()
-    IFS=',' read -ra excludes <<<"$exclude"
+    IFS=',' read -ra excludes <<<"${exclude}"
     for ex in "${excludes[@]}"; do
-        exclude_args+=(-not -path "*/$ex/*")
+        exclude_args+=(-not -path "*/${ex}/*")
     done
 
-    find "$path" -type f -name "$pattern" "${exclude_args[@]}" 2>/dev/null
+    find "${path}" -type f -name "${pattern}" "${exclude_args[@]}" 2>/dev/null
 }
 
 # =============================================================================
@@ -162,7 +162,7 @@ enable_json() {
 }
 
 is_json_mode() {
-    $JSON_OUTPUT
+    ${JSON_OUTPUT}
 }
 
 json_result() {
@@ -170,8 +170,8 @@ json_result() {
     local status="$2" # pass, fail, skip
     local message="${3:-}"
 
-    if $JSON_OUTPUT; then
-        printf '{"tool":"%s","status":"%s","message":"%s"}\n' "$tool" "$status" "$message"
+    if ${JSON_OUTPUT}; then
+        printf '{"tool":"%s","status":"%s","message":"%s"}\n' "${tool}" "${status}" "${message}"
     fi
 }
 
@@ -192,13 +192,13 @@ get_repo_root() {
 
 find_config() {
     local config_name="$1"
-    local search_path="${2:-$REPO_ROOT}"
+    local search_path="${2:-${REPO_ROOT}}"
 
     # Check current directory first, then repo root
-    if [[ -f "./$config_name" ]]; then
-        echo "./$config_name"
-    elif [[ -f "$search_path/$config_name" ]]; then
-        echo "$search_path/$config_name"
+    if [[ -f "./${config_name}" ]]; then
+        echo "./${config_name}"
+    elif [[ -f "${search_path}/${config_name}" ]]; then
+        echo "${search_path}/${config_name}"
     fi
 }
 
@@ -252,9 +252,9 @@ show_help() {
     local tool_name="$2"
     local extra_options="${3:-}"
 
-    echo "Usage: $script_name [OPTIONS] [paths...]"
+    echo "Usage: ${script_name} [OPTIONS] [paths...]"
     echo ""
-    echo "$tool_name wrapper script"
+    echo "${tool_name} wrapper script"
     echo ""
     echo "Options:"
     echo "  --check     Check only, don't modify files (default)"
@@ -263,9 +263,9 @@ show_help() {
     echo "  --json      Output machine-readable JSON"
     echo "  -v          Verbose output"
     echo "  -h, --help  Show this help message"
-    if [[ -n "$extra_options" ]]; then
+    if [[ -n "${extra_options}" ]]; then
         echo ""
-        echo "$extra_options"
+        echo "${extra_options}"
     fi
     echo ""
     echo "If no paths given, searches current directory."

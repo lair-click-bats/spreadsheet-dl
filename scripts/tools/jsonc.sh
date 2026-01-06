@@ -24,7 +24,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../lib/common.sh"
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 # Configuration
 TOOL_NAME="JSON/JSONC Validator"
@@ -160,10 +160,10 @@ while i < len(content):
     i += 1
 
 print(''.join(result))
-" "$file"
+" "${file}"
     else
         # Fallback: simple sed-based comment removal (less accurate)
-        sed 's|//.*$||g; s|/\*.*\*/||g' "$file"
+        sed 's|//.*$||g; s|/\*.*\*/||g' "${file}"
     fi
 }
 
@@ -172,15 +172,15 @@ is_jsonc_file() {
     local file="$1"
 
     # Explicit .jsonc extension
-    [[ "$file" == *.jsonc ]] && return 0
+    [[ "${file}" == *.jsonc ]] && return 0
 
     # VS Code configuration files are JSONC
-    [[ "$file" == */.vscode/*.json ]] && return 0
-    [[ "$file" == .vscode/*.json ]] && return 0
+    [[ "${file}" == */.vscode/*.json ]] && return 0
+    [[ "${file}" == .vscode/*.json ]] && return 0
 
     # tsconfig and jsconfig often have comments
-    [[ "$(basename "$file")" == "tsconfig.json" ]] && return 0
-    [[ "$(basename "$file")" == "jsconfig.json" ]] && return 0
+    [[ "$(basename "${file}")" == "tsconfig.json" ]] && return 0
+    [[ "$(basename "${file}")" == "jsconfig.json" ]] && return 0
 
     return 1
 }
@@ -193,10 +193,10 @@ validate_json_with_jq() {
     local file="$1"
     local content="$2"
 
-    if [[ -n "$content" ]]; then
-        echo "$content" | jq empty 2>&1
+    if [[ -n "${content}" ]]; then
+        echo "${content}" | jq empty 2>&1
     else
-        jq empty "$file" 2>&1
+        jq empty "${file}" 2>&1
     fi
 }
 
@@ -204,10 +204,10 @@ validate_json_with_python() {
     local file="$1"
     local content="$2"
 
-    if [[ -n "$content" ]]; then
-        echo "$content" | python3 -c "import json, sys; json.load(sys.stdin)" 2>&1
+    if [[ -n "${content}" ]]; then
+        echo "${content}" | python3 -c "import json, sys; json.load(sys.stdin)" 2>&1
     else
-        python3 -c "import json; json.load(open('$file'))" 2>&1
+        python3 -c "import json; json.load(open('${file}'))" 2>&1
     fi
 }
 
@@ -220,7 +220,7 @@ validate_with_schema() {
         return 1
     fi
 
-    check-jsonschema --schemafile "$schema" "$file" 2>&1
+    check-jsonschema --schemafile "${schema}" "${file}" 2>&1
 }
 
 validate_file() {
@@ -229,35 +229,35 @@ validate_file() {
     local content=""
 
     # Handle JSONC files
-    if is_jsonc_file "$file"; then
-        content=$(strip_jsonc_comments "$file")
-        if $VERBOSE; then
-            print_info "Treating as JSONC: $file"
+    if is_jsonc_file "${file}"; then
+        content=$(strip_jsonc_comments "${file}")
+        if ${VERBOSE}; then
+            print_info "Treating as JSONC: ${file}"
         fi
     fi
 
     # Validate with best available tool
     if has_tool "jq"; then
-        result=$(validate_json_with_jq "$file" "$content" 2>&1) || true
+        result=$(validate_json_with_jq "${file}" "${content}" 2>&1) || true
     elif has_tool "python3"; then
-        result=$(validate_json_with_python "$file" "$content" 2>&1) || true
+        result=$(validate_json_with_python "${file}" "${content}" 2>&1) || true
     else
         print_fail "No JSON validator available"
         return 2
     fi
 
     # Check result
-    if [[ -z "$result" ]]; then
+    if [[ -z "${result}" ]]; then
         ((VALIDATED++)) || true
-        if $VERBOSE; then
-            print_pass "$file"
+        if ${VERBOSE}; then
+            print_pass "${file}"
         fi
         return 0
     else
         ((ISSUES++)) || true
-        if $VERBOSE; then
-            print_fail "$file"
-            print_info "$result"
+        if ${VERBOSE}; then
+            print_fail "${file}"
+            print_info "${result}"
         fi
         return 1
     fi
@@ -312,17 +312,17 @@ done
 # Main
 # =============================================================================
 
-print_tool "$TOOL_NAME ($MODE)"
+print_tool "${TOOL_NAME} (${MODE})"
 
 # Check for available validator
 if ! has_tool "jq" && ! has_tool "python3"; then
-    print_skip "No JSON validator available ($INSTALL_HINT)"
+    print_skip "No JSON validator available (${INSTALL_HINT})"
     json_result "jsonc" "skip" "No validator available"
     exit 0
 fi
 
 # Report which validator is being used
-if $VERBOSE; then
+if ${VERBOSE}; then
     if has_tool "jq"; then
         print_info "Using jq for validation"
     else
@@ -331,9 +331,9 @@ if $VERBOSE; then
 fi
 
 # Validate schema file if provided
-if [[ -n "$SCHEMA_FILE" ]]; then
-    if [[ ! -f "$SCHEMA_FILE" ]]; then
-        print_fail "Schema file not found: $SCHEMA_FILE"
+if [[ -n "${SCHEMA_FILE}" ]]; then
+    if [[ ! -f "${SCHEMA_FILE}" ]]; then
+        print_fail "Schema file not found: ${SCHEMA_FILE}"
         json_result "jsonc" "fail" "Schema not found"
         exit 2
     fi
@@ -348,12 +348,12 @@ fi
 # Find JSON files
 json_files=()
 for path in "${PATHS[@]}"; do
-    if [[ -f "$path" ]]; then
-        json_files+=("$path")
-    elif [[ -d "$path" ]]; then
+    if [[ -f "${path}" ]]; then
+        json_files+=("${path}")
+    elif [[ -d "${path}" ]]; then
         while IFS= read -r -d '' file; do
-            json_files+=("$file")
-        done < <(find "$path" -type f \( -name "*.json" -o -name "*.jsonc" \) \
+            json_files+=("${file}")
+        done < <(find "${path}" -type f \( -name "*.json" -o -name "*.jsonc" \) \
             -not -path "*/.git/*" \
             -not -path "*/.venv/*" \
             -not -path "*/node_modules/*" \
@@ -370,44 +370,44 @@ if [[ ${#json_files[@]} -eq 0 ]]; then
     exit 0
 fi
 
-if $VERBOSE; then
+if ${VERBOSE}; then
     print_info "Found ${#json_files[@]} JSON file(s)"
 fi
 
 # Validate each file
 validation_failed=false
 for file in "${json_files[@]}"; do
-    if [[ -n "$SCHEMA_FILE" ]]; then
+    if [[ -n "${SCHEMA_FILE}" ]]; then
         # Schema validation
-        if ! validate_with_schema "$file" "$SCHEMA_FILE"; then
+        if ! validate_with_schema "${file}" "${SCHEMA_FILE}"; then
             validation_failed=true
         fi
     else
         # Syntax validation
-        if ! validate_file "$file"; then
+        if ! validate_file "${file}"; then
             validation_failed=true
         fi
     fi
 done
 
 # Summary
-if $VERBOSE; then
+if ${VERBOSE}; then
     echo ""
-    print_info "Validated: $VALIDATED, Issues: $ISSUES"
+    print_info "Validated: ${VALIDATED}, Issues: ${ISSUES}"
 fi
 
 # Final result
-if $validation_failed || [[ $ISSUES -gt 0 ]]; then
-    if ! $VERBOSE; then
+if ${validation_failed} || [[ ${ISSUES} -gt 0 ]]; then
+    if ! ${VERBOSE}; then
         print_fail "JSON validation issues found"
         print_info "Run with -v for details"
     else
         print_fail "Validation failed"
     fi
-    json_result "jsonc" "fail" "$ISSUES file(s) with issues"
+    json_result "jsonc" "fail" "${ISSUES} file(s) with issues"
     exit 1
 else
-    print_pass "All JSON files valid ($VALIDATED files)"
+    print_pass "All JSON files valid (${VALIDATED} files)"
     json_result "jsonc" "pass" ""
     exit 0
 fi

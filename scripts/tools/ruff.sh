@@ -14,7 +14,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../lib/common.sh"
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 # Configuration
 TOOL_NAME="Ruff"
@@ -51,7 +51,7 @@ while [[ $# -gt 0 ]]; do
         shift
         ;;
     -h | --help)
-        show_help "$0" "$TOOL_NAME"
+        show_help "$0" "${TOOL_NAME}"
         exit 0
         ;;
     -*)
@@ -69,36 +69,36 @@ done
 [[ ${#PATHS[@]} -eq 0 ]] && PATHS=(".")
 
 # Main
-print_tool "$TOOL_NAME ($MODE)"
+print_tool "${TOOL_NAME} (${MODE})"
 
 # Check tool installed
-if ! require_tool "$TOOL_CMD" "$INSTALL_HINT"; then
-    json_result "$TOOL_CMD" "skip" "Tool not installed"
+if ! require_tool "${TOOL_CMD}" "${INSTALL_HINT}"; then
+    json_result "${TOOL_CMD}" "skip" "Tool not installed"
     exit 0
 fi
 
 # Check for Python files
 has_python_files=false
 for path in "${PATHS[@]}"; do
-    if [[ -f "$path" && "$path" == *.py ]] || has_files "$FILE_PATTERN" "$path"; then
+    if [[ -f "${path}" && "${path}" == *.py ]] || has_files "${FILE_PATTERN}" "${path}"; then
         has_python_files=true
         break
     fi
 done
 
-if ! $has_python_files; then
+if ! ${has_python_files}; then
     print_skip "No Python files found"
-    json_result "$TOOL_CMD" "skip" "No files found"
+    json_result "${TOOL_CMD}" "skip" "No files found"
     exit 0
 fi
 
 # Run tool based on mode
-case $MODE in
+case ${MODE} in
 check)
     lint_ok=true
     format_ok=true
 
-    if $VERBOSE; then
+    if ${VERBOSE}; then
         run_py_tool ruff check "${PATHS[@]}" || lint_ok=false
         run_py_tool ruff format --check "${PATHS[@]}" || format_ok=false
     else
@@ -106,58 +106,58 @@ check)
         run_py_tool ruff format --check "${PATHS[@]}" &>/dev/null || format_ok=false
     fi
 
-    if $lint_ok && $format_ok; then
+    if ${lint_ok} && ${format_ok}; then
         print_pass "All checks passed"
-        json_result "$TOOL_CMD" "pass" ""
+        json_result "${TOOL_CMD}" "pass" ""
         exit 0
     else
         print_fail "Issues found"
-        json_result "$TOOL_CMD" "fail" "Linting issues found"
+        json_result "${TOOL_CMD}" "fail" "Linting issues found"
         exit 1
     fi
     ;;
 fix)
-    if $VERBOSE; then
+    if ${VERBOSE}; then
         if run_py_tool ruff check --fix "${PATHS[@]}"; then
             print_pass "Fixed lint issues"
-            json_result "$TOOL_CMD" "pass" "Fixed"
+            json_result "${TOOL_CMD}" "pass" "Fixed"
             exit 0
         else
             print_fail "Could not fix all issues"
-            json_result "$TOOL_CMD" "fail" "Some issues unfixable"
+            json_result "${TOOL_CMD}" "fail" "Some issues unfixable"
             exit 1
         fi
     else
         if run_py_tool ruff check --fix "${PATHS[@]}" &>/dev/null; then
             print_pass "Fixed lint issues"
-            json_result "$TOOL_CMD" "pass" "Fixed"
+            json_result "${TOOL_CMD}" "pass" "Fixed"
             exit 0
         else
             print_fail "Could not fix all issues"
-            json_result "$TOOL_CMD" "fail" "Some issues unfixable"
+            json_result "${TOOL_CMD}" "fail" "Some issues unfixable"
             exit 1
         fi
     fi
     ;;
 format)
-    if $VERBOSE; then
+    if ${VERBOSE}; then
         if run_py_tool ruff format "${PATHS[@]}"; then
             print_pass "Formatted"
-            json_result "$TOOL_CMD" "pass" "Formatted"
+            json_result "${TOOL_CMD}" "pass" "Formatted"
             exit 0
         else
             print_fail "Format failed"
-            json_result "$TOOL_CMD" "fail" "Format error"
+            json_result "${TOOL_CMD}" "fail" "Format error"
             exit 1
         fi
     else
         if run_py_tool ruff format "${PATHS[@]}" &>/dev/null; then
             print_pass "Formatted"
-            json_result "$TOOL_CMD" "pass" "Formatted"
+            json_result "${TOOL_CMD}" "pass" "Formatted"
             exit 0
         else
             print_fail "Format failed"
-            json_result "$TOOL_CMD" "fail" "Format error"
+            json_result "${TOOL_CMD}" "fail" "Format error"
             exit 1
         fi
     fi

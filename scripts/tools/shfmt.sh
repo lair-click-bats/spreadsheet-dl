@@ -14,7 +14,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../lib/common.sh"
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 # Configuration
 TOOL_NAME="shfmt"
@@ -90,25 +90,25 @@ done
 [[ ${#PATHS[@]} -eq 0 ]] && PATHS=(".")
 
 # Main
-print_tool "$TOOL_NAME ($MODE)"
+print_tool "${TOOL_NAME} (${MODE})"
 
 # Check tool installed
-if ! require_tool "$TOOL_CMD" "$INSTALL_HINT"; then
-    json_result "$TOOL_CMD" "skip" "Tool not installed"
+if ! require_tool "${TOOL_CMD}" "${INSTALL_HINT}"; then
+    json_result "${TOOL_CMD}" "skip" "Tool not installed"
     exit 0
 fi
 
 # Find shell scripts
 shell_files=()
 for path in "${PATHS[@]}"; do
-    if [[ -f "$path" ]]; then
+    if [[ -f "${path}" ]]; then
         # Single file
-        shell_files+=("$path")
-    elif [[ -d "$path" ]]; then
+        shell_files+=("${path}")
+    elif [[ -d "${path}" ]]; then
         # Directory - find .sh files
         while IFS= read -r -d '' file; do
-            shell_files+=("$file")
-        done < <(find "$path" -type f -name "*.sh" \
+            shell_files+=("${file}")
+        done < <(find "${path}" -type f -name "*.sh" \
             -not -path "*/.git/*" \
             -not -path "*/.venv/*" \
             -not -path "*/node_modules/*" \
@@ -118,38 +118,38 @@ done
 
 if [[ ${#shell_files[@]} -eq 0 ]]; then
     print_skip "No shell scripts found"
-    json_result "$TOOL_CMD" "skip" "No files found"
+    json_result "${TOOL_CMD}" "skip" "No files found"
     exit 0
 fi
 
 file_count=${#shell_files[@]}
-$VERBOSE && print_info "Found $file_count shell script(s)"
+${VERBOSE} && print_info "Found ${file_count} shell script(s)"
 
 # Run shfmt
-case $MODE in
+case ${MODE} in
 check)
     # Use -d (diff) flag to check without modifying
     # shellcheck disable=SC2086
-    if $VERBOSE; then
-        if shfmt $SHFMT_OPTS -d "${shell_files[@]}"; then
-            print_pass "All $file_count scripts formatted correctly"
-            json_result "$TOOL_CMD" "pass" ""
+    if ${VERBOSE}; then
+        if shfmt ${SHFMT_OPTS} -d "${shell_files[@]}"; then
+            print_pass "All ${file_count} scripts formatted correctly"
+            json_result "${TOOL_CMD}" "pass" ""
             exit 0
         else
             print_fail "Formatting issues found"
-            json_result "$TOOL_CMD" "fail" "Formatting issues"
+            json_result "${TOOL_CMD}" "fail" "Formatting issues"
             exit 1
         fi
     else
         # shellcheck disable=SC2086
-        if shfmt $SHFMT_OPTS -d "${shell_files[@]}" &>/dev/null; then
-            print_pass "All $file_count scripts formatted correctly"
-            json_result "$TOOL_CMD" "pass" ""
+        if shfmt ${SHFMT_OPTS} -d "${shell_files[@]}" &>/dev/null; then
+            print_pass "All ${file_count} scripts formatted correctly"
+            json_result "${TOOL_CMD}" "pass" ""
             exit 0
         else
             print_fail "Formatting issues found"
             print_info "Run with --fix to format"
-            json_result "$TOOL_CMD" "fail" "Formatting issues"
+            json_result "${TOOL_CMD}" "fail" "Formatting issues"
             exit 1
         fi
     fi
@@ -157,25 +157,25 @@ check)
 fix)
     # Use -w (write) flag to format in place
     # shellcheck disable=SC2086
-    if $VERBOSE; then
-        if shfmt $SHFMT_OPTS -w "${shell_files[@]}"; then
-            print_pass "Formatted $file_count scripts"
-            json_result "$TOOL_CMD" "pass" "Formatted"
+    if ${VERBOSE}; then
+        if shfmt ${SHFMT_OPTS} -w "${shell_files[@]}"; then
+            print_pass "Formatted ${file_count} scripts"
+            json_result "${TOOL_CMD}" "pass" "Formatted"
             exit 0
         else
             print_fail "Formatting failed"
-            json_result "$TOOL_CMD" "fail" "Format error"
+            json_result "${TOOL_CMD}" "fail" "Format error"
             exit 1
         fi
     else
         # shellcheck disable=SC2086
-        if shfmt $SHFMT_OPTS -w "${shell_files[@]}" 2>/dev/null; then
-            print_pass "Formatted $file_count scripts"
-            json_result "$TOOL_CMD" "pass" "Formatted"
+        if shfmt ${SHFMT_OPTS} -w "${shell_files[@]}" 2>/dev/null; then
+            print_pass "Formatted ${file_count} scripts"
+            json_result "${TOOL_CMD}" "pass" "Formatted"
             exit 0
         else
             print_fail "Formatting failed"
-            json_result "$TOOL_CMD" "fail" "Format error"
+            json_result "${TOOL_CMD}" "fail" "Format error"
             exit 1
         fi
     fi

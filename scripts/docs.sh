@@ -18,9 +18,9 @@ NC='\033[0m' # No Color
 
 # Project root directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+PROJECT_ROOT="$(dirname "${SCRIPT_DIR}")"
 
-cd "$PROJECT_ROOT"
+cd "${PROJECT_ROOT}"
 
 # Ensure docs dependencies are installed
 ensure_deps() {
@@ -90,13 +90,13 @@ check() {
     fi
 
     echo ""
-    if [ $exit_code -eq 0 ]; then
+    if [[ ${exit_code} -eq 0 ]]; then
         echo -e "${GREEN}All documentation checks passed${NC}"
     else
         echo -e "${RED}Some documentation checks failed${NC}"
     fi
 
-    return $exit_code
+    return ${exit_code}
 }
 
 # Show usage
@@ -121,33 +121,33 @@ usage() {
 main() {
     local command="${1:-}"
 
-    case "$command" in
-        build)
-            build
-            ;;
-        serve)
-            serve
-            ;;
-        deploy)
-            deploy
-            ;;
-        lint)
-            lint
-            ;;
-        check)
-            check
-            ;;
-        -h|--help|help)
-            usage
-            ;;
-        *)
-            if [ -n "$command" ]; then
-                echo -e "${RED}Unknown command: $command${NC}"
-                echo ""
-            fi
-            usage
-            exit 1
-            ;;
+    case "${command}" in
+    build)
+        build
+        ;;
+    serve)
+        serve
+        ;;
+    deploy)
+        deploy
+        ;;
+    lint)
+        lint
+        ;;
+    check)
+        check
+        ;;
+    -h | --help | help)
+        usage
+        ;;
+    *)
+        if [[ -n "${command}" ]]; then
+            echo -e "${RED}Unknown command: ${command}${NC}"
+            echo ""
+        fi
+        usage
+        exit 1
+        ;;
     esac
 }
 

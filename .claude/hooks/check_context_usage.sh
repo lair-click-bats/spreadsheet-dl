@@ -9,9 +9,9 @@
 set -euo pipefail
 
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-.}"
-HOOKS_DIR="$PROJECT_DIR/.claude/hooks"
-LOG_FILE="$HOOKS_DIR/context_metrics.log"
-STATE_FILE="$HOOKS_DIR/.context_state.json"
+HOOKS_DIR="${PROJECT_DIR}/.claude/hooks"
+LOG_FILE="${HOOKS_DIR}/context_metrics.log"
+STATE_FILE="${HOOKS_DIR}/.context_state.json"
 
 # Thresholds (percentage of max context)
 WARN_THRESHOLD_60=60
@@ -23,14 +23,14 @@ CRITICAL_THRESHOLD=90
 MAX_CONTEXT_TOKENS=200000
 
 # Ensure directories exist
-mkdir -p "$HOOKS_DIR"
+mkdir -p "${HOOKS_DIR}"
 
 # ============================================================
 # Utility Functions
 # ============================================================
 
 log() {
-    echo "[$(date -Iseconds)] CONTEXT_MONITOR: $*" >>"$LOG_FILE"
+    echo "[$(date -Iseconds)] CONTEXT_MONITOR: $*" >>"${LOG_FILE}"
 }
 
 get_timestamp() {
@@ -47,32 +47,32 @@ estimate_context_usage() {
     local total_estimate=0
 
     # Factor 1: Recent agent outputs (high weight - directly in context)
-    if [ -d "$PROJECT_DIR/.claude/agent-outputs" ]; then
+    if [[ -d "${PROJECT_DIR}/.claude/agent-outputs" ]]; then
         local agent_size
-        agent_size=$(find "$PROJECT_DIR/.claude/agent-outputs" -maxdepth 1 -name "*.json" -type f -mmin -60 -exec du -cb {} + 2>/dev/null | tail -1 | cut -f1 || echo 0)
+        agent_size=$(find "${PROJECT_DIR}/.claude/agent-outputs" -maxdepth 1 -name "*.json" -type f -mmin -60 -exec du -cb {} + 2>/dev/null | tail -1 | cut -f1 || echo 0)
         # Estimate ~4 chars per token
         total_estimate=$((total_estimate + agent_size / 4))
     fi
 
     # Factor 2: Coordination files (medium weight)
-    if [ -d "$PROJECT_DIR/.coordination" ]; then
+    if [[ -d "${PROJECT_DIR}/.coordination" ]]; then
         local coord_size
-        coord_size=$(find "$PROJECT_DIR/.coordination" -maxdepth 2 -type f \( -name "*.md" -o -name "*.json" -o -name "*.yaml" \) -mmin -120 -exec du -cb {} + 2>/dev/null | tail -1 | cut -f1 || echo 0)
+        coord_size=$(find "${PROJECT_DIR}/.coordination" -maxdepth 2 -type f \( -name "*.md" -o -name "*.json" -o -name "*.yaml" \) -mmin -120 -exec du -cb {} + 2>/dev/null | tail -1 | cut -f1 || echo 0)
         total_estimate=$((total_estimate + coord_size / 4))
     fi
 
     # Factor 3: Recent tool outputs (check log sizes)
-    if [ -f "$HOOKS_DIR/compaction.log" ]; then
+    if [[ -f "${HOOKS_DIR}/compaction.log" ]]; then
         local log_size
-        log_size=$(stat -c%s "$HOOKS_DIR/compaction.log" 2>/dev/null || echo 0)
+        log_size=$(stat -c%s "${HOOKS_DIR}/compaction.log" 2>/dev/null || echo 0)
         total_estimate=$((total_estimate + log_size / 4))
     fi
 
     # Factor 4: Base overhead (CLAUDE.md, agents, commands)
-    local base_overhead=5000  # ~5K tokens baseline
+    local base_overhead=5000 # ~5K tokens baseline
     total_estimate=$((total_estimate + base_overhead))
 
-    echo "$total_estimate"
+    echo "${total_estimate}"
 }
 
 # Calculate percentage
@@ -84,8 +84,8 @@ calc_percentage() {
 
 # Load previous state for growth rate calculation
 load_state() {
-    if [ -f "$STATE_FILE" ]; then
-        cat "$STATE_FILE"
+    if [[ -f "${STATE_FILE}" ]]; then
+        cat "${STATE_FILE}"
     else
         echo '{"last_check": 0, "last_estimate": 0, "samples": []}'
     fi
@@ -103,14 +103,14 @@ save_state() {
 
     # Keep last 10 samples for growth rate calculation
     local samples
-    samples=$(echo "$prev_state" | jq -c '.samples // []' 2>/dev/null || echo '[]')
-    samples=$(echo "$samples" | jq -c ". + [{\"ts\": $timestamp, \"est\": $estimate}] | .[-10:]" 2>/dev/null || echo '[]')
+    samples=$(echo "${prev_state}" | jq -c '.samples // []' 2>/dev/null || echo '[]')
+    samples=$(echo "${samples}" | jq -c ". + [{\"ts\": ${timestamp}, \"est\": ${estimate}}] | .[-10:]" 2>/dev/null || echo '[]')
 
-    cat > "$STATE_FILE" <<EOF
+    cat >"${STATE_FILE}" <<EOF
 {
-    "last_check": $timestamp,
-    "last_estimate": $estimate,
-    "samples": $samples
+    "last_check": ${timestamp},
+    "last_estimate": ${estimate},
+    "samples": ${samples}
 }
 EOF
 }
@@ -122,26 +122,26 @@ calc_growth_rate() {
     state=$(load_state)
 
     local samples
-    samples=$(echo "$state" | jq -c '.samples // []' 2>/dev/null || echo '[]')
+    samples=$(echo "${state}" | jq -c '.samples // []' 2>/dev/null || echo '[]')
     local sample_count
-    sample_count=$(echo "$samples" | jq 'length' 2>/dev/null || echo 0)
+    sample_count=$(echo "${samples}" | jq 'length' 2>/dev/null || echo 0)
 
-    if [ "$sample_count" -lt 2 ]; then
+    if [[ "${sample_count}" -lt 2 ]]; then
         echo "0"
         return
     fi
 
     # Get first and last samples
     local first_ts first_est last_ts last_est
-    first_ts=$(echo "$samples" | jq '.[0].ts' 2>/dev/null || echo 0)
-    first_est=$(echo "$samples" | jq '.[0].est' 2>/dev/null || echo 0)
-    last_ts=$(echo "$samples" | jq '.[-1].ts' 2>/dev/null || echo 0)
-    last_est=$(echo "$samples" | jq '.[-1].est' 2>/dev/null || echo 0)
+    first_ts=$(echo "${samples}" | jq '.[0].ts' 2>/dev/null || echo 0)
+    first_est=$(echo "${samples}" | jq '.[0].est' 2>/dev/null || echo 0)
+    last_ts=$(echo "${samples}" | jq '.[-1].ts' 2>/dev/null || echo 0)
+    last_est=$(echo "${samples}" | jq '.[-1].est' 2>/dev/null || echo 0)
 
     local time_diff=$((last_ts - first_ts))
     local token_diff=$((last_est - first_est))
 
-    if [ "$time_diff" -gt 0 ]; then
+    if [[ "${time_diff}" -gt 0 ]]; then
         # Tokens per minute
         echo $((token_diff * 60 / time_diff))
     else
@@ -154,19 +154,19 @@ generate_suggestions() {
     local percentage="$1"
     local suggestions=()
 
-    if [ "$percentage" -ge "$CRITICAL_THRESHOLD" ]; then
+    if [[ "${percentage}" -ge "${CRITICAL_THRESHOLD}" ]]; then
         suggestions+=("CRITICAL: Compact immediately or end session")
         suggestions+=("Run: .claude/hooks/pre_compact_cleanup.sh")
         suggestions+=("Consider creating checkpoint before compact")
-    elif [ "$percentage" -ge "$WARN_THRESHOLD_80" ]; then
+    elif [[ "${percentage}" -ge "${WARN_THRESHOLD_80}" ]]; then
         suggestions+=("HIGH: Consider compacting soon")
         suggestions+=("Archive old agent outputs: find .claude/agent-outputs -mtime +1 -delete")
         suggestions+=("Clean checkpoints: rm -rf .coordination/checkpoints/*/")
-    elif [ "$percentage" -ge "$WARN_THRESHOLD_70" ]; then
+    elif [[ "${percentage}" -ge "${WARN_THRESHOLD_70}" ]]; then
         suggestions+=("MEDIUM: Monitor context growth")
         suggestions+=("Avoid loading large files into context")
         suggestions+=("Use file references instead of embedding content")
-    elif [ "$percentage" -ge "$WARN_THRESHOLD_60" ]; then
+    elif [[ "${percentage}" -ge "${WARN_THRESHOLD_60}" ]]; then
         suggestions+=("LOW: Context usage moderate")
         suggestions+=("Consider summarizing completed work")
     fi
@@ -179,13 +179,13 @@ generate_suggestions() {
 get_warning_level() {
     local percentage="$1"
 
-    if [ "$percentage" -ge "$CRITICAL_THRESHOLD" ]; then
+    if [[ "${percentage}" -ge "${CRITICAL_THRESHOLD}" ]]; then
         echo "critical"
-    elif [ "$percentage" -ge "$WARN_THRESHOLD_80" ]; then
+    elif [[ "${percentage}" -ge "${WARN_THRESHOLD_80}" ]]; then
         echo "high"
-    elif [ "$percentage" -ge "$WARN_THRESHOLD_70" ]; then
+    elif [[ "${percentage}" -ge "${WARN_THRESHOLD_70}" ]]; then
         echo "medium"
-    elif [ "$percentage" -ge "$WARN_THRESHOLD_60" ]; then
+    elif [[ "${percentage}" -ge "${WARN_THRESHOLD_60}" ]]; then
         echo "low"
     else
         echo "ok"
@@ -198,28 +198,28 @@ get_warning_level() {
 
 # Parse arguments
 REPORT_MODE=false
-if [ "${1:-}" = "--report" ] || [ "${1:-}" = "-r" ]; then
+if [[ "${1:-}" = "--report" ]] || [[ "${1:-}" = "-r" ]]; then
     REPORT_MODE=true
 fi
 
 # Estimate current usage
 CURRENT_ESTIMATE=$(estimate_context_usage)
-PERCENTAGE=$(calc_percentage "$CURRENT_ESTIMATE" "$MAX_CONTEXT_TOKENS")
-GROWTH_RATE=$(calc_growth_rate "$CURRENT_ESTIMATE")
-WARNING_LEVEL=$(get_warning_level "$PERCENTAGE")
-SUGGESTIONS=$(generate_suggestions "$PERCENTAGE")
+PERCENTAGE=$(calc_percentage "${CURRENT_ESTIMATE}" "${MAX_CONTEXT_TOKENS}")
+GROWTH_RATE=$(calc_growth_rate "${CURRENT_ESTIMATE}")
+WARNING_LEVEL=$(get_warning_level "${PERCENTAGE}")
+SUGGESTIONS=$(generate_suggestions "${PERCENTAGE}")
 
 # Save state for trend analysis
-save_state "$CURRENT_ESTIMATE"
+save_state "${CURRENT_ESTIMATE}"
 
 # Log the check
 log "Usage: ${PERCENTAGE}% (~${CURRENT_ESTIMATE} tokens), Growth: ${GROWTH_RATE} tokens/min, Level: ${WARNING_LEVEL}"
 
 # Calculate time until critical (if growing)
 TIME_UNTIL_CRITICAL="unknown"
-if [ "$GROWTH_RATE" -gt 0 ]; then
+if [[ "${GROWTH_RATE}" -gt 0 ]]; then
     tokens_remaining=$((MAX_CONTEXT_TOKENS * CRITICAL_THRESHOLD / 100 - CURRENT_ESTIMATE))
-    if [ "$tokens_remaining" -gt 0 ]; then
+    if [[ "${tokens_remaining}" -gt 0 ]]; then
         TIME_UNTIL_CRITICAL="$((tokens_remaining / GROWTH_RATE)) minutes"
     else
         TIME_UNTIL_CRITICAL="now"
@@ -227,7 +227,7 @@ if [ "$GROWTH_RATE" -gt 0 ]; then
 fi
 
 # Generate output
-if [ "$REPORT_MODE" = true ]; then
+if [[ "${REPORT_MODE}" = true ]]; then
     # Detailed report for manual inspection
     cat <<EOF
 Context Usage Report
@@ -246,37 +246,37 @@ Thresholds:
   - Critical: ${CRITICAL_THRESHOLD}%
 
 Suggestions:
-$(echo "$SUGGESTIONS" | jq -r '.[]' 2>/dev/null | sed 's/^/  - /')
+$(echo "${SUGGESTIONS}" | jq -r '.[]' 2>/dev/null | sed 's/^/  - /')
 
 Recent Metrics:
-$(tail -5 "$LOG_FILE" 2>/dev/null | sed 's/^/  /')
+$(tail -5 "${LOG_FILE}" 2>/dev/null | sed 's/^/  /')
 EOF
 else
     # JSON output for programmatic use
     cat <<EOF
 {
-    "ok": $([ "$WARNING_LEVEL" = "ok" ] || [ "$WARNING_LEVEL" = "low" ] && echo "true" || echo "false"),
-    "warning_level": "$WARNING_LEVEL",
-    "estimated_tokens": $CURRENT_ESTIMATE,
-    "max_tokens": $MAX_CONTEXT_TOKENS,
-    "percentage": $PERCENTAGE,
-    "growth_rate_per_min": $GROWTH_RATE,
-    "time_until_critical": "$TIME_UNTIL_CRITICAL",
-    "suggestions": $SUGGESTIONS,
+    "ok": $([[ "${WARNING_LEVEL}" = "ok" ]] || [[ "${WARNING_LEVEL}" = "low" ]] && echo "true" || echo "false"),
+    "warning_level": "${WARNING_LEVEL}",
+    "estimated_tokens": ${CURRENT_ESTIMATE},
+    "max_tokens": ${MAX_CONTEXT_TOKENS},
+    "percentage": ${PERCENTAGE},
+    "growth_rate_per_min": ${GROWTH_RATE},
+    "time_until_critical": "${TIME_UNTIL_CRITICAL}",
+    "suggestions": ${SUGGESTIONS},
     "timestamp": "$(get_iso_timestamp)"
 }
 EOF
 fi
 
 # Exit with appropriate code based on warning level
-case "$WARNING_LEVEL" in
-    "critical")
-        exit 2
-        ;;
-    "high")
-        exit 1
-        ;;
-    *)
-        exit 0
-        ;;
+case "${WARNING_LEVEL}" in
+"critical")
+    exit 2
+    ;;
+"high")
+    exit 1
+    ;;
+*)
+    exit 0
+    ;;
 esac

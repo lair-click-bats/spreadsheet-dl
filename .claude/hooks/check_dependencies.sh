@@ -12,19 +12,19 @@ set -euo pipefail
 
 # Resolve to absolute path from script location
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$REPO_ROOT}"
-LOG_FILE="$PROJECT_DIR/.claude/hooks/hook.log"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
+PROJECT_DIR="${CLAUDE_PROJECT_DIR:-${REPO_ROOT}}"
+LOG_FILE="${PROJECT_DIR}/.claude/hooks/hook.log"
 
 # Ensure log directory exists
-mkdir -p "$(dirname "$LOG_FILE")"
+mkdir -p "$(dirname "${LOG_FILE}")"
 
 log() {
-    echo "[$(date -Iseconds)] CHECK_DEPS: $*" >>"$LOG_FILE"
+    echo "[$(date -Iseconds)] CHECK_DEPS: $*" >>"${LOG_FILE}"
 }
 
 log_error() {
-    echo "[$(date -Iseconds)] CHECK_DEPS_ERROR: $*" >>"$LOG_FILE"
+    echo "[$(date -Iseconds)] CHECK_DEPS_ERROR: $*" >>"${LOG_FILE}"
     echo "ERROR: $*" >&2
 }
 
@@ -78,14 +78,14 @@ check_shell_command() {
     local cmd="$1"
     local required="${2:-true}"
 
-    if command -v "$cmd" &>/dev/null; then
+    if command -v "${cmd}" &>/dev/null; then
         return 0
     else
-        if [ "$required" = "true" ]; then
-            log_error "Required command '$cmd' not found"
+        if [[ "${required}" = "true" ]]; then
+            log_error "Required command '${cmd}' not found"
             return 1
         else
-            log "Optional command '$cmd' not found - some features may be limited"
+            log "Optional command '${cmd}' not found - some features may be limited"
             return 0
         fi
     fi
@@ -97,18 +97,18 @@ check_python_module() {
 
     # Try uv first, fall back to python3
     if command -v uv &>/dev/null; then
-        if uv run python3 -c "import $module" 2>/dev/null; then
+        if uv run python3 -c "import ${module}" 2>/dev/null; then
             return 0
         fi
-    elif python3 -c "import $module" 2>/dev/null; then
+    elif python3 -c "import ${module}" 2>/dev/null; then
         return 0
     fi
 
-    if [ "$required" = "true" ]; then
-        log_error "Required Python module '$module' not available"
+    if [[ "${required}" = "true" ]]; then
+        log_error "Required Python module '${module}' not available"
         return 1
     else
-        log "Optional Python module '$module' not available - install with: uv add ${module}"
+        log "Optional Python module '${module}' not available - install with: uv add ${module}"
         return 0
     fi
 }
@@ -142,28 +142,28 @@ fi
 
 # Check required shell commands
 for cmd in "${REQUIRED_SHELL_COMMANDS[@]}"; do
-    if ! check_shell_command "$cmd" "true"; then
+    if ! check_shell_command "${cmd}" "true"; then
         ERRORS=$((ERRORS + 1))
     fi
 done
 
 # Check optional shell commands
 for cmd in "${OPTIONAL_SHELL_COMMANDS[@]}"; do
-    if ! check_shell_command "$cmd" "false"; then
+    if ! check_shell_command "${cmd}" "false"; then
         WARNINGS=$((WARNINGS + 1))
     fi
 done
 
 # Check required Python modules
 for module in "${REQUIRED_PYTHON_MODULES[@]}"; do
-    if ! check_python_module "$module" "true"; then
+    if ! check_python_module "${module}" "true"; then
         ERRORS=$((ERRORS + 1))
     fi
 done
 
 # Check optional Python modules
 for module in "${OPTIONAL_PYTHON_MODULES[@]}"; do
-    if ! check_python_module "$module" "false"; then
+    if ! check_python_module "${module}" "false"; then
         WARNINGS=$((WARNINGS + 1))
     fi
 done
@@ -172,27 +172,27 @@ done
 # Output Results
 # =============================================================================
 
-log "Dependency check complete: $ERRORS errors, $WARNINGS warnings"
+log "Dependency check complete: ${ERRORS} errors, ${WARNINGS} warnings"
 
-if [ "$ERRORS" -gt 0 ]; then
+if [[ "${ERRORS}" -gt 0 ]]; then
     cat <<EOF
 {
     "ok": false,
-    "errors": $ERRORS,
-    "warnings": $WARNINGS,
-    "message": "Missing required dependencies. Check $LOG_FILE for details."
+    "errors": ${ERRORS},
+    "warnings": ${WARNINGS},
+    "message": "Missing required dependencies. Check ${LOG_FILE} for details."
 }
 EOF
     exit 1
 fi
 
-if [ "$WARNINGS" -gt 0 ]; then
+if [[ "${WARNINGS}" -gt 0 ]]; then
     cat <<EOF
 {
     "ok": true,
     "errors": 0,
-    "warnings": $WARNINGS,
-    "message": "All required dependencies available. $WARNINGS optional dependencies missing."
+    "warnings": ${WARNINGS},
+    "message": "All required dependencies available. ${WARNINGS} optional dependencies missing."
 }
 EOF
 else

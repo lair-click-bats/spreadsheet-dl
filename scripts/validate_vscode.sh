@@ -21,8 +21,8 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Source common library if available (for consistent output formatting)
-if [[ -f "$SCRIPT_DIR/lib/common.sh" ]]; then
-    source "$SCRIPT_DIR/lib/common.sh"
+if [[ -f "${SCRIPT_DIR}/lib/common.sh" ]]; then
+    source "${SCRIPT_DIR}/lib/common.sh"
 else
     # Fallback colors if common.sh not available
     RED='\033[0;31m'
@@ -98,10 +98,10 @@ else
     WORKSPACE_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 fi
 
-VSCODE_DIR="$WORKSPACE_ROOT/.vscode"
+VSCODE_DIR="${WORKSPACE_ROOT}/.vscode"
 
 echo -e "${BLUE}VS Code Configuration Validation${NC}"
-echo -e "   Workspace: $WORKSPACE_ROOT"
+echo -e "   Workspace: ${WORKSPACE_ROOT}"
 echo ""
 
 ERRORS=0
@@ -110,7 +110,7 @@ WARNINGS=0
 # ============================================================================
 # 1. Check .vscode directory exists
 # ============================================================================
-if [ ! -d "$VSCODE_DIR" ]; then
+if [[ ! -d "${VSCODE_DIR}" ]]; then
     echo -e "${RED}x .vscode/ directory not found${NC}"
     exit 1
 fi
@@ -123,10 +123,10 @@ echo -e "${BLUE}[1/3]${NC} Validating JSONC syntax..."
 validate_jsonc() {
     local file="$1"
     local filename
-    filename=$(basename "$file")
+    filename=$(basename "${file}")
 
-    if [ ! -f "$file" ]; then
-        echo -e "   ${YELLOW}o${NC} $filename (not present)"
+    if [[ ! -f "${file}" ]]; then
+        echo -e "   ${YELLOW}o${NC} ${filename} (not present)"
         return 0
     fi
 
@@ -156,7 +156,7 @@ def strip_jsonc_comments(content):
     return content
 
 try:
-    content = open('$file').read()
+    content = open('${file}').read()
     clean = strip_jsonc_comments(content)
     json.loads(clean)
     sys.exit(0)
@@ -164,17 +164,17 @@ except Exception as e:
     print(f'Error: {e}', file=sys.stderr)
     sys.exit(1)
 " 2>/dev/null; then
-        echo -e "   ${GREEN}+${NC} $filename"
+        echo -e "   ${GREEN}+${NC} ${filename}"
         return 0
     else
-        echo -e "   ${RED}x${NC} $filename (invalid JSONC)"
+        echo -e "   ${RED}x${NC} ${filename} (invalid JSONC)"
         return 1
     fi
 }
 
 # Validate each config file
 for file in settings.json extensions.json tasks.json launch.json; do
-    if ! validate_jsonc "$VSCODE_DIR/$file"; then
+    if ! validate_jsonc "${VSCODE_DIR}/${file}"; then
         ((ERRORS++))
     fi
 done
@@ -188,10 +188,10 @@ echo -e "${BLUE}[2/3]${NC} Validating settings.json against schema..."
 validate_schema() {
     local file="$1"
     local filename
-    filename=$(basename "$file")
+    filename=$(basename "${file}")
 
-    if [ ! -f "$file" ]; then
-        echo -e "   ${YELLOW}o${NC} $filename (not present - skipping schema validation)"
+    if [[ ! -f "${file}" ]]; then
+        echo -e "   ${YELLOW}o${NC} ${filename} (not present - skipping schema validation)"
         return 0
     fi
 
@@ -207,7 +207,7 @@ validate_schema() {
     # Create a temp file with comments stripped (check-jsonschema needs pure JSON)
     local temp_file
     temp_file=$(mktemp)
-    trap 'rm -f "$temp_file"' EXIT
+    trap 'rm -f "${temp_file}"' EXIT
 
     # Strip JSONC comments using Python
     if ! python3 -c "
@@ -231,49 +231,49 @@ def strip_jsonc_comments(content):
     return content
 
 try:
-    with open('$file', 'r') as f:
+    with open('${file}', 'r') as f:
         content = f.read()
     clean = strip_jsonc_comments(content)
     data = json.loads(clean)
-    with open('$temp_file', 'w') as f:
+    with open('${temp_file}', 'w') as f:
         json.dump(data, f)
     sys.exit(0)
 except Exception as e:
     print(f'Error preprocessing: {e}', file=sys.stderr)
     sys.exit(1)
 " 2>&1; then
-        echo -e "   ${RED}x${NC} Failed to preprocess $filename for schema validation"
+        echo -e "   ${RED}x${NC} Failed to preprocess ${filename} for schema validation"
         return 1
     fi
 
     # Run schema validation
     # Note: We use a community-maintained schema that's more lenient than the strict VS Code schema
     # This helps avoid false positives from extension-contributed settings
-    if $VERBOSE; then
-        if check-jsonschema --schemafile "$VSCODE_SETTINGS_SCHEMA" "$temp_file" 2>&1; then
-            echo -e "   ${GREEN}+${NC} $filename (schema valid)"
+    if ${VERBOSE}; then
+        if check-jsonschema --schemafile "${VSCODE_SETTINGS_SCHEMA}" "${temp_file}" 2>&1; then
+            echo -e "   ${GREEN}+${NC} ${filename} (schema valid)"
             return 0
         else
-            echo -e "   ${RED}x${NC} $filename (schema validation failed)"
+            echo -e "   ${RED}x${NC} ${filename} (schema validation failed)"
             return 1
         fi
     else
         local output
-        if output=$(check-jsonschema --schemafile "$VSCODE_SETTINGS_SCHEMA" "$temp_file" 2>&1); then
-            echo -e "   ${GREEN}+${NC} $filename (schema valid)"
+        if output=$(check-jsonschema --schemafile "${VSCODE_SETTINGS_SCHEMA}" "${temp_file}" 2>&1); then
+            echo -e "   ${GREEN}+${NC} ${filename} (schema valid)"
             return 0
         else
-            echo -e "   ${RED}x${NC} $filename (schema validation failed)"
+            echo -e "   ${RED}x${NC} ${filename} (schema validation failed)"
             echo -e "   ${DIM}   Run with -v for details${NC}"
             return 1
         fi
     fi
 }
 
-if [ "$SKIP_SCHEMA" = true ]; then
+if [[ "${SKIP_SCHEMA}" = true ]]; then
     echo -e "   ${YELLOW}o${NC} Schema validation skipped (--skip-schema)"
 else
-    if ! validate_schema "$VSCODE_DIR/settings.json"; then
+    if ! validate_schema "${VSCODE_DIR}/settings.json"; then
         ((ERRORS++))
     fi
 fi
@@ -284,8 +284,8 @@ echo ""
 # ============================================================================
 echo -e "${BLUE}[3/3]${NC} Checking extensions..."
 
-if [ -f "$SCRIPT_DIR/check_vscode_extensions.py" ]; then
-    if python3 "$SCRIPT_DIR/check_vscode_extensions.py"; then
+if [[ -f "${SCRIPT_DIR}/check_vscode_extensions.py" ]]; then
+    if python3 "${SCRIPT_DIR}/check_vscode_extensions.py"; then
         echo ""
     else
         ((ERRORS++))
@@ -300,14 +300,14 @@ fi
 # Summary
 # ============================================================================
 echo -e "${BLUE}------------------------------------------------------------------------${NC}"
-if [ $ERRORS -eq 0 ] && [ $WARNINGS -eq 0 ]; then
+if [[ ${ERRORS} -eq 0 ]] && [[ ${WARNINGS} -eq 0 ]]; then
     echo -e "${GREEN}All VS Code validations passed${NC}"
     exit 0
-elif [ $ERRORS -eq 0 ]; then
-    echo -e "${YELLOW}Passed with $WARNINGS warning(s)${NC}"
+elif [[ ${ERRORS} -eq 0 ]]; then
+    echo -e "${YELLOW}Passed with ${WARNINGS} warning(s)${NC}"
     echo -e "${DIM}Install missing tools for full validation${NC}"
     exit 0
 else
-    echo -e "${RED}Found $ERRORS validation error(s)${NC}"
+    echo -e "${RED}Found ${ERRORS} validation error(s)${NC}"
     exit 1
 fi
