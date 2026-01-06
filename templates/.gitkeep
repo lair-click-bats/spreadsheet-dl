@@ -1,7 +1,0 @@
-# ODS Templates Directory
-
-Place ODS template files here. These can be used as starting points
-for budget creation or as reference templates.
-
-Templates are NOT included in git by default - generate them using
-the CLI or Python API.
