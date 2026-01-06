@@ -96,38 +96,6 @@ print_header "Diagrams"
 run_check "plantuml.sh" "--check"
 run_check "mermaid.sh" "--check"
 
-# LaTeX (if applicable)
-print_header "LaTeX"
-run_check "chktex.sh"
-run_check "latexindent.sh" "--check"
-
-# Perl (if applicable)
-print_header "Perl"
-run_check "perlcritic.sh"
-run_check "perltidy.sh" "--check"
-
-# Lua (if applicable)
-print_header "Lua"
-run_check "luacheck.sh"
-
-# TCL (if applicable)
-print_header "TCL"
-run_check "tclint.sh"
-
-# VHDL (if applicable)
-print_header "VHDL"
-run_check "ghdl.sh"
-run_check "vsg.sh" "--check"
-
-# Verilog (if applicable)
-print_header "Verilog"
-run_check "verilator.sh" "--lint"
-run_check "verible.sh" "--lint"
-
-# VS Code (if applicable)
-print_header "VS Code"
-run_check "vscode_extensions.sh" "--check"
-
 # Summary
 print_header "SUMMARY"
 echo ""

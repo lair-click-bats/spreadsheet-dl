@@ -232,4 +232,4 @@ Scripts are referenced in `CLAUDE.md` for quality workflows.
 
 ---
 
-**Last Updated**: 2025-12-29
+**Last Updated**: 2026-01-06
