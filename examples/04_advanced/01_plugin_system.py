@@ -1,11 +1,10 @@
+#!/usr/bin/env python3
 """
 Example plugin demonstrating the SpreadsheetDL plugin system.
 
 This example shows how to create a custom plugin that extends
 SpreadsheetDL functionality.
 
-Implements:
-    FR-EXT-001: Example plugin for demonstration
 
 Usage:
     1. Copy this file to ~/.spreadsheet-dl/plugins/
@@ -28,8 +27,6 @@ class ExamplePlugin(PluginInterface):
     This plugin demonstrates the basic plugin interface and lifecycle.
     It can be used as a template for creating custom plugins.
 
-    Implements:
-        FR-EXT-001: Plugin interface implementation
     """
 
     @property
@@ -59,8 +56,6 @@ class ExamplePlugin(PluginInterface):
         Args:
             config: Plugin configuration dictionary
 
-        Implements:
-            FR-EXT-001: Plugin initialization
         """
         print(f"Initializing {self.name} plugin v{self.version}")
         if config:
@@ -71,8 +66,6 @@ class ExamplePlugin(PluginInterface):
         """
         Cleanup when plugin is disabled/unloaded.
 
-        Implements:
-            FR-EXT-001: Plugin shutdown
         """
         print(f"Shutting down {self.name} plugin")
         # Perform plugin cleanup here

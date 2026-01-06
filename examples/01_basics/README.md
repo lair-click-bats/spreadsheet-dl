@@ -10,7 +10,7 @@ Welcome to the basics! This section teaches fundamental concepts for working wit
   ```bash
   uv add spreadsheet-dl
   # or
-  pip install spreadsheet-dl
+  uv pip install spreadsheet-dl
   ```
 
 ## Learning Objectives
@@ -176,7 +176,7 @@ allocation = BudgetAllocation(
 ## Common Issues
 
 **Issue**: `ModuleNotFoundError: No module named 'spreadsheet_dl'`
-**Solution**: Install SpreadsheetDL with `uv add spreadsheet-dl` or `pip install spreadsheet-dl`
+**Solution**: Install SpreadsheetDL with `uv add spreadsheet-dl` or `uv pip install spreadsheet-dl`
 
 **Issue**: `FileNotFoundError: [Errno 2] No such file or directory: 'output/...'`
 **Solution**: The `output/` directory is created automatically. If issues persist, create it manually:

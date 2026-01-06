@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Sparklines Demo: LibreOffice Mini-Charts
 
