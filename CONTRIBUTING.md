@@ -64,7 +64,7 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 
 ```bash
 # Clone your fork
-git clone https://github.com/lair-click-bats/spreadsheet-dl.git
+git clone https://github.com/YOUR-USERNAME/spreadsheet-dl.git
 cd spreadsheet-dl
 
 # Install dependencies
@@ -76,13 +76,28 @@ uv run pytest
 
 ### Development Commands
 
+#### Running Tests
+
+For comprehensive test documentation including markers, organization, and selective execution, see **[tests/README.md](tests/README.md)**.
+
+Quick reference:
+
 ```bash
-# Run tests
+# Run all tests
 uv run pytest
 
 # Run tests with coverage
 uv run pytest --cov=spreadsheet_dl --cov-report=term-missing
 
+# Run specific test categories (see tests/README.md for all markers)
+uv run pytest -m unit                    # Fast unit tests only
+uv run pytest -m "domain and finance"    # Finance domain tests
+uv run pytest -m "not slow"              # Exclude slow tests
+```
+
+#### Other Commands
+
+```bash
 # Lint code
 uv run ruff check src/ tests/
 
@@ -139,7 +154,7 @@ test(mcp): increase coverage to 95%
 ### Testing
 
 - Write tests for all new features
-- Maintain or improve test coverage (currently 71%)
+- Maintain or improve test coverage
 - Use descriptive test names that explain the scenario
 - Follow the existing test structure
 
@@ -196,36 +211,28 @@ For detailed templates, see `.claude/templates/docstring.md`.
 
 ### Branding & Naming
 
-We have official branding guidelines to ensure consistency across all project materials. Please review [BRANDING.md](BRANDING.md) for:
+Please review [BRANDING.md](BRANDING.md) for official guidelines on:
 
-- **Name usage**: When to use "SpreadsheetDL" vs "spreadsheet-dl" vs "spreadsheet_dl"
-- **Taglines**: Official primary and secondary taglines
-- **Terminology**: Preferred terms (e.g., "definition language" not "DSL", "domain plugin" not "extension")
-- **Tone**: Brand voice guidelines for documentation, marketing, and community communication
-
-**Quick Reference:**
-
-- **In prose**: SpreadsheetDL (capitalized, no hyphen)
-- **Package name**: spreadsheet-dl (lowercase, hyphenated)
-- **Python imports**: spreadsheet_dl (lowercase, underscored)
-- **Primary tagline**: "The Spreadsheet Definition Language for Python"
+- Name usage (SpreadsheetDL vs spreadsheet-dl vs spreadsheet_dl)
+- Taglines and terminology
+- Tone and style
 
 ## Project Structure
 
 ```
 spreadsheet-dl/
-├── src/spreadsheet_dl/     # Source code
-│   ├── builder.py          # Fluent builder API
-│   ├── charts.py           # Chart builder
-│   ├── renderer.py         # ODS renderer
-│   ├── mcp_server.py       # MCP server
-│   ├── domains/            # Domain plugins
-│   ├── schema/             # Data models
-│   └── template_engine/    # Template system
-├── tests/                  # Test suite
 ├── docs/                   # Documentation
 ├── examples/               # Usage examples
-└── themes/                 # YAML theme files
+├── src/spreadsheet_dl/     # Source code
+│   ├── domains/            # Domain plugins
+│   ├── schema/             # Data models
+│   ├── template_engine/    # Template system
+│   ├── themes/             # YAML theme files
+│   ├── builder.py          # Fluent builder API
+│   ├── charts.py           # Chart builder
+│   ├── mcp_server.py       # MCP server
+│   └── renderer.py         # ODS renderer
+└── tests/                  # Test suite
 ```
 
 ## Getting Help

@@ -7,88 +7,140 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- towncrier release notes start -->
 
+## [4.1.0] - 2026-01-06 - Formula Expansion Release
+
+**Major Formula Expansion** - This release nearly doubles the formula library from 157 to 305+ formulas across all 11 domain plugins.
+
+### Added
+
+**Physics Domain Expansion (+25 formulas)**
+
+- Thermodynamics (13 formulas): `IDEAL_GAS_LAW`, `HEAT_TRANSFER`, `CARNOT_EFFICIENCY`, `ENTROPY_CHANGE`, `STEFAN_BOLTZMANN`, `THERMAL_CONDUCTION`, `THERMAL_EXPANSION`, `LATENT_HEAT`, `ADIABATIC_PROCESS`, `WIENS_LAW`, `INTERNAL_ENERGY`, `MEAN_FREE_PATH`, `RMS_VELOCITY`
+- Waves (12 formulas): `WAVE_VELOCITY`, `DOPPLER_EFFECT`, `SOUND_INTENSITY`, `STANDING_WAVE`, `BEAT_FREQUENCY`, `WAVE_ENERGY`, `WAVE_POWER`, `STRING_TENSION`, `REFLECTION_COEFFICIENT`, `WAVE_PERIOD`, `ANGULAR_FREQUENCY`, `WAVE_NUMBER`
+- Total Physics formulas: 50
+
+**Chemistry Domain Expansion (+20 formulas)**
+
+- Electrochemistry (10 formulas): `NERNST_EQUATION`, `FARADAY_LAW`, `CELL_POTENTIAL`, `GIBBS_ELECTROCHEMICAL`, `ELECTRODE_POTENTIAL`, `MASS_DEPOSITED`, `OVERPOTENTIAL`, `TAFEL_EQUATION`, `CONDUCTIVITY`, `EQUIVALENT_WEIGHT`
+- Stoichiometry (10 formulas): `LIMITING_REAGENT`, `PERCENT_YIELD`, `THEORETICAL_YIELD`, `MASS_PERCENT`, `EMPIRICAL_FORMULA`, `MOLECULAR_FORMULA`, `DILUTION`, `TITRATION`, `MOLARITY_DILUTION`, `SOLUTION_MIXING`
+- Total Chemistry formulas: 40
+
+**Manufacturing Domain Expansion (+25 formulas)**
+
+- Lean Manufacturing (10 formulas): `VALUE_STREAM_EFFICIENCY`, `LEAN_LEAD_TIME`, `PROCESS_CYCLE_EFFICIENCY`, `LEAN_TAKT_TIME`, `LEAN_CYCLE_TIME`, `TPM_AVAILABILITY`, `SMED_CHANGEOVER`, `KANBAN_QUANTITY`, `LITTLES_LAW`, `FLOW_EFFICIENCY`
+- Six Sigma (10 formulas): `DPMO`, `SIGMA_LEVEL`, `CPK`, `PPK`, `RTY`, `SIX_SIGMA_DEFECT_RATE`, `PROCESS_SIGMA`, `CONTROL_LIMIT`, `Z_SCORE`, `GAUGE_RNR`
+- Supply Chain (5 formulas): `BULLWHIP_EFFECT`, `NEWSVENDOR_QUANTITY`, `ABC_SCORE`, `SERVICE_LEVEL`, `CASH_CONVERSION_CYCLE`
+- Total Manufacturing formulas: 37
+
+**Finance Domain Expansion (+20 formulas)**
+
+- Risk Management (7 formulas): `VAR`, `CVAR`, `PORTFOLIO_VOLATILITY`, `ALPHA`, `TRACKING_ERROR`, `INFORMATION_RATIO`, `DOWNSIDE_DEVIATION`
+- Options Pricing (8 formulas): `BS_CALL`, `BS_PUT`, `IMPLIED_VOL`, `OPTION_DELTA`, `OPTION_GAMMA`, `OPTION_THETA`, `OPTION_VEGA`, `OPTION_RHO`
+- Bond Analytics (5 formulas): `BOND_PRICE`, `YTM`, `DURATION`, `MDURATION`, `CONVEXITY`
+- Total Finance formulas: 35
+
+**Data Science Domain Expansion (+15 formulas)**
+
+- Time Series (5 formulas): `MOVING_AVERAGE`, `EXPONENTIAL_SMOOTHING`, `ACF`, `PACF`, `SEASONALITY`
+- Advanced ML Metrics (4 formulas): `ROC_AUC`, `LOG_LOSS`, `COHEN_KAPPA`, `MCC`
+- Clustering (3 formulas): `SILHOUETTE_SCORE`, `DAVIES_BOULDIN_INDEX`, `CALINSKI_HARABASZ_INDEX`
+- Feature Engineering (3 formulas): `MIN_MAX_NORMALIZE`, `Z_SCORE_STANDARDIZE`, `LOG_TRANSFORM`
+- Total Data Science formulas: 29
+
+**Electrical Engineering Domain Expansion (+10 formulas)**
+
+- Digital Logic (5 formulas): `LOGIC_NAND`, `LOGIC_NOR`, `LOGIC_XOR`, `BINARY_TO_DECIMAL`, `DECIMAL_TO_BINARY`
+- Filters (5 formulas): `LOW_PASS_CUTOFF`, `HIGH_PASS_CUTOFF`, `BANDPASS_CENTER`, `Q_FACTOR`, `FILTER_ATTENUATION`
+- Total Electrical Engineering formulas: 22
+
+**Mechanical Engineering Domain Expansion (+12 formulas)**
+
+- Fluid Mechanics (6 formulas): `REYNOLDS_NUMBER`, `BERNOULLI_EQUATION`, `DARCY_WEISBACH`, `POISEUILLE_LAW`, `DRAG_FORCE`, `LIFT_FORCE`
+- Heat Transfer (6 formulas): `CONVECTION_COEFFICIENT`, `RADIATION_HEAT_TRANSFER`, `THERMAL_RESISTANCE`, `LOG_MEAN_TEMP_DIFF`, `FIN_EFFICIENCY`, `NUSSELT_NUMBER`
+- Total Mechanical Engineering formulas: 23
+
+**Biology Domain Expansion (+10 formulas)**
+
+- Pharmacokinetics (5 formulas): `CLEARANCE`, `VOLUME_OF_DISTRIBUTION`, `HALF_LIFE`, `LOADING_DOSE`, `MAINTENANCE_DOSE`
+- Genetics (5 formulas): `HARDY_WEINBERG`, `LINKAGE_DISEQUILIBRIUM`, `RECOMBINATION_FREQUENCY`, `CHI2_GENETICS`, `INBREEDING_COEFFICIENT`
+- Total Biology formulas: 22
+
+**Civil Engineering Domain Expansion (+5 formulas)**
+
+- Foundation (3 formulas): `BEARING_CAPACITY_TERZAGHI`, `SETTLEMENT_ELASTIC`, `CONSOLIDATION_SETTLEMENT`
+- Transportation (2 formulas): `STOPPING_DISTANCE`, `TRAFFIC_FLOW`
+- Total Civil Engineering formulas: 18
+
+**Security Enhancements**
+
+- Per-tool rate limiting with configurable limits per tool category
+- Burst limit protection with automatic cooldown
+- Audit log rotation with compression support
+- Plugin signature verification design document (implementation in v4.2.0)
+
+**Documentation**
+
+- Consolidated formula reference documentation (docs/reference/formula-reference.md)
+- MCP tools reference documentation (docs/reference/mcp-tools-reference.md)
+- Examples index with categorized learning paths (docs/reference/examples-index.md)
+- Architecture diagrams with Mermaid visualizations (docs/ARCHITECTURE.md)
+- Physics and Chemistry domain API documentation
+- Domain overview index page
+
+**Test Coverage**
+
+- XLSX chart rendering tests (~1038 lines)
+- MCP advanced tools tests (~1170 lines)
+- XLSX sparkline tests (~880 lines)
+- Streaming large file tests (~700 lines)
+- Multi-format roundtrip tests (~900 lines)
+- Domain cross-validation tests (~580 lines)
+- 5,200+ new lines of test code
+
+### Changed
+
+- MCP rate limiting now supports per-tool configuration
+- Audit logging includes automatic rotation when files exceed 10MB
+- Rate limit status API provides detailed per-tool statistics
+
+### Security
+
+**New Security Features:**
+
+- Per-tool rate limits prevent resource exhaustion attacks
+- Burst detection with automatic cooldown periods
+- Configurable rate limits for sensitive operations (exports, imports)
+- Audit log rotation prevents disk exhaustion
+
+**Deferred to v4.2.0:**
+
+- Plugin signature verification (design complete)
+- PKI integration for plugin trust
+
+### Formula Coverage Summary
+
+| Domain         | v4.0.1  | v4.1.0  | Change   |
+| -------------- | ------- | ------- | -------- |
+| Physics        | 25      | 50      | +25      |
+| Chemistry      | 20      | 40      | +20      |
+| Manufacturing  | 12      | 37      | +25      |
+| Finance        | 15      | 35      | +20      |
+| Data Science   | 14      | 29      | +15      |
+| Electrical Eng | 12      | 22      | +10      |
+| Mechanical Eng | 11      | 23      | +12      |
+| Biology        | 12      | 22      | +10      |
+| Civil Eng      | 13      | 18      | +5       |
+| Environmental  | 22      | 22      | -        |
+| Education      | 27      | 27      | -        |
+| **Total**      | **183** | **325** | **+142** |
+
+---
+
 ## [Unreleased]
 
 ### Added
 
-- **Finance Domain Formulas** - Complete formulas library with 15 functions across 3 categories:
-  - Time Value of Money: `PresentValue`, `FutureValue`, `NetPresentValue`, `InternalRateOfReturn`, `PaymentFormula`, `RateFormula`, `PeriodsFormula`
-  - Investments: `ReturnOnInvestment`, `CompoundAnnualGrowthRate`, `CompoundInterest`, `SharpeRatio`, `PortfolioBeta`
-  - Depreciation: `StraightLineDepreciation`, `DecliningBalanceDepreciation`, `SUMYearsDigitsDepreciation`
-
-- **Data Science Domain Formulas** - Regression analysis metrics (5 formulas):
-  - `MeanSquaredError`, `RootMeanSquaredError`, `RSquared`, `MeanAbsoluteError`, `MeanAbsolutePercentageError`
-
-- **Electrical Engineering Domain Formulas** - AC circuit analysis (5 formulas):
-  - `RMSValue`, `PowerFactor`, `ComplexImpedance`, `Reactance`, `ResonantFrequency`
-
-- **Civil Engineering Domain Formulas** - Hydrology and drainage (4 formulas):
-  - `RunoffCoefficient`, `RationalMethod`, `ManningEquation`, `TimeOfConcentration`
-
-- **Mechanical Engineering Domain Formulas** - Dynamics and vibration (4 formulas):
-  - `NaturalFrequency`, `CriticalDamping`, `SpringConstant`, `AngularVelocity`
-
-- **Biology Domain Formulas** - Cell culture and growth analysis (4 formulas):
-  - `CellDensity`, `ViabilityPercent`, `DoublingTime`, `SpecificGrowthRate`
-
-- **Manufacturing Domain Formulas** - Production efficiency (1 formula):
-  - `OverallEquipmentEffectiveness` (OEE)
-
-- **Environmental Domain Formulas** - Life cycle assessment (3 formulas):
-  - `GlobalWarmingPotential`, `AcidificationPotential`, `EutrophicationPotential`
-
-- **Education Domain Formulas** - Educational assessment (3 formulas):
-  - `ItemDifficulty`, `ItemDiscrimination`, `CronbachAlpha`
-
-- **Examples Learning Path** - Reorganized examples into progressive structure:
-  - `examples/01_basics/` - Getting started (4 examples)
-  - `examples/02_formulas/` - Calculations and analysis (4 examples)
-  - `examples/03_charts/` - Data visualization (4 examples)
-  - `examples/04_advanced/` - Integration and extension (3 examples)
-  - Comprehensive README.md files for each section with learning objectives, prerequisites, and estimated time
-
-- **Philosophy Documentation** - Added "Universal Tools, Not Templates" section to README.md explaining:
-  - Composable primitives vs. rigid templates
-  - Declarative over imperative approach
-  - Plugin extensibility model
-
-**Formula Coverage**: Total of 157 formulas (113 existing + 44 new) across 9 domain plugins
-
-### Changed
-
-- **Template System Simplified** - Removed pre-built budget templates and domain templates
-  - Domain plugins now focus on formulas, importers, and utilities (universal mathematical tools)
-  - Template engine infrastructure retained for user-defined templates
-  - Theme system unchanged (5 built-in visual themes)
-  - See examples directory for canonical learning path
-
-### Removed
-
-- Budget templates (`50_30_20`, `family`, `minimalist`, `zero_based`, `fire`, `high_income`)
-- Domain-specific templates (9 domains)
-- CLI `--template` / `-t` flag from generate command
-- `templates` CLI command (now shows deprecation message)
-- `docs/api/templates/` documentation
-- `docs/guides/template-creation.md` guide
-
-### Migration
-
-If you were using budget templates, create allocations programmatically:
-
-```python
-from spreadsheet_dl import OdsGenerator, BudgetAllocation, ExpenseCategory
-from decimal import Decimal
-
-# Create your own allocations instead of using templates
-allocations = [
-    BudgetAllocation(ExpenseCategory.HOUSING, Decimal("1500")),
-    BudgetAllocation(ExpenseCategory.GROCERIES, Decimal("600")),
-    # Add more as needed
-]
-
-generator = OdsGenerator(theme="default")
-generator.create_budget_spreadsheet("budget.ods", budget_allocations=allocations)
-```
+- Nothing yet
 
 ---
 
@@ -134,7 +186,7 @@ This release implements comprehensive security hardening with 5 critical vulnera
 - Added `security` optional dependency group in pyproject.toml
   - `defusedxml>=0.7.0` - XXE/XML bomb protection
   - `cryptography>=42.0.0` - Hardware-accelerated encryption
-  - Install with: `pip install spreadsheet-dl[security]`
+  - Install with: `uv pip install spreadsheet-dl[security]`
 
 **Security Infrastructure:**
 
@@ -160,7 +212,7 @@ This release implements comprehensive security hardening with 5 critical vulnera
 
 **SECURITY.md Updates:**
 
-- Marked 5 vulnerabilities as ✅ FIXED in v4.0.1
+- Marked 5 vulnerabilities as FIXED in v4.0.1
 - Updated mitigation code examples to use new security modules
 - Added status badges for implemented fixes
 - Clarified plugin RCE mitigation (user must disable auto-discovery)
@@ -169,17 +221,17 @@ This release implements comprehensive security hardening with 5 critical vulnera
 
 **Vulnerabilities Addressed:**
 
-- CVE-PENDING-003: XML Entity Expansion (XXE) - HIGH → ✅ FIXED
-- CVE-PENDING-004: ZIP Bomb DoS - HIGH → ✅ FIXED
-- CVE-PENDING-002: Path Traversal - CRITICAL → ✅ MITIGATED
-- CVE-PENDING-005: Formula Injection - MEDIUM → ✅ FIXED
-- CVE-PENDING-006: Weak Password Brute Force - MEDIUM → ✅ FIXED
+- CVE-PENDING-003: XML Entity Expansion (XXE) - HIGH - FIXED
+- CVE-PENDING-004: ZIP Bomb DoS - HIGH - FIXED
+- CVE-PENDING-002: Path Traversal - CRITICAL - MITIGATED
+- CVE-PENDING-005: Formula Injection - MEDIUM - FIXED
+- CVE-PENDING-006: Weak Password Brute Force - MEDIUM - FIXED
 
 **Breaking Changes:** None (all security features are backwards compatible)
 
 **Upgrade Recommendations:**
 
-1. Install security dependencies: `pip install spreadsheet-dl[security]`
+1. Install security dependencies: `uv pip install spreadsheet-dl[security]`
 2. Review and apply path validation in file operations
 3. Update master passwords if using CredentialStore
 4. Enable security scanning in CI/CD pipelines
@@ -199,7 +251,7 @@ This release implements comprehensive security hardening with 5 critical vulnera
 - Multi-format export (ODS, XLSX, PDF, CSV, JSON, HTML)
 - Enterprise features: streaming I/O, plugins, performance optimization
 
-### Breaking Changes (PHASE0-004: Perfect Builder API)
+### Breaking Changes (Enhanced Builder API)
 
 **Enhanced Error Handling:**
 
@@ -302,8 +354,8 @@ except NoSheetSelectedError as e:
 - Datetime type check order bug in renderer (datetime vs date isinstance)
 - Named Range ODF hierarchy bug (NamedExpressions container required)
 - Theme exception handling in style creation
-- Chart rendering ODF attribute error (CRITICAL-001)
-- Serialization module import errors (CRITICAL-002)
+- Chart rendering ODF attribute error
+- Serialization module import errors
 - YAML parsing error handling in category manager
 
 ### Tests
@@ -344,10 +396,10 @@ The following versions (v0.1.0 through v2.0.0) represent internal development it
 
 ### Added
 
-- Expense append functionality (FR-CORE-003)
+- Expense append functionality
 - OdsEditor module for modifying existing ODS files
 - `--dry-run` flag for preview mode
-- Comprehensive error code system (FR-UX-003)
+- Comprehensive error code system
   - Structured error messages with error codes, details, and suggestions
   - Error code reference documentation
   - 50+ specific exception classes with actionable guidance
@@ -412,4 +464,6 @@ The following versions (v0.1.0 through v2.0.0) represent internal development it
 
 ---
 
+[4.1.0]: https://github.com/lair-click-bats/spreadsheet-dl/releases/tag/v4.1.0
+[4.0.1]: https://github.com/lair-click-bats/spreadsheet-dl/releases/tag/v4.0.1
 [4.0.0]: https://github.com/lair-click-bats/spreadsheet-dl/releases/tag/v4.0.0

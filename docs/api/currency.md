@@ -15,10 +15,6 @@ The `currency` module provides comprehensive multi-currency support including cu
 
 **Module Location:** `spreadsheet_dl.domains.finance.currency`
 
-**Requirements Implemented:**
-
-- FR-CURR-001: Multi-Currency Support (Gap G-03)
-
 ---
 
 ## Enumerations

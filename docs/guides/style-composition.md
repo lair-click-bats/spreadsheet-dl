@@ -420,5 +420,4 @@ Later values override earlier values.
 ## See Also
 
 - [Theme Creation Guide](./theme-creation.md)
-- [Template Creation Guide](./template-creation.md)
 - [Builder API Reference](../api/builder.md)

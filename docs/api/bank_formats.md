@@ -15,10 +15,6 @@ The `bank_formats` module provides extended support for 50+ bank and credit card
 
 **Module Location:** `spreadsheet_dl.domains.finance.bank_formats`
 
-**Requirements Implemented:**
-
-- FR-IMPORT-002: Extended Bank Formats (Gap G-16)
-
 ---
 
 ## Core Classes

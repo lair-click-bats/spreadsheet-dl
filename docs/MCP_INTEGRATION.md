@@ -15,7 +15,7 @@ spreadsheet operations.
 ## Prerequisites
 
 - Python 3.12+ installed
-- SpreadsheetDL v4.0+ installed (`pip install spreadsheet-dl`)
+- SpreadsheetDL v4.0+ installed (`uv pip install spreadsheet-dl`)
 - Claude Desktop or Claude CLI (or any MCP-compatible client)
 
 ## Installation
@@ -23,7 +23,7 @@ spreadsheet operations.
 ### 1. Install SpreadsheetDL
 
 ```bash
-pip install spreadsheet-dl
+uv pip install spreadsheet-dl
 # or with uv
 uv add spreadsheet-dl
 ```

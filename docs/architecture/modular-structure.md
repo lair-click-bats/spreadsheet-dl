@@ -99,7 +99,7 @@ from spreadsheet_dl.cli import main
 - ✅ Extracted MCP configuration, exceptions, models, and registry
 - ✅ Set up backward-compatible re-exports
 - ✅ Added public package namespace access
-- ✅ All 3,206 tests passing
+- ✅ All tests passing
 - ✅ Zero regressions
 
 ### Planned (Future Releases)

@@ -12,7 +12,7 @@ Sparklines are small, inline charts that fit within a single cell. They provide 
 
 ```bash
 # Install SpreadsheetDL
-pip install spreadsheet-dl
+uv pip install spreadsheet-dl
 
 # LibreOffice Calc required for viewing
 # Install from: https://www.libreoffice.org/
@@ -334,8 +334,8 @@ builder.export_to_file("financial_dashboard.ods")
 
 Sparklines use the SPARKLINE() function which is **LibreOffice-specific**:
 
-- ✅ Works in: LibreOffice Calc 7.0+
-- ❌ Does not work in: Microsoft Excel, Google Sheets, Apple Numbers
+- Works in: LibreOffice Calc 7.0+
+- Does not work in: Microsoft Excel, Google Sheets, Apple Numbers
 
 ### Alternatives for Excel
 
@@ -409,18 +409,18 @@ Always open generated ODS files in LibreOffice Calc to verify sparklines render 
 
 Colors must be in hex format:
 
-- ✅ `"#2196F3"`
-- ❌ `"blue"`
-- ❌ `"rgb(33, 150, 243)"`
+- `"#2196F3"` - correct
+- `"blue"` - incorrect
+- `"rgb(33, 150, 243)"` - incorrect
 
 ### Invalid Cell Reference Error
 
 Cell references must be valid:
 
-- ✅ `"A1"`
-- ✅ `"Z999"`
-- ❌ `"INVALID"`
-- ❌ `"1A"`
+- `"A1"` - correct
+- `"Z999"` - correct
+- `"INVALID"` - incorrect
+- `"1A"` - incorrect
 
 ## API Reference
 

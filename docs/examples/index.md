@@ -180,11 +180,10 @@ print("\nDone!")
 # Create directory
 mkdir -p ~/finances/2025
 
-# Generate January budget with family template
+# Generate January budget
 uv run spreadsheet-dl generate \
     -o ~/finances/2025/ \
     -m 1 -y 2025 \
-    -t family \
     --theme default
 
 # Add expenses

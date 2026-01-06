@@ -74,10 +74,10 @@ To get current test counts and distribution:
 
 ```bash
 # Human-readable output
-scripts/test-stats.sh
+scripts/test_stats.sh
 
 # JSON output (for CI/automation)
-scripts/test-stats.sh --json
+scripts/test_stats.sh --json
 ```
 
 ## Available Markers
@@ -119,7 +119,7 @@ scripts/test-stats.sh --json
 For detailed information, see:
 
 - **[Full Testing Guide](./tests/README.md)** - Complete documentation on test organization, markers, usage patterns, debugging, CI/CD integration, and best practices
-- **[Test Statistics Script](./scripts/test-stats.sh)** - Dynamic test count generation
+- **[Test Statistics Script](./scripts/test_stats.sh)** - Dynamic test count generation
 - **[pytest Documentation](https://docs.pytest.org/en/stable/how-to/mark.html)** - Official pytest marker documentation
 
 ## Quick Tips

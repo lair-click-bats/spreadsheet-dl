@@ -2,8 +2,6 @@
 
 Generate ODS spreadsheets for budget tracking with formatting and formulas.
 
-**Implements:** FR-CORE-001 (Budget Spreadsheet Generation)
-
 ## Overview
 
 The ODS Generator module creates formatted ODS (OpenDocument Spreadsheet) files for family budget tracking. It generates expense tracking sheets, budget allocation sheets, and summary sheets with formulas and conditional formatting.

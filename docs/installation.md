@@ -35,7 +35,7 @@ python -m venv .venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
 # Install package
-pip install -e .
+uv pip install -e .
 
 # Verify installation
 spreadsheet-dl --version
@@ -50,7 +50,7 @@ For YAML-based themes, install with the config extra:
 ```bash
 uv sync --extra config
 # or
-pip install -e ".[config]"
+uv pip install -e ".[config]"
 ```
 
 ### Development Dependencies
@@ -60,7 +60,7 @@ For development and testing:
 ```bash
 uv sync --dev
 # or
-pip install -e ".[dev]"
+uv pip install -e ".[dev]"
 ```
 
 This includes:
@@ -143,7 +143,7 @@ uv run spreadsheet-dl --version
 If you see import errors, ensure the package is installed in development mode:
 
 ```bash
-pip install -e .
+uv pip install -e .
 ```
 
 ### Missing Dependencies
@@ -164,7 +164,7 @@ On Linux/macOS, if you get permission errors:
 
 ```bash
 # Use user installation
-pip install --user -e .
+uv pip install --user -e .
 ```
 
 ### Path Issues

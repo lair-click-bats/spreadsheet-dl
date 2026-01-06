@@ -296,24 +296,6 @@ spreadsheet-dl upload FILE [OPTIONS]
 
 ---
 
-### templates (deprecated)
-
-Shows deprecation message. Templates have been removed from SpreadsheetDL.
-
-```bash
-spreadsheet-dl templates [OPTIONS]
-```
-
-**Options:**
-
-| Option   | Description    |
-| -------- | -------------- |
-| `--json` | Output as JSON |
-
-> **Note:** Use the examples directory for learning and the builder API for creating spreadsheets.
-
----
-
 ### themes
 
 List available visual themes.

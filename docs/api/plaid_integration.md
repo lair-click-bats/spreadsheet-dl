@@ -16,10 +16,6 @@ The `plaid_integration` module provides direct bank connection and transaction s
 
 **Module Location:** `spreadsheet_dl.domains.finance.plaid_integration`
 
-**Requirements Implemented:**
-
-- FR-IMPORT-003: Bank API Integration (Gap G-17)
-
 ---
 
 ## Enumerations

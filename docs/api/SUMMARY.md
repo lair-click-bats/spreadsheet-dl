@@ -143,7 +143,7 @@
 - [export](export.md)
 - [interactive](interactive.md)
 - [mcp_server](mcp_server.md)
-- [notifications](notifications.md)
+- [notifications](../notifications.md)
 - [ods_editor](ods_editor.md)
 - [performance](performance.md)
 - [plugins](plugins.md)

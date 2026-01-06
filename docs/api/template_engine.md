@@ -2,8 +2,6 @@
 
 Complete API reference for the YAML-based template system.
 
-**Implements:** FR-TEMPLATE-001 through FR-TEMPLATE-005
-
 ## Overview
 
 The Template Engine provides a powerful YAML-based system for creating reusable spreadsheet templates with:

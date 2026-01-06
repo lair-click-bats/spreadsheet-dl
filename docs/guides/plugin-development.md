@@ -1,6 +1,6 @@
 # Domain Plugin Development Guide
 
-**Implements**: PHASE0-003
+PHASE0-003
 
 Complete guide for developing SpreadsheetDL domain plugins.
 
@@ -120,7 +120,7 @@ spreadsheet_dl_science/          # Your plugin package
 Install SpreadsheetDL and development dependencies:
 
 ```bash
-pip install spreadsheet-dl[dev]>=4.0.0
+uv pip install spreadsheet-dl[dev]>=4.0.0
 ```
 
 Or with uv:
@@ -1202,7 +1202,7 @@ uv publish
 ### Installation by Users
 
 ```bash
-pip install spreadsheet-dl-science
+uv pip install spreadsheet-dl-science
 ```
 
 ## Best Practices
@@ -1366,4 +1366,4 @@ Study these files in `src/spreadsheet_dl/domains/finance/`:
 
 ---
 
-**Implements**: PHASE0-003 - Domain plugin development guide
+PHASE0-003 - Domain plugin development guide

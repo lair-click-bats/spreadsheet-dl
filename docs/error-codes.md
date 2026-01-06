@@ -916,7 +916,7 @@ The requested plugin is not installed.
 
 **Resolution:**
 
-- Install the plugin: `pip install spreadsheet-dl-plugin-<name>`
+- Install the plugin: `uv pip install spreadsheet-dl-plugin-<name>`
 - Check plugin name spelling
 
 ---
@@ -949,7 +949,7 @@ The plugin version is incompatible.
 
 **Resolution:**
 
-- Update plugin: `pip install --upgrade spreadsheet-dl-plugin-<name>`
+- Update plugin: `uv pip install --upgrade spreadsheet-dl-plugin-<name>`
 - Check compatibility matrix in plugin docs
 
 ---

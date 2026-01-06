@@ -2,8 +2,6 @@
 
 Track multiple financial accounts and balances.
 
-**Implements:** FR-CORE-004 (Account Management)
-
 ## Overview
 
 The accounts module provides comprehensive account management including:

@@ -28,10 +28,10 @@ spreadsheet-dl library.
 
 ```bash
 # Ensure package is installed
-pip install spreadsheet-dl
+uv pip install spreadsheet-dl
 
 # Or install from source
-pip install -e .
+uv pip install -e .
 
 # Verify installation
 python -c "import spreadsheet_dl; print(spreadsheet_dl.__version__)"
@@ -45,10 +45,10 @@ python -c "import spreadsheet_dl; print(spreadsheet_dl.__version__)"
 
 ```bash
 # Install all dependencies
-pip install spreadsheet-dl[all]
+uv pip install spreadsheet-dl[all]
 
 # Or install specific dependency
-pip install pyyaml
+uv pip install pyyaml
 ```
 
 ### Version Conflicts
@@ -67,7 +67,7 @@ source .venv/bin/activate  # Linux/Mac
 # or
 .venv\Scripts\activate  # Windows
 
-pip install spreadsheet-dl
+uv pip install spreadsheet-dl
 ```
 
 ## Theme Issues

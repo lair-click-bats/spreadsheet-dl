@@ -568,5 +568,4 @@ builder.save("dashboard.ods")
 
 - [Builder API Reference](../api/builder.md)
 - [Theme Creation Guide](../guides/theme-creation.md)
-- [Template Creation Guide](../guides/template-creation.md)
 - [Best Practices](../guides/best-practices.md)

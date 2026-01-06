@@ -118,8 +118,9 @@ Current version: **v4.0.0** 🎉 _First Public Release_
 ## Installation
 
 ```bash
-# Using uv (recommended)
-cd ~/development/spreadsheet-dl
+# Using uv (recommended for development)
+git clone https://github.com/lair-click-bats/spreadsheet-dl.git
+cd spreadsheet-dl
 uv sync
 
 # Install with theme support
@@ -207,7 +208,7 @@ spreadsheet-dl/
 │   │   ├── renderer.py     # Template rendering
 │   │   └── components.py   # Pre-built components
 │   └── ...
-├── tests/                  # Test suite (3,206 tests)
+├── tests/                  # Test suite
 └── docs/                   # Documentation
 ```
 

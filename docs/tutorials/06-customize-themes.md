@@ -12,7 +12,7 @@ Learn how to create and customize visual themes for your spreadsheets using Spre
 
 ## Prerequisites
 
-- SpreadsheetDL installed with PyYAML (`pip install 'spreadsheet-dl[config]'`)
+- SpreadsheetDL installed with PyYAML (`uv pip install 'spreadsheet-dl[config]'`)
 - Text editor
 - Completed [Tutorial 1: Create a Budget](01-create-budget.md)
 

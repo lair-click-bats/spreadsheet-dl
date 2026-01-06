@@ -12,7 +12,7 @@ SpreadsheetDL is a declarative toolkit for creating professional spreadsheets pr
 - **Multi-Format Export** - ODS (native), XLSX, PDF from single definition
 - **Type-Safe Formulas** - 60+ functions with circular reference detection
 - **Theme System** - 5 built-in themes, YAML-based customization
-- **Domain Plugins** - Finance, science, engineering templates
+- **Domain Plugins** - Finance, science, engineering specialized formulas
 - **MCP Server** - Native integration with Claude and other AI tools
 
 ## Installation
@@ -21,13 +21,13 @@ SpreadsheetDL is a declarative toolkit for creating professional spreadsheets pr
 
 ```bash
 # Install from PyPI
-pip install spreadsheet-dl
+uv pip install spreadsheet-dl
 
 # Install with security enhancements (recommended)
-pip install spreadsheet-dl[security]
+uv pip install spreadsheet-dl[security]
 
 # Install with all extras
-pip install spreadsheet-dl[all]
+uv pip install spreadsheet-dl[all]
 ```
 
 ### Using uv (For Development)
@@ -47,7 +47,7 @@ uv sync --dev
 # Check version
 spreadsheet-dl --version
 
-# Should output: spreadsheet-dl 4.0.0
+# Should output: spreadsheet-dl 4.0.1
 ```
 
 ## Your First Budget Spreadsheet
@@ -65,7 +65,7 @@ spreadsheet-dl generate -o ./budgets/
 # This creates: ./budgets/budget_2026_01.ods
 ```
 
-Open the file in LibreOffice Calc or Excel to see your budget template!
+Open the file in LibreOffice Calc or Excel to see your budget!
 
 ### Step 2: Create a Budget with Python
 
@@ -291,29 +291,6 @@ generator = OdsGenerator(theme="corporate")
 generator.create_budget_spreadsheet("corporate_budget.ods")
 ```
 
-## Using Templates
-
-Templates provide pre-configured budget structures:
-
-```bash
-# List available templates
-spreadsheet-dl templates
-
-# Create from template
-spreadsheet-dl generate -o ./budgets/ -t 50_30_20    # Classic budget rule
-spreadsheet-dl generate -o ./budgets/ -t family      # Family budget
-spreadsheet-dl generate -o ./budgets/ -t fire        # High savings rate
-```
-
-**Template Options:**
-
-- `50_30_20` - 50% needs, 30% wants, 20% savings (beginner-friendly)
-- `family` - Optimized for family of four
-- `minimalist` - Lean budget, high savings focus
-- `zero_based` - Every dollar assigned
-- `fire` - 50%+ savings rate for early retirement
-- `high_income` - Balanced lifestyle for $200k+ earners
-
 ## Next Steps
 
 Now that you have the basics, explore these topics:
@@ -339,7 +316,7 @@ Now that you have the basics, explore these topics:
 - **Documentation**: [docs/index.md](index.md)
 - **Examples**: See `examples/` directory in the repository
 - **Issues**: Report bugs on GitHub
-- **Contributing**: See [CONTRIBUTING.md](CONTRIBUTING.md)
+- **Contributing**: See [CONTRIBUTING.md](../CONTRIBUTING.md)
 
 ## Common Questions
 

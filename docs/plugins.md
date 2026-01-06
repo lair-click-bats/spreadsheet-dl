@@ -664,7 +664,7 @@ Dependencies:
     - requests>=2.31.0
     - pandas>=2.0.0
 
-Install: pip install requests pandas
+Install: uv pip install requests pandas
 """
 ```
 
@@ -695,6 +695,5 @@ See module documentation for complete API:
 
 ---
 
-**Implements**: FR-EXT-001 (Plugin System Framework)
 **Version**: 4.0.0
 **Last Updated**: 2026-01-03

@@ -7,7 +7,7 @@ Learn how to import spreadsheet data from HTML tables into SpreadsheetDL. This f
 Install the HTML import dependencies:
 
 ```bash
-pip install spreadsheet-dl[html]
+uv pip install spreadsheet-dl[html]
 ```
 
 This adds `beautifulsoup4` and `lxml` for HTML parsing.
@@ -517,7 +517,7 @@ except ValueError as e:
 try:
     sheets = adapter.import_file(html_file)
 except ImportError as e:
-    print(f"Install dependencies: pip install spreadsheet-dl[html]")
+    print(f"Install dependencies: uv pip install spreadsheet-dl[html]")
 ```
 
 ## Best Practices
@@ -569,14 +569,14 @@ options = HTMLImportOptions(detect_types=False)
 
 **HTML import features:**
 
-- ✅ Parse HTML tables to SheetSpec
-- ✅ Handle `<thead>`, `<tbody>`, `<tfoot>`
-- ✅ Handle `<th>` vs `<td>` cells
-- ✅ Handle colspan/rowspan
-- ✅ CSS selector filtering
-- ✅ Auto-detect types (int, float, date)
-- ✅ Multiple tables per file
-- ✅ Round-trip export/import
+- Parse HTML tables to SheetSpec
+- Handle `<thead>`, `<tbody>`, `<tfoot>`
+- Handle `<th>` vs `<td>` cells
+- Handle colspan/rowspan
+- CSS selector filtering
+- Auto-detect types (int, float, date)
+- Multiple tables per file
+- Round-trip export/import
 
 **Next Steps:**
 

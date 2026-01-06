@@ -8,11 +8,11 @@ Learn how to create a comprehensive monthly budget from scratch using Spreadshee
 - Define income sources
 - Create a functional budget spreadsheet
 - Customize budget amounts for your needs
-- Use budget templates
+- Use the theme system
 
 ## Prerequisites
 
-- SpreadsheetDL installed (`pip install spreadsheet-dl`)
+- SpreadsheetDL installed (`uv pip install spreadsheet-dl`)
 - Basic understanding of budgeting concepts
 - Text editor or Python IDE
 
@@ -370,7 +370,7 @@ Your budget spreadsheet should have:
 **Budget totals don't match income?**
 
 - Ensure all allocations sum to your monthly income
-- Use the template's `scale_to_income()` method for automatic allocation
+- Check the calculations in the Summary sheet
 
 **Categories missing?**
 
@@ -390,6 +390,5 @@ Your budget spreadsheet should have:
 
 ## Additional Resources
 
-- [Available Templates](../index.md)
 - [Theme System](../index.md)
 - [Python API Reference](../api/index.md)

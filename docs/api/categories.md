@@ -2,8 +2,6 @@
 
 Custom category management for expense tracking.
 
-**Implements:** FR-EXT-005 (Custom Category Support)
-
 ## Overview
 
 The categories module provides dynamic category management including:
