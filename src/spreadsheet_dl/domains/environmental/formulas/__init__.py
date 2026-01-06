@@ -26,6 +26,11 @@ from spreadsheet_dl.domains.environmental.formulas.ecology import (
     SimpsonIndexFormula,
     SpeciesRichnessFormula,
 )
+from spreadsheet_dl.domains.environmental.formulas.lifecycle import (
+    AcidificationPotential,
+    EutrophicationPotential,
+    GlobalWarmingPotential,
+)
 from spreadsheet_dl.domains.environmental.formulas.water_quality import (
     BODCalculationFormula,
     WaterQualityIndexFormula,
@@ -34,6 +39,7 @@ from spreadsheet_dl.domains.environmental.formulas.water_quality import (
 __all__ = [
     # Air Quality
     "AQICalculationFormula",
+    "AcidificationPotential",
     # Water Quality
     "BODCalculationFormula",
     # Carbon/Sustainability
@@ -41,6 +47,8 @@ __all__ = [
     "EcologicalFootprintFormula",
     "EmissionRateFormula",
     "EnvironmentalImpactScoreFormula",
+    "EutrophicationPotential",
+    "GlobalWarmingPotential",
     "PollutionIndexFormula",
     # Ecology
     "ShannonDiversityFormula",

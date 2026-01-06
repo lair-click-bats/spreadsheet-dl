@@ -9,6 +9,13 @@ Provides domain-specific formulas for:
 - Signal analysis (SNR, bandwidth, rise time, propagation delay)
 """
 
+from spreadsheet_dl.domains.electrical_engineering.formulas.ac_circuits import (
+    ComplexImpedance,
+    PowerFactor,
+    Reactance,
+    ResonantFrequency,
+    RMSValue,
+)
 from spreadsheet_dl.domains.electrical_engineering.formulas.impedance import (
     CapacitanceFormula,
     InductanceFormula,
@@ -31,13 +38,18 @@ from spreadsheet_dl.domains.electrical_engineering.formulas.signal import (
 __all__ = [
     "BandwidthFormula",
     "CapacitanceFormula",
+    "ComplexImpedance",
     "CurrentCalcFormula",
     "InductanceFormula",
     # Impedance formulas
     "ParallelResistanceFormula",
     # Power formulas
     "PowerDissipationFormula",
+    "PowerFactor",
     "PropagationDelayFormula",
+    "RMSValue",
+    "Reactance",
+    "ResonantFrequency",
     "RiseTimeFormula",
     "SeriesResistanceFormula",
     # Signal formulas

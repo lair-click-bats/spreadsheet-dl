@@ -9,6 +9,11 @@ Provides 12 specialized formulas for education:
 - Learning metrics (mastery, gain, attendance, completion, etc.)
 """
 
+from spreadsheet_dl.domains.education.formulas.assessment import (
+    CronbachAlpha,
+    ItemDifficulty,
+    ItemDiscrimination,
+)
 from spreadsheet_dl.domains.education.formulas.grades import (
     GradeAverageFormula,
     GradeCurveFormula,
@@ -35,9 +40,12 @@ __all__ = [
     "CompletionRateFormula",
     # Statistics
     "CorrelationFormula",
+    "CronbachAlpha",
     # Grades
     "GradeAverageFormula",
     "GradeCurveFormula",
+    "ItemDifficulty",
+    "ItemDiscrimination",
     "LearningGainFormula",
     "MasteryLevelFormula",
     "PercentileRankFormula",

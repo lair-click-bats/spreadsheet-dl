@@ -308,9 +308,90 @@ class CapacityUtilizationFormula(BaseFormula):
         return f"({actual_output}/{max_capacity})*100"
 
 
+@dataclass(slots=True, frozen=True)
+class OverallEquipmentEffectiveness(BaseFormula):
+    """Calculate Overall Equipment Effectiveness (OEE).
+
+    Implements:
+        OEE formula combining availability, performance, and quality
+
+    OEE = Availability * Performance * Quality
+
+    Example:
+        >>> formula = OverallEquipmentEffectiveness()
+        >>> result = formula.build("0.90", "0.95", "0.99")
+        >>> # Returns: "0.90*0.95*0.99*100"
+    """
+
+    @property
+    def metadata(self) -> FormulaMetadata:
+        """Get formula metadata.
+
+        Returns:
+            FormulaMetadata for OEE
+
+        Implements:
+            Formula metadata
+        """
+        return FormulaMetadata(
+            name="OEE",
+            category="production",
+            description="Calculate Overall Equipment Effectiveness percentage",
+            arguments=(
+                FormulaArgument(
+                    "availability",
+                    "number",
+                    required=True,
+                    description="Availability rate (0-1)",
+                ),
+                FormulaArgument(
+                    "performance",
+                    "number",
+                    required=True,
+                    description="Performance rate (0-1)",
+                ),
+                FormulaArgument(
+                    "quality",
+                    "number",
+                    required=True,
+                    description="Quality rate (0-1)",
+                ),
+            ),
+            return_type="number",
+            examples=(
+                "=OEE(0.90;0.95;0.99)",
+                "=OEE(A1;A2;A3)",
+            ),
+        )
+
+    def build(self, *args: Any, **kwargs: Any) -> str:
+        """Build OEE formula string.
+
+        Args:
+            *args: availability, performance, quality
+            **kwargs: Keyword arguments (optional)
+
+        Returns:
+            ODF formula string
+
+        Implements:
+            OEE formula building
+
+        Raises:
+            ValueError: If arguments are invalid
+        """
+        self.validate_arguments(args)
+
+        availability, performance, quality = args
+
+        # OEE = A * P * Q * 100%
+        return f"{availability}*{performance}*{quality}*100"
+
+
 __all__ = [
     "CapacityUtilizationFormula",
     "CycleTimeFormula",
+    "OverallEquipmentEffectiveness",
     "TaktTimeFormula",
     "ThroughputFormula",
 ]

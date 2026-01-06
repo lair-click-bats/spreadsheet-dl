@@ -20,6 +20,12 @@ from spreadsheet_dl.domains.civil_engineering.formulas.concrete import (
     CrackWidthFormula,
     ReinforcementRatioFormula,
 )
+from spreadsheet_dl.domains.civil_engineering.formulas.hydrology import (
+    ManningEquation,
+    RationalMethod,
+    RunoffCoefficient,
+    TimeOfConcentration,
+)
 from spreadsheet_dl.domains.civil_engineering.formulas.loads import (
     DeadLoadFormula,
     LiveLoadFormula,
@@ -43,11 +49,15 @@ __all__ = [
     # Load formulas
     "DeadLoadFormula",
     "LiveLoadFormula",
+    "ManningEquation",
     "MomentFormula",
+    "RationalMethod",
     "ReinforcementRatioFormula",
+    "RunoffCoefficient",
     "SeismicLoadFormula",
     "SettlementFormula",
     "ShearStressFormula",
     "SoilPressureFormula",
+    "TimeOfConcentration",
     "WindLoadFormula",
 ]

@@ -27,6 +27,15 @@ from spreadsheet_dl.domains.data_science.formulas.ml_metrics import (
     PrecisionFormula,
     RecallFormula,
 )
+
+# Regression metrics formulas
+from spreadsheet_dl.domains.data_science.formulas.regression import (
+    MeanAbsoluteError,
+    MeanAbsolutePercentageError,
+    MeanSquaredError,
+    RootMeanSquaredError,
+    RSquared,
+)
 from spreadsheet_dl.domains.data_science.formulas.statistical import (
     ChiSquareTestFormula,
     FTestFormula,
@@ -45,9 +54,15 @@ __all__ = [
     "CorrelationFormula",
     "F1ScoreFormula",
     "FTestFormula",
+    # Regression Metrics
+    "MeanAbsoluteError",
+    "MeanAbsolutePercentageError",
+    "MeanSquaredError",
     "MedianFormula",
     "PrecisionFormula",
+    "RSquared",
     "RecallFormula",
+    "RootMeanSquaredError",
     "StdevFormula",
     "TTestFormula",
     "VarianceFormula",

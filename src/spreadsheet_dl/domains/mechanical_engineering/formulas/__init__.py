@@ -4,6 +4,12 @@ Implements:
     Mechanical engineering formula modules
 """
 
+from spreadsheet_dl.domains.mechanical_engineering.formulas.dynamics import (
+    AngularVelocity,
+    CriticalDamping,
+    NaturalFrequency,
+    SpringConstant,
+)
 from spreadsheet_dl.domains.mechanical_engineering.formulas.fatigue import (
     FatigueLifeFormula,
     SafetyFactorFormula,
@@ -25,10 +31,14 @@ from spreadsheet_dl.domains.mechanical_engineering.formulas.thermal import (
 )
 
 __all__ = [
+    "AngularVelocity",
     "BendingStressFormula",
+    "CriticalDamping",
     "FatigueLifeFormula",
     "MomentOfInertiaFormula",
+    "NaturalFrequency",
     "SafetyFactorFormula",
+    "SpringConstant",
     "StrainFormula",
     "StressConcentrationFormula",
     "StressFormula",

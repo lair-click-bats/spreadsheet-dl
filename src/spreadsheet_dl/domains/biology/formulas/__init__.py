@@ -12,6 +12,12 @@ from spreadsheet_dl.domains.biology.formulas.biochemistry import (
     EnzymeActivityFormula,
     MichaelisMentenFormula,
 )
+from spreadsheet_dl.domains.biology.formulas.cell_biology import (
+    CellDensity,
+    DoublingTime,
+    SpecificGrowthRate,
+    ViabilityPercent,
+)
 from spreadsheet_dl.domains.biology.formulas.ecology import (
     PopulationGrowthFormula,
     ShannonDiversityFormula,
@@ -28,9 +34,11 @@ from spreadsheet_dl.domains.biology.formulas.molecular import (
 __all__ = [
     # Biochemistry
     "BradfordAssayFormula",
+    "CellDensity",
     # Molecular Biology
     "ConcentrationFormula",
     "DilutionFactorFormula",
+    "DoublingTime",
     "EnzymeActivityFormula",
     "FoldChangeFormula",
     "GCContentFormula",
@@ -41,4 +49,6 @@ __all__ = [
     "ShannonDiversityFormula",
     "SimpsonIndexFormula",
     "SpeciesRichnessFormula",
+    "SpecificGrowthRate",
+    "ViabilityPercent",
 ]

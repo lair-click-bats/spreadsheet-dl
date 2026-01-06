@@ -13,6 +13,7 @@ from spreadsheet_dl.domains.manufacturing.formulas.inventory import (
 from spreadsheet_dl.domains.manufacturing.formulas.production import (
     CapacityUtilizationFormula,
     CycleTimeFormula,
+    OverallEquipmentEffectiveness,
     TaktTimeFormula,
     ThroughputFormula,
 )
@@ -34,6 +35,7 @@ __all__ = [
     "EOQFormula",
     "FirstPassYieldFormula",
     "InventoryTurnoverFormula",
+    "OverallEquipmentEffectiveness",
     "ProcessCapabilityFormula",
     "ReorderPointFormula",
     "SafetyStockFormula",
