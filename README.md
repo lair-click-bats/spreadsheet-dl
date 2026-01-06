@@ -26,7 +26,7 @@ SpreadsheetDL is a universal spreadsheet definition language that lets you creat
 - 🎨 **Theme System** - 5 built-in themes (default, corporate, minimal, dark, high_contrast)
 - 📊 **Chart Builder** - 60+ chart types with fluent API
 - ⚡ **Type-Safe Formulas** - FormulaBuilder with circular reference detection
-- 🔧 **Domain Plugins** - Pre-built templates for finance, science, engineering (more coming)
+- 🔧 **Domain Plugins** - Specialized formulas and importers for finance, science, engineering
 - 🌍 **Multi-Format Export** - ODS, XLSX, PDF from single definition
 - 🤖 **MCP Server** - Native integration with Claude for AI-powered spreadsheet generation
 
@@ -36,7 +36,7 @@ SpreadsheetDL is a universal spreadsheet definition language that lets you creat
 
 - ✅ Declarative (define what, not how)
 - ✅ Multi-format (ODS, XLSX, PDF)
-- ✅ Domain-aware (finance, science, engineering templates)
+- ✅ Domain-aware (finance, science, engineering formulas)
 - ✅ Theme system (consistent styling)
 - ✅ MCP server (AI integration)
 
@@ -70,7 +70,6 @@ SpreadsheetDL is a universal spreadsheet definition language that lets you creat
 
 #### 💰 Finance Domain
 
-- **Templates**: Monthly budget, financial statements (income, balance sheet, cash flow, equity), invoices, expense reports
 - **Formulas**: NPV, IRR, PMT, PV, FV (financial functions)
 - **Importers**: Bank CSV (50+ banks), Plaid API integration
 - **Utils**: Account management, budget analytics, alerts, recurring expenses, goals tracking
@@ -78,20 +77,18 @@ SpreadsheetDL is a universal spreadsheet definition language that lets you creat
 
 #### 🔬 Data Science Domain
 
-- **Templates**: Experiment log, dataset catalog, analysis report, A/B test results, model comparison
 - **Formulas**: Statistical tests (TTEST, FTEST, ZTEST), ML metrics (confusion matrix, F1, precision, recall)
 - **Importers**: Scientific CSV, MLflow experiment import, Jupyter notebook
 - **Utils**: Plotting helpers, statistical utilities
 
 #### ⚙️ Engineering Domains
 
-- **Electrical**: BOM, pin mapping, power budget, signal routing, component importers
-- **Mechanical**: Stress analysis, tolerance stack-up, material properties, CAD metadata, FEA results
-- **Civil**: Load calculations, structural analysis, concrete mix design, survey data, building codes
+- **Electrical**: Pin mapping formulas, power budget calculations, component importers
+- **Mechanical**: Stress analysis formulas, tolerance calculations, material properties, CAD metadata importers
+- **Civil**: Load calculation formulas, structural analysis, concrete mix formulas, survey data importers
 
-#### 🏭 Manufacturing Domain ✓ Implemented
+#### 🏭 Manufacturing Domain
 
-- **Templates**: Production Schedule, Quality Control, Inventory Management, OEE Tracking, Bill of Materials
 - **Formulas**: CycleTime, TaktTime, Throughput, CapacityUtilization, DefectRate, FirstPassYield, ProcessCapability, ControlLimits, EOQ, ReorderPoint, SafetyStock, InventoryTurnover
 - **Importers**: MES Data, ERP Data, Sensor Data
 
@@ -204,11 +201,10 @@ builder.export("sales_report.pdf")   # PDF for distribution
 ### Finance Domain Example (CLI)
 
 ```bash
-# Create a budget (with optional template and theme)
+# Create a budget (with optional theme)
 uv run spreadsheet-dl generate -o ./budgets/
-uv run spreadsheet-dl generate -o ./budgets/ -t 50_30_20
 uv run spreadsheet-dl generate -o ./budgets/ --theme corporate
-uv run spreadsheet-dl generate -o ./budgets/ -t family --theme minimal
+uv run spreadsheet-dl generate -o ./budgets/ --theme minimal
 
 # List available themes
 uv run spreadsheet-dl themes
@@ -241,9 +237,6 @@ uv run spreadsheet-dl expense 150 "Whole Foods" -c Groceries
 
 # Upload to Nextcloud
 uv run spreadsheet-dl upload budget.ods
-
-# List available templates
-uv run spreadsheet-dl templates
 ```
 
 ## Python API
@@ -376,25 +369,6 @@ f.divide("B2", "C2")
 # -> "of:=IF([.C2]>0;[.B2]/[.C2];0)"
 ```
 
-### Using Templates
-
-```python
-from spreadsheet_dl import get_template, OdsGenerator
-
-# Get a predefined template
-template = get_template("50_30_20")  # or "family", "fire", "minimalist", etc.
-
-# Scale to your income
-scaled_allocations = template.scale_to_income(Decimal("6000"))
-
-# Create budget
-generator = OdsGenerator()
-generator.create_budget_spreadsheet(
-    "my_budget.ods",
-    budget_allocations=scaled_allocations,
-)
-```
-
 ### Import Bank Transactions
 
 ```python
@@ -506,17 +480,6 @@ export NEXTCLOUD_PATH=/Finance
 | `dark`          | Dark mode for eye comfort | Dark backgrounds, light text   |
 | `high_contrast` | Accessibility-focused     | Bold colors, large fonts       |
 
-## Budget Templates
-
-| Template      | Description                               | Use Case                       |
-| ------------- | ----------------------------------------- | ------------------------------ |
-| `50_30_20`    | Classic 50% needs, 30% wants, 20% savings | Beginners, general budgeting   |
-| `family`      | Optimized for family of four              | Families with children         |
-| `minimalist`  | Lean budget focused on high savings       | Single person, FIRE aspirants  |
-| `zero_based`  | Every dollar assigned                     | Detail-oriented, tight budgets |
-| `fire`        | 50%+ savings rate                         | Early retirement focus         |
-| `high_income` | Balanced lifestyle for $200k+             | High earners                   |
-
 ## Project Structure
 
 ```
@@ -546,18 +509,18 @@ spreadsheet-dl/
 │   │   ├── styles.py            # Style dataclasses
 │   │   ├── loader.py            # YAML loader
 │   │   └── validation.py        # Schema validation
-│   ├── template_engine/         # Template system
+│   ├── template_engine/         # Template engine (user-defined templates)
 │   │   ├── schema.py            # Template schema
 │   │   └── renderer.py          # Template renderer
 │   ├── domains/                 # Domain plugins (9 domains)
-│   │   ├── finance/             # Budget, invoices, statements
-│   │   ├── data_science/        # Experiment logs, ML reports
-│   │   ├── biology/             # Plate layouts, qPCR
-│   │   ├── manufacturing/       # OEE, quality control
+│   │   ├── finance/             # Financial formulas, importers
+│   │   ├── data_science/        # Statistical formulas, ML metrics
+│   │   ├── biology/             # Biology formulas, plate readers
+│   │   ├── manufacturing/       # OEE formulas, MES importers
 │   │   ├── electrical_engineering/
 │   │   ├── mechanical_engineering/
 │   │   ├── civil_engineering/
-│   │   └── education/           # Gradebooks, rubrics
+│   │   └── education/           # Education formulas, importers
 │   └── themes/                  # Theme YAML files (5 built-in)
 ├── tests/                       # Test suite (3,206 tests)
 ├── examples/                    # Usage examples

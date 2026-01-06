@@ -37,7 +37,6 @@ SpreadsheetDL is a universal spreadsheet definition language that lets you creat
 
 - [Builder API Reference](api/builder.md) - Fluent API for spreadsheet construction
 - [Theme Creation Guide](guides/theme-creation.md) - Create custom visual themes
-- [Template Creation Guide](guides/template-creation.md) - Build reusable templates
 - [Style Composition Guide](guides/style-composition.md) - Advanced styling techniques
 - [Best Practices Guide](guides/best-practices.md) - Development best practices
 - [Plugin Development Guide](guides/plugin-development.md) - Create custom plugins
@@ -62,7 +61,6 @@ SpreadsheetDL is a universal spreadsheet definition language that lets you creat
 
 #### 💰 Finance Domain
 
-- **Templates**: Monthly budget, financial statements, invoices, expense reports
 - **Formulas**: NPV, IRR, PMT, PV, FV (financial functions)
 - **Importers**: Bank CSV (50+ banks), Plaid API integration
 - **Utils**: Account management, budget analytics, alerts, recurring expenses
@@ -70,16 +68,15 @@ SpreadsheetDL is a universal spreadsheet definition language that lets you creat
 
 #### 🔬 Data Science Domain
 
-- **Templates**: Experiment log, dataset catalog, analysis report, A/B test results, model comparison
 - **Formulas**: Statistical tests (TTEST, FTEST, ZTEST), ML metrics (confusion matrix, F1, precision, recall)
 - **Importers**: Scientific CSV, MLflow experiment import, Jupyter notebook
 - **Utils**: Plotting helpers, statistical utilities
 
 #### ⚙️ Engineering Domains
 
-- **Electrical**: BOM, pin mapping, power budget, signal routing, component importers
-- **Mechanical**: Stress analysis, tolerance stack-up, material properties, CAD metadata, FEA results
-- **Civil**: Load calculations, structural analysis, concrete mix design, survey data, building codes
+- **Electrical**: Pin mapping formulas, power budget calculations, component importers
+- **Mechanical**: Stress analysis formulas, tolerance calculations, material properties, CAD importers
+- **Civil**: Load calculation formulas, structural analysis, concrete mix formulas, survey importers
 
 ## Version
 
@@ -87,11 +84,11 @@ Current version: **v4.0.0** 🎉 _First Public Release_
 
 ### What's New in v4.0.0
 
-- **Template Engine** - Define spreadsheets declaratively in YAML
+- **Template Engine** - Define custom spreadsheets declaratively in YAML
   - Variable substitution with `${...}` syntax
   - Built-in functions (month_name, format_currency, etc.)
   - Conditional content rendering
-  - Reusable components
+  - Reusable components for your own templates
 
 - **Enhanced Theme System**
   - Color palette management with accessibility checking

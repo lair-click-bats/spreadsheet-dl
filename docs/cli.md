@@ -37,14 +37,13 @@ spreadsheet-dl generate [OPTIONS]
 
 **Options:**
 
-| Option                | Description               | Default           |
-| --------------------- | ------------------------- | ----------------- |
-| `-o, --output PATH`   | Output directory or file  | Current directory |
-| `-m, --month MONTH`   | Month number (1-12)       | Current month     |
-| `-y, --year YEAR`     | Year                      | Current year      |
-| `-t, --template NAME` | Budget template           | None              |
-| `--theme NAME`        | Visual theme              | None              |
-| `--empty-rows N`      | Empty rows for data entry | 50                |
+| Option              | Description               | Default           |
+| ------------------- | ------------------------- | ----------------- |
+| `-o, --output PATH` | Output directory or file  | Current directory |
+| `-m, --month MONTH` | Month number (1-12)       | Current month     |
+| `-y, --year YEAR`   | Year                      | Current year      |
+| `--theme NAME`      | Visual theme              | None              |
+| `--empty-rows N`    | Empty rows for data entry | 50                |
 
 **Examples:**
 
@@ -55,8 +54,8 @@ spreadsheet-dl generate -o ./budgets/
 # Specific month/year
 spreadsheet-dl generate -m 6 -y 2025
 
-# With template and theme
-spreadsheet-dl generate -t family --theme corporate -o ./budgets/
+# With theme
+spreadsheet-dl generate --theme corporate -o ./budgets/
 ```
 
 ---
@@ -297,9 +296,9 @@ spreadsheet-dl upload FILE [OPTIONS]
 
 ---
 
-### templates
+### templates (deprecated)
 
-List available budget templates.
+Shows deprecation message. Templates have been removed from SpreadsheetDL.
 
 ```bash
 spreadsheet-dl templates [OPTIONS]
@@ -310,6 +309,8 @@ spreadsheet-dl templates [OPTIONS]
 | Option   | Description    |
 | -------- | -------------- |
 | `--json` | Output as JSON |
+
+> **Note:** Use the examples directory for learning and the builder API for creating spreadsheets.
 
 ---
 

@@ -7,6 +7,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- towncrier release notes start -->
 
+## [Unreleased]
+
+### Changed
+
+- **Template System Simplified** - Removed pre-built budget templates and domain templates
+  - Domain plugins now focus on formulas, importers, and utilities (universal mathematical tools)
+  - Template engine infrastructure retained for user-defined templates
+  - Theme system unchanged (5 built-in visual themes)
+  - See examples directory for canonical learning path
+
+### Removed
+
+- Budget templates (`50_30_20`, `family`, `minimalist`, `zero_based`, `fire`, `high_income`)
+- Domain-specific templates (9 domains)
+- CLI `--template` / `-t` flag from generate command
+- `templates` CLI command (now shows deprecation message)
+- `docs/api/templates/` documentation
+- `docs/guides/template-creation.md` guide
+
+### Migration
+
+If you were using budget templates, create allocations programmatically:
+
+```python
+from spreadsheet_dl import OdsGenerator, BudgetAllocation, ExpenseCategory
+from decimal import Decimal
+
+# Create your own allocations instead of using templates
+allocations = [
+    BudgetAllocation(ExpenseCategory.HOUSING, Decimal("1500")),
+    BudgetAllocation(ExpenseCategory.GROCERIES, Decimal("600")),
+    # Add more as needed
+]
+
+generator = OdsGenerator(theme="default")
+generator.create_budget_spreadsheet("budget.ods", budget_allocations=allocations)
+```
+
+---
+
 ## [4.0.0] - 2026-01-04 - First Public Release
 
 **Note:** This is the first public release of SpreadsheetDL. The v4.0.0 version number reflects extensive private development and refinement through multiple major iterations. This version represents a mature, production-ready codebase with comprehensive testing (3,206 tests, 71% coverage) and complete documentation.
