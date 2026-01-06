@@ -1,6 +1,6 @@
-# EditorConfig for Workspace Template
+# EditorConfig for SpreadsheetDL
 # https://editorconfig.org
-# Standardized across all repositories
+# Standardized formatting configuration
 
 root = true
 
@@ -17,7 +17,7 @@ max_line_length = 120
 # Python files (line length matches ruff in pyproject.toml)
 [*.{py,pyi}]
 indent_size = 4
-max_line_length = 100
+max_line_length = 88
 
 # Configuration files (YAML, JSON, TOML)
 [*.{yaml,yml}]
@@ -33,7 +33,7 @@ indent_size = 4
 [*.{html,htm,css,js,ts,jsx,tsx}]
 indent_size = 2
 
-# Shell scripts - 4 spaces (matches shfmt -i 4 in fix.sh)
+# Shell scripts - 4 spaces (matches shfmt -i 4)
 [*.{sh,bash}]
 indent_size = 4
 
@@ -102,4 +102,11 @@ indent_size = 2
 
 # VS Code config files
 [.vscode/*.json]
+indent_size = 2
+
+# SpreadsheetDL YAML definitions
+[*.spreadsheet-dl.{yaml,yml}]
+indent_size = 2
+
+[spreadsheet-dl.{yaml,yml}]
 indent_size = 2

@@ -1,4 +1,4 @@
-# Yamllint configuration for Workspace Template
+# Yamllint configuration for SpreadsheetDL
 # https://yamllint.readthedocs.io/
 # Run: yamllint .
 
@@ -14,11 +14,18 @@ ignore: |
   .venv/
   node_modules/
   .git/
+  .coordination/
+  changelog.d/
+  .cspell/
+  .pytest_cache/
+  __pycache__/
+  .mypy_cache/
+  .ruff_cache/
 
 rules:
-  # Line length - allow longer lines for readability
+  # Line length - align with Prettier printWidth (100)
   line-length:
-    max: 120
+    max: 100
     allow-non-breakable-words: true
     allow-non-breakable-inline-mappings: true
 
@@ -109,7 +116,8 @@ rules:
   # Truthy values - YAML 1.2 compliance (true/false only)
   # NOTE: YAML 1.2 only recognizes true/false as booleans
   # yes/no/on/off were YAML 1.1 and can cause ambiguity
+  # GitHub Actions uses 'on' as a key, so we allow it
   truthy:
-    allowed-values: ["true", "false"]
-    check-keys: true
+    allowed-values: ["true", "false", "on"]
+    check-keys: false
     level: warning

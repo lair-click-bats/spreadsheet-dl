@@ -1,12 +1,17 @@
 # =============================================================================
-# ShellCheck Configuration for Workspace Template
+# ShellCheck Configuration for SpreadsheetDL
 # =============================================================================
 # https://github.com/koalaman/shellcheck/wiki/Directive
+# ShellCheck version: 0.9.0 (verified 2026-01-06)
+#
+# Philosophy (aligned with CLAUDE.md):
+# "Simplest solution that works. Complexity must justify itself."
 #
 # This configuration balances strictness with practicality:
-# - Keeps important safety checks enabled (word splitting, quoting)
-# - Disables noisy warnings that don't indicate real bugs
+# - Keeps important safety checks enabled (word splitting, quoting, arrays)
+# - Disables pedantic style warnings that conflict with repository patterns
 # - Enables external source following for multi-file scripts
+# - Enables select optional checks for error handling and portability
 # =============================================================================
 
 # =============================================================================
@@ -35,8 +40,9 @@ source-path=SCRIPTDIR/../../lib
 disable=SC2155
 
 # SC2250: Prefer ${var} over $var for clarity.
-# Rationale: Style preference - $var is valid and often cleaner.
-disable=SC2250
+# Rationale: Enforced by require-variable-braces. Consistency and IDE support.
+# Disabled comments handled by inline shellcheck directives where needed.
+# disable=SC2250  # Enabled - enforced by require-variable-braces
 
 # SC2310: Function invoked in if condition disables set -e.
 # Rationale: This is often an intentional pattern for error handling.
@@ -52,13 +58,14 @@ disable=SC2249
 disable=SC2312
 
 # SC2248: Prefer quoting even safe variables.
-# Rationale: Too pedantic - empty or flag variables don't need quotes.
+# Rationale: Too noisy for intentional word-splitting patterns (JSON_ARGS, VERBOSE_ARGS, etc).
+# Conflicts with common bash idiom of using empty-or-value variables for optional args.
+# Use inline `# shellcheck disable=SC2086` for intentional word splits instead.
 disable=SC2248
 
 # SC2292: Prefer [[ ]] over [ ] for tests.
-# Rationale: While [[ ]] is better, forcing this creates too much churn.
-# New code should use [[ ]], but existing [ ] is acceptable.
-disable=SC2292
+# Rationale: Enforced by require-double-brackets. Bash best practice.
+# disable=SC2292  # Enabled - enforced by require-double-brackets
 
 # SC2034: Variable appears unused.
 # Rationale: Color/formatting variables and trap functions may appear unused.
@@ -81,11 +88,12 @@ enable=deprecate-which
 # Warn about unassigned uppercase variables (often typos or missing exports)
 enable=check-unassigned-uppercase
 
-# Suggest using ${var} instead of $var (consistency)
+# Suggest using ${var} instead of $var (consistency and IDE support)
 enable=require-variable-braces
 
-# Suggest quoting variables even when safe (defense in depth)
-enable=quote-safe-variables
+# NOTE: quote-safe-variables is NOT enabled.
+# Rationale: Conflicts with SC2248 (disabled above) - same underlying issue.
+# Would flag all optional arg patterns: ${JSON_ARGS} ${VERBOSE_ARGS}
 
 # Check for additional masked return values (comprehensive error handling)
 enable=check-extra-masked-returns

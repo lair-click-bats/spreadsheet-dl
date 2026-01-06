@@ -1,4 +1,4 @@
-# Git attributes for Workspace Template
+# Git attributes for SpreadsheetDL
 # Cross-platform support (Linux, macOS, Windows)
 # https://git-scm.com/docs/gitattributes
 
@@ -140,6 +140,16 @@ docker-compose*.yaml text eol=lf
 .dockerignore text eol=lf
 
 # =============================================================================
+# SpreadsheetDL specific
+# =============================================================================
+
+# SpreadsheetDL YAML definitions
+spreadsheet-dl.yaml text eol=lf
+spreadsheet-dl.yml text eol=lf
+*.spreadsheet-dl.yaml text eol=lf
+*.spreadsheet-dl.yml text eol=lf
+
+# =============================================================================
 # Dotfiles and editor configs
 # =============================================================================
 
@@ -247,6 +257,7 @@ CMakeLists.txt text eol=lf
 *.docx binary
 *.xls binary
 *.xlsx binary
+*.xlsm binary
 *.ppt binary
 *.pptx binary
 *.odt binary
@@ -317,6 +328,9 @@ build/** linguist-generated=true
 node_modules/** linguist-generated=true
 __pycache__/** linguist-generated=true
 
+# MkDocs generated
+site/** linguist-generated=true
+
 # =============================================================================
 # Vendor/third-party code
 # =============================================================================
@@ -344,3 +358,5 @@ docs/** linguist-documentation=true
 .idea export-ignore
 *.md export-ignore
 tests export-ignore
+.claude export-ignore
+.coordination export-ignore

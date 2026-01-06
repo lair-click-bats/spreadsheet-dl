@@ -1,38 +1,63 @@
 [project]
 name = "spreadsheet-dl"
 version = "4.0.1"
-description = "Define complex spreadsheets in Python or YAML, export to ODS/XLSX/PDF. Built-in domains for engineering, science, and finance. Native MCP server for Claude integration."
+description = "Universal spreadsheet definition language. Define once in Python or YAML, export to ODS/XLSX/PDF. Domain plugins for science, engineering, finance. Native MCP server for AI integration."
 readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "MIT" }
 authors = [{ name = "lair-click-bats" }]
 keywords = [
+    # Core positioning
     "spreadsheet",
     "definition-language",
     "declarative",
+    "universal",
+    # AI-native
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "ai",
+    "llm",
+    "claude",
+    "ai-integration",
+    # Format freedom
     "ods",
     "xlsx",
     "pdf",
-    "mcp",
-    "llm",
-    "claude",
+    "multi-format",
+    "libreoffice",
+    "excel",
+    # API approach
+    "declarative-api",
+    "builder",
+    "builder-pattern",
+    "fluent-api",
+    "dsl",
+    # Configuration
     "yaml",
     "template",
-    "builder",
-    "finance",
-    "budget",
-    "science",
+    "theme",
+    # Technical domains
+    "physics",
     "data-science",
-    "biology",
+    "statistics",
+    "machine-learning",
     "engineering",
     "electrical-engineering",
     "mechanical-engineering",
     "civil-engineering",
+    "chemistry",
+    "biology",
     "manufacturing",
     "education",
+    "finance",
+    # Use cases
+    "report-generation",
+    "automation",
     "formula",
     "chart",
-    "automation",
+    "budget",
+    "scientific-computing",
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -68,6 +93,7 @@ dev = [
     "pandas-stubs>=2.1.0",
     "types-requests>=2.31.0",
     "types-PyYAML>=6.0.0",
+    "types-beautifulsoup4>=4.12.0",
     "towncrier>=24.8.0",
 ]
 docs = [
@@ -154,7 +180,7 @@ ignore = [
 convention = "google"
 
 [tool.ruff.lint.per-file-ignores]
-"tests/*" = ["D"]  # Don't require docstrings in tests
+"tests/*" = ["D", "TCH"]  # Don't require docstrings or type-checking imports in tests
 "examples/*" = ["D"]  # Don't require docstrings in examples
 "src/spreadsheet_dl/domains/*/formulas/*" = ["D417"]  # **kwargs for API compat
 
@@ -217,6 +243,8 @@ markers = [
     "builder: Builder API tests",
     "templates: Template system tests",
     "visualization: Chart and visualization tests",
+    "charts: Chart rendering tests",
+    "advanced_tools: MCP advanced tool handler tests",
 ]
 
 [tool.coverage.run]

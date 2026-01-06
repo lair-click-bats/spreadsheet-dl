@@ -1,5 +1,5 @@
-# Markdownlint configuration for Workspace Template
-# Standardized across documentation repositories
+# Markdownlint configuration for SpreadsheetDL
+# Standardized formatting for project documentation
 # Balances consistency with practical documentation needs
 
 default:
@@ -55,6 +55,17 @@ MD033:
     - sup # Superscript
     - details # Collapsible sections
     - summary # Collapsible section headers
+    - img # Images with custom attributes
+    - div # MkDocs Material admonitions and tabs
+    - span # Inline styling and icons
+    - a # Links with custom attributes
+    - code # Code with attributes
+    - figure # Figure elements for images
+    - figcaption # Figure captions
+    - picture # Responsive images
+    - source # Picture sources
+    - video # Video embeds
+    - iframe # Embedded content (demos, videos)
 
   # MD034: Bare URLs
 MD034:

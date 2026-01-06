@@ -1,8 +1,10 @@
-# Prettier Configuration for Workspace Template
+# Prettier Configuration for SpreadsheetDL
 # Reference: https://prettier.io/docs/en/options
 #
-# Standardized across multi-language projects
+# Standardized formatting for non-Python files
 # Compatible with yamllint (.yamllint.yaml) and EditorConfig (.editorconfig)
+#
+# Note: Python files are formatted by ruff (see pyproject.toml)
 
 # =============================================================================
 # Global Settings (apply to all supported file types)
@@ -47,19 +49,16 @@ overrides:
   - files: ["*.json", "*.jsonc", ".prettierrc"]
     options:
       printWidth: 80
-      tabWidth: 2
 
   # YAML files - configuration standard
   - files: ["*.yaml", "*.yml"]
     options:
-      tabWidth: 2
       singleQuote: false # YAML typically uses double quotes or unquoted
 
   # Markdown files - preserve prose formatting
   - files: ["*.md", "*.mdx"]
     options:
       proseWrap: preserve
-      tabWidth: 2
       printWidth: 80
 
   # HTML/template files
@@ -78,4 +77,3 @@ overrides:
   - files: [".eslintrc", ".babelrc", "tsconfig.json", "package.json"]
     options:
       printWidth: 80
-      tabWidth: 2

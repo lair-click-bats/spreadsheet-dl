@@ -1,5 +1,5 @@
 # =============================================================================
-# .lycheeignore - Link Validation Exclusion Patterns
+# .lycheeignore - Link Validation Exclusion Patterns for SpreadsheetDL
 # =============================================================================
 # Patterns for lychee to ignore during link validation
 # Syntax: glob patterns and regex (one per line)
@@ -20,6 +20,9 @@
 **/.next/**
 **/.cache/**
 
+# Generated documentation (MkDocs)
+**/site/**
+
 # Generated files
 **/*link-audit*
 **/*report*
@@ -35,6 +38,8 @@
 
 # Agent outputs (temporary)
 **/.claude/agent-outputs/**
+**/.claude/checkpoints/**
+**/.claude/summaries/**
 
 # Git
 **/.git/**
@@ -48,3 +53,21 @@
 **/*.tmp
 **/*.temp
 **/.DS_Store
+
+# Changelog fragments (towncrier managed)
+**/changelog.d/**
+
+# Spellcheck cache
+**/.cspell/**
+
+# Spreadsheet output files (binary, no links to check)
+**/*.ods
+**/*.xlsx
+**/*.xls
+**/*.xlsm
+**/*.csv
+
+# Lock files (auto-generated)
+**/uv.lock
+**/poetry.lock
+**/Pipfile.lock

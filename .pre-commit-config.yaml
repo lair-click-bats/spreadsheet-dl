@@ -8,7 +8,7 @@ repos:
   # General file checks
   # ==========================================================================
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v6.0.0
+    rev: v5.0.0
     hooks:
       - id: check-yaml
         args: [--unsafe] # Allow custom YAML tags
@@ -25,10 +25,13 @@ repos:
         args: [--maxkb=500]
       - id: mixed-line-ending
         args: [--fix=lf]
+      - id: check-case-conflict
+      - id: check-symlinks
+      - id: detect-private-key
 
-    # ==========================================================================
-    # Python: Ruff (linting + formatting)
-    # ==========================================================================
+  # ==========================================================================
+  # Python: Ruff (linting + formatting)
+  # ==========================================================================
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.14.10
     hooks:
@@ -38,69 +41,71 @@ repos:
       - id: ruff-format
         types_or: [python, pyi]
 
-    # ==========================================================================
-    # Python: Docstring coverage with interrogate
-    # ==========================================================================
+  # ==========================================================================
+  # Python: Type checking with mypy
+  # ==========================================================================
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.19.0
+    hooks:
+      - id: mypy
+        args: [--config-file=pyproject.toml]
+        additional_dependencies:
+          - pandas-stubs>=2.1.0
+          - types-requests>=2.31.0
+          - types-PyYAML>=6.0.0
+          - types-beautifulsoup4>=4.12.0
+          - rich>=13.0.0
+          - pandas>=2.1.0
+          - requests>=2.31.0
+        pass_filenames: false
+        # Run on src/ only - tests have relaxed type requirements
+        entry: mypy src/
+
+  # ==========================================================================
+  # Python: Docstring coverage with interrogate
+  # ==========================================================================
   - repo: https://github.com/econchick/interrogate
     rev: 1.7.0
     hooks:
       - id: interrogate
-        args:
-          - --fail-under=80
-          - --ignore-init-method
-          - --ignore-init-module
-          - --ignore-magic
-          - --ignore-semiprivate
-          - --ignore-private
-          - --ignore-property-decorators
-          - --ignore-nested-functions
-          - --ignore-nested-classes
-          - --exclude=tests
-          - --exclude=examples
-          - --exclude=.claude
+        # Configuration in pyproject.toml [tool.interrogate]
+        args: [-c, pyproject.toml]
         pass_filenames: false
 
-    # ==========================================================================
-    # Shell scripts: ShellCheck
-    # ==========================================================================
+  # ==========================================================================
+  # Shell scripts: ShellCheck
+  # ==========================================================================
   - repo: https://github.com/shellcheck-py/shellcheck-py
     rev: v0.10.0.1
     hooks:
       - id: shellcheck
         args: [--severity=warning]
 
-    # ==========================================================================
-    # YAML: yamllint
-    # ==========================================================================
+  # ==========================================================================
+  # YAML: yamllint
+  # ==========================================================================
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.37.0
+    rev: v1.37.1
     hooks:
       - id: yamllint
         args: [-c, .yamllint.yaml]
         exclude: ^(\.pre-commit-config\.yaml|uv\.lock)$
 
-    # ==========================================================================
-    # Markdown: markdownlint
-    # ==========================================================================
+  # ==========================================================================
+  # Markdown: markdownlint
+  # ==========================================================================
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.44.0
+    rev: v0.45.0
     hooks:
       - id: markdownlint
         args: [--config, .markdownlint.yaml, --fix]
-        exclude: ^\.vscode/
+        exclude: ^(\.vscode/|\.claude/)
 
-    # ==========================================================================
-    # Local hooks: JSONC validation
-    # ==========================================================================
+  # ==========================================================================
+  # Local hooks: JSONC validation
+  # ==========================================================================
   - repo: local
     hooks:
-      - id: validate-yaml-syntax
-        name: Validate YAML syntax
-        entry: uv run python -c "import yaml, sys; yaml.safe_load(open(sys.argv[1]))"
-        language: system
-        types: [yaml]
-        exclude: ^(\.pre-commit-config\.yaml|mkdocs\.yml)$
-
       - id: validate-jsonc
         name: Validate JSON/JSONC files
         entry: ./scripts/tools/jsonc.sh --check
@@ -108,14 +113,14 @@ repos:
         types: [json]
         # Include all JSON files - jsonc.sh handles JSONC files automatically
 
-  # ==========================================================================
-  # CI configuration
-  # ==========================================================================
+# ==========================================================================
+# CI configuration
+# ==========================================================================
 ci:
   autofix_commit_msg: "style: auto-fix from pre-commit hooks"
   autofix_prs: true
   autoupdate_branch: ""
   autoupdate_commit_msg: "chore: update pre-commit hooks"
   autoupdate_schedule: monthly
-  skip: []
+  skip: [mypy] # Skip mypy in pre-commit.ci (needs additional deps)
   submodules: false

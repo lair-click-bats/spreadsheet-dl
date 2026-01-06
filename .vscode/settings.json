@@ -47,9 +47,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
     "source.organizeImports": "explicit"
-  },
-  // Note: editor.codeActionsOnSaveTimeout was deprecated in VS Code 1.44+
-  // VS Code now handles timeouts automatically with improved mechanisms
+  }
 
   // Trailing whitespace: Global trim enabled, language overrides preserve for markdown/jinja
   "files.trimTrailingWhitespace": true,
@@ -559,6 +557,10 @@
     "editor.formatOnSave": true,
     "cSpell.enabled": false
   },
+
+  // Even Better TOML: Disable schema validation to prevent false positives
+  // The extension incorrectly parses nested TOML tables as JSON strings
+  "evenBetterToml.schema.enabled": false,
 
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features",
