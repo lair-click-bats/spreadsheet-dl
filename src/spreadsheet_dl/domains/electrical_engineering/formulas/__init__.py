@@ -7,6 +7,8 @@ Provides domain-specific formulas for:
 - Power calculations (dissipation, voltage drop, current)
 - Impedance calculations (parallel/series resistance, capacitance, inductance)
 - Signal analysis (SNR, bandwidth, rise time, propagation delay)
+- Digital circuits (logic gates, binary conversions)
+- Filter design (cutoff frequencies, Q factor, attenuation)
 """
 
 from spreadsheet_dl.domains.electrical_engineering.formulas.ac_circuits import (
@@ -15,6 +17,20 @@ from spreadsheet_dl.domains.electrical_engineering.formulas.ac_circuits import (
     Reactance,
     ResonantFrequency,
     RMSValue,
+)
+from spreadsheet_dl.domains.electrical_engineering.formulas.digital import (
+    BinaryToDecimalFormula,
+    DecimalToBinaryFormula,
+    LogicNANDFormula,
+    LogicNORFormula,
+    LogicXORFormula,
+)
+from spreadsheet_dl.domains.electrical_engineering.formulas.filters import (
+    BandPassCenterFormula,
+    FilterAttenuationFormula,
+    HighPassCutoffFormula,
+    LowPassCutoffFormula,
+    QFactorFormula,
 )
 from spreadsheet_dl.domains.electrical_engineering.formulas.impedance import (
     CapacitanceFormula,
@@ -36,23 +52,35 @@ from spreadsheet_dl.domains.electrical_engineering.formulas.signal import (
 )
 
 __all__ = [
+    # Signal formulas
     "BandwidthFormula",
+    # Filter formulas
+    "BandPassCenterFormula",
+    # Digital formulas
+    "BinaryToDecimalFormula",
     "CapacitanceFormula",
     "ComplexImpedance",
     "CurrentCalcFormula",
+    "DecimalToBinaryFormula",
+    "FilterAttenuationFormula",
+    "HighPassCutoffFormula",
     "InductanceFormula",
+    "LogicNANDFormula",
+    "LogicNORFormula",
+    "LogicXORFormula",
+    "LowPassCutoffFormula",
     # Impedance formulas
     "ParallelResistanceFormula",
     # Power formulas
     "PowerDissipationFormula",
     "PowerFactor",
     "PropagationDelayFormula",
+    "QFactorFormula",
     "RMSValue",
     "Reactance",
     "ResonantFrequency",
     "RiseTimeFormula",
     "SeriesResistanceFormula",
-    # Signal formulas
     "SignalToNoiseRatioFormula",
     "ThermalResistanceFormula",
     "VoltageDropFormula",

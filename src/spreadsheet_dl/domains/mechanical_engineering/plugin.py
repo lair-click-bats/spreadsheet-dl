@@ -3,9 +3,10 @@
 Implements:
     Mechanical Engineering domain plugin
     PHASE-C: Domain plugin implementations
+    BATCH2-MECH: Extended with fluid mechanics and heat transfer formulas
 
 Provides mechanical engineering-specific functionality including:
-- Stress/strain, moment, thermal, and fatigue formulas
+- Stress/strain, moment, thermal, fatigue, and fluid mechanics formulas
 - CAD metadata, FEA results, and material database importers
 """
 
@@ -19,6 +20,14 @@ from spreadsheet_dl.domains.mechanical_engineering.formulas.fatigue import (
     SafetyFactorFormula,
     StressConcentrationFormula,
 )
+from spreadsheet_dl.domains.mechanical_engineering.formulas.fluid_mechanics import (
+    BernoulliEquation,
+    DarcyWeisbach,
+    DragForce,
+    LiftForce,
+    PoiseuilleLaw,
+    ReynoldsNumber,
+)
 from spreadsheet_dl.domains.mechanical_engineering.formulas.moment import (
     BendingStressFormula,
     MomentOfInertiaFormula,
@@ -30,7 +39,13 @@ from spreadsheet_dl.domains.mechanical_engineering.formulas.stress_strain import
     YoungsModulusFormula,
 )
 from spreadsheet_dl.domains.mechanical_engineering.formulas.thermal import (
+    ConvectionCoefficient,
+    FinEfficiency,
+    LogMeanTempDiff,
+    NusseltNumber,
+    RadiationHeatTransfer,
     ThermalExpansionFormula,
+    ThermalResistance,
     ThermalStressFormula,
 )
 
@@ -52,11 +67,12 @@ class MechanicalEngineeringDomainPlugin(BaseDomainPlugin):
     Implements:
         Complete Mechanical Engineering domain plugin
         PHASE-C: Domain plugin implementations
+        BATCH2-MECH: Extended with 12 new formulas
 
     Provides comprehensive mechanical engineering functionality for SpreadsheetDL
     with formulas and importers tailored for mechanical design and analysis.
 
-    Formulas (11 total):
+    Formulas (23 total):
         Stress/Strain (3):
         - STRESS: Stress calculation
         - STRAIN: Strain calculation
@@ -67,9 +83,23 @@ class MechanicalEngineeringDomainPlugin(BaseDomainPlugin):
         - BENDING_STRESS: Bending stress
         - TORSIONAL_STRESS: Torsional stress
 
-        Thermal (2):
+        Thermal (8):
         - THERMAL_EXPANSION: Thermal expansion
         - THERMAL_STRESS: Thermal stress
+        - CONVECTION_COEFFICIENT: Heat transfer coefficient
+        - RADIATION_HEAT_TRANSFER: Radiative heat transfer
+        - THERMAL_RESISTANCE: Resistance to heat flow
+        - LOG_MEAN_TEMP_DIFF: LMTD for heat exchangers
+        - FIN_EFFICIENCY: Extended surface efficiency
+        - NUSSELT_NUMBER: Convection characterization
+
+        Fluid Mechanics (6):
+        - REYNOLDS_NUMBER: Flow regime determination
+        - BERNOULLI_EQUATION: Total energy per unit volume
+        - DARCY_WEISBACH: Pressure drop in pipes
+        - POISEUILLE_LAW: Viscous flow rate
+        - DRAG_FORCE: Fluid resistance force
+        - LIFT_FORCE: Aerodynamic lift
 
         Fatigue (3):
         - FATIGUE_LIFE: Fatigue life calculation
@@ -111,6 +141,8 @@ class MechanicalEngineeringDomainPlugin(BaseDomainPlugin):
                 "manufacturing",
                 "fea",
                 "cad",
+                "fluid-mechanics",
+                "heat-transfer",
             ),
             min_spreadsheet_dl_version="4.0.0",
         )
@@ -122,6 +154,7 @@ class MechanicalEngineeringDomainPlugin(BaseDomainPlugin):
 
         Implements:
             Plugin initialization with all components
+            BATCH2-MECH: Extended registration with new formulas
 
         Raises:
             Exception: If initialization fails
@@ -136,9 +169,23 @@ class MechanicalEngineeringDomainPlugin(BaseDomainPlugin):
         self.register_formula("BENDING_STRESS", BendingStressFormula)
         self.register_formula("TORSIONAL_STRESS", TorsionalStressFormula)
 
-        # Register thermal formulas (2 total)
+        # Register thermal formulas (8 total - 2 original + 6 new)
         self.register_formula("THERMAL_EXPANSION", ThermalExpansionFormula)
         self.register_formula("THERMAL_STRESS", ThermalStressFormula)
+        self.register_formula("CONVECTION_COEFFICIENT", ConvectionCoefficient)
+        self.register_formula("RADIATION_HEAT_TRANSFER", RadiationHeatTransfer)
+        self.register_formula("THERMAL_RESISTANCE", ThermalResistance)
+        self.register_formula("LOG_MEAN_TEMP_DIFF", LogMeanTempDiff)
+        self.register_formula("FIN_EFFICIENCY", FinEfficiency)
+        self.register_formula("NUSSELT_NUMBER", NusseltNumber)
+
+        # Register fluid mechanics formulas (6 total - NEW)
+        self.register_formula("REYNOLDS_NUMBER", ReynoldsNumber)
+        self.register_formula("BERNOULLI_EQUATION", BernoulliEquation)
+        self.register_formula("DARCY_WEISBACH", DarcyWeisbach)
+        self.register_formula("POISEUILLE_LAW", PoiseuilleLaw)
+        self.register_formula("DRAG_FORCE", DragForce)
+        self.register_formula("LIFT_FORCE", LiftForce)
 
         # Register fatigue formulas (3 total)
         self.register_formula("FATIGUE_LIFE", FatigueLifeFormula)
@@ -168,8 +215,11 @@ class MechanicalEngineeringDomainPlugin(BaseDomainPlugin):
 
         Implements:
             Plugin validation
+            BATCH2-MECH: Updated to require 23 formulas (11 original + 12 new)
         """
-        required_formulas = 11  # 3 stress/strain + 3 moment + 2 thermal + 3 fatigue
+        required_formulas = (
+            23  # 3 stress/strain + 3 moment + 8 thermal + 6 fluid + 3 fatigue
+        )
         required_importers = 3
 
         return (

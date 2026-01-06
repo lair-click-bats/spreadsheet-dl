@@ -4,15 +4,16 @@ Quality and maintenance scripts for the SpreadsheetDL project.
 
 ## Quick Reference
 
-| Script        | Purpose                                    | When to Use                               |
-| ------------- | ------------------------------------------ | ----------------------------------------- |
-| `check.sh`    | Quick quality check (lint + format check)  | Before commits, after significant changes |
-| `lint.sh`     | Run all configured linters                 | When checking for issues                  |
-| `format.sh`   | Format all code files                      | When formatting is needed                 |
-| `clean.sh`    | Clean build artifacts and caches           | When builds are stale                     |
-| `doctor.sh`   | Environment health check                   | When tools seem broken                    |
-| `validate.sh` | **Full validation suite (recommended CI)** | **Before releases, in CI pipelines**      |
-| `fix.sh`      | Auto-fix common issues                     | After lint failures                       |
+| Script          | Purpose                                    | When to Use                               |
+| --------------- | ------------------------------------------ | ----------------------------------------- |
+| `check.sh`      | Quick quality check (lint + format check)  | Before commits, after significant changes |
+| `lint.sh`       | Run all configured linters                 | When checking for issues                  |
+| `format.sh`     | Format all code files                      | When formatting is needed                 |
+| `clean.sh`      | Clean build artifacts and caches           | When builds are stale                     |
+| `doctor.sh`     | Environment health check                   | When tools seem broken                    |
+| `validate.sh`   | **Full validation suite (recommended CI)** | **Before releases, in CI pipelines**      |
+| `fix.sh`        | Auto-fix common issues                     | After lint failures                       |
+| `test-stats.sh` | Generate dynamic test statistics           | When you need current test counts         |
 
 ## Quality Scripts
 
@@ -113,6 +114,24 @@ Auto-fix common issues.
 ./scripts/fix.sh             # Auto-fix all files
 ./scripts/fix.sh --python    # Python only
 ```
+
+### test-stats.sh
+
+Generate dynamic test statistics.
+
+```bash
+./scripts/test-stats.sh      # Human-readable output
+./scripts/test-stats.sh --json # JSON output for CI/automation
+```
+
+Provides current test counts by:
+
+- Test level (unit, integration)
+- Domain (finance, science, engineering, manufacturing)
+- Feature (mcp, cli, builder, validation, rendering, templates, visualization)
+- Performance (slow, benchmark)
+
+**Note**: Statistics are always generated fresh from the current test suite, ensuring accuracy.
 
 ## Tool Wrappers
 

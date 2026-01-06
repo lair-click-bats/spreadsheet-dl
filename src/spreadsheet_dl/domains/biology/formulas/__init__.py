@@ -24,17 +24,35 @@ from spreadsheet_dl.domains.biology.formulas.ecology import (
     SimpsonIndexFormula,
     SpeciesRichnessFormula,
 )
+from spreadsheet_dl.domains.biology.formulas.genetics import (
+    Chi2GeneticsFormula,
+    HardyWeinbergFormula,
+    InbreedingCoefficientFormula,
+    LinkageDisequilibriumFormula,
+    RecombinationFrequencyFormula,
+)
 from spreadsheet_dl.domains.biology.formulas.molecular import (
     ConcentrationFormula,
     FoldChangeFormula,
     GCContentFormula,
     MeltingTempFormula,
 )
+from spreadsheet_dl.domains.biology.formulas.pharmacokinetics import (
+    ClearanceFormula,
+    HalfLifeFormula,
+    LoadingDoseFormula,
+    MaintenanceDoseFormula,
+    VolumeOfDistributionFormula,
+)
 
 __all__ = [
     # Biochemistry
     "BradfordAssayFormula",
     "CellDensity",
+    # Genetics
+    "Chi2GeneticsFormula",
+    # Pharmacokinetics
+    "ClearanceFormula",
     # Molecular Biology
     "ConcentrationFormula",
     "DilutionFactorFormula",
@@ -42,13 +60,21 @@ __all__ = [
     "EnzymeActivityFormula",
     "FoldChangeFormula",
     "GCContentFormula",
+    "HalfLifeFormula",
+    "HardyWeinbergFormula",
+    "InbreedingCoefficientFormula",
+    "LinkageDisequilibriumFormula",
+    "LoadingDoseFormula",
+    "MaintenanceDoseFormula",
     "MeltingTempFormula",
     "MichaelisMentenFormula",
     "PopulationGrowthFormula",
     # Ecology
+    "RecombinationFrequencyFormula",
     "ShannonDiversityFormula",
     "SimpsonIndexFormula",
     "SpeciesRichnessFormula",
     "SpecificGrowthRate",
     "ViabilityPercent",
+    "VolumeOfDistributionFormula",
 ]

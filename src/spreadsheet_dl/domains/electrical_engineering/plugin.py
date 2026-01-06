@@ -14,6 +14,20 @@ from __future__ import annotations
 from spreadsheet_dl.domains.base import BaseDomainPlugin, PluginMetadata
 
 # Import formulas
+from spreadsheet_dl.domains.electrical_engineering.formulas.digital import (
+    BinaryToDecimalFormula,
+    DecimalToBinaryFormula,
+    LogicNANDFormula,
+    LogicNORFormula,
+    LogicXORFormula,
+)
+from spreadsheet_dl.domains.electrical_engineering.formulas.filters import (
+    BandPassCenterFormula,
+    FilterAttenuationFormula,
+    HighPassCutoffFormula,
+    LowPassCutoffFormula,
+    QFactorFormula,
+)
 from spreadsheet_dl.domains.electrical_engineering.formulas.impedance import (
     CapacitanceFormula,
     InductanceFormula,
@@ -55,7 +69,7 @@ class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
     Provides comprehensive electrical engineering functionality for SpreadsheetDL
     with formulas and importers tailored for hardware/PCB design.
 
-    Formulas (12 total):
+    Formulas (22 total):
         Power (4):
         - POWER_DISSIPATION: Power dissipation calculation
         - VOLTAGE_DROP: Voltage drop calculation
@@ -73,6 +87,20 @@ class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
         - BANDWIDTH: Bandwidth calculation
         - RISE_TIME: Rise time calculation
         - PROPAGATION_DELAY: Propagation delay
+
+        Digital (5):
+        - LOGIC_NAND: NAND gate logic
+        - LOGIC_NOR: NOR gate logic
+        - LOGIC_XOR: XOR gate logic
+        - BINARY_TO_DECIMAL: Binary to decimal conversion
+        - DECIMAL_TO_BINARY: Decimal to binary conversion
+
+        Filters (5):
+        - LOW_PASS_CUTOFF: RC low-pass filter cutoff frequency
+        - HIGH_PASS_CUTOFF: CR high-pass filter cutoff frequency
+        - BAND_PASS_CENTER: Bandpass filter center frequency
+        - Q_FACTOR: Quality factor for resonant circuits
+        - FILTER_ATTENUATION: Filter attenuation at frequency
 
     Importers:
         - KiCadBOMImporter: KiCad BOM exports
@@ -142,6 +170,20 @@ class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
         self.register_formula("RISE_TIME", RiseTimeFormula)
         self.register_formula("PROPAGATION_DELAY", PropagationDelayFormula)
 
+        # Register digital formulas (5 total)
+        self.register_formula("LOGIC_NAND", LogicNANDFormula)
+        self.register_formula("LOGIC_NOR", LogicNORFormula)
+        self.register_formula("LOGIC_XOR", LogicXORFormula)
+        self.register_formula("BINARY_TO_DECIMAL", BinaryToDecimalFormula)
+        self.register_formula("DECIMAL_TO_BINARY", DecimalToBinaryFormula)
+
+        # Register filter formulas (5 total)
+        self.register_formula("LOW_PASS_CUTOFF", LowPassCutoffFormula)
+        self.register_formula("HIGH_PASS_CUTOFF", HighPassCutoffFormula)
+        self.register_formula("BAND_PASS_CENTER", BandPassCenterFormula)
+        self.register_formula("Q_FACTOR", QFactorFormula)
+        self.register_formula("FILTER_ATTENUATION", FilterAttenuationFormula)
+
         # Register importers (3 total)
         self.register_importer("kicad_bom", KiCadBOMImporter)
         self.register_importer("eagle_bom", EagleBOMImporter)
@@ -166,7 +208,9 @@ class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
         Implements:
             Plugin validation
         """
-        required_formulas = 12  # 4 power + 4 impedance + 4 signal
+        required_formulas = (
+            22  # 4 power + 4 impedance + 4 signal + 5 digital + 5 filters
+        )
         required_importers = 3
 
         return (

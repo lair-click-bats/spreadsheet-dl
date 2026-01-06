@@ -66,19 +66,42 @@ def test_plugin_metadata() -> None:
 
 
 def test_plugin_initialization() -> None:
-    """Test plugin initialization."""
+    """Test plugin initialization.
+
+    BATCH2-MECH: Verify all 23 formulas are registered (11 original + 12 new)
+    """
     plugin = MechanicalEngineeringDomainPlugin()
     plugin.initialize()
 
-    # Verify formulas registered (11 total)
+    # Verify stress/strain formulas registered (3 total)
     assert plugin.get_formula("STRESS") == StressFormula
     assert plugin.get_formula("STRAIN") == StrainFormula
     assert plugin.get_formula("YOUNGS_MODULUS") == YoungsModulusFormula
+
+    # Verify moment formulas registered (3 total)
     assert plugin.get_formula("MOMENT_OF_INERTIA") == MomentOfInertiaFormula
     assert plugin.get_formula("BENDING_STRESS") == BendingStressFormula
     assert plugin.get_formula("TORSIONAL_STRESS") == TorsionalStressFormula
+
+    # Verify thermal formulas registered (8 total - 2 original + 6 new)
     assert plugin.get_formula("THERMAL_EXPANSION") == ThermalExpansionFormula
     assert plugin.get_formula("THERMAL_STRESS") == ThermalStressFormula
+    assert plugin.get_formula("CONVECTION_COEFFICIENT") is not None
+    assert plugin.get_formula("RADIATION_HEAT_TRANSFER") is not None
+    assert plugin.get_formula("THERMAL_RESISTANCE") is not None
+    assert plugin.get_formula("LOG_MEAN_TEMP_DIFF") is not None
+    assert plugin.get_formula("FIN_EFFICIENCY") is not None
+    assert plugin.get_formula("NUSSELT_NUMBER") is not None
+
+    # Verify fluid mechanics formulas registered (6 total - NEW)
+    assert plugin.get_formula("REYNOLDS_NUMBER") is not None
+    assert plugin.get_formula("BERNOULLI_EQUATION") is not None
+    assert plugin.get_formula("DARCY_WEISBACH") is not None
+    assert plugin.get_formula("POISEUILLE_LAW") is not None
+    assert plugin.get_formula("DRAG_FORCE") is not None
+    assert plugin.get_formula("LIFT_FORCE") is not None
+
+    # Verify fatigue formulas registered (3 total)
     assert plugin.get_formula("FATIGUE_LIFE") == FatigueLifeFormula
     assert plugin.get_formula("SAFETY_FACTOR") == SafetyFactorFormula
     assert plugin.get_formula("STRESS_CONCENTRATION") == StressConcentrationFormula

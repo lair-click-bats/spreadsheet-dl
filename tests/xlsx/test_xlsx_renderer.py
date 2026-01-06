@@ -20,7 +20,7 @@ import pytest
 
 from spreadsheet_dl.builder import CellSpec, ColumnSpec, RowSpec, SheetSpec
 
-pytestmark = [pytest.mark.unit]
+pytestmark = [pytest.mark.unit, pytest.mark.rendering]
 
 
 # =============================================================================

@@ -1,4 +1,4 @@
-"""Comprehensive CLI commands tests - Part 3 (remaining commands)."""
+"""Configuration and utility CLI commands tests (banks, currency, alerts, templates, themes, config, plugin)."""
 
 from __future__ import annotations
 

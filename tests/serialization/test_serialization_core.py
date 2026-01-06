@@ -43,7 +43,7 @@ from spreadsheet_dl.serialization import (
     SpreadsheetEncoder,
 )
 
-pytestmark = [pytest.mark.unit]
+pytestmark = [pytest.mark.unit, pytest.mark.builder]
 
 # ==============================================================================
 # Fixtures

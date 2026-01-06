@@ -6,6 +6,7 @@ Implements:
 
 Provides comprehensive electrical engineering functionality including:
 - Power, impedance, and signal calculation formulas
+- Digital circuits and filter design formulas
 - KiCad, Eagle, and generic component importers
 
 Example:
@@ -19,6 +20,24 @@ Example:
 """
 
 # Plugin
+# Formulas - Digital
+from spreadsheet_dl.domains.electrical_engineering.formulas.digital import (
+    BinaryToDecimalFormula,
+    DecimalToBinaryFormula,
+    LogicNANDFormula,
+    LogicNORFormula,
+    LogicXORFormula,
+)
+
+# Formulas - Filters
+from spreadsheet_dl.domains.electrical_engineering.formulas.filters import (
+    BandPassCenterFormula,
+    FilterAttenuationFormula,
+    HighPassCutoffFormula,
+    LowPassCutoffFormula,
+    QFactorFormula,
+)
+
 # Formulas - Impedance
 from spreadsheet_dl.domains.electrical_engineering.formulas.impedance import (
     CapacitanceFormula,
@@ -61,21 +80,33 @@ from spreadsheet_dl.domains.electrical_engineering.plugin import (
 __all__ = [
     # Formulas - Signal
     "BandwidthFormula",
+    # Formulas - Filters
+    "BandPassCenterFormula",
+    # Formulas - Digital
+    "BinaryToDecimalFormula",
     # Formulas - Impedance
     "CapacitanceFormula",
     # Formulas - Power
     "CurrentCalcFormula",
+    "DecimalToBinaryFormula",
     # Importers
     "EagleBOMImporter",
     # Plugin
     "ElectricalEngineeringDomainPlugin",
+    "FilterAttenuationFormula",
     "GenericComponentCSVImporter",
+    "HighPassCutoffFormula",
     "InductanceFormula",
     "KiCadBOMImporter",
     "KiCadComponent",
+    "LogicNANDFormula",
+    "LogicNORFormula",
+    "LogicXORFormula",
+    "LowPassCutoffFormula",
     "ParallelResistanceFormula",
     "PowerDissipationFormula",
     "PropagationDelayFormula",
+    "QFactorFormula",
     "RiseTimeFormula",
     "SeriesResistanceFormula",
     "SignalToNoiseRatioFormula",

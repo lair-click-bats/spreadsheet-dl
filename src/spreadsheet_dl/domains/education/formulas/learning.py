@@ -497,11 +497,487 @@ class ReadabilityScoreFormula(BaseFormula):
         return f"0.39*({word_count}/{sentence_count})+11.8*({syllable_count}/{word_count})-15.59"
 
 
+@dataclass(slots=True, frozen=True)
+class LearningCurveFormula(BaseFormula):
+    """Calculate learning curve performance improvement.
+
+    Implements:
+        Learning curve: y = a * x^b (power law of practice)
+
+    Example:
+        >>> formula = LearningCurveFormula()
+        >>> result = formula.build("100", "5", "-0.322")
+        >>> # Returns performance at trial 5
+    """
+
+    @property
+    def metadata(self) -> FormulaMetadata:
+        """Get formula metadata.
+
+        Returns:
+            FormulaMetadata for LearningCurve
+
+        Implements:
+            Formula metadata
+        """
+        return FormulaMetadata(
+            name="LEARNING_CURVE",
+            category="education",
+            description="Calculate learning curve performance (power law of practice)",
+            arguments=(
+                FormulaArgument(
+                    "initial_performance",
+                    "number",
+                    required=True,
+                    description="Initial performance level",
+                ),
+                FormulaArgument(
+                    "trial_number",
+                    "number",
+                    required=True,
+                    description="Trial or practice attempt number",
+                ),
+                FormulaArgument(
+                    "learning_rate",
+                    "number",
+                    required=False,
+                    description="Learning rate exponent (default -0.322)",
+                    default=-0.322,
+                ),
+            ),
+            return_type="number",
+            examples=(
+                "=LEARNING_CURVE(100;5)",
+                "=LEARNING_CURVE(A1;A2;-0.3)",
+            ),
+        )
+
+    def build(self, *args: Any, **kwargs: Any) -> str:
+        """Build LearningCurve formula string.
+
+        Args:
+            *args: initial_performance, trial_number, [learning_rate]
+            **kwargs: Keyword arguments (optional)
+
+        Returns:
+            ODF formula string
+
+        Implements:
+            LearningCurve formula building
+
+        Raises:
+            ValueError: If arguments are invalid
+        """
+        self.validate_arguments(args)
+
+        initial = args[0]
+        trial = args[1]
+        rate = args[2] if len(args) > 2 else -0.322
+
+        # y = a * x^b
+        return f"{initial}*POWER({trial};{rate})"
+
+
+@dataclass(slots=True, frozen=True)
+class ForgettingCurveFormula(BaseFormula):
+    """Calculate Ebbinghaus forgetting curve (retention decay).
+
+    Implements:
+        R = e^(-t/S) where R=retention, t=time, S=strength
+
+    Example:
+        >>> formula = ForgettingCurveFormula()
+        >>> result = formula.build("7", "2")
+        >>> # Returns retention after 7 days
+    """
+
+    @property
+    def metadata(self) -> FormulaMetadata:
+        """Get formula metadata.
+
+        Returns:
+            FormulaMetadata for ForgettingCurve
+
+        Implements:
+            Formula metadata
+        """
+        return FormulaMetadata(
+            name="FORGETTING_CURVE",
+            category="education",
+            description="Calculate retention using Ebbinghaus forgetting curve",
+            arguments=(
+                FormulaArgument(
+                    "days_elapsed",
+                    "number",
+                    required=True,
+                    description="Days since learning",
+                ),
+                FormulaArgument(
+                    "memory_strength",
+                    "number",
+                    required=False,
+                    description="Memory strength factor (default 2)",
+                    default=2,
+                ),
+            ),
+            return_type="number",
+            examples=(
+                "=FORGETTING_CURVE(7)",
+                "=FORGETTING_CURVE(A1;3)",
+            ),
+        )
+
+    def build(self, *args: Any, **kwargs: Any) -> str:
+        """Build ForgettingCurve formula string.
+
+        Args:
+            *args: days_elapsed, [memory_strength]
+            **kwargs: Keyword arguments (optional)
+
+        Returns:
+            ODF formula string
+
+        Implements:
+            ForgettingCurve formula building
+
+        Raises:
+            ValueError: If arguments are invalid
+        """
+        self.validate_arguments(args)
+
+        days = args[0]
+        strength = args[1] if len(args) > 1 else 2
+
+        # R = e^(-t/S)
+        return f"EXP(-{days}/{strength})"
+
+
+@dataclass(slots=True, frozen=True)
+class SpacedRepetitionFormula(BaseFormula):
+    """Calculate optimal review interval for spaced repetition.
+
+    Implements:
+        Next interval = current_interval * ease_factor
+
+    Example:
+        >>> formula = SpacedRepetitionFormula()
+        >>> result = formula.build("3", "2.5", "1")
+        >>> # Returns next review interval
+    """
+
+    @property
+    def metadata(self) -> FormulaMetadata:
+        """Get formula metadata.
+
+        Returns:
+            FormulaMetadata for SpacedRepetition
+
+        Implements:
+            Formula metadata
+        """
+        return FormulaMetadata(
+            name="SPACED_REPETITION",
+            category="education",
+            description="Calculate optimal review interval for spaced repetition",
+            arguments=(
+                FormulaArgument(
+                    "current_interval",
+                    "number",
+                    required=True,
+                    description="Current interval in days",
+                ),
+                FormulaArgument(
+                    "ease_factor",
+                    "number",
+                    required=True,
+                    description="Ease factor (1.3-2.5, based on recall difficulty)",
+                ),
+                FormulaArgument(
+                    "performance",
+                    "number",
+                    required=True,
+                    description="Performance score (0-1, where 1 is perfect recall)",
+                ),
+            ),
+            return_type="number",
+            examples=(
+                "=SPACED_REPETITION(3;2.5;1)",
+                "=SPACED_REPETITION(A1;A2;A3)",
+            ),
+        )
+
+    def build(self, *args: Any, **kwargs: Any) -> str:
+        """Build SpacedRepetition formula string.
+
+        Args:
+            *args: current_interval, ease_factor, performance
+            **kwargs: Keyword arguments (optional)
+
+        Returns:
+            ODF formula string
+
+        Implements:
+            SpacedRepetition formula building
+
+        Raises:
+            ValueError: If arguments are invalid
+        """
+        self.validate_arguments(args)
+
+        interval = args[0]
+        ease = args[1]
+        performance = args[2]
+
+        # Next interval = current * ease * performance adjustment
+        # If performance < 0.6, reset to 1 day, else multiply by ease
+        return f"IF({performance}<0.6;1;{interval}*{ease})"
+
+
+@dataclass(slots=True, frozen=True)
+class MasteryLearningFormula(BaseFormula):
+    """Calculate Bloom 2-sigma effect for mastery learning.
+
+    Implements:
+        Achievement boost from mastery learning vs conventional
+
+    Example:
+        >>> formula = MasteryLearningFormula()
+        >>> result = formula.build("75", "2.0")
+        >>> # Returns expected mastery learning achievement
+    """
+
+    @property
+    def metadata(self) -> FormulaMetadata:
+        """Get formula metadata.
+
+        Returns:
+            FormulaMetadata for MasteryLearning
+
+        Implements:
+            Formula metadata
+        """
+        return FormulaMetadata(
+            name="MASTERY_LEARNING",
+            category="education",
+            description="Calculate Bloom 2-sigma mastery learning effect",
+            arguments=(
+                FormulaArgument(
+                    "baseline_score",
+                    "number",
+                    required=True,
+                    description="Baseline conventional instruction score",
+                ),
+                FormulaArgument(
+                    "sigma_effect",
+                    "number",
+                    required=False,
+                    description="Standard deviation effect size (default 2.0)",
+                    default=2.0,
+                ),
+                FormulaArgument(
+                    "population_sd",
+                    "number",
+                    required=False,
+                    description="Population standard deviation (default 15)",
+                    default=15,
+                ),
+            ),
+            return_type="number",
+            examples=(
+                "=MASTERY_LEARNING(75)",
+                "=MASTERY_LEARNING(A1;2.0;15)",
+            ),
+        )
+
+    def build(self, *args: Any, **kwargs: Any) -> str:
+        """Build MasteryLearning formula string.
+
+        Args:
+            *args: baseline_score, [sigma_effect], [population_sd]
+            **kwargs: Keyword arguments (optional)
+
+        Returns:
+            ODF formula string
+
+        Implements:
+            MasteryLearning formula building
+
+        Raises:
+            ValueError: If arguments are invalid
+        """
+        self.validate_arguments(args)
+
+        baseline = args[0]
+        sigma = args[1] if len(args) > 1 else 2.0
+        sd = args[2] if len(args) > 2 else 15
+
+        # Expected score = baseline + (sigma * SD)
+        return f"MIN({baseline}+({sigma}*{sd});100)"
+
+
+@dataclass(slots=True, frozen=True)
+class Bloom2SigmaFormula(BaseFormula):
+    """Convert percentile rank to standard deviations (Bloom's 2-sigma).
+
+    Implements:
+        BLOOM2SIGMA formula for effect size conversion
+
+    Converts percentile rank to z-score (standard deviations from mean).
+    Named after Bloom's 2-sigma finding that tutored students perform
+    2 standard deviations better than conventional instruction.
+
+    Example:
+        >>> formula = Bloom2SigmaFormula()
+        >>> result = formula.build("84")
+        >>> # Returns: "NORMSINV(84/100)" which is approximately 1.0
+    """
+
+    @property
+    def metadata(self) -> FormulaMetadata:
+        """Get formula metadata.
+
+        Returns:
+            FormulaMetadata for BLOOM2SIGMA
+
+        Implements:
+            Formula metadata
+        """
+        return FormulaMetadata(
+            name="BLOOM2SIGMA",
+            category="education",
+            description="Convert percentile rank to standard deviations (z-score)",
+            arguments=(
+                FormulaArgument(
+                    "percentile_rank",
+                    "number",
+                    required=True,
+                    description="Percentile rank (0-100)",
+                ),
+            ),
+            return_type="number",
+            examples=(
+                "=BLOOM2SIGMA(84)",
+                "=BLOOM2SIGMA(A1)",
+                "=BLOOM2SIGMA(98)",
+            ),
+        )
+
+    def build(self, *args: Any, **kwargs: Any) -> str:
+        """Build Bloom2Sigma formula string.
+
+        Args:
+            *args: percentile_rank
+            **kwargs: Keyword arguments (optional)
+
+        Returns:
+            ODF formula string
+
+        Implements:
+            Bloom2Sigma formula building
+
+        Raises:
+            ValueError: If arguments are invalid
+        """
+        self.validate_arguments(args)
+
+        percentile = args[0]
+
+        # Convert percentile (0-100) to z-score
+        return f"NORMSINV({percentile}/100)"
+
+
+@dataclass(slots=True, frozen=True)
+class TimeOnTaskFormula(BaseFormula):
+    """Calculate Carroll model time on task for school learning.
+
+    Implements:
+        Learning = f(time spent / time needed)
+
+    Example:
+        >>> formula = TimeOnTaskFormula()
+        >>> result = formula.build("45", "60", "0.8")
+        >>> # Returns learning achievement percentage
+    """
+
+    @property
+    def metadata(self) -> FormulaMetadata:
+        """Get formula metadata.
+
+        Returns:
+            FormulaMetadata for TimeOnTask
+
+        Implements:
+            Formula metadata
+        """
+        return FormulaMetadata(
+            name="TIME_ON_TASK",
+            category="education",
+            description="Calculate Carroll model time on task effect",
+            arguments=(
+                FormulaArgument(
+                    "time_spent",
+                    "number",
+                    required=True,
+                    description="Actual time spent on task (minutes)",
+                ),
+                FormulaArgument(
+                    "time_needed",
+                    "number",
+                    required=True,
+                    description="Time needed for mastery (minutes)",
+                ),
+                FormulaArgument(
+                    "opportunity_quality",
+                    "number",
+                    required=False,
+                    description="Quality of instruction (0-1, default 0.8)",
+                    default=0.8,
+                ),
+            ),
+            return_type="number",
+            examples=(
+                "=TIME_ON_TASK(45;60)",
+                "=TIME_ON_TASK(A1;A2;0.9)",
+            ),
+        )
+
+    def build(self, *args: Any, **kwargs: Any) -> str:
+        """Build TimeOnTask formula string.
+
+        Args:
+            *args: time_spent, time_needed, [opportunity_quality]
+            **kwargs: Keyword arguments (optional)
+
+        Returns:
+            ODF formula string
+
+        Implements:
+            TimeOnTask formula building
+
+        Raises:
+            ValueError: If arguments are invalid
+        """
+        self.validate_arguments(args)
+
+        spent = args[0]
+        needed = args[1]
+        quality = args[2] if len(args) > 2 else 0.8
+
+        # Learning = min(time_spent / time_needed, 1) * quality * 100
+        return f"MIN({spent}/{needed};1)*{quality}*100"
+
+
 __all__ = [
     "AttendanceRateFormula",
+    "Bloom2SigmaFormula",
     "BloomTaxonomyLevelFormula",
     "CompletionRateFormula",
+    "ForgettingCurveFormula",
+    "LearningCurveFormula",
     "LearningGainFormula",
+    "MasteryLearningFormula",
     "MasteryLevelFormula",
     "ReadabilityScoreFormula",
+    "SpacedRepetitionFormula",
+    "TimeOnTaskFormula",
 ]

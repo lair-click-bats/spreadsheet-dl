@@ -1,4 +1,4 @@
-"""Comprehensive mocked tests for CLI commands to maximize coverage.
+"""Core CLI commands tests (generate, analyze, report, expense, import, export, backup).
 
 This test suite uses mocks to cover all command paths without requiring
 actual file I/O or external dependencies.

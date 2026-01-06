@@ -24,6 +24,11 @@ from spreadsheet_dl.domains.civil_engineering.formulas.concrete import (
     CrackWidthFormula,
     ReinforcementRatioFormula,
 )
+from spreadsheet_dl.domains.civil_engineering.formulas.foundation import (
+    BearingCapacityTerzaghi,
+    ConsolidationSettlement,
+    SettlementElastic,
+)
 from spreadsheet_dl.domains.civil_engineering.formulas.loads import (
     DeadLoadFormula,
     LiveLoadFormula,
@@ -34,6 +39,10 @@ from spreadsheet_dl.domains.civil_engineering.formulas.soil import (
     BearingCapacityFormula,
     SettlementFormula,
     SoilPressureFormula,
+)
+from spreadsheet_dl.domains.civil_engineering.formulas.transportation import (
+    StoppingDistance,
+    TrafficFlow,
 )
 
 # Import importers
@@ -58,7 +67,7 @@ class CivilEngineeringDomainPlugin(BaseDomainPlugin):
     Provides comprehensive civil engineering functionality for SpreadsheetDL
     with formulas and importers tailored for structural design and construction.
 
-    Formulas (13 total):
+    Formulas (18 total):
         Beam (3):
         - BEAM_DEFLECTION: Beam deflection calculation
         - SHEAR_STRESS: Shear stress calculation
@@ -79,6 +88,15 @@ class CivilEngineeringDomainPlugin(BaseDomainPlugin):
         - LIVE_LOAD: Live load calculation
         - WIND_LOAD: Wind load calculation
         - SEISMIC_LOAD: Seismic load calculation
+
+        Foundation (3):
+        - BEARING_CAPACITY_TERZAGHI: Terzaghi bearing capacity
+        - SETTLEMENT_ELASTIC: Elastic settlement
+        - CONSOLIDATION_SETTLEMENT: Primary consolidation settlement
+
+        Transportation (2):
+        - STOPPING_DISTANCE: Stopping sight distance
+        - TRAFFIC_FLOW: Fundamental traffic flow equation
 
     Importers:
         - SurveyDataImporter: Survey data files
@@ -151,6 +169,15 @@ class CivilEngineeringDomainPlugin(BaseDomainPlugin):
         self.register_formula("WIND_LOAD", WindLoadFormula)
         self.register_formula("SEISMIC_LOAD", SeismicLoadFormula)
 
+        # Register foundation formulas (3 total)
+        self.register_formula("BEARING_CAPACITY_TERZAGHI", BearingCapacityTerzaghi)
+        self.register_formula("SETTLEMENT_ELASTIC", SettlementElastic)
+        self.register_formula("CONSOLIDATION_SETTLEMENT", ConsolidationSettlement)
+
+        # Register transportation formulas (2 total)
+        self.register_formula("STOPPING_DISTANCE", StoppingDistance)
+        self.register_formula("TRAFFIC_FLOW", TrafficFlow)
+
         # Register importers (3 total)
         self.register_importer("survey_data", SurveyDataImporter)
         self.register_importer("structural_results", StructuralResultsImporter)
@@ -175,7 +202,7 @@ class CivilEngineeringDomainPlugin(BaseDomainPlugin):
         Implements:
             Plugin validation
         """
-        required_formulas = 12  # 3 beam + 3 soil + 3 concrete + 3 loads (minimum)
+        required_formulas = 18  # 3 beam + 3 soil + 3 concrete + 4 loads + 3 foundation + 2 transportation
         required_importers = 3
 
         return (

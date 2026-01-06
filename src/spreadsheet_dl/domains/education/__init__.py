@@ -17,28 +17,40 @@ Example:
 """
 
 # Plugin
-# Formulas - Grade Calculations
-from spreadsheet_dl.domains.education.formulas.grades import (
-    GradeAverageFormula,
-    GradeCurveFormula,
-    WeightedGradeFormula,
-)
-
-# Formulas - Learning Metrics
-from spreadsheet_dl.domains.education.formulas.learning import (
+# Formulas - Import all from formulas package
+from spreadsheet_dl.domains.education.formulas import (
     AttendanceRateFormula,
+    Bloom2SigmaFormula,
     BloomTaxonomyLevelFormula,
     CompletionRateFormula,
-    LearningGainFormula,
-    MasteryLevelFormula,
-    ReadabilityScoreFormula,
-)
-
-# Formulas - Statistics
-from spreadsheet_dl.domains.education.formulas.statistics import (
     CorrelationFormula,
+    CronbachAlpha,
+    CurveGradesFormula,
+    ForgettingCurveFormula,
+    GradeAverageFormula,
+    GradeCurveFormula,
+    ItemDifficulty,
+    ItemDiscrimination,
+    KR20Formula,
+    KR21Formula,
+    LearningCurveFormula,
+    LearningGainFormula,
+    MasteryLearningFormula,
+    MasteryLevelFormula,
+    PassFailThresholdFormula,
     PercentileRankFormula,
+    PercentileRankGradeFormula,
+    ReadabilityScoreFormula,
+    RubricScoreFormula,
+    SpacedRepetitionFormula,
+    SpearmanBrownFormula,
     StandardDeviationFormula,
+    StandardErrorMeasurementFormula,
+    StandardScoreFormula,
+    TimeOnTaskFormula,
+    TrueScoreFormula,
+    WeightedGPAFormula,
+    WeightedGradeFormula,
 )
 
 # Importers
@@ -62,28 +74,42 @@ from spreadsheet_dl.domains.education.utils import (
 )
 
 __all__ = [
-    # Importers
     "AssessmentResultsImporter",
-    # Formulas - Learning
     "AttendanceRateFormula",
+    "Bloom2SigmaFormula",
     "BloomTaxonomyLevelFormula",
     "CompletionRateFormula",
-    # Formulas - Statistics
     "CorrelationFormula",
-    # Plugin
+    "CronbachAlpha",
+    "CurveGradesFormula",
     "EducationDomainPlugin",
-    # Formulas - Grades
+    "ForgettingCurveFormula",
     "GradeAverageFormula",
     "GradeCurveFormula",
     "GradebookExportImporter",
+    "ItemDifficulty",
+    "ItemDiscrimination",
+    "KR20Formula",
+    "KR21Formula",
     "LMSDataImporter",
+    "LearningCurveFormula",
     "LearningGainFormula",
+    "MasteryLearningFormula",
     "MasteryLevelFormula",
+    "PassFailThresholdFormula",
     "PercentileRankFormula",
+    "PercentileRankGradeFormula",
     "ReadabilityScoreFormula",
+    "RubricScoreFormula",
+    "SpacedRepetitionFormula",
+    "SpearmanBrownFormula",
     "StandardDeviationFormula",
+    "StandardErrorMeasurementFormula",
+    "StandardScoreFormula",
+    "TimeOnTaskFormula",
+    "TrueScoreFormula",
+    "WeightedGPAFormula",
     "WeightedGradeFormula",
-    # Utils
     "calculate_attendance_rate",
     "calculate_gpa",
     "calculate_grade_average",

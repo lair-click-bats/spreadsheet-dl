@@ -27,7 +27,7 @@ from spreadsheet_dl.notifications import (
     load_notification_config,
 )
 
-pytestmark = [pytest.mark.unit]
+pytestmark = [pytest.mark.unit, pytest.mark.finance]
 
 
 class TestNotification:

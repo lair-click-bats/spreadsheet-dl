@@ -1,4 +1,4 @@
-"""Comprehensive CLI commands tests - Part 2 (more commands)."""
+"""Data management CLI commands tests (upload, dashboard, visualize, account, category)."""
 
 from __future__ import annotations
 

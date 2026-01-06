@@ -25,10 +25,24 @@ from spreadsheet_dl.domains.environmental.formulas.carbon import (
     EnvironmentalImpactScoreFormula,
     SustainabilityScoreFormula,
 )
+from spreadsheet_dl.domains.environmental.formulas.climate import (
+    ClimateSensitivityFormula,
+    IceSheetMeltingFormula,
+    RadiativeForcingFormula,
+    SeaLevelRiseFormula,
+)
 from spreadsheet_dl.domains.environmental.formulas.ecology import (
     ShannonDiversityFormula,
     SimpsonIndexFormula,
     SpeciesRichnessFormula,
+)
+from spreadsheet_dl.domains.environmental.formulas.renewable import (
+    CapacityFactorFormula,
+    EnergyPaybackTimeFormula,
+    EnergyReturnInvestmentFormula,
+    LevelizedCostEnergyFormula,
+    SolarPanelOutputFormula,
+    WindTurbinePowerFormula,
 )
 from spreadsheet_dl.domains.environmental.formulas.water_quality import (
     BODCalculationFormula,
@@ -58,7 +72,7 @@ class EnvironmentalDomainPlugin(BaseDomainPlugin):
     with formulas and importers tailored for environmental monitoring,
     assessment, and sustainability tracking.
 
-    Formulas (12 total):
+    Formulas (22 total):
         Air Quality (3):
         - AQI_CALCULATION: Air Quality Index
         - EMISSION_RATE: Pollutant emission rate
@@ -78,6 +92,20 @@ class EnvironmentalDomainPlugin(BaseDomainPlugin):
         - ECOLOGICAL_FOOTPRINT: Ecological footprint
         - SUSTAINABILITY_SCORE: Sustainability metric
         - ENVIRONMENTAL_IMPACT_SCORE: Impact assessment
+
+        Climate Modeling (4):
+        - RADIATIVE_FORCING: Climate forcing from CO2
+        - CLIMATE_SENSITIVITY: Temperature response to CO2 doubling
+        - SEA_LEVEL_RISE: Thermal expansion calculation
+        - ICE_SHEET_MELTING: Mass balance equation
+
+        Renewable Energy (6):
+        - SOLAR_PANEL_OUTPUT: Solar PV power output
+        - WIND_TURBINE_POWER: Wind turbine power
+        - ENERGY_PAYBACK_TIME: Energy payback time
+        - CAPACITY_FACTOR: Capacity factor
+        - LEVELIZED_COST_ENERGY: Levelized cost of energy
+        - ENERGY_RETURN_INVESTMENT: EROI ratio
 
     Importers:
         - SensorNetworkImporter: IoT sensor data
@@ -150,6 +178,20 @@ class EnvironmentalDomainPlugin(BaseDomainPlugin):
             "ENVIRONMENTAL_IMPACT_SCORE", EnvironmentalImpactScoreFormula
         )
 
+        # Register climate modeling formulas (4)
+        self.register_formula("RADIATIVE_FORCING", RadiativeForcingFormula)
+        self.register_formula("CLIMATE_SENSITIVITY", ClimateSensitivityFormula)
+        self.register_formula("SEA_LEVEL_RISE", SeaLevelRiseFormula)
+        self.register_formula("ICE_SHEET_MELTING", IceSheetMeltingFormula)
+
+        # Register renewable energy formulas (6)
+        self.register_formula("SOLAR_PANEL_OUTPUT", SolarPanelOutputFormula)
+        self.register_formula("WIND_TURBINE_POWER", WindTurbinePowerFormula)
+        self.register_formula("ENERGY_PAYBACK_TIME", EnergyPaybackTimeFormula)
+        self.register_formula("CAPACITY_FACTOR", CapacityFactorFormula)
+        self.register_formula("LEVELIZED_COST_ENERGY", LevelizedCostEnergyFormula)
+        self.register_formula("ENERGY_RETURN_INVESTMENT", EnergyReturnInvestmentFormula)
+
         # Register importers (3 total)
         self.register_importer("sensor_network", SensorNetworkImporter)
         self.register_importer("lab_results", LabResultsImporter)
@@ -174,7 +216,9 @@ class EnvironmentalDomainPlugin(BaseDomainPlugin):
         Implements:
             Plugin validation
         """
-        required_formulas = 12  # 3 air + 2 water + 3 ecology + 4 carbon
+        required_formulas = (
+            22  # 3 air + 2 water + 3 ecology + 4 carbon + 4 climate + 6 renewable
+        )
         required_importers = 3
 
         return (

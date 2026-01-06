@@ -42,7 +42,7 @@ from spreadsheet_dl.schema.styles import (
     VerticalAlign,
 )
 
-pytestmark = [pytest.mark.unit]
+pytestmark = [pytest.mark.unit, pytest.mark.validation]
 
 
 # ============================================================================

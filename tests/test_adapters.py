@@ -43,7 +43,7 @@ if TYPE_CHECKING:
 # ==============================================================================
 
 
-pytestmark = [pytest.mark.unit]
+pytestmark = [pytest.mark.unit, pytest.mark.rendering]
 
 
 @pytest.fixture

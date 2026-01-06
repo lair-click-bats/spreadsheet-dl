@@ -265,8 +265,486 @@ class GradeCurveFormula(BaseFormula):
             return f"MIN({grade}+{adjustment};100)"
 
 
+@dataclass(slots=True, frozen=True)
+class CurveGradesFormula(BaseFormula):
+    """Apply distribution-based grade curve adjustment.
+
+    Implements:
+        Curve grades to target mean and standard deviation
+
+    Example:
+        >>> formula = CurveGradesFormula()
+        >>> result = formula.build("A1", "A1:A30", "75", "10")
+        >>> # Returns curved grade for target distribution
+    """
+
+    @property
+    def metadata(self) -> FormulaMetadata:
+        """Get formula metadata.
+
+        Returns:
+            FormulaMetadata for CurveGrades
+
+        Implements:
+            Formula metadata
+        """
+        return FormulaMetadata(
+            name="CURVE_GRADES",
+            category="education",
+            description="Curve grades to target mean and standard deviation",
+            arguments=(
+                FormulaArgument(
+                    "grade",
+                    "number",
+                    required=True,
+                    description="Individual grade to curve",
+                ),
+                FormulaArgument(
+                    "all_grades",
+                    "range",
+                    required=True,
+                    description="Range of all grades",
+                ),
+                FormulaArgument(
+                    "target_mean",
+                    "number",
+                    required=False,
+                    description="Target mean (default 75)",
+                    default=75,
+                ),
+                FormulaArgument(
+                    "target_sd",
+                    "number",
+                    required=False,
+                    description="Target standard deviation (default 10)",
+                    default=10,
+                ),
+            ),
+            return_type="number",
+            examples=(
+                "=CURVE_GRADES(A1;A$1:A$30)",
+                "=CURVE_GRADES(A1;A$1:A$30;80;12)",
+            ),
+        )
+
+    def build(self, *args: Any, **kwargs: Any) -> str:
+        """Build CurveGrades formula string.
+
+        Args:
+            *args: grade, all_grades, [target_mean], [target_sd]
+            **kwargs: Keyword arguments (optional)
+
+        Returns:
+            ODF formula string
+
+        Implements:
+            CurveGrades formula building
+
+        Raises:
+            ValueError: If arguments are invalid
+        """
+        self.validate_arguments(args)
+
+        grade = args[0]
+        all_grades = args[1]
+        target_mean = args[2] if len(args) > 2 else 75
+        target_sd = args[3] if len(args) > 3 else 10
+
+        # Curved = target_mean + ((grade - actual_mean) / actual_sd) * target_sd
+        return f"{target_mean}+(({grade}-AVERAGE({all_grades}))/STDEV({all_grades}))*{target_sd}"
+
+
+@dataclass(slots=True, frozen=True)
+class StandardScoreFormula(BaseFormula):
+    """Calculate z-score based standard score.
+
+    Implements:
+        Z-score transformation for grading
+
+    Example:
+        >>> formula = StandardScoreFormula()
+        >>> result = formula.build("85", "75", "10")
+        >>> # Returns z-score
+    """
+
+    @property
+    def metadata(self) -> FormulaMetadata:
+        """Get formula metadata.
+
+        Returns:
+            FormulaMetadata for StandardScore
+
+        Implements:
+            Formula metadata
+        """
+        return FormulaMetadata(
+            name="STANDARD_SCORE",
+            category="education",
+            description="Calculate z-score based standard score",
+            arguments=(
+                FormulaArgument(
+                    "grade",
+                    "number",
+                    required=True,
+                    description="Individual grade",
+                ),
+                FormulaArgument(
+                    "mean",
+                    "number",
+                    required=True,
+                    description="Mean grade",
+                ),
+                FormulaArgument(
+                    "standard_deviation",
+                    "number",
+                    required=True,
+                    description="Standard deviation",
+                ),
+            ),
+            return_type="number",
+            examples=(
+                "=STANDARD_SCORE(85;75;10)",
+                "=STANDARD_SCORE(A1;AVERAGE(A:A);STDEV(A:A))",
+            ),
+        )
+
+    def build(self, *args: Any, **kwargs: Any) -> str:
+        """Build StandardScore formula string.
+
+        Args:
+            *args: grade, mean, standard_deviation
+            **kwargs: Keyword arguments (optional)
+
+        Returns:
+            ODF formula string
+
+        Implements:
+            StandardScore formula building
+
+        Raises:
+            ValueError: If arguments are invalid
+        """
+        self.validate_arguments(args)
+
+        grade = args[0]
+        mean = args[1]
+        sd = args[2]
+
+        # z = (x - mean) / sd
+        return f"({grade}-{mean})/{sd}"
+
+
+@dataclass(slots=True, frozen=True)
+class PercentileRankFormula(BaseFormula):
+    """Calculate percentile rank in grade distribution.
+
+    Implements:
+        Position in distribution as percentile
+
+    Example:
+        >>> formula = PercentileRankFormula()
+        >>> result = formula.build("A1", "A$1:A$30")
+        >>> # Returns percentile rank (0-100)
+    """
+
+    @property
+    def metadata(self) -> FormulaMetadata:
+        """Get formula metadata.
+
+        Returns:
+            FormulaMetadata for PercentileRank
+
+        Implements:
+            Formula metadata
+        """
+        return FormulaMetadata(
+            name="PERCENTILE_RANK_GRADE",
+            category="education",
+            description="Calculate percentile rank in grade distribution",
+            arguments=(
+                FormulaArgument(
+                    "grade",
+                    "number",
+                    required=True,
+                    description="Individual grade",
+                ),
+                FormulaArgument(
+                    "all_grades",
+                    "range",
+                    required=True,
+                    description="Range of all grades",
+                ),
+            ),
+            return_type="number",
+            examples=(
+                "=PERCENTILE_RANK_GRADE(A1;A$1:A$30)",
+                "=PERCENTILE_RANK_GRADE(B5;B$2:B$100)",
+            ),
+        )
+
+    def build(self, *args: Any, **kwargs: Any) -> str:
+        """Build PercentileRank formula string.
+
+        Args:
+            *args: grade, all_grades
+            **kwargs: Keyword arguments (optional)
+
+        Returns:
+            ODF formula string
+
+        Implements:
+            PercentileRank formula building
+
+        Raises:
+            ValueError: If arguments are invalid
+        """
+        self.validate_arguments(args)
+
+        grade = args[0]
+        all_grades = args[1]
+
+        # Percentile = (count below + 0.5*count equal) / total * 100
+        return f"PERCENTRANK({all_grades};{grade};3)*100"
+
+
+@dataclass(slots=True, frozen=True)
+class WeightedGPAFormula(BaseFormula):
+    """Calculate weighted GPA with course credits.
+
+    Implements:
+        GPA with credit hour weighting
+
+    Example:
+        >>> formula = WeightedGPAFormula()
+        >>> result = formula.build("A1:A5", "B1:B5")
+        >>> # Returns weighted GPA
+    """
+
+    @property
+    def metadata(self) -> FormulaMetadata:
+        """Get formula metadata.
+
+        Returns:
+            FormulaMetadata for WeightedGPA
+
+        Implements:
+            Formula metadata
+        """
+        return FormulaMetadata(
+            name="WEIGHTED_GPA",
+            category="education",
+            description="Calculate weighted GPA with course credits",
+            arguments=(
+                FormulaArgument(
+                    "grade_points",
+                    "range",
+                    required=True,
+                    description="Range of grade point values (0-4 scale)",
+                ),
+                FormulaArgument(
+                    "credits",
+                    "range",
+                    required=True,
+                    description="Range of credit hours",
+                ),
+            ),
+            return_type="number",
+            examples=(
+                "=WEIGHTED_GPA(A1:A5;B1:B5)",
+                "=WEIGHTED_GPA(grade_points;credits)",
+            ),
+        )
+
+    def build(self, *args: Any, **kwargs: Any) -> str:
+        """Build WeightedGPA formula string.
+
+        Args:
+            *args: grade_points, credits
+            **kwargs: Keyword arguments (optional)
+
+        Returns:
+            ODF formula string
+
+        Implements:
+            WeightedGPA formula building
+
+        Raises:
+            ValueError: If arguments are invalid
+        """
+        self.validate_arguments(args)
+
+        grade_points = args[0]
+        credits = args[1]
+
+        # GPA = sum(grade_points * credits) / sum(credits)
+        return f"SUMPRODUCT({grade_points};{credits})/SUM({credits})"
+
+
+@dataclass(slots=True, frozen=True)
+class PassFailThresholdFormula(BaseFormula):
+    """Determine pass/fail based on threshold.
+
+    Implements:
+        Binary pass/fail grading
+
+    Returns 1 for pass (score >= threshold) or 0 for fail.
+
+    Example:
+        >>> formula = PassFailThresholdFormula()
+        >>> result = formula.build("85", "70")
+        >>> # Returns: "IF(85>=70;1;0)" which is 1 (pass)
+    """
+
+    @property
+    def metadata(self) -> FormulaMetadata:
+        """Get formula metadata.
+
+        Returns:
+            FormulaMetadata for PASS_FAIL_THRESHOLD
+
+        Implements:
+            Formula metadata
+        """
+        return FormulaMetadata(
+            name="PASS_FAIL_THRESHOLD",
+            category="education",
+            description="Binary pass (1) or fail (0) based on threshold",
+            arguments=(
+                FormulaArgument(
+                    "score",
+                    "number",
+                    required=True,
+                    description="Student score",
+                ),
+                FormulaArgument(
+                    "threshold",
+                    "number",
+                    required=True,
+                    description="Passing threshold",
+                ),
+            ),
+            return_type="number",
+            examples=(
+                "=PASS_FAIL_THRESHOLD(85;70)",
+                "=PASS_FAIL_THRESHOLD(A1;60)",
+                "=PASS_FAIL_THRESHOLD(B3;C3)",
+            ),
+        )
+
+    def build(self, *args: Any, **kwargs: Any) -> str:
+        """Build PassFailThreshold formula string.
+
+        Args:
+            *args: score, threshold
+            **kwargs: Keyword arguments (optional)
+
+        Returns:
+            ODF formula string
+
+        Implements:
+            PassFailThreshold formula building
+
+        Raises:
+            ValueError: If arguments are invalid
+        """
+        self.validate_arguments(args)
+
+        score = args[0]
+        threshold = args[1]
+
+        # Pass (1) if score >= threshold, else fail (0)
+        return f"IF({score}>={threshold};1;0)"
+
+
+@dataclass(slots=True, frozen=True)
+class RubricScoreFormula(BaseFormula):
+    """Calculate criteria-based rubric scoring.
+
+    Implements:
+        Aggregate rubric criteria scores
+
+    Example:
+        >>> formula = RubricScoreFormula()
+        >>> result = formula.build("A1:A4", "B1:B4", "100")
+        >>> # Returns total rubric score
+    """
+
+    @property
+    def metadata(self) -> FormulaMetadata:
+        """Get formula metadata.
+
+        Returns:
+            FormulaMetadata for RubricScore
+
+        Implements:
+            Formula metadata
+        """
+        return FormulaMetadata(
+            name="RUBRIC_SCORE",
+            category="education",
+            description="Calculate criteria-based rubric score",
+            arguments=(
+                FormulaArgument(
+                    "criteria_scores",
+                    "range",
+                    required=True,
+                    description="Range of criteria scores",
+                ),
+                FormulaArgument(
+                    "criteria_weights",
+                    "range",
+                    required=True,
+                    description="Range of criteria weights/points",
+                ),
+                FormulaArgument(
+                    "scale",
+                    "number",
+                    required=False,
+                    description="Output scale (default 100)",
+                    default=100,
+                ),
+            ),
+            return_type="number",
+            examples=(
+                "=RUBRIC_SCORE(A1:A4;B1:B4)",
+                "=RUBRIC_SCORE(scores;weights;100)",
+            ),
+        )
+
+    def build(self, *args: Any, **kwargs: Any) -> str:
+        """Build RubricScore formula string.
+
+        Args:
+            *args: criteria_scores, criteria_weights, [scale]
+            **kwargs: Keyword arguments (optional)
+
+        Returns:
+            ODF formula string
+
+        Implements:
+            RubricScore formula building
+
+        Raises:
+            ValueError: If arguments are invalid
+        """
+        self.validate_arguments(args)
+
+        scores = args[0]
+        weights = args[1]
+        scale = args[2] if len(args) > 2 else 100
+
+        # Total = sum(scores * weights) / sum(weights) * scale
+        return f"SUMPRODUCT({scores};{weights})/SUM({weights})*{scale}"
+
+
 __all__ = [
+    "CurveGradesFormula",
     "GradeAverageFormula",
     "GradeCurveFormula",
+    "PassFailThresholdFormula",
+    "PercentileRankFormula",
+    "RubricScoreFormula",
+    "StandardScoreFormula",
+    "WeightedGPAFormula",
     "WeightedGradeFormula",
 ]

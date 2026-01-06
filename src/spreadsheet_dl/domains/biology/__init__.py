@@ -33,12 +33,30 @@ from spreadsheet_dl.domains.biology.formulas.ecology import (
     SpeciesRichnessFormula,
 )
 
+# Formulas - Genetics
+from spreadsheet_dl.domains.biology.formulas.genetics import (
+    Chi2GeneticsFormula,
+    HardyWeinbergFormula,
+    InbreedingCoefficientFormula,
+    LinkageDisequilibriumFormula,
+    RecombinationFrequencyFormula,
+)
+
 # Formulas - Molecular Biology
 from spreadsheet_dl.domains.biology.formulas.molecular import (
     ConcentrationFormula,
     FoldChangeFormula,
     GCContentFormula,
     MeltingTempFormula,
+)
+
+# Formulas - Pharmacokinetics
+from spreadsheet_dl.domains.biology.formulas.pharmacokinetics import (
+    ClearanceFormula,
+    HalfLifeFormula,
+    LoadingDoseFormula,
+    MaintenanceDoseFormula,
+    VolumeOfDistributionFormula,
 )
 
 # Importers
@@ -68,6 +86,10 @@ __all__ = [
     "BiologyDomainPlugin",
     # Formulas - Biochemistry
     "BradfordAssayFormula",
+    # Formulas - Genetics
+    "Chi2GeneticsFormula",
+    # Formulas - Pharmacokinetics
+    "ClearanceFormula",
     # Formulas - Molecular Biology
     "ConcentrationFormula",
     "DilutionFactorFormula",
@@ -77,15 +99,23 @@ __all__ = [
     "FoldChangeFormula",
     "GCContentFormula",
     "GenBankImporter",
+    "HalfLifeFormula",
+    "HardyWeinbergFormula",
+    "InbreedingCoefficientFormula",
+    "LinkageDisequilibriumFormula",
+    "LoadingDoseFormula",
+    "MaintenanceDoseFormula",
     "MeltingTempFormula",
     "MichaelisMentenFormula",
     "PlateReaderImporter",
     # Formulas - Ecology
     "PopulationGrowthFormula",
+    "RecombinationFrequencyFormula",
     "ShannonDiversityFormula",
     "SimpsonIndexFormula",
     "SpeciesRichnessFormula",
     # Utils
+    "VolumeOfDistributionFormula",
     "calculate_dilution",
     "calculate_gc_content",
     "calculate_melting_temp",

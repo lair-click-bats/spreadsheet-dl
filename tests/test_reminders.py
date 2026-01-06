@@ -23,7 +23,7 @@ from spreadsheet_dl import (
     create_bill_from_template,
 )
 
-pytestmark = [pytest.mark.unit]
+pytestmark = [pytest.mark.unit, pytest.mark.finance]
 
 
 class TestBillReminder:

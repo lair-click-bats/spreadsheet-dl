@@ -377,7 +377,13 @@
 
     "SSOT",
     "todos",
-    "unfixable"
+    "unfixable",
+
+    "openpyxl",
+    "pyproject",
+    "reportlab",
+    "beautifulsoup",
+    "pyyaml"
   ],
 
   "ignoreRegExpList": [

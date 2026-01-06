@@ -20,6 +20,22 @@ from spreadsheet_dl.domains.manufacturing.formulas.inventory import (
     ReorderPointFormula,
     SafetyStockFormula,
 )
+from spreadsheet_dl.domains.manufacturing.formulas.lean import (
+    CycleTimeFormula as LeanCycleTimeFormula,
+)
+from spreadsheet_dl.domains.manufacturing.formulas.lean import (
+    FlowEfficiencyFormula,
+    KanbanCalculationFormula,
+    LeadTimeFormula,
+    LittlesLawFormula,
+    ProcessCycleEfficiencyFormula,
+    SingleMinuteExchangeFormula,
+    TotalProductiveMaintenanceFormula,
+    ValueStreamEfficiencyFormula,
+)
+from spreadsheet_dl.domains.manufacturing.formulas.lean import (
+    TaktTimeFormula as LeanTaktTimeFormula,
+)
 from spreadsheet_dl.domains.manufacturing.formulas.production import (
     CapacityUtilizationFormula,
     CycleTimeFormula,
@@ -31,6 +47,27 @@ from spreadsheet_dl.domains.manufacturing.formulas.quality import (
     DefectRateFormula,
     FirstPassYieldFormula,
     ProcessCapabilityFormula,
+)
+from spreadsheet_dl.domains.manufacturing.formulas.six_sigma import (
+    ControlLimitFormula,
+    DPMOFormula,
+    GaugeRnRFormula,
+    ProcessCapabilityIndexFormula,
+    ProcessPerformanceIndexFormula,
+    ProcessSigmaFormula,
+    SigmaLevelFormula,
+    YieldCalculationFormula,
+    ZScoreQualityFormula,
+)
+from spreadsheet_dl.domains.manufacturing.formulas.six_sigma import (
+    DefectRateFormula as SixSigmaDefectRateFormula,
+)
+from spreadsheet_dl.domains.manufacturing.formulas.supply_chain import (
+    ABCAnalysisFormula,
+    BullwhipEffectFormula,
+    CashConversionCycleFormula,
+    NewsvendorModelFormula,
+    ServiceLevelFormula,
 )
 
 # Import importers
@@ -50,9 +87,10 @@ class ManufacturingDomainPlugin(BaseDomainPlugin):
 
     Provides comprehensive manufacturing functionality for SpreadsheetDL
     with formulas and importers tailored for production planning,
-    quality control, and inventory management.
+    quality control, inventory management, lean manufacturing, Six Sigma,
+    and supply chain optimization.
 
-    Formulas (12 total):
+    Formulas (37 total):
         Production Metrics (4):
         - CYCLE_TIME: Production cycle time
         - TAKT_TIME: Takt time calculation
@@ -70,6 +108,37 @@ class ManufacturingDomainPlugin(BaseDomainPlugin):
         - REORDER_POINT: Reorder point
         - SAFETY_STOCK: Safety stock level
         - INVENTORY_TURNOVER: Inventory turnover ratio
+
+        Lean Manufacturing (10):
+        - VALUE_STREAM_EFFICIENCY: Value stream efficiency
+        - LEAN_LEAD_TIME: Lead time calculation
+        - PROCESS_CYCLE_EFFICIENCY: Process cycle efficiency
+        - LEAN_TAKT_TIME: Lean takt time
+        - LEAN_CYCLE_TIME: Lean cycle time
+        - TPM_AVAILABILITY: TPM availability
+        - SMED_CHANGEOVER: SMED changeover time
+        - KANBAN_QUANTITY: Kanban calculation
+        - LITTLES_LAW: Little's Law (WIP)
+        - FLOW_EFFICIENCY: Flow efficiency
+
+        Six Sigma Quality (10):
+        - DPMO: Defects per million opportunities
+        - SIGMA_LEVEL: Sigma level from DPMO
+        - CPK: Process capability index
+        - PPK: Process performance index
+        - RTY: Rolled throughput yield
+        - SIX_SIGMA_DEFECT_RATE: Six Sigma defect rate
+        - PROCESS_SIGMA: Process sigma calculation
+        - CONTROL_LIMIT: Control limits with Z-score
+        - Z_SCORE: Z-score for quality
+        - GAUGE_RNR: Gauge R&R
+
+        Supply Chain (5):
+        - BULLWHIP_EFFECT: Bullwhip effect ratio
+        - NEWSVENDOR_QUANTITY: Newsvendor model
+        - ABC_SCORE: ABC analysis score
+        - SERVICE_LEVEL: Service level / fill rate
+        - CASH_CONVERSION_CYCLE: Cash conversion cycle
 
     Importers:
         - MESDataImporter: Manufacturing Execution System data
@@ -132,6 +201,37 @@ class ManufacturingDomainPlugin(BaseDomainPlugin):
         self.register_formula("SAFETY_STOCK", SafetyStockFormula)
         self.register_formula("INVENTORY_TURNOVER", InventoryTurnoverFormula)
 
+        # Register lean manufacturing formulas (10)
+        self.register_formula("VALUE_STREAM_EFFICIENCY", ValueStreamEfficiencyFormula)
+        self.register_formula("LEAN_LEAD_TIME", LeadTimeFormula)
+        self.register_formula("PROCESS_CYCLE_EFFICIENCY", ProcessCycleEfficiencyFormula)
+        self.register_formula("LEAN_TAKT_TIME", LeanTaktTimeFormula)
+        self.register_formula("LEAN_CYCLE_TIME", LeanCycleTimeFormula)
+        self.register_formula("TPM_AVAILABILITY", TotalProductiveMaintenanceFormula)
+        self.register_formula("SMED_CHANGEOVER", SingleMinuteExchangeFormula)
+        self.register_formula("KANBAN_QUANTITY", KanbanCalculationFormula)
+        self.register_formula("LITTLES_LAW", LittlesLawFormula)
+        self.register_formula("FLOW_EFFICIENCY", FlowEfficiencyFormula)
+
+        # Register Six Sigma formulas (10)
+        self.register_formula("DPMO", DPMOFormula)
+        self.register_formula("SIGMA_LEVEL", SigmaLevelFormula)
+        self.register_formula("CPK", ProcessCapabilityIndexFormula)
+        self.register_formula("PPK", ProcessPerformanceIndexFormula)
+        self.register_formula("RTY", YieldCalculationFormula)
+        self.register_formula("SIX_SIGMA_DEFECT_RATE", SixSigmaDefectRateFormula)
+        self.register_formula("PROCESS_SIGMA", ProcessSigmaFormula)
+        self.register_formula("CONTROL_LIMIT", ControlLimitFormula)
+        self.register_formula("Z_SCORE", ZScoreQualityFormula)
+        self.register_formula("GAUGE_RNR", GaugeRnRFormula)
+
+        # Register supply chain formulas (5)
+        self.register_formula("BULLWHIP_EFFECT", BullwhipEffectFormula)
+        self.register_formula("NEWSVENDOR_QUANTITY", NewsvendorModelFormula)
+        self.register_formula("ABC_SCORE", ABCAnalysisFormula)
+        self.register_formula("SERVICE_LEVEL", ServiceLevelFormula)
+        self.register_formula("CASH_CONVERSION_CYCLE", CashConversionCycleFormula)
+
         # Register importers (3 total)
         self.register_importer("mes_data", MESDataImporter)
         self.register_importer("erp_data", ERPDataImporter)
@@ -156,7 +256,7 @@ class ManufacturingDomainPlugin(BaseDomainPlugin):
         Implements:
             Plugin validation
         """
-        required_formulas = 12  # 4 production + 4 quality + 4 inventory
+        required_formulas = 37  # 4 production + 4 quality + 4 inventory + 10 lean + 10 six_sigma + 5 supply_chain
         required_importers = 3
 
         return (

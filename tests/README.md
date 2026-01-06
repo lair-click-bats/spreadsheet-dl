@@ -2,15 +2,6 @@
 
 Comprehensive test suite for SpreadsheetDL with organized pytest markers for selective test execution.
 
-## Test Statistics
-
-- **Total Tests**: ~3,206 tests
-- **Unit Tests**: ~2,915 tests (fast, isolated)
-- **Integration Tests**: ~291 tests (slower, multi-component)
-- **Finance Tests**: ~272 tests
-- **MCP Tests**: ~346 tests
-- **Domain Tests**: ~504 tests
-
 ## Quick Start
 
 ```bash
@@ -28,6 +19,20 @@ uv run pytest -m finance
 uv run pytest -m "domain and engineering"
 ```
 
+## Test Statistics
+
+To get current test counts and distribution, run:
+
+```bash
+# Human-readable output
+scripts/test-stats.sh
+
+# JSON output (for CI/automation)
+scripts/test-stats.sh --json
+```
+
+**Note**: Test counts are dynamic and generated on-demand to ensure accuracy.
+
 ## Test Organization
 
 Tests are organized using pytest markers at the module level:
@@ -37,6 +42,8 @@ pytestmark = [pytest.mark.unit, pytest.mark.builder]
 ```
 
 ### Available Markers
+
+All markers are defined in `pyproject.toml` under `[tool.pytest.ini_options]`.
 
 #### Test Level
 
@@ -52,14 +59,15 @@ pytestmark = [pytest.mark.unit, pytest.mark.builder]
 
 - `requires_yaml` - Needs PyYAML
 - `requires_export` - Needs openpyxl/reportlab
+- `requires_html` - Needs beautifulsoup4/lxml
 - `requires_files` - Creates/reads files
 
 #### Domains
 
 - `domain` - Domain plugin tests
 - `finance` - Finance domain
-- `science` - Science domains
-- `engineering` - Engineering domains
+- `science` - Science domains (biology, chemistry, physics)
+- `engineering` - Engineering domains (electrical, mechanical, civil)
 - `manufacturing` - Manufacturing domain
 
 #### Features
@@ -95,6 +103,9 @@ uv run pytest -m builder
 
 # Validation tests
 uv run pytest -m validation
+
+# CLI tests
+uv run pytest -m cli
 ```
 
 ### Run Domain Tests
@@ -104,7 +115,7 @@ uv run pytest -m validation
 uv run pytest -m domain
 
 # Specific domains
-uv run pytest -m "domain and finance"
+uv run pytest -m finance
 uv run pytest -m "domain and engineering"
 uv run pytest -m "domain and science"
 ```
@@ -133,7 +144,25 @@ uv run pytest -m rendering
 
 # Domain tests excluding slow ones
 uv run pytest -m "domain and not slow"
+
+# Fast MCP tests
+uv run pytest -m "mcp and not slow"
 ```
+
+## Understanding "N deselected"
+
+When you run a marker-filtered test command like `uv run pytest -m unit`, you may see output like:
+
+```
+===== 2915 passed, 406 deselected in 45.2s =====
+```
+
+**This is expected behavior.** The "406 deselected" means pytest found 406 tests that do NOT match your filter and correctly skipped them. For example:
+
+- When filtering for `unit`, all `integration` tests are deselected
+- When filtering for `finance`, all non-finance tests are deselected
+
+The deselected count helps you understand the total test suite size.
 
 ## Test Structure
 
@@ -145,6 +174,8 @@ tests/
 │   ├── test_biology.py
 │   ├── test_engineering.py
 │   └── ...
+├── cli/                   # CLI-specific tests
+│   └── test_commands_coverage.py
 └── conftest.py            # Shared fixtures
 
 .claude/hooks/
@@ -184,10 +215,23 @@ class TestMyFeature:
 ### Marker Guidelines
 
 1. **Always include a test level marker**: `unit` or `integration`
-2. **Add feature markers**: `mcp`, `builder`, `cli`, etc.
-3. **Add domain markers**: `finance`, `science`, `engineering` for domain tests
-4. **Add dependency markers**: `requires_yaml`, `requires_files` if needed
+2. **Add feature markers**: `mcp`, `builder`, `cli`, etc. when testing specific features
+3. **Add domain markers**: `finance`, `science`, `engineering` for domain-specific tests
+4. **Add dependency markers**: `requires_yaml`, `requires_files`, etc. if external dependencies are needed
 5. **Mark slow tests**: Use `@pytest.mark.slow` for tests >1 second
+
+### Example Marker Combinations
+
+```python
+# Unit test for MCP server
+pytestmark = [pytest.mark.unit, pytest.mark.mcp]
+
+# Integration test for finance domain with file I/O
+pytestmark = [pytest.mark.integration, pytest.mark.finance, pytest.mark.requires_files]
+
+# Unit test for builder requiring export dependencies
+pytestmark = [pytest.mark.unit, pytest.mark.builder, pytest.mark.requires_export]
+```
 
 ## CI/CD Integration
 
@@ -202,6 +246,10 @@ Markers enable efficient CI/CD workflows:
 - name: MCP Tests
   run: uv run pytest -m mcp
 
+# Domain validation
+- name: Finance Tests
+  run: uv run pytest -m finance
+
 # Full validation
 - name: All Tests
   run: uv run pytest
@@ -215,8 +263,11 @@ Markers enable efficient CI/CD workflows:
 # See what would run
 uv run pytest -m unit --collect-only
 
-# Count tests
-uv run pytest -m "unit and finance" --co -q | wc -l
+# Count tests for a specific marker
+uv run pytest -m "unit and finance" --collect-only -q | tail -1
+
+# See all available markers
+uv run pytest --markers
 ```
 
 ### Verbose Output
@@ -227,26 +278,59 @@ uv run pytest -m unit -v
 
 # Show test details
 uv run pytest -m unit -vv
+
+# Show print statements
+uv run pytest -m unit -s
 ```
 
 ### Stop on First Failure
 
 ```bash
 uv run pytest -m unit -x
+
+# Stop after N failures
+uv run pytest -m unit --maxfail=3
 ```
 
-## Documentation
+### Run Specific Test
 
-For detailed marker documentation, see:
+```bash
+# By file
+uv run pytest tests/test_builder.py
 
-- [Testing Markers Guide](../docs/testing-markers.md)
-- [pytest Documentation](https://docs.pytest.org/en/stable/how-to/mark.html)
+# By class
+uv run pytest tests/test_builder.py::TestBuilder
+
+# By function
+uv run pytest tests/test_builder.py::TestBuilder::test_create_sheet
+```
+
+## Adding New Markers
+
+If you need to add a new marker:
+
+1. **Define in `pyproject.toml`**:
+
+```toml
+[tool.pytest.ini_options]
+markers = [
+    "new_marker: Description of the new marker",
+]
+```
+
+2. **Apply to test files**:
+
+```python
+pytestmark = [pytest.mark.unit, pytest.mark.new_marker]
+```
+
+3. **Document in this file** under "Available Markers"
 
 ## Troubleshooting
 
 ### Marker Not Registered
 
-If you see "Unknown pytest.mark.X", add it to `pyproject.toml`:
+If you see "Unknown pytest.mark.X", ensure the marker is defined in `pyproject.toml`:
 
 ```toml
 [tool.pytest.ini_options]
@@ -267,3 +351,49 @@ Check that:
 2. Test function starts with `test_`
 3. Markers are defined correctly
 4. File is in the `tests/` directory
+5. No syntax errors in the file
+
+### Slow Test Suite
+
+To identify slow tests:
+
+```bash
+# Run with duration reporting
+uv run pytest --durations=10
+
+# Run only fast unit tests
+uv run pytest -m "unit and not slow"
+
+# Profile test execution
+uv run pytest --durations=0 > test-durations.txt
+```
+
+## Best Practices
+
+### Test Organization
+
+- Use **module-level markers** (`pytestmark`) for consistency
+- Group related tests in classes
+- Use descriptive test names that explain the scenario
+- Keep tests focused on a single behavior
+
+### Marker Usage
+
+- Every test file should have at least `unit` or `integration`
+- Add feature markers when testing specific components
+- Add domain markers for domain-specific functionality
+- Mark slow tests proactively to enable fast feedback loops
+
+### Performance
+
+- Unit tests should complete in <100ms each
+- Mark tests >1 second as `slow`
+- Use mocks for external dependencies in unit tests
+- Reserve file I/O and network calls for integration tests
+
+### Maintainability
+
+- Don't duplicate test logic - use fixtures
+- Keep test setup/teardown minimal
+- Document complex test scenarios with comments
+- Avoid hardcoding values - use constants or fixtures

@@ -26,11 +26,25 @@ from spreadsheet_dl.domains.biology.formulas.ecology import (
     SimpsonIndexFormula,
     SpeciesRichnessFormula,
 )
+from spreadsheet_dl.domains.biology.formulas.genetics import (
+    Chi2GeneticsFormula,
+    HardyWeinbergFormula,
+    InbreedingCoefficientFormula,
+    LinkageDisequilibriumFormula,
+    RecombinationFrequencyFormula,
+)
 from spreadsheet_dl.domains.biology.formulas.molecular import (
     ConcentrationFormula,
     FoldChangeFormula,
     GCContentFormula,
     MeltingTempFormula,
+)
+from spreadsheet_dl.domains.biology.formulas.pharmacokinetics import (
+    ClearanceFormula,
+    HalfLifeFormula,
+    LoadingDoseFormula,
+    MaintenanceDoseFormula,
+    VolumeOfDistributionFormula,
 )
 
 # Import importers
@@ -49,7 +63,7 @@ class BiologyDomainPlugin(BaseDomainPlugin):
     Provides comprehensive biology functionality for SpreadsheetDL
     with formulas and importers tailored for research workflows.
 
-    Formulas (12 total):
+    Formulas (22 total):
         Molecular Biology (4):
         - CONCENTRATION: Nucleic acid concentration
         - FOLD_CHANGE: Gene expression fold change
@@ -67,6 +81,20 @@ class BiologyDomainPlugin(BaseDomainPlugin):
         - SIMPSON_INDEX: Simpson's diversity index
         - SPECIES_RICHNESS: Species richness
         - POPULATION_GROWTH: Population growth rate
+
+        Pharmacokinetics (5):
+        - CLEARANCE: Drug elimination rate
+        - VOLUME_OF_DISTRIBUTION: Apparent volume of distribution
+        - HALF_LIFE: Elimination half-life
+        - LOADING_DOSE: Initial loading dose
+        - MAINTENANCE_DOSE: Steady-state dosing
+
+        Genetics (5):
+        - HARDY_WEINBERG: Allele frequency equilibrium
+        - LINKAGE_DISEQUILIBRIUM: Non-random association
+        - RECOMBINATION_FREQUENCY: Genetic distance
+        - CHI2_GENETICS: Goodness of fit test
+        - INBREEDING_COEFFICIENT: Relatedness measure
 
     Importers:
         - PlateReaderImporter: Plate reader data (CSV/XML)
@@ -131,6 +159,20 @@ class BiologyDomainPlugin(BaseDomainPlugin):
         self.register_formula("SPECIES_RICHNESS", SpeciesRichnessFormula)
         self.register_formula("POPULATION_GROWTH", PopulationGrowthFormula)
 
+        # Register pharmacokinetics formulas (5 total)
+        self.register_formula("CLEARANCE", ClearanceFormula)
+        self.register_formula("VOLUME_OF_DISTRIBUTION", VolumeOfDistributionFormula)
+        self.register_formula("HALF_LIFE", HalfLifeFormula)
+        self.register_formula("LOADING_DOSE", LoadingDoseFormula)
+        self.register_formula("MAINTENANCE_DOSE", MaintenanceDoseFormula)
+
+        # Register genetics formulas (5 total)
+        self.register_formula("HARDY_WEINBERG", HardyWeinbergFormula)
+        self.register_formula("LINKAGE_DISEQUILIBRIUM", LinkageDisequilibriumFormula)
+        self.register_formula("RECOMBINATION_FREQUENCY", RecombinationFrequencyFormula)
+        self.register_formula("CHI2_GENETICS", Chi2GeneticsFormula)
+        self.register_formula("INBREEDING_COEFFICIENT", InbreedingCoefficientFormula)
+
         # Register importers (3 total)
         self.register_importer("plate_reader", PlateReaderImporter)
         self.register_importer("fasta", FASTAImporter)
@@ -157,7 +199,7 @@ class BiologyDomainPlugin(BaseDomainPlugin):
             Plugin validation
         """
         # Verify we have all required components
-        required_formulas = 12  # 4 molecular + 4 biochemistry + 4 ecology
+        required_formulas = 22  # 4 molecular + 4 biochemistry + 4 ecology + 5 pharmacokinetics + 5 genetics
         required_importers = 3
 
         return (

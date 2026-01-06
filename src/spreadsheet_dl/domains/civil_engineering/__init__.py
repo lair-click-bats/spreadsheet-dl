@@ -18,16 +18,21 @@ Example:
 from spreadsheet_dl.domains.civil_engineering.formulas import (
     BeamDeflectionFormula,
     BearingCapacityFormula,
+    BearingCapacityTerzaghi,
     ConcreteStrengthFormula,
+    ConsolidationSettlement,
     CrackWidthFormula,
     DeadLoadFormula,
     LiveLoadFormula,
     MomentFormula,
     ReinforcementRatioFormula,
     SeismicLoadFormula,
+    SettlementElastic,
     SettlementFormula,
     ShearStressFormula,
     SoilPressureFormula,
+    StoppingDistance,
+    TrafficFlow,
     WindLoadFormula,
 )
 
@@ -67,6 +72,8 @@ __all__ = [
     "BeamDeflectionFormula",
     # Formulas - Soil
     "BearingCapacityFormula",
+    # Formulas - Foundation
+    "BearingCapacityTerzaghi",
     # Importers
     "BuildingCodesImporter",
     # Plugin
@@ -75,6 +82,7 @@ __all__ = [
     "ConcreteMix",
     # Formulas - Concrete
     "ConcreteStrengthFormula",
+    "ConsolidationSettlement",
     "CrackWidthFormula",
     # Formulas - Loads
     "DeadLoadFormula",
@@ -84,11 +92,14 @@ __all__ = [
     "MomentFormula",
     "ReinforcementRatioFormula",
     "SeismicLoadFormula",
+    "SettlementElastic",
     "SettlementFormula",
     "ShearStressFormula",
     "SoilPressureFormula",
+    "StoppingDistance",
     "StructuralResultsImporter",
     "SurveyDataImporter",
+    "TrafficFlow",
     "WindLoadFormula",
     "beam_self_weight",
     "bearing_capacity_factors",

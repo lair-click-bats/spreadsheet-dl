@@ -14,18 +14,37 @@ from __future__ import annotations
 from spreadsheet_dl.domains.base import BaseDomainPlugin, PluginMetadata
 
 # Import formulas
+from spreadsheet_dl.domains.education.formulas.assessment import (
+    KR20Formula,
+    KR21Formula,
+    SpearmanBrownFormula,
+    StandardErrorMeasurementFormula,
+    TrueScoreFormula,
+)
 from spreadsheet_dl.domains.education.formulas.grades import (
+    CurveGradesFormula,
     GradeAverageFormula,
     GradeCurveFormula,
+    RubricScoreFormula,
+    StandardScoreFormula,
+    WeightedGPAFormula,
     WeightedGradeFormula,
+)
+from spreadsheet_dl.domains.education.formulas.grades import (
+    PercentileRankFormula as PercentileRankGradeFormula,
 )
 from spreadsheet_dl.domains.education.formulas.learning import (
     AttendanceRateFormula,
     BloomTaxonomyLevelFormula,
     CompletionRateFormula,
+    ForgettingCurveFormula,
+    LearningCurveFormula,
     LearningGainFormula,
+    MasteryLearningFormula,
     MasteryLevelFormula,
     ReadabilityScoreFormula,
+    SpacedRepetitionFormula,
+    TimeOnTaskFormula,
 )
 from spreadsheet_dl.domains.education.formulas.statistics import (
     CorrelationFormula,
@@ -53,24 +72,41 @@ class EducationDomainPlugin(BaseDomainPlugin):
     Provides comprehensive education functionality for SpreadsheetDL
     with formulas and importers tailored for academic and educational workflows.
 
-    Formulas (12 total):
-        Grade Calculations (3):
+    Formulas (27 total):
+        Grade Calculations (8):
         - GRADE_AVERAGE: Simple grade average
         - WEIGHTED_GRADE: Weighted grade calculation
         - GRADE_CURVE: Grade curve adjustment
+        - CURVE_GRADES: Distribution-based curve
+        - STANDARD_SCORE: Z-score transformation
+        - PERCENTILE_RANK_GRADE: Percentile rank
+        - WEIGHTED_GPA: Credit-weighted GPA
+        - RUBRIC_SCORE: Criteria-based scoring
 
         Statistics (3):
         - STANDARD_DEVIATION: Standard deviation of grades
         - PERCENTILE_RANK: Percentile ranking
         - CORRELATION: Correlation coefficient
 
-        Learning Metrics (6):
+        Learning Metrics (11):
         - LEARNING_GAIN: Pre/post learning gain
         - MASTERY_LEVEL: Mastery-based grading level
         - ATTENDANCE_RATE: Student attendance rate
         - COMPLETION_RATE: Assignment completion rate
         - BLOOM_TAXONOMY_LEVEL: Bloom's taxonomy categorization
         - READABILITY_SCORE: Text readability (Flesch-Kincaid)
+        - LEARNING_CURVE: Performance improvement over time
+        - FORGETTING_CURVE: Ebbinghaus retention decay
+        - SPACED_REPETITION: Optimal review interval
+        - MASTERY_LEARNING: Bloom 2-sigma effect
+        - TIME_ON_TASK: Carroll model learning
+
+        Assessment Theory (5):
+        - KR20: Kuder-Richardson 20 reliability
+        - KR21: Simplified KR20
+        - SPEARMAN_BROWN: Test length adjustment
+        - STANDARD_ERROR_MEASUREMENT: SEM calculation
+        - TRUE_SCORE: Estimated true score
 
     Importers:
         - LMSDataImporter: Learning Management System data
@@ -115,23 +151,42 @@ class EducationDomainPlugin(BaseDomainPlugin):
         Raises:
             Exception: If initialization fails
         """
-        # Register grade calculation formulas (3)
+        # Register grade calculation formulas (8)
         self.register_formula("GRADE_AVERAGE", GradeAverageFormula)
         self.register_formula("WEIGHTED_GRADE", WeightedGradeFormula)
         self.register_formula("GRADE_CURVE", GradeCurveFormula)
+        self.register_formula("CURVE_GRADES", CurveGradesFormula)
+        self.register_formula("STANDARD_SCORE", StandardScoreFormula)
+        self.register_formula("PERCENTILE_RANK_GRADE", PercentileRankGradeFormula)
+        self.register_formula("WEIGHTED_GPA", WeightedGPAFormula)
+        self.register_formula("RUBRIC_SCORE", RubricScoreFormula)
 
         # Register statistics formulas (3)
         self.register_formula("STANDARD_DEVIATION", StandardDeviationFormula)
         self.register_formula("PERCENTILE_RANK", PercentileRankFormula)
         self.register_formula("CORRELATION", CorrelationFormula)
 
-        # Register learning metrics formulas (6)
+        # Register learning metrics formulas (11)
         self.register_formula("LEARNING_GAIN", LearningGainFormula)
         self.register_formula("MASTERY_LEVEL", MasteryLevelFormula)
         self.register_formula("ATTENDANCE_RATE", AttendanceRateFormula)
         self.register_formula("COMPLETION_RATE", CompletionRateFormula)
         self.register_formula("BLOOM_TAXONOMY_LEVEL", BloomTaxonomyLevelFormula)
         self.register_formula("READABILITY_SCORE", ReadabilityScoreFormula)
+        self.register_formula("LEARNING_CURVE", LearningCurveFormula)
+        self.register_formula("FORGETTING_CURVE", ForgettingCurveFormula)
+        self.register_formula("SPACED_REPETITION", SpacedRepetitionFormula)
+        self.register_formula("MASTERY_LEARNING", MasteryLearningFormula)
+        self.register_formula("TIME_ON_TASK", TimeOnTaskFormula)
+
+        # Register assessment theory formulas (5)
+        self.register_formula("KR20", KR20Formula)
+        self.register_formula("KR21", KR21Formula)
+        self.register_formula("SPEARMAN_BROWN", SpearmanBrownFormula)
+        self.register_formula(
+            "STANDARD_ERROR_MEASUREMENT", StandardErrorMeasurementFormula
+        )
+        self.register_formula("TRUE_SCORE", TrueScoreFormula)
 
         # Register importers (3 total)
         self.register_importer("lms_data", LMSDataImporter)
@@ -157,7 +212,7 @@ class EducationDomainPlugin(BaseDomainPlugin):
         Implements:
             Plugin validation
         """
-        required_formulas = 12  # 3 grades + 3 statistics + 6 learning
+        required_formulas = 27  # 8 grades + 3 statistics + 11 learning + 5 assessment
         required_importers = 3
 
         return (

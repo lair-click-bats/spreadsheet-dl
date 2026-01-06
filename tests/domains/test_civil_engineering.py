@@ -15,10 +15,12 @@ import pytest
 from spreadsheet_dl.domains.civil_engineering import (
     BeamDeflectionFormula,
     BearingCapacityFormula,
+    BearingCapacityTerzaghi,
     BuildingCodesImporter,
     CivilEngineeringDomainPlugin,
     ConcreteMix,
     ConcreteStrengthFormula,
+    ConsolidationSettlement,
     CrackWidthFormula,
     DeadLoadFormula,
     LiveLoadFormula,
@@ -27,11 +29,14 @@ from spreadsheet_dl.domains.civil_engineering import (
     MomentFormula,
     ReinforcementRatioFormula,
     SeismicLoadFormula,
+    SettlementElastic,
     SettlementFormula,
     ShearStressFormula,
     SoilPressureFormula,
+    StoppingDistance,
     StructuralResultsImporter,
     SurveyDataImporter,
+    TrafficFlow,
     WindLoadFormula,
 )
 from spreadsheet_dl.domains.civil_engineering.utils import (
@@ -74,7 +79,7 @@ def test_plugin_initialization() -> None:
     plugin = CivilEngineeringDomainPlugin()
     plugin.initialize()
 
-    # Verify formulas registered (13 total)
+    # Verify formulas registered (18 total)
     # Beam formulas
     assert plugin.get_formula("BEAM_DEFLECTION") == BeamDeflectionFormula
     assert plugin.get_formula("SHEAR_STRESS") == ShearStressFormula
@@ -95,6 +100,15 @@ def test_plugin_initialization() -> None:
     assert plugin.get_formula("LIVE_LOAD") == LiveLoadFormula
     assert plugin.get_formula("WIND_LOAD") == WindLoadFormula
     assert plugin.get_formula("SEISMIC_LOAD") == SeismicLoadFormula
+
+    # Foundation formulas
+    assert plugin.get_formula("BEARING_CAPACITY_TERZAGHI") == BearingCapacityTerzaghi
+    assert plugin.get_formula("SETTLEMENT_ELASTIC") == SettlementElastic
+    assert plugin.get_formula("CONSOLIDATION_SETTLEMENT") == ConsolidationSettlement
+
+    # Transportation formulas
+    assert plugin.get_formula("STOPPING_DISTANCE") == StoppingDistance
+    assert plugin.get_formula("TRAFFIC_FLOW") == TrafficFlow
 
     # Verify importers registered (3 total)
     assert plugin.get_importer("survey_data") == SurveyDataImporter
@@ -732,3 +746,168 @@ def test_importer_error_handling() -> None:
             assert len(result.errors) > 0  # Should have errors
     finally:
         xml_path.unlink()
+
+
+# ============================================================================
+# Foundation Formula Tests (Batch 3)
+# ============================================================================
+
+
+def test_bearing_capacity_terzaghi_formula() -> None:
+    """Test Terzaghi bearing capacity formula."""
+    formula = BearingCapacityTerzaghi()
+
+    assert formula.metadata.name == "BEARING_CAPACITY_TERZAGHI"
+    assert formula.metadata.category == "civil_engineering"
+    assert len(formula.metadata.arguments) == 7
+
+    # Test calculation with numeric values
+    result = formula.build("20", "18", "2", "1.5", "5.14", "1.81", "0.45")
+    assert result == "of:=20*5.14+18*2*1.81+0.5*18*1.5*0.45"
+
+    # Test with cell references
+    result = formula.build("A2", "B2", "C2", "D2", "E2", "F2", "G2")
+    assert result == "of:=A2*E2+B2*C2*F2+0.5*B2*D2*G2"
+
+
+def test_settlement_elastic_formula() -> None:
+    """Test elastic settlement formula."""
+    formula = SettlementElastic()
+
+    assert formula.metadata.name == "SETTLEMENT_ELASTIC"
+    assert formula.metadata.category == "civil_engineering"
+    assert len(formula.metadata.arguments) == 4
+
+    # Test calculation
+    result = formula.build("100", "2", "20000", "0.3")
+    assert result == "of:=(100*2*(1-0.3^2))/20000"
+
+    # Test with cell references
+    result = formula.build("A2", "B2", "C2", "D2")
+    assert result == "of:=(A2*B2*(1-D2^2))/C2"
+
+
+def test_consolidation_settlement_formula() -> None:
+    """Test consolidation settlement formula."""
+    formula = ConsolidationSettlement()
+
+    assert formula.metadata.name == "CONSOLIDATION_SETTLEMENT"
+    assert formula.metadata.category == "civil_engineering"
+    assert len(formula.metadata.arguments) == 5
+
+    # Test calculation
+    result = formula.build("0.3", "0.8", "5", "100", "150")
+    assert result == "of:=(0.3*5/(1+0.8))*LOG10(150/100)"
+
+    # Test with cell references
+    result = formula.build("A2", "B2", "C2", "D2", "E2")
+    assert result == "of:=(A2*C2/(1+B2))*LOG10(E2/D2)"
+
+
+# ============================================================================
+# Transportation Formula Tests (Batch 3)
+# ============================================================================
+
+
+def test_stopping_distance_formula() -> None:
+    """Test stopping distance formula."""
+    formula = StoppingDistance()
+
+    assert formula.metadata.name == "STOPPING_DISTANCE"
+    assert formula.metadata.category == "civil_engineering"
+    assert len(formula.metadata.arguments) == 4
+
+    # Test calculation
+    result = formula.build("25", "2.5", "0.35", "0.03")
+    assert result == "of:=25*2.5+(25^2)/(2*9.81*(0.35+0.03))"
+
+    # Test with cell references
+    result = formula.build("A2", "B2", "C2", "D2")
+    assert result == "of:=A2*B2+(A2^2)/(2*9.81*(C2+D2))"
+
+
+def test_traffic_flow_formula() -> None:
+    """Test traffic flow formula."""
+    formula = TrafficFlow()
+
+    assert formula.metadata.name == "TRAFFIC_FLOW"
+    assert formula.metadata.category == "civil_engineering"
+    assert len(formula.metadata.arguments) == 2
+
+    # Test calculation
+    result = formula.build("50", "80")
+    assert result == "of:=50*80"
+
+    # Test with cell references
+    result = formula.build("A2", "B2")
+    assert result == "of:=A2*B2"
+
+
+# ============================================================================
+# Formula Argument Validation Tests (Batch 3)
+# ============================================================================
+
+
+def test_bearing_capacity_terzaghi_validation() -> None:
+    """Test Terzaghi bearing capacity argument validation."""
+    formula = BearingCapacityTerzaghi()
+
+    # Too few arguments should raise
+    with pytest.raises(ValueError, match="requires at least"):
+        formula.build("20", "18", "2")
+
+    # Too many arguments should raise
+    with pytest.raises(ValueError, match="accepts at most"):
+        formula.build("20", "18", "2", "1.5", "5.14", "1.81", "0.45", "extra")
+
+
+def test_settlement_elastic_validation() -> None:
+    """Test elastic settlement argument validation."""
+    formula = SettlementElastic()
+
+    # Too few arguments should raise
+    with pytest.raises(ValueError, match="requires at least"):
+        formula.build("100", "2")
+
+    # Too many arguments should raise
+    with pytest.raises(ValueError, match="accepts at most"):
+        formula.build("100", "2", "20000", "0.3", "extra")
+
+
+def test_consolidation_settlement_validation() -> None:
+    """Test consolidation settlement argument validation."""
+    formula = ConsolidationSettlement()
+
+    # Too few arguments should raise
+    with pytest.raises(ValueError, match="requires at least"):
+        formula.build("0.3", "0.8")
+
+    # Too many arguments should raise
+    with pytest.raises(ValueError, match="accepts at most"):
+        formula.build("0.3", "0.8", "5", "100", "150", "extra")
+
+
+def test_stopping_distance_validation() -> None:
+    """Test stopping distance argument validation."""
+    formula = StoppingDistance()
+
+    # Too few arguments should raise
+    with pytest.raises(ValueError, match="requires at least"):
+        formula.build("25", "2.5")
+
+    # Too many arguments should raise
+    with pytest.raises(ValueError, match="accepts at most"):
+        formula.build("25", "2.5", "0.35", "0.03", "extra")
+
+
+def test_traffic_flow_validation() -> None:
+    """Test traffic flow argument validation."""
+    formula = TrafficFlow()
+
+    # Too few arguments should raise
+    with pytest.raises(ValueError, match="requires at least"):
+        formula.build("50")
+
+    # Too many arguments should raise
+    with pytest.raises(ValueError, match="accepts at most"):
+        formula.build("50", "80", "extra")

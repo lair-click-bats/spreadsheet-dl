@@ -49,7 +49,7 @@ from spreadsheet_dl.serialization import (
 if TYPE_CHECKING:
     from pathlib import Path
 
-pytestmark = [pytest.mark.unit]
+pytestmark = [pytest.mark.unit, pytest.mark.builder]
 
 # ==============================================================================
 # Fixtures

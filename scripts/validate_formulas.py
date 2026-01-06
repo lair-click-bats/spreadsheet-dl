@@ -23,6 +23,7 @@ def discover_domain_formulas() -> dict[str, list[type[BaseFormula]]]:
     """Discover all formulas in domain plugins."""
     domains = {
         "biology": "spreadsheet_dl.domains.biology.formulas",
+        "chemistry": "spreadsheet_dl.domains.chemistry.formulas",
         "civil_engineering": "spreadsheet_dl.domains.civil_engineering.formulas",
         "data_science": "spreadsheet_dl.domains.data_science.formulas",
         "education": "spreadsheet_dl.domains.education.formulas",
@@ -31,6 +32,7 @@ def discover_domain_formulas() -> dict[str, list[type[BaseFormula]]]:
         "finance": "spreadsheet_dl.domains.finance.formulas",
         "manufacturing": "spreadsheet_dl.domains.manufacturing.formulas",
         "mechanical_engineering": "spreadsheet_dl.domains.mechanical_engineering.formulas",
+        "physics": "spreadsheet_dl.domains.physics.formulas",
     }
 
     formula_map: dict[str, list[type[BaseFormula]]] = {}

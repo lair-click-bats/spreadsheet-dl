@@ -328,13 +328,213 @@ def format_concentration(
     return f"{value:.{decimals}f} {unit}"
 
 
+def calculate_radiative_forcing(
+    co2_current: float,
+    co2_reference: float = 280.0,
+) -> float:
+    """Calculate radiative forcing from CO2 concentration.
+
+    Args:
+        co2_current: Current CO2 concentration (ppm)
+        co2_reference: Reference CO2 concentration (ppm, default 280)
+
+    Returns:
+        Radiative forcing (W/m^2)
+
+    Implements:
+        Radiative forcing calculation
+
+    Example:
+        >>> calculate_radiative_forcing(400, 280)  # doctest: +ELLIPSIS
+        1.89...
+    """
+    return 5.35 * math.log(co2_current / co2_reference)
+
+
+def calculate_climate_sensitivity(
+    radiative_forcing: float,
+    climate_feedback: float = 0.8,
+) -> float:
+    """Calculate temperature response to radiative forcing.
+
+    Args:
+        radiative_forcing: Radiative forcing (W/m^2)
+        climate_feedback: Climate feedback parameter (W/m^2/K, default 0.8)
+
+    Returns:
+        Temperature change (degrees C)
+
+    Implements:
+        Climate sensitivity calculation
+
+    Example:
+        >>> calculate_climate_sensitivity(3.7, 0.8)
+        4.625
+    """
+    return radiative_forcing / climate_feedback
+
+
+def calculate_sea_level_rise(
+    temp_change: float,
+    ocean_depth: float = 3700.0,
+    expansion_coeff: float = 0.000214,
+) -> float:
+    """Calculate sea level rise from thermal expansion.
+
+    Args:
+        temp_change: Ocean temperature change (degrees C)
+        ocean_depth: Mean ocean depth (meters, default 3700)
+        expansion_coeff: Thermal expansion coefficient (1/K, default 0.000214)
+
+    Returns:
+        Sea level rise (meters)
+
+    Implements:
+        Sea level rise calculation
+
+    Example:
+        >>> calculate_sea_level_rise(1.5)  # doctest: +ELLIPSIS
+        1.18...
+    """
+    return temp_change * ocean_depth * expansion_coeff
+
+
+def calculate_ice_sheet_mass_balance(
+    accumulation: float,
+    ablation: float,
+) -> float:
+    """Calculate ice sheet mass balance.
+
+    Args:
+        accumulation: Snow accumulation rate (Gt/year)
+        ablation: Ice ablation rate (Gt/year)
+
+    Returns:
+        Net mass balance (Gt/year)
+
+    Implements:
+        Ice sheet mass balance calculation
+
+    Example:
+        >>> calculate_ice_sheet_mass_balance(250, 180)
+        70
+    """
+    return accumulation - ablation
+
+
+def calculate_solar_panel_output(
+    irradiance: float,
+    area: float,
+    efficiency: float,
+) -> float:
+    """Calculate solar panel power output.
+
+    Args:
+        irradiance: Solar irradiance (W/m^2)
+        area: Panel area (m^2)
+        efficiency: Panel efficiency (0-1)
+
+    Returns:
+        Power output (watts)
+
+    Implements:
+        Solar panel output calculation
+
+    Example:
+        >>> calculate_solar_panel_output(1000, 1.6, 0.18)
+        288.0
+    """
+    return irradiance * area * efficiency
+
+
+def calculate_wind_turbine_power(
+    air_density: float,
+    area: float,
+    velocity: float,
+    power_coeff: float,
+) -> float:
+    """Calculate wind turbine power output.
+
+    Args:
+        air_density: Air density (kg/m^3)
+        area: Swept area (m^2)
+        velocity: Wind velocity (m/s)
+        power_coeff: Power coefficient (0-0.593)
+
+    Returns:
+        Power output (watts)
+
+    Implements:
+        Wind turbine power calculation
+
+    Example:
+        >>> calculate_wind_turbine_power(1.225, 2827, 12, 0.4)  # doctest: +ELLIPSIS
+        1194163.2
+    """
+    return 0.5 * air_density * area * (velocity**3) * power_coeff
+
+
+def calculate_energy_payback_time(
+    energy_input: float,
+    annual_output: float,
+) -> float:
+    """Calculate energy payback time.
+
+    Args:
+        energy_input: Total energy input for manufacturing (kWh)
+        annual_output: Annual energy output (kWh/year)
+
+    Returns:
+        Energy payback time (years)
+
+    Implements:
+        EPBT calculation
+
+    Example:
+        >>> calculate_energy_payback_time(50000, 2500)
+        20.0
+    """
+    return energy_input / annual_output
+
+
+def calculate_eroi(
+    energy_output: float,
+    energy_input: float,
+) -> float:
+    """Calculate Energy Return on Investment.
+
+    Args:
+        energy_output: Total lifetime energy output (kWh)
+        energy_input: Total energy input for system (kWh)
+
+    Returns:
+        EROI ratio
+
+    Implements:
+        EROI calculation
+
+    Example:
+        >>> calculate_eroi(500000, 50000)
+        10.0
+    """
+    return energy_output / energy_input
+
+
 __all__ = [
     "calculate_aqi",
     "calculate_bod",
     "calculate_carbon_equivalent",
+    "calculate_climate_sensitivity",
     "calculate_ecological_footprint",
+    "calculate_energy_payback_time",
+    "calculate_eroi",
+    "calculate_ice_sheet_mass_balance",
+    "calculate_radiative_forcing",
+    "calculate_sea_level_rise",
     "calculate_shannon_diversity",
     "calculate_simpson_index",
+    "calculate_solar_panel_output",
+    "calculate_wind_turbine_power",
     "calculate_wqi",
     "format_concentration",
     "ppm_to_ugm3",

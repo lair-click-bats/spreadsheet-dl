@@ -1,24 +1,37 @@
 """Mechanical Engineering Domain Plugin for SpreadsheetDL.
 
 Provides comprehensive mechanical engineering functionality including:
-- Stress/strain, moment, thermal, and fatigue formulas
+- Stress/strain, moment, thermal, fatigue, and fluid mechanics formulas
 - CAD metadata, FEA results, and material database importers
 
 Implements:
     Mechanical Engineering domain plugin
+    BATCH2-MECH: Extended with fluid mechanics and heat transfer formulas
 """
 
 # Plugin
 # Formulas
 from spreadsheet_dl.domains.mechanical_engineering.formulas import (
     BendingStressFormula,
+    BernoulliEquation,
+    ConvectionCoefficient,
+    DarcyWeisbach,
+    DragForce,
     FatigueLifeFormula,
+    FinEfficiency,
+    LiftForce,
+    LogMeanTempDiff,
     MomentOfInertiaFormula,
+    NusseltNumber,
+    PoiseuilleLaw,
+    RadiationHeatTransfer,
+    ReynoldsNumber,
     SafetyFactorFormula,
     StrainFormula,
     StressConcentrationFormula,
     StressFormula,
     ThermalExpansionFormula,
+    ThermalResistance,
     ThermalStressFormula,
     TorsionalStressFormula,
     YoungsModulusFormula,
@@ -55,19 +68,31 @@ from spreadsheet_dl.domains.mechanical_engineering.utils import (
 __all__ = [
     # Formulas
     "BendingStressFormula",
+    "BernoulliEquation",
     # Importers
     "CADMetadataImporter",
+    "ConvectionCoefficient",
+    "DarcyWeisbach",
+    "DragForce",
     "FEAResultsImporter",
     "FatigueLifeFormula",
+    "FinEfficiency",
+    "LiftForce",
+    "LogMeanTempDiff",
     "MaterialDatabaseImporter",
     # Plugin
     "MechanicalEngineeringDomainPlugin",
     "MomentOfInertiaFormula",
+    "NusseltNumber",
+    "PoiseuilleLaw",
+    "RadiationHeatTransfer",
+    "ReynoldsNumber",
     "SafetyFactorFormula",
     "StrainFormula",
     "StressConcentrationFormula",
     "StressFormula",
     "ThermalExpansionFormula",
+    "ThermalResistance",
     "ThermalStressFormula",
     "TorsionalStressFormula",
     "YoungsModulusFormula",

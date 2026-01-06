@@ -33,11 +33,29 @@ from spreadsheet_dl.domains.environmental.formulas.carbon import (
     SustainabilityScoreFormula,
 )
 
+# Formulas - Climate
+from spreadsheet_dl.domains.environmental.formulas.climate import (
+    ClimateSensitivityFormula,
+    IceSheetMeltingFormula,
+    RadiativeForcingFormula,
+    SeaLevelRiseFormula,
+)
+
 # Formulas - Ecology
 from spreadsheet_dl.domains.environmental.formulas.ecology import (
     ShannonDiversityFormula,
     SimpsonIndexFormula,
     SpeciesRichnessFormula,
+)
+
+# Formulas - Renewable Energy
+from spreadsheet_dl.domains.environmental.formulas.renewable import (
+    CapacityFactorFormula,
+    EnergyPaybackTimeFormula,
+    EnergyReturnInvestmentFormula,
+    LevelizedCostEnergyFormula,
+    SolarPanelOutputFormula,
+    WindTurbinePowerFormula,
 )
 
 # Formulas - Water Quality
@@ -75,22 +93,34 @@ __all__ = [
     "BODCalculationFormula",
     # Formulas - Carbon
     "CarbonEquivalentFormula",
+    "CapacityFactorFormula",
+    # Formulas - Climate
+    "ClimateSensitivityFormula",
     "EcologicalFootprintFormula",
     "EmissionRateFormula",
+    "EnergyPaybackTimeFormula",
+    "EnergyReturnInvestmentFormula",
     # Plugin
     "EnvironmentalDomainPlugin",
     "EnvironmentalImpactScoreFormula",
+    # Formulas - Climate
+    "IceSheetMeltingFormula",
     # Importers
     "LabResultsImporter",
+    "LevelizedCostEnergyFormula",
     "PollutionIndexFormula",
+    "RadiativeForcingFormula",
     "SatelliteDataImporter",
+    "SeaLevelRiseFormula",
     "SensorNetworkImporter",
     # Formulas - Ecology
     "ShannonDiversityFormula",
     "SimpsonIndexFormula",
+    "SolarPanelOutputFormula",
     "SpeciesRichnessFormula",
     "SustainabilityScoreFormula",
     "WaterQualityIndexFormula",
+    "WindTurbinePowerFormula",
     # Utils
     "calculate_aqi",
     "calculate_bod",

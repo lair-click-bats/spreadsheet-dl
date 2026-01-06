@@ -252,12 +252,85 @@ def format_manufacturing_number(value: Any, decimals: int = 2) -> str:
         return str(value)
 
 
+def calculate_dpmo(defects: int, units: int, opportunities: int) -> float:
+    """Calculate Defects Per Million Opportunities.
+
+    Implements:
+        DPMO calculation utility
+
+    Args:
+        defects: Number of defects
+        units: Number of units inspected
+        opportunities: Defect opportunities per unit
+
+    Returns:
+        DPMO value
+
+    Example:
+        >>> dpmo = calculate_dpmo(25, 1000, 5)
+        >>> # Returns: 5000.0
+    """
+    if units == 0 or opportunities == 0:
+        return 0.0
+    return (defects / (units * opportunities)) * 1000000
+
+
+def calculate_process_cycle_efficiency(
+    value_add_time: float, lead_time: float
+) -> float:
+    """Calculate Process Cycle Efficiency (PCE).
+
+    Implements:
+        PCE calculation utility
+
+    Args:
+        value_add_time: Value-adding time
+        lead_time: Total lead time
+
+    Returns:
+        PCE percentage
+
+    Example:
+        >>> pce = calculate_process_cycle_efficiency(120, 720)
+        >>> # Returns: 16.67
+    """
+    if lead_time == 0:
+        return 0.0
+    return (value_add_time / lead_time) * 100
+
+
+def calculate_kanban_quantity(
+    demand: float, lead_time: float, safety_factor: float
+) -> float:
+    """Calculate optimal kanban quantity.
+
+    Implements:
+        Kanban quantity calculation
+
+    Args:
+        demand: Daily demand in units
+        lead_time: Lead time in days
+        safety_factor: Safety factor (e.g., 0.2 for 20%)
+
+    Returns:
+        Optimal kanban quantity
+
+    Example:
+        >>> kanban_qty = calculate_kanban_quantity(100, 5, 0.2)
+        >>> # Returns: 600.0
+    """
+    return (demand * lead_time) * (1 + safety_factor)
+
+
 __all__ = [
     "calculate_cycle_time",
     "calculate_defect_rate",
+    "calculate_dpmo",
     "calculate_eoq",
     "calculate_first_pass_yield",
+    "calculate_kanban_quantity",
     "calculate_oee",
+    "calculate_process_cycle_efficiency",
     "calculate_reorder_point",
     "calculate_safety_stock",
     "calculate_takt_time",

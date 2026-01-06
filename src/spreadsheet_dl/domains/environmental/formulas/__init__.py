@@ -3,11 +3,13 @@
 Implements:
     Environmental domain formula extensions
 
-Provides 12 specialized formulas for environmental science:
+Provides 22 specialized formulas for environmental science:
 - Air quality (AQI, emission rate, pollution index)
 - Water quality (WQI, BOD)
 - Ecology (Shannon diversity, Simpson index, species richness)
 - Carbon/Sustainability (CO2 equivalent, footprint, impact score)
+- Climate modeling (radiative forcing, climate sensitivity, sea level, ice sheets)
+- Renewable energy (solar, wind, EPBT, LCOE, capacity factor, EROI)
 """
 
 from spreadsheet_dl.domains.environmental.formulas.air_quality import (
@@ -21,6 +23,13 @@ from spreadsheet_dl.domains.environmental.formulas.carbon import (
     EnvironmentalImpactScoreFormula,
     SustainabilityScoreFormula,
 )
+from spreadsheet_dl.domains.environmental.formulas.climate import (
+    CarbonBudgetFormula,
+    ClimateSensitivityFormula,
+    IceSheetMeltingFormula,
+    RadiativeForcingFormula,
+    SeaLevelRiseFormula,
+)
 from spreadsheet_dl.domains.environmental.formulas.ecology import (
     ShannonDiversityFormula,
     SimpsonIndexFormula,
@@ -31,29 +40,54 @@ from spreadsheet_dl.domains.environmental.formulas.lifecycle import (
     EutrophicationPotential,
     GlobalWarmingPotential,
 )
+from spreadsheet_dl.domains.environmental.formulas.renewable import (
+    BatteryStorageCapacityFormula,
+    CapacityFactorFormula,
+    CarbonIntensityFormula,
+    EnergyPaybackTimeFormula,
+    EnergyReturnInvestmentFormula,
+    GridStabilityIndexFormula,
+    LevelizedCostEnergyFormula,
+    SolarPanelEfficiencyFormula,
+    SolarPanelOutputFormula,
+    WindCapacityFactorFormula,
+    WindTurbinePowerFormula,
+)
 from spreadsheet_dl.domains.environmental.formulas.water_quality import (
     BODCalculationFormula,
     WaterQualityIndexFormula,
 )
 
 __all__ = [
-    # Air Quality
     "AQICalculationFormula",
     "AcidificationPotential",
-    # Water Quality
     "BODCalculationFormula",
-    # Carbon/Sustainability
+    "BatteryStorageCapacityFormula",
+    "CapacityFactorFormula",
+    "CarbonBudgetFormula",
     "CarbonEquivalentFormula",
+    "CarbonIntensityFormula",
+    "ClimateSensitivityFormula",
     "EcologicalFootprintFormula",
     "EmissionRateFormula",
+    "EnergyPaybackTimeFormula",
+    "EnergyReturnInvestmentFormula",
     "EnvironmentalImpactScoreFormula",
     "EutrophicationPotential",
     "GlobalWarmingPotential",
+    "GridStabilityIndexFormula",
+    "IceSheetMeltingFormula",
+    "LevelizedCostEnergyFormula",
     "PollutionIndexFormula",
-    # Ecology
+    "RadiativeForcingFormula",
+    "SeaLevelRiseFormula",
     "ShannonDiversityFormula",
     "SimpsonIndexFormula",
+    "SolarPanelEfficiencyFormula",
+    "SolarPanelOutputFormula",
     "SpeciesRichnessFormula",
     "SustainabilityScoreFormula",
     "WaterQualityIndexFormula",
+    "WindCapacityFactorFormula",
+    "WindTurbinePowerFormula",
 ]
