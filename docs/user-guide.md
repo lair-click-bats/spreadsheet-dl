@@ -9,12 +9,11 @@ A comprehensive guide to using SpreadsheetDL for family budget management.
 3. [Adding Expenses](#adding-expenses)
 4. [Analyzing Budgets](#analyzing-budgets)
 5. [Generating Reports](#generating-reports)
-6. [Budget Templates](#budget-templates)
-7. [Visual Themes](#visual-themes)
-8. [Importing Bank Data](#importing-bank-data)
-9. [Recurring Expenses](#recurring-expenses)
-10. [Nextcloud Integration](#nextcloud-integration)
-11. [Best Practices](#best-practices)
+6. [Visual Themes](#visual-themes)
+7. [Importing Bank Data](#importing-bank-data)
+8. [Recurring Expenses](#recurring-expenses)
+9. [Nextcloud Integration](#nextcloud-integration)
+10. [Best Practices](#best-practices)
 
 ---
 
@@ -59,23 +58,6 @@ uv run spreadsheet-dl generate -o ~/finances/
 uv run spreadsheet-dl generate -m 6 -y 2025 -o ~/finances/
 ```
 
-### With Templates
-
-Use pre-built budget templates:
-
-```bash
-# 50/30/20 rule (needs/wants/savings)
-uv run spreadsheet-dl generate -t 50_30_20
-
-# Family budget (4+ people)
-uv run spreadsheet-dl generate -t family
-
-# FIRE (high savings rate)
-uv run spreadsheet-dl generate -t fire
-```
-
-See [Budget Templates](#budget-templates) for all options.
-
 ### With Themes
 
 Apply visual styling:
@@ -86,9 +68,6 @@ uv run spreadsheet-dl generate --theme corporate
 
 # High contrast (accessibility)
 uv run spreadsheet-dl generate --theme high_contrast
-
-# Combine template and theme
-uv run spreadsheet-dl generate -t family --theme minimal
 ```
 
 See [Visual Themes](#visual-themes) for all options.
@@ -226,36 +205,6 @@ uv run spreadsheet-dl report budget_2025_01.ods -f markdown -o report.md
 ```bash
 uv run spreadsheet-dl report budget_2025_01.ods -f json
 ```
-
----
-
-## Budget Templates
-
-### Available Templates
-
-| Template      | Description                       | Best For         |
-| ------------- | --------------------------------- | ---------------- |
-| `50_30_20`    | 50% needs, 30% wants, 20% savings | Beginners        |
-| `family`      | Optimized for family of 4         | Families         |
-| `minimalist`  | High savings, minimal categories  | Single person    |
-| `zero_based`  | Every dollar assigned             | Detail-oriented  |
-| `fire`        | 50%+ savings rate                 | Early retirement |
-| `high_income` | Balanced for $200k+               | High earners     |
-
-### List All Templates
-
-```bash
-uv run spreadsheet-dl templates
-uv run spreadsheet-dl templates --json
-```
-
-### Template Details
-
-Each template includes:
-
-- Predefined budget allocations
-- Recommended category limits
-- Suggested income scaling
 
 ---
 
