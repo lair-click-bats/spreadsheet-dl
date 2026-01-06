@@ -2,6 +2,29 @@
 """
 Template Engine Usage Examples - v4.0 Feature Showcase
 
+DEPRECATION NOTICE:
+This file has been split into smaller, more focused examples in the
+examples/template_engine/ directory for better maintainability and clarity.
+
+Please use the individual example files instead:
+  - examples/template_engine/01_basic_loading.py
+  - examples/template_engine/02_variable_substitution.py
+  - examples/template_engine/03_conditional_rendering.py
+  - examples/template_engine/04_component_composition.py
+  - examples/template_engine/05_complete_template.py
+  - examples/template_engine/06_builtin_functions.py
+  - examples/template_engine/07_custom_template.py
+  - examples/template_engine/08_error_handling.py
+  - examples/template_engine/run_all.py (runs all examples)
+
+To run all examples:
+    python -m examples.template_engine.run_all
+
+This file is maintained for backward compatibility but may be removed in
+a future version.
+
+---
+
 Demonstrates comprehensive usage of the SpreadsheetDL template engine including:
 - Loading and rendering YAML templates
 - Variable substitution with built-in functions
@@ -898,11 +921,13 @@ sheets:
 
     # 3. Variable with validation
     print("\n3. Testing variable validation:")
-    # Note: Validation is defined but not enforced in current implementation
-    result = renderer.render(
-        template, {"required_field": "Test", "month": 5, "amount": 100}
-    )
-    print("   ✓ Valid values accepted")
+    try:
+        result = renderer.render(
+            template, {"required_field": "Test", "month": 5, "amount": 100}
+        )
+        print("   ✓ Valid values accepted")
+    except ValueError as e:
+        print(f"   ✓ Caught validation error: {e}")
 
     # 4. Invalid YAML
     print("\n4. Testing invalid YAML:")
@@ -948,6 +973,15 @@ def main() -> None:
     )
     print("║" + " " * 68 + "║")
     print("╚" + "═" * 68 + "╝")
+    print()
+
+    # Display deprecation warning
+    print("⚠️  DEPRECATION NOTICE:")
+    print("   This file has been split into smaller, focused examples.")
+    print("   Please use: examples/template_engine/ directory")
+    print("   Run all with: python -m examples.template_engine.run_all")
+    print()
+    print("   Continuing with legacy execution...")
     print()
 
     try:
