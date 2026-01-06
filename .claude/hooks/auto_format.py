@@ -5,7 +5,6 @@ PostToolUse hook that automatically formats files using language-specific format
 - Python: ruff format
 - Markdown/YAML/JSON: prettier
 - Shell: shfmt
-- LaTeX: latexindent
 
 Runs after Write, Edit, and NotebookEdit tool calls with minimal overhead (<1s per file).
 Non-blocking: Always exits 0 to avoid disrupting workflows.
@@ -118,22 +117,6 @@ def format_file(file_path: str, project_root: str) -> tuple[bool, str]:
             if result.returncode == 0:
                 return True, "shfmt formatted"
             return False, f"shfmt failed: {result.returncode}"
-
-        # LaTeX files: latexindent
-        elif path.suffix == ".tex":
-            if not has_tool("latexindent"):
-                return False, "latexindent not available"
-            # latexindent creates backup files, use -w to overwrite
-            result = subprocess.run(
-                ["latexindent", "-w", str(file_path)],
-                cwd=project_root,
-                capture_output=True,
-                timeout=formatter_timeout,
-                check=False,
-            )
-            if result.returncode == 0:
-                return True, "latexindent formatted"
-            return False, f"latexindent failed: {result.returncode}"
 
         return False, "No formatter configured"
 

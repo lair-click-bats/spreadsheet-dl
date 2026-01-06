@@ -89,7 +89,7 @@ Write to `.claude/agent-outputs/YYYY-MM-DD-HHMMSS-implement-complete.json`:
   "task_id": "TASK-XXX",
   "agent": "spec_implementer",
   "status": "complete|blocked",
-  "requirements_addressed": ["REQ-001", "REQ-002"],
+  "requirements_addressed": ["CORE-001", "CORE-002"],
   "deliverables": [
     {
       "path": "src/module/file.py",

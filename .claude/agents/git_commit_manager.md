@@ -1,8 +1,18 @@
 ---
 name: git_commit_manager
-description: 'Git expert for conventional commits and clean history. Use PROACTIVELY for /git command, after significant editing sessions, or when changes span multiple domains. Keywords: git, commit, version control, conventional commits, git history, commit message, staged, changes.'
+description: 'Git expert for conventional commits and clean history. Use PROACTIVELY for /git command, after significant editing sessions, or when changes span multiple domains.'
 tools: Bash, Read, Grep, Glob
 model: sonnet
+routing_keywords:
+  - git
+  - commit
+  - push
+  - version control
+  - conventional commits
+  - git history
+  - commit message
+  - staged
+  - changes
 ---
 
 # Git Commit Manager
@@ -181,7 +191,7 @@ git commit -m "docs(productivity): add Cal Newport deep work notes"
 Never add the following to commit messages:
 
 - `Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>`
-- `🤖 Generated with [Claude Code](https://claude.com/claude-code)`
+- `Generated with [Claude Code](https://claude.com/claude-code)`
 - Any other Claude attribution or co-author lines
 
 Commit messages should only include the conventional commit format with optional body/footer.

@@ -90,17 +90,16 @@ def validate_python(file_path: Path, project_root: str) -> tuple[bool, list[str]
             if line and not line.startswith("Found"):
                 errors.append(f"[ruff] {line}")
 
-    # Step 4: Type check with mypy (INFO mode - show but don't block yet)
-    # Uncomment to enable strict mypy blocking:
-    # returncode, stdout, _ = run_command(
-    #     ["uv", "run", "mypy", str(file_path), "--no-error-summary"],
-    #     cwd=project_root,
-    #     timeout=60,
-    # )
-    # if returncode != 0 and stdout.strip():
-    #     for line in stdout.strip().split("\n"):
-    #         if line and not line.startswith("Found") and not line.startswith("Success"):
-    #             errors.append(f"[mypy] {line}")
+    # Step 4: Type check with mypy
+    returncode, stdout, _ = run_command(
+        ["uv", "run", "mypy", str(file_path), "--no-error-summary"],
+        cwd=project_root,
+        timeout=60,
+    )
+    if returncode != 0 and stdout.strip():
+        for line in stdout.strip().split("\n"):
+            if line and not line.startswith("Found") and not line.startswith("Success"):
+                errors.append(f"[mypy] {line}")
 
     return len(errors) == 0, errors
 
@@ -120,9 +119,11 @@ def validate_shell(file_path: Path, project_root: str) -> tuple[bool, list[str]]
         timeout=30,
     )
 
-    # Validate with shellcheck (enable all warnings)
+    # Validate with shellcheck (enable ALL checks including style)
+    # -S style: Include style warnings (stricter than -S warning)
+    # This respects .shellcheckrc configuration while enforcing all enabled checks
     returncode, stdout, _ = run_command(
-        ["shellcheck", "-f", "gcc", "-S", "warning", str(file_path)],
+        ["shellcheck", "-f", "gcc", "-S", "style", str(file_path)],
         cwd=project_root,
         timeout=30,
     )
@@ -255,6 +256,10 @@ def validate_file(file_path: str, project_root: str) -> int:
         ".nox",
     }
     if any(exc in path.parts for exc in excluded):
+        return 0
+
+    # Skip VS Code config files (use JSONC format with comments)
+    if ".vscode" in path.parts and path.suffix == ".json":
         return 0
 
     # Validate based on file type

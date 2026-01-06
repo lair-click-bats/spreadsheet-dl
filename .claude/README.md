@@ -6,27 +6,35 @@ This directory contains configuration for [Claude Code](https://docs.anthropic.c
 
 ```
 .claude/
-├── agents/              # Specialized agent definitions
-│   ├── orchestrator.md      # Task routing and coordination
-│   ├── git_commit_manager.md # Git workflow automation
-│   ├── spec_implementer.md  # Implementation from specs
-│   └── spec_validator.md    # Validation and testing
-├── commands/            # Custom slash commands
-│   ├── ai.md                # /ai - Universal task routing
-│   ├── git.md               # /git - Smart commits
-│   ├── implement.md         # /implement - Spec implementation
-│   ├── spec.md              # /spec - Spec workflow
-│   └── swarm.md             # /swarm - Parallel agents
-├── hooks/               # Lifecycle automation
-│   └── README.md            # Hook documentation
-├── templates/           # Schema templates
-│   └── spec/                # Specification schemas
-├── settings.json        # Claude Code settings
-├── orchestration-config.yaml
-├── coding-standards.yaml
-├── project-metadata.yaml
-├── paths.yaml
-└── README.md            # This file
+├── agents/                     # Specialized agent definitions
+│   ├── orchestrator.md         # Task routing, workflow coordination
+│   ├── git_commit_manager.md   # Conventional commits
+│   ├── spec_implementer.md     # Implement from specifications
+│   ├── spec_validator.md       # Validate against criteria
+│   └── references/             # Supporting documentation
+│       └── git-commit-examples.md
+├── commands/                   # Custom slash commands
+│   ├── ai.md                   # Universal AI routing
+│   ├── git.md                  # Git workflow
+│   ├── implement.md            # Spec implementation
+│   ├── spec.md                 # Specification utilities
+│   └── swarm.md                # Parallel execution
+├── hooks/                      # Lifecycle automation
+│   └── README.md               # Hook documentation
+├── templates/                  # Schema and format templates
+│   ├── docstring.md            # Docstring format
+│   ├── agent_output_rules.md   # Completion report format
+│   └── spec/                   # Specification schemas
+├── agent-outputs/              # Completion reports
+├── checkpoints/                # Task checkpoints
+├── summaries/                  # Agent output summaries
+├── settings.json               # Claude Code settings
+├── orchestration-config.yaml   # Swarm coordination config
+├── coding-standards.yaml       # Code quality standards
+├── project-metadata.yaml       # Project metadata
+├── paths.yaml                  # Centralized path definitions
+├── agent-registry.json         # Running agent state
+└── README.md                   # This file
 ```
 
 ## Quick Start
@@ -80,6 +88,7 @@ Automated quality gates and lifecycle management:
 
 - Security validation (blocks sensitive file writes)
 - Quality enforcement (auto-linting, type checks)
+- Agent limit enforcement (max 2 parallel agents)
 - Context management (cleanup, checkpointing)
 
 ## Configuration Files
@@ -91,9 +100,11 @@ Automated quality gates and lifecycle management:
 | `coding-standards.yaml`     | Code quality standards               |
 | `project-metadata.yaml`     | Project metadata                     |
 | `paths.yaml`                | Centralized path definitions         |
+| `agent-registry.json`       | Running agent state tracking         |
 
 ## Learn More
 
 - [Claude Code Documentation](https://docs.anthropic.com/claude-code)
 - [Custom Commands](https://docs.anthropic.com/claude-code/commands)
 - [Hooks Documentation](./hooks/README.md)
+- [Contrib Documentation](../contrib/claude-config/README.md) - Comprehensive setup guide

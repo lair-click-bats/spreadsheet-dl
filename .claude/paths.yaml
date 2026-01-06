@@ -29,6 +29,14 @@ coordination:
     .coordination/projects
     # Pattern for intermediate files: .coordination/YYYY-MM-DD-description.md
 
+# Benchmark paths
+benchmarks:
+  root: .benchmarks
+  results: .benchmarks/results
+  history: .benchmarks/history
+  analysis: .benchmarks/analysis
+  # Pattern: .benchmarks/results/YYYYMMDD-HHMMSS.json
+
   # Module-specific coordination (created conditionally)
 modules:
   implementation:
@@ -48,6 +56,8 @@ retention:
   handoffs: 7 # Delete after 7 days
   locks_stale_minutes: 60 # Delete locks older than 1 hour
   archives_max_days: 180 # Delete archives older than 6 months
+  benchmark_results: 30 # Keep recent results for 30 days
+  benchmark_history: 0 # Keep major version baselines indefinitely
 
   # Patterns for cleanup
 cleanup_patterns:

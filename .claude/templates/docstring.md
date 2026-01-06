@@ -12,10 +12,6 @@ Brief one-line description of the module.
 Extended description explaining the module's purpose, key functionality,
 and how it fits into the overall architecture.
 
-Implements:
-    - FR-XXX: Requirement reference (if applicable)
-    - PHASE-X: Phase reference (if applicable)
-
 Key Classes:
     - ClassName: Brief description
     - AnotherClass: Brief description

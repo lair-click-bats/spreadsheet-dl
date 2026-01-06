@@ -26,9 +26,9 @@ Execute tasks requiring multiple independent agents working simultaneously.
 **CRITICAL**: Use batch execution to prevent context compaction
 
 1. Decompose task into independent subtasks
-2. Group subtasks into batches of 2-3 agents max
+2. Group subtasks into batches of max 2 agents (ENFORCED)
 3. For each batch:
-   a. Spawn agents in parallel (max 3 at once)
+   a. Spawn agents in parallel (max 2 at once)
    b. **Retrieve outputs IMMEDIATELY** upon each completion
    c. Summarize each output to `.claude/summaries/{agent-id}.md`
    d. Update `.claude/agent-registry.json` with completion
@@ -62,7 +62,7 @@ After all agents complete:
 
 **CRITICAL - Context Compaction Failures**:
 
-- Spawning >3 agents simultaneously (causes 25M+ token explosion)
+- Spawning >2 agents simultaneously (causes 25M+ token explosion)
 - Waiting for all agents before retrieving outputs (IDs lost to compaction)
 - Not persisting agent registry (cannot recover after compaction)
 - Batching output retrieval (retrieve immediately)
@@ -82,7 +82,7 @@ After all agents complete:
 
 1. **Agent Registry**: Persist agent IDs to `.claude/agent-registry.json` on launch
 2. **Immediate Retrieval**: Call `TaskOutput(agent_id, block=False)` in polling loop
-3. **Batch Execution**: Launch 2-3 agents, wait for completion, then next batch
+3. **Batch Execution**: Launch max 2 agents, wait for completion, then next batch
 4. **Checkpoint Progress**: Save state to `.claude/checkpoints/` after each batch
 5. **Summarize Immediately**: Write outputs to files before moving to next batch
 
@@ -95,7 +95,7 @@ After all agents complete:
 
 **Optimal Configuration**:
 
-- **Batch size**: 2-3 agents (not 6+)
+- **Batch size**: 2 agents max (ENFORCED by hooks)
 - **Poll interval**: 10 seconds
 - **Retrieval**: Immediate (non-blocking check, then blocking retrieve)
 - **Model**: Haiku for simple agents (reduces token usage)

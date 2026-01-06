@@ -108,7 +108,7 @@ Write to `.claude/agent-outputs/YYYY-MM-DD-HHMMSS-validation-complete.json`:
   "agent": "spec_validator",
   "status": "complete",
   "target_task": "TASK-XXX",
-  "requirements_validated": ["REQ-001", "REQ-002"],
+  "requirements_validated": ["CORE-001", "CORE-002"],
   "test_results": {
     "total": 15,
     "passed": 14,
