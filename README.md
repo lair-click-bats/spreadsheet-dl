@@ -99,7 +99,7 @@ SpreadsheetDL is a universal spreadsheet definition language that lets you creat
 - **[Getting Started](docs/getting-started.md)** - Installation through first budget
 - **[User Guide](docs/user-guide.md)** - Complete user documentation
 - **[CLI Reference](docs/cli.md)** - All command-line options
-- **[Best Practices](docs/best-practices.md)** - Tips and recommendations
+- **[Best Practices](docs/guides/best-practices.md)** - Tips and recommendations
 
 ### Tutorials
 
@@ -171,7 +171,7 @@ pip install spreadsheet-dl[all]             # All official domains
 
 - 📖 **[Getting Started Guide](docs/getting-started.md)** - Your first budget in 5 minutes
 - 🎓 **[Tutorials](docs/tutorials/)** - Step-by-step learning path
-- 📚 **[Best Practices](docs/best-practices.md)** - Tips for effective use
+- 📚 **[Best Practices](docs/guides/best-practices.md)** - Tips for effective use
 
 ### Quick Example (Universal Builder API)
 
