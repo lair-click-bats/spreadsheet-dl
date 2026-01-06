@@ -12,7 +12,7 @@
 
 **The Spreadsheet Definition Language for Python**
 
-Define complex spreadsheets in Python or YAML, export to ODS/XLSX/PDF. Built-in domain plugins for finance, science, and engineering. Native MCP server for Claude integration.
+Define complex spreadsheets in Python or YAML, export to ODS/XLSX/PDF. Built-in domain plugins for science, engineering, and data analysis. Native MCP server for Claude integration.
 
 ---
 
@@ -26,7 +26,7 @@ SpreadsheetDL is a universal spreadsheet definition language that lets you creat
 - 🎨 **Theme System** - 5 built-in themes (default, corporate, minimal, dark, high_contrast)
 - 📊 **Chart Builder** - Extensive chart types with fluent API
 - ⚡ **Type-Safe Formulas** - FormulaBuilder with circular reference detection
-- 🔧 **Domain Plugins** - Specialized formulas and importers for finance, science, engineering
+- 🔧 **Domain Plugins** - Specialized formulas and importers for science, engineering, data analysis
 - 🌍 **Multi-Format Export** - ODS, XLSX, PDF from single definition
 - 🤖 **MCP Server** - Native integration with Claude for AI-powered spreadsheet generation
 
@@ -36,22 +36,23 @@ SpreadsheetDL is a universal spreadsheet definition language that lets you creat
 
 - ✅ Declarative (define what, not how)
 - ✅ Multi-format (ODS, XLSX, PDF)
-- ✅ Domain-aware (finance, science, engineering formulas)
+- ✅ Domain-aware (science, engineering, data analysis formulas)
 - ✅ Theme system (consistent styling)
 - ✅ MCP server (AI integration)
 
 **Use Cases Across Domains:**
 
-- 💰 **Finance**: Budgets, financial statements, invoices, expense reports, risk analysis, options pricing
+- ⚛️ **Physics**: Mechanics, electromagnetism, optics, quantum mechanics calculations
 - 🔬 **Data Science**: Experiment logs, dataset catalogs, analysis reports, A/B test results, ML metrics
 - ⚙️ **Electrical Engineering**: BOMs, pin maps, power budgets, signal routing tables, digital circuits, filter design
 - 🔧 **Mechanical Engineering**: Design calculations, tolerance stack-ups, material specs, fluid dynamics, thermal analysis
-- 🏭 **Manufacturing**: OEE dashboards, quality control charts, production schedules, lean metrics, six sigma analysis
-- 🧬 **Biology**: Plate layouts (96/384-well), qPCR results, cell culture tracking, pharmacokinetics, genetics
 - 🧪 **Chemistry**: Thermodynamics calculations, solution chemistry, reaction kinetics, equilibrium constants
-- ⚛️ **Physics**: Mechanics, electromagnetism, optics, quantum mechanics calculations
+- 🧬 **Biology**: Plate layouts (96/384-well), qPCR results, cell culture tracking, pharmacokinetics, genetics
 - 🏗️ **Civil Engineering**: Structural analysis, foundation design, transportation planning
+- 🌍 **Environmental**: Climate modeling, renewable energy analysis, air/water quality monitoring
+- 🏭 **Manufacturing**: OEE dashboards, quality control charts, production schedules, lean metrics, six sigma analysis
 - 📚 **Education**: Gradebooks, attendance, rubrics, assessment analytics, learning metrics
+- 💰 **Finance**: Budgets, financial statements, invoices, expense reports, risk analysis, options pricing
 
 ## Philosophy: Universal Tools, Not Templates
 
@@ -61,7 +62,7 @@ SpreadsheetDL is built on a fundamental principle: **provide universal building 
 
 **Composable primitives** that work for ANY use case:
 
-- **Formulas**: Comprehensive domain-specific formula library (finance, data science, biology, chemistry, physics, engineering, manufacturing, education, environmental)
+- **Formulas**: Comprehensive domain-specific formula library (physics, data science, electrical/mechanical/civil engineering, chemistry, biology, environmental, manufacturing, education, finance)
 - **Styles**: Theme system with unlimited customization
 - **Formats**: ODS, XLSX, PDF from single definition
 - **Charts**: Extensive chart types with fluent builder API
@@ -89,12 +90,13 @@ We deliberately **don't** provide:
 You define **what** you want, not **how** to build it:
 
 ```python
-# NOT: "Set cell A1 to 'Budget', make it bold, set font size 14..."
-# YES: "Create budget with these categories and theme"
-generator.create_budget_spreadsheet(
-    categories=my_categories,
-    theme="corporate"
-)
+# NOT: "Set cell A1 to 'Data', make it bold, set font size 14..."
+# YES: "Create spreadsheet with structure and theme"
+builder.sheet("Data") \
+    .column("Name", width="3cm") \
+    .column("Value", width="3cm") \
+    .header_row() \
+    .theme("corporate")
 ```
 
 ### Extensibility
@@ -121,12 +123,11 @@ All official domain plugins started as custom plugins. Yours can too.
 
 ### Domain Plugins (Official)
 
-#### 💰 Finance Domain
+#### ⚛️ Physics Domain
 
-- **Formulas**: Financial functions (NPV, IRR, PMT, PV, FV), bond pricing, options pricing (Black-Scholes), risk metrics (VaR, Sharpe ratio, beta)
-- **Importers**: Bank CSV (major banks), Plaid API integration
-- **Utils**: Account management, budget analytics, alerts, recurring expenses, goals tracking
-- **Features**: WebDAV upload (Nextcloud), multi-currency support, auto-categorization
+- **Formulas**: Mechanics (kinematics, dynamics, energy), electromagnetism (Coulomb, Lorentz, circuits), optics (thin lens, diffraction), quantum mechanics (wave functions, uncertainty)
+- **Importers**: Experimental data, sensor readings
+- **Utils**: Unit conversions, physical constants
 
 #### 🔬 Data Science Domain
 
@@ -134,11 +135,12 @@ All official domain plugins started as custom plugins. Yours can too.
 - **Importers**: Scientific CSV, MLflow experiment import, Jupyter notebook
 - **Utils**: Plotting helpers, statistical utilities, feature engineering
 
-#### 🧬 Biology Domain
+#### ⚙️ Engineering Domains
 
-- **Formulas**: Pharmacokinetics (half-life, clearance, AUC), genetics (Hardy-Weinberg, linkage, allele frequency)
-- **Importers**: Plate readers, qPCR data, cell culture tracking
-- **Utils**: Plate layout generators, concentration calculators
+- **Electrical**: Pin mapping, power budgets, digital circuits, filter design, signal processing
+- **Mechanical**: Stress analysis, tolerance calculations, fluid mechanics, thermal analysis, material properties
+- **Civil**: Load calculations, structural analysis, concrete mix, foundation design, transportation planning
+- **Environmental**: Climate modeling, renewable energy metrics, air/water quality, carbon footprint
 
 #### 🧪 Chemistry Domain
 
@@ -146,18 +148,11 @@ All official domain plugins started as custom plugins. Yours can too.
 - **Importers**: Spectroscopy data, lab results
 - **Utils**: Unit conversions, chemical calculations
 
-#### ⚛️ Physics Domain
+#### 🧬 Biology Domain
 
-- **Formulas**: Mechanics (kinematics, dynamics, energy), electromagnetism (Coulomb, Lorentz, circuits), optics (thin lens, diffraction), quantum mechanics (wave functions, uncertainty)
-- **Importers**: Experimental data, sensor readings
-- **Utils**: Unit conversions, physical constants
-
-#### ⚙️ Engineering Domains
-
-- **Electrical**: Pin mapping, power budgets, digital circuits, filter design, signal processing
-- **Mechanical**: Stress analysis, tolerance calculations, fluid mechanics, thermal analysis, material properties
-- **Civil**: Load calculations, structural analysis, concrete mix, foundation design, transportation planning
-- **Environmental**: Climate modeling, renewable energy metrics, air/water quality, carbon footprint
+- **Formulas**: Pharmacokinetics (half-life, clearance, AUC), genetics (Hardy-Weinberg, linkage, allele frequency)
+- **Importers**: Plate readers, qPCR data, cell culture tracking
+- **Utils**: Plate layout generators, concentration calculators
 
 #### 🏭 Manufacturing Domain
 
@@ -171,25 +166,32 @@ All official domain plugins started as custom plugins. Yours can too.
 - **Importers**: LMS data, gradebook exports, assessment results
 - **Utils**: Grade calculators, attendance tracking, rubric scoring
 
+#### 💰 Finance Domain
+
+- **Formulas**: Financial functions (NPV, IRR, PMT, PV, FV), bond pricing, options pricing (Black-Scholes), risk metrics (VaR, Sharpe ratio, beta)
+- **Importers**: Bank CSV (major banks), Plaid API integration
+- **Utils**: Account management, budget analytics, alerts, recurring expenses, goals tracking
+- **Features**: WebDAV upload (Nextcloud), multi-currency support, auto-categorization
+
 ## Documentation
 
 ### User Guides
 
-- **[Getting Started](docs/getting-started.md)** - Installation through first budget
+- **[Getting Started](docs/getting-started.md)** - Installation and quick start
 - **[User Guide](docs/user-guide.md)** - Complete user documentation
 - **[CLI Reference](docs/cli.md)** - All command-line options
 - **[Best Practices](docs/guides/best-practices.md)** - Tips and recommendations
 
 ### Tutorials
 
-Learn SpreadsheetDL step-by-step:
+Learn SpreadsheetDL step-by-step with the beginner tutorial series:
 
-1. **[Create a Budget](docs/tutorials/01-create-budget.md)** - Set up your first monthly budget
-2. **[Track Expenses](docs/tutorials/02-track-expenses.md)** - Daily expense tracking workflow
-3. **[Import Bank Data](docs/tutorials/03-import-bank-data.md)** - Automate from CSV exports
-4. **[Create Reports](docs/tutorials/04-create-reports.md)** - Generate comprehensive reports
-5. **[Use MCP Tools](docs/tutorials/05-use-mcp-tools.md)** - AI-powered operations with Claude
-6. **[Customize Themes](docs/tutorials/06-customize-themes.md)** - Create custom visual themes
+1. **[Getting Started](docs/tutorials/01-create-budget.md)** - Build your first spreadsheet
+2. **[Working with Data](docs/tutorials/02-track-expenses.md)** - Load and organize data
+3. **[Domain Plugins](docs/tutorials/03-import-bank-data.md)** - Use specialized formulas
+4. **[Generate Reports](docs/tutorials/04-create-reports.md)** - Create comprehensive reports
+5. **[MCP Integration](docs/tutorials/05-use-mcp-tools.md)** - AI-powered operations with Claude
+6. **[Custom Themes](docs/tutorials/06-customize-themes.md)** - Design custom visual themes
 
 ### Technical Documentation
 
@@ -202,11 +204,11 @@ Learn SpreadsheetDL step-by-step:
 
 Working code examples in the [`examples/`](examples/) directory:
 
-- `example_budget.py` - Create a sample budget programmatically
-- `example_import.py` - Import and process bank CSV
-- `example_report.py` - Generate custom reports
-- `example_chart.py` - Create charts programmatically
-- `example_mcp.py` - Use MCP server from Python
+- `example_basic.py` - Create structured spreadsheets programmatically
+- `example_import.py` - Import and process CSV/external data
+- `example_report.py` - Generate reports from spreadsheet data
+- `example_chart.py` - Build charts with fluent API
+- `example_mcp.py` - Integrate with MCP server from Python
 
 ## Known Limitations
 
@@ -223,7 +225,7 @@ These features will raise `NotImplementedError` with clear error messages. They 
 
 ### MCP Server Tools
 
-The MCP server provides tools for spreadsheet and budget operations. See [MCP Integration](docs/MCP_INTEGRATION.md) for detailed documentation.
+The MCP server provides tools for spreadsheet operations across all domains. See [MCP Integration](docs/MCP_INTEGRATION.md) for detailed documentation.
 
 ## Quick Start
 
@@ -248,7 +250,7 @@ pip install spreadsheet-dl[all]             # All official domains
 
 **Next Steps:**
 
-- 📖 **[Getting Started Guide](docs/getting-started.md)** - Your first budget in 5 minutes
+- 📖 **[Getting Started Guide](docs/getting-started.md)** - Your first spreadsheet in 5 minutes
 - 🎓 **[Tutorials](docs/tutorials/)** - Step-by-step learning path
 - 📚 **[Best Practices](docs/guides/best-practices.md)** - Tips for effective use
 
@@ -257,70 +259,139 @@ pip install spreadsheet-dl[all]             # All official domains
 ```python
 from spreadsheet_dl import create_spreadsheet, formula
 
-# Create a simple spreadsheet
+# Create experiment data spreadsheet
 builder = create_spreadsheet(theme="default")
 
-# Add a data sheet
-builder.sheet("Sales Data") \
-    .column("Month", width="3cm", type="text") \
-    .column("Revenue", width="3cm", type="currency") \
-    .column("Expenses", width="3cm", type="currency") \
-    .column("Profit", width="3cm", type="currency") \
+# Add data sheet with formulas
+builder.sheet("Experiment Results") \
+    .column("Trial", width="2cm", type="integer") \
+    .column("Voltage (V)", width="3cm", type="number") \
+    .column("Current (A)", width="3cm", type="number") \
+    .column("Power (W)", width="3cm", type="number") \
+    .column("Efficiency (%)", width="3cm", type="percent") \
     .header_row(style="header_primary") \
-    .row().cell("January").cell(15000).cell(8000).cell(formula=formula().subtract("B2", "C2")) \
-    .row().cell("February").cell(18000).cell(9500).cell(formula=formula().subtract("B3", "C3")) \
-    .row().cell("March").cell(22000).cell(11000).cell(formula=formula().subtract("B4", "C4"))
+    .row().cell(1).cell(5.0).cell(0.5).cell(formula=formula().multiply("B2", "C2")).cell(formula=formula().divide("D2", "E2")) \
+    .row().cell(2).cell(10.0).cell(1.0).cell(formula=formula().multiply("B3", "C3")).cell(formula=formula().divide("D3", "E3")) \
+    .row().cell(3).cell(15.0).cell(1.5).cell(formula=formula().multiply("B4", "C4")).cell(formula=formula().divide("D4", "E4"))
 
 # Save to multiple formats
-builder.save("sales_report.ods")     # Native ODS
-builder.export("sales_report.xlsx")  # Excel format
-builder.export("sales_report.pdf")   # PDF for distribution
+builder.save("experiment_data.ods")    # Native ODS
+builder.export("experiment_data.xlsx") # Excel format
+builder.export("experiment_data.pdf")  # PDF for distribution
 ```
 
-### Finance Domain Example (CLI)
+### CLI Examples
 
 ```bash
-# Create a budget (with optional theme)
-uv run spreadsheet-dl generate -o ./budgets/
-uv run spreadsheet-dl generate -o ./budgets/ --theme corporate
-uv run spreadsheet-dl generate -o ./budgets/ --theme minimal
-
 # List available themes
 uv run spreadsheet-dl themes
 uv run spreadsheet-dl themes --json
 
-# Analyze a budget
-uv run spreadsheet-dl analyze budget.ods
-uv run spreadsheet-dl analyze budget.ods --json
+# Generate spreadsheet with theme
+uv run spreadsheet-dl generate -o ./output/ --theme corporate
+uv run spreadsheet-dl generate -o ./output/ --theme minimal
 
 # Generate reports
-uv run spreadsheet-dl report budget.ods -f text
-uv run spreadsheet-dl report budget.ods -f markdown -o report.md
-
-# View analytics dashboard
-uv run spreadsheet-dl dashboard budget.ods
-uv run spreadsheet-dl dashboard budget.ods --json
-
-# Check budget alerts
-uv run spreadsheet-dl alerts budget.ods
-uv run spreadsheet-dl alerts budget.ods --critical-only
-
-# Import bank CSV
-uv run spreadsheet-dl import transactions.csv --bank chase
-uv run spreadsheet-dl import transactions.csv --preview
-uv run spreadsheet-dl import transactions.csv --theme default
-
-# Quick expense entry
-uv run spreadsheet-dl expense 25.50 "Lunch at Chipotle"
-uv run spreadsheet-dl expense 150 "Whole Foods" -c Groceries
+uv run spreadsheet-dl report data.ods -f text
+uv run spreadsheet-dl report data.ods -f markdown -o report.md
 
 # Upload to Nextcloud
-uv run spreadsheet-dl upload budget.ods
+uv run spreadsheet-dl upload data.ods
+```
+
+**Finance Domain Commands:**
+
+```bash
+# Budget-specific operations
+uv run spreadsheet-dl analyze budget.ods --json
+uv run spreadsheet-dl dashboard budget.ods
+uv run spreadsheet-dl alerts budget.ods --critical-only
+uv run spreadsheet-dl import transactions.csv --bank chase
+uv run spreadsheet-dl expense 25.50 "Description" -c Category
 ```
 
 ## Python API
 
-### Basic Usage
+### Universal Builder API (All Domains)
+
+Create spreadsheets for any domain using the fluent builder API:
+
+```python
+from spreadsheet_dl import create_spreadsheet, formula
+
+# Build spreadsheet with fluent API
+builder = create_spreadsheet(theme="default")
+
+# Create data sheet
+builder.sheet("Experiment Data") \
+    .column("Trial", width="2cm", type="integer") \
+    .column("Temperature (K)", width="3cm", type="number") \
+    .column("Pressure (Pa)", width="3cm", type="number") \
+    .column("Volume (m³)", width="3cm", type="number") \
+    .header_row(style="header_primary") \
+    .data_rows(50)
+
+# Create analysis sheet with formulas
+f = formula()
+builder.sheet("Analysis") \
+    .column("Metric", width="4cm") \
+    .column("Value", width="3cm", type="number") \
+    .header_row() \
+    .row() \
+        .cell("Mean Temperature") \
+        .cell(formula=f.average(f.sheet("Experiment Data").range("B2", "B51"))) \
+    .row() \
+        .cell("Std Dev Pressure") \
+        .cell(formula=f.stdev(f.sheet("Experiment Data").range("C2", "C51")))
+
+# Save to multiple formats
+builder.save("experiment.ods")
+builder.export("experiment.xlsx")
+builder.export("experiment.pdf")
+```
+
+### FormulaBuilder API
+
+```python
+from spreadsheet_dl import formula
+
+f = formula()
+
+# SUM formula
+f.sum(f.range("A2", "A100"))
+# -> "of:=SUM([.A2:A100])"
+
+# Cross-sheet references
+f.sumif(
+    f.sheet("Data").col("B"),
+    f.cell("A2"),
+    f.sheet("Data").col("D"),
+)
+# -> "of:=SUMIF(['Data'.$B:$B];[.A2];['Data'.$D:$D])"
+
+# VLOOKUP with exact match
+f.vlookup(
+    f.cell("A2"),
+    f.range("A1", "B100"),
+    2,
+    exact=True,
+)
+# -> "of:=VLOOKUP([.A2];[.A1:B100];2;0)"
+
+# Division with zero check
+f.divide("B2", "C2")
+# -> "of:=IF([.C2]>0;[.B2]/[.C2];0)"
+```
+
+### Domain-Specific APIs
+
+SpreadsheetDL provides specialized APIs for each domain plugin. Examples below show the Finance domain, which has the most extensive API surface.
+
+## Finance Domain API
+
+The Finance domain includes comprehensive budget management, transaction tracking, and analysis tools:
+
+### Basic Budget Operations
 
 ```python
 from decimal import Decimal
@@ -361,7 +432,7 @@ report_gen = ReportGenerator("budget_2025_01.ods")
 print(report_gen.generate_text_report())
 ```
 
-### Using Themes
+### Budget Themes
 
 ```python
 from spreadsheet_dl import OdsGenerator, create_monthly_budget
@@ -372,80 +443,6 @@ generator.create_budget_spreadsheet("corporate_budget.ods")
 
 # Or use convenience function
 path = create_monthly_budget("./budgets", theme="minimal")
-```
-
-### Fluent Builder API
-
-```python
-from decimal import Decimal
-from spreadsheet_dl import create_spreadsheet, formula
-
-# Build spreadsheet with fluent API
-builder = create_spreadsheet(theme="default")
-
-# Create Expense Log sheet
-builder.sheet("Expense Log") \
-    .column("Date", width="2.5cm", type="date") \
-    .column("Category", width="3cm") \
-    .column("Description", width="4cm") \
-    .column("Amount", width="2.5cm", type="currency") \
-    .column("Notes", width="4cm") \
-    .header_row(style="header_primary") \
-    .data_rows(50)
-
-# Create Summary sheet with formulas
-f = formula()
-builder.sheet("Summary") \
-    .column("Category", width="3cm") \
-    .column("Budget", width="2.5cm", type="currency") \
-    .column("Actual", width="2.5cm", type="currency") \
-    .column("Remaining", width="2.5cm", type="currency") \
-    .header_row() \
-    .row() \
-        .cell("Groceries") \
-        .cell(Decimal("600")) \
-        .cell(formula=f.sumif(
-            f.sheet("Expense Log").col("B"),
-            f.cell("A2"),
-            f.sheet("Expense Log").col("D")
-        )) \
-        .cell(formula=f.subtract("B2", "C2"))
-
-# Save
-builder.save("my_budget.ods")
-```
-
-### FormulaBuilder API
-
-```python
-from spreadsheet_dl import formula
-
-f = formula()
-
-# SUM formula
-f.sum(f.range("A2", "A100"))
-# -> "of:=SUM([.A2:A100])"
-
-# Cross-sheet SUMIF
-f.sumif(
-    f.sheet("Expenses").col("B"),
-    f.cell("A2"),
-    f.sheet("Expenses").col("D"),
-)
-# -> "of:=SUMIF(['Expenses'.$B:$B];[.A2];['Expenses'.$D:$D])"
-
-# VLOOKUP with exact match
-f.vlookup(
-    f.cell("A2"),
-    f.range("A1", "B100"),
-    2,
-    exact=True,
-)
-# -> "of:=VLOOKUP([.A2];[.A1:B100];2;0)"
-
-# Division with zero check
-f.divide("B2", "C2")
-# -> "of:=IF([.C2]>0;[.B2]/[.C2];0)"
 ```
 
 ### Import Bank Transactions
@@ -563,51 +560,52 @@ export NEXTCLOUD_PATH=/Finance
 
 ```
 spreadsheet-dl/
-├── src/spreadsheet_dl/
-│   ├── __init__.py              # Package exports
-│   ├── builder.py               # Fluent builder API entry point
-│   ├── renderer.py              # Builder -> ODS renderer
-│   ├── adapters.py              # Multi-format adapters (ODS/XLSX/CSV/HTML)
-│   ├── streaming.py             # Streaming I/O for large files
-│   ├── charts.py                # Chart builder
-│   ├── export.py                # Multi-format export
-│   ├── security.py              # Encryption (AES-256-GCM)
-│   ├── plugins.py               # Plugin system framework
-│   ├── exceptions.py            # Exception hierarchy
-│   ├── _builder/                # Builder implementation
-│   │   ├── core.py              # SheetBuilder, RowBuilder
-│   │   ├── formulas.py          # FormulaBuilder
-│   │   ├── models.py            # Data models
-│   │   └── references.py        # Cell reference handling
-│   ├── _cli/                    # CLI implementation
-│   │   ├── app.py               # Click application
-│   │   └── commands.py          # CLI commands
-│   ├── _mcp/                    # MCP server
-│   │   └── server.py            # 18 MCP tools
-│   ├── schema/                  # Theme schema
-│   │   ├── styles.py            # Style dataclasses
-│   │   ├── loader.py            # YAML loader
-│   │   └── validation.py        # Schema validation
-│   ├── template_engine/         # Template engine (user-defined templates)
-│   │   ├── schema.py            # Template schema
-│   │   └── renderer.py          # Template renderer
-│   ├── domains/                 # Domain plugins
-│   │   ├── finance/             # Financial formulas, importers
-│   │   ├── data_science/        # Statistical formulas, ML metrics
-│   │   ├── biology/             # Biology formulas, plate readers
-│   │   ├── chemistry/           # Chemistry formulas, lab data
-│   │   ├── physics/             # Physics formulas, experimental data
-│   │   ├── manufacturing/       # Manufacturing formulas, MES importers
-│   │   ├── electrical_engineering/  # Electrical engineering formulas
-│   │   ├── mechanical_engineering/  # Mechanical engineering formulas
-│   │   ├── civil_engineering/   # Civil engineering formulas
-│   │   ├── education/           # Education formulas, LMS importers
-│   │   └── environmental/       # Environmental formulas
-│   └── themes/                  # Theme YAML files (5 built-in)
-├── tests/                       # Comprehensive test suite
-├── examples/                    # Usage examples
 ├── docs/                        # Complete documentation
-├── pyproject.toml              # Project configuration
+├── examples/                    # Usage examples
+├── src/
+│   └── spreadsheet_dl/
+│       ├── _builder/            # Builder implementation
+│       │   ├── core.py          # SheetBuilder, RowBuilder
+│       │   ├── formulas.py      # FormulaBuilder
+│       │   ├── models.py        # Data models
+│       │   └── references.py    # Cell reference handling
+│       ├── _cli/                # CLI implementation
+│       │   ├── app.py           # Click application
+│       │   └── commands.py      # CLI commands
+│       ├── _mcp/                # MCP server
+│       │   └── server.py        # MCP tools
+│       ├── domains/             # Domain plugins
+│       │   ├── biology/         # Biology formulas, plate readers
+│       │   ├── chemistry/       # Chemistry formulas, lab data
+│       │   ├── civil_engineering/       # Civil engineering formulas
+│       │   ├── data_science/    # Statistical formulas, ML metrics
+│       │   ├── education/       # Education formulas, LMS importers
+│       │   ├── electrical_engineering/  # Electrical engineering formulas
+│       │   ├── environmental/   # Environmental formulas
+│       │   ├── finance/         # Financial formulas, importers
+│       │   ├── manufacturing/   # Manufacturing formulas, MES importers
+│       │   ├── mechanical_engineering/  # Mechanical engineering formulas
+│       │   └── physics/         # Physics formulas, experimental data
+│       ├── schema/              # Theme schema
+│       │   ├── loader.py        # YAML loader
+│       │   ├── styles.py        # Style dataclasses
+│       │   └── validation.py    # Schema validation
+│       ├── template_engine/     # Template engine
+│       │   ├── renderer.py      # Template renderer
+│       │   └── schema.py        # Template schema
+│       ├── themes/              # Theme YAML files (5 built-in)
+│       ├── __init__.py          # Package exports
+│       ├── adapters.py          # Multi-format adapters (ODS/XLSX/CSV/HTML)
+│       ├── builder.py           # Fluent builder API entry point
+│       ├── charts.py            # Chart builder
+│       ├── exceptions.py        # Exception hierarchy
+│       ├── export.py            # Multi-format export
+│       ├── plugins.py           # Plugin system framework
+│       ├── renderer.py          # Builder -> ODS renderer
+│       ├── security.py          # Encryption (AES-256-GCM)
+│       └── streaming.py         # Streaming I/O for large files
+├── tests/                       # Comprehensive test suite
+├── pyproject.toml               # Project configuration
 └── README.md
 ```
 
