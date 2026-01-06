@@ -20,11 +20,14 @@ SpreadsheetDL is a declarative toolkit for creating professional spreadsheets pr
 ### Using pip (Recommended)
 
 ```bash
-# Install from GitHub
-pip install git+https://github.com/lair-click-bats/spreadsheet-dl.git
+# Install from PyPI
+pip install spreadsheet-dl
 
-# Or install with all extras
-pip install 'git+https://github.com/lair-click-bats/spreadsheet-dl.git#egg=spreadsheet-dl[all]'
+# Install with security enhancements (recommended)
+pip install spreadsheet-dl[security]
+
+# Install with all extras
+pip install spreadsheet-dl[all]
 ```
 
 ### Using uv (For Development)

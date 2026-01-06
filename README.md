@@ -234,18 +234,19 @@ The MCP server provides tools for spreadsheet operations across all domains. See
 ### Installation
 
 ```bash
-# Install from GitHub (PyPI coming soon)
-pip install git+https://github.com/lair-click-bats/spreadsheet-dl.git
+# Install from PyPI
+pip install spreadsheet-dl
 
-# Or clone for development
-git clone https://github.com/lair-click-bats/spreadsheet-dl.git
-cd spreadsheet-dl
-uv sync --dev
-
-# Install with specific domain plugins (when available)
+# Install with optional dependencies
+pip install spreadsheet-dl[security]        # Security enhancements (recommended)
 pip install spreadsheet-dl[finance]         # Finance domain only
 pip install spreadsheet-dl[science]         # Data science domain
 pip install spreadsheet-dl[all]             # All official domains
+
+# Or install from source for development
+git clone https://github.com/lair-click-bats/spreadsheet-dl.git
+cd spreadsheet-dl
+uv sync --dev
 ```
 
 -
