@@ -50,6 +50,56 @@ SpreadsheetDL is a universal spreadsheet definition language that lets you creat
 - 🧬 **Biology**: Plate layouts (96/384-well), qPCR results, cell culture tracking
 - 📚 **Education**: Gradebooks, attendance, rubrics
 
+## Philosophy: Universal Tools, Not Templates
+
+SpreadsheetDL is built on a fundamental principle: **provide universal building blocks, not rigid templates**.
+
+### What You Get
+
+**Composable primitives** that work for ANY use case:
+
+- **Formulas**: 157 domain-specific formulas across 9 disciplines (finance, science, engineering)
+- **Styles**: Theme system with unlimited customization
+- **Formats**: ODS, XLSX, PDF from single definition
+- **Charts**: 60+ chart types with fluent builder API
+- **Data validation**: Rules, conditional formatting, named ranges
+
+These primitives combine in infinite ways. You're not locked into pre-built templates.
+
+### What You Don't Get
+
+We deliberately **don't** provide:
+
+- ❌ Rigid pre-built templates ("budget template", "invoice template")
+- ❌ One-size-fits-all layouts
+- ❌ Opinionated business logic
+- ❌ Template configuration hell
+
+### Why This Matters
+
+**Templates** are brittle. They assume your budget has exactly these categories, your invoice has exactly these fields, your gradebook uses exactly this grading scale.
+
+**Tools** are flexible. Want a budget? Use `OdsGenerator`, add your categories, apply formulas, style with themes. Want an invoice? Same tools, different structure. Want a custom manufacturing dashboard? Same tools, manufacturing domain formulas.
+
+### Declarative Over Imperative
+
+You define **what** you want, not **how** to build it:
+
+```python
+# NOT: "Set cell A1 to 'Budget', make it bold, set font size 14..."
+# YES: "Create budget with these categories and theme"
+generator.create_budget_spreadsheet(
+    categories=my_categories,
+    theme="corporate"
+)
+```
+
+### Extensibility
+
+Don't see your domain? **Create a plugin**. SpreadsheetDL's plugin architecture lets you extend formulas, importers, and utilities without forking the codebase.
+
+The 9 official domain plugins started as custom plugins. Yours can too.
+
 ## Features
 
 ### Core Platform (v4.0.0)

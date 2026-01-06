@@ -9,6 +9,51 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Finance Domain Formulas** - Complete formulas library with 15 functions across 3 categories:
+  - Time Value of Money: `PresentValue`, `FutureValue`, `NetPresentValue`, `InternalRateOfReturn`, `PaymentFormula`, `RateFormula`, `PeriodsFormula`
+  - Investments: `ReturnOnInvestment`, `CompoundAnnualGrowthRate`, `CompoundInterest`, `SharpeRatio`, `PortfolioBeta`
+  - Depreciation: `StraightLineDepreciation`, `DecliningBalanceDepreciation`, `SUMYearsDigitsDepreciation`
+
+- **Data Science Domain Formulas** - Regression analysis metrics (5 formulas):
+  - `MeanSquaredError`, `RootMeanSquaredError`, `RSquared`, `MeanAbsoluteError`, `MeanAbsolutePercentageError`
+
+- **Electrical Engineering Domain Formulas** - AC circuit analysis (5 formulas):
+  - `RMSValue`, `PowerFactor`, `ComplexImpedance`, `Reactance`, `ResonantFrequency`
+
+- **Civil Engineering Domain Formulas** - Hydrology and drainage (4 formulas):
+  - `RunoffCoefficient`, `RationalMethod`, `ManningEquation`, `TimeOfConcentration`
+
+- **Mechanical Engineering Domain Formulas** - Dynamics and vibration (4 formulas):
+  - `NaturalFrequency`, `CriticalDamping`, `SpringConstant`, `AngularVelocity`
+
+- **Biology Domain Formulas** - Cell culture and growth analysis (4 formulas):
+  - `CellDensity`, `ViabilityPercent`, `DoublingTime`, `SpecificGrowthRate`
+
+- **Manufacturing Domain Formulas** - Production efficiency (1 formula):
+  - `OverallEquipmentEffectiveness` (OEE)
+
+- **Environmental Domain Formulas** - Life cycle assessment (3 formulas):
+  - `GlobalWarmingPotential`, `AcidificationPotential`, `EutrophicationPotential`
+
+- **Education Domain Formulas** - Educational assessment (3 formulas):
+  - `ItemDifficulty`, `ItemDiscrimination`, `CronbachAlpha`
+
+- **Examples Learning Path** - Reorganized examples into progressive structure:
+  - `examples/01_basics/` - Getting started (4 examples)
+  - `examples/02_formulas/` - Calculations and analysis (4 examples)
+  - `examples/03_charts/` - Data visualization (4 examples)
+  - `examples/04_advanced/` - Integration and extension (3 examples)
+  - Comprehensive README.md files for each section with learning objectives, prerequisites, and estimated time
+
+- **Philosophy Documentation** - Added "Universal Tools, Not Templates" section to README.md explaining:
+  - Composable primitives vs. rigid templates
+  - Declarative over imperative approach
+  - Plugin extensibility model
+
+**Formula Coverage**: Total of 157 formulas (113 existing + 44 new) across 9 domain plugins
+
 ### Changed
 
 - **Template System Simplified** - Removed pre-built budget templates and domain templates
