@@ -4,8 +4,8 @@ This guide covers the native SpreadsheetDL MCP server for natural language
 interaction with spreadsheets via Claude Desktop, Claude CLI, and other
 MCP-compatible clients.
 
-**Version 4.0** introduces a comprehensive MCP server with 96 universal spreadsheet
-tools for complete spreadsheet manipulation through AI assistants.
+**Version 4.0** introduces a comprehensive MCP server with 18 tools
+for complete spreadsheet manipulation through AI assistants.
 
 **Architecture Note**: Domain-specific functionality (budget analysis, account management,
 goal tracking, reporting) is available via Python APIs (BudgetAnalyzer, AccountManager,
@@ -55,10 +55,10 @@ Add the SpreadsheetDL MCP server to your Claude configuration:
 Test the MCP server to ensure it's working:
 
 ```bash
-# List all 96 available tools
+# List all 18 available tools
 python -m spreadsheet_dl.mcp_server --list-tools
 
-# Should output 8 categories with 96 total tools
+# Should output 18 total tools
 ```
 
 ### 4. Security Configuration

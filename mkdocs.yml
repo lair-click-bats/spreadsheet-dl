@@ -1,5 +1,8 @@
 site_name: SpreadsheetDL
-site_description: The Spreadsheet Definition Language for Python - declarative API, multi-format export, domain templates, native MCP server
+site_description: >-
+  Define complex spreadsheets in Python or YAML, export to ODS/XLSX/PDF.
+  Built-in domains for engineering, science, and finance.
+  Native MCP server for Claude integration.
 site_url: https://lair-click-bats.github.io/spreadsheet-dl/
 repo_url: https://github.com/lair-click-bats/spreadsheet-dl
 repo_name: lair-click-bats/spreadsheet-dl

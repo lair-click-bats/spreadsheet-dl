@@ -1,7 +1,7 @@
 [project]
 name = "spreadsheet-dl"
 version = "4.0.0"
-description = "The Spreadsheet Definition Language for Python - declarative API, multi-format export, domain templates, native MCP server"
+description = "Define complex spreadsheets in Python or YAML, export to ODS/XLSX/PDF. Built-in domains for engineering, science, and finance. Native MCP server for Claude integration."
 readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "MIT" }
@@ -20,11 +20,19 @@ keywords = [
     "template",
     "builder",
     "finance",
+    "budget",
     "science",
-    "engineering",
     "data-science",
+    "biology",
+    "engineering",
+    "electrical-engineering",
+    "mechanical-engineering",
+    "civil-engineering",
+    "manufacturing",
+    "education",
     "formula",
     "chart",
+    "automation",
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",

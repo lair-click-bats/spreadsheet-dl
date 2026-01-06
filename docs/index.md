@@ -2,7 +2,7 @@
 
 **The Spreadsheet Definition Language for Python**
 
-Define complex spreadsheets in Python or YAML, export to ODS/XLSX/PDF. Built-in domain plugins for finance, science, and engineering. Native MCP server for Claude integration.
+Define complex spreadsheets in Python or YAML, export to ODS/XLSX/PDF. Built-in domain plugins for engineering, science, and finance. Native MCP server for Claude integration.
 
 ## Overview
 
@@ -210,7 +210,7 @@ spreadsheet-dl/
 │   │   ├── renderer.py     # Template rendering
 │   │   └── components.py   # Pre-built components
 │   └── ...
-├── tests/                  # Test suite (260+ tests)
+├── tests/                  # Test suite (3,206 tests)
 └── docs/                   # Documentation
 ```
 

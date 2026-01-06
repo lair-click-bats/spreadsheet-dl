@@ -99,7 +99,7 @@ repos:
         entry: uv run python -c "import yaml, sys; yaml.safe_load(open(sys.argv[1]))"
         language: system
         types: [yaml]
-        exclude: ^\.pre-commit-config\.yaml$
+        exclude: ^(\.pre-commit-config\.yaml|mkdocs\.yml)$
 
       - id: validate-jsonc
         name: Validate JSON/JSONC files
