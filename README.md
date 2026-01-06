@@ -4,11 +4,11 @@
 [![First Release](https://img.shields.io/badge/🎉-first%20public%20release-gold.svg)](CHANGELOG.md)
 [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-3,530%20passing-brightgreen.svg)](tests/)
-[![Coverage](https://img.shields.io/badge/coverage-71%25-brightgreen.svg)](tests/)
-[![MCP](https://img.shields.io/badge/MCP-18%20tools-purple.svg)](docs/api/mcp_server.md)
+[![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)](tests/)
+[![Coverage](https://img.shields.io/badge/coverage-high-brightgreen.svg)](tests/)
+[![MCP](https://img.shields.io/badge/MCP-server-purple.svg)](docs/api/mcp_server.md)
 
-> **🎉 First Public Release (v4.0.0)** - This version represents extensive private development through multiple major iterations. The codebase is production-ready with comprehensive testing, complete documentation, and 11 domain plugins.
+> **🎉 First Public Release (v4.0.0)** - Production-ready with comprehensive testing, complete documentation, and extensive domain plugin library.
 
 **The Spreadsheet Definition Language for Python**
 
@@ -24,7 +24,7 @@ SpreadsheetDL is a universal spreadsheet definition language that lets you creat
 
 - 📝 **Declarative API** - Define structure, formulas, and styling in code (not cell-by-cell imperative)
 - 🎨 **Theme System** - 5 built-in themes (default, corporate, minimal, dark, high_contrast)
-- 📊 **Chart Builder** - 60+ chart types with fluent API
+- 📊 **Chart Builder** - Extensive chart types with fluent API
 - ⚡ **Type-Safe Formulas** - FormulaBuilder with circular reference detection
 - 🔧 **Domain Plugins** - Specialized formulas and importers for finance, science, engineering
 - 🌍 **Multi-Format Export** - ODS, XLSX, PDF from single definition
@@ -61,10 +61,10 @@ SpreadsheetDL is built on a fundamental principle: **provide universal building 
 
 **Composable primitives** that work for ANY use case:
 
-- **Formulas**: 317 domain-specific formulas across 11 disciplines (finance, data science, biology, chemistry, physics, engineering, manufacturing, education)
+- **Formulas**: Comprehensive domain-specific formula library (finance, data science, biology, chemistry, physics, engineering, manufacturing, education, environmental)
 - **Styles**: Theme system with unlimited customization
 - **Formats**: ODS, XLSX, PDF from single definition
-- **Charts**: 60+ chart types with fluent builder API
+- **Charts**: Extensive chart types with fluent builder API
 - **Data validation**: Rules, conditional formatting, named ranges
 
 These primitives combine in infinite ways. You're not locked into pre-built templates.
@@ -101,52 +101,52 @@ generator.create_budget_spreadsheet(
 
 Don't see your domain? **Create a plugin**. SpreadsheetDL's plugin architecture lets you extend formulas, importers, and utilities without forking the codebase.
 
-The 11 official domain plugins started as custom plugins. Yours can too.
+All official domain plugins started as custom plugins. Yours can too.
 
 ## Features
 
 ### Core Platform (v4.0.0)
 
 - ✅ **Declarative Builder API** - Define spreadsheets using fluent, chainable methods
-- ✅ **Type-Safe Formulas** - FormulaBuilder with 60+ functions, circular reference detection
+- ✅ **Type-Safe Formulas** - FormulaBuilder with extensive functions, circular reference detection
 - ✅ **Theme System** - YAML-based themes (5 built-in: default, corporate, minimal, dark, high_contrast)
-- ✅ **Chart Builder** - 60+ chart types (column, bar, line, area, pie, scatter, combo, sparklines)
+- ✅ **Chart Builder** - Comprehensive chart types (column, bar, line, area, pie, scatter, combo, sparklines)
 - ✅ **Multi-Format Export** - ODS (native), XLSX, PDF from single definition
 - ✅ **Advanced Formatting** - Conditional formatting, data validation, named ranges, cell merging
 - ✅ **Template Engine** - Schema-driven template system with component composition
-- ✅ **MCP Server** - Native server with 18 tools for spreadsheet and budget operations, Claude Desktop integration
-- ✅ **Streaming I/O** - Handle 100k+ row spreadsheets efficiently
+- ✅ **MCP Server** - Native server with tools for spreadsheet and budget operations, Claude Desktop integration
+- ✅ **Streaming I/O** - Handle large spreadsheets efficiently
 - ✅ **Round-Trip Editing** - Read, modify, and write existing ODS files
 - ✅ **CLI & Python API** - Both command-line and programmatic interfaces
 
-### Domain Plugins (Official - 11 Domains, 317 Formulas)
+### Domain Plugins (Official)
 
-#### 💰 Finance Domain (35 formulas)
+#### 💰 Finance Domain
 
-- **Formulas**: NPV, IRR, PMT, PV, FV, bond pricing, options (Black-Scholes), risk metrics (VaR, Sharpe ratio, beta)
-- **Importers**: Bank CSV (50+ banks), Plaid API integration
+- **Formulas**: Financial functions (NPV, IRR, PMT, PV, FV), bond pricing, options pricing (Black-Scholes), risk metrics (VaR, Sharpe ratio, beta)
+- **Importers**: Bank CSV (major banks), Plaid API integration
 - **Utils**: Account management, budget analytics, alerts, recurring expenses, goals tracking
 - **Features**: WebDAV upload (Nextcloud), multi-currency support, auto-categorization
 
-#### 🔬 Data Science Domain (34 formulas)
+#### 🔬 Data Science Domain
 
 - **Formulas**: Statistical tests (TTEST, FTEST, ZTEST), ML metrics (confusion matrix, F1, precision, recall, AUC-ROC), time series analysis, clustering metrics
 - **Importers**: Scientific CSV, MLflow experiment import, Jupyter notebook
 - **Utils**: Plotting helpers, statistical utilities, feature engineering
 
-#### 🧬 Biology Domain (26 formulas)
+#### 🧬 Biology Domain
 
 - **Formulas**: Pharmacokinetics (half-life, clearance, AUC), genetics (Hardy-Weinberg, linkage, allele frequency)
 - **Importers**: Plate readers, qPCR data, cell culture tracking
 - **Utils**: Plate layout generators, concentration calculators
 
-#### 🧪 Chemistry Domain (20 formulas)
+#### 🧪 Chemistry Domain
 
 - **Formulas**: Thermodynamics (enthalpy, entropy, Gibbs free energy), solution chemistry (molarity, dilution, pH), reaction kinetics (rate laws, Arrhenius equation)
 - **Importers**: Spectroscopy data, lab results
 - **Utils**: Unit conversions, chemical calculations
 
-#### ⚛️ Physics Domain (25 formulas)
+#### ⚛️ Physics Domain
 
 - **Formulas**: Mechanics (kinematics, dynamics, energy), electromagnetism (Coulomb, Lorentz, circuits), optics (thin lens, diffraction), quantum mechanics (wave functions, uncertainty)
 - **Importers**: Experimental data, sensor readings
@@ -154,19 +154,20 @@ The 11 official domain plugins started as custom plugins. Yours can too.
 
 #### ⚙️ Engineering Domains
 
-- **Electrical** (27 formulas): Pin mapping, power budgets, digital circuits, filter design, signal processing
-- **Mechanical** (27 formulas): Stress analysis, tolerance calculations, fluid mechanics, thermal analysis, material properties
-- **Civil** (22 formulas): Load calculations, structural analysis, concrete mix, foundation design, transportation planning
+- **Electrical**: Pin mapping, power budgets, digital circuits, filter design, signal processing
+- **Mechanical**: Stress analysis, tolerance calculations, fluid mechanics, thermal analysis, material properties
+- **Civil**: Load calculations, structural analysis, concrete mix, foundation design, transportation planning
+- **Environmental**: Climate modeling, renewable energy metrics, air/water quality, carbon footprint
 
-#### 🏭 Manufacturing Domain (38 formulas)
+#### 🏭 Manufacturing Domain
 
-- **Formulas**: Lean (CycleTime, TaktTime, Throughput), Six Sigma (ProcessCapability, ControlLimits, DefectRate), Supply Chain (EOQ, ReorderPoint, SafetyStock)
+- **Formulas**: Lean metrics (CycleTime, TaktTime, Throughput), Six Sigma (ProcessCapability, ControlLimits, DefectRate), Supply Chain (EOQ, ReorderPoint, SafetyStock)
 - **Importers**: MES Data, ERP Data, Sensor Data
 - **Utils**: OEE calculators, quality metrics, inventory optimization
 
-#### 📚 Education Domain (32 formulas)
+#### 📚 Education Domain
 
-- **Formulas**: Assessment (KR20, KR21, Cronbach's alpha), grading (curves, GPA, percentiles), learning analytics (mastery, forgetting curves)
+- **Formulas**: Assessment theory (KR20, KR21, Cronbach's alpha), grading (curves, GPA, percentiles), learning analytics (mastery, forgetting curves)
 - **Importers**: LMS data, gradebook exports, assessment results
 - **Utils**: Grade calculators, attendance tracking, rubric scoring
 
@@ -222,7 +223,7 @@ These features will raise `NotImplementedError` with clear error messages. They 
 
 ### MCP Server Tools
 
-The MCP server provides 18 tools for spreadsheet and budget operations. See [MCP Integration](docs/MCP_INTEGRATION.md) for detailed documentation.
+The MCP server provides tools for spreadsheet and budget operations. See [MCP Integration](docs/MCP_INTEGRATION.md) for detailed documentation.
 
 ## Quick Start
 
@@ -563,19 +564,19 @@ export NEXTCLOUD_PATH=/Finance
 ```
 spreadsheet-dl/
 ├── src/spreadsheet_dl/
-│   ├── __init__.py              # Package exports (500+ public APIs)
+│   ├── __init__.py              # Package exports
 │   ├── builder.py               # Fluent builder API entry point
 │   ├── renderer.py              # Builder -> ODS renderer
 │   ├── adapters.py              # Multi-format adapters (ODS/XLSX/CSV/HTML)
 │   ├── streaming.py             # Streaming I/O for large files
-│   ├── charts.py                # Chart builder (60+ chart types)
+│   ├── charts.py                # Chart builder
 │   ├── export.py                # Multi-format export
 │   ├── security.py              # Encryption (AES-256-GCM)
 │   ├── plugins.py               # Plugin system framework
-│   ├── exceptions.py            # Exception hierarchy (50+ types)
+│   ├── exceptions.py            # Exception hierarchy
 │   ├── _builder/                # Builder implementation
 │   │   ├── core.py              # SheetBuilder, RowBuilder
-│   │   ├── formulas.py          # FormulaBuilder (60+ functions)
+│   │   ├── formulas.py          # FormulaBuilder
 │   │   ├── models.py            # Data models
 │   │   └── references.py        # Cell reference handling
 │   ├── _cli/                    # CLI implementation
@@ -590,22 +591,22 @@ spreadsheet-dl/
 │   ├── template_engine/         # Template engine (user-defined templates)
 │   │   ├── schema.py            # Template schema
 │   │   └── renderer.py          # Template renderer
-│   ├── domains/                 # Domain plugins (11 domains, 317 formulas)
-│   │   ├── finance/             # Financial formulas (35), importers
-│   │   ├── data_science/        # Statistical formulas (34), ML metrics
-│   │   ├── biology/             # Biology formulas (26), plate readers
-│   │   ├── chemistry/           # Chemistry formulas (20), lab data
-│   │   ├── physics/             # Physics formulas (25), experimental data
-│   │   ├── manufacturing/       # Manufacturing formulas (38), MES importers
-│   │   ├── electrical_engineering/  # Electrical formulas (27)
-│   │   ├── mechanical_engineering/  # Mechanical formulas (27)
-│   │   ├── civil_engineering/   # Civil formulas (22)
-│   │   ├── education/           # Education formulas (32), LMS importers
-│   │   └── environmental/       # Environmental formulas (31)
+│   ├── domains/                 # Domain plugins
+│   │   ├── finance/             # Financial formulas, importers
+│   │   ├── data_science/        # Statistical formulas, ML metrics
+│   │   ├── biology/             # Biology formulas, plate readers
+│   │   ├── chemistry/           # Chemistry formulas, lab data
+│   │   ├── physics/             # Physics formulas, experimental data
+│   │   ├── manufacturing/       # Manufacturing formulas, MES importers
+│   │   ├── electrical_engineering/  # Electrical engineering formulas
+│   │   ├── mechanical_engineering/  # Mechanical engineering formulas
+│   │   ├── civil_engineering/   # Civil engineering formulas
+│   │   ├── education/           # Education formulas, LMS importers
+│   │   └── environmental/       # Environmental formulas
 │   └── themes/                  # Theme YAML files (5 built-in)
-├── tests/                       # Test suite (3,530 tests)
+├── tests/                       # Comprehensive test suite
 ├── examples/                    # Usage examples
-├── docs/                        # Documentation (97 files)
+├── docs/                        # Complete documentation
 ├── pyproject.toml              # Project configuration
 └── README.md
 ```
@@ -718,7 +719,7 @@ See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
 
 ### Recent Releases
 
-- **v4.0.0** (2026-01-04) - First public release: Universal spreadsheet definition language with MCP server, 11 domain plugins (317 formulas), 3,530 tests
+- **v4.0.0** (2026-01-04) - First public release: Universal spreadsheet definition language with MCP server and comprehensive domain plugin library
 - **v2.0.0** (2025-12-29) - Professional spreadsheet system with enterprise formatting
 - **v0.4.1** (2025-12-15) - Expense append functionality and comprehensive error codes
 - **v0.4.0** (2025-12-10) - Declarative DSL with themes and fluent builder API
