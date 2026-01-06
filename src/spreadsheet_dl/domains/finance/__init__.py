@@ -88,6 +88,25 @@ from spreadsheet_dl.domains.finance.currency import (
     money,
 )
 
+# Formulas
+from spreadsheet_dl.domains.finance.formulas import (
+    CompoundAnnualGrowthRate,
+    CompoundInterest,
+    DecliningBalanceDepreciation,
+    FutureValue,
+    InternalRateOfReturn,
+    NetPresentValue,
+    PaymentFormula,
+    PeriodsFormula,
+    PortfolioBeta,
+    PresentValue,
+    RateFormula,
+    ReturnOnInvestment,
+    SharpeRatio,
+    StraightLineDepreciation,
+    SUMYearsDigitsDepreciation,
+)
+
 # Goals
 from spreadsheet_dl.domains.finance.goals import (
     Debt,
@@ -171,6 +190,9 @@ __all__ = [
     # Classes - Categories
     "Category",
     "CategoryManager",
+    # Classes - Formulas
+    "CompoundAnnualGrowthRate",
+    "CompoundInterest",
     # Classes - Currency
     "Currency",
     "CurrencyCode",
@@ -179,24 +201,34 @@ __all__ = [
     "Debt",
     "DebtPayoffMethod",
     "DebtPayoffPlan",
+    # Classes - Formulas (continued)
+    "DecliningBalanceDepreciation",
     "ExchangeRate",
     "ExchangeRateProvider",
     # Classes - ODS Generator
     "ExpenseCategory",
     "ExpenseEntry",
     "FormatBuilder",
+    "FutureValue",
     "GoalCategory",
     "GoalManager",
     "GoalStatus",
+    "InternalRateOfReturn",
     "MoneyAmount",
+    "NetPresentValue",
     "NetWorth",
     "OdsGenerator",
+    "PaymentFormula",
+    "PeriodsFormula",
     # Classes - Plaid
     "PlaidAccount",
     "PlaidClient",
     "PlaidConfig",
     "PlaidSyncManager",
     "PlaidTransaction",
+    "PortfolioBeta",
+    "PresentValue",
+    "RateFormula",
     # Classes - Recurring
     "RecurrenceFrequency",
     "RecurringExpense",
@@ -205,8 +237,12 @@ __all__ = [
     "ReminderStatus",
     # Classes - Report
     "ReportGenerator",
+    "ReturnOnInvestment",
+    "SUMYearsDigitsDepreciation",
     "SavingsGoal",
+    "SharpeRatio",
     "StandardCategory",
+    "StraightLineDepreciation",
     "SyncResult",
     "TransactionCategorizer",
     "Transfer",
