@@ -402,4 +402,4 @@ Ready to dive deeper? Start with the tutorials:
 - **Intermediate**: [Import Bank Data](tutorials/03-import-bank-data.md)
 - **Advanced**: [Use MCP Tools](tutorials/05-use-mcp-tools.md)
 
-Happy budgeting! 🎉
+Happy budgeting!
