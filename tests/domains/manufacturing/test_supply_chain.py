@@ -1,7 +1,6 @@
 """
 Tests for Supply Chain formulas.
 
-Implements:
     Comprehensive tests for Supply Chain formulas (5 formulas, 15+ tests)
 """
 

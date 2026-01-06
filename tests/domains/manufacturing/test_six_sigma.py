@@ -1,7 +1,6 @@
 """
 Tests for Six Sigma formulas.
 
-Implements:
     Comprehensive tests for Six Sigma formulas (10 formulas, 30+ tests)
 """
 

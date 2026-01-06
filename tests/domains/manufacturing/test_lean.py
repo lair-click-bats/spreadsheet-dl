@@ -1,7 +1,6 @@
 """
 Tests for Lean Manufacturing formulas.
 
-Implements:
     Comprehensive tests for Lean formulas (10 formulas, 30+ tests)
 """
 
