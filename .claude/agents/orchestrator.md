@@ -156,7 +156,7 @@ Context Files: [Only files needed for this subtask]
 
 ## Context Monitoring & Compaction Management
 
-**Monitor context usage continuously** (see `.claude/orchestration-config.yaml` v3.2.0):
+**Monitor context usage continuously** (see `.claude/orchestration-config.yaml` v4.0.0):
 
 - **Low warning**: 60% - Consider summarizing completed work
 - **Checkpoint threshold**: 65% - Create checkpoint now
