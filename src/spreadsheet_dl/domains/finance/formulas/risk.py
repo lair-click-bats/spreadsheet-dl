@@ -1,8 +1,7 @@
 """Risk management formulas.
 
-Implements:
-    Risk analysis formulas for portfolio management including VaR, CVaR,
-    volatility, alpha, tracking error, information ratio, and downside deviation.
+Risk analysis formulas for portfolio management including VaR, CVaR,
+volatility, alpha, tracking error, information ratio, and downside deviation.
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class ValueAtRisk(BaseFormula):
     """Calculate Value at Risk (VaR) for portfolio risk assessment.
 
-    Implements:
         VAR calculation for portfolio risk measurement at specified confidence level
 
     Example:
@@ -33,7 +31,6 @@ class ValueAtRisk(BaseFormula):
         Returns:
             FormulaMetadata for ValueAtRisk
 
-        Implements:
             Risk formula metadata
         """
         return FormulaMetadata(
@@ -71,7 +68,6 @@ class ValueAtRisk(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             VAR formula building using PERCENTILE
 
         Raises:
@@ -89,7 +85,6 @@ class ValueAtRisk(BaseFormula):
 class ConditionalVaR(BaseFormula):
     r"""Calculate Conditional Value at Risk (CVaR) / Expected Shortfall.
 
-    Implements:
         CVaR calculation measuring expected loss beyond VaR threshold
 
     Example:
@@ -105,7 +100,6 @@ class ConditionalVaR(BaseFormula):
         Returns:
             FormulaMetadata for ConditionalVaR
 
-        Implements:
             Risk formula metadata
         """
         return FormulaMetadata(
@@ -143,7 +137,6 @@ class ConditionalVaR(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             CVAR formula building using AVERAGEIF and PERCENTILE
 
         Raises:
@@ -161,7 +154,6 @@ class ConditionalVaR(BaseFormula):
 class PortfolioVolatility(BaseFormula):
     """Calculate portfolio volatility (standard deviation of returns).
 
-    Implements:
         Portfolio volatility calculation using standard deviation
 
     Example:
@@ -177,7 +169,6 @@ class PortfolioVolatility(BaseFormula):
         Returns:
             FormulaMetadata for PortfolioVolatility
 
-        Implements:
             Risk formula metadata
         """
         return FormulaMetadata(
@@ -209,7 +200,6 @@ class PortfolioVolatility(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Portfolio volatility formula building
 
         Raises:
@@ -226,7 +216,6 @@ class PortfolioVolatility(BaseFormula):
 class AlphaRatio(BaseFormula):
     """Calculate Jensen's Alpha for risk-adjusted return.
 
-    Implements:
         Alpha ratio calculation measuring excess return vs. expected return
 
     Example:
@@ -242,7 +231,6 @@ class AlphaRatio(BaseFormula):
         Returns:
             FormulaMetadata for AlphaRatio
 
-        Implements:
             Risk formula metadata
         """
         return FormulaMetadata(
@@ -292,7 +280,6 @@ class AlphaRatio(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Alpha ratio formula: portfolio_return - (risk_free_rate + beta * (market_return - risk_free_rate))
 
         Raises:
@@ -312,7 +299,6 @@ class AlphaRatio(BaseFormula):
 class TrackingError(BaseFormula):
     """Calculate tracking error (active risk measure).
 
-    Implements:
         Tracking error calculation measuring portfolio deviation from benchmark
 
     Example:
@@ -328,7 +314,6 @@ class TrackingError(BaseFormula):
         Returns:
             FormulaMetadata for TrackingError
 
-        Implements:
             Risk formula metadata
         """
         return FormulaMetadata(
@@ -366,7 +351,6 @@ class TrackingError(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Tracking error formula building
 
         Raises:
@@ -384,7 +368,6 @@ class TrackingError(BaseFormula):
 class InformationRatio(BaseFormula):
     """Calculate Information Ratio (risk-adjusted active return).
 
-    Implements:
         Information ratio calculation measuring excess return per unit of tracking error
 
     Example:
@@ -400,7 +383,6 @@ class InformationRatio(BaseFormula):
         Returns:
             FormulaMetadata for InformationRatio
 
-        Implements:
             Risk formula metadata
         """
         return FormulaMetadata(
@@ -438,7 +420,6 @@ class InformationRatio(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Information ratio formula: (average excess return) / tracking error
 
         Raises:
@@ -456,7 +437,6 @@ class InformationRatio(BaseFormula):
 class DownsideDeviation(BaseFormula):
     r"""Calculate downside deviation (downside risk measure).
 
-    Implements:
         Downside deviation calculation focusing on negative returns only
 
     Example:
@@ -472,7 +452,6 @@ class DownsideDeviation(BaseFormula):
         Returns:
             FormulaMetadata for DownsideDeviation
 
-        Implements:
             Risk formula metadata
         """
         return FormulaMetadata(
@@ -511,7 +490,6 @@ class DownsideDeviation(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Downside deviation formula using SUMPRODUCT
 
         Raises:

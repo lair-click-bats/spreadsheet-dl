@@ -1,7 +1,6 @@
 """Tests for Mechanical Engineering Thermal formulas.
 
-Implements:
-    BATCH2-MECH: Tests for original and 6 new heat transfer formulas
+BATCH2-MECH: Tests for original and 6 new heat transfer formulas
 """
 
 from __future__ import annotations

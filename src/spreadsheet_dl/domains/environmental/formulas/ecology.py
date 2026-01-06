@@ -1,8 +1,7 @@
 """Ecology and biodiversity formulas.
 
-Implements:
-    Ecology formulas
-    (SHANNON_DIVERSITY, SIMPSON_INDEX, SPECIES_RICHNESS)
+Ecology formulas
+(SHANNON_DIVERSITY, SIMPSON_INDEX, SPECIES_RICHNESS)
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class ShannonDiversityFormula(BaseFormula):
     """Calculate Shannon Diversity Index.
 
-    Implements:
         SHANNON_DIVERSITY formula for biodiversity assessment
 
     H' = -SUM(pi * ln(pi)) where pi is proportion of species i.
@@ -35,7 +33,6 @@ class ShannonDiversityFormula(BaseFormula):
         Returns:
             FormulaMetadata for SHANNON_DIVERSITY
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -67,7 +64,6 @@ class ShannonDiversityFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             SHANNON_DIVERSITY formula building
 
         Raises:
@@ -92,7 +88,6 @@ class ShannonDiversityFormula(BaseFormula):
 class SimpsonIndexFormula(BaseFormula):
     """Calculate Simpson's Diversity Index.
 
-    Implements:
         SIMPSON_INDEX formula for biodiversity assessment
 
     D = 1 - SUM(pi^2) where pi is proportion of species i.
@@ -110,7 +105,6 @@ class SimpsonIndexFormula(BaseFormula):
         Returns:
             FormulaMetadata for SIMPSON_INDEX
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -142,7 +136,6 @@ class SimpsonIndexFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             SIMPSON_INDEX formula building
 
         Raises:
@@ -165,7 +158,6 @@ class SimpsonIndexFormula(BaseFormula):
 class SpeciesRichnessFormula(BaseFormula):
     """Calculate Species Richness.
 
-    Implements:
         SPECIES_RICHNESS formula for biodiversity assessment
 
     Simple count of distinct species with non-zero abundance.
@@ -183,7 +175,6 @@ class SpeciesRichnessFormula(BaseFormula):
         Returns:
             FormulaMetadata for SPECIES_RICHNESS
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -215,7 +206,6 @@ class SpeciesRichnessFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             SPECIES_RICHNESS formula building
 
         Raises:

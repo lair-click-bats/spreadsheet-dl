@@ -1,7 +1,6 @@
 """Transportation engineering formulas for civil engineering.
 
-Implements:
-    CIVIL-TRANSPORTATION: Transportation and traffic flow formulas
+CIVIL-TRANSPORTATION: Transportation and traffic flow formulas
 """
 
 from __future__ import annotations
@@ -18,7 +17,6 @@ class StoppingDistance(BaseFormula):
 
     Calculates total stopping sight distance including reaction time.
 
-    Implements:
         CIVIL-TRANSPORTATION-001: Stopping sight distance calculation
 
     Example:
@@ -87,7 +85,6 @@ class TrafficFlow(BaseFormula):
 
     Fundamental traffic flow equation relating flow, density, and speed.
 
-    Implements:
         CIVIL-TRANSPORTATION-002: Fundamental traffic flow equation
 
     Example:

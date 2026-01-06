@@ -1,7 +1,6 @@
 """Assessment Results Importer.
 
-Implements:
-    AssessmentResultsImporter for education domain
+AssessmentResultsImporter for education domain
 """
 
 from __future__ import annotations
@@ -20,7 +19,6 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 class AssessmentResultsImporter(BaseImporter[list[dict[str, Any]]]):
     """Assessment and quiz results importer.
 
-    Implements:
         AssessmentResultsImporter for quiz/test results
 
     Supports importing assessment data from:
@@ -46,7 +44,6 @@ class AssessmentResultsImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImporterMetadata for assessment results importer
 
-        Implements:
             Importer metadata
         """
         return ImporterMetadata(
@@ -65,7 +62,6 @@ class AssessmentResultsImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImportResult with assessment data
 
-        Implements:
             Assessment results import
         """
         source_path = Path(source)
@@ -318,7 +314,6 @@ class AssessmentResultsImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             True if source is valid
 
-        Implements:
             Source validation
         """
         path = Path(source)

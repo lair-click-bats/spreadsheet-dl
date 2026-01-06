@@ -1,6 +1,5 @@
 """Utility functions for civil engineering calculations.
 
-Implements:
     Civil engineering utility functions
 
 Provides helper functions for:

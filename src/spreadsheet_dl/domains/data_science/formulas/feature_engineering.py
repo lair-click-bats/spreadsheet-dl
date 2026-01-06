@@ -1,8 +1,7 @@
 """Feature engineering and transformation formulas.
 
-Implements:
-    Feature engineering formulas for data preprocessing
-    (Min-Max Normalize, Z-Score Standardize, Log Transform)
+Feature engineering formulas for data preprocessing
+(Min-Max Normalize, Z-Score Standardize, Log Transform)
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class MinMaxNormalize(BaseFormula):
     """Normalize data using min-max scaling.
 
-    Implements:
         Min-max normalization formula (scales to 0-1 range)
 
     Example:
@@ -33,7 +31,6 @@ class MinMaxNormalize(BaseFormula):
         Returns:
             FormulaMetadata for MinMaxNormalize
 
-        Implements:
             Formula metadata for min-max normalization
         """
         return FormulaMetadata(
@@ -83,7 +80,6 @@ class MinMaxNormalize(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Min-max normalization formula building
 
         Raises:
@@ -111,7 +107,6 @@ class MinMaxNormalize(BaseFormula):
 class ZScoreStandardize(BaseFormula):
     """Standardize data using z-score normalization.
 
-    Implements:
         Z-score standardization formula (mean=0, std=1)
 
     Example:
@@ -127,7 +122,6 @@ class ZScoreStandardize(BaseFormula):
         Returns:
             FormulaMetadata for ZScoreStandardize
 
-        Implements:
             Formula metadata for z-score standardization
         """
         return FormulaMetadata(
@@ -165,7 +159,6 @@ class ZScoreStandardize(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Z-score standardization formula building
 
         Raises:
@@ -184,7 +177,6 @@ class ZScoreStandardize(BaseFormula):
 class LogTransform(BaseFormula):
     """Apply logarithmic transformation to data.
 
-    Implements:
         Log transformation formula for skewed data
 
     Example:
@@ -200,7 +192,6 @@ class LogTransform(BaseFormula):
         Returns:
             FormulaMetadata for LogTransform
 
-        Implements:
             Formula metadata for log transformation
         """
         return FormulaMetadata(
@@ -245,7 +236,6 @@ class LogTransform(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Log transformation formula building
 
         Raises:

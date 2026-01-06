@@ -2,9 +2,6 @@
 Tests for the builders module.
 
 Implements tests for:
-    - FR-BUILDER-002: DataValidationBuilder
-    - FR-BUILDER-003: ConditionalFormatBuilder
-    - FR-BUILDER-006: StyleBuilder
 """
 
 from __future__ import annotations
@@ -59,7 +56,7 @@ from spreadsheet_dl.schema.styles import (
 pytestmark = [pytest.mark.unit, pytest.mark.builder]
 
 # ============================================================================
-# DataValidationBuilder Tests (FR-BUILDER-002)
+# DataValidationBuilder Tests
 # ============================================================================
 
 
@@ -249,7 +246,7 @@ class TestValidationConvenienceFunctions:
 
 
 # ============================================================================
-# ConditionalFormatBuilder Tests (FR-BUILDER-003)
+# ConditionalFormatBuilder Tests
 # ============================================================================
 
 
@@ -547,7 +544,7 @@ class TestIconSetBuilder:
 
 
 # ============================================================================
-# StyleBuilder Tests (FR-BUILDER-006)
+# StyleBuilder Tests
 # ============================================================================
 
 

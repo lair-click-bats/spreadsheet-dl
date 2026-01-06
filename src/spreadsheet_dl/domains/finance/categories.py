@@ -7,8 +7,6 @@ Provides dynamic category management for expense tracking:
 - Category validation and suggestions
 - MCP tool integration
 
-Implements:
-    FR-EXT-005: Custom Category Support (Gap G-03)
 """
 
 from __future__ import annotations

@@ -1,9 +1,8 @@
 """Carbon and sustainability formulas.
 
-Implements:
-    Carbon and sustainability formulas
-    (CARBON_EQUIVALENT, ECOLOGICAL_FOOTPRINT, SUSTAINABILITY_SCORE,
-     ENVIRONMENTAL_IMPACT_SCORE)
+Carbon and sustainability formulas
+(CARBON_EQUIVALENT, ECOLOGICAL_FOOTPRINT, SUSTAINABILITY_SCORE,
+ENVIRONMENTAL_IMPACT_SCORE)
 """
 
 from __future__ import annotations
@@ -18,7 +17,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class CarbonEquivalentFormula(BaseFormula):
     """Calculate CO2 equivalent from various emissions.
 
-    Implements:
         CARBON_EQUIVALENT formula for emissions
 
     Converts various greenhouse gases to CO2 equivalent using GWP.
@@ -36,7 +34,6 @@ class CarbonEquivalentFormula(BaseFormula):
         Returns:
             FormulaMetadata for CARBON_EQUIVALENT
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -75,7 +72,6 @@ class CarbonEquivalentFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             CARBON_EQUIVALENT formula building
 
         Raises:
@@ -106,7 +102,6 @@ class CarbonEquivalentFormula(BaseFormula):
 class EcologicalFootprintFormula(BaseFormula):
     """Calculate ecological footprint.
 
-    Implements:
         ECOLOGICAL_FOOTPRINT formula for sustainability
 
     Estimates ecological footprint in global hectares.
@@ -124,7 +119,6 @@ class EcologicalFootprintFormula(BaseFormula):
         Returns:
             FormulaMetadata for ECOLOGICAL_FOOTPRINT
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -170,7 +164,6 @@ class EcologicalFootprintFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             ECOLOGICAL_FOOTPRINT formula building
 
         Raises:
@@ -203,7 +196,6 @@ class EcologicalFootprintFormula(BaseFormula):
 class SustainabilityScoreFormula(BaseFormula):
     """Calculate sustainability score.
 
-    Implements:
         SUSTAINABILITY_SCORE formula for ESG metrics
 
     Calculates normalized sustainability score (0-100).
@@ -221,7 +213,6 @@ class SustainabilityScoreFormula(BaseFormula):
         Returns:
             FormulaMetadata for SUSTAINABILITY_SCORE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -267,7 +258,6 @@ class SustainabilityScoreFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             SUSTAINABILITY_SCORE formula building
 
         Raises:
@@ -297,7 +287,6 @@ class SustainabilityScoreFormula(BaseFormula):
 class EnvironmentalImpactScoreFormula(BaseFormula):
     """Calculate environmental impact score.
 
-    Implements:
         ENVIRONMENTAL_IMPACT_SCORE formula for EIA
 
     Calculates normalized environmental impact score.
@@ -315,7 +304,6 @@ class EnvironmentalImpactScoreFormula(BaseFormula):
         Returns:
             FormulaMetadata for ENVIRONMENTAL_IMPACT_SCORE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -366,7 +354,6 @@ class EnvironmentalImpactScoreFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             ENVIRONMENTAL_IMPACT_SCORE formula building
 
         Raises:

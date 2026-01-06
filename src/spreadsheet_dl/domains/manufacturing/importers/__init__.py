@@ -1,7 +1,6 @@
 """Manufacturing importers module.
 
-Implements:
-    Manufacturing importer exports
+Manufacturing importer exports
 """
 
 from spreadsheet_dl.domains.manufacturing.importers.erp_data import ERPDataImporter

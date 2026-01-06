@@ -5,7 +5,7 @@ backup management with configurable retention, and restore functionality
 with integrity verification.
 
 Requirements implemented:
-    - DR-STORE-002: Backup/Restore Functionality (Gap G-04)
+    - DR-STORE-002: Backup/Restore Functionality
 
 Features:
     - Auto-backup before destructive operations

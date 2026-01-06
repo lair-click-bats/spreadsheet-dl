@@ -1,8 +1,7 @@
 """Electromagnetism formulas for physics.
 
-Implements:
-    Physics electromagnetism formulas (6 formulas)
-    BATCH-5: Physics domain creation
+Physics electromagnetism formulas (6 formulas)
+BATCH-5: Physics domain creation
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class CoulombLawFormula(BaseFormula):
     """Calculate electrostatic force using Coulomb's law.
 
-    Implements:
         COULOMB_LAW formula (F = k*q1*q2/r²)
         BATCH-5: Physics electromagnetism
 
@@ -100,7 +98,6 @@ class CoulombLawFormula(BaseFormula):
 class ElectricFieldFormula(BaseFormula):
     """Calculate electric field strength.
 
-    Implements:
         ELECTRIC_FIELD formula (E = F/q)
         BATCH-5: Physics electromagnetism
 
@@ -168,7 +165,6 @@ class ElectricFieldFormula(BaseFormula):
 class MagneticForceFormula(BaseFormula):
     """Calculate magnetic force on moving charge.
 
-    Implements:
         MAGNETIC_FORCE formula (F = qvB*sin(θ))
         BATCH-5: Physics electromagnetism
 
@@ -251,7 +247,6 @@ class MagneticForceFormula(BaseFormula):
 class FaradayLawFormula(BaseFormula):
     """Calculate induced EMF (simplified form).
 
-    Implements:
         FARADAY_LAW formula (EMF = -N*ΔΦ/Δt, simplified)
         BATCH-5: Physics electromagnetism
 
@@ -326,7 +321,6 @@ class FaradayLawFormula(BaseFormula):
 class LorentzForceFormula(BaseFormula):
     """Calculate total Lorentz force.
 
-    Implements:
         LORENTZ_FORCE formula (F = q*(E + v*B))
         BATCH-5: Physics electromagnetism
 
@@ -408,7 +402,6 @@ class LorentzForceFormula(BaseFormula):
 class PoyntingVectorFormula(BaseFormula):
     """Calculate electromagnetic power flow (Poynting vector magnitude).
 
-    Implements:
         POYNTING_VECTOR formula (S = E*H)
         BATCH-5: Physics electromagnetism
 

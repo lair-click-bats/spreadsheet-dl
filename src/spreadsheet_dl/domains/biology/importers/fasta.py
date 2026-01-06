@@ -1,7 +1,6 @@
 """FASTA sequence file importer.
 
-Implements:
-    FASTAImporter for DNA/RNA/protein sequences
+FASTAImporter for DNA/RNA/protein sequences
 """
 
 from __future__ import annotations
@@ -15,7 +14,6 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 class FASTAImporter(BaseImporter[list[dict[str, Any]]]):
     """Import FASTA format sequence files.
 
-    Implements:
         FASTAImporter for sequence analysis
 
     Features:
@@ -47,7 +45,6 @@ class FASTAImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImporterMetadata for FASTA importer
 
-        Implements:
             Importer metadata
         """
         return ImporterMetadata(
@@ -66,7 +63,6 @@ class FASTAImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             True if source is valid FASTA file
 
-        Implements:
             Source validation
         """
         path = Path(source) if isinstance(source, str) else source
@@ -91,7 +87,6 @@ class FASTAImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImportResult with sequence data
 
-        Implements:
             FASTA data import
 
         Raises:

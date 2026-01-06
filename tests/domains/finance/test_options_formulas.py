@@ -1,8 +1,7 @@
 """Tests for options pricing formulas.
 
-Implements:
-    Test suite for options pricing formulas including Black-Scholes model,
-    implied volatility, and Greeks (Delta, Gamma, Theta, Vega, Rho).
+Test suite for options pricing formulas including Black-Scholes model,
+implied volatility, and Greeks (Delta, Gamma, Theta, Vega, Rho).
 """
 
 from __future__ import annotations

@@ -1,7 +1,6 @@
 """Biology domain formulas.
 
-Implements:
-    Biology formula implementations
+Biology formula implementations
 """
 
 from __future__ import annotations

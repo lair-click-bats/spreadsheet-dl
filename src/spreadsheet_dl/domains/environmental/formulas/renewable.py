@@ -1,9 +1,8 @@
 """Renewable energy formulas.
 
-Implements:
-    Renewable energy formulas for solar, wind, and energy analysis
-    (SOLAR_PANEL_OUTPUT, WIND_TURBINE_POWER, ENERGY_PAYBACK_TIME,
-     CAPACITY_FACTOR, LEVELIZED_COST_ENERGY, ENERGY_RETURN_INVESTMENT)
+Renewable energy formulas for solar, wind, and energy analysis
+(SOLAR_PANEL_OUTPUT, WIND_TURBINE_POWER, ENERGY_PAYBACK_TIME,
+CAPACITY_FACTOR, LEVELIZED_COST_ENERGY, ENERGY_RETURN_INVESTMENT)
 """
 
 from __future__ import annotations
@@ -18,7 +17,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class SolarPanelOutputFormula(BaseFormula):
     """Calculate solar panel power output.
 
-    Implements:
         SOLAR_PANEL_OUTPUT formula for PV power generation
 
     Calculates power output from irradiance, area, and efficiency.
@@ -36,7 +34,6 @@ class SolarPanelOutputFormula(BaseFormula):
         Returns:
             FormulaMetadata for SOLAR_PANEL_OUTPUT
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -80,7 +77,6 @@ class SolarPanelOutputFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             SOLAR_PANEL_OUTPUT formula building
 
         Raises:
@@ -100,7 +96,6 @@ class SolarPanelOutputFormula(BaseFormula):
 class WindTurbinePowerFormula(BaseFormula):
     """Calculate wind turbine power output.
 
-    Implements:
         WIND_TURBINE_POWER formula for wind energy capture
 
     Calculates power from air density, swept area, velocity, and power coefficient.
@@ -118,7 +113,6 @@ class WindTurbinePowerFormula(BaseFormula):
         Returns:
             FormulaMetadata for WIND_TURBINE_POWER
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -168,7 +162,6 @@ class WindTurbinePowerFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             WIND_TURBINE_POWER formula building
 
         Raises:
@@ -189,7 +182,6 @@ class WindTurbinePowerFormula(BaseFormula):
 class EnergyPaybackTimeFormula(BaseFormula):
     """Calculate energy payback time.
 
-    Implements:
         ENERGY_PAYBACK_TIME formula for EPBT calculation
 
     Calculates time to recover energy investment.
@@ -207,7 +199,6 @@ class EnergyPaybackTimeFormula(BaseFormula):
         Returns:
             FormulaMetadata for ENERGY_PAYBACK_TIME
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -245,7 +236,6 @@ class EnergyPaybackTimeFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             ENERGY_PAYBACK_TIME formula building
 
         Raises:
@@ -264,7 +254,6 @@ class EnergyPaybackTimeFormula(BaseFormula):
 class CapacityFactorFormula(BaseFormula):
     """Calculate capacity factor for renewable energy.
 
-    Implements:
         CAPACITY_FACTOR formula for generation efficiency
 
     Calculates ratio of actual output to maximum possible output.
@@ -282,7 +271,6 @@ class CapacityFactorFormula(BaseFormula):
         Returns:
             FormulaMetadata for CAPACITY_FACTOR
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -326,7 +314,6 @@ class CapacityFactorFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             CAPACITY_FACTOR formula building
 
         Raises:
@@ -346,7 +333,6 @@ class CapacityFactorFormula(BaseFormula):
 class LevelizedCostEnergyFormula(BaseFormula):
     """Calculate levelized cost of energy (LCOE).
 
-    Implements:
         LEVELIZED_COST_ENERGY formula for LCOE calculation
 
     Calculates lifecycle cost per unit of energy produced (simplified).
@@ -364,7 +350,6 @@ class LevelizedCostEnergyFormula(BaseFormula):
         Returns:
             FormulaMetadata for LEVELIZED_COST_ENERGY
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -420,7 +405,6 @@ class LevelizedCostEnergyFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             LEVELIZED_COST_ENERGY formula building
 
         Raises:
@@ -449,7 +433,6 @@ class LevelizedCostEnergyFormula(BaseFormula):
 class EnergyReturnInvestmentFormula(BaseFormula):
     """Calculate Energy Return on Investment (EROI).
 
-    Implements:
         ENERGY_RETURN_INVESTMENT formula for EROI ratio
 
     Calculates ratio of energy produced to energy consumed
@@ -468,7 +451,6 @@ class EnergyReturnInvestmentFormula(BaseFormula):
         Returns:
             FormulaMetadata for ENERGY_RETURN_INVESTMENT
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -506,7 +488,6 @@ class EnergyReturnInvestmentFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             ENERGY_RETURN_INVESTMENT formula building
 
         Raises:
@@ -525,7 +506,6 @@ class EnergyReturnInvestmentFormula(BaseFormula):
 class SolarPanelEfficiencyFormula(BaseFormula):
     """Calculate solar panel conversion efficiency.
 
-    Implements:
         SOLAR_PANEL_EFFICIENCY formula for PV efficiency
 
     Calculates the percentage of solar irradiance converted to electricity.
@@ -543,7 +523,6 @@ class SolarPanelEfficiencyFormula(BaseFormula):
         Returns:
             FormulaMetadata for SOLAR_PANEL_EFFICIENCY
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -587,7 +566,6 @@ class SolarPanelEfficiencyFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             SOLAR_PANEL_EFFICIENCY formula building
 
         Raises:
@@ -607,7 +585,6 @@ class SolarPanelEfficiencyFormula(BaseFormula):
 class WindCapacityFactorFormula(BaseFormula):
     """Calculate wind turbine capacity factor.
 
-    Implements:
         WIND_CAPACITY_FACTOR formula for turbine utilization
 
     Calculates the ratio of actual energy output to theoretical maximum.
@@ -625,7 +602,6 @@ class WindCapacityFactorFormula(BaseFormula):
         Returns:
             FormulaMetadata for WIND_CAPACITY_FACTOR
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -669,7 +645,6 @@ class WindCapacityFactorFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             WIND_CAPACITY_FACTOR formula building
 
         Raises:
@@ -689,7 +664,6 @@ class WindCapacityFactorFormula(BaseFormula):
 class BatteryStorageCapacityFormula(BaseFormula):
     """Calculate required battery storage capacity.
 
-    Implements:
         BATTERY_STORAGE_CAPACITY formula for energy storage sizing
 
     Calculates battery capacity needed for specified autonomy.
@@ -707,7 +681,6 @@ class BatteryStorageCapacityFormula(BaseFormula):
         Returns:
             FormulaMetadata for BATTERY_STORAGE_CAPACITY
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -751,7 +724,6 @@ class BatteryStorageCapacityFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             BATTERY_STORAGE_CAPACITY formula building
 
         Raises:
@@ -771,7 +743,6 @@ class BatteryStorageCapacityFormula(BaseFormula):
 class GridStabilityIndexFormula(BaseFormula):
     """Calculate grid stability with renewable penetration.
 
-    Implements:
         GRID_STABILITY_INDEX formula for renewable integration
 
     Calculates grid stability metric accounting for renewables and storage.
@@ -789,7 +760,6 @@ class GridStabilityIndexFormula(BaseFormula):
         Returns:
             FormulaMetadata for GRID_STABILITY_INDEX
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -833,7 +803,6 @@ class GridStabilityIndexFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             GRID_STABILITY_INDEX formula building
 
         Raises:
@@ -853,7 +822,6 @@ class GridStabilityIndexFormula(BaseFormula):
 class CarbonIntensityFormula(BaseFormula):
     """Calculate carbon intensity of energy production.
 
-    Implements:
         CARBON_INTENSITY formula for emissions per energy
 
     Calculates grams of CO2 emitted per kilowatt-hour of energy produced.
@@ -871,7 +839,6 @@ class CarbonIntensityFormula(BaseFormula):
         Returns:
             FormulaMetadata for CARBON_INTENSITY
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -909,7 +876,6 @@ class CarbonIntensityFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             CARBON_INTENSITY formula building
 
         Raises:

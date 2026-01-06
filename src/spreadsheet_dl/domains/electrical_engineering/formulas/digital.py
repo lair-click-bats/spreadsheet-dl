@@ -1,7 +1,6 @@
 """Digital circuit formulas for electrical engineering.
 
-Implements:
-    Digital logic formulas (NAND, NOR, XOR, binary conversions)
+Digital logic formulas (NAND, NOR, XOR, binary conversions)
 """
 
 from __future__ import annotations
@@ -16,7 +15,6 @@ class LogicNANDFormula(BaseFormula):
 
     Calculates NAND gate output given two boolean inputs.
 
-    Implements:
         LOGIC_NAND formula
 
     Example:
@@ -73,7 +71,6 @@ class LogicNORFormula(BaseFormula):
 
     Calculates NOR gate output given two boolean inputs.
 
-    Implements:
         LOGIC_NOR formula
 
     Example:
@@ -130,7 +127,6 @@ class LogicXORFormula(BaseFormula):
 
     Calculates XOR gate output: (A AND NOT B) OR (NOT A AND B).
 
-    Implements:
         LOGIC_XOR formula
 
     Example:
@@ -187,7 +183,6 @@ class BinaryToDecimalFormula(BaseFormula):
 
     Converts a binary string to decimal number.
 
-    Implements:
         BINARY_TO_DECIMAL formula
 
     Example:
@@ -238,7 +233,6 @@ class DecimalToBinaryFormula(BaseFormula):
 
     Converts a decimal number to binary string.
 
-    Implements:
         DECIMAL_TO_BINARY formula
 
     Example:

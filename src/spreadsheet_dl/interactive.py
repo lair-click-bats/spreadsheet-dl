@@ -5,9 +5,6 @@ dropdowns, data validation, conditional formatting, and
 dashboard views.
 
 Requirements implemented:
-    - FR-HUMAN-002: Interactive features (dropdowns, validation)
-    - FR-HUMAN-003: Dashboard view in ODS
-    - FR-SPARK-001: Sparkline application to ODS documents
 
 Features:
     - Dropdown lists for category selection
@@ -362,7 +359,7 @@ class SparklineConfig:
     LibreOffice Calc supports SPARKLINE() function for mini charts within cells.
     This is a LibreOffice-specific feature and may not work in Excel or Google Sheets.
 
-    Implements: FR-SPARK-001 (Sparkline application to ODS documents)
+     (Sparkline application to ODS documents)
 
     Attributes:
         data_range: Cell range for data (e.g., "B2:B10").
@@ -713,11 +710,6 @@ class InteractiveOdsBuilder:
         add the formatting rules after opening the file, or use a different
         export format (like XLSX via openpyxl).
 
-        Implements:
-            - FR-COND-001: Cell Value Rules (static evaluation)
-            - FR-COND-002: Formula-Based Rules (limited support)
-            - FR-COND-003: Color Scales (gradient approximation)
-            - FR-COND-007: Text Contains Rules
 
         Args:
             doc: The ODF document object
@@ -1033,7 +1025,7 @@ class InteractiveOdsBuilder:
         Uses LibreOffice SPARKLINE() function to create mini charts within cells.
         This is a LibreOffice-specific feature.
 
-        Implements: FR-SPARK-001 (Sparkline application to ODS documents)
+         (Sparkline application to ODS documents)
 
         Args:
             doc: The ODF document object

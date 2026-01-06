@@ -112,8 +112,6 @@ class AdapterOptions:
 class HTMLImportOptions(AdapterOptions):
     """Configuration options for HTML import.
 
-    Implements FR-HTML-001: HTML import from HTML tables
-
     Attributes:
         table_selector: CSS selector for table elements (None for all tables)
         header_row: First row is header (auto-detect from <th> if None)
@@ -606,8 +604,6 @@ class HtmlAdapter(FormatAdapter):
         options: AdapterOptions | None = None,
     ) -> list[SheetSpec]:
         """Import from HTML format.
-
-        Implements FR-HTML-001: HTML import from HTML tables
 
         Parses HTML tables using BeautifulSoup4 and converts them to SheetSpec.
         Handles thead/tbody/tfoot, th/td cells, colspan/rowspan attributes.

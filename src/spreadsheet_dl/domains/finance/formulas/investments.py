@@ -1,8 +1,7 @@
 """Investment analysis formulas.
 
-Implements:
-    Financial formulas for investment returns and risk analysis
-    (ROI, CAGR, CompoundInterest, SharpeRatio, PortfolioBeta)
+Financial formulas for investment returns and risk analysis
+(ROI, CAGR, CompoundInterest, SharpeRatio, PortfolioBeta)
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class ReturnOnInvestment(BaseFormula):
     """Calculate return on investment percentage.
 
-    Implements:
         ROI formula for investment performance measurement
 
     Example:
@@ -33,7 +31,6 @@ class ReturnOnInvestment(BaseFormula):
         Returns:
             FormulaMetadata for ROI
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -71,7 +68,6 @@ class ReturnOnInvestment(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             ROI formula building
 
         Raises:
@@ -90,7 +86,6 @@ class ReturnOnInvestment(BaseFormula):
 class CompoundAnnualGrowthRate(BaseFormula):
     """Calculate compound annual growth rate.
 
-    Implements:
         CAGR formula for annualized investment return
 
     Example:
@@ -106,7 +101,6 @@ class CompoundAnnualGrowthRate(BaseFormula):
         Returns:
             FormulaMetadata for CAGR
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -150,7 +144,6 @@ class CompoundAnnualGrowthRate(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             CAGR formula building
 
         Raises:
@@ -170,7 +163,6 @@ class CompoundAnnualGrowthRate(BaseFormula):
 class CompoundInterest(BaseFormula):
     """Calculate compound interest.
 
-    Implements:
         Compound interest formula for investment growth
 
     Example:
@@ -186,7 +178,6 @@ class CompoundInterest(BaseFormula):
         Returns:
             FormulaMetadata for CompoundInterest
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -236,7 +227,6 @@ class CompoundInterest(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             CompoundInterest formula building
 
         Raises:
@@ -260,7 +250,6 @@ class CompoundInterest(BaseFormula):
 class SharpeRatio(BaseFormula):
     """Calculate Sharpe ratio (risk-adjusted return).
 
-    Implements:
         Sharpe ratio formula for investment risk analysis
 
     Example:
@@ -276,7 +265,6 @@ class SharpeRatio(BaseFormula):
         Returns:
             FormulaMetadata for SharpeRatio
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -320,7 +308,6 @@ class SharpeRatio(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             SharpeRatio formula building
 
         Raises:
@@ -340,7 +327,6 @@ class SharpeRatio(BaseFormula):
 class PortfolioBeta(BaseFormula):
     """Calculate portfolio beta (market volatility).
 
-    Implements:
         Beta formula for measuring portfolio volatility relative to market
 
     Example:
@@ -356,7 +342,6 @@ class PortfolioBeta(BaseFormula):
         Returns:
             FormulaMetadata for PortfolioBeta
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -394,7 +379,6 @@ class PortfolioBeta(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             PortfolioBeta formula building
 
         Raises:

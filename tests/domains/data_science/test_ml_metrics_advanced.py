@@ -1,7 +1,6 @@
 """Tests for advanced ML metrics formulas.
 
-Implements:
-    Tests for ROC_AUC, LogLoss, CohenKappa, MatthewsCorrCoef
+Tests for ROC_AUC, LogLoss, CohenKappa, MatthewsCorrCoef
 """
 
 from __future__ import annotations

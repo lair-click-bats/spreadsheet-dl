@@ -1,8 +1,7 @@
 """Regression analysis and error metrics formulas.
 
-Implements:
-    Data science formulas for regression model evaluation
-    (MSE, RMSE, R², MAE, MAPE)
+Data science formulas for regression model evaluation
+(MSE, RMSE, R², MAE, MAPE)
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class MeanSquaredError(BaseFormula):
     """Calculate mean squared error for regression models.
 
-    Implements:
         MSE formula for regression error measurement
 
     Example:
@@ -33,7 +31,6 @@ class MeanSquaredError(BaseFormula):
         Returns:
             FormulaMetadata for MSE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -71,7 +68,6 @@ class MeanSquaredError(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             MSE formula building
 
         Raises:
@@ -90,7 +86,6 @@ class MeanSquaredError(BaseFormula):
 class RootMeanSquaredError(BaseFormula):
     """Calculate root mean squared error for regression models.
 
-    Implements:
         RMSE formula (square root of MSE)
 
     Example:
@@ -106,7 +101,6 @@ class RootMeanSquaredError(BaseFormula):
         Returns:
             FormulaMetadata for RMSE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -144,7 +138,6 @@ class RootMeanSquaredError(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             RMSE formula building
 
         Raises:
@@ -163,7 +156,6 @@ class RootMeanSquaredError(BaseFormula):
 class RSquared(BaseFormula):
     """Calculate coefficient of determination (R²).
 
-    Implements:
         R² formula for model goodness of fit
 
     Example:
@@ -179,7 +171,6 @@ class RSquared(BaseFormula):
         Returns:
             FormulaMetadata for R²
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -217,7 +208,6 @@ class RSquared(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             R² formula building
 
         Raises:
@@ -241,7 +231,6 @@ class RSquared(BaseFormula):
 class MeanAbsoluteError(BaseFormula):
     """Calculate mean absolute error for regression models.
 
-    Implements:
         MAE formula for regression error measurement
 
     Example:
@@ -257,7 +246,6 @@ class MeanAbsoluteError(BaseFormula):
         Returns:
             FormulaMetadata for MAE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -295,7 +283,6 @@ class MeanAbsoluteError(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             MAE formula building
 
         Raises:
@@ -314,7 +301,6 @@ class MeanAbsoluteError(BaseFormula):
 class MeanAbsolutePercentageError(BaseFormula):
     """Calculate mean absolute percentage error for regression models.
 
-    Implements:
         MAPE formula for regression error measurement in percentage
 
     Example:
@@ -330,7 +316,6 @@ class MeanAbsolutePercentageError(BaseFormula):
         Returns:
             FormulaMetadata for MAPE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -368,7 +353,6 @@ class MeanAbsolutePercentageError(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             MAPE formula building
 
         Raises:

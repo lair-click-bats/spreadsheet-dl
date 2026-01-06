@@ -2,7 +2,6 @@
 Tests for custom category management module.
 
 Tests:
-    FR-EXT-005: Custom Category Support
 """
 
 from __future__ import annotations

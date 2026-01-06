@@ -2,8 +2,6 @@
 Tests for typography module.
 
 Tests:
-    - FR-THEME-002: Font Pairing System
-    - FR-THEME-003: Typography Hierarchy
 """
 
 import pytest
@@ -27,7 +25,7 @@ from spreadsheet_dl.schema.styles import Font, FontWeight
 pytestmark = [pytest.mark.unit, pytest.mark.rendering]
 
 # ============================================================================
-# Font Definition Tests (FR-THEME-002)
+# Font Definition Tests
 # ============================================================================
 
 
@@ -87,7 +85,7 @@ class TestFontDefinition:
 
 
 # ============================================================================
-# Font Pairing Tests (FR-THEME-002)
+# Font Pairing Tests
 # ============================================================================
 
 
@@ -181,7 +179,7 @@ class TestFontPairingPresets:
 
 
 # ============================================================================
-# Type Scale Tests (FR-THEME-003)
+# Type Scale Tests
 # ============================================================================
 
 
@@ -239,7 +237,7 @@ class TestHeadingStyle:
 
 
 # ============================================================================
-# Typography Tests (FR-THEME-003)
+# Typography Tests
 # ============================================================================
 
 

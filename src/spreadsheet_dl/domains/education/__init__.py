@@ -1,6 +1,5 @@
 """Education Domain Plugin for SpreadsheetDL.
 
-Implements:
     Education domain plugin
     PHASE-C: Domain plugin implementations
 

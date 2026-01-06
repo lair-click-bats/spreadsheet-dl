@@ -1,7 +1,6 @@
 """Concrete design formulas for civil engineering.
 
-Implements:
-    Concrete formulas (CONCRETE_STRENGTH, REINFORCEMENT_RATIO, CRACK_WIDTH)
+Concrete formulas (CONCRETE_STRENGTH, REINFORCEMENT_RATIO, CRACK_WIDTH)
 """
 
 from __future__ import annotations
@@ -18,7 +17,6 @@ class ConcreteStrengthFormula(BaseFormula):
 
     Calculates concrete compressive strength from test cylinder results.
 
-    Implements:
         CONCRETE_STRENGTH formula
 
     Example:
@@ -75,7 +73,6 @@ class ReinforcementRatioFormula(BaseFormula):
 
     Calculates reinforcement ratio for concrete beam design.
 
-    Implements:
         REINFORCEMENT_RATIO formula
 
     Example:
@@ -138,7 +135,6 @@ class CrackWidthFormula(BaseFormula):
 
     Calculates maximum crack width in reinforced concrete.
 
-    Implements:
         CRACK_WIDTH formula
 
     Example:

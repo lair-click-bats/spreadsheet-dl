@@ -1,7 +1,6 @@
 """Building codes importer for civil engineering.
 
-Implements:
-    BuildingCodesImporter for load tables from standards
+BuildingCodesImporter for load tables from standards
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 class BuildingCodesImporter(BaseImporter[list[dict[str, Any]]]):
     """Import building code load tables (wind, snow, seismic coefficients).
 
-    Implements:
         BuildingCodesImporter requirements
 
     Features:
@@ -75,7 +73,6 @@ class BuildingCodesImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImportResult with code tables as list of dictionaries
 
-        Implements:
             Building code table parsing with validation
         """
         if not self.validate_source(source):

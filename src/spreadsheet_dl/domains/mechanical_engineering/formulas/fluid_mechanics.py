@@ -1,13 +1,12 @@
 """Fluid mechanics formulas for mechanical engineering.
 
-Implements:
-    BATCH2-MECH: Fluid mechanics formulas (6 formulas)
-    - ReynoldsNumber: Flow regime determination
-    - BernoulliEquation: Total energy per unit volume
-    - DarcyWeisbach: Pressure drop in pipes
-    - PoiseuilleLaw: Viscous flow rate
-    - DragForce: Fluid resistance force
-    - LiftForce: Aerodynamic lift
+BATCH2-MECH: Fluid mechanics formulas (6 formulas)
+- ReynoldsNumber: Flow regime determination
+- BernoulliEquation: Total energy per unit volume
+- DarcyWeisbach: Pressure drop in pipes
+- PoiseuilleLaw: Viscous flow rate
+- DragForce: Fluid resistance force
+- LiftForce: Aerodynamic lift
 """
 
 from __future__ import annotations
@@ -24,7 +23,6 @@ class ReynoldsNumber(BaseFormula):
 
     Calculates Reynolds number for flow regime determination.
 
-    Implements:
         BATCH2-MECH: ReynoldsNumber formula
 
     Example:
@@ -87,7 +85,6 @@ class BernoulliEquation(BaseFormula):
 
     Calculates total energy per unit volume in fluid flow.
 
-    Implements:
         BATCH2-MECH: BernoulliEquation formula
 
     Example:
@@ -162,7 +159,6 @@ class DarcyWeisbach(BaseFormula):
 
     Calculates pressure drop in pipes due to friction.
 
-    Implements:
         BATCH2-MECH: DarcyWeisbach formula
 
     Example:
@@ -239,7 +235,6 @@ class PoiseuilleLaw(BaseFormula):
 
     Calculates viscous flow rate in pipes.
 
-    Implements:
         BATCH2-MECH: PoiseuilleLaw formula
 
     Example:
@@ -308,7 +303,6 @@ class DragForce(BaseFormula):
 
     Calculates fluid resistance force on a body.
 
-    Implements:
         BATCH2-MECH: DragForce formula
 
     Example:
@@ -377,7 +371,6 @@ class LiftForce(BaseFormula):
 
     Calculates aerodynamic lift force on a body.
 
-    Implements:
         BATCH2-MECH: LiftForce formula
 
     Example:

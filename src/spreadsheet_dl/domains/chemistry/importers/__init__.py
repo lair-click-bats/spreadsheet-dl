@@ -1,6 +1,5 @@
 """Chemistry domain importers.
 
-Implements:
     Chemistry data importers
     BATCH-4: Chemistry domain creation
 

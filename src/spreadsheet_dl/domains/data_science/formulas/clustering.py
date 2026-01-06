@@ -1,8 +1,7 @@
 """Clustering quality metrics formulas.
 
-Implements:
-    Clustering metrics formulas for unsupervised learning
-    (Silhouette Score, Davies-Bouldin Index, Calinski-Harabasz Index)
+Clustering metrics formulas for unsupervised learning
+(Silhouette Score, Davies-Bouldin Index, Calinski-Harabasz Index)
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class SilhouetteScore(BaseFormula):
     """Calculate silhouette score for clustering quality.
 
-    Implements:
         Silhouette score formula for cluster quality measurement
 
     Example:
@@ -33,7 +31,6 @@ class SilhouetteScore(BaseFormula):
         Returns:
             FormulaMetadata for SilhouetteScore
 
-        Implements:
             Formula metadata for silhouette score
         """
         return FormulaMetadata(
@@ -71,7 +68,6 @@ class SilhouetteScore(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Silhouette score formula building (simplified approximation)
 
         Raises:
@@ -97,7 +93,6 @@ class SilhouetteScore(BaseFormula):
 class DaviesBouldinIndex(BaseFormula):
     """Calculate Davies-Bouldin Index for clustering quality.
 
-    Implements:
         Davies-Bouldin Index formula for cluster separation measure
 
     Example:
@@ -113,7 +108,6 @@ class DaviesBouldinIndex(BaseFormula):
         Returns:
             FormulaMetadata for DaviesBouldinIndex
 
-        Implements:
             Formula metadata for Davies-Bouldin Index
         """
         return FormulaMetadata(
@@ -151,7 +145,6 @@ class DaviesBouldinIndex(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Davies-Bouldin Index formula building (simplified)
 
         Raises:
@@ -176,7 +169,6 @@ class DaviesBouldinIndex(BaseFormula):
 class CalinskiHarabaszIndex(BaseFormula):
     """Calculate Calinski-Harabasz Index (Variance Ratio Criterion).
 
-    Implements:
         Calinski-Harabasz Index formula for cluster quality
 
     Example:
@@ -192,7 +184,6 @@ class CalinskiHarabaszIndex(BaseFormula):
         Returns:
             FormulaMetadata for CalinskiHarabaszIndex
 
-        Implements:
             Formula metadata for Calinski-Harabasz Index
         """
         return FormulaMetadata(
@@ -230,7 +221,6 @@ class CalinskiHarabaszIndex(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Calinski-Harabasz Index formula building
 
         Raises:

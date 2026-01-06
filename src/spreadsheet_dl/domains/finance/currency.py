@@ -6,8 +6,6 @@ Provides comprehensive currency handling including:
 - Currency conversion
 - Multi-currency display formatting
 
-Implements:
-    FR-CURR-001: Multi-Currency Support (Gap G-03)
 """
 
 from __future__ import annotations

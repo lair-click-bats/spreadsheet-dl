@@ -1,8 +1,7 @@
 """Dynamics and vibration formulas.
 
-Implements:
-    Mechanical engineering formulas for dynamics and vibration analysis
-    (NaturalFrequency, CriticalDamping, SpringConstant, AngularVelocity)
+Mechanical engineering formulas for dynamics and vibration analysis
+(NaturalFrequency, CriticalDamping, SpringConstant, AngularVelocity)
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class NaturalFrequency(BaseFormula):
     """Calculate natural frequency of vibration.
 
-    Implements:
         Natural frequency formula for mass-spring systems
 
     Example:
@@ -33,7 +31,6 @@ class NaturalFrequency(BaseFormula):
         Returns:
             FormulaMetadata for NaturalFrequency
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -71,7 +68,6 @@ class NaturalFrequency(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             NaturalFrequency formula building
 
         Raises:
@@ -90,7 +86,6 @@ class NaturalFrequency(BaseFormula):
 class CriticalDamping(BaseFormula):
     """Calculate critical damping coefficient.
 
-    Implements:
         Critical damping formula
 
     Example:
@@ -106,7 +101,6 @@ class CriticalDamping(BaseFormula):
         Returns:
             FormulaMetadata for CriticalDamping
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -144,7 +138,6 @@ class CriticalDamping(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             CriticalDamping formula building
 
         Raises:
@@ -163,7 +156,6 @@ class CriticalDamping(BaseFormula):
 class SpringConstant(BaseFormula):
     """Calculate spring constant from force and displacement.
 
-    Implements:
         Hooke's law for spring constant
 
     Example:
@@ -179,7 +171,6 @@ class SpringConstant(BaseFormula):
         Returns:
             FormulaMetadata for SpringConstant
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -217,7 +208,6 @@ class SpringConstant(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             SpringConstant formula building
 
         Raises:
@@ -236,7 +226,6 @@ class SpringConstant(BaseFormula):
 class AngularVelocity(BaseFormula):
     """Calculate angular velocity from rotational speed.
 
-    Implements:
         Angular velocity conversion from RPM
 
     Example:
@@ -252,7 +241,6 @@ class AngularVelocity(BaseFormula):
         Returns:
             FormulaMetadata for AngularVelocity
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -284,7 +272,6 @@ class AngularVelocity(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             AngularVelocity formula building
 
         Raises:

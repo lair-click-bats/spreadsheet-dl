@@ -1,7 +1,7 @@
 """
 Tests for Multi-Currency Support module.
 
-Tests FR-CURR-001: Multi-Currency Support (Gap G-03)
+: Multi-Currency Support
 """
 
 from __future__ import annotations

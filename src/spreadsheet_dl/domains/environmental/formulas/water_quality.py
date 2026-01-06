@@ -1,8 +1,7 @@
 """Water quality formulas.
 
-Implements:
-    Water quality formulas
-    (WATER_QUALITY_INDEX, BOD_CALCULATION)
+Water quality formulas
+(WATER_QUALITY_INDEX, BOD_CALCULATION)
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class WaterQualityIndexFormula(BaseFormula):
     """Calculate Water Quality Index (WQI).
 
-    Implements:
         WATER_QUALITY_INDEX formula for water quality assessment
 
     Uses weighted arithmetic index method.
@@ -35,7 +33,6 @@ class WaterQualityIndexFormula(BaseFormula):
         Returns:
             FormulaMetadata for WATER_QUALITY_INDEX
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -86,7 +83,6 @@ class WaterQualityIndexFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             WATER_QUALITY_INDEX formula building
 
         Raises:
@@ -120,7 +116,6 @@ class WaterQualityIndexFormula(BaseFormula):
 class BODCalculationFormula(BaseFormula):
     """Calculate Biochemical Oxygen Demand (BOD).
 
-    Implements:
         BOD_CALCULATION formula for water quality
 
     Calculates BOD from initial and final DO measurements.
@@ -138,7 +133,6 @@ class BODCalculationFormula(BaseFormula):
         Returns:
             FormulaMetadata for BOD_CALCULATION
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -189,7 +183,6 @@ class BODCalculationFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             BOD_CALCULATION formula building
 
         Raises:

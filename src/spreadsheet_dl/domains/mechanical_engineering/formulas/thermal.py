@@ -1,7 +1,6 @@
 """Thermal formulas for mechanical engineering.
 
-Implements:
-    Thermal formulas (THERMAL_EXPANSION, THERMAL_STRESS)
+Thermal formulas (THERMAL_EXPANSION, THERMAL_STRESS)
 """
 
 from __future__ import annotations
@@ -19,7 +18,6 @@ class ThermalExpansionFormula(BaseFormula):
     Calculates linear thermal expansion given coefficient of thermal expansion,
     original length, and temperature change.
 
-    Implements:
         THERMAL_EXPANSION formula
 
     Example:
@@ -83,7 +81,6 @@ class ThermalStressFormula(BaseFormula):
     Calculates thermal stress in a constrained member given Young's modulus,
     coefficient of thermal expansion, and temperature change.
 
-    Implements:
         THERMAL_STRESS formula
 
     Example:
@@ -146,7 +143,6 @@ class ConvectionCoefficient(BaseFormula):
 
     Calculates heat transfer coefficient from Nusselt number.
 
-    Implements:
         BATCH2-MECH: ConvectionCoefficient formula
 
     Example:
@@ -209,7 +205,6 @@ class RadiationHeatTransfer(BaseFormula):
 
     Calculates radiative heat transfer using Stefan-Boltzmann law.
 
-    Implements:
         BATCH2-MECH: RadiationHeatTransfer formula
 
     Example:
@@ -280,7 +275,6 @@ class ThermalResistance(BaseFormula):
 
     Calculates resistance to heat flow through a material.
 
-    Implements:
         BATCH2-MECH: ThermalResistance formula
 
     Example:
@@ -343,7 +337,6 @@ class LogMeanTempDiff(BaseFormula):
 
     Calculates LMTD for heat exchanger design.
 
-    Implements:
         BATCH2-MECH: LogMeanTempDiff formula
 
     Example:
@@ -400,7 +393,6 @@ class FinEfficiency(BaseFormula):
 
     Calculates extended surface efficiency for fins.
 
-    Implements:
         BATCH2-MECH: FinEfficiency formula
 
     Example:
@@ -457,7 +449,6 @@ class NusseltNumber(BaseFormula):
 
     Calculates Nusselt number for convection characterization.
 
-    Implements:
         BATCH2-MECH: NusseltNumber formula
 
     Example:

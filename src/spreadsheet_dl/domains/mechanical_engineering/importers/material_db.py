@@ -1,7 +1,6 @@
 """Material Database importer for mechanical engineering.
 
-Implements:
-    MaterialDatabaseImporter for material property databases
+MaterialDatabaseImporter for material property databases
 """
 
 from __future__ import annotations
@@ -47,7 +46,6 @@ class MaterialProperties:
 class MaterialDatabaseImporter(BaseImporter[list[dict[str, Any]]]):
     """Import material property databases from CSV or JSON files.
 
-    Implements:
         MaterialDatabaseImporter requirements
 
     Features:
@@ -102,7 +100,6 @@ class MaterialDatabaseImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImportResult with material data as list of dictionaries
 
-        Implements:
             Material database parsing and mapping
         """
         if not self.validate_source(source):

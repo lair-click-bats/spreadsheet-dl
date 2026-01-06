@@ -1,6 +1,5 @@
 """Environmental domain utility functions.
 
-Implements:
     Environmental domain utilities
 
 Provides helper functions for environmental calculations,
@@ -38,7 +37,6 @@ def ppm_to_ugm3(ppm: float, molecular_weight: float) -> float:
     Returns:
         Concentration in micrograms per cubic meter
 
-    Implements:
         Unit conversion for air quality
 
     Example:
@@ -60,7 +58,6 @@ def ugm3_to_ppm(ugm3: float, molecular_weight: float) -> float:
     Returns:
         Concentration in parts per million
 
-    Implements:
         Unit conversion for air quality
 
     Example:
@@ -79,7 +76,6 @@ def calculate_aqi(pm25: float) -> int:
     Returns:
         AQI value (0-500+)
 
-    Implements:
         AQI calculation utility
 
     Example:
@@ -127,7 +123,6 @@ def calculate_wqi(
     Returns:
         WQI score (0-100)
 
-    Implements:
         WQI calculation utility
 
     Example:
@@ -167,7 +162,6 @@ def calculate_bod(
     Returns:
         BOD value (mg/L)
 
-    Implements:
         BOD calculation utility
 
     Example:
@@ -186,7 +180,6 @@ def calculate_shannon_diversity(counts: Sequence[int | float]) -> float:
     Returns:
         Shannon diversity index (H')
 
-    Implements:
         Shannon diversity calculation
 
     Example:
@@ -215,7 +208,6 @@ def calculate_simpson_index(counts: Sequence[int | float]) -> float:
     Returns:
         Simpson's diversity index (1-D)
 
-    Implements:
         Simpson index calculation
 
     Example:
@@ -247,7 +239,6 @@ def calculate_carbon_equivalent(
     Returns:
         CO2 equivalent
 
-    Implements:
         Carbon equivalent calculation
 
     Example:
@@ -282,7 +273,6 @@ def calculate_ecological_footprint(
     Returns:
         Ecological footprint (global hectares)
 
-    Implements:
         Ecological footprint calculation
 
     Example:
@@ -318,7 +308,6 @@ def format_concentration(
     Returns:
         Formatted concentration string
 
-    Implements:
         Concentration formatting
 
     Example:
@@ -341,7 +330,6 @@ def calculate_radiative_forcing(
     Returns:
         Radiative forcing (W/m^2)
 
-    Implements:
         Radiative forcing calculation
 
     Example:
@@ -364,7 +352,6 @@ def calculate_climate_sensitivity(
     Returns:
         Temperature change (degrees C)
 
-    Implements:
         Climate sensitivity calculation
 
     Example:
@@ -389,7 +376,6 @@ def calculate_sea_level_rise(
     Returns:
         Sea level rise (meters)
 
-    Implements:
         Sea level rise calculation
 
     Example:
@@ -412,7 +398,6 @@ def calculate_ice_sheet_mass_balance(
     Returns:
         Net mass balance (Gt/year)
 
-    Implements:
         Ice sheet mass balance calculation
 
     Example:
@@ -437,7 +422,6 @@ def calculate_solar_panel_output(
     Returns:
         Power output (watts)
 
-    Implements:
         Solar panel output calculation
 
     Example:
@@ -464,7 +448,6 @@ def calculate_wind_turbine_power(
     Returns:
         Power output (watts)
 
-    Implements:
         Wind turbine power calculation
 
     Example:
@@ -487,7 +470,6 @@ def calculate_energy_payback_time(
     Returns:
         Energy payback time (years)
 
-    Implements:
         EPBT calculation
 
     Example:
@@ -510,7 +492,6 @@ def calculate_eroi(
     Returns:
         EROI ratio
 
-    Implements:
         EROI calculation
 
     Example:

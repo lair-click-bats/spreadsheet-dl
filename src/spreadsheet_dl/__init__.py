@@ -42,17 +42,6 @@ Domain Plugins (specialized functions):
 - Environmental: Air/water quality indices, carbon calculations
 
 Legacy Features (from v2.0.0):
-- FR-SCHEMA-*: Extended schema with Color, Font, Border, Typography, Print Layout
-- FR-THEME-*: Enhanced theme system with inheritance and composition
-- FR-FORMAT-*: Complete ODF formatting capabilities (cell, number, conditional)
-- FR-COND-*: Conditional formatting engine with rules and criteria
-- FR-VALID-*: Data validation system with type checking and constraints
-- FR-CHART-*: Chart builder with all types (column, bar, line, area, pie, scatter, combo)
-- FR-TEMPLATE-*: Template engine with schema, loader, renderer, component system
-- FR-BUILDER-*: Enhanced builder API with charts, protection, freezing
-- FR-PROF-*: Professional spreadsheet features (enterprise formatting, cash flow tracking)
-- FR-PRINT-*: Print layout optimization with page setup, headers/footers, breaks
-- FR-ADV-*: Advanced features (named ranges, comments, filters, hyperlinks, images)
 
 Major Features (v4.0.0):
 - Universal Spreadsheet Definition Language with declarative DSL

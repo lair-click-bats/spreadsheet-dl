@@ -1,7 +1,6 @@
 """Scientific CSV importer with automatic type detection.
 
-Implements:
-    ScientificCSVImporter for data science domain
+ScientificCSVImporter for data science domain
 """
 
 from __future__ import annotations
@@ -18,7 +17,6 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 class ScientificCSVImporter(BaseImporter[list[dict[str, Any]]]):
     """Scientific CSV importer with type inference and scientific notation support.
 
-    Implements:
         ScientificCSVImporter with auto-type detection
 
     Features:
@@ -51,7 +49,6 @@ class ScientificCSVImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImporterMetadata for scientific CSV importer
 
-        Implements:
             Importer metadata
         """
         return ImporterMetadata(
@@ -70,7 +67,6 @@ class ScientificCSVImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             True if source is valid CSV file
 
-        Implements:
             Source validation
         """
         path = Path(source) if isinstance(source, str) else source
@@ -89,7 +85,6 @@ class ScientificCSVImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImportResult with parsed data
 
-        Implements:
             Data import with type inference
 
         Raises:
@@ -196,7 +191,6 @@ class ScientificCSVImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             Converted value (int, float, datetime, or str)
 
-        Implements:
             Type inference with scientific notation support
         """
         # Handle empty values

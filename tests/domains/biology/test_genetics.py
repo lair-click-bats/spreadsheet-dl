@@ -1,7 +1,6 @@
 """Tests for genetics formulas.
 
-Implements:
-    Comprehensive tests for genetics formulas (95%+ coverage target)
+Comprehensive tests for genetics formulas (95%+ coverage target)
 """
 
 from __future__ import annotations

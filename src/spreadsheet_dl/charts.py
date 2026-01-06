@@ -1,15 +1,5 @@
 """Charts and visualization support for SpreadsheetDL.
 
-Implements:
-    - FR-CHART-001: Chart Type Support
-    - FR-CHART-002: Chart Configuration
-    - FR-CHART-003: Sparklines
-    - FR-CHART-004: Chart Styling
-    - FR-CHART-005: Chart Data Ranges
-    - FR-CHART-006: Chart Positioning
-    - FR-CHART-007: Trendlines
-    - FR-BUILDER-004: ChartBuilder
-
 Provides a fluent API for creating charts with data series,
 axis configuration, legends, and styling.
 """
@@ -21,12 +11,12 @@ from enum import Enum, auto
 from typing import Self
 
 # ============================================================================
-# Enums (FR-CHART-001)
+# Enums
 # ============================================================================
 
 
 class ChartType(Enum):
-    """Chart type enumeration (FR-CHART-001)."""
+    """Chart type enumeration."""
 
     # Column charts
     COLUMN = auto()
@@ -60,7 +50,7 @@ class ChartType(Enum):
 
 
 class LegendPosition(Enum):
-    """Legend position options (FR-CHART-002)."""
+    """Legend position options."""
 
     TOP = "top"
     BOTTOM = "bottom"
@@ -74,7 +64,7 @@ class LegendPosition(Enum):
 
 
 class AxisType(Enum):
-    """Axis type enumeration (FR-CHART-002)."""
+    """Axis type enumeration."""
 
     CATEGORY = "category"  # X-axis typically
     VALUE = "value"  # Y-axis typically
@@ -82,7 +72,7 @@ class AxisType(Enum):
 
 
 class DataLabelPosition(Enum):
-    """Data label position options (FR-CHART-002)."""
+    """Data label position options."""
 
     INSIDE = "inside"
     OUTSIDE = "outside"
@@ -94,7 +84,7 @@ class DataLabelPosition(Enum):
 
 
 class TrendlineType(Enum):
-    """Trendline type enumeration (FR-CHART-007)."""
+    """Trendline type enumeration."""
 
     LINEAR = "linear"
     EXPONENTIAL = "exponential"
@@ -105,7 +95,7 @@ class TrendlineType(Enum):
 
 
 class SparklineType(Enum):
-    """Sparkline type enumeration (FR-CHART-003)."""
+    """Sparkline type enumeration."""
 
     LINE = "line"
     COLUMN = "column"
@@ -113,13 +103,13 @@ class SparklineType(Enum):
 
 
 # ============================================================================
-# Data Classes (FR-CHART-002)
+# Data Classes
 # ============================================================================
 
 
 @dataclass
 class ChartTitle:
-    """Chart title configuration (FR-CHART-002).
+    """Chart title configuration.
 
     Attributes:
         text: Title text
@@ -175,7 +165,7 @@ class AxisConfig:
 
 @dataclass
 class LegendConfig:
-    """Legend configuration (FR-CHART-002).
+    """Legend configuration.
 
     Attributes:
         position: Legend position
@@ -194,7 +184,7 @@ class LegendConfig:
 
 @dataclass
 class DataLabelConfig:
-    """Data label configuration (FR-CHART-002).
+    """Data label configuration.
 
     Attributes:
         show_value: Show value on label
@@ -219,7 +209,7 @@ class DataLabelConfig:
 
 @dataclass
 class Trendline:
-    """Trendline configuration (FR-CHART-007).
+    """Trendline configuration.
 
     Attributes:
         type: Trendline type
@@ -283,7 +273,7 @@ class DataSeries:
 
 @dataclass
 class ChartPosition:
-    """Chart position configuration (FR-CHART-006).
+    """Chart position configuration.
 
     Attributes:
         cell: Anchor cell reference (e.g., "F2")
@@ -304,7 +294,7 @@ class ChartPosition:
 
 @dataclass
 class ChartSize:
-    """Chart size configuration (FR-CHART-006).
+    """Chart size configuration.
 
     Attributes:
         width: Width in pixels
@@ -317,7 +307,7 @@ class ChartSize:
 
 @dataclass
 class PlotAreaStyle:
-    """Plot area styling (FR-CHART-002).
+    """Plot area styling.
 
     Attributes:
         background_color: Background color (hex)
@@ -331,13 +321,13 @@ class PlotAreaStyle:
 
 
 # ============================================================================
-# Sparklines (FR-CHART-003)
+# Sparklines
 # ============================================================================
 
 
 @dataclass
 class SparklineMarkers:
-    """Sparkline marker configuration (FR-CHART-003).
+    """Sparkline marker configuration.
 
     Attributes:
         high: Color for highest point
@@ -356,7 +346,7 @@ class SparklineMarkers:
 
 @dataclass
 class Sparkline:
-    """Sparkline configuration (FR-CHART-003).
+    """Sparkline configuration.
 
     Attributes:
         type: Sparkline type (line, column, win_loss)
@@ -384,7 +374,7 @@ class Sparkline:
 
 
 # ============================================================================
-# Chart Specification (FR-CHART-001)
+# Chart Specification
 # ============================================================================
 
 
@@ -431,14 +421,12 @@ class ChartSpec:
 
 
 # ============================================================================
-# ChartBuilder (FR-BUILDER-004)
+# ChartBuilder
 # ============================================================================
 
 
 class ChartBuilder:
     r"""Fluent builder for creating charts.
-
-    Implements FR-BUILDER-004: ChartBuilder
 
     Provides a chainable API for building chart specifications
     with support for:
@@ -484,7 +472,7 @@ class ChartBuilder:
         self._current_series: DataSeries | None = None
 
     # =========================================================================
-    # Chart Type Selection (FR-CHART-001 AC1-AC7)
+    # Chart Type Selection (AC1-AC7)
     # =========================================================================
 
     def column_chart(self, stacked: bool = False, percent: bool = False) -> Self:
@@ -600,7 +588,7 @@ class ChartBuilder:
         return self
 
     # =========================================================================
-    # Title and Labels (FR-CHART-002 AC1, AC4)
+    # Title and Labels (AC1, AC4)
     # =========================================================================
 
     def title(
@@ -673,7 +661,7 @@ class ChartBuilder:
         return self
 
     # =========================================================================
-    # Data Series (FR-CHART-005 AC1-AC5)
+    # Data Series (AC1-AC5)
     # =========================================================================
 
     def series(
@@ -787,7 +775,7 @@ class ChartBuilder:
         return self
 
     # =========================================================================
-    # Legend Configuration (FR-CHART-002 AC2)
+    # Legend Configuration (AC2)
     # =========================================================================
 
     def legend(
@@ -821,7 +809,7 @@ class ChartBuilder:
         return self
 
     # =========================================================================
-    # Axis Configuration (FR-CHART-002 AC3)
+    # Axis Configuration (AC3)
     # =========================================================================
 
     def axis(
@@ -930,7 +918,7 @@ class ChartBuilder:
         return self
 
     # =========================================================================
-    # Position and Size (FR-CHART-006 AC1-AC5)
+    # Position and Size (AC1-AC5)
     # =========================================================================
 
     def position(
@@ -977,7 +965,7 @@ class ChartBuilder:
         return self
 
     # =========================================================================
-    # Styling (FR-CHART-004 AC1-AC5)
+    # Styling (AC1-AC5)
     # =========================================================================
 
     def style(self, preset: str) -> Self:
@@ -1054,14 +1042,12 @@ class ChartBuilder:
 
 
 # ============================================================================
-# Sparkline Builder (FR-CHART-003)
+# Sparkline Builder
 # ============================================================================
 
 
 class SparklineBuilder:
     r"""Fluent builder for creating sparklines.
-
-    Implements FR-CHART-003: Sparklines
 
     Examples:
         sparkline = SparklineBuilder() \\

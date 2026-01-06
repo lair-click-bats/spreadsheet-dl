@@ -1,7 +1,6 @@
 """Six Sigma quality formulas for manufacturing.
 
-Implements:
-    Six Sigma formulas (10 total)
+Six Sigma formulas (10 total)
 """
 
 from __future__ import annotations
@@ -16,7 +15,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class DPMOFormula(BaseFormula):
     """Defects Per Million Opportunities calculation.
 
-    Implements:
         DPMO formula for Six Sigma quality
 
     DPMO = (Defects / (Units * Opportunities)) * 1000000
@@ -34,7 +32,6 @@ class DPMOFormula(BaseFormula):
         Returns:
             FormulaMetadata for DPMO
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -78,7 +75,6 @@ class DPMOFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             DPMO formula building
 
         Raises:
@@ -96,7 +92,6 @@ class DPMOFormula(BaseFormula):
 class SigmaLevelFormula(BaseFormula):
     """Sigma level calculation from DPMO.
 
-    Implements:
         SIGMA_LEVEL formula for Six Sigma quality
 
     Approximation: Sigma Level ≈ 0.8406 + SQRT(29.37 - 2.221 * LN(DPMO))
@@ -114,7 +109,6 @@ class SigmaLevelFormula(BaseFormula):
         Returns:
             FormulaMetadata for SIGMA_LEVEL
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -146,7 +140,6 @@ class SigmaLevelFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             SIGMA_LEVEL formula building
 
         Raises:
@@ -165,7 +158,6 @@ class SigmaLevelFormula(BaseFormula):
 class ProcessCapabilityIndexFormula(BaseFormula):
     """Process Capability Index (Cpk) calculation.
 
-    Implements:
         CPK formula for Six Sigma quality
 
     Cpk = MIN((USL - Mean) / (3 * StdDev), (Mean - LSL) / (3 * StdDev))
@@ -183,7 +175,6 @@ class ProcessCapabilityIndexFormula(BaseFormula):
         Returns:
             FormulaMetadata for CPK
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -233,7 +224,6 @@ class ProcessCapabilityIndexFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             CPK formula building
 
         Raises:
@@ -253,7 +243,6 @@ class ProcessCapabilityIndexFormula(BaseFormula):
 class ProcessPerformanceIndexFormula(BaseFormula):
     """Process Performance Index (Ppk) calculation.
 
-    Implements:
         PPK formula for Six Sigma quality
 
     Ppk = MIN((USL - Mean) / (3 * Overall StdDev), (Mean - LSL) / (3 * Overall StdDev))
@@ -271,7 +260,6 @@ class ProcessPerformanceIndexFormula(BaseFormula):
         Returns:
             FormulaMetadata for PPK
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -321,7 +309,6 @@ class ProcessPerformanceIndexFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             PPK formula building
 
         Raises:
@@ -341,7 +328,6 @@ class ProcessPerformanceIndexFormula(BaseFormula):
 class YieldCalculationFormula(BaseFormula):
     """Rolled Throughput Yield calculation.
 
-    Implements:
         RTY formula for Six Sigma quality
 
     RTY = Yield1 * Yield2 * ... * YieldN
@@ -359,7 +345,6 @@ class YieldCalculationFormula(BaseFormula):
         Returns:
             FormulaMetadata for RTY
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -404,7 +389,6 @@ class YieldCalculationFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             RTY formula building
 
         Raises:
@@ -422,7 +406,6 @@ class YieldCalculationFormula(BaseFormula):
 class DefectRateFormula(BaseFormula):
     """Defect rate calculation.
 
-    Implements:
         DEFECT_RATE formula for Six Sigma quality
 
     Defect Rate = (Defects / Total Units) * 100
@@ -440,7 +423,6 @@ class DefectRateFormula(BaseFormula):
         Returns:
             FormulaMetadata for DEFECT_RATE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -478,7 +460,6 @@ class DefectRateFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             DEFECT_RATE formula building
 
         Raises:
@@ -496,7 +477,6 @@ class DefectRateFormula(BaseFormula):
 class ProcessSigmaFormula(BaseFormula):
     """Process sigma calculation from specification limits.
 
-    Implements:
         PROCESS_SIGMA formula for Six Sigma quality
 
     Process Sigma = (USL - LSL) / (6 * StdDev)
@@ -514,7 +494,6 @@ class ProcessSigmaFormula(BaseFormula):
         Returns:
             FormulaMetadata for PROCESS_SIGMA
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -558,7 +537,6 @@ class ProcessSigmaFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             PROCESS_SIGMA formula building
 
         Raises:
@@ -576,7 +554,6 @@ class ProcessSigmaFormula(BaseFormula):
 class ControlLimitFormula(BaseFormula):
     """Control limit calculation for control charts.
 
-    Implements:
         CONTROL_LIMIT formula for Six Sigma quality
 
     UCL = Mean + (Z * StdDev)
@@ -595,7 +572,6 @@ class ControlLimitFormula(BaseFormula):
         Returns:
             FormulaMetadata for CONTROL_LIMIT
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -646,7 +622,6 @@ class ControlLimitFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             CONTROL_LIMIT formula building
 
         Raises:
@@ -671,7 +646,6 @@ class ControlLimitFormula(BaseFormula):
 class ZScoreQualityFormula(BaseFormula):
     """Z-score calculation for quality metrics.
 
-    Implements:
         Z_SCORE formula for Six Sigma quality
 
     Z-Score = (Value - Mean) / StdDev
@@ -689,7 +663,6 @@ class ZScoreQualityFormula(BaseFormula):
         Returns:
             FormulaMetadata for Z_SCORE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -733,7 +706,6 @@ class ZScoreQualityFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Z_SCORE formula building
 
         Raises:
@@ -751,7 +723,6 @@ class ZScoreQualityFormula(BaseFormula):
 class GaugeRnRFormula(BaseFormula):
     """Gauge R&R (Repeatability and Reproducibility) calculation.
 
-    Implements:
         GAUGE_RNR formula for Six Sigma quality
 
     GRR = SQRT(Repeatability² + Reproducibility²)
@@ -769,7 +740,6 @@ class GaugeRnRFormula(BaseFormula):
         Returns:
             FormulaMetadata for GAUGE_RNR
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -807,7 +777,6 @@ class GaugeRnRFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             GAUGE_RNR formula building
 
         Raises:

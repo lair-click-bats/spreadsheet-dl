@@ -4,7 +4,6 @@ Provides functionality to export budget data in a format suitable for
 AI/ML training while ensuring privacy through anonymization.
 
 Requirements implemented:
-    - FR-AI-010: AI training data export (anonymized)
 
 Features:
     - PII detection and removal

@@ -1,7 +1,6 @@
 """Tests for clustering metrics formulas.
 
-Implements:
-    Tests for clustering quality metrics
+Tests for clustering quality metrics
 """
 
 from __future__ import annotations

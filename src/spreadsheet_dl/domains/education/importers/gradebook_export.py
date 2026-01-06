@@ -1,7 +1,6 @@
 """Gradebook Export Importer.
 
-Implements:
-    GradebookExportImporter for education domain
+GradebookExportImporter for education domain
 """
 
 from __future__ import annotations
@@ -18,7 +17,6 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 class GradebookExportImporter(BaseImporter[list[dict[str, Any]]]):
     """Gradebook export importer.
 
-    Implements:
         GradebookExportImporter for CSV/Excel gradebook exports
 
     Supports importing gradebook data from:
@@ -44,7 +42,6 @@ class GradebookExportImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImporterMetadata for gradebook importer
 
-        Implements:
             Importer metadata
         """
         return ImporterMetadata(
@@ -63,7 +60,6 @@ class GradebookExportImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImportResult with grade data
 
-        Implements:
             Gradebook data import
         """
         source_path = Path(source)
@@ -222,7 +218,6 @@ class GradebookExportImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             True if source is valid
 
-        Implements:
             Source validation
         """
         path = Path(source)

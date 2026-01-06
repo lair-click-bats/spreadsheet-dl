@@ -6,8 +6,6 @@ Provides support for 50+ bank and credit card CSV formats with:
 - Format validation
 - Auto-detection improvements
 
-Implements:
-    FR-IMPORT-002: Extended Bank Formats (Gap G-16)
 """
 
 from __future__ import annotations

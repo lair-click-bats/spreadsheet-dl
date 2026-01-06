@@ -1,6 +1,5 @@
 """Civil Engineering Domain Plugin for SpreadsheetDL.
 
-Implements:
     Civil Engineering domain plugin
     PHASE-C: Domain plugin implementations
 
@@ -60,7 +59,6 @@ from spreadsheet_dl.domains.civil_engineering.importers.survey_data import (
 class CivilEngineeringDomainPlugin(BaseDomainPlugin):
     """Civil Engineering domain plugin.
 
-    Implements:
         Complete Civil Engineering domain plugin
         PHASE-C: Domain plugin implementations
 
@@ -116,7 +114,6 @@ class CivilEngineeringDomainPlugin(BaseDomainPlugin):
         Returns:
             PluginMetadata with civil engineering plugin information
 
-        Implements:
             Plugin metadata requirements
         """
         return PluginMetadata(
@@ -142,7 +139,6 @@ class CivilEngineeringDomainPlugin(BaseDomainPlugin):
 
         Registers all formulas and importers.
 
-        Implements:
             Plugin initialization with all components
 
         Raises:
@@ -188,7 +184,6 @@ class CivilEngineeringDomainPlugin(BaseDomainPlugin):
 
         No resources need explicit cleanup for this plugin.
 
-        Implements:
             Plugin cleanup method
         """
         pass
@@ -199,7 +194,6 @@ class CivilEngineeringDomainPlugin(BaseDomainPlugin):
         Returns:
             True if plugin has required formulas and importers registered
 
-        Implements:
             Plugin validation
         """
         required_formulas = 18  # 3 beam + 3 soil + 3 concrete + 4 loads + 3 foundation + 2 transportation

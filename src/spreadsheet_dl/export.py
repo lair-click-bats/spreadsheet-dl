@@ -3,9 +3,6 @@
 Provides export functionality to multiple formats including Excel (XLSX),
 CSV, and PDF while preserving formatting where possible.
 
-Requirements implemented:
-    - FR-EXPORT-001: Multi-Format Export (Gap G-19)
-
 Features:
     - Export to Excel (.xlsx) with formatting
     - Export to CSV for data portability

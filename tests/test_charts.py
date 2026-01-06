@@ -2,14 +2,6 @@
 Tests for charts module.
 
 Implements tests for:
-    - FR-CHART-001: Chart Type Support
-    - FR-CHART-002: Chart Configuration
-    - FR-CHART-003: Sparklines
-    - FR-CHART-004: Chart Styling
-    - FR-CHART-005: Chart Data Ranges
-    - FR-CHART-006: Chart Positioning
-    - FR-CHART-007: Trendlines
-    - FR-BUILDER-004: ChartBuilder
 """
 
 import pytest
@@ -46,7 +38,7 @@ pytestmark = [pytest.mark.unit, pytest.mark.visualization]
 
 
 class TestChartTypes:
-    """Test chart type enums and selection (FR-CHART-001)."""
+    """Test chart type enums and selection."""
 
     def test_chart_type_enum_values(self) -> None:
         """Test ChartType enum has expected values."""
@@ -150,7 +142,7 @@ class TestChartTypes:
 
 
 class TestChartConfiguration:
-    """Test chart configuration options (FR-CHART-002)."""
+    """Test chart configuration options."""
 
     def test_chart_title(self) -> None:
         """Test setting chart title."""
@@ -337,7 +329,7 @@ class TestChartConfiguration:
 
 
 class TestDataSeries:
-    """Test data series configuration (FR-CHART-005)."""
+    """Test data series configuration."""
 
     def test_add_series(self) -> None:
         """Test adding a data series."""
@@ -457,7 +449,7 @@ class TestDataSeries:
 
 
 class TestChartPositioning:
-    """Test chart positioning (FR-CHART-006)."""
+    """Test chart positioning."""
 
     def test_chart_position(self) -> None:
         """Test setting chart position."""
@@ -490,7 +482,7 @@ class TestChartPositioning:
 
 
 class TestChartStyling:
-    """Test chart styling options (FR-CHART-004)."""
+    """Test chart styling options."""
 
     def test_style_preset(self) -> None:
         """Test applying style preset."""
@@ -537,7 +529,7 @@ class TestChartStyling:
 
 
 class TestTrendlines:
-    """Test trendline configuration (FR-CHART-007)."""
+    """Test trendline configuration."""
 
     def test_series_trendline(self) -> None:
         """Test adding trendline to series."""
@@ -619,7 +611,7 @@ class TestTrendlines:
 
 
 class TestSparklines:
-    """Test sparkline configuration (FR-CHART-003)."""
+    """Test sparkline configuration."""
 
     def test_line_sparkline(self) -> None:
         """Test line sparkline creation."""

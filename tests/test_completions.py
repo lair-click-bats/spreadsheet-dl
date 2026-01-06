@@ -1,7 +1,7 @@
 """
 Tests for Shell Completions Module.
 
-Tests FR-UX-009: Shell Completions.
+: Shell Completions.
 """
 
 from __future__ import annotations

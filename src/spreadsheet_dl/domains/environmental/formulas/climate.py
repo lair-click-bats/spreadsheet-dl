@@ -1,9 +1,8 @@
 """Climate modeling formulas.
 
-Implements:
-    Climate modeling formulas for radiative forcing, climate sensitivity,
-    sea level rise, and ice sheet melting
-    (RADIATIVE_FORCING, CLIMATE_SENSITIVITY, SEA_LEVEL_RISE, ICE_SHEET_MELTING)
+Climate modeling formulas for radiative forcing, climate sensitivity,
+sea level rise, and ice sheet melting
+(RADIATIVE_FORCING, CLIMATE_SENSITIVITY, SEA_LEVEL_RISE, ICE_SHEET_MELTING)
 """
 
 from __future__ import annotations
@@ -18,7 +17,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class RadiativeForcingFormula(BaseFormula):
     """Calculate radiative forcing from CO2 concentration.
 
-    Implements:
         RADIATIVE_FORCING formula for climate forcing calculation
 
     Calculates radiative forcing (W/m^2) from atmospheric CO2 concentration
@@ -37,7 +35,6 @@ class RadiativeForcingFormula(BaseFormula):
         Returns:
             FormulaMetadata for RADIATIVE_FORCING
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -76,7 +73,6 @@ class RadiativeForcingFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             RADIATIVE_FORCING formula building
 
         Raises:
@@ -96,7 +92,6 @@ class RadiativeForcingFormula(BaseFormula):
 class ClimateSensitivityFormula(BaseFormula):
     """Calculate temperature response to CO2 doubling.
 
-    Implements:
         CLIMATE_SENSITIVITY formula for equilibrium climate sensitivity
 
     Calculates expected temperature change from radiative forcing
@@ -115,7 +110,6 @@ class ClimateSensitivityFormula(BaseFormula):
         Returns:
             FormulaMetadata for CLIMATE_SENSITIVITY
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -154,7 +148,6 @@ class ClimateSensitivityFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             CLIMATE_SENSITIVITY formula building
 
         Raises:
@@ -174,7 +167,6 @@ class ClimateSensitivityFormula(BaseFormula):
 class SeaLevelRiseFormula(BaseFormula):
     """Calculate sea level rise from thermal expansion.
 
-    Implements:
         SEA_LEVEL_RISE formula for thermal expansion calculation
 
     Calculates sea level rise from ocean thermal expansion
@@ -193,7 +185,6 @@ class SeaLevelRiseFormula(BaseFormula):
         Returns:
             FormulaMetadata for SEA_LEVEL_RISE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -239,7 +230,6 @@ class SeaLevelRiseFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             SEA_LEVEL_RISE formula building
 
         Raises:
@@ -260,7 +250,6 @@ class SeaLevelRiseFormula(BaseFormula):
 class IceSheetMeltingFormula(BaseFormula):
     """Calculate ice sheet mass balance.
 
-    Implements:
         ICE_SHEET_MELTING formula for mass balance equation
 
     Calculates net ice mass change from accumulation and ablation rates.
@@ -278,7 +267,6 @@ class IceSheetMeltingFormula(BaseFormula):
         Returns:
             FormulaMetadata for ICE_SHEET_MELTING
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -323,7 +311,6 @@ class IceSheetMeltingFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             ICE_SHEET_MELTING formula building
 
         Raises:
@@ -349,7 +336,6 @@ class IceSheetMeltingFormula(BaseFormula):
 class CarbonBudgetFormula(BaseFormula):
     """Calculate remaining carbon budget for temperature target.
 
-    Implements:
         CARBON_BUDGET formula for remaining emissions budget
 
     Calculates remaining carbon emissions (GtCO2) allowed to stay within
@@ -369,7 +355,6 @@ class CarbonBudgetFormula(BaseFormula):
         Returns:
             FormulaMetadata for CARBON_BUDGET
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -415,7 +400,6 @@ class CarbonBudgetFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             CARBON_BUDGET formula building
 
         Raises:

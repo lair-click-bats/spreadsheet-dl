@@ -1,7 +1,6 @@
 """Tests for pharmacokinetics formulas.
 
-Implements:
-    Comprehensive tests for pharmacokinetics formulas (95%+ coverage target)
+Comprehensive tests for pharmacokinetics formulas (95%+ coverage target)
 """
 
 from __future__ import annotations

@@ -1,8 +1,7 @@
 """Pharmacokinetics formulas for drug metabolism and dosing.
 
-Implements:
-    Pharmacokinetics formulas for drug clearance, distribution, and dosing
-    (CLEARANCE, VOLUME_OF_DISTRIBUTION, HALF_LIFE, LOADING_DOSE, MAINTENANCE_DOSE)
+Pharmacokinetics formulas for drug clearance, distribution, and dosing
+(CLEARANCE, VOLUME_OF_DISTRIBUTION, HALF_LIFE, LOADING_DOSE, MAINTENANCE_DOSE)
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class ClearanceFormula(BaseFormula):
     """Calculate total body clearance of drug.
 
-    Implements:
         CLEARANCE formula for drug elimination rate
 
     Example:
@@ -33,7 +31,6 @@ class ClearanceFormula(BaseFormula):
         Returns:
             FormulaMetadata for CLEARANCE
 
-        Implements:
             Formula metadata for drug clearance
         """
         return FormulaMetadata(
@@ -71,7 +68,6 @@ class ClearanceFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             CLEARANCE formula building (CL = Dose / AUC)
 
         Raises:
@@ -90,7 +86,6 @@ class ClearanceFormula(BaseFormula):
 class VolumeOfDistributionFormula(BaseFormula):
     """Calculate apparent volume of distribution.
 
-    Implements:
         VOLUME_OF_DISTRIBUTION formula for drug distribution
 
     Example:
@@ -106,7 +101,6 @@ class VolumeOfDistributionFormula(BaseFormula):
         Returns:
             FormulaMetadata for VOLUME_OF_DISTRIBUTION
 
-        Implements:
             Formula metadata for volume of distribution
         """
         return FormulaMetadata(
@@ -144,7 +138,6 @@ class VolumeOfDistributionFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             VOLUME_OF_DISTRIBUTION formula building (Vd = Dose / C0)
 
         Raises:
@@ -163,7 +156,6 @@ class VolumeOfDistributionFormula(BaseFormula):
 class HalfLifeFormula(BaseFormula):
     """Calculate elimination half-life.
 
-    Implements:
         HALF_LIFE formula for drug elimination
 
     Example:
@@ -179,7 +171,6 @@ class HalfLifeFormula(BaseFormula):
         Returns:
             FormulaMetadata for HALF_LIFE
 
-        Implements:
             Formula metadata for elimination half-life
         """
         return FormulaMetadata(
@@ -217,7 +208,6 @@ class HalfLifeFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             HALF_LIFE formula building (t1/2 = 0.693 * Vd / CL)
 
         Raises:
@@ -236,7 +226,6 @@ class HalfLifeFormula(BaseFormula):
 class LoadingDoseFormula(BaseFormula):
     """Calculate initial loading dose.
 
-    Implements:
         LOADING_DOSE formula for reaching target concentration
 
     Example:
@@ -252,7 +241,6 @@ class LoadingDoseFormula(BaseFormula):
         Returns:
             FormulaMetadata for LOADING_DOSE
 
-        Implements:
             Formula metadata for loading dose calculation
         """
         return FormulaMetadata(
@@ -290,7 +278,6 @@ class LoadingDoseFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             LOADING_DOSE formula building (LD = Css * Vd)
 
         Raises:
@@ -309,7 +296,6 @@ class LoadingDoseFormula(BaseFormula):
 class MaintenanceDoseFormula(BaseFormula):
     """Calculate maintenance dose for steady state.
 
-    Implements:
         MAINTENANCE_DOSE formula for steady-state dosing
 
     Example:
@@ -325,7 +311,6 @@ class MaintenanceDoseFormula(BaseFormula):
         Returns:
             FormulaMetadata for MAINTENANCE_DOSE
 
-        Implements:
             Formula metadata for maintenance dose calculation
         """
         return FormulaMetadata(
@@ -369,7 +354,6 @@ class MaintenanceDoseFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             MAINTENANCE_DOSE formula building (MD = CL * Css * τ)
 
         Raises:

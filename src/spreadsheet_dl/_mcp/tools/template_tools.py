@@ -253,7 +253,7 @@ def _make_template_list_handler(validate_path: Any) -> Any:
 
     def handler(file_path: str) -> MCPToolResult:
         try:
-            from spreadsheet_dl.templates import (  # type: ignore[import-untyped]
+            from spreadsheet_dl.templates import (  # type: ignore[import-not-found]
                 list_templates,
             )
 

@@ -1,6 +1,5 @@
 """Data Science Domain Plugin for SpreadsheetDL.
 
-Implements:
     Complete Data Science domain plugin
     PHASE-C: Domain plugin implementations
 

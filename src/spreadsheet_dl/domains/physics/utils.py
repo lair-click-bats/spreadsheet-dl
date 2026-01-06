@@ -1,8 +1,7 @@
 """Physics domain utility functions.
 
-Implements:
-    Physics utility functions for calculations
-    BATCH-5: Physics domain creation
+Physics utility functions for calculations
+BATCH-5: Physics domain creation
 """
 
 from __future__ import annotations

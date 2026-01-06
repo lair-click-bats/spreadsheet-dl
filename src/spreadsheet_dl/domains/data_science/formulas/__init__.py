@@ -1,6 +1,5 @@
 """Data Science Formulas for SpreadsheetDL.
 
-Implements:
     Data Science domain formulas
 
 Provides statistical and ML formula extensions:

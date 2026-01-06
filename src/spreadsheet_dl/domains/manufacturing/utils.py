@@ -1,7 +1,6 @@
 """Manufacturing domain utility functions.
 
-Implements:
-    Manufacturing utility functions
+Manufacturing utility functions
 """
 
 from __future__ import annotations
@@ -12,7 +11,6 @@ from typing import Any
 def calculate_oee(availability: float, performance: float, quality: float) -> float:
     """Calculate Overall Equipment Effectiveness (OEE).
 
-    Implements:
         OEE calculation utility
 
     Args:
@@ -33,7 +31,6 @@ def calculate_oee(availability: float, performance: float, quality: float) -> fl
 def calculate_defect_rate(defects: int, total: int) -> float:
     """Calculate defect rate percentage.
 
-    Implements:
         Defect rate calculation
 
     Args:
@@ -55,7 +52,6 @@ def calculate_defect_rate(defects: int, total: int) -> float:
 def calculate_first_pass_yield(good_units: int, total_units: int) -> float:
     """Calculate first pass yield percentage.
 
-    Implements:
         First pass yield calculation
 
     Args:
@@ -77,7 +73,6 @@ def calculate_first_pass_yield(good_units: int, total_units: int) -> float:
 def calculate_cycle_time(production_time: float, units_produced: int) -> float:
     """Calculate manufacturing cycle time.
 
-    Implements:
         Cycle time calculation
 
     Args:
@@ -99,7 +94,6 @@ def calculate_cycle_time(production_time: float, units_produced: int) -> float:
 def calculate_takt_time(available_time: float, demand: int) -> float:
     """Calculate takt time.
 
-    Implements:
         Takt time calculation
 
     Args:
@@ -123,7 +117,6 @@ def calculate_eoq(
 ) -> float:
     """Calculate Economic Order Quantity.
 
-    Implements:
         EOQ calculation
 
     Args:
@@ -148,7 +141,6 @@ def calculate_reorder_point(
 ) -> float:
     """Calculate inventory reorder point.
 
-    Implements:
         Reorder point calculation
 
     Args:
@@ -171,7 +163,6 @@ def calculate_safety_stock(
 ) -> float:
     """Calculate safety stock quantity.
 
-    Implements:
         Safety stock calculation
 
     Args:
@@ -192,7 +183,6 @@ def calculate_safety_stock(
 def parse_manufacturing_date(date_str: str) -> str:
     """Parse various manufacturing date formats to ISO format.
 
-    Implements:
         Date parsing utility
 
     Args:
@@ -231,7 +221,6 @@ def parse_manufacturing_date(date_str: str) -> str:
 def format_manufacturing_number(value: Any, decimals: int = 2) -> str:
     """Format number for manufacturing reports.
 
-    Implements:
         Number formatting utility
 
     Args:
@@ -255,7 +244,6 @@ def format_manufacturing_number(value: Any, decimals: int = 2) -> str:
 def calculate_dpmo(defects: int, units: int, opportunities: int) -> float:
     """Calculate Defects Per Million Opportunities.
 
-    Implements:
         DPMO calculation utility
 
     Args:
@@ -280,7 +268,6 @@ def calculate_process_cycle_efficiency(
 ) -> float:
     """Calculate Process Cycle Efficiency (PCE).
 
-    Implements:
         PCE calculation utility
 
     Args:
@@ -304,7 +291,6 @@ def calculate_kanban_quantity(
 ) -> float:
     """Calculate optimal kanban quantity.
 
-    Implements:
         Kanban quantity calculation
 
     Args:

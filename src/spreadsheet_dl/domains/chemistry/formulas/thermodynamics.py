@@ -1,8 +1,7 @@
 """Thermodynamics formulas for chemistry.
 
-Implements:
-    Chemistry thermodynamics formulas (8 formulas)
-    BATCH-4: Chemistry domain creation
+Chemistry thermodynamics formulas (8 formulas)
+BATCH-4: Chemistry domain creation
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class GibbsFreeEnergyFormula(BaseFormula):
     """Calculate Gibbs free energy change.
 
-    Implements:
         GIBBS_FREE_ENERGY formula for spontaneity prediction
         BATCH-4: Chemistry thermodynamics
 
@@ -92,7 +90,6 @@ class GibbsFreeEnergyFormula(BaseFormula):
 class EnthalpyChangeFormula(BaseFormula):
     """Calculate enthalpy change for reaction.
 
-    Implements:
         ENTHALPY_CHANGE formula for heat of reaction
         BATCH-4: Chemistry thermodynamics
 
@@ -159,7 +156,6 @@ class EnthalpyChangeFormula(BaseFormula):
 class EntropyChangeFormula(BaseFormula):
     """Calculate entropy change for reaction.
 
-    Implements:
         ENTROPY_CHANGE formula for disorder change
         BATCH-4: Chemistry thermodynamics
 
@@ -226,7 +222,6 @@ class EntropyChangeFormula(BaseFormula):
 class EquilibriumConstantFormula(BaseFormula):
     """Calculate equilibrium constant from Gibbs energy.
 
-    Implements:
         EQUILIBRIUM_CONSTANT formula for reaction equilibrium
         BATCH-4: Chemistry thermodynamics
 
@@ -302,7 +297,6 @@ class EquilibriumConstantFormula(BaseFormula):
 class VantHoffEquationFormula(BaseFormula):
     """Calculate equilibrium constant at different temperature.
 
-    Implements:
         VANT_HOFF_EQUATION formula for temperature dependence
         BATCH-4: Chemistry thermodynamics
 
@@ -392,7 +386,6 @@ class VantHoffEquationFormula(BaseFormula):
 class ClausiusClapeyronFormula(BaseFormula):
     """Calculate vapor pressure at temperature.
 
-    Implements:
         CLAUSIUS_CLAPEYRON formula for vapor pressure
         BATCH-4: Chemistry thermodynamics
 
@@ -482,7 +475,6 @@ class ClausiusClapeyronFormula(BaseFormula):
 class IdealGasLawFormula(BaseFormula):
     """Calculate ideal gas law relationship.
 
-    Implements:
         IDEAL_GAS_LAW formula (PV=nRT)
         BATCH-4: Chemistry thermodynamics
 
@@ -572,7 +564,6 @@ class IdealGasLawFormula(BaseFormula):
 class RealGasVanDerWaalsFormula(BaseFormula):
     """Calculate Van der Waals equation for real gas.
 
-    Implements:
         REAL_GAS_VAN_DER_WAALS formula for non-ideal behavior
         BATCH-4: Chemistry thermodynamics
 

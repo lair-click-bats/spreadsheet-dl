@@ -13,7 +13,7 @@ Quality and maintenance scripts for the SpreadsheetDL project.
 | `doctor.sh`     | Environment health check                   | When tools seem broken                    |
 | `validate.sh`   | **Full validation suite (recommended CI)** | **Before releases, in CI pipelines**      |
 | `fix.sh`        | Auto-fix common issues                     | After lint failures                       |
-| `test-stats.sh` | Generate dynamic test statistics           | When you need current test counts         |
+| `test_stats.sh` | Generate dynamic test statistics           | When you need current test counts         |
 
 ## Quality Scripts
 
@@ -115,13 +115,13 @@ Auto-fix common issues.
 ./scripts/fix.sh --python    # Python only
 ```
 
-### test-stats.sh
+### test_stats.sh
 
 Generate dynamic test statistics.
 
 ```bash
-./scripts/test-stats.sh      # Human-readable output
-./scripts/test-stats.sh --json # JSON output for CI/automation
+./scripts/test_stats.sh      # Human-readable output
+./scripts/test_stats.sh --json # JSON output for CI/automation
 ```
 
 Provides current test counts by:
@@ -209,20 +209,12 @@ Analyze all scripts for consistency and best practices.
 ./scripts/audit_scripts.sh  # Audit all scripts
 ```
 
-### prepare-public-release.sh
+### prepare_public_release.sh
 
 Prepare project for public release (clean sensitive data).
 
 ```bash
-./scripts/prepare-public-release.sh  # Interactive release prep
-```
-
-### cleanup-for-release.sh
-
-Clean temporary files and caches before release.
-
-```bash
-./scripts/cleanup-for-release.sh  # Clean for release
+./scripts/prepare_public_release.sh  # Interactive release prep
 ```
 
 ### generate_tree.sh
@@ -233,12 +225,12 @@ Generate directory tree visualization.
 ./scripts/generate_tree.sh  # Generate project tree
 ```
 
-### setup-claude-config.sh
+### setup_claude_config.sh
 
 Setup Claude Code configuration.
 
 ```bash
-./scripts/setup-claude-config.sh  # Configure Claude Code
+./scripts/setup_claude_config.sh  # Configure Claude Code
 ```
 
 ### validate_tools.sh

@@ -1,8 +1,7 @@
 """Air quality formulas.
 
-Implements:
-    Air quality formulas
-    (AQI_CALCULATION, EMISSION_RATE, POLLUTION_INDEX)
+Air quality formulas
+(AQI_CALCULATION, EMISSION_RATE, POLLUTION_INDEX)
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class AQICalculationFormula(BaseFormula):
     """Calculate Air Quality Index from pollutant concentration.
 
-    Implements:
         AQI_CALCULATION formula for air quality
 
     Uses EPA AQI calculation methodology.
@@ -35,7 +33,6 @@ class AQICalculationFormula(BaseFormula):
         Returns:
             FormulaMetadata for AQI_CALCULATION
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -74,7 +71,6 @@ class AQICalculationFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             AQI_CALCULATION formula building
 
         Raises:
@@ -104,7 +100,6 @@ class AQICalculationFormula(BaseFormula):
 class EmissionRateFormula(BaseFormula):
     """Calculate pollutant emission rate.
 
-    Implements:
         EMISSION_RATE formula for emissions calculations
 
     Calculates mass emission rate from flow and concentration.
@@ -122,7 +117,6 @@ class EmissionRateFormula(BaseFormula):
         Returns:
             FormulaMetadata for EMISSION_RATE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -167,7 +161,6 @@ class EmissionRateFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             EMISSION_RATE formula building
 
         Raises:
@@ -191,7 +184,6 @@ class EmissionRateFormula(BaseFormula):
 class PollutionIndexFormula(BaseFormula):
     """Calculate combined pollution index.
 
-    Implements:
         POLLUTION_INDEX formula for multi-pollutant assessment
 
     Calculates a normalized pollution severity index.
@@ -209,7 +201,6 @@ class PollutionIndexFormula(BaseFormula):
         Returns:
             FormulaMetadata for POLLUTION_INDEX
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -255,7 +246,6 @@ class PollutionIndexFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             POLLUTION_INDEX formula building
 
         Raises:

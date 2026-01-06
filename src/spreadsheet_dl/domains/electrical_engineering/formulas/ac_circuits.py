@@ -1,8 +1,7 @@
 """AC circuit analysis formulas.
 
-Implements:
-    Electrical engineering formulas for AC circuit calculations
-    (RMS, PowerFactor, ComplexImpedance, Reactance, ResonantFrequency)
+Electrical engineering formulas for AC circuit calculations
+(RMS, PowerFactor, ComplexImpedance, Reactance, ResonantFrequency)
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class RMSValue(BaseFormula):
     """Calculate RMS (Root Mean Square) voltage or current.
 
-    Implements:
         RMS formula for AC signal analysis
 
     Example:
@@ -33,7 +31,6 @@ class RMSValue(BaseFormula):
         Returns:
             FormulaMetadata for RMS
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -65,7 +62,6 @@ class RMSValue(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             RMS formula building
 
         Raises:
@@ -83,7 +79,6 @@ class RMSValue(BaseFormula):
 class PowerFactor(BaseFormula):
     """Calculate power factor (cosine of phase angle).
 
-    Implements:
         Power factor formula for AC circuits
 
     Example:
@@ -99,7 +94,6 @@ class PowerFactor(BaseFormula):
         Returns:
             FormulaMetadata for PowerFactor
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -137,7 +131,6 @@ class PowerFactor(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             PowerFactor formula building
 
         Raises:
@@ -156,7 +149,6 @@ class PowerFactor(BaseFormula):
 class ComplexImpedance(BaseFormula):
     """Calculate AC impedance magnitude.
 
-    Implements:
         Complex impedance magnitude formula
 
     Example:
@@ -172,7 +164,6 @@ class ComplexImpedance(BaseFormula):
         Returns:
             FormulaMetadata for ComplexImpedance
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -210,7 +201,6 @@ class ComplexImpedance(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             ComplexImpedance formula building
 
         Raises:
@@ -229,7 +219,6 @@ class ComplexImpedance(BaseFormula):
 class Reactance(BaseFormula):
     """Calculate inductive or capacitive reactance.
 
-    Implements:
         Reactance formula for inductors and capacitors
 
     Example:
@@ -245,7 +234,6 @@ class Reactance(BaseFormula):
         Returns:
             FormulaMetadata for Reactance
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -289,7 +277,6 @@ class Reactance(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Reactance formula building
 
         Raises:
@@ -314,7 +301,6 @@ class Reactance(BaseFormula):
 class ResonantFrequency(BaseFormula):
     """Calculate resonant frequency of LC circuit.
 
-    Implements:
         Resonant frequency formula for LC circuits
 
     Example:
@@ -330,7 +316,6 @@ class ResonantFrequency(BaseFormula):
         Returns:
             FormulaMetadata for ResonantFrequency
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -368,7 +353,6 @@ class ResonantFrequency(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             ResonantFrequency formula building
 
         Raises:

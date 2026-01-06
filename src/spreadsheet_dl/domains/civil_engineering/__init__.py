@@ -4,7 +4,6 @@ Provides comprehensive civil engineering functionality including:
 - Beam, soil, concrete, and load formulas
 - Survey data, structural results, and building code importers
 
-Implements:
     Civil Engineering domain plugin
 
 Example:

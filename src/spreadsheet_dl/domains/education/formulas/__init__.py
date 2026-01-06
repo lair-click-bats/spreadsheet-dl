@@ -1,6 +1,5 @@
 """Education domain formulas.
 
-Implements:
     Education domain formula extensions
 
 Provides 12 specialized formulas for education:

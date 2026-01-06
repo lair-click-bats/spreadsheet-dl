@@ -1,7 +1,6 @@
 """Tests for filter design formulas in electrical engineering.
 
-Implements:
-    Tests for filter cutoff, Q factor, and attenuation formulas
+Tests for filter cutoff, Q factor, and attenuation formulas
 """
 
 from __future__ import annotations
@@ -210,7 +209,7 @@ def test_all_filter_formulas_have_complete_metadata() -> None:
     ]
 
     for formula_class in formulas:
-        formula = formula_class()
+        formula = formula_class()  # type: ignore[abstract]
         metadata = formula.metadata
 
         # Check required metadata fields

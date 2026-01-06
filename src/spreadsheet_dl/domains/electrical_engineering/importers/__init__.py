@@ -1,6 +1,5 @@
 """Electrical Engineering importers for SpreadsheetDL.
 
-Implements:
     Electrical Engineering domain importers
 
 Provides data importers for:

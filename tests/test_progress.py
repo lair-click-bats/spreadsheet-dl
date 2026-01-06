@@ -2,7 +2,6 @@
 Tests for progress indicators module.
 
 Tests:
-    - FR-UX-002: Progress indicators for long-running operations
 """
 
 from __future__ import annotations

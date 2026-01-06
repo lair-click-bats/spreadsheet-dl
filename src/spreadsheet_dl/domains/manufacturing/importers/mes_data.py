@@ -1,7 +1,6 @@
 """MES Data Importer for Manufacturing Execution System data.
 
-Implements:
-    MESDataImporter for manufacturing domain
+MESDataImporter for manufacturing domain
 """
 
 from __future__ import annotations
@@ -18,7 +17,6 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 class MESDataImporter(BaseImporter[list[dict[str, Any]]]):
     """Import MES (Manufacturing Execution System) data (CSV/JSON).
 
-    Implements:
         MESDataImporter with production and quality data
 
     Features:
@@ -51,7 +49,6 @@ class MESDataImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImporterMetadata for MES data importer
 
-        Implements:
             Importer metadata
         """
         return ImporterMetadata(
@@ -70,7 +67,6 @@ class MESDataImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             True if source is valid file
 
-        Implements:
             Source validation
         """
         path = Path(source) if isinstance(source, str) else source
@@ -89,7 +85,6 @@ class MESDataImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImportResult with parsed MES data
 
-        Implements:
             Data import with error handling
 
         Raises:
@@ -218,7 +213,6 @@ class MESDataImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             Parsed MES record with standardized fields
 
-        Implements:
             MES record parsing
         """
         # Standardize field names (handle various MES system formats)

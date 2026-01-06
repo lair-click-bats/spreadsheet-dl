@@ -1,6 +1,5 @@
 """Education domain utility functions.
 
-Implements:
     Education domain utilities
 
 Provides helper functions for grade calculations, GPA conversions,
@@ -58,7 +57,6 @@ def calculate_grade_average(grades: Sequence[float | int | None]) -> float | Non
     Returns:
         Average grade or None if no valid grades
 
-    Implements:
         Grade average calculation
 
     Example:
@@ -84,7 +82,6 @@ def calculate_weighted_grade(
     Returns:
         Weighted average grade
 
-    Implements:
         Weighted grade calculation
 
     Example:
@@ -116,7 +113,6 @@ def calculate_letter_grade(
     Returns:
         Letter grade (A+, A, A-, etc.)
 
-    Implements:
         Letter grade conversion
 
     Example:
@@ -143,7 +139,6 @@ def grade_to_points(grade: str) -> float:
     Returns:
         Grade points (0.0-4.0)
 
-    Implements:
         Grade to points conversion
 
     Example:
@@ -162,7 +157,6 @@ def points_to_grade(points: float) -> str:
     Returns:
         Letter grade
 
-    Implements:
         Points to grade conversion
 
     Example:
@@ -189,7 +183,6 @@ def calculate_gpa(
     Returns:
         GPA on 4.0 scale
 
-    Implements:
         GPA calculation
 
     Example:
@@ -232,7 +225,6 @@ def calculate_attendance_rate(
     Returns:
         Attendance percentage (0-100)
 
-    Implements:
         Attendance rate calculation
 
     Example:
@@ -259,7 +251,6 @@ def format_percentage(
     Returns:
         Formatted percentage string
 
-    Implements:
         Percentage formatting
 
     Example:

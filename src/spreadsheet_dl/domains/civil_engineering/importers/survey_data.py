@@ -1,7 +1,6 @@
 """Survey data importer for civil engineering.
 
-Implements:
-    SurveyDataImporter for CSV/XML surveying data
+SurveyDataImporter for CSV/XML surveying data
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 class SurveyDataImporter(BaseImporter[list[dict[str, Any]]]):
     """Import survey data from CSV or XML files.
 
-    Implements:
         SurveyDataImporter requirements
 
     Features:
@@ -75,7 +73,6 @@ class SurveyDataImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImportResult with survey points as list of dictionaries
 
-        Implements:
             Survey data parsing with validation
         """
         if not self.validate_source(source):

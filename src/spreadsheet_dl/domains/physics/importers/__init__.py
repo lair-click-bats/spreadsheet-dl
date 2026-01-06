@@ -1,6 +1,5 @@
 """Physics domain importers.
 
-Implements:
     Physics data importers
     BATCH-5: Physics domain creation
 

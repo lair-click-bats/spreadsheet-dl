@@ -1,7 +1,6 @@
 """Satellite Data Importer.
 
-Implements:
-    SatelliteDataImporter for environmental domain
+SatelliteDataImporter for environmental domain
 """
 
 from __future__ import annotations
@@ -19,7 +18,6 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 class SatelliteDataImporter(BaseImporter[list[dict[str, Any]]]):
     """Remote sensing / satellite data importer.
 
-    Implements:
         SatelliteDataImporter for environmental monitoring
 
     Supports importing data from:

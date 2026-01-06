@@ -1,7 +1,7 @@
 """
 Comprehensive tests for HTML import functionality.
 
-Implements tests for FR-HTML-001: HTML import from HTML tables
+Implements tests for : HTML import from HTML tables
 
 Tests:
     - Simple table import

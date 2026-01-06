@@ -1,7 +1,6 @@
 """CAD Metadata importer for mechanical engineering.
 
-Implements:
-    CADMetadataImporter for STEP/IGES file metadata
+CADMetadataImporter for STEP/IGES file metadata
 """
 
 from __future__ import annotations
@@ -46,7 +45,6 @@ class CADMetadata:
 class CADMetadataImporter(BaseImporter[list[dict[str, Any]]]):
     """Import metadata from CAD files (STEP/IGES format).
 
-    Implements:
         CADMetadataImporter requirements
 
     Features:
@@ -106,7 +104,6 @@ class CADMetadataImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImportResult with metadata as list of dictionaries
 
-        Implements:
             CAD metadata parsing and extraction
         """
         if not self.validate_source(source):

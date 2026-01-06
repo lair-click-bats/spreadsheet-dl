@@ -1,7 +1,6 @@
 """Stress and strain formulas for mechanical engineering.
 
-Implements:
-    Stress/strain formulas (STRESS, STRAIN, YOUNGS_MODULUS)
+Stress/strain formulas (STRESS, STRAIN, YOUNGS_MODULUS)
 """
 
 from __future__ import annotations
@@ -18,7 +17,6 @@ class StressFormula(BaseFormula):
 
     Calculates normal stress given force and area.
 
-    Implements:
         STRESS formula
 
     Example:
@@ -75,7 +73,6 @@ class StrainFormula(BaseFormula):
 
     Calculates engineering strain given elongation and original length.
 
-    Implements:
         STRAIN formula
 
     Example:
@@ -132,7 +129,6 @@ class YoungsModulusFormula(BaseFormula):
 
     Calculates Young's modulus (elastic modulus) from stress and strain.
 
-    Implements:
         YOUNGS_MODULUS formula
 
     Example:

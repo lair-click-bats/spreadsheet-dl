@@ -1,7 +1,6 @@
 """Fatigue and safety formulas for mechanical engineering.
 
-Implements:
-    Fatigue formulas (FATIGUE_LIFE, SAFETY_FACTOR, STRESS_CONCENTRATION)
+Fatigue formulas (FATIGUE_LIFE, SAFETY_FACTOR, STRESS_CONCENTRATION)
 """
 
 from __future__ import annotations
@@ -18,7 +17,6 @@ class FatigueLifeFormula(BaseFormula):
 
     Calculates number of cycles to failure given stress range and S-N curve parameters.
 
-    Implements:
         FATIGUE_LIFE formula
 
     Example:
@@ -81,7 +79,6 @@ class SafetyFactorFormula(BaseFormula):
 
     Calculates safety factor given yield strength and applied stress.
 
-    Implements:
         SAFETY_FACTOR formula
 
     Example:
@@ -139,7 +136,6 @@ class StressConcentrationFormula(BaseFormula):
     Calculates maximum stress at a discontinuity given stress concentration factor
     and nominal stress.
 
-    Implements:
         STRESS_CONCENTRATION formula
 
     Example:

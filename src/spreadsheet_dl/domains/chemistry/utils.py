@@ -1,8 +1,7 @@
 """Chemistry domain utility functions.
 
-Implements:
-    Chemistry utility functions for calculations
-    BATCH-4: Chemistry domain creation
+Chemistry utility functions for calculations
+BATCH-4: Chemistry domain creation
 """
 
 from __future__ import annotations

@@ -1,7 +1,6 @@
 """Utility functions for electrical engineering domain.
 
-Implements:
-    Helper functions for EE domain
+Helper functions for EE domain
 """
 
 from __future__ import annotations

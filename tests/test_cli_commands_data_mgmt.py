@@ -611,7 +611,7 @@ class TestCmdAccount:
                 assets_by_type={},
                 liabilities_by_type={},
             )
-            net_worth.to_dict = Mock(
+            net_worth.to_dict = Mock(  # type: ignore[method-assign]
                 return_value={
                     "total_assets": 10000.0,
                     "total_liabilities": 3000.0,
@@ -743,7 +743,9 @@ class TestCmdCategory:
             mock_mgr_cls.return_value = mock_mgr
 
             cat = Category(name="Groceries", color="#4CAF50")
-            cat.to_dict = Mock(return_value={"name": "Groceries", "color": "#4CAF50"})
+            cat.to_dict = Mock(  # type: ignore[method-assign]
+                return_value={"name": "Groceries", "color": "#4CAF50"}
+            )
             mock_mgr.list_categories.return_value = [cat]
 
             result = commands.cmd_category(args)

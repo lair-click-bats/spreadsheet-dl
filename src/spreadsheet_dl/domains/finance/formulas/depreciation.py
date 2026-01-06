@@ -1,8 +1,7 @@
 """Asset depreciation formulas.
 
-Implements:
-    Financial formulas for asset depreciation calculations
-    (StraightLine, DecliningBalance, SUMYearsDigits)
+Financial formulas for asset depreciation calculations
+(StraightLine, DecliningBalance, SUMYearsDigits)
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class StraightLineDepreciation(BaseFormula):
     """Calculate straight-line depreciation.
 
-    Implements:
         SLN formula for linear depreciation over asset life
 
     Example:
@@ -33,7 +31,6 @@ class StraightLineDepreciation(BaseFormula):
         Returns:
             FormulaMetadata for SLN
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -77,7 +74,6 @@ class StraightLineDepreciation(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             SLN formula building
 
         Raises:
@@ -96,7 +92,6 @@ class StraightLineDepreciation(BaseFormula):
 class DecliningBalanceDepreciation(BaseFormula):
     """Calculate declining balance depreciation.
 
-    Implements:
         DB formula for accelerated depreciation method
 
     Example:
@@ -112,7 +107,6 @@ class DecliningBalanceDepreciation(BaseFormula):
         Returns:
             FormulaMetadata for DB
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -169,7 +163,6 @@ class DecliningBalanceDepreciation(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             DB formula building
 
         Raises:
@@ -190,7 +183,6 @@ class DecliningBalanceDepreciation(BaseFormula):
 class SUMYearsDigitsDepreciation(BaseFormula):
     """Calculate sum-of-years digits depreciation.
 
-    Implements:
         SYD formula for accelerated depreciation using sum-of-years method
 
     Example:
@@ -206,7 +198,6 @@ class SUMYearsDigitsDepreciation(BaseFormula):
         Returns:
             FormulaMetadata for SYD
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -256,7 +247,6 @@ class SUMYearsDigitsDepreciation(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             SYD formula building
 
         Raises:

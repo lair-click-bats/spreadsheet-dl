@@ -1,7 +1,6 @@
 """Tests for Mechanical Engineering Fluid Mechanics formulas.
 
-Implements:
-    BATCH2-MECH: Tests for 6 fluid mechanics formulas
+BATCH2-MECH: Tests for 6 fluid mechanics formulas
 """
 
 from __future__ import annotations

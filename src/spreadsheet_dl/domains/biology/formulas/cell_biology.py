@@ -1,8 +1,7 @@
 """Cell biology and growth formulas.
 
-Implements:
-    Biology formulas for cell culture and population growth
-    (CellDensity, ViabilityPercent, DoublingTime, SpecificGrowthRate)
+Biology formulas for cell culture and population growth
+(CellDensity, ViabilityPercent, DoublingTime, SpecificGrowthRate)
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class CellDensity(BaseFormula):
     """Calculate cell density (cells per volume).
 
-    Implements:
         Cell density calculation
 
     Example:
@@ -33,7 +31,6 @@ class CellDensity(BaseFormula):
         Returns:
             FormulaMetadata for CellDensity
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -71,7 +68,6 @@ class CellDensity(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             CellDensity formula building
 
         Raises:
@@ -90,7 +86,6 @@ class CellDensity(BaseFormula):
 class ViabilityPercent(BaseFormula):
     """Calculate cell viability percentage.
 
-    Implements:
         Viability calculation from live/dead cell counts
 
     Example:
@@ -106,7 +101,6 @@ class ViabilityPercent(BaseFormula):
         Returns:
             FormulaMetadata for ViabilityPercent
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -144,7 +138,6 @@ class ViabilityPercent(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             ViabilityPercent formula building
 
         Raises:
@@ -163,7 +156,6 @@ class ViabilityPercent(BaseFormula):
 class DoublingTime(BaseFormula):
     """Calculate population doubling time.
 
-    Implements:
         Doubling time calculation from growth rate
 
     Example:
@@ -179,7 +171,6 @@ class DoublingTime(BaseFormula):
         Returns:
             FormulaMetadata for DoublingTime
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -211,7 +202,6 @@ class DoublingTime(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             DoublingTime formula building
 
         Raises:
@@ -229,7 +219,6 @@ class DoublingTime(BaseFormula):
 class SpecificGrowthRate(BaseFormula):
     """Calculate specific growth rate from cell densities.
 
-    Implements:
         Exponential growth rate calculation
 
     Example:
@@ -245,7 +234,6 @@ class SpecificGrowthRate(BaseFormula):
         Returns:
             FormulaMetadata for SpecificGrowthRate
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -289,7 +277,6 @@ class SpecificGrowthRate(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             SpecificGrowthRate formula building
 
         Raises:

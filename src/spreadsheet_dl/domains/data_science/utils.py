@@ -1,7 +1,6 @@
 """Utility functions for data science domain.
 
-Implements:
-    Helper utilities for data science domain
+Helper utilities for data science domain
 """
 
 from __future__ import annotations

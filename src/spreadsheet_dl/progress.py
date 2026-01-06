@@ -1,8 +1,5 @@
 """Progress indicators for long-running operations.
 
-Implements:
-    - FR-UX-002: Progress indicators for long-running operations
-
 Provides progress bars, spinners, and batch progress tracking using the
 rich library with NO_COLOR environment variable support.
 """
@@ -17,10 +14,7 @@ from typing import TYPE_CHECKING, Any
 if TYPE_CHECKING:
     from collections.abc import Iterator
 
-# Check NO_COLOR environment variable and TTY status
-ENABLE_PROGRESS = os.getenv("NO_COLOR") != "1" and sys.stdout.isatty()
-
-# Try to import rich, but make it optional
+# Try to import rich at runtime, but make it optional
 try:
     from rich.progress import (
         BarColumn,
@@ -33,9 +27,20 @@ try:
 
     RICH_AVAILABLE = True
 except ImportError:
+    # Rich not available - mypy will see the imports above in try block
     RICH_AVAILABLE = False
-    # TaskID type alias for when rich is unavailable - mypy doesn't handle conditional imports well
-    TaskID = Any  # type: ignore[misc,assignment]
+
+    # Provide fallback types at runtime only
+    if not TYPE_CHECKING:
+        TaskID = Any  # type: ignore[misc, no-redef]
+        Progress = Any  # type: ignore[misc, no-redef]
+        SpinnerColumn = Any  # type: ignore[misc, no-redef]
+        TextColumn = Any  # type: ignore[misc, no-redef]
+        BarColumn = Any  # type: ignore[misc, no-redef]
+        TimeElapsedColumn = Any  # type: ignore[misc, no-redef]
+
+# Check NO_COLOR environment variable and TTY status
+ENABLE_PROGRESS = os.getenv("NO_COLOR") != "1" and sys.stdout.isatty()
 
 
 @contextmanager
@@ -44,8 +49,6 @@ def progress_bar(
     total: int | None = None,
 ) -> Iterator[TaskID | None]:
     """Context manager for progress bar.
-
-    Implements FR-UX-002: Progress indicators for long-running operations.
 
     Args:
         description: Task description
@@ -80,8 +83,6 @@ def progress_bar(
 def spinner(description: str) -> Iterator[None]:
     """Show spinner for indeterminate operations.
 
-    Implements FR-UX-002: Progress indicators for long-running operations.
-
     Args:
         description: Operation description
 
@@ -108,8 +109,6 @@ def spinner(description: str) -> Iterator[None]:
 
 class BatchProgress:
     """Progress tracking for batch operations.
-
-    Implements FR-UX-002: Progress indicators for long-running operations.
 
     Example:
         >>> with BatchProgress(100, "Processing items") as bp:

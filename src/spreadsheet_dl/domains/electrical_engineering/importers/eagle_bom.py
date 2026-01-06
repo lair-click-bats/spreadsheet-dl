@@ -1,7 +1,6 @@
 """Eagle BOM importer for electrical engineering.
 
-Implements:
-    EagleBOMImporter for Eagle CAD exports
+EagleBOMImporter for Eagle CAD exports
 """
 
 from __future__ import annotations
@@ -16,7 +15,6 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 class EagleBOMImporter(BaseImporter[list[dict[str, Any]]]):
     """Import Eagle BOM exports (text or CSV format).
 
-    Implements:
         EagleBOMImporter requirements
 
     Features:
@@ -66,7 +64,6 @@ class EagleBOMImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImportResult with component data as list of dictionaries
 
-        Implements:
             Eagle BOM parsing and mapping
         """
         if not self.validate_source(source):

@@ -1,7 +1,6 @@
 """Machine learning metrics formulas.
 
-Implements:
-    ML metrics formulas (ACCURACY, PRECISION, RECALL, F1SCORE, CONFUSION_MATRIX_METRIC)
+ML metrics formulas (ACCURACY, PRECISION, RECALL, F1SCORE, CONFUSION_MATRIX_METRIC)
 """
 
 from __future__ import annotations
@@ -16,7 +15,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class AccuracyFormula(BaseFormula):
     """Accuracy metric: (TP+TN)/(TP+TN+FP+FN).
 
-    Implements:
         ACCURACY formula for ML evaluation
 
     Example:
@@ -32,7 +30,6 @@ class AccuracyFormula(BaseFormula):
         Returns:
             FormulaMetadata for ACCURACY
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -82,7 +79,6 @@ class AccuracyFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             ACCURACY formula building
 
         Raises:
@@ -100,7 +96,6 @@ class AccuracyFormula(BaseFormula):
 class PrecisionFormula(BaseFormula):
     """Precision metric: TP/(TP+FP).
 
-    Implements:
         PRECISION formula for ML evaluation
 
     Example:
@@ -116,7 +111,6 @@ class PrecisionFormula(BaseFormula):
         Returns:
             FormulaMetadata for PRECISION
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -154,7 +148,6 @@ class PrecisionFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             PRECISION formula building
 
         Raises:
@@ -172,7 +165,6 @@ class PrecisionFormula(BaseFormula):
 class RecallFormula(BaseFormula):
     """Recall metric: TP/(TP+FN).
 
-    Implements:
         RECALL formula for ML evaluation
 
     Example:
@@ -188,7 +180,6 @@ class RecallFormula(BaseFormula):
         Returns:
             FormulaMetadata for RECALL
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -226,7 +217,6 @@ class RecallFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             RECALL formula building
 
         Raises:
@@ -244,7 +234,6 @@ class RecallFormula(BaseFormula):
 class F1ScoreFormula(BaseFormula):
     """F1 Score metric: 2*(Precision*Recall)/(Precision+Recall).
 
-    Implements:
         F1SCORE formula for ML evaluation
 
     Example:
@@ -260,7 +249,6 @@ class F1ScoreFormula(BaseFormula):
         Returns:
             FormulaMetadata for F1SCORE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -298,7 +286,6 @@ class F1ScoreFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             F1SCORE formula building
 
         Raises:
@@ -316,7 +303,6 @@ class F1ScoreFormula(BaseFormula):
 class ConfusionMatrixMetricFormula(BaseFormula):
     """Extract metrics from confusion matrix.
 
-    Implements:
         CONFUSION_MATRIX_METRIC formula for metric extraction
 
     Example:
@@ -332,7 +318,6 @@ class ConfusionMatrixMetricFormula(BaseFormula):
         Returns:
             FormulaMetadata for CONFUSION_MATRIX_METRIC
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -370,7 +355,6 @@ class ConfusionMatrixMetricFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             CONFUSION_MATRIX_METRIC formula building
 
         Raises:
@@ -417,7 +401,6 @@ class ConfusionMatrixMetricFormula(BaseFormula):
 class ROC_AUC(BaseFormula):
     """Calculate ROC AUC (Area Under ROC Curve).
 
-    Implements:
         ROC_AUC formula for binary classification evaluation
 
     Example:
@@ -433,7 +416,6 @@ class ROC_AUC(BaseFormula):
         Returns:
             FormulaMetadata for ROC_AUC
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -471,7 +453,6 @@ class ROC_AUC(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             ROC AUC formula building (using Wilcoxon-Mann-Whitney approximation)
 
         Raises:
@@ -492,7 +473,6 @@ class ROC_AUC(BaseFormula):
 class LogLoss(BaseFormula):
     """Calculate logarithmic loss (cross-entropy loss).
 
-    Implements:
         LOG_LOSS formula for probabilistic classification
 
     Example:
@@ -508,7 +488,6 @@ class LogLoss(BaseFormula):
         Returns:
             FormulaMetadata for LogLoss
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -546,7 +525,6 @@ class LogLoss(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Log loss formula building
 
         Raises:
@@ -570,7 +548,6 @@ class LogLoss(BaseFormula):
 class CohenKappa(BaseFormula):
     """Calculate Cohen's Kappa coefficient.
 
-    Implements:
         COHEN_KAPPA formula for inter-rater agreement
 
     Example:
@@ -586,7 +563,6 @@ class CohenKappa(BaseFormula):
         Returns:
             FormulaMetadata for CohenKappa
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -624,7 +600,6 @@ class CohenKappa(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Cohen's Kappa formula building
 
         Raises:
@@ -647,7 +622,6 @@ class CohenKappa(BaseFormula):
 class MatthewsCorrCoef(BaseFormula):
     """Calculate Matthews Correlation Coefficient.
 
-    Implements:
         MCC formula for binary classification quality
 
     Example:
@@ -663,7 +637,6 @@ class MatthewsCorrCoef(BaseFormula):
         Returns:
             FormulaMetadata for MatthewsCorrCoef
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -713,7 +686,6 @@ class MatthewsCorrCoef(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             MCC formula building
 
         Raises:

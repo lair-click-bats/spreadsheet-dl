@@ -1,7 +1,7 @@
 """
 Tests for Plaid API integration module.
 
-Tests FR-IMPORT-003: Bank API Integration.
+: Bank API Integration.
 """
 
 from __future__ import annotations

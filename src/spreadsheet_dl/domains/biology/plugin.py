@@ -1,6 +1,5 @@
 """Biology Domain Plugin for SpreadsheetDL.
 
-Implements:
     Biology domain plugin
     PHASE-C: Domain plugin implementations
 
@@ -56,7 +55,6 @@ from spreadsheet_dl.domains.biology.importers.plate_reader import PlateReaderImp
 class BiologyDomainPlugin(BaseDomainPlugin):
     """Biology domain plugin.
 
-    Implements:
         Complete Biology domain plugin
         PHASE-C: Domain plugin implementations
 
@@ -114,7 +112,6 @@ class BiologyDomainPlugin(BaseDomainPlugin):
         Returns:
             PluginMetadata with biology plugin information
 
-        Implements:
             Plugin metadata requirements
         """
         return PluginMetadata(
@@ -135,7 +132,6 @@ class BiologyDomainPlugin(BaseDomainPlugin):
 
         Registers all formulas and importers.
 
-        Implements:
             Plugin initialization with all components
 
         Raises:
@@ -183,7 +179,6 @@ class BiologyDomainPlugin(BaseDomainPlugin):
 
         No resources need explicit cleanup for this plugin.
 
-        Implements:
             Plugin cleanup method
         """
         # No cleanup needed for this plugin
@@ -195,7 +190,6 @@ class BiologyDomainPlugin(BaseDomainPlugin):
         Returns:
             True if plugin has required formulas and importers registered
 
-        Implements:
             Plugin validation
         """
         # Verify we have all required components

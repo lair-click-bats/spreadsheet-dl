@@ -1,8 +1,7 @@
 """Solutions chemistry formulas.
 
-Implements:
-    Chemistry solutions formulas (7 formulas)
-    BATCH-4: Chemistry domain creation
+Chemistry solutions formulas (7 formulas)
+BATCH-4: Chemistry domain creation
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class MolarityFormula(BaseFormula):
     """Calculate molarity (moles per liter).
 
-    Implements:
         MOLARITY formula for concentration
         BATCH-4: Chemistry solutions
 
@@ -84,7 +82,6 @@ class MolarityFormula(BaseFormula):
 class MolalityFormula(BaseFormula):
     """Calculate molality (moles per kg solvent).
 
-    Implements:
         MOLALITY formula for concentration
         BATCH-4: Chemistry solutions
 
@@ -151,7 +148,6 @@ class MolalityFormula(BaseFormula):
 class MoleFractionFormula(BaseFormula):
     """Calculate mole fraction.
 
-    Implements:
         MOLE_FRACTION formula for component ratio
         BATCH-4: Chemistry solutions
 
@@ -218,7 +214,6 @@ class MoleFractionFormula(BaseFormula):
 class RaoultsLawFormula(BaseFormula):
     """Calculate vapor pressure lowering using Raoult's law.
 
-    Implements:
         RAOULTS_LAW formula for vapor pressure
         BATCH-4: Chemistry solutions
 
@@ -285,7 +280,6 @@ class RaoultsLawFormula(BaseFormula):
 class OsmoticPressureFormula(BaseFormula):
     """Calculate osmotic pressure.
 
-    Implements:
         OSMOTIC_PRESSURE formula for colligative property
         BATCH-4: Chemistry solutions
 
@@ -361,7 +355,6 @@ class OsmoticPressureFormula(BaseFormula):
 class pHCalculationFormula(BaseFormula):
     """Calculate pH from H+ concentration.
 
-    Implements:
         PH_CALCULATION formula for acidity measure
         BATCH-4: Chemistry solutions
 
@@ -421,7 +414,6 @@ class pHCalculationFormula(BaseFormula):
 class BufferCapacityFormula(BaseFormula):
     """Calculate buffer capacity.
 
-    Implements:
         BUFFER_CAPACITY formula for pH resistance
         BATCH-4: Chemistry solutions
 

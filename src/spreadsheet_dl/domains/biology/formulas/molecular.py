@@ -1,8 +1,7 @@
 """Molecular biology formulas.
 
-Implements:
-    Molecular biology formulas
-    (CONCENTRATION, FOLD_CHANGE, GC_CONTENT, MELTING_TEMP)
+Molecular biology formulas
+(CONCENTRATION, FOLD_CHANGE, GC_CONTENT, MELTING_TEMP)
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class ConcentrationFormula(BaseFormula):
     """Calculate nucleic acid concentration from absorbance.
 
-    Implements:
         CONCENTRATION formula for nucleic acid quantification
 
     Uses A260/A280 ratio for purity assessment.
@@ -35,7 +33,6 @@ class ConcentrationFormula(BaseFormula):
         Returns:
             FormulaMetadata for CONCENTRATION
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -81,7 +78,6 @@ class ConcentrationFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             CONCENTRATION formula building
 
         Raises:
@@ -114,7 +110,6 @@ class ConcentrationFormula(BaseFormula):
 class FoldChangeFormula(BaseFormula):
     """Calculate gene expression fold change using 2^-ΔΔCt method.
 
-    Implements:
         FOLD_CHANGE formula for qPCR analysis
 
     Example:
@@ -130,7 +125,6 @@ class FoldChangeFormula(BaseFormula):
         Returns:
             FormulaMetadata for FOLD_CHANGE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -180,7 +174,6 @@ class FoldChangeFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             FOLD_CHANGE formula building
 
         Raises:
@@ -207,7 +200,6 @@ class FoldChangeFormula(BaseFormula):
 class GCContentFormula(BaseFormula):
     """Calculate GC content percentage of DNA sequence.
 
-    Implements:
         GC_CONTENT formula for sequence analysis
 
     Example:
@@ -223,7 +215,6 @@ class GCContentFormula(BaseFormula):
         Returns:
             FormulaMetadata for GC_CONTENT
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -255,7 +246,6 @@ class GCContentFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             GC_CONTENT formula building
 
         Raises:
@@ -279,7 +269,6 @@ class GCContentFormula(BaseFormula):
 class MeltingTempFormula(BaseFormula):
     """Calculate DNA melting temperature estimation.
 
-    Implements:
         MELTING_TEMP formula for primer design
 
     Uses nearest-neighbor method approximation.
@@ -297,7 +286,6 @@ class MeltingTempFormula(BaseFormula):
         Returns:
             FormulaMetadata for MELTING_TEMP
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -336,7 +324,6 @@ class MeltingTempFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             MELTING_TEMP formula building
 
         Raises:

@@ -4,8 +4,6 @@ Provides data encryption at rest, secure key management, and audit logging
 for protecting sensitive financial data.
 
 Requirements implemented:
-    - FR-SEC-001: Data Encryption (AES-256)
-    - NFR-SEC-001: Credential Security
     - DR-PRIV-001: Data Minimization
 
 This module uses pure Python cryptographic primitives for encryption.

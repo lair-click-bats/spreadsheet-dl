@@ -1,8 +1,7 @@
 """Quantum mechanics formulas for physics.
 
-Implements:
-    Physics quantum mechanics formulas (6 formulas)
-    BATCH-5: Physics domain creation
+Physics quantum mechanics formulas (6 formulas)
+BATCH-5: Physics domain creation
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class PlanckEnergyFormula(BaseFormula):
     """Calculate photon energy using Planck's equation.
 
-    Implements:
         PLANCK_ENERGY formula (E = hf)
         BATCH-5: Physics quantum mechanics
 
@@ -86,7 +84,6 @@ class PlanckEnergyFormula(BaseFormula):
 class DeBroglieWavelengthFormula(BaseFormula):
     """Calculate de Broglie wavelength.
 
-    Implements:
         DE_BROGLIE_WAVELENGTH formula (λ = h/p)
         BATCH-5: Physics quantum mechanics
 
@@ -155,7 +152,6 @@ class DeBroglieWavelengthFormula(BaseFormula):
 class HeisenbergUncertaintyFormula(BaseFormula):
     """Calculate Heisenberg uncertainty principle.
 
-    Implements:
         HEISENBERG_UNCERTAINTY formula (Δx*Δp ≥ ℏ/2)
         BATCH-5: Physics quantum mechanics
 
@@ -224,7 +220,6 @@ class HeisenbergUncertaintyFormula(BaseFormula):
 class PhotoelectricEffectFormula(BaseFormula):
     """Calculate kinetic energy in photoelectric effect.
 
-    Implements:
         PHOTOELECTRIC_EFFECT formula (KE = hf - W)
         BATCH-5: Physics quantum mechanics
 
@@ -300,7 +295,6 @@ class PhotoelectricEffectFormula(BaseFormula):
 class BohrRadiusFormula(BaseFormula):
     """Calculate Bohr model atomic radius.
 
-    Implements:
         BOHR_RADIUS formula (r_n = n²*a₀)
         BATCH-5: Physics quantum mechanics
 
@@ -369,7 +363,6 @@ class BohrRadiusFormula(BaseFormula):
 class RydbergFormulaFormula(BaseFormula):
     """Calculate wavelength using Rydberg formula.
 
-    Implements:
         RYDBERG_FORMULA (1/λ = R*(1/n₁² - 1/n₂²))
         BATCH-5: Physics quantum mechanics
 

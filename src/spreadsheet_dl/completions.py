@@ -1,6 +1,5 @@
 """Shell Completions Module.
 
-Implements FR-UX-009: Shell Completions.
 Provides tab completion scripts for Bash, Zsh, and Fish shells.
 """
 

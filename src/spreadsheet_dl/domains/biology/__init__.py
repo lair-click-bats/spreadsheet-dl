@@ -1,6 +1,5 @@
 """Biology Domain Plugin for SpreadsheetDL.
 
-Implements:
     Biology domain plugin
     PHASE-C: Domain plugin implementations
 

@@ -1,6 +1,5 @@
 """Environmental domain formulas.
 
-Implements:
     Environmental domain formula extensions
 
 Provides 22 specialized formulas for environmental science:

@@ -1,13 +1,12 @@
 """Comprehensive tests for schema/styles.py - targeting 90%+ coverage.
 
-Implements:
-    - Color class testing (creation, manipulation, WCAG)
-    - Font class testing (all properties and methods)
-    - Border classes testing (BorderEdge, Border, Borders)
-    - Fill classes testing (PatternFill, GradientFill, CellFill)
-    - NumberFormat testing (all categories and formats)
-    - Style classes testing (StyleDefinition, CellStyle)
-    - Theme class testing (variants, inheritance, composition)
+- Color class testing (creation, manipulation, WCAG)
+- Font class testing (all properties and methods)
+- Border classes testing (BorderEdge, Border, Borders)
+- Fill classes testing (PatternFill, GradientFill, CellFill)
+- NumberFormat testing (all categories and formats)
+- Style classes testing (StyleDefinition, CellStyle)
+- Theme class testing (variants, inheritance, composition)
 """
 
 from __future__ import annotations

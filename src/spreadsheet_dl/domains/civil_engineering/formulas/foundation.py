@@ -1,7 +1,6 @@
 """Foundation design formulas for civil engineering.
 
-Implements:
-    CIVIL-FOUNDATION: Foundation design formulas (bearing capacity, settlement)
+CIVIL-FOUNDATION: Foundation design formulas (bearing capacity, settlement)
 """
 
 from __future__ import annotations
@@ -18,7 +17,6 @@ class BearingCapacityTerzaghi(BaseFormula):
 
     Calculates ultimate bearing capacity using Terzaghi's equation.
 
-    Implements:
         CIVIL-FOUNDATION-001: Terzaghi bearing capacity equation
 
     Example:
@@ -105,7 +103,6 @@ class SettlementElastic(BaseFormula):
 
     Calculates immediate settlement under elastic conditions.
 
-    Implements:
         CIVIL-FOUNDATION-002: Elastic settlement calculation
 
     Example:
@@ -176,7 +173,6 @@ class ConsolidationSettlement(BaseFormula):
 
     Calculates primary consolidation settlement.
 
-    Implements:
         CIVIL-FOUNDATION-003: Primary consolidation settlement
 
     Example:

@@ -1,7 +1,6 @@
 """Lab Results Importer.
 
-Implements:
-    LabResultsImporter for environmental domain
+LabResultsImporter for environmental domain
 """
 
 from __future__ import annotations
@@ -18,7 +17,6 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 class LabResultsImporter(BaseImporter[list[dict[str, Any]]]):
     """Laboratory analysis results importer.
 
-    Implements:
         LabResultsImporter for environmental lab data
 
     Supports importing data from:

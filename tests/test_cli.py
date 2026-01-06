@@ -188,7 +188,7 @@ class TestDashboardCommand:
 
 
 class TestExpenseCommand:
-    """Tests for expense command (FR-CORE-003)."""
+    """Tests for expense command."""
 
     def test_expense_help(self) -> None:
         """Test expense --help."""
@@ -240,7 +240,7 @@ class TestExpenseCommand:
         assert "Groceries" in result.stdout
 
     def test_expense_adds_to_file(self, tmp_path: Path) -> None:
-        """Test expense command actually adds expense to ODS file (FR-CORE-003)."""
+        """Test expense command actually adds expense to ODS file."""
         # Create a budget file first
         run_cli("generate", "-o", str(tmp_path))
         ods_file = next(iter(tmp_path.glob("budget_*.ods")))

@@ -1,8 +1,7 @@
 """Tests for bond analytics formulas.
 
-Implements:
-    Test suite for bond pricing and analytics formulas including bond price,
-    yield to maturity, Macaulay duration, modified duration, and convexity.
+Test suite for bond pricing and analytics formulas including bond price,
+yield to maturity, Macaulay duration, modified duration, and convexity.
 """
 
 from __future__ import annotations

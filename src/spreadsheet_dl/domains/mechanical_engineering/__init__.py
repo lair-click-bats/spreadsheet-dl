@@ -4,7 +4,6 @@ Provides comprehensive mechanical engineering functionality including:
 - Stress/strain, moment, thermal, fatigue, and fluid mechanics formulas
 - CAD metadata, FEA results, and material database importers
 
-Implements:
     Mechanical Engineering domain plugin
     BATCH2-MECH: Extended with fluid mechanics and heat transfer formulas
 """

@@ -1,7 +1,7 @@
 """
 Tests for print layout module.
 
-Tests FR-FORMAT-007, FR-FORMAT-008, FR-PRINT-001, FR-PRINT-002
+
 """
 
 import pytest

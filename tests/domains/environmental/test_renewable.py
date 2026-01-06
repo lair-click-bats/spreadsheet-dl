@@ -1,7 +1,6 @@
 """Tests for renewable energy formulas.
 
-Implements:
-    Comprehensive tests for renewable energy formulas
+Comprehensive tests for renewable energy formulas
 """
 
 from __future__ import annotations

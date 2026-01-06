@@ -12,7 +12,7 @@ from pathlib import Path
 
 import mkdocs_gen_files
 
-nav = mkdocs_gen_files.Nav()
+nav = mkdocs_gen_files.Nav()  # type: ignore[attr-defined, no-untyped-call]
 
 # Source directory containing the package
 src = Path(__file__).parent.parent / "src" / "spreadsheet_dl"

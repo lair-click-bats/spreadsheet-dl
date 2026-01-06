@@ -11,11 +11,6 @@ Features:
     - Chart rendering
     - Theme-based styling
 
-Implements:
-    - FR-XLSX-001: Native XLSX Rendering
-    - FR-XLSX-002: Conditional Formatting
-    - FR-XLSX-003: Data Validation
-    - FR-XLSX-004: Charts and Named Ranges
 """
 
 from __future__ import annotations
@@ -582,7 +577,7 @@ class XlsxRenderer:
             return None
 
     # =========================================================================
-    # Conditional Formatting (FR-XLSX-002)
+    # Conditional Formatting
     # =========================================================================
 
     def _add_conditional_formats(
@@ -1101,7 +1096,7 @@ class XlsxRenderer:
         return DifferentialStyle(fill=fill, font=font)
 
     # =========================================================================
-    # Data Validation (FR-XLSX-003)
+    # Data Validation
     # =========================================================================
 
     def _add_data_validations(self, validations: list[ValidationConfig]) -> None:

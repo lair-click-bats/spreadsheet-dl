@@ -1,7 +1,6 @@
 """Manufacturing formulas module.
 
-Implements:
-    Manufacturing formula exports
+Manufacturing formula exports
 """
 
 from spreadsheet_dl.domains.manufacturing.formulas.inventory import (

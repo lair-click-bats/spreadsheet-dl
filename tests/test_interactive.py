@@ -2,8 +2,6 @@
 Tests for interactive ODS features module.
 
 Tests:
-- FR-HUMAN-002: Interactive features (dropdowns, validation)
-- FR-HUMAN-003: Dashboard view in ODS
 """
 
 from __future__ import annotations
@@ -263,7 +261,7 @@ class TestDashboardKPI:
 
 
 class TestSparklineConfig:
-    """Tests for SparklineConfig (FR-SPARK-001)."""
+    """Tests for SparklineConfig."""
 
     def test_to_formula_line_basic(self) -> None:
         """Test basic line sparkline formula."""
@@ -566,7 +564,7 @@ class TestInteractiveOdsBuilder:
         assert result is builder
 
     def test_apply_sparkline_to_document(self, builder: InteractiveOdsBuilder) -> None:
-        """Test applying sparkline to ODS document (FR-SPARK-001)."""
+        """Test applying sparkline to ODS document."""
         from odf.opendocument import OpenDocumentSpreadsheet
         from odf.table import Table, TableCell, TableRow
         from odf.text import P

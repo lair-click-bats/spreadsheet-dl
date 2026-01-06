@@ -1,6 +1,5 @@
 """Comprehensive tests for template_engine/components.py - targeting 100% coverage.
 
-Implements FR-TEMPLATE-005: Component Library tests
 
 Tests all pre-built template components for financial spreadsheets.
 """

@@ -1,7 +1,6 @@
 """GenBank format sequence file importer.
 
-Implements:
-    GenBankImporter for annotated sequences
+GenBankImporter for annotated sequences
 """
 
 from __future__ import annotations
@@ -16,7 +15,6 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 class GenBankImporter(BaseImporter[list[dict[str, Any]]]):
     """Import GenBank format sequence files.
 
-    Implements:
         GenBankImporter for annotated sequence data
 
     Features:
@@ -48,7 +46,6 @@ class GenBankImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImporterMetadata for GenBank importer
 
-        Implements:
             Importer metadata
         """
         return ImporterMetadata(
@@ -67,7 +64,6 @@ class GenBankImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             True if source is valid GenBank file
 
-        Implements:
             Source validation
         """
         path = Path(source) if isinstance(source, str) else source
@@ -92,7 +88,6 @@ class GenBankImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImportResult with sequence records and annotations
 
-        Implements:
             GenBank data import
 
         Raises:

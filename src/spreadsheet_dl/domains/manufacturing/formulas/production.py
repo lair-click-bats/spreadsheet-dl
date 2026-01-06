@@ -1,7 +1,6 @@
 """Production metrics formulas for manufacturing.
 
-Implements:
-    Production metrics formulas (CYCLE_TIME, TAKT_TIME, THROUGHPUT, CAPACITY_UTILIZATION)
+Production metrics formulas (CYCLE_TIME, TAKT_TIME, THROUGHPUT, CAPACITY_UTILIZATION)
 """
 
 from __future__ import annotations
@@ -16,7 +15,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class CycleTimeFormula(BaseFormula):
     """Manufacturing cycle time calculation.
 
-    Implements:
         CYCLE_TIME formula for production metrics
 
     Cycle Time = Production Time / Units Produced
@@ -34,7 +32,6 @@ class CycleTimeFormula(BaseFormula):
         Returns:
             FormulaMetadata for CYCLE_TIME
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -72,7 +69,6 @@ class CycleTimeFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             CYCLE_TIME formula building
 
         Raises:
@@ -90,7 +86,6 @@ class CycleTimeFormula(BaseFormula):
 class TaktTimeFormula(BaseFormula):
     """Takt time calculation (available time / customer demand).
 
-    Implements:
         TAKT_TIME formula for production metrics
 
     Takt Time = Available Production Time / Customer Demand
@@ -108,7 +103,6 @@ class TaktTimeFormula(BaseFormula):
         Returns:
             FormulaMetadata for TAKT_TIME
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -146,7 +140,6 @@ class TaktTimeFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             TAKT_TIME formula building
 
         Raises:
@@ -164,7 +157,6 @@ class TaktTimeFormula(BaseFormula):
 class ThroughputFormula(BaseFormula):
     """Production throughput rate.
 
-    Implements:
         THROUGHPUT formula for production metrics
 
     Throughput = Units Produced / Production Time
@@ -182,7 +174,6 @@ class ThroughputFormula(BaseFormula):
         Returns:
             FormulaMetadata for THROUGHPUT
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -220,7 +211,6 @@ class ThroughputFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             THROUGHPUT formula building
 
         Raises:
@@ -238,7 +228,6 @@ class ThroughputFormula(BaseFormula):
 class CapacityUtilizationFormula(BaseFormula):
     """Capacity utilization percentage.
 
-    Implements:
         CAPACITY_UTILIZATION formula for production metrics
 
     Capacity Utilization = (Actual Output / Maximum Capacity) * 100
@@ -256,7 +245,6 @@ class CapacityUtilizationFormula(BaseFormula):
         Returns:
             FormulaMetadata for CAPACITY_UTILIZATION
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -294,7 +282,6 @@ class CapacityUtilizationFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             CAPACITY_UTILIZATION formula building
 
         Raises:
@@ -312,7 +299,6 @@ class CapacityUtilizationFormula(BaseFormula):
 class OverallEquipmentEffectiveness(BaseFormula):
     """Calculate Overall Equipment Effectiveness (OEE).
 
-    Implements:
         OEE formula combining availability, performance, and quality
 
     OEE = Availability * Performance * Quality
@@ -330,7 +316,6 @@ class OverallEquipmentEffectiveness(BaseFormula):
         Returns:
             FormulaMetadata for OEE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -374,7 +359,6 @@ class OverallEquipmentEffectiveness(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             OEE formula building
 
         Raises:

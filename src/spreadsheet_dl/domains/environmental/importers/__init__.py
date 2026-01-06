@@ -1,6 +1,5 @@
 """Environmental domain importers.
 
-Implements:
     Environmental domain data importers
 
 Provides 3 specialized importers:

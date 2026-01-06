@@ -1,8 +1,7 @@
 """Time series analysis formulas.
 
-Implements:
-    Time series formulas for temporal data analysis
-    (Moving Average, Exponential Smoothing, ACF, PACF, Seasonality)
+Time series formulas for temporal data analysis
+(Moving Average, Exponential Smoothing, ACF, PACF, Seasonality)
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class MovingAverage(BaseFormula):
     """Calculate simple or exponential moving average.
 
-    Implements:
         Moving average formula for time series smoothing
 
     Example:
@@ -33,7 +31,6 @@ class MovingAverage(BaseFormula):
         Returns:
             FormulaMetadata for MovingAverage
 
-        Implements:
             Formula metadata for time series moving average
         """
         return FormulaMetadata(
@@ -77,7 +74,6 @@ class MovingAverage(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Moving average formula building
 
         Raises:
@@ -103,7 +99,6 @@ class MovingAverage(BaseFormula):
 class ExponentialSmoothing(BaseFormula):
     """Calculate exponential smoothing for time series.
 
-    Implements:
         Exponential smoothing (ETS) formula
 
     Example:
@@ -119,7 +114,6 @@ class ExponentialSmoothing(BaseFormula):
         Returns:
             FormulaMetadata for ExponentialSmoothing
 
-        Implements:
             Formula metadata for exponential smoothing
         """
         return FormulaMetadata(
@@ -157,7 +151,6 @@ class ExponentialSmoothing(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Exponential smoothing formula building
 
         Raises:
@@ -176,7 +169,6 @@ class ExponentialSmoothing(BaseFormula):
 class AutoCorrelation(BaseFormula):
     """Calculate autocorrelation function (ACF).
 
-    Implements:
         ACF formula for time series correlation analysis
 
     Example:
@@ -192,7 +184,6 @@ class AutoCorrelation(BaseFormula):
         Returns:
             FormulaMetadata for AutoCorrelation
 
-        Implements:
             Formula metadata for ACF
         """
         return FormulaMetadata(
@@ -230,7 +221,6 @@ class AutoCorrelation(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             ACF formula building
 
         Raises:
@@ -254,7 +244,6 @@ class AutoCorrelation(BaseFormula):
 class PartialAutoCorrelation(BaseFormula):
     """Calculate partial autocorrelation function (PACF).
 
-    Implements:
         PACF formula for time series analysis
 
     Example:
@@ -270,7 +259,6 @@ class PartialAutoCorrelation(BaseFormula):
         Returns:
             FormulaMetadata for PartialAutoCorrelation
 
-        Implements:
             Formula metadata for PACF
         """
         return FormulaMetadata(
@@ -308,7 +296,6 @@ class PartialAutoCorrelation(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             PACF formula building (simplified approximation)
 
         Raises:
@@ -334,7 +321,6 @@ class PartialAutoCorrelation(BaseFormula):
 class Seasonality(BaseFormula):
     """Extract seasonal component from time series.
 
-    Implements:
         Seasonality decomposition formula
 
     Example:
@@ -350,7 +336,6 @@ class Seasonality(BaseFormula):
         Returns:
             FormulaMetadata for Seasonality
 
-        Implements:
             Formula metadata for seasonal decomposition
         """
         return FormulaMetadata(
@@ -388,7 +373,6 @@ class Seasonality(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Seasonality extraction formula building
 
         Raises:

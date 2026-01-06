@@ -1,7 +1,7 @@
 """
 Tests for AI training data export module.
 
-Tests FR-AI-010: AI training data export (anonymized).
+: AI training data export (anonymized).
 """
 
 from __future__ import annotations

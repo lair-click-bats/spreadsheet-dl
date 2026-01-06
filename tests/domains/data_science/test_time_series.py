@@ -1,7 +1,6 @@
 """Tests for time series formulas.
 
-Implements:
-    Comprehensive tests for time series analysis formulas
+Comprehensive tests for time series analysis formulas
 """
 
 from __future__ import annotations

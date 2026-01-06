@@ -1,7 +1,6 @@
 """Quality metrics formulas for manufacturing.
 
-Implements:
-    Quality metrics formulas (DEFECT_RATE, FIRST_PASS_YIELD, PROCESS_CAPABILITY, CONTROL_LIMITS)
+Quality metrics formulas (DEFECT_RATE, FIRST_PASS_YIELD, PROCESS_CAPABILITY, CONTROL_LIMITS)
 """
 
 from __future__ import annotations
@@ -16,7 +15,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class DefectRateFormula(BaseFormula):
     """Defect rate calculation (defects / total units).
 
-    Implements:
         DEFECT_RATE formula for quality metrics
 
     Defect Rate = (Defects / Total Units) * 100
@@ -34,7 +32,6 @@ class DefectRateFormula(BaseFormula):
         Returns:
             FormulaMetadata for DEFECT_RATE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -72,7 +69,6 @@ class DefectRateFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             DEFECT_RATE formula building
 
         Raises:
@@ -90,7 +86,6 @@ class DefectRateFormula(BaseFormula):
 class FirstPassYieldFormula(BaseFormula):
     """First pass yield percentage.
 
-    Implements:
         FIRST_PASS_YIELD formula for quality metrics
 
     First Pass Yield = (Good Units / Total Units) * 100
@@ -108,7 +103,6 @@ class FirstPassYieldFormula(BaseFormula):
         Returns:
             FormulaMetadata for FIRST_PASS_YIELD
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -146,7 +140,6 @@ class FirstPassYieldFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             FIRST_PASS_YIELD formula building
 
         Raises:
@@ -164,7 +157,6 @@ class FirstPassYieldFormula(BaseFormula):
 class ProcessCapabilityFormula(BaseFormula):
     """Process capability index (Cp, Cpk).
 
-    Implements:
         PROCESS_CAPABILITY formula for quality metrics
 
     Cp = (USL - LSL) / (6 * StdDev)
@@ -183,7 +175,6 @@ class ProcessCapabilityFormula(BaseFormula):
         Returns:
             FormulaMetadata for PROCESS_CAPABILITY
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -233,7 +224,6 @@ class ProcessCapabilityFormula(BaseFormula):
         Returns:
             ODF formula string for Cp
 
-        Implements:
             PROCESS_CAPABILITY formula building
 
         Raises:
@@ -251,7 +241,6 @@ class ProcessCapabilityFormula(BaseFormula):
 class ControlLimitsFormula(BaseFormula):
     """Statistical control limits (UCL, LCL).
 
-    Implements:
         CONTROL_LIMITS formula for quality metrics
 
     UCL = Mean + (3 * StdDev)
@@ -270,7 +259,6 @@ class ControlLimitsFormula(BaseFormula):
         Returns:
             FormulaMetadata for CONTROL_LIMITS
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -315,7 +303,6 @@ class ControlLimitsFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             CONTROL_LIMITS formula building
 
         Raises:

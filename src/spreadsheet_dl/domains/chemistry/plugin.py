@@ -1,6 +1,5 @@
 """Chemistry Domain Plugin for SpreadsheetDL.
 
-Implements:
     Chemistry domain plugin
     BATCH-4: Chemistry domain creation
 
@@ -48,7 +47,6 @@ from spreadsheet_dl.domains.chemistry.formulas.thermodynamics import (
 class ChemistryDomainPlugin(BaseDomainPlugin):
     """Chemistry domain plugin.
 
-    Implements:
         Complete Chemistry domain plugin
         BATCH-4: Chemistry domain creation
 
@@ -95,7 +93,6 @@ class ChemistryDomainPlugin(BaseDomainPlugin):
         Returns:
             PluginMetadata with chemistry plugin information
 
-        Implements:
             Plugin metadata requirements
             BATCH-4: Chemistry domain metadata
         """
@@ -116,7 +113,6 @@ class ChemistryDomainPlugin(BaseDomainPlugin):
 
         Registers all formulas.
 
-        Implements:
             Plugin initialization with all components
             BATCH-4: Chemistry domain initialization
 
@@ -154,7 +150,6 @@ class ChemistryDomainPlugin(BaseDomainPlugin):
 
         No resources need explicit cleanup for this plugin.
 
-        Implements:
             Plugin cleanup method
             BATCH-4: Chemistry domain cleanup
         """
@@ -167,7 +162,6 @@ class ChemistryDomainPlugin(BaseDomainPlugin):
         Returns:
             True if plugin has required formulas registered
 
-        Implements:
             Plugin validation
             BATCH-4: Chemistry domain validation
         """

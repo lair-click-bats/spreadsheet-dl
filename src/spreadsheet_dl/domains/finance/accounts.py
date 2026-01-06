@@ -7,8 +7,6 @@ Provides comprehensive account management including:
 - Transaction linking
 - Net worth calculation
 
-Implements:
-    FR-CORE-004: Account Management (Gap G-05)
 """
 
 from __future__ import annotations

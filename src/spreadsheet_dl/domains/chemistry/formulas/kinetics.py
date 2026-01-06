@@ -1,8 +1,7 @@
 """Chemical kinetics formulas.
 
-Implements:
-    Chemistry kinetics formulas (5 formulas)
-    BATCH-4: Chemistry domain creation
+Chemistry kinetics formulas (5 formulas)
+BATCH-4: Chemistry domain creation
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class RateConstantFormula(BaseFormula):
     """Calculate rate constant using Arrhenius equation.
 
-    Implements:
         RATE_CONSTANT formula for reaction kinetics
         BATCH-4: Chemistry kinetics
 
@@ -100,7 +98,6 @@ class RateConstantFormula(BaseFormula):
 class HalfLifeFirstOrderFormula(BaseFormula):
     """Calculate half-life for first-order reaction.
 
-    Implements:
         HALF_LIFE_FIRST_ORDER formula for decay
         BATCH-4: Chemistry kinetics
 
@@ -160,7 +157,6 @@ class HalfLifeFirstOrderFormula(BaseFormula):
 class HalfLifeSecondOrderFormula(BaseFormula):
     """Calculate half-life for second-order reaction.
 
-    Implements:
         HALF_LIFE_SECOND_ORDER formula for reaction kinetics
         BATCH-4: Chemistry kinetics
 
@@ -227,7 +223,6 @@ class HalfLifeSecondOrderFormula(BaseFormula):
 class IntegratedRateLawFormula(BaseFormula):
     """Calculate concentration vs time using integrated rate law.
 
-    Implements:
         INTEGRATED_RATE_LAW formula for concentration changes
         BATCH-4: Chemistry kinetics
 
@@ -316,7 +311,6 @@ class IntegratedRateLawFormula(BaseFormula):
 class ActivationEnergyFormula(BaseFormula):
     """Calculate activation energy from Arrhenius equation.
 
-    Implements:
         ACTIVATION_ENERGY formula for energy barrier
         BATCH-4: Chemistry kinetics
 

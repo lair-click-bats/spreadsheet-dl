@@ -1,7 +1,6 @@
 """Utility functions for biology domain.
 
-Implements:
-    Biology domain utility functions
+Biology domain utility functions
 """
 
 from __future__ import annotations

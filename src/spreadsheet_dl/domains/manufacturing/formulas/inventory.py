@@ -1,7 +1,6 @@
 """Inventory metrics formulas for manufacturing.
 
-Implements:
-    Inventory metrics formulas (EOQ, REORDER_POINT, SAFETY_STOCK, INVENTORY_TURNOVER)
+Inventory metrics formulas (EOQ, REORDER_POINT, SAFETY_STOCK, INVENTORY_TURNOVER)
 """
 
 from __future__ import annotations
@@ -16,7 +15,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class EOQFormula(BaseFormula):
     """Economic Order Quantity calculation.
 
-    Implements:
         EOQ formula for inventory optimization
 
     EOQ = SQRT((2 * Demand * Order Cost) / Holding Cost)
@@ -34,7 +32,6 @@ class EOQFormula(BaseFormula):
         Returns:
             FormulaMetadata for EOQ
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -78,7 +75,6 @@ class EOQFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             EOQ formula building
 
         Raises:
@@ -96,7 +92,6 @@ class EOQFormula(BaseFormula):
 class ReorderPointFormula(BaseFormula):
     """Reorder point calculation.
 
-    Implements:
         REORDER_POINT formula for inventory management
 
     Reorder Point = (Demand Rate * Lead Time) + Safety Stock
@@ -114,7 +109,6 @@ class ReorderPointFormula(BaseFormula):
         Returns:
             FormulaMetadata for REORDER_POINT
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -158,7 +152,6 @@ class ReorderPointFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             REORDER_POINT formula building
 
         Raises:
@@ -176,7 +169,6 @@ class ReorderPointFormula(BaseFormula):
 class SafetyStockFormula(BaseFormula):
     """Safety stock calculation.
 
-    Implements:
         SAFETY_STOCK formula for inventory management
 
     Safety Stock = Z-Score * StdDev * SQRT(Lead Time)
@@ -194,7 +186,6 @@ class SafetyStockFormula(BaseFormula):
         Returns:
             FormulaMetadata for SAFETY_STOCK
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -238,7 +229,6 @@ class SafetyStockFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             SAFETY_STOCK formula building
 
         Raises:
@@ -256,7 +246,6 @@ class SafetyStockFormula(BaseFormula):
 class InventoryTurnoverFormula(BaseFormula):
     """Inventory turnover ratio.
 
-    Implements:
         INVENTORY_TURNOVER formula for inventory analysis
 
     Inventory Turnover = Cost of Goods Sold / Average Inventory
@@ -274,7 +263,6 @@ class InventoryTurnoverFormula(BaseFormula):
         Returns:
             FormulaMetadata for INVENTORY_TURNOVER
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -312,7 +300,6 @@ class InventoryTurnoverFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             INVENTORY_TURNOVER formula building
 
         Raises:

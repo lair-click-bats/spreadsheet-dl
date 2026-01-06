@@ -1,9 +1,8 @@
 """Genetics formulas for population genetics and inheritance.
 
-Implements:
-    Genetics formulas for allele frequencies, linkage, and statistical tests
-    (HARDY_WEINBERG, LINKAGE_DISEQUILIBRIUM, RECOMBINATION_FREQUENCY,
-     CHI2_GENETICS, INBREEDING_COEFFICIENT)
+Genetics formulas for allele frequencies, linkage, and statistical tests
+(HARDY_WEINBERG, LINKAGE_DISEQUILIBRIUM, RECOMBINATION_FREQUENCY,
+CHI2_GENETICS, INBREEDING_COEFFICIENT)
 """
 
 from __future__ import annotations
@@ -18,7 +17,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class HardyWeinbergFormula(BaseFormula):
     """Calculate expected genotype frequencies under Hardy-Weinberg equilibrium.
 
-    Implements:
         HARDY_WEINBERG formula for allele frequency equilibrium
 
     Example:
@@ -34,7 +32,6 @@ class HardyWeinbergFormula(BaseFormula):
         Returns:
             FormulaMetadata for HARDY_WEINBERG
 
-        Implements:
             Formula metadata for Hardy-Weinberg equilibrium
         """
         return FormulaMetadata(
@@ -72,7 +69,6 @@ class HardyWeinbergFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             HARDY_WEINBERG formula building (p² + 2pq + q²)
 
         Raises:
@@ -91,7 +87,6 @@ class HardyWeinbergFormula(BaseFormula):
 class LinkageDisequilibriumFormula(BaseFormula):
     """Calculate linkage disequilibrium between two loci.
 
-    Implements:
         LINKAGE_DISEQUILIBRIUM formula for non-random association
 
     Example:
@@ -107,7 +102,6 @@ class LinkageDisequilibriumFormula(BaseFormula):
         Returns:
             FormulaMetadata for LINKAGE_DISEQUILIBRIUM
 
-        Implements:
             Formula metadata for linkage disequilibrium
         """
         return FormulaMetadata(
@@ -151,7 +145,6 @@ class LinkageDisequilibriumFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             LINKAGE_DISEQUILIBRIUM formula building (D = PAB - PA*PB)
 
         Raises:
@@ -171,7 +164,6 @@ class LinkageDisequilibriumFormula(BaseFormula):
 class RecombinationFrequencyFormula(BaseFormula):
     """Calculate recombination frequency between loci.
 
-    Implements:
         RECOMBINATION_FREQUENCY formula for genetic distance
 
     Example:
@@ -187,7 +179,6 @@ class RecombinationFrequencyFormula(BaseFormula):
         Returns:
             FormulaMetadata for RECOMBINATION_FREQUENCY
 
-        Implements:
             Formula metadata for recombination frequency
         """
         return FormulaMetadata(
@@ -225,7 +216,6 @@ class RecombinationFrequencyFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             RECOMBINATION_FREQUENCY formula building (RF = recombinants / total)
 
         Raises:
@@ -244,7 +234,6 @@ class RecombinationFrequencyFormula(BaseFormula):
 class Chi2GeneticsFormula(BaseFormula):
     """Calculate chi-square test for genetic ratios.
 
-    Implements:
         CHI2_GENETICS formula for goodness of fit test
 
     Example:
@@ -260,7 +249,6 @@ class Chi2GeneticsFormula(BaseFormula):
         Returns:
             FormulaMetadata for CHI2_GENETICS
 
-        Implements:
             Formula metadata for chi-square genetics test
         """
         return FormulaMetadata(
@@ -298,7 +286,6 @@ class Chi2GeneticsFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             CHI2_GENETICS formula building (χ² = Σ((O-E)²/E))
 
         Raises:
@@ -317,7 +304,6 @@ class Chi2GeneticsFormula(BaseFormula):
 class InbreedingCoefficientFormula(BaseFormula):
     """Calculate inbreeding coefficient F.
 
-    Implements:
         INBREEDING_COEFFICIENT formula for relatedness measure
 
     Example:
@@ -333,7 +319,6 @@ class InbreedingCoefficientFormula(BaseFormula):
         Returns:
             FormulaMetadata for INBREEDING_COEFFICIENT
 
-        Implements:
             Formula metadata for inbreeding coefficient
         """
         return FormulaMetadata(
@@ -371,7 +356,6 @@ class InbreedingCoefficientFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             INBREEDING_COEFFICIENT formula building (F = 1 - Ho/He)
 
         Raises:

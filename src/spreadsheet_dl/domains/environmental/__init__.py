@@ -1,6 +1,5 @@
 """Environmental Domain Plugin for SpreadsheetDL.
 
-Implements:
     Environmental domain plugin
     PHASE-C: Domain plugin implementations
 

@@ -1,8 +1,7 @@
 """Time value of money formulas.
 
-Implements:
-    Financial formulas for present value, future value, and related calculations
-    (PV, FV, NPV, IRR, PMT, RATE, NPER)
+Financial formulas for present value, future value, and related calculations
+(PV, FV, NPV, IRR, PMT, RATE, NPER)
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class PresentValue(BaseFormula):
     """Calculate present value of future cash flows.
 
-    Implements:
         PV formula for discounting future cash flows to present value
 
     Example:
@@ -33,7 +31,6 @@ class PresentValue(BaseFormula):
         Returns:
             FormulaMetadata for PV
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -91,7 +88,6 @@ class PresentValue(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             PV formula building
 
         Raises:
@@ -112,7 +108,6 @@ class PresentValue(BaseFormula):
 class FutureValue(BaseFormula):
     """Calculate future value with compound interest.
 
-    Implements:
         FV formula for calculating future value of investments
 
     Example:
@@ -128,7 +123,6 @@ class FutureValue(BaseFormula):
         Returns:
             FormulaMetadata for FV
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -186,7 +180,6 @@ class FutureValue(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             FV formula building
 
         Raises:
@@ -207,7 +200,6 @@ class FutureValue(BaseFormula):
 class NetPresentValue(BaseFormula):
     """Calculate net present value of cash flows.
 
-    Implements:
         NPV formula for investment analysis
 
     Example:
@@ -223,7 +215,6 @@ class NetPresentValue(BaseFormula):
         Returns:
             FormulaMetadata for NPV
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -261,7 +252,6 @@ class NetPresentValue(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             NPV formula building
 
         Raises:
@@ -279,7 +269,6 @@ class NetPresentValue(BaseFormula):
 class InternalRateOfReturn(BaseFormula):
     """Calculate internal rate of return.
 
-    Implements:
         IRR formula for investment return calculation
 
     Example:
@@ -295,7 +284,6 @@ class InternalRateOfReturn(BaseFormula):
         Returns:
             FormulaMetadata for IRR
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -334,7 +322,6 @@ class InternalRateOfReturn(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             IRR formula building
 
         Raises:
@@ -352,7 +339,6 @@ class InternalRateOfReturn(BaseFormula):
 class PaymentFormula(BaseFormula):
     """Calculate loan payment amount.
 
-    Implements:
         PMT formula for loan payment calculation
 
     Example:
@@ -368,7 +354,6 @@ class PaymentFormula(BaseFormula):
         Returns:
             FormulaMetadata for PMT
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -426,7 +411,6 @@ class PaymentFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             PMT formula building
 
         Raises:
@@ -447,7 +431,6 @@ class PaymentFormula(BaseFormula):
 class RateFormula(BaseFormula):
     """Calculate interest rate per period.
 
-    Implements:
         RATE formula for interest rate calculation
 
     Example:
@@ -463,7 +446,6 @@ class RateFormula(BaseFormula):
         Returns:
             FormulaMetadata for RATE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -528,7 +510,6 @@ class RateFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             RATE formula building
 
         Raises:
@@ -550,7 +531,6 @@ class RateFormula(BaseFormula):
 class PeriodsFormula(BaseFormula):
     """Calculate number of payment periods.
 
-    Implements:
         NPER formula for period calculation
 
     Example:
@@ -566,7 +546,6 @@ class PeriodsFormula(BaseFormula):
         Returns:
             FormulaMetadata for NPER
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -624,7 +603,6 @@ class PeriodsFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             NPER formula building
 
         Raises:

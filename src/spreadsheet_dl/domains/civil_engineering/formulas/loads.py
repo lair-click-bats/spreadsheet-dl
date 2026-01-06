@@ -1,7 +1,6 @@
 """Load calculation formulas for civil engineering.
 
-Implements:
-    Load formulas (DEAD_LOAD, LIVE_LOAD, WIND_LOAD, SEISMIC_LOAD)
+Load formulas (DEAD_LOAD, LIVE_LOAD, WIND_LOAD, SEISMIC_LOAD)
 """
 
 from __future__ import annotations
@@ -18,7 +17,6 @@ class DeadLoadFormula(BaseFormula):
 
     Calculates dead load from material density and volume.
 
-    Implements:
         DEAD_LOAD formula
 
     Example:
@@ -83,7 +81,6 @@ class LiveLoadFormula(BaseFormula):
 
     Calculates live load from load intensity and area.
 
-    Implements:
         LIVE_LOAD formula
 
     Example:
@@ -140,7 +137,6 @@ class WindLoadFormula(BaseFormula):
 
     Calculates wind load using design wind pressure and coefficients.
 
-    Implements:
         WIND_LOAD formula
 
     Example:
@@ -209,7 +205,6 @@ class SeismicLoadFormula(BaseFormula):
 
     Calculates seismic base shear using seismic coefficient and weight.
 
-    Implements:
         SEISMIC_LOAD formula
 
     Example:

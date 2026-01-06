@@ -1,8 +1,7 @@
 """Bond analytics formulas.
 
-Implements:
-    Bond pricing and analytics formulas including bond price, yield to maturity,
-    Macaulay duration, modified duration, and convexity.
+Bond pricing and analytics formulas including bond price, yield to maturity,
+Macaulay duration, modified duration, and convexity.
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class BondPrice(BaseFormula):
     """Calculate bond price (present value of cash flows).
 
-    Implements:
         Bond pricing formula discounting coupon payments and face value
 
     Example:
@@ -33,7 +31,6 @@ class BondPrice(BaseFormula):
         Returns:
             FormulaMetadata for BondPrice
 
-        Implements:
             Bond formula metadata
         """
         return FormulaMetadata(
@@ -90,7 +87,6 @@ class BondPrice(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Bond price = PV of coupons + PV of face value
             Using PV formula for annuity and lump sum
 
@@ -126,7 +122,6 @@ class BondPrice(BaseFormula):
 class YieldToMaturity(BaseFormula):
     """Calculate yield to maturity (internal rate of return of bond).
 
-    Implements:
         YTM calculation using iterative approximation
 
     Example:
@@ -142,7 +137,6 @@ class YieldToMaturity(BaseFormula):
         Returns:
             FormulaMetadata for YieldToMaturity
 
-        Implements:
             Bond formula metadata
         """
         return FormulaMetadata(
@@ -199,7 +193,6 @@ class YieldToMaturity(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             YTM approximation formula (simplified)
 
         Raises:
@@ -225,7 +218,6 @@ class YieldToMaturity(BaseFormula):
 class MacDuration(BaseFormula):
     """Calculate Macaulay duration.
 
-    Implements:
         Macaulay duration calculation measuring weighted average time to cash flows
 
     Example:
@@ -241,7 +233,6 @@ class MacDuration(BaseFormula):
         Returns:
             FormulaMetadata for MacDuration
 
-        Implements:
             Bond formula metadata
         """
         return FormulaMetadata(
@@ -298,7 +289,6 @@ class MacDuration(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Macaulay duration using DURATION function
 
         Raises:
@@ -323,7 +313,6 @@ class MacDuration(BaseFormula):
 class ModifiedDuration(BaseFormula):
     """Calculate modified duration (price sensitivity to yield changes).
 
-    Implements:
         Modified duration calculation adjusting Macaulay duration by yield
 
     Example:
@@ -339,7 +328,6 @@ class ModifiedDuration(BaseFormula):
         Returns:
             FormulaMetadata for ModifiedDuration
 
-        Implements:
             Bond formula metadata
         """
         return FormulaMetadata(
@@ -396,7 +384,6 @@ class ModifiedDuration(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Modified duration using MDURATION function
 
         Raises:
@@ -421,7 +408,6 @@ class ModifiedDuration(BaseFormula):
 class Convexity(BaseFormula):
     """Calculate bond convexity (second-order price sensitivity).
 
-    Implements:
         Convexity calculation measuring curvature of price-yield relationship
 
     Example:
@@ -437,7 +423,6 @@ class Convexity(BaseFormula):
         Returns:
             FormulaMetadata for Convexity
 
-        Implements:
             Bond formula metadata
         """
         return FormulaMetadata(
@@ -494,7 +479,6 @@ class Convexity(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Convexity approximation formula
 
         Raises:

@@ -1,6 +1,5 @@
 """Physics Domain Plugin for SpreadsheetDL.
 
-Implements:
     Physics domain plugin
     BATCH-5: Physics domain creation
 

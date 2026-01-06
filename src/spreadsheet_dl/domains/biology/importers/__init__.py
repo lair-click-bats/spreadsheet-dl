@@ -1,7 +1,6 @@
 """Biology domain importers.
 
-Implements:
-    Biology importer implementations
+Biology importer implementations
 """
 
 from __future__ import annotations

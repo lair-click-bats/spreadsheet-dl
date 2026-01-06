@@ -1,8 +1,7 @@
 """Grade calculation formulas.
 
-Implements:
-    Grade calculation formulas
-    (GRADE_AVERAGE, WEIGHTED_GRADE, GRADE_CURVE)
+Grade calculation formulas
+(GRADE_AVERAGE, WEIGHTED_GRADE, GRADE_CURVE)
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class GradeAverageFormula(BaseFormula):
     """Calculate simple grade average.
 
-    Implements:
         GRADE_AVERAGE formula for grade calculation
 
     Calculates the arithmetic mean of a range of grades.
@@ -35,7 +33,6 @@ class GradeAverageFormula(BaseFormula):
         Returns:
             FormulaMetadata for GRADE_AVERAGE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -74,7 +71,6 @@ class GradeAverageFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             GRADE_AVERAGE formula building
 
         Raises:
@@ -96,7 +92,6 @@ class GradeAverageFormula(BaseFormula):
 class WeightedGradeFormula(BaseFormula):
     """Calculate weighted grade average.
 
-    Implements:
         WEIGHTED_GRADE formula for weighted calculations
 
     Calculates weighted average using grades and corresponding weights.
@@ -114,7 +109,6 @@ class WeightedGradeFormula(BaseFormula):
         Returns:
             FormulaMetadata for WEIGHTED_GRADE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -152,7 +146,6 @@ class WeightedGradeFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             WEIGHTED_GRADE formula building
 
         Raises:
@@ -171,7 +164,6 @@ class WeightedGradeFormula(BaseFormula):
 class GradeCurveFormula(BaseFormula):
     """Apply grade curve adjustment.
 
-    Implements:
         GRADE_CURVE formula for curve adjustments
 
     Adjusts grades based on various curving methods.
@@ -189,7 +181,6 @@ class GradeCurveFormula(BaseFormula):
         Returns:
             FormulaMetadata for GRADE_CURVE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -241,7 +232,6 @@ class GradeCurveFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             GRADE_CURVE formula building
 
         Raises:
@@ -269,7 +259,6 @@ class GradeCurveFormula(BaseFormula):
 class CurveGradesFormula(BaseFormula):
     """Apply distribution-based grade curve adjustment.
 
-    Implements:
         Curve grades to target mean and standard deviation
 
     Example:
@@ -285,7 +274,6 @@ class CurveGradesFormula(BaseFormula):
         Returns:
             FormulaMetadata for CurveGrades
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -337,7 +325,6 @@ class CurveGradesFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             CurveGrades formula building
 
         Raises:
@@ -358,7 +345,6 @@ class CurveGradesFormula(BaseFormula):
 class StandardScoreFormula(BaseFormula):
     """Calculate z-score based standard score.
 
-    Implements:
         Z-score transformation for grading
 
     Example:
@@ -374,7 +360,6 @@ class StandardScoreFormula(BaseFormula):
         Returns:
             FormulaMetadata for StandardScore
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -418,7 +403,6 @@ class StandardScoreFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             StandardScore formula building
 
         Raises:
@@ -438,7 +422,6 @@ class StandardScoreFormula(BaseFormula):
 class PercentileRankFormula(BaseFormula):
     """Calculate percentile rank in grade distribution.
 
-    Implements:
         Position in distribution as percentile
 
     Example:
@@ -454,7 +437,6 @@ class PercentileRankFormula(BaseFormula):
         Returns:
             FormulaMetadata for PercentileRank
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -492,7 +474,6 @@ class PercentileRankFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             PercentileRank formula building
 
         Raises:
@@ -511,7 +492,6 @@ class PercentileRankFormula(BaseFormula):
 class WeightedGPAFormula(BaseFormula):
     """Calculate weighted GPA with course credits.
 
-    Implements:
         GPA with credit hour weighting
 
     Example:
@@ -527,7 +507,6 @@ class WeightedGPAFormula(BaseFormula):
         Returns:
             FormulaMetadata for WeightedGPA
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -565,7 +544,6 @@ class WeightedGPAFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             WeightedGPA formula building
 
         Raises:
@@ -584,7 +562,6 @@ class WeightedGPAFormula(BaseFormula):
 class PassFailThresholdFormula(BaseFormula):
     """Determine pass/fail based on threshold.
 
-    Implements:
         Binary pass/fail grading
 
     Returns 1 for pass (score >= threshold) or 0 for fail.
@@ -602,7 +579,6 @@ class PassFailThresholdFormula(BaseFormula):
         Returns:
             FormulaMetadata for PASS_FAIL_THRESHOLD
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -641,7 +617,6 @@ class PassFailThresholdFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             PassFailThreshold formula building
 
         Raises:
@@ -660,7 +635,6 @@ class PassFailThresholdFormula(BaseFormula):
 class RubricScoreFormula(BaseFormula):
     """Calculate criteria-based rubric scoring.
 
-    Implements:
         Aggregate rubric criteria scores
 
     Example:
@@ -676,7 +650,6 @@ class RubricScoreFormula(BaseFormula):
         Returns:
             FormulaMetadata for RubricScore
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -721,7 +694,6 @@ class RubricScoreFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             RubricScore formula building
 
         Raises:

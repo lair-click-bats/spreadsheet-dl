@@ -1,7 +1,6 @@
 """Supply chain formulas for manufacturing.
 
-Implements:
-    Supply chain formulas (5 total)
+Supply chain formulas (5 total)
 """
 
 from __future__ import annotations
@@ -16,7 +15,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class BullwhipEffectFormula(BaseFormula):
     """Bullwhip effect (demand amplification ratio) calculation.
 
-    Implements:
         BULLWHIP_EFFECT formula for supply chain
 
     Bullwhip Ratio = Variance of Orders / Variance of Demand
@@ -34,7 +32,6 @@ class BullwhipEffectFormula(BaseFormula):
         Returns:
             FormulaMetadata for BULLWHIP_EFFECT
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -72,7 +69,6 @@ class BullwhipEffectFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             BULLWHIP_EFFECT formula building
 
         Raises:
@@ -90,7 +86,6 @@ class BullwhipEffectFormula(BaseFormula):
 class NewsvendorModelFormula(BaseFormula):
     """Newsvendor model optimal order quantity under uncertainty.
 
-    Implements:
         NEWSVENDOR_QUANTITY formula for supply chain
 
     Critical Ratio = (Price - Cost) / (Price - Salvage Value)
@@ -109,7 +104,6 @@ class NewsvendorModelFormula(BaseFormula):
         Returns:
             FormulaMetadata for NEWSVENDOR_QUANTITY
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -153,7 +147,6 @@ class NewsvendorModelFormula(BaseFormula):
         Returns:
             ODF formula string (critical ratio)
 
-        Implements:
             NEWSVENDOR_QUANTITY formula building
 
         Raises:
@@ -171,7 +164,6 @@ class NewsvendorModelFormula(BaseFormula):
 class ABCAnalysisFormula(BaseFormula):
     """ABC analysis inventory classification score.
 
-    Implements:
         ABC_SCORE formula for supply chain
 
     ABC Score = (Item Value / Total Value) * 100
@@ -189,7 +181,6 @@ class ABCAnalysisFormula(BaseFormula):
         Returns:
             FormulaMetadata for ABC_SCORE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -227,7 +218,6 @@ class ABCAnalysisFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             ABC_SCORE formula building
 
         Raises:
@@ -245,7 +235,6 @@ class ABCAnalysisFormula(BaseFormula):
 class ServiceLevelFormula(BaseFormula):
     """Service level (fill rate) calculation.
 
-    Implements:
         SERVICE_LEVEL formula for supply chain
 
     Service Level = (Orders Fulfilled / Total Orders) * 100
@@ -263,7 +252,6 @@ class ServiceLevelFormula(BaseFormula):
         Returns:
             FormulaMetadata for SERVICE_LEVEL
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -301,7 +289,6 @@ class ServiceLevelFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             SERVICE_LEVEL formula building
 
         Raises:
@@ -319,7 +306,6 @@ class ServiceLevelFormula(BaseFormula):
 class CashConversionCycleFormula(BaseFormula):
     """Cash Conversion Cycle calculation.
 
-    Implements:
         CASH_CONVERSION_CYCLE formula for supply chain
 
     CCC = Days Inventory Outstanding + Days Sales Outstanding - Days Payable Outstanding
@@ -337,7 +323,6 @@ class CashConversionCycleFormula(BaseFormula):
         Returns:
             FormulaMetadata for CASH_CONVERSION_CYCLE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -381,7 +366,6 @@ class CashConversionCycleFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             CASH_CONVERSION_CYCLE formula building
 
         Raises:

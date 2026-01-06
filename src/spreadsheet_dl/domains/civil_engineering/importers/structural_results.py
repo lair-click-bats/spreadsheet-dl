@@ -1,7 +1,6 @@
 """Structural analysis results importer for civil engineering.
 
-Implements:
-    StructuralResultsImporter for analysis software output
+StructuralResultsImporter for analysis software output
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 class StructuralResultsImporter(BaseImporter[list[dict[str, Any]]]):
     """Import structural analysis results from various software packages.
 
-    Implements:
         StructuralResultsImporter requirements
 
     Features:
@@ -75,7 +73,6 @@ class StructuralResultsImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImportResult with structural results as list of dictionaries
 
-        Implements:
             Structural results parsing with validation
         """
         if not self.validate_source(source):

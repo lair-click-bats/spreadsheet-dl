@@ -10,7 +10,6 @@ Provides comprehensive finance-specific functionality including:
 - Recurring expenses and bill reminders
 - Financial reporting and analytics
 
-Implements:
     PHASE0-001: Restructure package for domain plugins
 """
 
@@ -140,6 +139,9 @@ from spreadsheet_dl.domains.finance.plaid_integration import (
     SyncResult,
 )
 
+# Plugin
+from spreadsheet_dl.domains.finance.plugin import FinanceDomainPlugin
+
 # Recurring Expenses
 from spreadsheet_dl.domains.finance.recurring import (
     RecurrenceFrequency,
@@ -208,6 +210,7 @@ __all__ = [
     # Classes - ODS Generator
     "ExpenseCategory",
     "ExpenseEntry",
+    "FinanceDomainPlugin",
     "FormatBuilder",
     "FutureValue",
     "GoalCategory",

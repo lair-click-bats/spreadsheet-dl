@@ -1,8 +1,7 @@
 """Ecology and population biology formulas.
 
-Implements:
-    Ecology formulas
-    (SHANNON_DIVERSITY, SIMPSON_INDEX, SPECIES_RICHNESS, POPULATION_GROWTH)
+Ecology formulas
+(SHANNON_DIVERSITY, SIMPSON_INDEX, SPECIES_RICHNESS, POPULATION_GROWTH)
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class ShannonDiversityFormula(BaseFormula):
     """Calculate Shannon diversity index.
 
-    Implements:
         SHANNON_DIVERSITY formula for biodiversity analysis
 
     Example:
@@ -33,7 +31,6 @@ class ShannonDiversityFormula(BaseFormula):
         Returns:
             FormulaMetadata for SHANNON_DIVERSITY
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -65,7 +62,6 @@ class ShannonDiversityFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             SHANNON_DIVERSITY formula building
 
         Raises:
@@ -86,7 +82,6 @@ class ShannonDiversityFormula(BaseFormula):
 class SimpsonIndexFormula(BaseFormula):
     """Calculate Simpson's diversity index.
 
-    Implements:
         SIMPSON_INDEX formula for biodiversity analysis
 
     Example:
@@ -102,7 +97,6 @@ class SimpsonIndexFormula(BaseFormula):
         Returns:
             FormulaMetadata for SIMPSON_INDEX
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -141,7 +135,6 @@ class SimpsonIndexFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             SIMPSON_INDEX formula building
 
         Raises:
@@ -171,7 +164,6 @@ class SimpsonIndexFormula(BaseFormula):
 class SpeciesRichnessFormula(BaseFormula):
     """Calculate species richness (number of species).
 
-    Implements:
         SPECIES_RICHNESS formula for biodiversity analysis
 
     Example:
@@ -187,7 +179,6 @@ class SpeciesRichnessFormula(BaseFormula):
         Returns:
             FormulaMetadata for SPECIES_RICHNESS
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -219,7 +210,6 @@ class SpeciesRichnessFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             SPECIES_RICHNESS formula building
 
         Raises:
@@ -237,7 +227,6 @@ class SpeciesRichnessFormula(BaseFormula):
 class PopulationGrowthFormula(BaseFormula):
     """Calculate population growth rate.
 
-    Implements:
         POPULATION_GROWTH formula for population dynamics
 
     Example:
@@ -253,7 +242,6 @@ class PopulationGrowthFormula(BaseFormula):
         Returns:
             FormulaMetadata for POPULATION_GROWTH
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -306,7 +294,6 @@ class PopulationGrowthFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             POPULATION_GROWTH formula building
 
         Raises:

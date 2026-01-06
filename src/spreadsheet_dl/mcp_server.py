@@ -27,7 +27,7 @@ Package Structure (spreadsheet_dl/_mcp/):
         - advanced.py: Advanced features (77 handlers)
 
 Requirements implemented:
-    - IR-MCP-002: Native MCP Server (Gap G-AI-05)
+    - IR-MCP-002: Native MCP Server (AI-05)
 
 Features:
     - Budget analysis tools

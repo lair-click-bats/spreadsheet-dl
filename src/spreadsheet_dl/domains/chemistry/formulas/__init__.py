@@ -1,12 +1,24 @@
 """Chemistry domain formulas.
 
-Implements:
-    Chemistry formula implementations (20 formulas)
-    BATCH-4: Chemistry domain creation
+Chemistry formula implementations (40 formulas)
+BATCH-4: Chemistry domain creation
+BATCH-4.2: Chemistry domain expansion (+20 formulas)
 """
 
 from __future__ import annotations
 
+from spreadsheet_dl.domains.chemistry.formulas.electrochemistry import (
+    ButlerVolmerFormula,
+    ConductivityFormula,
+    EquilibriumConstantElectroFormula,
+    FaradayElectrolysisFormula,
+    GibbsElectrochemicalFormula,
+    NernstEquationFormula,
+    OhmicResistanceFormula,
+    OverpotentialFormula,
+    StandardCellPotentialFormula,
+    TafelEquationFormula,
+)
 from spreadsheet_dl.domains.chemistry.formulas.kinetics import (
     ActivationEnergyFormula,
     HalfLifeFirstOrderFormula,
@@ -23,6 +35,18 @@ from spreadsheet_dl.domains.chemistry.formulas.solutions import (
     RaoultsLawFormula,
     pHCalculationFormula,
 )
+from spreadsheet_dl.domains.chemistry.formulas.stoichiometry import (
+    AvogadroParticlesFormula,
+    DilutionFormula,
+    EmpiricalFormulaRatioFormula,
+    LimitingReagentFormula,
+    MassFromMolesFormula,
+    MolarMassFormula,
+    MolesFromMassFormula,
+    PercentCompositionFormula,
+    PercentYieldFormula,
+    TheoreticalYieldFormula,
+)
 from spreadsheet_dl.domains.chemistry.formulas.thermodynamics import (
     ClausiusClapeyronFormula,
     EnthalpyChangeFormula,
@@ -35,24 +59,49 @@ from spreadsheet_dl.domains.chemistry.formulas.thermodynamics import (
 )
 
 __all__ = [
+    # Kinetics (5 formulas)
     "ActivationEnergyFormula",
+    # Stoichiometry (10 formulas)
+    "AvogadroParticlesFormula",
+    # Solutions (7 formulas)
     "BufferCapacityFormula",
+    # Electrochemistry (10 formulas)
+    "ButlerVolmerFormula",
+    # Thermodynamics (8 formulas)
     "ClausiusClapeyronFormula",
+    "ConductivityFormula",
+    "DilutionFormula",
+    "EmpiricalFormulaRatioFormula",
     "EnthalpyChangeFormula",
     "EntropyChangeFormula",
+    "EquilibriumConstantElectroFormula",
     "EquilibriumConstantFormula",
+    "FaradayElectrolysisFormula",
+    "GibbsElectrochemicalFormula",
     "GibbsFreeEnergyFormula",
     "HalfLifeFirstOrderFormula",
     "HalfLifeSecondOrderFormula",
     "IdealGasLawFormula",
     "IntegratedRateLawFormula",
+    "LimitingReagentFormula",
+    "MassFromMolesFormula",
     "MolalityFormula",
+    "MolarMassFormula",
     "MolarityFormula",
     "MoleFractionFormula",
+    "MolesFromMassFormula",
+    "NernstEquationFormula",
+    "OhmicResistanceFormula",
     "OsmoticPressureFormula",
+    "OverpotentialFormula",
+    "PercentCompositionFormula",
+    "PercentYieldFormula",
     "RaoultsLawFormula",
     "RateConstantFormula",
     "RealGasVanDerWaalsFormula",
+    "StandardCellPotentialFormula",
+    "TafelEquationFormula",
+    "TheoreticalYieldFormula",
     "VantHoffEquationFormula",
     "pHCalculationFormula",
 ]

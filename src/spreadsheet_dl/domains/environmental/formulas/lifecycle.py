@@ -1,8 +1,7 @@
 """Life cycle assessment formulas.
 
-Implements:
-    Environmental formulas for lifecycle impact assessment
-    (GlobalWarmingPotential, AcidificationPotential, EutrophicationPotential)
+Environmental formulas for lifecycle impact assessment
+(GlobalWarmingPotential, AcidificationPotential, EutrophicationPotential)
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class GlobalWarmingPotential(BaseFormula):
     """Calculate global warming potential (GWP).
 
-    Implements:
         GWP calculation for climate impact
 
     Example:
@@ -33,7 +31,6 @@ class GlobalWarmingPotential(BaseFormula):
         Returns:
             FormulaMetadata for GWP
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -71,7 +68,6 @@ class GlobalWarmingPotential(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             GWP formula building
 
         Raises:
@@ -90,7 +86,6 @@ class GlobalWarmingPotential(BaseFormula):
 class AcidificationPotential(BaseFormula):
     """Calculate acidification potential.
 
-    Implements:
         AP calculation for acid rain impact
 
     Example:
@@ -106,7 +101,6 @@ class AcidificationPotential(BaseFormula):
         Returns:
             FormulaMetadata for AP
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -144,7 +138,6 @@ class AcidificationPotential(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             AcidificationPotential formula building
 
         Raises:
@@ -163,7 +156,6 @@ class AcidificationPotential(BaseFormula):
 class EutrophicationPotential(BaseFormula):
     """Calculate eutrophication potential.
 
-    Implements:
         EP calculation for water nutrient pollution
 
     Example:
@@ -179,7 +171,6 @@ class EutrophicationPotential(BaseFormula):
         Returns:
             FormulaMetadata for EP
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -223,7 +214,6 @@ class EutrophicationPotential(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             EutrophicationPotential formula building
 
         Raises:

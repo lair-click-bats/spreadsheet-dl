@@ -1,7 +1,6 @@
 """Signal analysis formulas for electrical engineering.
 
-Implements:
-    Signal formulas (SNR, BANDWIDTH, RISE_TIME, PROPAGATION_DELAY)
+Signal formulas (SNR, BANDWIDTH, RISE_TIME, PROPAGATION_DELAY)
 """
 
 from __future__ import annotations
@@ -16,7 +15,6 @@ class SignalToNoiseRatioFormula(BaseFormula):
 
     Calculates SNR in decibels given signal and noise power.
 
-    Implements:
         SIGNAL_TO_NOISE_RATIO formula
 
     Example:
@@ -72,7 +70,6 @@ class BandwidthFormula(BaseFormula):
 
     Calculates bandwidth from rise time.
 
-    Implements:
         BANDWIDTH formula
 
     Example:
@@ -122,7 +119,6 @@ class RiseTimeFormula(BaseFormula):
 
     Calculates rise time from resistance and capacitance (RC circuit).
 
-    Implements:
         RISE_TIME formula
 
     Example:
@@ -178,7 +174,6 @@ class PropagationDelayFormula(BaseFormula):
 
     Calculates propagation delay from trace length and signal velocity.
 
-    Implements:
         PROPAGATION_DELAY formula
 
     Example:

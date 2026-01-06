@@ -1,6 +1,5 @@
 """Electrical Engineering Domain Plugin for SpreadsheetDL.
 
-Implements:
     Electrical Engineering domain plugin
     PHASE-C: Domain plugin implementations
 
@@ -62,7 +61,6 @@ from spreadsheet_dl.domains.electrical_engineering.importers.kicad_bom import (
 class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
     """Electrical Engineering domain plugin.
 
-    Implements:
         Complete Electrical Engineering domain plugin
         PHASE-C: Domain plugin implementations
 
@@ -120,7 +118,6 @@ class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
         Returns:
             PluginMetadata with electrical engineering plugin information
 
-        Implements:
             Plugin metadata requirements
         """
         return PluginMetadata(
@@ -146,7 +143,6 @@ class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
 
         Registers all formulas and importers.
 
-        Implements:
             Plugin initialization with all components
 
         Raises:
@@ -194,7 +190,6 @@ class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
 
         No resources need explicit cleanup for this plugin.
 
-        Implements:
             Plugin cleanup method
         """
         pass
@@ -205,7 +200,6 @@ class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
         Returns:
             True if plugin has required formulas and importers registered
 
-        Implements:
             Plugin validation
         """
         required_formulas = (

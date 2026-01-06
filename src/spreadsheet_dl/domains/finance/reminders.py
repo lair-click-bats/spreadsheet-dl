@@ -1,6 +1,5 @@
 """Bill Reminders and Calendar Integration Module.
 
-Implements FR-RECUR-002: Bill Reminders and IR-CAL-001: Calendar Integration.
 Provides bill due date tracking, reminder generation, and ICS calendar export.
 """
 

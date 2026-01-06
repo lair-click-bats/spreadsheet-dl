@@ -1,7 +1,7 @@
 """
 Tests for Extended Bank Format Support.
 
-Tests FR-IMPORT-002: Extended Bank Formats (Gap G-16)
+: Extended Bank Formats
 """
 
 from __future__ import annotations

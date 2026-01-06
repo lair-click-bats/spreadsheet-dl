@@ -1,7 +1,6 @@
 """FEA Results importer for mechanical engineering.
 
-Implements:
-    FEAResultsImporter for FEA simulation results
+FEAResultsImporter for FEA simulation results
 """
 
 from __future__ import annotations
@@ -47,7 +46,6 @@ class FEANode:
 class FEAResultsImporter(BaseImporter[list[dict[str, Any]]]):
     """Import FEA (Finite Element Analysis) results from CSV or JSON files.
 
-    Implements:
         FEAResultsImporter requirements
 
     Features:
@@ -102,7 +100,6 @@ class FEAResultsImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImportResult with node data as list of dictionaries
 
-        Implements:
             FEA results parsing and mapping
         """
         if not self.validate_source(source):

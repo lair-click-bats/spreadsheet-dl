@@ -1,7 +1,6 @@
 """Tests for climate modeling formulas.
 
-Implements:
-    Comprehensive tests for climate modeling formulas
+Comprehensive tests for climate modeling formulas
 """
 
 from __future__ import annotations

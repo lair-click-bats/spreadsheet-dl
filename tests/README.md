@@ -25,10 +25,10 @@ To get current test counts and distribution, run:
 
 ```bash
 # Human-readable output
-scripts/test-stats.sh
+scripts/test_stats.sh
 
 # JSON output (for CI/automation)
-scripts/test-stats.sh --json
+scripts/test_stats.sh --json
 ```
 
 **Note**: Test counts are dynamic and generated on-demand to ensure accuracy.

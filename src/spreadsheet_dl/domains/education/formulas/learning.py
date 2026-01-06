@@ -1,9 +1,8 @@
 """Learning metrics formulas.
 
-Implements:
-    Learning metrics formulas
-    (LEARNING_GAIN, MASTERY_LEVEL, ATTENDANCE_RATE, COMPLETION_RATE,
-     BLOOM_TAXONOMY_LEVEL, READABILITY_SCORE)
+Learning metrics formulas
+(LEARNING_GAIN, MASTERY_LEVEL, ATTENDANCE_RATE, COMPLETION_RATE,
+BLOOM_TAXONOMY_LEVEL, READABILITY_SCORE)
 """
 
 from __future__ import annotations
@@ -18,7 +17,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class LearningGainFormula(BaseFormula):
     """Calculate normalized learning gain.
 
-    Implements:
         LEARNING_GAIN formula for pre/post assessment
 
     Uses Hake's normalized gain: g = (post - pre) / (max - pre)
@@ -36,7 +34,6 @@ class LearningGainFormula(BaseFormula):
         Returns:
             FormulaMetadata for LEARNING_GAIN
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -81,7 +78,6 @@ class LearningGainFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             LEARNING_GAIN formula building
 
         Raises:
@@ -102,7 +98,6 @@ class LearningGainFormula(BaseFormula):
 class MasteryLevelFormula(BaseFormula):
     """Calculate mastery level for competency-based grading.
 
-    Implements:
         MASTERY_LEVEL formula for mastery grading
 
     Returns mastery level (1-4 or custom scale) based on score.
@@ -120,7 +115,6 @@ class MasteryLevelFormula(BaseFormula):
         Returns:
             FormulaMetadata for MASTERY_LEVEL
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -159,7 +153,6 @@ class MasteryLevelFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             MASTERY_LEVEL formula building
 
         Raises:
@@ -182,7 +175,6 @@ class MasteryLevelFormula(BaseFormula):
 class AttendanceRateFormula(BaseFormula):
     """Calculate student attendance rate.
 
-    Implements:
         ATTENDANCE_RATE formula for attendance tracking
 
     Calculates percentage of days attended.
@@ -200,7 +192,6 @@ class AttendanceRateFormula(BaseFormula):
         Returns:
             FormulaMetadata for ATTENDANCE_RATE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -238,7 +229,6 @@ class AttendanceRateFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             ATTENDANCE_RATE formula building
 
         Raises:
@@ -256,7 +246,6 @@ class AttendanceRateFormula(BaseFormula):
 class CompletionRateFormula(BaseFormula):
     """Calculate assignment completion rate.
 
-    Implements:
         COMPLETION_RATE formula for assignment tracking
 
     Calculates percentage of assignments completed.
@@ -274,7 +263,6 @@ class CompletionRateFormula(BaseFormula):
         Returns:
             FormulaMetadata for COMPLETION_RATE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -312,7 +300,6 @@ class CompletionRateFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             COMPLETION_RATE formula building
 
         Raises:
@@ -330,7 +317,6 @@ class CompletionRateFormula(BaseFormula):
 class BloomTaxonomyLevelFormula(BaseFormula):
     """Categorize learning objective by Bloom's Taxonomy level.
 
-    Implements:
         BLOOM_TAXONOMY_LEVEL formula for learning design
 
     Returns taxonomy level (1-6) based on action verb keywords.
@@ -348,7 +334,6 @@ class BloomTaxonomyLevelFormula(BaseFormula):
         Returns:
             FormulaMetadata for BLOOM_TAXONOMY_LEVEL
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -380,7 +365,6 @@ class BloomTaxonomyLevelFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             BLOOM_TAXONOMY_LEVEL formula building
 
         Raises:
@@ -418,7 +402,6 @@ class BloomTaxonomyLevelFormula(BaseFormula):
 class ReadabilityScoreFormula(BaseFormula):
     """Calculate Flesch-Kincaid readability grade level.
 
-    Implements:
         READABILITY_SCORE formula for content analysis
 
     Calculates approximate grade level for text readability.
@@ -436,7 +419,6 @@ class ReadabilityScoreFormula(BaseFormula):
         Returns:
             FormulaMetadata for READABILITY_SCORE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -480,7 +462,6 @@ class ReadabilityScoreFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             READABILITY_SCORE formula building
 
         Raises:
@@ -501,7 +482,6 @@ class ReadabilityScoreFormula(BaseFormula):
 class LearningCurveFormula(BaseFormula):
     """Calculate learning curve performance improvement.
 
-    Implements:
         Learning curve: y = a * x^b (power law of practice)
 
     Example:
@@ -517,7 +497,6 @@ class LearningCurveFormula(BaseFormula):
         Returns:
             FormulaMetadata for LearningCurve
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -562,7 +541,6 @@ class LearningCurveFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             LearningCurve formula building
 
         Raises:
@@ -582,7 +560,6 @@ class LearningCurveFormula(BaseFormula):
 class ForgettingCurveFormula(BaseFormula):
     """Calculate Ebbinghaus forgetting curve (retention decay).
 
-    Implements:
         R = e^(-t/S) where R=retention, t=time, S=strength
 
     Example:
@@ -598,7 +575,6 @@ class ForgettingCurveFormula(BaseFormula):
         Returns:
             FormulaMetadata for ForgettingCurve
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -637,7 +613,6 @@ class ForgettingCurveFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             ForgettingCurve formula building
 
         Raises:
@@ -656,7 +631,6 @@ class ForgettingCurveFormula(BaseFormula):
 class SpacedRepetitionFormula(BaseFormula):
     """Calculate optimal review interval for spaced repetition.
 
-    Implements:
         Next interval = current_interval * ease_factor
 
     Example:
@@ -672,7 +646,6 @@ class SpacedRepetitionFormula(BaseFormula):
         Returns:
             FormulaMetadata for SpacedRepetition
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -716,7 +689,6 @@ class SpacedRepetitionFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             SpacedRepetition formula building
 
         Raises:
@@ -737,7 +709,6 @@ class SpacedRepetitionFormula(BaseFormula):
 class MasteryLearningFormula(BaseFormula):
     """Calculate Bloom 2-sigma effect for mastery learning.
 
-    Implements:
         Achievement boost from mastery learning vs conventional
 
     Example:
@@ -753,7 +724,6 @@ class MasteryLearningFormula(BaseFormula):
         Returns:
             FormulaMetadata for MasteryLearning
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -799,7 +769,6 @@ class MasteryLearningFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             MasteryLearning formula building
 
         Raises:
@@ -819,7 +788,6 @@ class MasteryLearningFormula(BaseFormula):
 class Bloom2SigmaFormula(BaseFormula):
     """Convert percentile rank to standard deviations (Bloom's 2-sigma).
 
-    Implements:
         BLOOM2SIGMA formula for effect size conversion
 
     Converts percentile rank to z-score (standard deviations from mean).
@@ -839,7 +807,6 @@ class Bloom2SigmaFormula(BaseFormula):
         Returns:
             FormulaMetadata for BLOOM2SIGMA
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -872,7 +839,6 @@ class Bloom2SigmaFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Bloom2Sigma formula building
 
         Raises:
@@ -890,7 +856,6 @@ class Bloom2SigmaFormula(BaseFormula):
 class TimeOnTaskFormula(BaseFormula):
     """Calculate Carroll model time on task for school learning.
 
-    Implements:
         Learning = f(time spent / time needed)
 
     Example:
@@ -906,7 +871,6 @@ class TimeOnTaskFormula(BaseFormula):
         Returns:
             FormulaMetadata for TimeOnTask
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -951,7 +915,6 @@ class TimeOnTaskFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             TimeOnTask formula building
 
         Raises:

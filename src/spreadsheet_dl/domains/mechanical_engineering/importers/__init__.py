@@ -1,7 +1,6 @@
 """Importers for mechanical engineering domain.
 
-Implements:
-    Mechanical engineering importer modules
+Mechanical engineering importer modules
 """
 
 from spreadsheet_dl.domains.mechanical_engineering.importers.cad_metadata import (

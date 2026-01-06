@@ -3,9 +3,6 @@
 This module provides a plugin architecture allowing users to extend
 SpreadsheetDL functionality with custom plugins.
 
-Implements:
-    FR-EXT-001: Plugin system framework
-
 New in v4.0.0:
     - PluginInterface: Abstract base class for all plugins
     - PluginHook: Event-based hook system for callbacks
@@ -30,9 +27,6 @@ class PluginInterface(ABC):
 
     Plugins must implement this interface to be discoverable by the
     plugin system.
-
-    Implements:
-        FR-EXT-001: Plugin interface specification
     """
 
     @property
@@ -82,9 +76,6 @@ class PluginInterface(ABC):
 
         Args:
             config: Plugin configuration dictionary
-
-        Implements:
-            FR-EXT-001: Plugin initialization lifecycle
         """
         pass
 
@@ -93,9 +84,6 @@ class PluginInterface(ABC):
 
         Called when the plugin is disabled. Should perform cleanup
         operations and release resources.
-
-        Implements:
-            FR-EXT-001: Plugin shutdown lifecycle
         """
         pass
 
@@ -105,9 +93,6 @@ class PluginHook:
 
     Provides event-based hooks that plugins can register callbacks for.
     Supports multiple callbacks per event.
-
-    Implements:
-        FR-EXT-001: Plugin hook system
     """
 
     def __init__(self) -> None:
@@ -120,9 +105,6 @@ class PluginHook:
         Args:
             event: Event name to listen for
             callback: Callable to invoke when event is triggered
-
-        Implements:
-            FR-EXT-001: Hook registration
         """
         if event not in self._hooks:
             self._hooks[event] = []
@@ -134,9 +116,6 @@ class PluginHook:
         Args:
             event: Event name
             callback: Callback to remove
-
-        Implements:
-            FR-EXT-001: Hook unregistration
         """
         if event in self._hooks and callback in self._hooks[event]:
             self._hooks[event].remove(callback)
@@ -155,9 +134,6 @@ class PluginHook:
 
         Returns:
             List of return values from all callbacks
-
-        Implements:
-            FR-EXT-001: Hook triggering with error isolation
         """
         results = []
         errors: list[tuple[str, Exception]] = []
@@ -184,9 +160,6 @@ class PluginLoader:
 
     Scans Python files in plugin directories and discovers classes
     that implement the PluginInterface.
-
-    Implements:
-        FR-EXT-001: Plugin discovery and loading
     """
 
     @staticmethod
@@ -201,9 +174,6 @@ class PluginLoader:
 
         Returns:
             List of plugin classes found
-
-        Implements:
-            FR-EXT-001: Plugin discovery from filesystem
         """
         plugins: list[type[PluginInterface]] = []
 
@@ -251,9 +221,6 @@ class PluginLoader:
 
         Returns:
             Initialized plugin instance
-
-        Implements:
-            FR-EXT-001: Plugin instantiation and initialization
         """
         plugin = plugin_class()
         plugin.initialize(config)
@@ -266,9 +233,6 @@ class PluginManager:
     Central manager for plugin operations. Discovers plugins from configured
     directories, tracks enabled/disabled state, and provides access to the
     hook system.
-
-    Implements:
-        FR-EXT-001: Plugin lifecycle management
     """
 
     def __init__(self, plugin_dirs: list[Path] | None = None) -> None:
@@ -277,9 +241,6 @@ class PluginManager:
         Args:
             plugin_dirs: List of directories to search for plugins.
                 If None, uses default directories.
-
-        Implements:
-            FR-EXT-001: Plugin manager initialization
         """
         self._plugins: dict[str, PluginInterface] = {}
         self._enabled: set[str] = set()
@@ -298,9 +259,6 @@ class PluginManager:
 
         Scans plugin directories and registers discovered plugins.
         Does not enable plugins automatically.
-
-        Implements:
-            FR-EXT-001: Automatic plugin discovery
         """
         for plugin_dir in self._plugin_dirs:
             plugin_classes = PluginLoader.discover_plugins(plugin_dir)
@@ -319,9 +277,6 @@ class PluginManager:
 
         Raises:
             ValueError: If plugin not found
-
-        Implements:
-            FR-EXT-001: Plugin enable operation
         """
         if name not in self._plugins:
             raise ValueError(f"Plugin not found: {name}")
@@ -338,9 +293,6 @@ class PluginManager:
 
         Args:
             name: Plugin name
-
-        Implements:
-            FR-EXT-001: Plugin disable operation
         """
         if name in self._enabled:
             plugin = self._plugins[name]
@@ -355,9 +307,6 @@ class PluginManager:
 
         Returns:
             List of plugin metadata dictionaries
-
-        Implements:
-            FR-EXT-001: Plugin listing with metadata
         """
         result = []
         for name, plugin in self._plugins.items():
@@ -382,9 +331,6 @@ class PluginManager:
 
         Returns:
             Plugin instance or None if not found
-
-        Implements:
-            FR-EXT-001: Plugin retrieval
         """
         return self._plugins.get(name)
 
@@ -394,9 +340,6 @@ class PluginManager:
 
         Returns:
             Plugin hook system instance
-
-        Implements:
-            FR-EXT-001: Hook system access
         """
         return self._hooks
 
@@ -413,9 +356,6 @@ def get_plugin_manager() -> PluginManager:
 
     Returns:
         Global PluginManager instance
-
-    Implements:
-        FR-EXT-001: Global plugin manager singleton
     """
     global _plugin_manager
     if _plugin_manager is None:

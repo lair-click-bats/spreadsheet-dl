@@ -1,6 +1,5 @@
 """Mechanical Engineering Domain Plugin for SpreadsheetDL.
 
-Implements:
     Mechanical Engineering domain plugin
     PHASE-C: Domain plugin implementations
     BATCH2-MECH: Extended with fluid mechanics and heat transfer formulas
@@ -64,7 +63,6 @@ from spreadsheet_dl.domains.mechanical_engineering.importers.material_db import 
 class MechanicalEngineeringDomainPlugin(BaseDomainPlugin):
     """Mechanical Engineering domain plugin.
 
-    Implements:
         Complete Mechanical Engineering domain plugin
         PHASE-C: Domain plugin implementations
         BATCH2-MECH: Extended with 12 new formulas
@@ -124,7 +122,6 @@ class MechanicalEngineeringDomainPlugin(BaseDomainPlugin):
         Returns:
             PluginMetadata with mechanical engineering plugin information
 
-        Implements:
             Plugin metadata requirements
         """
         return PluginMetadata(
@@ -152,7 +149,6 @@ class MechanicalEngineeringDomainPlugin(BaseDomainPlugin):
 
         Registers all formulas and importers.
 
-        Implements:
             Plugin initialization with all components
             BATCH2-MECH: Extended registration with new formulas
 
@@ -202,7 +198,6 @@ class MechanicalEngineeringDomainPlugin(BaseDomainPlugin):
 
         No resources need explicit cleanup for this plugin.
 
-        Implements:
             Plugin cleanup method
         """
         pass
@@ -213,7 +208,6 @@ class MechanicalEngineeringDomainPlugin(BaseDomainPlugin):
         Returns:
             True if plugin has required formulas and importers registered
 
-        Implements:
             Plugin validation
             BATCH2-MECH: Updated to require 23 formulas (11 original + 12 new)
         """

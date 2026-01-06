@@ -1,6 +1,5 @@
 """Manufacturing Domain Plugin for SpreadsheetDL.
 
-Implements:
     Manufacturing domain plugin
     PHASE-C: Domain plugin implementations
 
@@ -81,7 +80,6 @@ from spreadsheet_dl.domains.manufacturing.importers.sensor_data import (
 class ManufacturingDomainPlugin(BaseDomainPlugin):
     """Manufacturing domain plugin.
 
-    Implements:
         Complete Manufacturing domain plugin
         PHASE-C: Domain plugin implementations
 
@@ -158,7 +156,6 @@ class ManufacturingDomainPlugin(BaseDomainPlugin):
         Returns:
             PluginMetadata with manufacturing plugin information
 
-        Implements:
             Plugin metadata requirements
         """
         return PluginMetadata(
@@ -177,7 +174,6 @@ class ManufacturingDomainPlugin(BaseDomainPlugin):
 
         Registers all formulas and importers.
 
-        Implements:
             Plugin initialization with all components
 
         Raises:
@@ -242,7 +238,6 @@ class ManufacturingDomainPlugin(BaseDomainPlugin):
 
         No resources need explicit cleanup for this plugin.
 
-        Implements:
             Plugin cleanup method
         """
         pass
@@ -253,7 +248,6 @@ class ManufacturingDomainPlugin(BaseDomainPlugin):
         Returns:
             True if plugin has required formulas and importers registered
 
-        Implements:
             Plugin validation
         """
         required_formulas = 37  # 4 production + 4 quality + 4 inventory + 10 lean + 10 six_sigma + 5 supply_chain

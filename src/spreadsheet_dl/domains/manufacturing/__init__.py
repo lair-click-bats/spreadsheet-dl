@@ -1,6 +1,5 @@
 """Manufacturing Domain Plugin for SpreadsheetDL.
 
-Implements:
     Complete Manufacturing domain plugin
     PHASE-C: Domain plugin implementations
 

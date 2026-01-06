@@ -1,7 +1,6 @@
 """Tests for feature engineering formulas.
 
-Implements:
-    Tests for data transformation and normalization
+Tests for data transformation and normalization
 """
 
 from __future__ import annotations

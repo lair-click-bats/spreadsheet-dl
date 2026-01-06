@@ -3,7 +3,6 @@
 Provides direct bank connection and transaction sync via Plaid bank aggregation service.
 
 Requirements implemented:
-    - FR-IMPORT-003: Bank API Integration (Gap G-17)
 
 Features:
     - OAuth-based bank connection flow

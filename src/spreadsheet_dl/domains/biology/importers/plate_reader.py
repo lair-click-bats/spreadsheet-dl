@@ -1,7 +1,6 @@
 """Plate reader data importer.
 
-Implements:
-    PlateReaderImporter for microplate data
+PlateReaderImporter for microplate data
 """
 
 from __future__ import annotations
@@ -18,7 +17,6 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 class PlateReaderImporter(BaseImporter[dict[str, Any]]):
     """Import plate reader data from various instruments.
 
-    Implements:
         PlateReaderImporter with CSV/XML support
 
     Features:
@@ -51,7 +49,6 @@ class PlateReaderImporter(BaseImporter[dict[str, Any]]):
         Returns:
             ImporterMetadata for plate reader importer
 
-        Implements:
             Importer metadata
         """
         return ImporterMetadata(
@@ -70,7 +67,6 @@ class PlateReaderImporter(BaseImporter[dict[str, Any]]):
         Returns:
             True if source is valid
 
-        Implements:
             Source validation
         """
         path = Path(source) if isinstance(source, str) else source
@@ -89,7 +85,6 @@ class PlateReaderImporter(BaseImporter[dict[str, Any]]):
         Returns:
             ImportResult with plate data
 
-        Implements:
             Plate reader data import
 
         Raises:

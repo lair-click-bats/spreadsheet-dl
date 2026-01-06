@@ -1,7 +1,6 @@
 """MLflow experiment data importer.
 
-Implements:
-    MLflowImporter for data science domain
+MLflowImporter for data science domain
 """
 
 from __future__ import annotations
@@ -16,7 +15,6 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 class MLflowImporter(BaseImporter[list[dict[str, Any]]]):
     """MLflow experiment data importer.
 
-    Implements:
         MLflowImporter for ML experiment tracking
 
     Features:
@@ -51,7 +49,6 @@ class MLflowImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImporterMetadata for MLflow importer
 
-        Implements:
             Importer metadata
         """
         return ImporterMetadata(
@@ -70,7 +67,6 @@ class MLflowImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             True if source is valid JSON file
 
-        Implements:
             Source validation
         """
         path = Path(source) if isinstance(source, str) else source
@@ -85,7 +81,6 @@ class MLflowImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImportResult with experiment data
 
-        Implements:
             MLflow data import
 
         Expected JSON format:
@@ -178,7 +173,6 @@ class MLflowImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             Parsed experiment data for ExperimentLogTemplate
 
-        Implements:
             MLflow run parsing
         """
         # Extract core fields

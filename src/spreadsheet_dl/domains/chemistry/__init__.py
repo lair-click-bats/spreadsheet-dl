@@ -1,6 +1,5 @@
 """Chemistry Domain Plugin for SpreadsheetDL.
 
-Implements:
     Chemistry domain plugin
     BATCH-4: Chemistry domain creation
 

@@ -1,7 +1,7 @@
 """
 Tests for Bill Reminders and Calendar Integration Module.
 
-Tests FR-RECUR-002: Bill Reminders and IR-CAL-001: Calendar Integration.
+: Bill Reminders and IR-CAL-001: Calendar Integration.
 """
 
 from __future__ import annotations

@@ -1,6 +1,5 @@
 """Data Science Importers for SpreadsheetDL.
 
-Implements:
     Data Science domain importers
 
 Provides data import functionality for scientific formats:

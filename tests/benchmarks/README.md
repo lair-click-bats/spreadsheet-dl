@@ -207,8 +207,6 @@ test_render_1k_rows_medium        1.23s     1.34s      1.33s     1.52s
 
 ## Implementation
 
-**Implements**:
-
 - PERF-RENDER-001: Large file rendering optimization
 - PERF-MCP-001: Tool dispatch optimization
 - PERF-THEME-001: Theme loading optimization

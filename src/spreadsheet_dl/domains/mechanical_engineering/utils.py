@@ -1,7 +1,6 @@
 """Utility functions for mechanical engineering domain.
 
-Implements:
-    Utility functions for unit conversions and calculations
+Utility functions for unit conversions and calculations
 """
 
 from __future__ import annotations

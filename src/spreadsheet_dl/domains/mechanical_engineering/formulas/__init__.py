@@ -1,8 +1,7 @@
 """Formulas for mechanical engineering domain.
 
-Implements:
-    Mechanical engineering formula modules
-    BATCH2-MECH: Extended with fluid mechanics and heat transfer formulas
+Mechanical engineering formula modules
+BATCH2-MECH: Extended with fluid mechanics and heat transfer formulas
 """
 
 from spreadsheet_dl.domains.mechanical_engineering.formulas.dynamics import (

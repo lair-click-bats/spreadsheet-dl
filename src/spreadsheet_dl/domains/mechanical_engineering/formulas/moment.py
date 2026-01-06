@@ -1,7 +1,6 @@
 """Moment and bending formulas for mechanical engineering.
 
-Implements:
-    Moment formulas (MOMENT_OF_INERTIA, BENDING_STRESS, TORSIONAL_STRESS)
+Moment formulas (MOMENT_OF_INERTIA, BENDING_STRESS, TORSIONAL_STRESS)
 """
 
 from __future__ import annotations
@@ -18,7 +17,6 @@ class MomentOfInertiaFormula(BaseFormula):
 
     Calculates second moment of area for bending calculations.
 
-    Implements:
         MOMENT_OF_INERTIA formula
 
     Example:
@@ -76,7 +74,6 @@ class BendingStressFormula(BaseFormula):
     Calculates bending stress in a beam given bending moment, distance from
     neutral axis, and moment of inertia.
 
-    Implements:
         BENDING_STRESS formula
 
     Example:
@@ -140,7 +137,6 @@ class TorsionalStressFormula(BaseFormula):
     Calculates torsional shear stress in a shaft given torque, radius,
     and polar moment of inertia.
 
-    Implements:
         TORSIONAL_STRESS formula
 
     Example:

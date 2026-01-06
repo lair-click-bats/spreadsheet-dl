@@ -2,7 +2,6 @@
 Tests for plugin system framework.
 
 Tests:
-    FR-EXT-001: Plugin system framework
 """
 
 from __future__ import annotations

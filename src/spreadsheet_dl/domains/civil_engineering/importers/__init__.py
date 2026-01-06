@@ -1,6 +1,5 @@
 """Civil Engineering importers for SpreadsheetDL.
 
-Implements:
     Civil Engineering domain importers
 
 Provides domain-specific importers for:

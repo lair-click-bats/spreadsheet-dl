@@ -1,8 +1,7 @@
 """Biochemistry and protein formulas.
 
-Implements:
-    Biochemistry formulas
-    (BRADFORD_ASSAY, ENZYME_ACTIVITY, MICHAELIS_MENTEN, DILUTION_FACTOR)
+Biochemistry formulas
+(BRADFORD_ASSAY, ENZYME_ACTIVITY, MICHAELIS_MENTEN, DILUTION_FACTOR)
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class BradfordAssayFormula(BaseFormula):
     """Calculate protein concentration from Bradford assay.
 
-    Implements:
         BRADFORD_ASSAY formula for protein quantification
 
     Example:
@@ -33,7 +31,6 @@ class BradfordAssayFormula(BaseFormula):
         Returns:
             FormulaMetadata for BRADFORD_ASSAY
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -86,7 +83,6 @@ class BradfordAssayFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             BRADFORD_ASSAY formula building
 
         Raises:
@@ -107,7 +103,6 @@ class BradfordAssayFormula(BaseFormula):
 class EnzymeActivityFormula(BaseFormula):
     """Calculate enzyme specific activity.
 
-    Implements:
         ENZYME_ACTIVITY formula for enzyme kinetics
 
     Example:
@@ -123,7 +118,6 @@ class EnzymeActivityFormula(BaseFormula):
         Returns:
             FormulaMetadata for ENZYME_ACTIVITY
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -174,7 +168,6 @@ class EnzymeActivityFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             ENZYME_ACTIVITY formula building
 
         Raises:
@@ -196,7 +189,6 @@ class EnzymeActivityFormula(BaseFormula):
 class MichaelisMentenFormula(BaseFormula):
     """Calculate reaction velocity using Michaelis-Menten kinetics.
 
-    Implements:
         MICHAELIS_MENTEN formula for enzyme kinetics
 
     Example:
@@ -212,7 +204,6 @@ class MichaelisMentenFormula(BaseFormula):
         Returns:
             FormulaMetadata for MICHAELIS_MENTEN
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -256,7 +247,6 @@ class MichaelisMentenFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             MICHAELIS_MENTEN formula building
 
         Raises:
@@ -276,7 +266,6 @@ class MichaelisMentenFormula(BaseFormula):
 class DilutionFactorFormula(BaseFormula):
     """Calculate serial dilution factor.
 
-    Implements:
         DILUTION_FACTOR formula for serial dilutions
 
     Example:
@@ -292,7 +281,6 @@ class DilutionFactorFormula(BaseFormula):
         Returns:
             FormulaMetadata for DILUTION_FACTOR
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -330,7 +318,6 @@ class DilutionFactorFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             DILUTION_FACTOR formula building
 
         Raises:

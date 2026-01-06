@@ -1,8 +1,7 @@
 """Tests for risk management formulas.
 
-Implements:
-    Test suite for risk analysis formulas including VaR, CVaR, volatility,
-    alpha, tracking error, information ratio, and downside deviation.
+Test suite for risk analysis formulas including VaR, CVaR, volatility,
+alpha, tracking error, information ratio, and downside deviation.
 """
 
 from __future__ import annotations

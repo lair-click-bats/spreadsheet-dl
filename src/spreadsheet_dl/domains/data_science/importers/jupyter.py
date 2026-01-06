@@ -1,7 +1,6 @@
 """Jupyter notebook metadata importer.
 
-Implements:
-    JupyterMetadataImporter for data science domain
+JupyterMetadataImporter for data science domain
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 class JupyterMetadataImporter(BaseImporter[dict[str, Any]]):
     """Jupyter notebook metadata extractor.
 
-    Implements:
         JupyterMetadataImporter for notebook analysis
 
     Features:
@@ -50,7 +48,6 @@ class JupyterMetadataImporter(BaseImporter[dict[str, Any]]):
         Returns:
             ImporterMetadata for Jupyter importer
 
-        Implements:
             Importer metadata
         """
         return ImporterMetadata(
@@ -69,7 +66,6 @@ class JupyterMetadataImporter(BaseImporter[dict[str, Any]]):
         Returns:
             True if source is valid notebook file
 
-        Implements:
             Source validation
         """
         path = Path(source) if isinstance(source, str) else source
@@ -84,7 +80,6 @@ class JupyterMetadataImporter(BaseImporter[dict[str, Any]]):
         Returns:
             ImportResult with notebook metadata
 
-        Implements:
             Jupyter metadata extraction
 
         Raises:
@@ -141,7 +136,6 @@ class JupyterMetadataImporter(BaseImporter[dict[str, Any]]):
         Returns:
             Dictionary with notebook metadata
 
-        Implements:
             Metadata extraction logic
         """
         # Get cells

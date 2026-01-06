@@ -8,8 +8,6 @@ Provides interactive charts and dashboards for budget visualization:
 - HTML dashboard with embedded charts
 - Static image export
 
-Implements:
-    FR-REPORT-003: Interactive Visualization (Gap G-09)
 """
 
 from __future__ import annotations

@@ -1,6 +1,5 @@
 """Goals Module - Savings goals and debt payoff tracking.
 
-Implements FR-GOAL-001: Savings Goals and FR-GOAL-002: Debt Payoff.
 Provides tracking for financial goals including savings targets,
 debt payoff with snowball/avalanche methods, and progress monitoring.
 """

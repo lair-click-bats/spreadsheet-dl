@@ -1,8 +1,7 @@
 """Optics formulas for physics.
 
-Implements:
-    Physics optics formulas (6 formulas)
-    BATCH-5: Physics domain creation
+Physics optics formulas (6 formulas)
+BATCH-5: Physics domain creation
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class SnellsLawFormula(BaseFormula):
     """Calculate refraction using Snell's law.
 
-    Implements:
         SNELLS_LAW formula (n1*sin(θ1) = n2*sin(θ2))
         BATCH-5: Physics optics
 
@@ -92,7 +90,6 @@ class SnellsLawFormula(BaseFormula):
 class LensMakerEquationFormula(BaseFormula):
     """Calculate lens focal length using lensmaker's equation.
 
-    Implements:
         LENS_MAKER_EQUATION formula (1/f = (n-1)*(1/R1 - 1/R2))
         BATCH-5: Physics optics
 
@@ -167,7 +164,6 @@ class LensMakerEquationFormula(BaseFormula):
 class MagnificationLensFormula(BaseFormula):
     """Calculate lens magnification.
 
-    Implements:
         MAGNIFICATION_LENS formula (M = -di/do)
         BATCH-5: Physics optics
 
@@ -235,7 +231,6 @@ class MagnificationLensFormula(BaseFormula):
 class BraggLawFormula(BaseFormula):
     """Calculate Bragg diffraction condition.
 
-    Implements:
         BRAGG_LAW formula (nλ = 2d*sin(θ))
         BATCH-5: Physics optics
 
@@ -310,7 +305,6 @@ class BraggLawFormula(BaseFormula):
 class ThinFilmInterferenceFormula(BaseFormula):
     """Calculate thin film interference condition.
 
-    Implements:
         THIN_FILM_INTERFERENCE formula (2nt*cos(θ) = mλ)
         BATCH-5: Physics optics
 
@@ -394,7 +388,6 @@ class ThinFilmInterferenceFormula(BaseFormula):
 class DiffractionGratingFormula(BaseFormula):
     """Calculate diffraction grating equation.
 
-    Implements:
         DIFFRACTION_GRATING formula (d*sin(θ) = mλ)
         BATCH-5: Physics optics
 

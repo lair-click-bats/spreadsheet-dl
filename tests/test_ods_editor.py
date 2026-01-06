@@ -1,7 +1,7 @@
 """
 Tests for ODS editor module.
 
-Validates FR-CORE-003: Expense append functionality.
+Validates : Expense append functionality.
 """
 
 from __future__ import annotations
@@ -91,7 +91,7 @@ class TestOdsEditor:
 
 
 class TestOdsEditorAppend:
-    """Tests for expense append functionality (FR-CORE-003)."""
+    """Tests for expense append functionality."""
 
     def test_append_expense_basic(self, empty_budget_file: Path) -> None:
         """Test basic expense append to empty file."""

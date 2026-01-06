@@ -1,7 +1,6 @@
 """ERP Data Importer for production and inventory data.
 
-Implements:
-    ERPDataImporter for manufacturing domain
+ERPDataImporter for manufacturing domain
 """
 
 from __future__ import annotations
@@ -18,7 +17,6 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 class ERPDataImporter(BaseImporter[list[dict[str, Any]]]):
     """Import ERP production/inventory data (CSV/XML).
 
-    Implements:
         ERPDataImporter with production and inventory data
 
     Features:
@@ -51,7 +49,6 @@ class ERPDataImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImporterMetadata for ERP data importer
 
-        Implements:
             Importer metadata
         """
         return ImporterMetadata(
@@ -70,7 +67,6 @@ class ERPDataImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             True if source is valid file
 
-        Implements:
             Source validation
         """
         path = Path(source) if isinstance(source, str) else source
@@ -87,7 +83,6 @@ class ERPDataImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImportResult with parsed ERP data
 
-        Implements:
             Data import with error handling
 
         Raises:
@@ -238,7 +233,6 @@ class ERPDataImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             Parsed ERP record with standardized fields
 
-        Implements:
             ERP record parsing
         """
         # Standardize field names (handle various ERP system formats)

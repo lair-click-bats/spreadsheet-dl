@@ -2,9 +2,6 @@
 Tests for template engine module.
 
 Tests:
-    - FR-TEMPLATE-001: Template Definition Schema
-    - FR-TEMPLATE-002: Variable Substitution
-    - FR-TEMPLATE-003: Conditional Content
 """
 
 import pytest
@@ -28,7 +25,7 @@ from spreadsheet_dl.template_engine import (
 pytestmark = [pytest.mark.unit, pytest.mark.templates]
 
 # ============================================================================
-# Schema Tests (FR-TEMPLATE-001)
+# Schema Tests
 # ============================================================================
 
 
@@ -203,7 +200,7 @@ class TestSpreadsheetTemplate:
 
 
 # ============================================================================
-# Expression Evaluator Tests (FR-TEMPLATE-002)
+# Expression Evaluator Tests
 # ============================================================================
 
 
@@ -288,7 +285,7 @@ class TestBuiltinFunctions:
 
 
 # ============================================================================
-# Conditional Evaluator Tests (FR-TEMPLATE-003)
+# Conditional Evaluator Tests
 # ============================================================================
 
 

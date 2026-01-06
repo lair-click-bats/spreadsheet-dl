@@ -36,8 +36,6 @@ class OdsEditor:
     - Style and formatting operations
     - Chart and table creation
 
-    Implements:
-        - FR-CORE-003: Expense append to existing ODS files
     """
 
     def __init__(self, file_path: Path | str) -> None:
@@ -163,8 +161,6 @@ class OdsEditor:
             SheetNotFoundError: If expense sheet not found.
             OdsWriteError: If append fails.
 
-        Implements:
-            - FR-CORE-003: Expense append functionality
         """
         try:
             sheet = self.get_sheet(sheet_name)
@@ -1889,8 +1885,6 @@ def append_expense_to_file(
     Returns:
         Tuple of (file path, row number where added).
 
-    Implements:
-        - FR-CORE-003: Quick expense append
     """
     editor = OdsEditor(file_path)
     row_num = editor.append_expense(expense, sheet_name)

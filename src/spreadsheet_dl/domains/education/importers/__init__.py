@@ -1,6 +1,5 @@
 """Education domain importers.
 
-Implements:
     Education domain data importers
 
 Provides 3 specialized importers:

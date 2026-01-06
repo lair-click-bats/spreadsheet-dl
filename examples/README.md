@@ -4,20 +4,23 @@ Welcome to the SpreadsheetDL examples! This directory contains a structured lear
 
 ## Learning Path Structure
 
-The examples are organized into four progressive levels:
+The examples are organized into progressive levels:
 
 ```
 examples/
-├── 01_basics/          ← Start here
-├── 02_formulas/        ← Add calculations
-├── 03_charts/          ← Visualize data
-└── 04_advanced/        ← Extend with plugins
+├── 01_basics/                  ← Start here
+├── 02_formulas/                ← Add calculations
+├── 03_charts/                  ← Visualize data
+├── 04_advanced/                ← Extend with plugins
+├── 05_domain_plugins/          ← Domain-specific examples
+├── 06_security_and_export/     ← Security & format export
+└── template_engine/            ← Advanced templates
 ```
 
 ### Prerequisites
 
 - Python 3.9 or higher
-- SpreadsheetDL installed (`uv add spreadsheet-dl` or `pip install spreadsheet-dl`)
+- SpreadsheetDL installed (`uv add spreadsheet-dl` or `uv pip install spreadsheet-dl`)
 - Basic familiarity with Python
 
 ### Estimated Time
@@ -81,6 +84,34 @@ Extend SpreadsheetDL:
 - Extend functionality for your specific needs
 
 **Time**: 60 minutes
+**Next**: [05_domain_plugins](./05_domain_plugins/)
+
+## 05_domain_plugins - Specialized Functions
+
+**Prerequisites**: Complete 01_basics
+
+Leverage domain-specific plugins:
+
+- Finance domain (budgets, analysis)
+- Data science functions
+- Engineering calculations
+- Life sciences formulas
+
+**Time**: 30 minutes
+**Next**: [06_security_and_export](./06_security_and_export/)
+
+## 06_security_and_export - Security & Export
+
+**Prerequisites**: Complete 01_basics
+
+Secure and share your spreadsheets:
+
+- Export to XLSX (Excel format)
+- Password strength validation
+- File encryption/decryption
+- Automated backups with integrity checks
+
+**Time**: 30 minutes
 
 ## Running Examples
 
@@ -116,8 +147,8 @@ The `template_engine/` directory contains advanced examples for template-based w
 ## Additional Resources
 
 - **Documentation**: https://spreadsheet-dl.readthedocs.io
-- **GitHub**: https://github.com/yourusername/spreadsheet-dl
-- **Issues**: Report bugs or request features
+- **GitHub**: https://github.com/lair-click-bats/spreadsheet-dl
+- **Issues**: Report bugs or request features at https://github.com/lair-click-bats/spreadsheet-dl/issues
 
 ## Philosophy
 

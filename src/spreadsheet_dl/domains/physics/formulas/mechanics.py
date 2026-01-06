@@ -1,8 +1,7 @@
 """Classical mechanics formulas for physics.
 
-Implements:
-    Physics classical mechanics formulas (7 formulas)
-    BATCH-5: Physics domain creation
+Physics classical mechanics formulas (7 formulas)
+BATCH-5: Physics domain creation
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class NewtonSecondLawFormula(BaseFormula):
     """Calculate force using Newton's second law.
 
-    Implements:
         NEWTON_SECOND_LAW formula (F = ma)
         BATCH-5: Physics mechanics
 
@@ -85,7 +83,6 @@ class NewtonSecondLawFormula(BaseFormula):
 class KineticEnergyFormula(BaseFormula):
     """Calculate kinetic energy.
 
-    Implements:
         KINETIC_ENERGY formula (KE = 0.5*m*v²)
         BATCH-5: Physics mechanics
 
@@ -153,7 +150,6 @@ class KineticEnergyFormula(BaseFormula):
 class PotentialEnergyFormula(BaseFormula):
     """Calculate gravitational potential energy.
 
-    Implements:
         POTENTIAL_ENERGY formula (PE = mgh)
         BATCH-5: Physics mechanics
 
@@ -229,7 +225,6 @@ class PotentialEnergyFormula(BaseFormula):
 class WorkEnergyFormula(BaseFormula):
     """Calculate work done by a force.
 
-    Implements:
         WORK_ENERGY formula (W = F*d*cos(θ))
         BATCH-5: Physics mechanics
 
@@ -305,7 +300,6 @@ class WorkEnergyFormula(BaseFormula):
 class MomentumFormula(BaseFormula):
     """Calculate linear momentum.
 
-    Implements:
         MOMENTUM formula (p = mv)
         BATCH-5: Physics mechanics
 
@@ -373,7 +367,6 @@ class MomentumFormula(BaseFormula):
 class AngularMomentumFormula(BaseFormula):
     """Calculate angular momentum.
 
-    Implements:
         ANGULAR_MOMENTUM formula (L = Iω)
         BATCH-5: Physics mechanics
 
@@ -441,7 +434,6 @@ class AngularMomentumFormula(BaseFormula):
 class CentripetalForceFormula(BaseFormula):
     """Calculate centripetal force.
 
-    Implements:
         CENTRIPETAL_FORCE formula (Fc = mv²/r)
         BATCH-5: Physics mechanics
 

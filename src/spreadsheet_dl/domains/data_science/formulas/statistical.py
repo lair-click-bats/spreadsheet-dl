@@ -1,7 +1,6 @@
 """Statistical formulas for data science.
 
-Implements:
-    Statistical formulas (TTEST, FTEST, ZTEST, CHISQ_TEST)
+Statistical formulas (TTEST, FTEST, ZTEST, CHISQ_TEST)
 """
 
 from __future__ import annotations
@@ -16,7 +15,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class TTestFormula(BaseFormula):
     """T-test for comparing means of two samples.
 
-    Implements:
         TTEST formula for statistical testing
 
     Example:
@@ -32,7 +30,6 @@ class TTestFormula(BaseFormula):
         Returns:
             FormulaMetadata for TTEST
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -84,7 +81,6 @@ class TTestFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             TTEST formula building
 
         Raises:
@@ -104,7 +100,6 @@ class TTestFormula(BaseFormula):
 class FTestFormula(BaseFormula):
     """F-test for comparing variances of two samples.
 
-    Implements:
         FTEST formula for variance comparison
 
     Example:
@@ -120,7 +115,6 @@ class FTestFormula(BaseFormula):
         Returns:
             FormulaMetadata for FTEST
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -158,7 +152,6 @@ class FTestFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             FTEST formula building
 
         Raises:
@@ -176,7 +169,6 @@ class FTestFormula(BaseFormula):
 class ZTestFormula(BaseFormula):
     """Z-test for hypothesis testing with known population variance.
 
-    Implements:
         ZTEST formula for hypothesis testing
 
     Example:
@@ -192,7 +184,6 @@ class ZTestFormula(BaseFormula):
         Returns:
             FormulaMetadata for ZTEST
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -237,7 +228,6 @@ class ZTestFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             ZTEST formula building
 
         Raises:
@@ -258,7 +248,6 @@ class ZTestFormula(BaseFormula):
 class ChiSquareTestFormula(BaseFormula):
     """Chi-square test for independence or goodness of fit.
 
-    Implements:
         CHISQ_TEST formula for categorical data analysis
 
     Example:
@@ -274,7 +263,6 @@ class ChiSquareTestFormula(BaseFormula):
         Returns:
             FormulaMetadata for CHISQ_TEST
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -312,7 +300,6 @@ class ChiSquareTestFormula(BaseFormula):
         Returns:
             ODF formula string (uses CHITEST which is the ODF name)
 
-        Implements:
             CHISQ_TEST formula building
 
         Raises:

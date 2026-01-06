@@ -1,7 +1,6 @@
 """Sensor Data Importer for IoT sensor data.
 
-Implements:
-    SensorDataImporter for manufacturing domain
+SensorDataImporter for manufacturing domain
 """
 
 from __future__ import annotations
@@ -18,7 +17,6 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 class SensorDataImporter(BaseImporter[list[dict[str, Any]]]):
     """Import IoT sensor data (CSV/JSON time series).
 
-    Implements:
         SensorDataImporter with time series data
 
     Features:
@@ -51,7 +49,6 @@ class SensorDataImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImporterMetadata for sensor data importer
 
-        Implements:
             Importer metadata
         """
         return ImporterMetadata(
@@ -70,7 +67,6 @@ class SensorDataImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             True if source is valid file
 
-        Implements:
             Source validation
         """
         path = Path(source) if isinstance(source, str) else source
@@ -89,7 +85,6 @@ class SensorDataImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImportResult with parsed sensor data
 
-        Implements:
             Data import with error handling
 
         Raises:
@@ -225,7 +220,6 @@ class SensorDataImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             Parsed sensor record with standardized fields
 
-        Implements:
             Sensor record parsing
         """
         # Standardize field names (handle various sensor formats)

@@ -1,8 +1,7 @@
 """Options pricing formulas.
 
-Implements:
-    Options pricing formulas including Black-Scholes model for calls and puts,
-    implied volatility, and Greeks (Delta, Gamma, Theta, Vega, Rho).
+Options pricing formulas including Black-Scholes model for calls and puts,
+implied volatility, and Greeks (Delta, Gamma, Theta, Vega, Rho).
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class BlackScholesCall(BaseFormula):
     """Calculate call option value using Black-Scholes model.
 
-    Implements:
         Black-Scholes formula for European call option pricing
 
     Example:
@@ -33,7 +31,6 @@ class BlackScholesCall(BaseFormula):
         Returns:
             FormulaMetadata for BlackScholesCall
 
-        Implements:
             Options formula metadata
         """
         return FormulaMetadata(
@@ -89,7 +86,6 @@ class BlackScholesCall(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Black-Scholes call formula: S*N(d1) - K*exp(-r*t)*N(d2)
             where d1 = (ln(S/K) + (r + v^2/2)*t) / (v*sqrt(t))
             and d2 = d1 - v*sqrt(t)
@@ -119,7 +115,6 @@ class BlackScholesCall(BaseFormula):
 class BlackScholesPut(BaseFormula):
     """Calculate put option value using Black-Scholes model.
 
-    Implements:
         Black-Scholes formula for European put option pricing
 
     Example:
@@ -135,7 +130,6 @@ class BlackScholesPut(BaseFormula):
         Returns:
             FormulaMetadata for BlackScholesPut
 
-        Implements:
             Options formula metadata
         """
         return FormulaMetadata(
@@ -191,7 +185,6 @@ class BlackScholesPut(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Black-Scholes put formula: K*exp(-r*t)*N(-d2) - S*N(-d1)
 
         Raises:
@@ -217,7 +210,6 @@ class BlackScholesPut(BaseFormula):
 class ImpliedVolatility(BaseFormula):
     """Derive implied volatility from market option prices.
 
-    Implements:
         Implied volatility calculation using iterative approximation
 
     Example:
@@ -233,7 +225,6 @@ class ImpliedVolatility(BaseFormula):
         Returns:
             FormulaMetadata for ImpliedVolatility
 
-        Implements:
             Options formula metadata
         """
         return FormulaMetadata(
@@ -295,7 +286,6 @@ class ImpliedVolatility(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Implied volatility approximation (simplified Brenner-Subrahmanyam)
 
         Raises:
@@ -316,7 +306,6 @@ class ImpliedVolatility(BaseFormula):
 class OptionDelta(BaseFormula):
     """Calculate option Delta (first derivative sensitivity).
 
-    Implements:
         Delta calculation measuring option price sensitivity to stock price changes
 
     Example:
@@ -332,7 +321,6 @@ class OptionDelta(BaseFormula):
         Returns:
             FormulaMetadata for OptionDelta
 
-        Implements:
             Options formula metadata
         """
         return FormulaMetadata(
@@ -394,7 +382,6 @@ class OptionDelta(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Delta formula: N(d1) for call, N(d1)-1 for put
 
         Raises:
@@ -419,7 +406,6 @@ class OptionDelta(BaseFormula):
 class OptionGamma(BaseFormula):
     """Calculate option Gamma (second derivative sensitivity).
 
-    Implements:
         Gamma calculation measuring Delta sensitivity to stock price changes
 
     Example:
@@ -435,7 +421,6 @@ class OptionGamma(BaseFormula):
         Returns:
             FormulaMetadata for OptionGamma
 
-        Implements:
             Options formula metadata
         """
         return FormulaMetadata(
@@ -491,7 +476,6 @@ class OptionGamma(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Gamma formula: N'(d1) / (S * v * sqrt(t))
 
         Raises:
@@ -517,7 +501,6 @@ class OptionGamma(BaseFormula):
 class OptionTheta(BaseFormula):
     """Calculate option Theta (time decay).
 
-    Implements:
         Theta calculation measuring option price sensitivity to time passage
 
     Example:
@@ -533,7 +516,6 @@ class OptionTheta(BaseFormula):
         Returns:
             FormulaMetadata for OptionTheta
 
-        Implements:
             Options formula metadata
         """
         return FormulaMetadata(
@@ -595,7 +577,6 @@ class OptionTheta(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Theta formula (simplified for daily decay)
 
         Raises:
@@ -629,7 +610,6 @@ class OptionTheta(BaseFormula):
 class OptionVega(BaseFormula):
     """Calculate option Vega (volatility sensitivity).
 
-    Implements:
         Vega calculation measuring option price sensitivity to volatility changes
 
     Example:
@@ -645,7 +625,6 @@ class OptionVega(BaseFormula):
         Returns:
             FormulaMetadata for OptionVega
 
-        Implements:
             Options formula metadata
         """
         return FormulaMetadata(
@@ -701,7 +680,6 @@ class OptionVega(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Vega formula: S * sqrt(t) * N'(d1)
 
         Raises:
@@ -727,7 +705,6 @@ class OptionVega(BaseFormula):
 class OptionRho(BaseFormula):
     """Calculate option Rho (interest rate sensitivity).
 
-    Implements:
         Rho calculation measuring option price sensitivity to interest rate changes
 
     Example:
@@ -743,7 +720,6 @@ class OptionRho(BaseFormula):
         Returns:
             FormulaMetadata for OptionRho
 
-        Implements:
             Options formula metadata
         """
         return FormulaMetadata(
@@ -805,7 +781,6 @@ class OptionRho(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             Rho formula: K*t*exp(-r*t)*N(d2) for call, -K*t*exp(-r*t)*N(-d2) for put
 
         Raises:

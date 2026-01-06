@@ -1,8 +1,7 @@
 """Hydrology and water resource formulas.
 
-Implements:
-    Civil engineering formulas for hydrology and drainage
-    (RunoffCoefficient, RationalMethod, ManningEquation, TimeOfConcentration)
+Civil engineering formulas for hydrology and drainage
+(RunoffCoefficient, RationalMethod, ManningEquation, TimeOfConcentration)
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class RunoffCoefficient(BaseFormula):
     """Calculate runoff coefficient for drainage design.
 
-    Implements:
         Runoff coefficient based on surface type
 
     Example:
@@ -33,7 +31,6 @@ class RunoffCoefficient(BaseFormula):
         Returns:
             FormulaMetadata for RunoffCoefficient
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -71,7 +68,6 @@ class RunoffCoefficient(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             RunoffCoefficient formula building
 
         Raises:
@@ -90,7 +86,6 @@ class RunoffCoefficient(BaseFormula):
 class RationalMethod(BaseFormula):
     """Calculate peak runoff using rational method.
 
-    Implements:
         Rational method formula Q = CiA
 
     Example:
@@ -106,7 +101,6 @@ class RationalMethod(BaseFormula):
         Returns:
             FormulaMetadata for RationalMethod
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -150,7 +144,6 @@ class RationalMethod(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             RationalMethod formula building
 
         Raises:
@@ -170,7 +163,6 @@ class RationalMethod(BaseFormula):
 class ManningEquation(BaseFormula):
     """Calculate flow velocity using Manning's equation.
 
-    Implements:
         Manning's equation for open channel flow
 
     Example:
@@ -186,7 +178,6 @@ class ManningEquation(BaseFormula):
         Returns:
             FormulaMetadata for ManningEquation
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -236,7 +227,6 @@ class ManningEquation(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             ManningEquation formula building
 
         Raises:
@@ -257,7 +247,6 @@ class ManningEquation(BaseFormula):
 class TimeOfConcentration(BaseFormula):
     """Calculate time of concentration for watershed.
 
-    Implements:
         Kirpich equation for time of concentration
 
     Example:
@@ -273,7 +262,6 @@ class TimeOfConcentration(BaseFormula):
         Returns:
             FormulaMetadata for TimeOfConcentration
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -311,7 +299,6 @@ class TimeOfConcentration(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             TimeOfConcentration formula building
 
         Raises:

@@ -1,7 +1,6 @@
 """Filter design formulas for electrical engineering.
 
-Implements:
-    Filter design formulas (cutoff frequencies, Q factor, attenuation)
+Filter design formulas (cutoff frequencies, Q factor, attenuation)
 """
 
 from __future__ import annotations
@@ -16,7 +15,6 @@ class LowPassCutoffFormula(BaseFormula):
 
     Calculates cutoff frequency for RC low-pass filter: fc = 1 / (2π * R * C).
 
-    Implements:
         LOW_PASS_CUTOFF formula
 
     Example:
@@ -73,7 +71,6 @@ class HighPassCutoffFormula(BaseFormula):
 
     Calculates cutoff frequency for CR high-pass filter: fc = 1 / (2π * R * C).
 
-    Implements:
         HIGH_PASS_CUTOFF formula
 
     Example:
@@ -130,7 +127,6 @@ class BandPassCenterFormula(BaseFormula):
 
     Calculates center frequency for LC bandpass filter: fc = 1 / (2π * √(L * C)).
 
-    Implements:
         BAND_PASS_CENTER formula
 
     Example:
@@ -187,7 +183,6 @@ class QFactorFormula(BaseFormula):
 
     Calculates quality factor: Q = f0 / BW.
 
-    Implements:
         Q_FACTOR formula
 
     Example:
@@ -244,7 +239,6 @@ class FilterAttenuationFormula(BaseFormula):
 
     Calculates filter attenuation in dB: A = -20 * n * log10(f / fc).
 
-    Implements:
         FILTER_ATTENUATION formula
 
     Example:

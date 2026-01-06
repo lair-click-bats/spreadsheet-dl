@@ -1,6 +1,5 @@
 """Data Science Domain Plugin for SpreadsheetDL.
 
-Implements:
     Data Science domain plugin
     PHASE-C: Domain plugin implementations
 
@@ -50,7 +49,6 @@ from spreadsheet_dl.domains.data_science.importers.scientific_csv import (
 class DataScienceDomainPlugin(BaseDomainPlugin):
     """Data Science domain plugin.
 
-    Implements:
         Complete Data Science domain plugin
         PHASE-C: Domain plugin implementations
 
@@ -96,7 +94,6 @@ class DataScienceDomainPlugin(BaseDomainPlugin):
         Returns:
             PluginMetadata with data science plugin information
 
-        Implements:
             Plugin metadata requirements
         """
         return PluginMetadata(
@@ -115,7 +112,6 @@ class DataScienceDomainPlugin(BaseDomainPlugin):
 
         Registers all formulas and importers.
 
-        Implements:
             Plugin initialization with all components
 
         Raises:
@@ -151,7 +147,6 @@ class DataScienceDomainPlugin(BaseDomainPlugin):
 
         No resources need explicit cleanup for this plugin.
 
-        Implements:
             Plugin cleanup method
         """
         pass
@@ -162,7 +157,6 @@ class DataScienceDomainPlugin(BaseDomainPlugin):
         Returns:
             True if plugin has required formulas and importers registered
 
-        Implements:
             Plugin validation
         """
         required_formulas = 14  # 4 statistical + 5 ML + 5 data functions

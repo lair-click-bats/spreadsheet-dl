@@ -1,6 +1,5 @@
 """Electrical Engineering Domain Plugin for SpreadsheetDL.
 
-Implements:
     Electrical Engineering domain plugin
     PHASE-C: Domain plugin implementations
 

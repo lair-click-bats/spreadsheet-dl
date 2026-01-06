@@ -1,8 +1,7 @@
 """Educational assessment and psychometric formulas.
 
-Implements:
-    Education formulas for test analysis and reliability
-    (ItemDifficulty, ItemDiscrimination, CronbachAlpha)
+Education formulas for test analysis and reliability
+(ItemDifficulty, ItemDiscrimination, CronbachAlpha)
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class ItemDifficulty(BaseFormula):
     """Calculate test item difficulty index.
 
-    Implements:
         Item difficulty calculation (proportion correct)
 
     Example:
@@ -33,7 +31,6 @@ class ItemDifficulty(BaseFormula):
         Returns:
             FormulaMetadata for ItemDifficulty
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -71,7 +68,6 @@ class ItemDifficulty(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             ItemDifficulty formula building
 
         Raises:
@@ -90,7 +86,6 @@ class ItemDifficulty(BaseFormula):
 class ItemDiscrimination(BaseFormula):
     """Calculate item discrimination power.
 
-    Implements:
         Item discrimination index (upper-lower difference)
 
     Example:
@@ -106,7 +101,6 @@ class ItemDiscrimination(BaseFormula):
         Returns:
             FormulaMetadata for ItemDiscrimination
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -144,7 +138,6 @@ class ItemDiscrimination(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             ItemDiscrimination formula building
 
         Raises:
@@ -163,7 +156,6 @@ class ItemDiscrimination(BaseFormula):
 class CronbachAlpha(BaseFormula):
     """Calculate Cronbach's alpha reliability coefficient.
 
-    Implements:
         Cronbach's alpha for test reliability
 
     Example:
@@ -179,7 +171,6 @@ class CronbachAlpha(BaseFormula):
         Returns:
             FormulaMetadata for CronbachAlpha
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -223,7 +214,6 @@ class CronbachAlpha(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             CronbachAlpha formula building
 
         Raises:
@@ -243,7 +233,6 @@ class CronbachAlpha(BaseFormula):
 class KR20Formula(BaseFormula):
     """Calculate Kuder-Richardson 20 reliability coefficient.
 
-    Implements:
         KR20 reliability for dichotomous items
 
     Example:
@@ -259,7 +248,6 @@ class KR20Formula(BaseFormula):
         Returns:
             FormulaMetadata for KR20
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -303,7 +291,6 @@ class KR20Formula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             KR20 formula building
 
         Raises:
@@ -323,7 +310,6 @@ class KR20Formula(BaseFormula):
 class KR21Formula(BaseFormula):
     """Calculate Kuder-Richardson 21 reliability coefficient.
 
-    Implements:
         Simplified KR20 assuming equal item difficulty
 
     Example:
@@ -339,7 +325,6 @@ class KR21Formula(BaseFormula):
         Returns:
             FormulaMetadata for KR21
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -383,7 +368,6 @@ class KR21Formula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             KR21 formula building
 
         Raises:
@@ -403,7 +387,6 @@ class KR21Formula(BaseFormula):
 class SpearmanBrownFormula(BaseFormula):
     """Calculate Spearman-Brown prophecy formula for test length adjustment.
 
-    Implements:
         Adjust reliability based on test length changes
 
     Example:
@@ -419,7 +402,6 @@ class SpearmanBrownFormula(BaseFormula):
         Returns:
             FormulaMetadata for SpearmanBrown
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -457,7 +439,6 @@ class SpearmanBrownFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             SpearmanBrown formula building
 
         Raises:
@@ -476,7 +457,6 @@ class SpearmanBrownFormula(BaseFormula):
 class StandardErrorMeasurementFormula(BaseFormula):
     """Calculate standard error of measurement.
 
-    Implements:
         SEM = SD * sqrt(1 - reliability)
 
     Example:
@@ -492,7 +472,6 @@ class StandardErrorMeasurementFormula(BaseFormula):
         Returns:
             FormulaMetadata for SEM
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -530,7 +509,6 @@ class StandardErrorMeasurementFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             SEM formula building
 
         Raises:
@@ -549,7 +527,6 @@ class StandardErrorMeasurementFormula(BaseFormula):
 class TrueScoreFormula(BaseFormula):
     """Calculate estimated true score from observed score.
 
-    Implements:
         True score = mean + reliability * (observed - mean)
 
     Example:
@@ -565,7 +542,6 @@ class TrueScoreFormula(BaseFormula):
         Returns:
             FormulaMetadata for TrueScore
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -609,7 +585,6 @@ class TrueScoreFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             TrueScore formula building
 
         Raises:

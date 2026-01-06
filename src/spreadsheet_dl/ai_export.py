@@ -5,10 +5,6 @@ and AI-consumable JSON files with semantic metadata, enabling LLM integration
 for financial analysis.
 
 Requirements implemented:
-    - FR-DUAL-001: Dual Export System (Gap G-AI-01)
-    - FR-DUAL-002: AI-Readable JSON Export
-    - FR-AI-001: AI-Optimized Export Enhancement (Phase 3)
-    - FR-AI-003: Semantic Cell Tagging (Phase 3)
 
 Features:
     - Simultaneous generation of ODS (human) + JSON (AI) formats
@@ -60,7 +56,7 @@ class SemanticCellType(Enum):
     NET_WORTH = "net_worth"
     SAVINGS_RATE = "savings_rate"
 
-    # Account semantics (FR-AI-003)
+    # Account semantics
     ACCOUNT_NAME = "account_name"
     ACCOUNT_TYPE = "account_type"
     ACCOUNT_BALANCE = "account_balance"
@@ -92,7 +88,6 @@ class SemanticTag(Enum):
     These tags provide additional context about the business meaning
     of cells beyond their basic type.
 
-    Implements FR-AI-003: Semantic Cell Tagging.
     """
 
     # Budget tags
@@ -178,7 +173,6 @@ class CellRelationship:
 
     Used to build a dependency graph for understanding formula relationships.
 
-    Implements FR-AI-001: Cell relationship graph.
     """
 
     source_ref: str
@@ -359,11 +353,11 @@ class AIExporter:
     cell relationship graphs, and business context for LLM consumption.
 
     Enhanced in Phase 3 to include:
-    - Full semantic metadata (FR-AI-001)
-    - Natural language formula descriptions (FR-AI-001)
-    - Cell relationships graph (FR-AI-001)
-    - Context-aware serialization (FR-AI-001)
-    - Semantic cell tagging (FR-AI-003)
+    - Full semantic metadata
+    - Natural language formula descriptions
+    - Cell relationships graph
+    - Context-aware serialization
+    - Semantic cell tagging
 
     Example:
         >>> exporter = AIExporter()

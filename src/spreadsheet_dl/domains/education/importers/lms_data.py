@@ -1,7 +1,6 @@
 """LMS Data Importer.
 
-Implements:
-    LMSDataImporter for education domain
+LMSDataImporter for education domain
 """
 
 from __future__ import annotations
@@ -19,7 +18,6 @@ from spreadsheet_dl.domains.base import BaseImporter, ImporterMetadata, ImportRe
 class LMSDataImporter(BaseImporter[list[dict[str, Any]]]):
     """Learning Management System data importer.
 
-    Implements:
         LMSDataImporter for Canvas, Moodle, Blackboard exports
 
     Supports importing data from various LMS platforms:
@@ -45,7 +43,6 @@ class LMSDataImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImporterMetadata for LMS data importer
 
-        Implements:
             Importer metadata
         """
         return ImporterMetadata(
@@ -64,7 +61,6 @@ class LMSDataImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             ImportResult with student data
 
-        Implements:
             LMS data import
         """
         source_path = Path(source)
@@ -227,7 +223,6 @@ class LMSDataImporter(BaseImporter[list[dict[str, Any]]]):
         Returns:
             True if source is valid
 
-        Implements:
             Source validation
         """
         path = Path(source)

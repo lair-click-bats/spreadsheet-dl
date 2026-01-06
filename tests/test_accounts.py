@@ -1,7 +1,7 @@
 """
 Tests for Account Management module.
 
-Tests FR-CORE-004: Account Management (Gap G-05)
+: Account Management
 """
 
 from __future__ import annotations

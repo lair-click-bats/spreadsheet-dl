@@ -1,7 +1,7 @@
 """
 Tests for Interactive Visualization module.
 
-Tests FR-REPORT-003: Interactive Visualization (Gap G-09)
+: Interactive Visualization
 """
 
 from __future__ import annotations

@@ -1,7 +1,6 @@
 """Data function formulas (wrappers around ODF built-ins).
 
-Implements:
-    Data function formulas (AVERAGE, MEDIAN, STDEV, VARIANCE, CORRELATION)
+Data function formulas (AVERAGE, MEDIAN, STDEV, VARIANCE, CORRELATION)
 """
 
 from __future__ import annotations
@@ -16,7 +15,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class AverageFormula(BaseFormula):
     """Average (mean) calculation using ODF AVERAGE function.
 
-    Implements:
         DS_AVERAGE formula wrapper
 
     Example:
@@ -32,7 +30,6 @@ class AverageFormula(BaseFormula):
         Returns:
             FormulaMetadata for DS_AVERAGE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -64,7 +61,6 @@ class AverageFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             DS_AVERAGE formula building
 
         Raises:
@@ -80,7 +76,6 @@ class AverageFormula(BaseFormula):
 class MedianFormula(BaseFormula):
     """Median calculation using ODF MEDIAN function.
 
-    Implements:
         DS_MEDIAN formula wrapper
 
     Example:
@@ -96,7 +91,6 @@ class MedianFormula(BaseFormula):
         Returns:
             FormulaMetadata for DS_MEDIAN
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -128,7 +122,6 @@ class MedianFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             DS_MEDIAN formula building
 
         Raises:
@@ -144,7 +137,6 @@ class MedianFormula(BaseFormula):
 class StdevFormula(BaseFormula):
     """Standard deviation calculation using ODF STDEV function.
 
-    Implements:
         DS_STDEV formula wrapper
 
     Example:
@@ -160,7 +152,6 @@ class StdevFormula(BaseFormula):
         Returns:
             FormulaMetadata for DS_STDEV
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -192,7 +183,6 @@ class StdevFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             DS_STDEV formula building
 
         Raises:
@@ -208,7 +198,6 @@ class StdevFormula(BaseFormula):
 class VarianceFormula(BaseFormula):
     """Variance calculation using ODF VAR function.
 
-    Implements:
         DS_VARIANCE formula wrapper
 
     Example:
@@ -224,7 +213,6 @@ class VarianceFormula(BaseFormula):
         Returns:
             FormulaMetadata for DS_VARIANCE
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -256,7 +244,6 @@ class VarianceFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             DS_VARIANCE formula building
 
         Raises:
@@ -272,7 +259,6 @@ class VarianceFormula(BaseFormula):
 class CorrelationFormula(BaseFormula):
     """Correlation calculation using ODF CORREL function.
 
-    Implements:
         DS_CORRELATION formula wrapper
 
     Example:
@@ -288,7 +274,6 @@ class CorrelationFormula(BaseFormula):
         Returns:
             FormulaMetadata for DS_CORRELATION
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -326,7 +311,6 @@ class CorrelationFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             DS_CORRELATION formula building
 
         Raises:

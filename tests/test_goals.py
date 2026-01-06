@@ -1,7 +1,7 @@
 """
 Tests for Goals Module.
 
-Tests FR-GOAL-001: Savings Goals and FR-GOAL-002: Debt Payoff.
+: Savings Goals and : Debt Payoff.
 """
 
 from __future__ import annotations

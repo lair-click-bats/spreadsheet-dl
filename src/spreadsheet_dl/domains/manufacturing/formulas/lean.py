@@ -1,7 +1,6 @@
 """Lean manufacturing formulas for manufacturing.
 
-Implements:
-    Lean manufacturing formulas (10 total)
+Lean manufacturing formulas (10 total)
 """
 
 from __future__ import annotations
@@ -16,7 +15,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class ValueStreamEfficiencyFormula(BaseFormula):
     """Value stream efficiency calculation.
 
-    Implements:
         VALUE_STREAM_EFFICIENCY formula for lean manufacturing
 
     Value Stream Efficiency = (Value-Add Time / Total Time) * 100
@@ -34,7 +32,6 @@ class ValueStreamEfficiencyFormula(BaseFormula):
         Returns:
             FormulaMetadata for VALUE_STREAM_EFFICIENCY
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -72,7 +69,6 @@ class ValueStreamEfficiencyFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             VALUE_STREAM_EFFICIENCY formula building
 
         Raises:
@@ -90,7 +86,6 @@ class ValueStreamEfficiencyFormula(BaseFormula):
 class LeadTimeFormula(BaseFormula):
     """Lead time calculation (order to delivery).
 
-    Implements:
         LEAD_TIME formula for lean manufacturing
 
     Lead Time = Delivery Date - Order Date
@@ -108,7 +103,6 @@ class LeadTimeFormula(BaseFormula):
         Returns:
             FormulaMetadata for LEAD_TIME
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -146,7 +140,6 @@ class LeadTimeFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             LEAD_TIME formula building
 
         Raises:
@@ -164,7 +157,6 @@ class LeadTimeFormula(BaseFormula):
 class ProcessCycleEfficiencyFormula(BaseFormula):
     """Process cycle efficiency calculation.
 
-    Implements:
         PROCESS_CYCLE_EFFICIENCY formula for lean manufacturing
 
     PCE = (Value-Add Time / Lead Time) * 100
@@ -182,7 +174,6 @@ class ProcessCycleEfficiencyFormula(BaseFormula):
         Returns:
             FormulaMetadata for PROCESS_CYCLE_EFFICIENCY
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -220,7 +211,6 @@ class ProcessCycleEfficiencyFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             PROCESS_CYCLE_EFFICIENCY formula building
 
         Raises:
@@ -238,7 +228,6 @@ class ProcessCycleEfficiencyFormula(BaseFormula):
 class TaktTimeFormula(BaseFormula):
     """Takt time calculation (available time / demand).
 
-    Implements:
         TAKT_TIME formula for lean manufacturing
 
     Takt Time = Available Time / Customer Demand
@@ -256,7 +245,6 @@ class TaktTimeFormula(BaseFormula):
         Returns:
             FormulaMetadata for TAKT_TIME
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -294,7 +282,6 @@ class TaktTimeFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             TAKT_TIME formula building
 
         Raises:
@@ -312,7 +299,6 @@ class TaktTimeFormula(BaseFormula):
 class CycleTimeFormula(BaseFormula):
     """Cycle time to complete one unit.
 
-    Implements:
         CYCLE_TIME formula for lean manufacturing
 
     Cycle Time = Production Time / Units Produced
@@ -330,7 +316,6 @@ class CycleTimeFormula(BaseFormula):
         Returns:
             FormulaMetadata for CYCLE_TIME
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -368,7 +353,6 @@ class CycleTimeFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             CYCLE_TIME formula building
 
         Raises:
@@ -386,7 +370,6 @@ class CycleTimeFormula(BaseFormula):
 class TotalProductiveMaintenanceFormula(BaseFormula):
     """Total Productive Maintenance (TPM) availability metric.
 
-    Implements:
         TPM_AVAILABILITY formula for lean manufacturing
 
     TPM Availability = (Operating Time / Planned Production Time) * 100
@@ -404,7 +387,6 @@ class TotalProductiveMaintenanceFormula(BaseFormula):
         Returns:
             FormulaMetadata for TPM_AVAILABILITY
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -442,7 +424,6 @@ class TotalProductiveMaintenanceFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             TPM_AVAILABILITY formula building
 
         Raises:
@@ -460,7 +441,6 @@ class TotalProductiveMaintenanceFormula(BaseFormula):
 class SingleMinuteExchangeFormula(BaseFormula):
     """SMED changeover time calculation.
 
-    Implements:
         SMED_CHANGEOVER formula for lean manufacturing
 
     SMED Changeover Time = Stop Time - Start Time
@@ -478,7 +458,6 @@ class SingleMinuteExchangeFormula(BaseFormula):
         Returns:
             FormulaMetadata for SMED_CHANGEOVER
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -516,7 +495,6 @@ class SingleMinuteExchangeFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             SMED_CHANGEOVER formula building
 
         Raises:
@@ -534,7 +512,6 @@ class SingleMinuteExchangeFormula(BaseFormula):
 class KanbanCalculationFormula(BaseFormula):
     """Optimal kanban quantity calculation.
 
-    Implements:
         KANBAN_QUANTITY formula for lean manufacturing
 
     Kanban Quantity = ((Demand * Lead Time) * (1 + Safety Factor))
@@ -552,7 +529,6 @@ class KanbanCalculationFormula(BaseFormula):
         Returns:
             FormulaMetadata for KANBAN_QUANTITY
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -596,7 +572,6 @@ class KanbanCalculationFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             KANBAN_QUANTITY formula building
 
         Raises:
@@ -614,7 +589,6 @@ class KanbanCalculationFormula(BaseFormula):
 class LittlesLawFormula(BaseFormula):
     """Little's Law: WIP = Throughput * Lead Time.
 
-    Implements:
         LITTLES_LAW formula for lean manufacturing
 
     WIP = Throughput * Lead Time
@@ -632,7 +606,6 @@ class LittlesLawFormula(BaseFormula):
         Returns:
             FormulaMetadata for LITTLES_LAW
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -670,7 +643,6 @@ class LittlesLawFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             LITTLES_LAW formula building
 
         Raises:
@@ -688,7 +660,6 @@ class LittlesLawFormula(BaseFormula):
 class FlowEfficiencyFormula(BaseFormula):
     """Flow efficiency calculation.
 
-    Implements:
         FLOW_EFFICIENCY formula for lean manufacturing
 
     Flow Efficiency = (Touch Time / Elapsed Time) * 100
@@ -706,7 +677,6 @@ class FlowEfficiencyFormula(BaseFormula):
         Returns:
             FormulaMetadata for FLOW_EFFICIENCY
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -744,7 +714,6 @@ class FlowEfficiencyFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             FLOW_EFFICIENCY formula building
 
         Raises:

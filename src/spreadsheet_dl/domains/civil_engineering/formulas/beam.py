@@ -1,7 +1,6 @@
 """Beam calculation formulas for civil engineering.
 
-Implements:
-    Beam formulas (BEAM_DEFLECTION, SHEAR_STRESS, MOMENT)
+Beam formulas (BEAM_DEFLECTION, SHEAR_STRESS, MOMENT)
 """
 
 from __future__ import annotations
@@ -19,7 +18,6 @@ class BeamDeflectionFormula(BaseFormula):
     Calculates maximum deflection of a simply supported beam with
     uniformly distributed load.
 
-    Implements:
         BEAM_DEFLECTION formula
 
     Example:
@@ -88,7 +86,6 @@ class ShearStressFormula(BaseFormula):
 
     Calculates shear stress in a beam cross-section.
 
-    Implements:
         SHEAR_STRESS formula
 
     Example:
@@ -158,7 +155,6 @@ class MomentFormula(BaseFormula):
     Calculates maximum bending moment for simply supported beam
     with uniformly distributed load.
 
-    Implements:
         MOMENT formula
 
     Example:

@@ -1,8 +1,7 @@
 """Statistical formulas for education.
 
-Implements:
-    Statistical formulas
-    (STANDARD_DEVIATION, PERCENTILE_RANK, CORRELATION)
+Statistical formulas
+(STANDARD_DEVIATION, PERCENTILE_RANK, CORRELATION)
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from spreadsheet_dl.domains.base import BaseFormula, FormulaArgument, FormulaMet
 class StandardDeviationFormula(BaseFormula):
     """Calculate standard deviation of grades.
 
-    Implements:
         STANDARD_DEVIATION formula for grade statistics
 
     Calculates standard deviation (sample or population).
@@ -35,7 +33,6 @@ class StandardDeviationFormula(BaseFormula):
         Returns:
             FormulaMetadata for STANDARD_DEVIATION
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -74,7 +71,6 @@ class StandardDeviationFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             STANDARD_DEVIATION formula building
 
         Raises:
@@ -95,7 +91,6 @@ class StandardDeviationFormula(BaseFormula):
 class PercentileRankFormula(BaseFormula):
     """Calculate percentile rank of a grade.
 
-    Implements:
         PERCENTILE_RANK formula for grade ranking
 
     Calculates the percentile rank of a value within a dataset.
@@ -113,7 +108,6 @@ class PercentileRankFormula(BaseFormula):
         Returns:
             FormulaMetadata for PERCENTILE_RANK
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -158,7 +152,6 @@ class PercentileRankFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             PERCENTILE_RANK formula building
 
         Raises:
@@ -177,7 +170,6 @@ class PercentileRankFormula(BaseFormula):
 class CorrelationFormula(BaseFormula):
     """Calculate correlation coefficient between two datasets.
 
-    Implements:
         CORRELATION formula for grade correlation
 
     Calculates Pearson correlation coefficient.
@@ -195,7 +187,6 @@ class CorrelationFormula(BaseFormula):
         Returns:
             FormulaMetadata for CORRELATION
 
-        Implements:
             Formula metadata
         """
         return FormulaMetadata(
@@ -233,7 +224,6 @@ class CorrelationFormula(BaseFormula):
         Returns:
             ODF formula string
 
-        Implements:
             CORRELATION formula building
 
         Raises:
