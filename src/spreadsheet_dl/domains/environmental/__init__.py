@@ -5,11 +5,6 @@ Implements:
     PHASE-C: Domain plugin implementations
 
 Provides environmental science-specific functionality including:
-- Air quality monitoring templates
-- Water quality analysis templates
-- Carbon footprint tracking
-- Biodiversity assessment
-- Environmental impact assessment
 - Pollution index and emissions calculations
 - Water quality metrics (BOD, WQI)
 - Ecological diversity indices (Shannon, Simpson)
@@ -20,11 +15,6 @@ Example:
     >>> from spreadsheet_dl.domains.environmental import EnvironmentalDomainPlugin
     >>> plugin = EnvironmentalDomainPlugin()
     >>> plugin.initialize()
-    >>> # Use templates
-    >>> from spreadsheet_dl.domains.environmental import AirQualityMonitoringTemplate
-    >>> template = AirQualityMonitoringTemplate(station_name="Downtown Station")
-    >>> builder = template.generate()
-    >>> path = builder.save("air_quality.ods")
 """
 
 # Plugin
@@ -64,15 +54,6 @@ from spreadsheet_dl.domains.environmental.importers import (
 )
 from spreadsheet_dl.domains.environmental.plugin import EnvironmentalDomainPlugin
 
-# Templates
-from spreadsheet_dl.domains.environmental.templates import (
-    AirQualityMonitoringTemplate,
-    BiodiversityAssessmentTemplate,
-    CarbonFootprintTemplate,
-    EnvironmentalImpactTemplate,
-    WaterQualityAnalysisTemplate,
-)
-
 # Utils
 from spreadsheet_dl.domains.environmental.utils import (
     calculate_aqi,
@@ -90,20 +71,15 @@ from spreadsheet_dl.domains.environmental.utils import (
 __all__ = [
     # Formulas - Air Quality
     "AQICalculationFormula",
-    # Templates
-    "AirQualityMonitoringTemplate",
     # Formulas - Water Quality
     "BODCalculationFormula",
-    "BiodiversityAssessmentTemplate",
     # Formulas - Carbon
     "CarbonEquivalentFormula",
-    "CarbonFootprintTemplate",
     "EcologicalFootprintFormula",
     "EmissionRateFormula",
     # Plugin
     "EnvironmentalDomainPlugin",
     "EnvironmentalImpactScoreFormula",
-    "EnvironmentalImpactTemplate",
     # Importers
     "LabResultsImporter",
     "PollutionIndexFormula",
@@ -114,7 +90,6 @@ __all__ = [
     "SimpsonIndexFormula",
     "SpeciesRichnessFormula",
     "SustainabilityScoreFormula",
-    "WaterQualityAnalysisTemplate",
     "WaterQualityIndexFormula",
     # Utils
     "calculate_aqi",

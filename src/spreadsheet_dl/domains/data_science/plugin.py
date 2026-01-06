@@ -5,18 +5,10 @@ Implements:
     PHASE-C: Domain plugin implementations
 
 Provides data science-specific functionality including:
-- Experiment tracking and model comparison templates
-- Dataset cataloging and analysis templates
 - Statistical testing formulas (T-test, F-test, Chi-square)
 - ML metrics formulas (accuracy, precision, recall, F1)
 - Scientific CSV and MLflow importers
 - Jupyter notebook metadata extraction
-
-Features:
-    - 5 professional templates for data science workflows
-    - Statistical and ML formula extensions
-    - Import from scientific data formats
-    - Integration with ML experiment tracking tools
 """
 
 from __future__ import annotations
@@ -54,23 +46,6 @@ from spreadsheet_dl.domains.data_science.importers.scientific_csv import (
     ScientificCSVImporter,
 )
 
-# Import templates
-from spreadsheet_dl.domains.data_science.templates.ab_test_results import (
-    ABTestResultsTemplate,
-)
-from spreadsheet_dl.domains.data_science.templates.analysis_report import (
-    AnalysisReportTemplate,
-)
-from spreadsheet_dl.domains.data_science.templates.dataset_catalog import (
-    DatasetCatalogTemplate,
-)
-from spreadsheet_dl.domains.data_science.templates.experiment_log import (
-    ExperimentLogTemplate,
-)
-from spreadsheet_dl.domains.data_science.templates.model_comparison import (
-    ModelComparisonTemplate,
-)
-
 
 class DataScienceDomainPlugin(BaseDomainPlugin):
     """Data Science domain plugin.
@@ -80,15 +55,38 @@ class DataScienceDomainPlugin(BaseDomainPlugin):
         PHASE-C: Domain plugin implementations
 
     Provides comprehensive data science functionality for SpreadsheetDL
-    with templates, formulas, and importers tailored for ML/DS workflows.
+    with formulas and importers tailored for ML/DS workflows.
+
+    Formulas (14 total):
+        Statistical Tests (4):
+        - TTEST: T-test for hypothesis testing
+        - FTEST: F-test for variance comparison
+        - ZTEST: Z-test for large samples
+        - CHISQ_TEST: Chi-square test
+
+        ML Metrics (5):
+        - ACCURACY: Classification accuracy
+        - PRECISION: Precision score
+        - RECALL: Recall score
+        - F1SCORE: F1 score
+        - CONFUSION_MATRIX_METRIC: Confusion matrix metrics
+
+        Data Functions (5):
+        - DS_AVERAGE: Average calculation
+        - DS_MEDIAN: Median calculation
+        - DS_STDEV: Standard deviation
+        - DS_VARIANCE: Variance calculation
+        - DS_CORRELATION: Correlation coefficient
+
+    Importers:
+        - ScientificCSVImporter: Scientific CSV files
+        - MLflowImporter: MLflow experiment data
+        - JupyterMetadataImporter: Jupyter notebook metadata
 
     Example:
         >>> plugin = DataScienceDomainPlugin()
         >>> plugin.initialize()
-        >>> template_class = plugin.get_template("experiment_log")
-        >>> template = template_class()
-        >>> builder = template.generate()
-        >>> path = builder.save("experiments.ods")
+        >>> formulas = plugin.list_formulas()
     """
 
     @property
@@ -104,7 +102,7 @@ class DataScienceDomainPlugin(BaseDomainPlugin):
         return PluginMetadata(
             name="data_science",
             version="4.0.0",
-            description="Data science templates, formulas, and importers for ML/DS workflows",
+            description="Data science formulas and importers for ML/DS workflows",
             author="SpreadsheetDL Team",
             license="MIT",
             homepage="https://github.com/lair-click-bats/spreadsheet-dl",
@@ -115,7 +113,7 @@ class DataScienceDomainPlugin(BaseDomainPlugin):
     def initialize(self) -> None:
         """Initialize plugin resources.
 
-        Registers all templates, formulas, and importers.
+        Registers all formulas and importers.
 
         Implements:
             Plugin initialization with all components
@@ -123,13 +121,6 @@ class DataScienceDomainPlugin(BaseDomainPlugin):
         Raises:
             Exception: If initialization fails
         """
-        # Register templates (5 total)
-        self.register_template("experiment_log", ExperimentLogTemplate)
-        self.register_template("dataset_catalog", DatasetCatalogTemplate)
-        self.register_template("analysis_report", AnalysisReportTemplate)
-        self.register_template("ab_test_results", ABTestResultsTemplate)
-        self.register_template("model_comparison", ModelComparisonTemplate)
-
         # Register statistical formulas
         self.register_formula("TTEST", TTestFormula)
         self.register_formula("FTEST", FTestFormula)
@@ -163,26 +154,22 @@ class DataScienceDomainPlugin(BaseDomainPlugin):
         Implements:
             Plugin cleanup method
         """
-        # No cleanup needed for this plugin
         pass
 
     def validate(self) -> bool:
         """Validate plugin configuration.
 
         Returns:
-            True if plugin has required templates and formulas registered
+            True if plugin has required formulas and importers registered
 
         Implements:
             Plugin validation
         """
-        # Verify we have all required components
-        required_templates = 5
         required_formulas = 14  # 4 statistical + 5 ML + 5 data functions
         required_importers = 3
 
         return (
-            len(self._templates) >= required_templates
-            and len(self._formulas) >= required_formulas
+            len(self._formulas) >= required_formulas
             and len(self._importers) >= required_importers
         )
 

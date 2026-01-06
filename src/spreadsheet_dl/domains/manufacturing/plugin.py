@@ -5,19 +5,8 @@ Implements:
     PHASE-C: Domain plugin implementations
 
 Provides manufacturing-specific functionality including:
-- Production schedule and capacity planning templates
-- Quality control with SPC charts
-- Inventory management with safety stock
-- OEE tracking templates
-- Bill of materials with cost rollups
-- Production and quality metrics formulas
+- Production, quality, and inventory metrics formulas
 - MES, ERP, and sensor data importers
-
-Features:
-    - 5 professional templates for manufacturing workflows
-    - Production, quality, and inventory formula extensions
-    - Import from MES, ERP, and IoT sensor data
-    - Integration with manufacturing systems
 """
 
 from __future__ import annotations
@@ -51,23 +40,6 @@ from spreadsheet_dl.domains.manufacturing.importers.sensor_data import (
     SensorDataImporter,
 )
 
-# Import templates
-from spreadsheet_dl.domains.manufacturing.templates.bill_of_materials import (
-    BillOfMaterialsTemplate,
-)
-from spreadsheet_dl.domains.manufacturing.templates.inventory_management import (
-    InventoryManagementTemplate,
-)
-from spreadsheet_dl.domains.manufacturing.templates.oee_tracking import (
-    OEETrackingTemplate,
-)
-from spreadsheet_dl.domains.manufacturing.templates.production_schedule import (
-    ProductionScheduleTemplate,
-)
-from spreadsheet_dl.domains.manufacturing.templates.quality_control import (
-    QualityControlTemplate,
-)
-
 
 class ManufacturingDomainPlugin(BaseDomainPlugin):
     """Manufacturing domain plugin.
@@ -77,16 +49,37 @@ class ManufacturingDomainPlugin(BaseDomainPlugin):
         PHASE-C: Domain plugin implementations
 
     Provides comprehensive manufacturing functionality for SpreadsheetDL
-    with templates, formulas, and importers tailored for production planning,
+    with formulas and importers tailored for production planning,
     quality control, and inventory management.
+
+    Formulas (12 total):
+        Production Metrics (4):
+        - CYCLE_TIME: Production cycle time
+        - TAKT_TIME: Takt time calculation
+        - THROUGHPUT: Production throughput
+        - CAPACITY_UTILIZATION: Capacity utilization rate
+
+        Quality Metrics (4):
+        - DEFECT_RATE: Defect rate calculation
+        - FIRST_PASS_YIELD: First pass yield
+        - PROCESS_CAPABILITY: Process capability index
+        - CONTROL_LIMITS: SPC control limits
+
+        Inventory Metrics (4):
+        - EOQ: Economic order quantity
+        - REORDER_POINT: Reorder point
+        - SAFETY_STOCK: Safety stock level
+        - INVENTORY_TURNOVER: Inventory turnover ratio
+
+    Importers:
+        - MESDataImporter: Manufacturing Execution System data
+        - ERPDataImporter: Enterprise Resource Planning data
+        - SensorDataImporter: IoT sensor data
 
     Example:
         >>> plugin = ManufacturingDomainPlugin()
         >>> plugin.initialize()
-        >>> template_class = plugin.get_template("production_schedule")
-        >>> template = template_class()
-        >>> builder = template.generate()
-        >>> path = builder.save("production_schedule.ods")
+        >>> formulas = plugin.list_formulas()
     """
 
     @property
@@ -102,7 +95,7 @@ class ManufacturingDomainPlugin(BaseDomainPlugin):
         return PluginMetadata(
             name="manufacturing",
             version="4.0.0",
-            description="Manufacturing templates, formulas, and importers for production planning and quality control",
+            description="Manufacturing formulas and importers for production planning and quality control",
             author="SpreadsheetDL Team",
             license="MIT",
             homepage="https://github.com/lair-click-bats/spreadsheet-dl",
@@ -113,7 +106,7 @@ class ManufacturingDomainPlugin(BaseDomainPlugin):
     def initialize(self) -> None:
         """Initialize plugin resources.
 
-        Registers all templates, formulas, and importers.
+        Registers all formulas and importers.
 
         Implements:
             Plugin initialization with all components
@@ -121,13 +114,6 @@ class ManufacturingDomainPlugin(BaseDomainPlugin):
         Raises:
             Exception: If initialization fails
         """
-        # Register templates (5 total)
-        self.register_template("production_schedule", ProductionScheduleTemplate)
-        self.register_template("quality_control", QualityControlTemplate)
-        self.register_template("inventory_management", InventoryManagementTemplate)
-        self.register_template("oee_tracking", OEETrackingTemplate)
-        self.register_template("bill_of_materials", BillOfMaterialsTemplate)
-
         # Register production metrics formulas (4)
         self.register_formula("CYCLE_TIME", CycleTimeFormula)
         self.register_formula("TAKT_TIME", TaktTimeFormula)
@@ -159,26 +145,22 @@ class ManufacturingDomainPlugin(BaseDomainPlugin):
         Implements:
             Plugin cleanup method
         """
-        # No cleanup needed for this plugin
         pass
 
     def validate(self) -> bool:
         """Validate plugin configuration.
 
         Returns:
-            True if plugin has required templates and formulas registered
+            True if plugin has required formulas and importers registered
 
         Implements:
             Plugin validation
         """
-        # Verify we have all required components
-        required_templates = 5
         required_formulas = 12  # 4 production + 4 quality + 4 inventory
         required_importers = 3
 
         return (
-            len(self._templates) >= required_templates
-            and len(self._formulas) >= required_formulas
+            len(self._formulas) >= required_formulas
             and len(self._importers) >= required_importers
         )
 

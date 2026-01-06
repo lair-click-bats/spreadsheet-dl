@@ -9,7 +9,6 @@ Provides comprehensive finance-specific functionality including:
 - Financial goals and debt payoff
 - Recurring expenses and bill reminders
 - Financial reporting and analytics
-- Professional financial templates
 
 Implements:
     PHASE0-001: Restructure package for domain plugins
@@ -141,22 +140,6 @@ from spreadsheet_dl.domains.finance.reminders import (
 # Report Generator
 from spreadsheet_dl.domains.finance.report_generator import ReportGenerator
 
-# Financial Statement Templates
-from spreadsheet_dl.domains.finance.templates.financial_statements import (
-    BalanceSheetTemplate,
-    CashFlowStatementTemplate,
-    EquityStatementTemplate,
-    IncomeStatementTemplate,
-)
-
-# Professional Templates
-from spreadsheet_dl.domains.finance.templates.professional import (
-    CashFlowTrackerTemplate,
-    EnterpriseBudgetTemplate,
-    ExpenseReportTemplate,
-    InvoiceTemplate,
-)
-
 __all__ = [
     # Constants
     "BUILTIN_FORMATS",
@@ -174,8 +157,6 @@ __all__ = [
     "AlertType",
     # Classes - Analytics
     "AnalyticsDashboard",
-    # Classes - Templates
-    "BalanceSheetTemplate",
     # Classes - Bank Formats
     "BankFormatDefinition",
     "BankFormatRegistry",
@@ -187,8 +168,6 @@ __all__ = [
     "BudgetAnalyzer",
     # Classes - CSV Import
     "CSVImporter",
-    "CashFlowStatementTemplate",
-    "CashFlowTrackerTemplate",
     # Classes - Categories
     "Category",
     "CategoryManager",
@@ -200,20 +179,15 @@ __all__ = [
     "Debt",
     "DebtPayoffMethod",
     "DebtPayoffPlan",
-    "EnterpriseBudgetTemplate",
-    "EquityStatementTemplate",
     "ExchangeRate",
     "ExchangeRateProvider",
     # Classes - ODS Generator
     "ExpenseCategory",
     "ExpenseEntry",
-    "ExpenseReportTemplate",
     "FormatBuilder",
     "GoalCategory",
     "GoalManager",
     "GoalStatus",
-    "IncomeStatementTemplate",
-    "InvoiceTemplate",
     "MoneyAmount",
     "NetWorth",
     "OdsGenerator",

@@ -5,11 +5,6 @@ Implements:
     PHASE-C: Domain plugin implementations
 
 Provides environmental science-specific functionality including:
-- Air quality monitoring templates
-- Water quality analysis templates
-- Carbon footprint tracking
-- Biodiversity assessment
-- Environmental impact assessment
 - Pollution and sustainability formulas
 - Sensor network and satellite data importers
 """
@@ -51,23 +46,6 @@ from spreadsheet_dl.domains.environmental.importers.sensor_network import (
     SensorNetworkImporter,
 )
 
-# Import templates
-from spreadsheet_dl.domains.environmental.templates.air_quality_monitoring import (
-    AirQualityMonitoringTemplate,
-)
-from spreadsheet_dl.domains.environmental.templates.biodiversity_assessment import (
-    BiodiversityAssessmentTemplate,
-)
-from spreadsheet_dl.domains.environmental.templates.carbon_footprint import (
-    CarbonFootprintTemplate,
-)
-from spreadsheet_dl.domains.environmental.templates.environmental_impact import (
-    EnvironmentalImpactTemplate,
-)
-from spreadsheet_dl.domains.environmental.templates.water_quality_analysis import (
-    WaterQualityAnalysisTemplate,
-)
-
 
 class EnvironmentalDomainPlugin(BaseDomainPlugin):
     """Environmental domain plugin.
@@ -77,15 +55,8 @@ class EnvironmentalDomainPlugin(BaseDomainPlugin):
         PHASE-C: Domain plugin implementations
 
     Provides comprehensive environmental science functionality for SpreadsheetDL
-    with templates, formulas, and importers tailored for environmental monitoring,
+    with formulas and importers tailored for environmental monitoring,
     assessment, and sustainability tracking.
-
-    Templates:
-        - AirQualityMonitoringTemplate: Air pollutant monitoring
-        - WaterQualityAnalysisTemplate: Water quality parameters
-        - CarbonFootprintTemplate: Carbon emissions tracking
-        - BiodiversityAssessmentTemplate: Species diversity assessment
-        - EnvironmentalImpactTemplate: Environmental impact assessment
 
     Formulas (12 total):
         Air Quality (3):
@@ -116,10 +87,7 @@ class EnvironmentalDomainPlugin(BaseDomainPlugin):
     Example:
         >>> plugin = EnvironmentalDomainPlugin()
         >>> plugin.initialize()
-        >>> template_class = plugin.get_template("air_quality_monitoring")
-        >>> template = template_class(station_name="Station A")
-        >>> builder = template.generate()
-        >>> path = builder.save("air_quality.ods")
+        >>> formulas = plugin.list_formulas()
     """
 
     @property
@@ -135,7 +103,7 @@ class EnvironmentalDomainPlugin(BaseDomainPlugin):
         return PluginMetadata(
             name="environmental",
             version="4.0.0",
-            description=("Environmental monitoring templates, formulas, and importers"),
+            description=("Environmental monitoring formulas and importers"),
             author="SpreadsheetDL Team",
             license="MIT",
             homepage="https://github.com/lair-click-bats/spreadsheet-dl",
@@ -152,7 +120,7 @@ class EnvironmentalDomainPlugin(BaseDomainPlugin):
     def initialize(self) -> None:
         """Initialize plugin resources.
 
-        Registers all templates, formulas, and importers.
+        Registers all formulas and importers.
 
         Implements:
             Plugin initialization with all components
@@ -160,15 +128,6 @@ class EnvironmentalDomainPlugin(BaseDomainPlugin):
         Raises:
             Exception: If initialization fails
         """
-        # Register templates (5 total)
-        self.register_template("air_quality_monitoring", AirQualityMonitoringTemplate)
-        self.register_template("water_quality_analysis", WaterQualityAnalysisTemplate)
-        self.register_template("carbon_footprint", CarbonFootprintTemplate)
-        self.register_template(
-            "biodiversity_assessment", BiodiversityAssessmentTemplate
-        )
-        self.register_template("environmental_impact", EnvironmentalImpactTemplate)
-
         # Register air quality formulas (3)
         self.register_formula("AQI_CALCULATION", AQICalculationFormula)
         self.register_formula("EMISSION_RATE", EmissionRateFormula)
@@ -204,26 +163,22 @@ class EnvironmentalDomainPlugin(BaseDomainPlugin):
         Implements:
             Plugin cleanup method
         """
-        # No cleanup needed for this plugin
         pass
 
     def validate(self) -> bool:
         """Validate plugin configuration.
 
         Returns:
-            True if plugin has required templates and formulas registered
+            True if plugin has required formulas and importers registered
 
         Implements:
             Plugin validation
         """
-        # Verify we have all required components
-        required_templates = 5
         required_formulas = 12  # 3 air + 2 water + 3 ecology + 4 carbon
         required_importers = 3
 
         return (
-            len(self._templates) >= required_templates
-            and len(self._formulas) >= required_formulas
+            len(self._formulas) >= required_formulas
             and len(self._importers) >= required_importers
         )
 

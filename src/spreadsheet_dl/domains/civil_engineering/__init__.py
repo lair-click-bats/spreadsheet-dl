@@ -1,11 +1,6 @@
 """Civil Engineering Domain Plugin for SpreadsheetDL.
 
 Provides comprehensive civil engineering functionality including:
-- Load calculations and combinations
-- Material takeoff and quantity estimation
-- Structural analysis and design
-- Site survey and topographic data
-- Concrete mix design and proportioning
 - Beam, soil, concrete, and load formulas
 - Survey data, structural results, and building code importers
 
@@ -16,7 +11,6 @@ Example:
     >>> from spreadsheet_dl.domains.civil_engineering import CivilEngineeringDomainPlugin
     >>> plugin = CivilEngineeringDomainPlugin()
     >>> plugin.initialize()
-    >>> templates = plugin.list_templates()
     >>> formulas = plugin.list_formulas()
 """
 
@@ -47,15 +41,6 @@ from spreadsheet_dl.domains.civil_engineering.plugin import (
     CivilEngineeringDomainPlugin,
 )
 
-# Import all templates
-from spreadsheet_dl.domains.civil_engineering.templates import (
-    ConcreteMixTemplate,
-    LoadCalculationsTemplate,
-    MaterialTakeoffTemplate,
-    SiteSurveyTemplate,
-    StructuralAnalysisTemplate,
-)
-
 # Import utilities
 from spreadsheet_dl.domains.civil_engineering.utils import (
     ConcreteMix,
@@ -82,33 +67,27 @@ __all__ = [
     "BeamDeflectionFormula",
     # Formulas - Soil
     "BearingCapacityFormula",
+    # Importers
     "BuildingCodesImporter",
     # Plugin
     "CivilEngineeringDomainPlugin",
     # Utilities
     "ConcreteMix",
-    "ConcreteMixTemplate",
     # Formulas - Concrete
     "ConcreteStrengthFormula",
     "CrackWidthFormula",
     # Formulas - Loads
     "DeadLoadFormula",
     "LiveLoadFormula",
-    # Templates
-    "LoadCalculationsTemplate",
     "LoadCombination",
     "LoadCombinationCode",
-    "MaterialTakeoffTemplate",
     "MomentFormula",
     "ReinforcementRatioFormula",
     "SeismicLoadFormula",
     "SettlementFormula",
     "ShearStressFormula",
-    "SiteSurveyTemplate",
     "SoilPressureFormula",
-    "StructuralAnalysisTemplate",
     "StructuralResultsImporter",
-    # Importers
     "SurveyDataImporter",
     "WindLoadFormula",
     "beam_self_weight",

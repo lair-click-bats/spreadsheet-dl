@@ -1,9 +1,6 @@
 """Mechanical Engineering Domain Plugin for SpreadsheetDL.
 
 Provides comprehensive mechanical engineering functionality including:
-- Stress analysis and material properties templates
-- Assembly instructions and tolerance stackup
-- Manufacturing specifications
 - Stress/strain, moment, thermal, and fatigue formulas
 - CAD metadata, FEA results, and material database importers
 
@@ -37,15 +34,6 @@ from spreadsheet_dl.domains.mechanical_engineering.plugin import (
     MechanicalEngineeringDomainPlugin,
 )
 
-# Templates
-from spreadsheet_dl.domains.mechanical_engineering.templates import (
-    AssemblyInstructionsTemplate,
-    ManufacturingSpecsTemplate,
-    MaterialPropertiesTemplate,
-    StressAnalysisTemplate,
-    ToleranceStackupTemplate,
-)
-
 # Utilities
 from spreadsheet_dl.domains.mechanical_engineering.utils import (
     inch_to_mm,
@@ -65,26 +53,25 @@ from spreadsheet_dl.domains.mechanical_engineering.utils import (
 )
 
 __all__ = [
-    "AssemblyInstructionsTemplate",
+    # Formulas
     "BendingStressFormula",
+    # Importers
     "CADMetadataImporter",
     "FEAResultsImporter",
     "FatigueLifeFormula",
-    "ManufacturingSpecsTemplate",
     "MaterialDatabaseImporter",
-    "MaterialPropertiesTemplate",
+    # Plugin
     "MechanicalEngineeringDomainPlugin",
     "MomentOfInertiaFormula",
     "SafetyFactorFormula",
     "StrainFormula",
-    "StressAnalysisTemplate",
     "StressConcentrationFormula",
     "StressFormula",
     "ThermalExpansionFormula",
     "ThermalStressFormula",
-    "ToleranceStackupTemplate",
     "TorsionalStressFormula",
     "YoungsModulusFormula",
+    # Utilities
     "inch_to_mm",
     "kg_to_lb",
     "lb_to_kg",

@@ -94,7 +94,6 @@ Examples:
   spreadsheet-dl plugin list
   spreadsheet-dl plugin enable my_plugin
   spreadsheet-dl banks --list
-  spreadsheet-dl templates
   spreadsheet-dl themes
 
 For more information, visit: https://github.com/lair-click-bats/spreadsheet-dl
@@ -202,12 +201,6 @@ def _add_generate_parser(
         "--year",
         type=int,
         help="Year (default: current year)",
-    )
-    gen_parser.add_argument(
-        "-t",
-        "--template",
-        type=str,
-        help="Budget template (50_30_20, family, minimalist, zero_based, fire, high_income)",
     )
     gen_parser.add_argument(
         "--theme",
@@ -779,8 +772,8 @@ def _add_templates_parser(subparsers: Any) -> None:
     """Add templates command parser."""
     templates_parser = subparsers.add_parser(
         "templates",
-        help="List budget templates",
-        description="List available budget templates.",
+        help="Show template information (deprecated)",
+        description="Templates have been removed. Shows guidance on using examples instead.",
     )
     templates_parser.add_argument(
         "--json",

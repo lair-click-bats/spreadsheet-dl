@@ -5,11 +5,6 @@ Implements:
     PHASE-C: Domain plugin implementations
 
 Provides education-specific functionality including:
-- Course gradebook and grade management templates
-- Lesson plan and curriculum planning templates
-- Assessment rubric templates
-- Student attendance tracking
-- Learning objectives mapping
 - Grade calculation and learning metrics formulas
 - LMS data, gradebook export, and assessment results importers
 """
@@ -47,21 +42,6 @@ from spreadsheet_dl.domains.education.importers.gradebook_export import (
 )
 from spreadsheet_dl.domains.education.importers.lms_data import LMSDataImporter
 
-# Import templates
-from spreadsheet_dl.domains.education.templates.assessment_rubric import (
-    AssessmentRubricTemplate,
-)
-from spreadsheet_dl.domains.education.templates.course_gradebook import (
-    CourseGradebookTemplate,
-)
-from spreadsheet_dl.domains.education.templates.learning_objectives import (
-    LearningObjectivesTemplate,
-)
-from spreadsheet_dl.domains.education.templates.lesson_plan import LessonPlanTemplate
-from spreadsheet_dl.domains.education.templates.student_attendance import (
-    StudentAttendanceTemplate,
-)
-
 
 class EducationDomainPlugin(BaseDomainPlugin):
     """Education domain plugin.
@@ -71,15 +51,7 @@ class EducationDomainPlugin(BaseDomainPlugin):
         PHASE-C: Domain plugin implementations
 
     Provides comprehensive education functionality for SpreadsheetDL
-    with templates, formulas, and importers tailored for academic
-    and educational workflows.
-
-    Templates:
-        - CourseGradebookTemplate: Course grades and student tracking
-        - LessonPlanTemplate: Lesson planning and curriculum design
-        - AssessmentRubricTemplate: Assessment criteria and scoring
-        - StudentAttendanceTemplate: Attendance tracking
-        - LearningObjectivesTemplate: Learning objectives mapping
+    with formulas and importers tailored for academic and educational workflows.
 
     Formulas (12 total):
         Grade Calculations (3):
@@ -108,10 +80,7 @@ class EducationDomainPlugin(BaseDomainPlugin):
     Example:
         >>> plugin = EducationDomainPlugin()
         >>> plugin.initialize()
-        >>> template_class = plugin.get_template("course_gradebook")
-        >>> template = template_class(course_name="Python 101")
-        >>> builder = template.generate()
-        >>> path = builder.save("gradebook.ods")
+        >>> formulas = plugin.list_formulas()
     """
 
     @property
@@ -127,9 +96,7 @@ class EducationDomainPlugin(BaseDomainPlugin):
         return PluginMetadata(
             name="education",
             version="4.0.0",
-            description=(
-                "Education templates, formulas, and importers for academic workflows"
-            ),
+            description=("Education formulas and importers for academic workflows"),
             author="SpreadsheetDL Team",
             license="MIT",
             homepage="https://github.com/lair-click-bats/spreadsheet-dl",
@@ -140,7 +107,7 @@ class EducationDomainPlugin(BaseDomainPlugin):
     def initialize(self) -> None:
         """Initialize plugin resources.
 
-        Registers all templates, formulas, and importers.
+        Registers all formulas and importers.
 
         Implements:
             Plugin initialization with all components
@@ -148,13 +115,6 @@ class EducationDomainPlugin(BaseDomainPlugin):
         Raises:
             Exception: If initialization fails
         """
-        # Register templates (5 total)
-        self.register_template("course_gradebook", CourseGradebookTemplate)
-        self.register_template("lesson_plan", LessonPlanTemplate)
-        self.register_template("assessment_rubric", AssessmentRubricTemplate)
-        self.register_template("student_attendance", StudentAttendanceTemplate)
-        self.register_template("learning_objectives", LearningObjectivesTemplate)
-
         # Register grade calculation formulas (3)
         self.register_formula("GRADE_AVERAGE", GradeAverageFormula)
         self.register_formula("WEIGHTED_GRADE", WeightedGradeFormula)
@@ -186,26 +146,22 @@ class EducationDomainPlugin(BaseDomainPlugin):
         Implements:
             Plugin cleanup method
         """
-        # No cleanup needed for this plugin
         pass
 
     def validate(self) -> bool:
         """Validate plugin configuration.
 
         Returns:
-            True if plugin has required templates and formulas registered
+            True if plugin has required formulas and importers registered
 
         Implements:
             Plugin validation
         """
-        # Verify we have all required components
-        required_templates = 5
         required_formulas = 12  # 3 grades + 3 statistics + 6 learning
         required_importers = 3
 
         return (
-            len(self._templates) >= required_templates
-            and len(self._formulas) >= required_formulas
+            len(self._formulas) >= required_formulas
             and len(self._importers) >= required_importers
         )
 

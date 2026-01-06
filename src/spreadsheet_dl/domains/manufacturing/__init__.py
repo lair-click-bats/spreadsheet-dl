@@ -5,11 +5,6 @@ Implements:
     PHASE-C: Domain plugin implementations
 
 Provides comprehensive manufacturing-specific functionality including:
-- Production schedule and capacity planning templates
-- Quality control with SPC charts
-- Inventory management with reorder points and safety stock
-- OEE tracking and analysis templates
-- Bill of materials with cost rollups
 - Production metrics formulas (cycle time, takt time, throughput, capacity)
 - Quality metrics formulas (defect rate, FPY, Cp/Cpk, control limits)
 - Inventory formulas (EOQ, reorder point, safety stock, turnover)
@@ -19,11 +14,6 @@ Example:
     >>> from spreadsheet_dl.domains.manufacturing import ManufacturingDomainPlugin
     >>> plugin = ManufacturingDomainPlugin()
     >>> plugin.initialize()
-    >>> # Use templates
-    >>> from spreadsheet_dl.domains.manufacturing import ProductionScheduleTemplate
-    >>> template = ProductionScheduleTemplate(facility_name="Assembly Line A")
-    >>> builder = template.generate()
-    >>> path = builder.save("production_schedule.ods")
 """
 
 # Plugin
@@ -59,15 +49,6 @@ from spreadsheet_dl.domains.manufacturing.importers import (
 )
 from spreadsheet_dl.domains.manufacturing.plugin import ManufacturingDomainPlugin
 
-# Templates
-from spreadsheet_dl.domains.manufacturing.templates import (
-    BillOfMaterialsTemplate,
-    InventoryManagementTemplate,
-    OEETrackingTemplate,
-    ProductionScheduleTemplate,
-    QualityControlTemplate,
-)
-
 # Utils
 from spreadsheet_dl.domains.manufacturing.utils import (
     calculate_cycle_time,
@@ -83,8 +64,6 @@ from spreadsheet_dl.domains.manufacturing.utils import (
 )
 
 __all__ = [
-    # Templates
-    "BillOfMaterialsTemplate",
     # Formulas - Production
     "CapacityUtilizationFormula",
     # Formulas - Quality
@@ -96,15 +75,11 @@ __all__ = [
     # Importers
     "ERPDataImporter",
     "FirstPassYieldFormula",
-    "InventoryManagementTemplate",
     "InventoryTurnoverFormula",
     "MESDataImporter",
     # Plugin
     "ManufacturingDomainPlugin",
-    "OEETrackingTemplate",
     "ProcessCapabilityFormula",
-    "ProductionScheduleTemplate",
-    "QualityControlTemplate",
     "ReorderPointFormula",
     "SafetyStockFormula",
     "SensorDataImporter",

@@ -5,11 +5,6 @@ Implements:
     PHASE-C: Domain plugin implementations
 
 Provides comprehensive data science-specific functionality including:
-- ML experiment tracking templates
-- Dataset catalog and inventory management
-- Statistical analysis reports
-- A/B test results with significance testing
-- Model comparison and evaluation
 - Statistical test formulas (T-test, F-test, Chi-square)
 - ML metrics formulas (accuracy, precision, recall, F1)
 - Scientific CSV import with type detection
@@ -20,11 +15,6 @@ Example:
     >>> from spreadsheet_dl.domains.data_science import DataScienceDomainPlugin
     >>> plugin = DataScienceDomainPlugin()
     >>> plugin.initialize()
-    >>> # Use templates
-    >>> from spreadsheet_dl.domains.data_science import ExperimentLogTemplate
-    >>> template = ExperimentLogTemplate(project_name="Image Classification")
-    >>> builder = template.generate()
-    >>> path = builder.save("experiments.ods")
 """
 
 # Plugin
@@ -62,15 +52,6 @@ from spreadsheet_dl.domains.data_science.importers import (
 )
 from spreadsheet_dl.domains.data_science.plugin import DataScienceDomainPlugin
 
-# Templates
-from spreadsheet_dl.domains.data_science.templates import (
-    ABTestResultsTemplate,
-    AnalysisReportTemplate,
-    DatasetCatalogTemplate,
-    ExperimentLogTemplate,
-    ModelComparisonTemplate,
-)
-
 # Utils
 from spreadsheet_dl.domains.data_science.utils import (
     calculate_confusion_matrix_metrics,
@@ -80,11 +61,8 @@ from spreadsheet_dl.domains.data_science.utils import (
 )
 
 __all__ = [
-    # Templates
-    "ABTestResultsTemplate",
     # Formulas - ML Metrics
     "AccuracyFormula",
-    "AnalysisReportTemplate",
     # Formulas - Data Functions
     "AverageFormula",
     # Formulas - Statistical
@@ -93,15 +71,12 @@ __all__ = [
     "CorrelationFormula",
     # Plugin
     "DataScienceDomainPlugin",
-    "DatasetCatalogTemplate",
-    "ExperimentLogTemplate",
     "F1ScoreFormula",
     "FTestFormula",
     # Importers
     "JupyterMetadataImporter",
     "MLflowImporter",
     "MedianFormula",
-    "ModelComparisonTemplate",
     "PrecisionFormula",
     "RecallFormula",
     "ScientificCSVImporter",

@@ -1,20 +1,20 @@
 """SpreadsheetDL - The Spreadsheet Definition Language for Python.
 
 A universal spreadsheet definition language with declarative API, multi-format export,
-domain-specific templates, and native MCP server for AI integration.
+domain-specific functions, and native MCP server for AI integration.
 
 **Key Features:**
 - Declarative Builder API (define what, not how)
 - Type-Safe Formulas (60+ functions, circular reference detection)
 - Theme System (YAML-based, 5 built-in themes)
 - Multi-Format Export (ODS, XLSX, PDF from single definition)
-- Domain Plugins (finance, science, engineering - more coming)
+- Domain Plugins (finance, science, engineering - with specialized functions)
 - MCP Server (native integration with Claude)
 
 **Why SpreadsheetDL?**
 - vs openpyxl/xlsxwriter: Declarative, not imperative
 - vs pandas: Full spreadsheet model, not just data export
-- vs all: Only tool with domain-aware templates and MCP server
+- vs all: Only tool with domain-aware functions and MCP server
 
 v4.0.0 - Universal Spreadsheet Definition Language
 ===================================================
@@ -32,15 +32,14 @@ Core Platform:
 - Round-trip editing (read, modify, write ODS)
 - Performance optimization with caching and lazy loading
 
-Domain Plugins:
-- Finance: Budgets, financial statements, invoices, bank import, analytics
-- Data Science: Experiments, datasets, analysis, A/B tests
-- Engineering: Electrical, mechanical, civil - BOMs, calculations, schedules
-- Manufacturing: OEE, quality control, production
-- Biology: Plate layouts, qPCR results, cell culture tracking
-- Education: Gradebooks, attendance, rubrics
-- Environmental: Monitoring templates and data import
-- More domains coming - see roadmap
+Domain Plugins (specialized functions):
+- Finance: NPV, IRR, amortization, budget analysis, bank import
+- Data Science: Statistical functions, ML metrics, experiment tracking
+- Engineering: Electrical, mechanical, civil - stress, power, beam calculations
+- Manufacturing: OEE, quality metrics, inventory functions
+- Biology: Dilution, concentration, qPCR calculations
+- Education: Grade calculations, attendance tracking
+- Environmental: Air/water quality indices, carbon calculations
 
 Legacy Features (from v2.0.0):
 - FR-SCHEMA-*: Extended schema with Color, Font, Border, Typography, Print Layout
@@ -51,7 +50,7 @@ Legacy Features (from v2.0.0):
 - FR-CHART-*: Chart builder with all types (column, bar, line, area, pie, scatter, combo)
 - FR-TEMPLATE-*: Template engine with schema, loader, renderer, component system
 - FR-BUILDER-*: Enhanced builder API with charts, protection, freezing
-- FR-PROF-*: Professional templates (enterprise budget, cash flow, invoice, expense report)
+- FR-PROF-*: Professional spreadsheet features (enterprise formatting, cash flow tracking)
 - FR-PRINT-*: Print layout optimization with page setup, headers/footers, breaks
 - FR-ADV-*: Advanced features (named ranges, comments, filters, hyperlinks, images)
 
@@ -59,8 +58,8 @@ Major Features (v4.0.0):
 - Universal Spreadsheet Definition Language with declarative DSL
 - Multi-format export (ODS, XLSX, CSV, PDF, AI-friendly JSON)
 - MCP server integration for LLM workflows
-- 10+ domain-specific plugins (finance, science, engineering, data science)
-- Professional templates with theme system
+- 9 domain-specific plugins with specialized functions
+- Theme system for visual consistency
 - Advanced formulas, charts, and conditional formatting
 - Security features (encryption, credential management)
 - Backup/restore with compression
@@ -323,22 +322,6 @@ from spreadsheet_dl.domains.finance.report_generator import (
     ReportGenerator,
     generate_monthly_report,
 )
-
-# Financial Statement Templates
-from spreadsheet_dl.domains.finance.templates.financial_statements import (
-    BalanceSheetTemplate,
-    CashFlowStatementTemplate,
-    EquityStatementTemplate,
-    IncomeStatementTemplate,
-)
-
-# Professional Templates
-from spreadsheet_dl.domains.finance.templates.professional import (
-    CashFlowTrackerTemplate,
-    EnterpriseBudgetTemplate,
-    ExpenseReportTemplate,
-    InvoiceTemplate,
-)
 from spreadsheet_dl.exceptions import (
     ConfigurationError,
     CSVImportError,
@@ -509,10 +492,6 @@ from spreadsheet_dl.template_engine import (
     TemplateRenderer,
     TemplateVariable,
 )
-from spreadsheet_dl.templates import (
-    get_template,
-    list_templates,
-)
 
 # Interactive Visualization
 from spreadsheet_dl.visualization import (
@@ -561,7 +540,6 @@ __all__ = [  # noqa: RUF022  # Intentionally organized by category, not alphabet
     "AxisType",
     "BackupManager",
     "BackupReason",
-    "BalanceSheetTemplate",
     "BankFormatDefinition",
     "BankFormatRegistry",
     "BatchProcessor",
@@ -574,8 +552,6 @@ __all__ = [  # noqa: RUF022  # Intentionally organized by category, not alphabet
     "BudgetAnalyzer",
     "CSVImportError",
     "CSVImporter",
-    "CashFlowStatementTemplate",
-    "CashFlowTrackerTemplate",
     "Category",
     "CategoryManager",
     "CellComment",
@@ -621,13 +597,10 @@ __all__ = [  # noqa: RUF022  # Intentionally organized by category, not alphabet
     "EmailConfig",
     "EncryptionError",
     "EncryptionMetadata",
-    "EnterpriseBudgetTemplate",
-    "EquityStatementTemplate",
     "ExchangeRate",
     "ExchangeRateProvider",
     "ExpenseCategory",
     "ExpenseEntry",
-    "ExpenseReportTemplate",
     "ExportFormat",
     "ExportOptions",
     "FileCache",
@@ -648,10 +621,8 @@ __all__ = [  # noqa: RUF022  # Intentionally organized by category, not alphabet
     "Hyperlink",
     "Image",
     "ImportFormat",
-    "IncomeStatementTemplate",
     "IntegrityError",
     "InteractiveOdsBuilder",
-    "InvoiceTemplate",
     "JsonAdapter",
     "LRUCache",
     "Lazy",
@@ -816,14 +787,12 @@ __all__ = [  # noqa: RUF022  # Intentionally organized by category, not alphabet
     "get_currency",
     "get_default_accounts",
     "get_format",
-    "get_template",
     "import_bank_csv",
     "import_from",
     "init_config_file",
     "install_completions",
     "list_currencies",
     "list_formats",
-    "list_templates",
     "load_definition",
     "money",
     "print_completion_script",

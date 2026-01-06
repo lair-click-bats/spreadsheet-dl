@@ -5,11 +5,6 @@ Implements:
     PHASE-C: Domain plugin implementations
 
 Provides education-specific functionality including:
-- Course gradebook and grade management templates
-- Lesson plan and curriculum planning templates
-- Assessment rubric templates
-- Student attendance tracking
-- Learning objectives mapping
 - Grade calculation formulas (average, weighted, curve)
 - Statistical analysis formulas (standard deviation, percentile)
 - Learning metrics (mastery level, learning gain, completion rate)
@@ -19,11 +14,6 @@ Example:
     >>> from spreadsheet_dl.domains.education import EducationDomainPlugin
     >>> plugin = EducationDomainPlugin()
     >>> plugin.initialize()
-    >>> # Use templates
-    >>> from spreadsheet_dl.domains.education import CourseGradebookTemplate
-    >>> template = CourseGradebookTemplate(course_name="Introduction to Python")
-    >>> builder = template.generate()
-    >>> path = builder.save("gradebook.ods")
 """
 
 # Plugin
@@ -59,15 +49,6 @@ from spreadsheet_dl.domains.education.importers import (
 )
 from spreadsheet_dl.domains.education.plugin import EducationDomainPlugin
 
-# Templates
-from spreadsheet_dl.domains.education.templates import (
-    AssessmentRubricTemplate,
-    CourseGradebookTemplate,
-    LearningObjectivesTemplate,
-    LessonPlanTemplate,
-    StudentAttendanceTemplate,
-)
-
 # Utils
 from spreadsheet_dl.domains.education.utils import (
     calculate_attendance_rate,
@@ -83,15 +64,12 @@ from spreadsheet_dl.domains.education.utils import (
 __all__ = [
     # Importers
     "AssessmentResultsImporter",
-    # Templates
-    "AssessmentRubricTemplate",
     # Formulas - Learning
     "AttendanceRateFormula",
     "BloomTaxonomyLevelFormula",
     "CompletionRateFormula",
     # Formulas - Statistics
     "CorrelationFormula",
-    "CourseGradebookTemplate",
     # Plugin
     "EducationDomainPlugin",
     # Formulas - Grades
@@ -100,13 +78,10 @@ __all__ = [
     "GradebookExportImporter",
     "LMSDataImporter",
     "LearningGainFormula",
-    "LearningObjectivesTemplate",
-    "LessonPlanTemplate",
     "MasteryLevelFormula",
     "PercentileRankFormula",
     "ReadabilityScoreFormula",
     "StandardDeviationFormula",
-    "StudentAttendanceTemplate",
     "WeightedGradeFormula",
     # Utils
     "calculate_attendance_rate",

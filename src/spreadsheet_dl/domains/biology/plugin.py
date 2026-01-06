@@ -5,8 +5,6 @@ Implements:
     PHASE-C: Domain plugin implementations
 
 Provides biology-specific functionality including:
-- Lab experiment protocols and plate reader data templates
-- Gene expression and sequencing results templates
 - Molecular biology, biochemistry, and ecology formulas
 - FASTA, GenBank, and plate reader importers
 """
@@ -40,23 +38,6 @@ from spreadsheet_dl.domains.biology.importers.fasta import FASTAImporter
 from spreadsheet_dl.domains.biology.importers.genbank import GenBankImporter
 from spreadsheet_dl.domains.biology.importers.plate_reader import PlateReaderImporter
 
-# Import templates
-from spreadsheet_dl.domains.biology.templates.ecology_field_data import (
-    EcologyFieldDataTemplate,
-)
-from spreadsheet_dl.domains.biology.templates.experiment_protocol import (
-    ExperimentProtocolTemplate,
-)
-from spreadsheet_dl.domains.biology.templates.gene_expression import (
-    GeneExpressionTemplate,
-)
-from spreadsheet_dl.domains.biology.templates.plate_reader_data import (
-    PlateReaderDataTemplate,
-)
-from spreadsheet_dl.domains.biology.templates.sequencing_results import (
-    SequencingResultsTemplate,
-)
-
 
 class BiologyDomainPlugin(BaseDomainPlugin):
     """Biology domain plugin.
@@ -66,14 +47,7 @@ class BiologyDomainPlugin(BaseDomainPlugin):
         PHASE-C: Domain plugin implementations
 
     Provides comprehensive biology functionality for SpreadsheetDL
-    with templates, formulas, and importers tailored for research workflows.
-
-    Templates:
-        - ExperimentProtocolTemplate: Lab experiment protocols
-        - PlateReaderDataTemplate: Microplate reader data
-        - GeneExpressionTemplate: Gene expression analysis (qPCR)
-        - EcologyFieldDataTemplate: Field observations and diversity
-        - SequencingResultsTemplate: DNA/RNA sequencing results
+    with formulas and importers tailored for research workflows.
 
     Formulas (12 total):
         Molecular Biology (4):
@@ -102,10 +76,7 @@ class BiologyDomainPlugin(BaseDomainPlugin):
     Example:
         >>> plugin = BiologyDomainPlugin()
         >>> plugin.initialize()
-        >>> template_class = plugin.get_template("experiment_protocol")
-        >>> template = template_class()
-        >>> builder = template.generate()
-        >>> path = builder.save("protocol.ods")
+        >>> formulas = plugin.list_formulas()
     """
 
     @property
@@ -134,7 +105,7 @@ class BiologyDomainPlugin(BaseDomainPlugin):
     def initialize(self) -> None:
         """Initialize plugin resources.
 
-        Registers all templates, formulas, and importers.
+        Registers all formulas and importers.
 
         Implements:
             Plugin initialization with all components
@@ -142,13 +113,6 @@ class BiologyDomainPlugin(BaseDomainPlugin):
         Raises:
             Exception: If initialization fails
         """
-        # Register templates (5 total)
-        self.register_template("experiment_protocol", ExperimentProtocolTemplate)
-        self.register_template("plate_reader_data", PlateReaderDataTemplate)
-        self.register_template("gene_expression", GeneExpressionTemplate)
-        self.register_template("ecology_field_data", EcologyFieldDataTemplate)
-        self.register_template("sequencing_results", SequencingResultsTemplate)
-
         # Register molecular biology formulas (4 total)
         self.register_formula("CONCENTRATION", ConcentrationFormula)
         self.register_formula("FOLD_CHANGE", FoldChangeFormula)
@@ -187,19 +151,17 @@ class BiologyDomainPlugin(BaseDomainPlugin):
         """Validate plugin configuration.
 
         Returns:
-            True if plugin has required templates and formulas registered
+            True if plugin has required formulas and importers registered
 
         Implements:
             Plugin validation
         """
         # Verify we have all required components
-        required_templates = 5
         required_formulas = 12  # 4 molecular + 4 biochemistry + 4 ecology
         required_importers = 3
 
         return (
-            len(self._templates) >= required_templates
-            and len(self._formulas) >= required_formulas
+            len(self._formulas) >= required_formulas
             and len(self._importers) >= required_importers
         )
 

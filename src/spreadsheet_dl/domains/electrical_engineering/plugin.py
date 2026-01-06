@@ -5,19 +5,8 @@ Implements:
     PHASE-C: Domain plugin implementations
 
 Provides electrical engineering-specific functionality including:
-- BOM (Bill of Materials) tracking and cost analysis
-- Pin mapping for ICs and connectors
-- Power budget analysis and monitoring
-- Signal routing documentation for PCB design
-- Test procedure tracking with pass/fail analysis
 - Power, impedance, and signal formulas
 - KiCad, Eagle, and generic CSV importers
-
-Features:
-    - 11 professional templates for EE workflows (5 PCB/BOM + 6 embedded systems)
-    - 12 electrical engineering formula extensions
-    - 3 importers for CAD tool exports
-    - Integration with KiCad, Eagle, and other EDA tools
 """
 
 from __future__ import annotations
@@ -55,39 +44,6 @@ from spreadsheet_dl.domains.electrical_engineering.importers.kicad_bom import (
     KiCadBOMImporter,
 )
 
-# Import templates (5 original + 6 advanced = 11 total)
-from spreadsheet_dl.domains.electrical_engineering.templates.adc_calibration import (
-    ADCCalibrationTemplate,
-)
-from spreadsheet_dl.domains.electrical_engineering.templates.binary_analysis import (
-    BinaryAnalysisTemplate,
-)
-from spreadsheet_dl.domains.electrical_engineering.templates.bom import BOMTemplate
-from spreadsheet_dl.domains.electrical_engineering.templates.memory_map import (
-    MemoryMapTemplate,
-)
-from spreadsheet_dl.domains.electrical_engineering.templates.pin_mapping import (
-    PinMappingTemplate,
-)
-from spreadsheet_dl.domains.electrical_engineering.templates.power_budget import (
-    PowerBudgetTemplate,
-)
-from spreadsheet_dl.domains.electrical_engineering.templates.procedure_template import (
-    ProcedureTemplate,
-)
-from spreadsheet_dl.domains.electrical_engineering.templates.protocol_analysis import (
-    ProtocolAnalysisTemplate,
-)
-from spreadsheet_dl.domains.electrical_engineering.templates.register_map import (
-    RegisterMapTemplate,
-)
-from spreadsheet_dl.domains.electrical_engineering.templates.signal_routing import (
-    SignalRoutingTemplate,
-)
-from spreadsheet_dl.domains.electrical_engineering.templates.timing_analysis import (
-    TimingAnalysisTemplate,
-)
-
 
 class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
     """Electrical Engineering domain plugin.
@@ -97,16 +53,36 @@ class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
         PHASE-C: Domain plugin implementations
 
     Provides comprehensive electrical engineering functionality for SpreadsheetDL
-    with templates, formulas, and importers tailored for hardware/PCB design.
+    with formulas and importers tailored for hardware/PCB design.
 
-    Example::
+    Formulas (12 total):
+        Power (4):
+        - POWER_DISSIPATION: Power dissipation calculation
+        - VOLTAGE_DROP: Voltage drop calculation
+        - CURRENT_CALC: Current calculation
+        - THERMAL_RESISTANCE: Thermal resistance
 
+        Impedance (4):
+        - PARALLEL_RESISTANCE: Parallel resistance
+        - SERIES_RESISTANCE: Series resistance
+        - CAPACITANCE: Capacitance calculation
+        - INDUCTANCE: Inductance calculation
+
+        Signal (4):
+        - SIGNAL_TO_NOISE_RATIO: SNR calculation
+        - BANDWIDTH: Bandwidth calculation
+        - RISE_TIME: Rise time calculation
+        - PROPAGATION_DELAY: Propagation delay
+
+    Importers:
+        - KiCadBOMImporter: KiCad BOM exports
+        - EagleBOMImporter: Eagle BOM exports
+        - GenericComponentCSVImporter: Generic component CSV
+
+    Example:
         >>> plugin = ElectricalEngineeringDomainPlugin()
         >>> plugin.initialize()
-        >>> template_class = plugin.get_template("bom")
-        >>> template = template_class(project_name="Widget Rev A")
-        >>> builder = template.generate()
-        >>> path = builder.save("widget_bom.ods")
+        >>> formulas = plugin.list_formulas()
     """
 
     @property
@@ -122,7 +98,7 @@ class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
         return PluginMetadata(
             name="electrical_engineering",
             version="4.0.0",
-            description="Electrical engineering templates, formulas, and importers for hardware/PCB design",
+            description="Electrical engineering formulas and importers for hardware/PCB design",
             author="SpreadsheetDL Team",
             license="MIT",
             homepage="https://github.com/lair-click-bats/spreadsheet-dl",
@@ -140,7 +116,7 @@ class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
     def initialize(self) -> None:
         """Initialize plugin resources.
 
-        Registers all templates, formulas, and importers.
+        Registers all formulas and importers.
 
         Implements:
             Plugin initialization with all components
@@ -148,20 +124,6 @@ class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
         Raises:
             Exception: If initialization fails
         """
-        # Register templates (11 total: 5 original + 6 advanced)
-        self.register_template("bom", BOMTemplate)
-        self.register_template("pin_mapping", PinMappingTemplate)
-        self.register_template("power_budget", PowerBudgetTemplate)
-        self.register_template("signal_routing", SignalRoutingTemplate)
-        self.register_template("test_procedure", ProcedureTemplate)
-        # Advanced templates for embedded systems development
-        self.register_template("register_map", RegisterMapTemplate)
-        self.register_template("memory_map", MemoryMapTemplate)
-        self.register_template("timing_analysis", TimingAnalysisTemplate)
-        self.register_template("protocol_analysis", ProtocolAnalysisTemplate)
-        self.register_template("adc_calibration", ADCCalibrationTemplate)
-        self.register_template("binary_analysis", BinaryAnalysisTemplate)
-
         # Register power formulas (4 total)
         self.register_formula("POWER_DISSIPATION", PowerDissipationFormula)
         self.register_formula("VOLTAGE_DROP", VoltageDropFormula)
@@ -193,26 +155,22 @@ class ElectricalEngineeringDomainPlugin(BaseDomainPlugin):
         Implements:
             Plugin cleanup method
         """
-        # No cleanup needed for this plugin
         pass
 
     def validate(self) -> bool:
         """Validate plugin configuration.
 
         Returns:
-            True if plugin has required templates and formulas registered
+            True if plugin has required formulas and importers registered
 
         Implements:
             Plugin validation
         """
-        # Verify we have all required components
-        required_templates = 11  # 5 original + 6 advanced
         required_formulas = 12  # 4 power + 4 impedance + 4 signal
         required_importers = 3
 
         return (
-            len(self._templates) >= required_templates
-            and len(self._formulas) >= required_formulas
+            len(self._formulas) >= required_formulas
             and len(self._importers) >= required_importers
         )
 
