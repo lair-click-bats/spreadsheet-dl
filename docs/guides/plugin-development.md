@@ -82,7 +82,7 @@ BaseDomainPlugin (Core)
 
 ### Prerequisites
 
-- Python 3.11+
+- Python 3.12+
 - SpreadsheetDL 4.0.0+
 - Basic understanding of SpreadsheetBuilder API
 - Familiarity with Python type hints
@@ -1149,8 +1149,8 @@ classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
 ]
 
 [project.optional-dependencies]
@@ -1176,14 +1176,14 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.12"
 strict = true
 warn_return_any = true
 warn_unused_configs = true
 
 [tool.ruff]
 line-length = 100
-target-version = "py311"
+target-version = "py312"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "W", "UP", "B", "A", "C4", "SIM"]

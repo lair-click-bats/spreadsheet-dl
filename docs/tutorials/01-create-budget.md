@@ -100,7 +100,7 @@ my_budget = [
         Decimal("100.00")
     ),
     BudgetAllocation(
-        ExpenseCategory.PERSONAL_CARE,
+        ExpenseCategory.PERSONAL,
         Decimal("75.00")
     ),
 
@@ -148,47 +148,7 @@ Save this as `create_my_budget.py` and run:
 python create_my_budget.py
 ```
 
-## Step 3: Use a Budget Template
-
-SpreadsheetDL includes several pre-configured templates. Let's try the 50/30/20 rule:
-
-```bash
-# Create budget using 50/30/20 template
-spreadsheet-dl generate -o ~/budgets/ -t 50_30_20
-```
-
-The 50/30/20 rule allocates:
-
-- **50%** to needs (housing, food, utilities)
-- **30%** to wants (entertainment, dining out)
-- **20%** to savings and debt
-
-**Using templates in Python:**
-
-```python
-from pathlib import Path
-from decimal import Decimal
-from spreadsheet_dl import get_template, OdsGenerator
-
-# Get the 50/30/20 template
-template = get_template("50_30_20")
-
-# Scale it to your monthly income
-monthly_income = Decimal("5000.00")
-scaled_allocations = template.scale_to_income(monthly_income)
-
-# Create budget with scaled allocations
-generator = OdsGenerator()
-budget_path = generator.create_budget_spreadsheet(
-    Path.home() / "budgets" / "budget_5030 20.ods",
-    budget_allocations=scaled_allocations
-)
-
-print(f"50/30/20 budget created for ${monthly_income}/month")
-print(f"Path: {budget_path}")
-```
-
-## Step 4: Add Income Tracking
+## Step 3: Add Income Tracking
 
 Let's enhance the budget to track income sources:
 
@@ -236,7 +196,7 @@ builder.save(Path.home() / "budgets" / "budget_with_income.ods")
 print("Budget with income tracking created!")
 ```
 
-## Step 5: Apply Themes
+## Step 4: Apply Themes
 
 Make your budget look professional with themes:
 
@@ -265,7 +225,7 @@ generator.create_budget_spreadsheet(
 )
 ```
 
-## Step 6: Verify Your Budget
+## Step 5: Verify Your Budget
 
 Once created, verify the budget is working correctly:
 
@@ -316,9 +276,9 @@ def create_family_budget():
         BudgetAllocation(ExpenseCategory.DINING_OUT, Decimal("300")),
         BudgetAllocation(ExpenseCategory.ENTERTAINMENT, Decimal("200")),
         BudgetAllocation(ExpenseCategory.CLOTHING, Decimal("150")),
-        BudgetAllocation(ExpenseCategory.PERSONAL_CARE, Decimal("100")),
-        BudgetAllocation(ExpenseCategory.CHILDCARE, Decimal("800")),
-        BudgetAllocation(ExpenseCategory.EDUCATION, Decimal("250")),
+        BudgetAllocation(ExpenseCategory.PERSONAL, Decimal("100")),
+        BudgetAllocation(ExpenseCategory.EDUCATION, Decimal("1050"),
+                        notes="Childcare + tuition"),
 
         # Savings & debt (20% = $1,200)
         BudgetAllocation(ExpenseCategory.SAVINGS, Decimal("900"),
@@ -336,8 +296,8 @@ def create_family_budget():
         ),
         ExpenseEntry(
             date=date(2026, 1, 1),
-            category=ExpenseCategory.CHILDCARE,
-            description="Daycare - January",
+            category=ExpenseCategory.EDUCATION,
+            description="Childcare - January",
             amount=Decimal("800.00")
         ),
     ]

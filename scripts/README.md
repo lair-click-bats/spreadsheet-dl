@@ -4,15 +4,15 @@ Quality and maintenance scripts for the SpreadsheetDL project.
 
 ## Quick Reference
 
-| Script        | Purpose                                   | When to Use                               |
-| ------------- | ----------------------------------------- | ----------------------------------------- |
-| `check.sh`    | Quick quality check (lint + format check) | Before commits, after significant changes |
-| `lint.sh`     | Run all configured linters                | When checking for issues                  |
-| `format.sh`   | Format all code files                     | When formatting is needed                 |
-| `clean.sh`    | Clean build artifacts and caches          | When builds are stale                     |
-| `doctor.sh`   | Environment health check                  | When tools seem broken                    |
-| `validate.sh` | Full validation suite                     | Before releases, in CI                    |
-| `fix.sh`      | Auto-fix common issues                    | After lint failures                       |
+| Script        | Purpose                                    | When to Use                               |
+| ------------- | ------------------------------------------ | ----------------------------------------- |
+| `check.sh`    | Quick quality check (lint + format check)  | Before commits, after significant changes |
+| `lint.sh`     | Run all configured linters                 | When checking for issues                  |
+| `format.sh`   | Format all code files                      | When formatting is needed                 |
+| `clean.sh`    | Clean build artifacts and caches           | When builds are stale                     |
+| `doctor.sh`   | Environment health check                   | When tools seem broken                    |
+| `validate.sh` | **Full validation suite (recommended CI)** | **Before releases, in CI pipelines**      |
+| `fix.sh`      | Auto-fix common issues                     | After lint failures                       |
 
 ## Quality Scripts
 
@@ -145,6 +145,114 @@ scripts/tools/<tool>.sh [--check|--fix|--format|--json|-v] [paths...]
 | ------------- | -------- | ---------------------- |
 | `mermaid.sh`  | mmdc     | Mermaid diagram render |
 | `plantuml.sh` | PlantUML | PlantUML diagrams      |
+
+## Utility Scripts
+
+Additional utility scripts for specific tasks:
+
+### setup.sh
+
+Initialize development environment with all required dependencies.
+
+```bash
+./scripts/setup.sh              # Interactive setup
+./scripts/setup.sh --dev        # Install dev dependencies
+./scripts/setup.sh --check-only # Check without installing
+```
+
+### docs.sh
+
+Documentation build and serve utilities.
+
+```bash
+./scripts/docs.sh build   # Build documentation
+./scripts/docs.sh serve   # Serve documentation locally
+./scripts/docs.sh deploy  # Deploy to GitHub Pages
+./scripts/docs.sh lint    # Check docstring coverage
+./scripts/docs.sh check   # Full documentation quality check
+```
+
+### test_integration.sh
+
+Comprehensive script integration testing.
+
+```bash
+./scripts/test_integration.sh           # Run integration tests
+./scripts/test_integration.sh -v        # Verbose output
+./scripts/test_integration.sh --verbose # Verbose output
+```
+
+### audit_scripts.sh
+
+Analyze all scripts for consistency and best practices.
+
+```bash
+./scripts/audit_scripts.sh  # Audit all scripts
+```
+
+### prepare-public-release.sh
+
+Prepare project for public release (clean sensitive data).
+
+```bash
+./scripts/prepare-public-release.sh  # Interactive release prep
+```
+
+### cleanup-for-release.sh
+
+Clean temporary files and caches before release.
+
+```bash
+./scripts/cleanup-for-release.sh  # Clean for release
+```
+
+### generate_tree.sh
+
+Generate directory tree visualization.
+
+```bash
+./scripts/generate_tree.sh  # Generate project tree
+```
+
+### setup-claude-config.sh
+
+Setup Claude Code configuration.
+
+```bash
+./scripts/setup-claude-config.sh  # Configure Claude Code
+```
+
+### validate_tools.sh
+
+Validate tool installations and versions.
+
+```bash
+./scripts/validate_tools.sh  # Check all tools
+```
+
+### validate_vscode.sh
+
+Validate VS Code configuration and extensions.
+
+```bash
+./scripts/validate_vscode.sh  # Check VS Code setup
+```
+
+### check_dependencies.sh
+
+Check project dependencies and versions.
+
+```bash
+./scripts/check_dependencies.sh  # Verify dependencies
+```
+
+### install_extensions.sh
+
+Install recommended VS Code extensions.
+
+```bash
+./scripts/install_extensions.sh  # Install extensions
+```
 
 ## Maintenance Scripts
 

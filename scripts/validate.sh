@@ -1,5 +1,5 @@
 #!/bin/bash
-# Validation script for nextcloud-finance-ods
+# Validation script for SpreadsheetDL
 # Runs all quality checks and tests
 
 set -e

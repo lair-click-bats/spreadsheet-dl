@@ -112,7 +112,7 @@ This creates `~/.config/spreadsheet-dl/config.yaml`.
 
 ### Linux
 
-No special requirements. Ensure Python 3.11+ is available:
+No special requirements. Ensure Python 3.12+ is available:
 
 ```bash
 python3 --version
@@ -123,7 +123,7 @@ python3 --version
 Install Python via Homebrew if needed:
 
 ```bash
-brew install python@3.11
+brew install python@3.12
 ```
 
 ### Windows
