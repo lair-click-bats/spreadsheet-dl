@@ -18,6 +18,8 @@ from spreadsheet_dl.builder import SpreadsheetBuilder
 if TYPE_CHECKING:
     from pathlib import Path
 
+    from pytest_benchmark.fixture import BenchmarkFixture
+
 
 pytestmark = [pytest.mark.benchmark, pytest.mark.slow]
 
@@ -27,7 +29,7 @@ class TestRenderingBenchmarks:
 
     def test_render_10k_rows_baseline(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
         large_dataset: list[dict[str, str | int | float]],
         tmp_path: Path,
     ) -> None:
@@ -69,7 +71,7 @@ class TestRenderingBenchmarks:
 
     def test_render_1k_rows_medium(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
         medium_dataset: list[dict[str, str | int | float]],
         tmp_path: Path,
     ) -> None:
@@ -100,7 +102,7 @@ class TestRenderingBenchmarks:
 
     def test_render_with_styles(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
         medium_dataset: list[dict[str, str | int | float]],
         tmp_path: Path,
     ) -> None:
@@ -132,7 +134,7 @@ class TestRenderingBenchmarks:
 
     def test_render_multiple_sheets(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
         medium_dataset: list[dict[str, str | int | float]],
         tmp_path: Path,
     ) -> None:
@@ -166,7 +168,7 @@ class TestRenderingBenchmarks:
 
     def test_render_with_formulas(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
         tmp_path: Path,
     ) -> None:
         """

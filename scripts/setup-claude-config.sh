@@ -17,22 +17,22 @@ FULL_INSTALL=false
 FORCE=false
 for arg in "$@"; do
   case $arg in
-    --full)
-      FULL_INSTALL=true
-      ;;
-    --force)
-      FORCE=true
-      ;;
-    --help|-h)
-      echo "Usage: $0 [--full] [--force]"
-      echo ""
-      echo "Options:"
-      echo "  --full   Install full hook infrastructure"
-      echo "  --force  Overwrite existing configuration"
-      echo ""
-      echo "This script sets up Claude Code configuration for development."
-      exit 0
-      ;;
+  --full)
+    FULL_INSTALL=true
+    ;;
+  --force)
+    FORCE=true
+    ;;
+  --help | -h)
+    echo "Usage: $0 [--full] [--force]"
+    echo ""
+    echo "Options:"
+    echo "  --full   Install full hook infrastructure"
+    echo "  --force  Overwrite existing configuration"
+    echo ""
+    echo "This script sets up Claude Code configuration for development."
+    exit 0
+    ;;
   esac
 done
 
@@ -45,7 +45,7 @@ if [[ -f "$TARGET_DIR/settings.json" ]] && [[ "$FORCE" != "true" ]]; then
   echo "   Use --force to reset to defaults."
   echo ""
   echo "Current configuration:"
-  ls -la "$TARGET_DIR/" | head -15
+  find "$TARGET_DIR/" -maxdepth 1 -type f -o -type d | sort | head -15
   exit 0
 fi
 

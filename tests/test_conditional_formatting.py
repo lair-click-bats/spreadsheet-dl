@@ -30,7 +30,7 @@ from spreadsheet_dl.schema.styles import CellStyle, Color
 class TestConditionalFormattingBasics:
     """Test basic conditional formatting functionality."""
 
-    def test_simple_less_than_rule(self):
+    def test_simple_less_than_rule(self) -> None:
         """Test basic less than comparison."""
         rule = ConditionalRule.cell_value(
             operator=RuleOperator.LESS_THAN,
@@ -45,7 +45,7 @@ class TestConditionalFormattingBasics:
         assert fmt.rules[0].operator == RuleOperator.LESS_THAN
         assert fmt.rules[0].value == 0
 
-    def test_greater_than_rule(self):
+    def test_greater_than_rule(self) -> None:
         """Test greater than comparison."""
         rule = ConditionalRule.cell_value(
             operator=RuleOperator.GREATER_THAN,
@@ -57,7 +57,7 @@ class TestConditionalFormattingBasics:
         assert rule.value == 100
         assert rule.style == "success"
 
-    def test_equal_rule(self):
+    def test_equal_rule(self) -> None:
         """Test equality comparison."""
         rule = ConditionalRule.cell_value(
             operator=RuleOperator.EQUAL,
@@ -68,7 +68,7 @@ class TestConditionalFormattingBasics:
         assert rule.operator == RuleOperator.EQUAL
         assert rule.value == 50
 
-    def test_not_equal_rule(self):
+    def test_not_equal_rule(self) -> None:
         """Test not equal comparison."""
         rule = ConditionalRule.cell_value(
             operator=RuleOperator.NOT_EQUAL,
@@ -79,7 +79,7 @@ class TestConditionalFormattingBasics:
         assert rule.operator == RuleOperator.NOT_EQUAL
         assert rule.value == 0
 
-    def test_between_rule(self):
+    def test_between_rule(self) -> None:
         """Test between comparison."""
         rule = ConditionalRule.between(
             min_value=0,
@@ -91,7 +91,7 @@ class TestConditionalFormattingBasics:
         assert rule.value == 0
         assert rule.value2 == 100
 
-    def test_greater_than_or_equal_rule(self):
+    def test_greater_than_or_equal_rule(self) -> None:
         """Test >= comparison."""
         rule = ConditionalRule.cell_value(
             operator=RuleOperator.GREATER_THAN_OR_EQUAL,
@@ -102,7 +102,7 @@ class TestConditionalFormattingBasics:
         assert rule.operator == RuleOperator.GREATER_THAN_OR_EQUAL
         assert rule.value == 0
 
-    def test_less_than_or_equal_rule(self):
+    def test_less_than_or_equal_rule(self) -> None:
         """Test <= comparison."""
         rule = ConditionalRule.cell_value(
             operator=RuleOperator.LESS_THAN_OR_EQUAL,
@@ -117,7 +117,7 @@ class TestConditionalFormattingBasics:
 class TestTextConditions:
     """Test text-based conditional rules."""
 
-    def test_contains_text_rule(self):
+    def test_contains_text_rule(self) -> None:
         """Test contains text condition."""
         rule = ConditionalRule.contains_text(
             text="Error",
@@ -128,7 +128,7 @@ class TestTextConditions:
         assert rule.operator == RuleOperator.CONTAINS_TEXT
         assert rule.text == "Error"
 
-    def test_begins_with_condition(self):
+    def test_begins_with_condition(self) -> None:
         """Test begins with text condition."""
         rule = ConditionalRule(
             type=ConditionalRuleType.TEXT,
@@ -140,7 +140,7 @@ class TestTextConditions:
         assert rule.operator == RuleOperator.BEGINS_WITH
         assert rule.text == "WARN"
 
-    def test_ends_with_condition(self):
+    def test_ends_with_condition(self) -> None:
         """Test ends with text condition."""
         rule = ConditionalRule(
             type=ConditionalRuleType.TEXT,
@@ -152,7 +152,7 @@ class TestTextConditions:
         assert rule.operator == RuleOperator.ENDS_WITH
         assert rule.text == ".pdf"
 
-    def test_not_contains_text(self):
+    def test_not_contains_text(self) -> None:
         """Test not contains text condition."""
         rule = ConditionalRule(
             type=ConditionalRuleType.TEXT,
@@ -167,7 +167,7 @@ class TestTextConditions:
 class TestMultipleRules:
     """Test conditional formats with multiple rules."""
 
-    def test_multiple_rules_with_priority(self):
+    def test_multiple_rules_with_priority(self) -> None:
         """Test multiple rules applied in priority order."""
         fmt = ConditionalFormat(
             range="D2:D100",
@@ -189,7 +189,7 @@ class TestMultipleRules:
         assert fmt.rules[1].priority == 2
         assert fmt.rules[2].priority == 3
 
-    def test_stop_if_true_flag(self):
+    def test_stop_if_true_flag(self) -> None:
         """Test stop_if_true behavior."""
         rule = ConditionalRule.cell_value(
             operator=RuleOperator.LESS_THAN,
@@ -200,7 +200,7 @@ class TestMultipleRules:
 
         assert rule.stop_if_true is True
 
-    def test_add_rule_method(self):
+    def test_add_rule_method(self) -> None:
         """Test adding rules dynamically."""
         fmt = ConditionalFormat(range="A1:A10")
         assert len(fmt.rules) == 0
@@ -217,7 +217,7 @@ class TestMultipleRules:
 class TestColorScales:
     """Test color scale conditional formatting."""
 
-    def test_two_color_scale(self):
+    def test_two_color_scale(self) -> None:
         """Test two-color gradient scale."""
         scale = ColorScale.two_color(
             min_color=Color("#FF0000"),
@@ -227,7 +227,7 @@ class TestColorScales:
         assert scale.type.value == "twoColor"
         assert len(scale.points) == 2
 
-    def test_three_color_scale(self):
+    def test_three_color_scale(self) -> None:
         """Test three-color gradient scale."""
         scale = ColorScale.three_color(
             min_color=Color("#F8696B"),
@@ -238,27 +238,27 @@ class TestColorScales:
         assert scale.type.value == "threeColor"
         assert len(scale.points) == 3
 
-    def test_red_yellow_green_preset(self):
+    def test_red_yellow_green_preset(self) -> None:
         """Test red-yellow-green preset."""
         scale = ColorScale.red_yellow_green()
 
         assert scale.type.value == "threeColor"
         assert len(scale.points) == 3
 
-    def test_green_yellow_red_preset(self):
+    def test_green_yellow_red_preset(self) -> None:
         """Test inverted green-yellow-red preset."""
         scale = ColorScale.green_yellow_red()
 
         assert scale.type.value == "threeColor"
 
-    def test_white_to_blue_preset(self):
+    def test_white_to_blue_preset(self) -> None:
         """Test white to blue two-color scale."""
         scale = ColorScale.white_to_blue()
 
         assert scale.type.value == "twoColor"
         assert len(scale.points) == 2
 
-    def test_color_scale_in_rule(self):
+    def test_color_scale_in_rule(self) -> None:
         """Test color scale as part of conditional rule."""
         rule = ConditionalRule(
             type=ConditionalRuleType.COLOR_SCALE,
@@ -272,14 +272,14 @@ class TestColorScales:
 class TestDataBars:
     """Test data bar conditional formatting."""
 
-    def test_default_data_bar(self):
+    def test_default_data_bar(self) -> None:
         """Test default data bar creation."""
         bar = DataBar.default()
 
         assert bar.fill_color is not None
         assert bar.show_value is True
 
-    def test_budget_variance_data_bar(self):
+    def test_budget_variance_data_bar(self) -> None:
         """Test budget variance data bar preset."""
         bar = DataBar.budget_variance()
 
@@ -287,7 +287,7 @@ class TestDataBars:
         assert bar.negative_color is not None
         assert bar.axis_position == "midpoint"
 
-    def test_custom_data_bar(self):
+    def test_custom_data_bar(self) -> None:
         """Test custom data bar configuration."""
         bar = DataBar(
             fill_color=Color("#4472C4"),
@@ -299,7 +299,7 @@ class TestDataBars:
         assert bar.show_value is False
         assert bar.gradient_fill is True
 
-    def test_data_bar_in_rule(self):
+    def test_data_bar_in_rule(self) -> None:
         """Test data bar as part of conditional rule."""
         rule = ConditionalRule(
             type=ConditionalRuleType.DATA_BAR,
@@ -313,33 +313,33 @@ class TestDataBars:
 class TestIconSets:
     """Test icon set conditional formatting."""
 
-    def test_three_arrows_preset(self):
+    def test_three_arrows_preset(self) -> None:
         """Test three arrows icon set."""
         icons = IconSet.three_arrows()
 
         assert icons.icon_set.value == "3Arrows"
         assert len(icons.thresholds) == 2
 
-    def test_three_traffic_lights_preset(self):
+    def test_three_traffic_lights_preset(self) -> None:
         """Test three traffic lights icon set."""
         icons = IconSet.three_traffic_lights()
 
         assert icons.icon_set.value == "3TrafficLights1"
 
-    def test_five_ratings_preset(self):
+    def test_five_ratings_preset(self) -> None:
         """Test five ratings (stars) icon set."""
         icons = IconSet.five_ratings()
 
         assert icons.icon_set.value == "5Ratings"
         assert len(icons.thresholds) == 4
 
-    def test_icon_set_with_reversed_order(self):
+    def test_icon_set_with_reversed_order(self) -> None:
         """Test reversed icon order."""
         icons = IconSet.three_arrows(reverse=True)
 
         assert icons.reverse is True
 
-    def test_icon_set_hide_value(self):
+    def test_icon_set_hide_value(self) -> None:
         """Test hiding cell values with icons."""
         icons = IconSet(
             icon_set=IconSet.three_arrows().icon_set,
@@ -352,7 +352,7 @@ class TestIconSets:
 class TestCellRangeParsing:
     """Test cell range parsing utilities."""
 
-    def test_parse_simple_range(self):
+    def test_parse_simple_range(self) -> None:
         """Test parsing simple range like A1:B10."""
         builder = InteractiveOdsBuilder()
         start, end = builder._parse_range("A1:B10")
@@ -360,7 +360,7 @@ class TestCellRangeParsing:
         assert start == "A1"
         assert end == "B10"
 
-    def test_parse_single_cell(self):
+    def test_parse_single_cell(self) -> None:
         """Test parsing single cell as range."""
         builder = InteractiveOdsBuilder()
         start, end = builder._parse_range("A1")
@@ -368,7 +368,7 @@ class TestCellRangeParsing:
         assert start == "A1"
         assert end == "A1"
 
-    def test_cell_to_coords_simple(self):
+    def test_cell_to_coords_simple(self) -> None:
         """Test converting A1 notation to coordinates."""
         builder = InteractiveOdsBuilder()
         col, row = builder._cell_to_coords("A1")
@@ -376,7 +376,7 @@ class TestCellRangeParsing:
         assert col == 0
         assert row == 0
 
-    def test_cell_to_coords_b5(self):
+    def test_cell_to_coords_b5(self) -> None:
         """Test converting B5 to coordinates."""
         builder = InteractiveOdsBuilder()
         col, row = builder._cell_to_coords("B5")
@@ -384,7 +384,7 @@ class TestCellRangeParsing:
         assert col == 1
         assert row == 4
 
-    def test_cell_to_coords_z10(self):
+    def test_cell_to_coords_z10(self) -> None:
         """Test converting Z10 to coordinates."""
         builder = InteractiveOdsBuilder()
         col, row = builder._cell_to_coords("Z10")
@@ -392,7 +392,7 @@ class TestCellRangeParsing:
         assert col == 25
         assert row == 9
 
-    def test_cell_to_coords_aa1(self):
+    def test_cell_to_coords_aa1(self) -> None:
         """Test converting AA1 to coordinates."""
         builder = InteractiveOdsBuilder()
         col, row = builder._cell_to_coords("AA1")
@@ -400,14 +400,14 @@ class TestCellRangeParsing:
         assert col == 26
         assert row == 0
 
-    def test_invalid_range_format(self):
+    def test_invalid_range_format(self) -> None:
         """Test handling invalid range format."""
         builder = InteractiveOdsBuilder()
 
         with pytest.raises(ValueError, match="Invalid cell range format"):
             builder._parse_range("A1:B2:C3")
 
-    def test_invalid_cell_reference(self):
+    def test_invalid_cell_reference(self) -> None:
         """Test handling invalid cell reference."""
         builder = InteractiveOdsBuilder()
 
@@ -418,7 +418,7 @@ class TestCellRangeParsing:
 class TestRuleEvaluation:
     """Test conditional rule evaluation logic."""
 
-    def test_evaluate_less_than_true(self):
+    def test_evaluate_less_than_true(self) -> None:
         """Test evaluating less than condition (true case)."""
         builder = InteractiveOdsBuilder()
         rule = ConditionalRule.cell_value(
@@ -430,7 +430,7 @@ class TestRuleEvaluation:
         result = builder._evaluate_cell_value_rule(5, rule)
         assert result is True
 
-    def test_evaluate_less_than_false(self):
+    def test_evaluate_less_than_false(self) -> None:
         """Test evaluating less than condition (false case)."""
         builder = InteractiveOdsBuilder()
         rule = ConditionalRule.cell_value(
@@ -442,7 +442,7 @@ class TestRuleEvaluation:
         result = builder._evaluate_cell_value_rule(15, rule)
         assert result is False
 
-    def test_evaluate_greater_than_true(self):
+    def test_evaluate_greater_than_true(self) -> None:
         """Test evaluating greater than condition."""
         builder = InteractiveOdsBuilder()
         rule = ConditionalRule.cell_value(
@@ -454,7 +454,7 @@ class TestRuleEvaluation:
         result = builder._evaluate_cell_value_rule(150, rule)
         assert result is True
 
-    def test_evaluate_equal_true(self):
+    def test_evaluate_equal_true(self) -> None:
         """Test evaluating equality condition."""
         builder = InteractiveOdsBuilder()
         rule = ConditionalRule.cell_value(
@@ -466,7 +466,7 @@ class TestRuleEvaluation:
         result = builder._evaluate_cell_value_rule(42, rule)
         assert result is True
 
-    def test_evaluate_between_true(self):
+    def test_evaluate_between_true(self) -> None:
         """Test evaluating between condition (in range)."""
         builder = InteractiveOdsBuilder()
         rule = ConditionalRule.between(
@@ -478,7 +478,7 @@ class TestRuleEvaluation:
         result = builder._evaluate_cell_value_rule(50, rule)
         assert result is True
 
-    def test_evaluate_between_false(self):
+    def test_evaluate_between_false(self) -> None:
         """Test evaluating between condition (out of range)."""
         builder = InteractiveOdsBuilder()
         rule = ConditionalRule.between(
@@ -490,7 +490,7 @@ class TestRuleEvaluation:
         result = builder._evaluate_cell_value_rule(150, rule)
         assert result is False
 
-    def test_evaluate_contains_text_true(self):
+    def test_evaluate_contains_text_true(self) -> None:
         """Test evaluating contains text condition."""
         builder = InteractiveOdsBuilder()
         rule = ConditionalRule.contains_text(
@@ -501,7 +501,7 @@ class TestRuleEvaluation:
         result = builder._evaluate_text_rule("Error: Something failed", rule)
         assert result is True
 
-    def test_evaluate_contains_text_false(self):
+    def test_evaluate_contains_text_false(self) -> None:
         """Test evaluating contains text condition (not found)."""
         builder = InteractiveOdsBuilder()
         rule = ConditionalRule.contains_text(
@@ -512,7 +512,7 @@ class TestRuleEvaluation:
         result = builder._evaluate_text_rule("Success", rule)
         assert result is False
 
-    def test_evaluate_begins_with_true(self):
+    def test_evaluate_begins_with_true(self) -> None:
         """Test evaluating begins with condition."""
         builder = InteractiveOdsBuilder()
         rule = ConditionalRule(
@@ -525,7 +525,7 @@ class TestRuleEvaluation:
         result = builder._evaluate_text_rule("WARNING: Check this", rule)
         assert result is True
 
-    def test_evaluate_ends_with_true(self):
+    def test_evaluate_ends_with_true(self) -> None:
         """Test evaluating ends with condition."""
         builder = InteractiveOdsBuilder()
         rule = ConditionalRule(
@@ -538,7 +538,7 @@ class TestRuleEvaluation:
         result = builder._evaluate_text_rule("document.pdf", rule)
         assert result is True
 
-    def test_evaluate_with_string_to_number_conversion(self):
+    def test_evaluate_with_string_to_number_conversion(self) -> None:
         """Test evaluation with automatic string to number conversion."""
         builder = InteractiveOdsBuilder()
         rule = ConditionalRule.cell_value(
@@ -551,7 +551,7 @@ class TestRuleEvaluation:
         result = builder._evaluate_cell_value_rule("150", rule)
         assert result is True
 
-    def test_evaluate_with_none_value(self):
+    def test_evaluate_with_none_value(self) -> None:
         """Test evaluation with None value."""
         builder = InteractiveOdsBuilder()
         rule = ConditionalRule.cell_value(
@@ -567,7 +567,7 @@ class TestRuleEvaluation:
 class TestStyleApplication:
     """Test style application from conditional rules."""
 
-    def test_named_style_danger(self):
+    def test_named_style_danger(self) -> None:
         """Test applying danger style."""
         # Create a minimal ODS document
         doc = OpenDocumentSpreadsheet()
@@ -578,7 +578,7 @@ class TestStyleApplication:
         assert style is not None
         assert style.getAttribute("name") == "danger"
 
-    def test_named_style_warning(self):
+    def test_named_style_warning(self) -> None:
         """Test applying warning style."""
         doc = OpenDocumentSpreadsheet()
         builder = InteractiveOdsBuilder()
@@ -588,7 +588,7 @@ class TestStyleApplication:
         assert style is not None
         assert style.getAttribute("name") == "warning"
 
-    def test_named_style_success(self):
+    def test_named_style_success(self) -> None:
         """Test applying success style."""
         doc = OpenDocumentSpreadsheet()
         builder = InteractiveOdsBuilder()
@@ -598,7 +598,7 @@ class TestStyleApplication:
         assert style is not None
         assert style.getAttribute("name") == "success"
 
-    def test_custom_cell_style_conversion(self):
+    def test_custom_cell_style_conversion(self) -> None:
         """Test converting CellStyle to ODF style."""
         from spreadsheet_dl.schema.styles import Font, FontWeight
 
@@ -620,13 +620,13 @@ class TestStyleApplication:
 class TestEdgeCases:
     """Test edge cases and error handling."""
 
-    def test_empty_rules_list(self):
+    def test_empty_rules_list(self) -> None:
         """Test conditional format with no rules."""
         fmt = ConditionalFormat(range="A1:A10")
 
         assert len(fmt.rules) == 0
 
-    def test_none_style_in_rule(self):
+    def test_none_style_in_rule(self) -> None:
         """Test rule with None style."""
         rule = ConditionalRule(
             type=ConditionalRuleType.CELL_VALUE,
@@ -637,7 +637,7 @@ class TestEdgeCases:
 
         assert rule.style is None
 
-    def test_invalid_operator_returns_false(self):
+    def test_invalid_operator_returns_false(self) -> None:
         """Test that invalid operator returns False."""
         builder = InteractiveOdsBuilder()
 
@@ -648,7 +648,7 @@ class TestEdgeCases:
 
         assert result is False
 
-    def test_type_mismatch_in_comparison(self):
+    def test_type_mismatch_in_comparison(self) -> None:
         """Test handling type mismatches gracefully."""
         builder = InteractiveOdsBuilder()
         rule = ConditionalRule.cell_value(
@@ -662,7 +662,7 @@ class TestEdgeCases:
         # May be True or False depending on conversion, but shouldn't crash
         assert isinstance(result, bool)
 
-    def test_formula_rule_not_supported(self):
+    def test_formula_rule_not_supported(self) -> None:
         """Test that formula rules return False (not supported)."""
         builder = InteractiveOdsBuilder()
         rule = ConditionalRule.from_formula(
@@ -678,7 +678,7 @@ class TestEdgeCases:
 class TestIntegration:
     """Integration tests for end-to-end conditional formatting."""
 
-    def test_to_dict_conversion(self):
+    def test_to_dict_conversion(self) -> None:
         """Test converting ConditionalFormat to dictionary."""
         fmt = ConditionalFormat(
             range="A1:A10",
@@ -695,7 +695,7 @@ class TestIntegration:
         assert data["rules"][0]["operator"] == "lessThan"
         assert data["rules"][0]["value"] == 0
 
-    def test_rule_to_dict_with_color_scale(self):
+    def test_rule_to_dict_with_color_scale(self) -> None:
         """Test converting color scale rule to dict."""
         rule = ConditionalRule(
             type=ConditionalRuleType.COLOR_SCALE,
@@ -708,7 +708,7 @@ class TestIntegration:
         assert "colorScale" in data
         assert data["colorScale"]["type"] == "threeColor"
 
-    def test_rule_to_dict_with_data_bar(self):
+    def test_rule_to_dict_with_data_bar(self) -> None:
         """Test converting data bar rule to dict."""
         rule = ConditionalRule(
             type=ConditionalRuleType.DATA_BAR,
@@ -720,7 +720,7 @@ class TestIntegration:
         assert data["type"] == "dataBar"
         assert "dataBar" in data
 
-    def test_rule_to_dict_with_icon_set(self):
+    def test_rule_to_dict_with_icon_set(self) -> None:
         """Test converting icon set rule to dict."""
         rule = ConditionalRule(
             type=ConditionalRuleType.ICON_SET,

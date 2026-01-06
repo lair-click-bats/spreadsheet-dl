@@ -9,10 +9,15 @@ Implements:
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import pytest
 
 from spreadsheet_dl._mcp.models import MCPToolParameter
 from spreadsheet_dl._mcp.registry import MCPToolRegistry
+
+if TYPE_CHECKING:
+    from pytest_benchmark.fixture import BenchmarkFixture
 
 pytestmark = [pytest.mark.benchmark, pytest.mark.mcp]
 
@@ -22,7 +27,7 @@ class TestMCPDispatchBenchmarks:
 
     def test_tool_registration_overhead(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
     ) -> None:
         """
         Benchmark tool registration overhead.
@@ -65,7 +70,7 @@ class TestMCPDispatchBenchmarks:
 
     def test_tool_lookup_performance(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
     ) -> None:
         """
         Benchmark tool lookup performance.
@@ -101,7 +106,7 @@ class TestMCPDispatchBenchmarks:
 
     def test_tool_execution_dispatch(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
     ) -> None:
         """
         Benchmark tool execution dispatch.
@@ -140,7 +145,7 @@ class TestMCPDispatchBenchmarks:
 
     def test_category_lookup_performance(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
     ) -> None:
         """
         Benchmark category-based tool lookup.
@@ -188,7 +193,7 @@ class TestMCPDispatchBenchmarks:
 
     def test_list_all_tools_performance(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
     ) -> None:
         """
         Benchmark listing all tools with metadata.
@@ -235,7 +240,7 @@ class TestMCPDispatchBenchmarks:
 
     def test_bulk_tool_registration(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
     ) -> None:
         """
         Benchmark programmatic bulk tool registration.

@@ -1,4 +1,5 @@
 """
+from decimal import Decimal
 Additional CLI command tests for coverage improvement.
 
 Tests specific command paths in _cli/commands.py.

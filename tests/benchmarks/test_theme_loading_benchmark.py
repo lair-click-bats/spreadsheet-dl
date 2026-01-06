@@ -16,6 +16,8 @@ import pytest
 if TYPE_CHECKING:
     from pathlib import Path
 
+    from pytest_benchmark.fixture import BenchmarkFixture
+
 pytestmark = [pytest.mark.benchmark, pytest.mark.requires_yaml]
 
 
@@ -24,7 +26,7 @@ class TestThemeLoadingBenchmarks:
 
     def test_theme_parse_from_yaml(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
         tmp_path: Path,
     ) -> None:
         """
@@ -129,7 +131,7 @@ styles:
 
     def test_theme_cache_effectiveness(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
         tmp_path: Path,
     ) -> None:
         """
@@ -174,7 +176,7 @@ styles:
 
     def test_theme_inheritance_resolution(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
         tmp_path: Path,
     ) -> None:
         """
@@ -243,7 +245,7 @@ styles:
 
     def test_color_reference_resolution(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
         tmp_path: Path,
     ) -> None:
         """
@@ -311,7 +313,7 @@ styles:
 
     def test_complex_style_parsing(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
         tmp_path: Path,
     ) -> None:
         """

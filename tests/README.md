@@ -318,13 +318,13 @@ markers = [
 ]
 ```
 
-2. **Apply to test files**:
+1. **Apply to test files**:
 
 ```python
 pytestmark = [pytest.mark.unit, pytest.mark.new_marker]
 ```
 
-3. **Document in this file** under "Available Markers"
+1. **Document in this file** under "Available Markers"
 
 ## Troubleshooting
 

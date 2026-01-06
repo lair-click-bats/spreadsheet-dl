@@ -204,9 +204,10 @@ ODS files are zipped XML. The XML parser has no entity expansion protection.
 
 - **DO NOT** open ODS files from untrusted sources
 - Use `defusedxml` library (install separately):
-  ```bash
-  pip install defusedxml
-  ```
+
+```bash
+pip install defusedxml
+```
 
 **Planned Fix:**
 

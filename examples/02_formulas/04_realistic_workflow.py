@@ -13,7 +13,7 @@ from datetime import date
 from decimal import Decimal
 from pathlib import Path
 
-from spreadsheet_dl.ods_generator import (
+from spreadsheet_dl.domains.finance.ods_generator import (
     BudgetAllocation,
     ExpenseCategory,
     ExpenseEntry,

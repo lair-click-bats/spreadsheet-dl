@@ -848,10 +848,10 @@ class TestCmdBackup:
             mock_mgr_cls.return_value = mock_mgr
 
             metadata = BackupMetadata(
-                original_path=test_file,
+                original_path=str(test_file),
                 backup_time=datetime.now().isoformat(),
                 content_hash="abc123",
-                reason=BackupReason.MANUAL,
+                reason=BackupReason.MANUAL.value,
             )
             backup_info = BackupInfo(
                 backup_path=backup_path,
@@ -986,10 +986,10 @@ class TestCmdBackup:
             mock_mgr_cls.return_value = mock_mgr
 
             metadata = BackupMetadata(
-                original_path=test_file,
+                original_path=str(test_file),
                 backup_time=datetime.now().isoformat(),
                 content_hash="abc123def456",
-                reason=BackupReason.MANUAL,
+                reason=BackupReason.MANUAL.value,
             )
             backup_info = BackupInfo(
                 backup_path=tmp_path / "backup.ods",

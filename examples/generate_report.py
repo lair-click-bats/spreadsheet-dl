@@ -8,7 +8,7 @@ report formats from budget data.
 
 from pathlib import Path
 
-from spreadsheet_dl.report_generator import (
+from spreadsheet_dl.domains.finance.report_generator import (
     ReportConfig,
     ReportGenerator,
     generate_monthly_report,

@@ -1,14 +1,14 @@
 # SpreadsheetDL
 
 [![Version](https://img.shields.io/badge/version-4.0.0-blue.svg)](https://github.com/lair-click-bats/spreadsheet-dl/releases)
-[![First Release](https://img.shields.io/badge/🎉-first%20public%20release-gold.svg)](CHANGELOG.md)
+[![Status](https://img.shields.io/badge/status-production%20ready-gold.svg)](CHANGELOG.md)
 [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)](tests/)
 [![Coverage](https://img.shields.io/badge/coverage-high-brightgreen.svg)](tests/)
 [![MCP](https://img.shields.io/badge/MCP-server-purple.svg)](docs/api/mcp_server.md)
 
-> **🎉 First Public Release (v4.0.0)** - Production-ready with comprehensive testing, complete documentation, and extensive domain plugin library.
+> **v4.0.0 - First Public Release** - Production-ready following internal development. Comprehensive testing, complete documentation, and extensive domain plugin library.
 
 **The Spreadsheet Definition Language for Python**
 
@@ -248,7 +248,26 @@ pip install spreadsheet-dl[science]         # Data science domain
 pip install spreadsheet-dl[all]             # All official domains
 ```
 
-**Next Steps:**
+-
+
+### Security
+
+SpreadsheetDL takes security seriously. Version 4.0.1 includes comprehensive security hardening:
+
+- ✅ **XML/ZIP Bomb Protection** - defusedxml integration, size limits
+- ✅ **Path Traversal Prevention** - Validate all user-provided paths
+- ✅ **Formula Injection Protection** - Strict cell reference validation
+- ✅ **Password Strength Enforcement** - Prevent weak master passwords
+- 🔒 **Automated Security Scanning** - Dependabot + weekly vulnerability scans
+
+**Recommended Installation:**
+
+```bash
+pip install spreadsheet-dl[security]  # Includes defusedxml + cryptography
+```
+
+See [SECURITY.md](SECURITY.md) for complete security documentation.
+\*Next Steps:\*\*
 
 - 📖 **[Getting Started Guide](docs/getting-started.md)** - Your first spreadsheet in 5 minutes
 - 🎓 **[Tutorials](docs/tutorials/)** - Step-by-step learning path

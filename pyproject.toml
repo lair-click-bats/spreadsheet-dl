@@ -1,6 +1,6 @@
 [project]
 name = "spreadsheet-dl"
-version = "4.0.0"
+version = "4.0.1"
 description = "Define complex spreadsheets in Python or YAML, export to ODS/XLSX/PDF. Built-in domains for engineering, science, and finance. Native MCP server for Claude integration."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -105,8 +105,12 @@ mcp = [
     # MCP server uses stdlib only (json, logging, sys)
     # No additional dependencies needed
 ]
+security = [
+    "defusedxml>=0.7.0",      # XXE/XML bomb protection
+    "cryptography>=42.0.0",    # Hardware-accelerated encryption
+]
 all = [
-    "spreadsheet-dl[export,config,html]",
+    "spreadsheet-dl[export,config,html,security]",
 ]
 
 [project.scripts]
@@ -173,6 +177,8 @@ module = [
     "reportlab.*",
     "bs4.*",
     "plaid.*",
+    "mkdocs_gen_files.*",
+    "defusedxml.*",
 ]
 ignore_missing_imports = true
 

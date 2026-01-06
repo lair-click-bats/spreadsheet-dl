@@ -653,6 +653,8 @@ class CredentialStore:
         key: str,
         value: str,
         master_password: str,
+        *,
+        enforce_password_strength: bool = True,
     ) -> None:
         """Store a credential.
 
@@ -660,7 +662,36 @@ class CredentialStore:
             key: Credential identifier (e.g., "nextcloud_password")
             value: Credential value
             master_password: Master password for encryption
+            enforce_password_strength: Whether to enforce password strength (default: True)
+
+        Raises:
+            ValueError: If master password is too weak (when enforce_password_strength=True)
+
+        Security:
+            By default, enforces strong password requirements to prevent brute force attacks.
+            Minimum requirements: 12+ characters, mixed case, numbers, special characters.
+            Set enforce_password_strength=False only for testing or OS credential storage.
+
+        Examples:
+            >>> store = CredentialStore()
+            >>> # Strong password required by default
+            >>> store.store_credential("api_key", "secret", "MyStr0ng!Pass24")
+            >>> # Disable enforcement for testing
+            >>> store.store_credential("test", "value", "weak", enforce_password_strength=False)
         """
+        # Enforce password strength by default (security best practice)
+        if enforce_password_strength:
+            strength = check_password_strength(master_password)
+            if strength["level"] not in ["strong", "very_strong"]:
+                feedback_msg = "; ".join(strength["feedback"])
+                raise ValueError(
+                    f"Master password too weak (level: {strength['level']}). {feedback_msg}\n"
+                    f"Security requirement: Use 12+ characters with mixed case, numbers, and symbols.\n"
+                    f"Generate a strong password with:\n"
+                    f"  from spreadsheet_dl.security import generate_password\n"
+                    f"  password = generate_password(length=24, include_symbols=True)"
+                )
+
         credentials = self._load_credentials(master_password)
         credentials[key] = value
         self._save_credentials(credentials, master_password)

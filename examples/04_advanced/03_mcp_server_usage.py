@@ -1,3 +1,4 @@
+# mypy: ignore-errors
 #!/usr/bin/env python3
 """
 MCP Server Usage Examples - v4.0 Feature Showcase

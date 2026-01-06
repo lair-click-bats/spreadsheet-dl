@@ -92,9 +92,103 @@ generator.create_budget_spreadsheet("budget.ods", budget_allocations=allocations
 
 ---
 
+## [4.0.1] - 2026-01-06 - Security Hardening Release
+
+**Security Fixes:**
+
+This release implements comprehensive security hardening with 5 critical vulnerability mitigations.
+
+### Added
+
+**Security Module Enhancements:**
+
+- Password strength enforcement in `CredentialStore.store_credential()`
+  - Automatically rejects weak passwords (< 12 chars, no mixed case/symbols)
+  - Provides actionable feedback for password improvement
+  - Can be disabled with `enforce_password_strength=False` for testing
+- Path traversal prevention utilities (`path_security.py`)
+  - `validate_path()` - Validate user paths against base directory
+  - `safe_join()` - Securely join path components
+  - `is_safe_path()` - Non-throwing path validator
+  - `PathSecurityError` exception for security violations
+
+- Formula injection protection (`formulas.py`)
+  - `sanitize_cell_ref()` - Validate cell references (A1, $A$1, A1:B10)
+  - `sanitize_sheet_name()` - Validate sheet names
+  - `FormulaError` exception for invalid/malicious references
+  - Automatic validation in FormulaBuilder methods
+
+- XML Entity Expansion (XXE) protection (`streaming.py`)
+  - Auto-detect and use defusedxml if available
+  - Fallback to stdlib with security warning
+  - Protects against Billion Laughs attacks
+
+- ZIP bomb detection (`streaming.py`)
+  - Max uncompressed size: 100MB
+  - Max compression ratio: 100:1
+  - Max file count: 10,000 files
+  - Prevents DoS via malicious ODS files
+
+**Security Dependencies:**
+
+- Added `security` optional dependency group in pyproject.toml
+  - `defusedxml>=0.7.0` - XXE/XML bomb protection
+  - `cryptography>=42.0.0` - Hardware-accelerated encryption
+  - Install with: `pip install spreadsheet-dl[security]`
+
+**Security Infrastructure:**
+
+- GitHub Dependabot configuration (`.github/dependabot.yml`)
+  - Weekly automated dependency updates
+  - Security-critical package grouping
+- Comprehensive security scanning workflow (`.github/workflows/security.yml`)
+  - dependency-scan: safety + pip-audit for CVE detection
+  - code-scan: bandit static security analysis
+  - secret-scan: gitleaks for credential exposure
+  - codeql: Advanced security code analysis
+  - Runs weekly + on every push/PR
+
+**Security Test Suite:**
+
+- `tests/security/test_path_security.py` - 50+ path traversal tests
+- `tests/security/test_formula_sanitization.py` - 40+ injection tests
+- `tests/security/test_zip_bomb_detection.py` - 20+ DoS tests
+- `tests/security/test_password_strength.py` - 30+ password tests
+- Total: 140+ new security-focused tests
+
+### Changed
+
+**SECURITY.md Updates:**
+
+- Marked 5 vulnerabilities as ✅ FIXED in v4.0.1
+- Updated mitigation code examples to use new security modules
+- Added status badges for implemented fixes
+- Clarified plugin RCE mitigation (user must disable auto-discovery)
+
+### Security
+
+**Vulnerabilities Addressed:**
+
+- CVE-PENDING-003: XML Entity Expansion (XXE) - HIGH → ✅ FIXED
+- CVE-PENDING-004: ZIP Bomb DoS - HIGH → ✅ FIXED
+- CVE-PENDING-002: Path Traversal - CRITICAL → ✅ MITIGATED
+- CVE-PENDING-005: Formula Injection - MEDIUM → ✅ FIXED
+- CVE-PENDING-006: Weak Password Brute Force - MEDIUM → ✅ FIXED
+
+**Breaking Changes:** None (all security features are backwards compatible)
+
+**Upgrade Recommendations:**
+
+1. Install security dependencies: `pip install spreadsheet-dl[security]`
+2. Review and apply path validation in file operations
+3. Update master passwords if using CredentialStore
+4. Enable security scanning in CI/CD pipelines
+
+---
+
 ## [4.0.0] - 2026-01-04 - First Public Release
 
-**Note:** This is the first public release of SpreadsheetDL. The v4.0.0 version number reflects extensive private development and refinement through multiple major iterations. This version represents a mature, production-ready codebase with comprehensive testing (3,206 tests, 71% coverage) and complete documentation.
+**First Public Release** - Starting at v4.0.0 following extensive internal development (v0.x through v3.x were internal iterations). This version represents a mature, production-ready codebase with comprehensive testing and complete documentation.
 
 **Highlights:**
 

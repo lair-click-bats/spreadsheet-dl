@@ -9,9 +9,14 @@ Implements:
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import pytest
 
 from spreadsheet_dl._builder.formulas import FormulaBuilder
+
+if TYPE_CHECKING:
+    from pytest_benchmark.fixture import BenchmarkFixture
 
 pytestmark = [pytest.mark.benchmark, pytest.mark.builder]
 
@@ -21,7 +26,7 @@ class TestFormulaParsingBenchmarks:
 
     def test_simple_formula_generation(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
     ) -> None:
         """
         Benchmark simple formula generation.
@@ -44,7 +49,7 @@ class TestFormulaParsingBenchmarks:
 
     def test_complex_formula_generation(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
     ) -> None:
         """
         Benchmark complex nested formula generation.
@@ -70,7 +75,7 @@ class TestFormulaParsingBenchmarks:
 
     def test_cell_reference_parsing(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
     ) -> None:
         """
         Benchmark cell reference parsing.
@@ -114,7 +119,7 @@ class TestFormulaParsingBenchmarks:
 
     def test_function_call_generation(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
     ) -> None:
         """
         Benchmark formula function call generation.
@@ -151,7 +156,7 @@ class TestFormulaParsingBenchmarks:
 
     def test_range_expansion(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
     ) -> None:
         """
         Benchmark range expansion for formulas.
@@ -181,7 +186,7 @@ class TestFormulaParsingBenchmarks:
 
     def test_formula_string_building(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
     ) -> None:
         """
         Benchmark raw formula string construction.
@@ -204,7 +209,7 @@ class TestFormulaParsingBenchmarks:
 
     def test_array_formula_generation(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
     ) -> None:
         """
         Benchmark array formula generation.
@@ -232,7 +237,7 @@ class TestFormulaParsingBenchmarks:
 
     def test_conditional_formula_generation(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
     ) -> None:
         """
         Benchmark conditional formula generation.
@@ -267,7 +272,7 @@ class TestFormulaParsingBenchmarks:
 
     def test_text_formula_generation(
         self,
-        benchmark: pytest.fixture,  # type: ignore[valid-type]
+        benchmark: BenchmarkFixture,
     ) -> None:
         """
         Benchmark text formula generation.

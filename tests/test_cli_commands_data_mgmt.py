@@ -353,7 +353,7 @@ class TestCmdAccount:
                 account_type=AccountType.CHECKING,
                 balance=Decimal("1000.00"),
             )
-            mock_account.to_dict = Mock(
+            mock_account.to_dict = Mock(  # type: ignore[method-assign]
                 return_value={"name": "Primary Checking", "balance": 1000.0}
             )
             mock_mgr.list_accounts.return_value = [mock_account]
