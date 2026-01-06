@@ -287,7 +287,11 @@ class MCPServer:
         )
 
     def _handle_cell_replace(
-        self, file_path: str, sheet: str, find: str, replace: str
+        self,
+        file_path: str,
+        sheet: str,
+        find: str,
+        replace: str,
     ) -> MCPToolResult:
         """Replace values in cells."""
         return self._call_tool(
@@ -619,6 +623,70 @@ class MCPServer:
             template_name=template_name,
             data=data,
         )
+
+    # =========================================================================
+    # Advanced Operation Handlers (Chart, Validation, Query)
+    # =========================================================================
+
+    def _handle_chart_create(
+        self, file_path: str, sheet: str, **kwargs: Any
+    ) -> MCPToolResult:
+        """Create a chart."""
+        return self._call_tool(
+            "chart_create", file_path=file_path, sheet=sheet, **kwargs
+        )
+
+    def _handle_chart_update(
+        self, file_path: str, sheet: str, **kwargs: Any
+    ) -> MCPToolResult:
+        """Update a chart."""
+        return self._call_tool(
+            "chart_update", file_path=file_path, sheet=sheet, **kwargs
+        )
+
+    def _handle_validation_create(
+        self, file_path: str, sheet: str, **kwargs: Any
+    ) -> MCPToolResult:
+        """Create data validation."""
+        return self._call_tool(
+            "validation_create", file_path=file_path, sheet=sheet, **kwargs
+        )
+
+    def _handle_cf_create(
+        self, file_path: str, sheet: str, **kwargs: Any
+    ) -> MCPToolResult:
+        """Create conditional formatting."""
+        return self._call_tool("cf_create", file_path=file_path, sheet=sheet, **kwargs)
+
+    def _handle_named_range_create(
+        self, file_path: str, sheet: str, **kwargs: Any
+    ) -> MCPToolResult:
+        """Create a named range."""
+        return self._call_tool(
+            "named_range_create", file_path=file_path, sheet=sheet, **kwargs
+        )
+
+    def _handle_table_create(
+        self, file_path: str, sheet: str, **kwargs: Any
+    ) -> MCPToolResult:
+        """Create a table."""
+        return self._call_tool(
+            "table_create", file_path=file_path, sheet=sheet, **kwargs
+        )
+
+    def _handle_query_select(
+        self, file_path: str, sheet: str, **kwargs: Any
+    ) -> MCPToolResult:
+        """Execute a query select."""
+        return self._call_tool(
+            "query_select", file_path=file_path, sheet=sheet, **kwargs
+        )
+
+    def _handle_query_find(
+        self, file_path: str, sheet: str, **kwargs: Any
+    ) -> MCPToolResult:
+        """Execute a query find."""
+        return self._call_tool("query_find", file_path=file_path, sheet=sheet, **kwargs)
 
     # =========================================================================
     # MCP Protocol Methods

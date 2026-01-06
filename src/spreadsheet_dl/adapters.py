@@ -221,7 +221,7 @@ class FormatAdapter(ABC):
                     "sheet_names": options.sheet_names,
                 }
                 opt_dict.update(filtered_kwargs)
-                options = AdapterOptions(**opt_dict)
+                options = AdapterOptions(**opt_dict)  # type: ignore[arg-type]
 
         return self.import_file(input_path, options)
 
@@ -265,7 +265,7 @@ class FormatAdapter(ABC):
                     "sheet_names": options.sheet_names,
                 }
                 opt_dict.update(filtered_kwargs)
-                options = AdapterOptions(**opt_dict)
+                options = AdapterOptions(**opt_dict)  # type: ignore[arg-type]
 
         return self.export(sheets, output_path, options)
 

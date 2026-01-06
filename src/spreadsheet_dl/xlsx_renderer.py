@@ -437,6 +437,10 @@ class XlsxRenderer:
     def _add_named_ranges(self, named_ranges: list[NamedRangeSpec]) -> None:
         """Add named ranges to the workbook.
 
+        Supports both:
+        - NamedRange from _builder.references (with range: RangeRef)
+        - NamedRange from schema.advanced (with range: str, sheet: str)
+
         Args:
             named_ranges: List of named range specifications
         """
@@ -447,12 +451,31 @@ class XlsxRenderer:
 
         for nr in named_ranges:
             # Build the reference string
-            # nr.range is a string (e.g., "A1:D10")
-            range_str = nr.range if isinstance(nr.range, str) else str(nr.range)
+            # Handle different NamedRange types
+            range_str: str
+            sheet_name: str | None = None
+
+            # Check if it's the schema.advanced NamedRange with sheet attribute
             if hasattr(nr, "sheet") and nr.sheet:
-                ref = f"'{nr.sheet}'!{range_str}"
+                sheet_name = nr.sheet
+                range_str = nr.range if isinstance(nr.range, str) else str(nr.range)
+            # Check if it's _builder.references NamedRange with RangeRef
+            elif hasattr(nr, "range"):
+                range_obj = nr.range
+                if hasattr(range_obj, "sheet") and range_obj.sheet:
+                    # RangeRef with sheet
+                    sheet_name = range_obj.sheet
+                    range_str = f"{range_obj.start}:{range_obj.end}"
+                elif isinstance(range_obj, str):
+                    range_str = range_obj
+                else:
+                    # RangeRef without sheet
+                    range_str = str(range_obj)
             else:
-                ref = range_str
+                continue
+
+            # Build the full reference
+            ref = f"'{sheet_name}'!{range_str}" if sheet_name else range_str
 
             defined_name = DefinedName(name=nr.name, attr_text=ref)
             self._wb.defined_names.add(defined_name)

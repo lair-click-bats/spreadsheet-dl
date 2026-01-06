@@ -651,7 +651,7 @@ class TestXlsxNamedRanges:
         """Test adding a named range."""
         from openpyxl import load_workbook
 
-        from spreadsheet_dl.builder import NamedRange
+        from spreadsheet_dl.schema.advanced import NamedRange
         from spreadsheet_dl.xlsx_renderer import XlsxRenderer
 
         named_range = NamedRange(
@@ -674,7 +674,7 @@ class TestXlsxNamedRanges:
         """Test adding multiple named ranges."""
         from openpyxl import load_workbook
 
-        from spreadsheet_dl.builder import NamedRange
+        from spreadsheet_dl.schema.advanced import NamedRange
         from spreadsheet_dl.xlsx_renderer import XlsxRenderer
 
         named_ranges = [
