@@ -1,8 +1,7 @@
 """Tests for Physics domain plugin.
 
-Implements:
-    Comprehensive tests for Physics domain (95%+ coverage target)
-    BATCH-5: Physics domain creation
+Comprehensive tests for Physics domain (95%+ coverage target)
+BATCH-5: Physics domain creation
 """
 
 from __future__ import annotations

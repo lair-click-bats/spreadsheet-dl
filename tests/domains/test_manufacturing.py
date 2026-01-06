@@ -1,7 +1,6 @@
 """
 Tests for Manufacturing domain plugin.
 
-Implements:
     Comprehensive tests for Manufacturing domain (95%+ coverage target)
 """
 

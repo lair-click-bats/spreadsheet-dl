@@ -1,16 +1,5 @@
 """Advanced spreadsheet features.
 
-Implements:
-    - FR-FORMAT-010: Hidden Rows and Columns
-    - FR-FORMAT-013: Named Ranges
-    - FR-FORMAT-014: Cell Comments
-    - FR-FORMAT-015: Outline Groups
-    - FR-ADV-003: Auto-Filter
-    - FR-ADV-004: Data Tables
-    - FR-ADV-005: Cell Hyperlinks
-    - FR-ADV-006: Images and Objects
-    - FR-ADV-007: Document Properties
-
 Provides advanced spreadsheet features for professional documents.
 """
 
@@ -24,13 +13,13 @@ if TYPE_CHECKING:
     from datetime import datetime
 
 # ============================================================================
-# Hidden Rows/Columns (FR-FORMAT-010)
+# Hidden Rows/Columns
 # ============================================================================
 
 
 @dataclass
 class HiddenRowsColumns:
-    """Configuration for hidden rows and columns (FR-FORMAT-010).
+    """Configuration for hidden rows and columns.
 
     Examples:
         hidden = HiddenRowsColumns(
@@ -73,13 +62,13 @@ class HiddenRowsColumns:
 
 
 # ============================================================================
-# Named Ranges (FR-FORMAT-013)
+# Named Ranges
 # ============================================================================
 
 
 @dataclass
 class NamedRange:
-    """Named range definition (FR-FORMAT-013).
+    """Named range definition.
 
     A named range provides a symbolic name for a cell range,
     making formulas more readable and maintainable.
@@ -134,13 +123,13 @@ class NamedRange:
 
 
 # ============================================================================
-# Cell Comments (FR-FORMAT-014)
+# Cell Comments
 # ============================================================================
 
 
 @dataclass
 class CellComment:
-    """Cell comment/note (FR-FORMAT-014).
+    """Cell comment/note.
 
     Comments provide additional information visible on hover.
 
@@ -172,7 +161,7 @@ class CellComment:
 
 
 # ============================================================================
-# Outline Groups (FR-FORMAT-015)
+# Outline Groups
 # ============================================================================
 
 
@@ -187,7 +176,7 @@ class OutlineDirection(Enum):
 
 @dataclass
 class OutlineGroup:
-    """Row or column outline group for collapsible sections (FR-FORMAT-015).
+    """Row or column outline group for collapsible sections.
 
     Examples:
         # Group rows 5-10 (collapsible)
@@ -218,7 +207,7 @@ class OutlineGroup:
 
 @dataclass
 class OutlineSettings:
-    """Outline settings for a sheet (FR-FORMAT-015).
+    """Outline settings for a sheet.
 
     Controls summary row/column positions and groups.
     """
@@ -275,7 +264,7 @@ class OutlineSettings:
 
 
 # ============================================================================
-# Auto-Filter (FR-ADV-003)
+# Auto-Filter
 # ============================================================================
 
 
@@ -298,7 +287,7 @@ class FilterOperator(Enum):
 
 @dataclass
 class FilterCriteria:
-    """Filter criteria for a column (FR-ADV-003).
+    """Filter criteria for a column.
 
     Examples:
         # Text contains
@@ -332,7 +321,7 @@ class FilterCriteria:
 
 @dataclass
 class AutoFilter:
-    """Auto-filter configuration for a range (FR-ADV-003).
+    """Auto-filter configuration for a range.
 
     Examples:
         # Enable filter on range
@@ -373,13 +362,13 @@ class AutoFilter:
 
 
 # ============================================================================
-# Data Tables (FR-ADV-004)
+# Data Tables
 # ============================================================================
 
 
 @dataclass
 class DataTable:
-    """Data table configuration (FR-ADV-004).
+    """Data table configuration.
 
     Data tables enable what-if analysis by varying input values.
 
@@ -418,7 +407,7 @@ class DataTable:
 
 
 # ============================================================================
-# Cell Hyperlinks (FR-ADV-005)
+# Cell Hyperlinks
 # ============================================================================
 
 
@@ -434,7 +423,7 @@ class HyperlinkType(Enum):
 
 @dataclass
 class Hyperlink:
-    """Cell hyperlink (FR-ADV-005).
+    """Cell hyperlink.
 
     Examples:
         # Web link
@@ -481,7 +470,7 @@ class Hyperlink:
 
 
 # ============================================================================
-# Images and Objects (FR-ADV-006)
+# Images and Objects
 # ============================================================================
 
 
@@ -495,7 +484,7 @@ class ImageAnchor(Enum):
 
 @dataclass
 class Image:
-    """Embedded image (FR-ADV-006).
+    """Embedded image.
 
     Examples:
         image = Image(
@@ -531,7 +520,7 @@ class Image:
 
 @dataclass
 class Shape:
-    """Shape object (FR-ADV-006).
+    """Shape object.
 
     Examples:
         shape = Shape(
@@ -570,13 +559,13 @@ class Shape:
 
 
 # ============================================================================
-# Document Properties (FR-ADV-007)
+# Document Properties
 # ============================================================================
 
 
 @dataclass
 class DocumentProperties:
-    """Document metadata properties (FR-ADV-007).
+    """Document metadata properties.
 
     Standard and custom document properties for ODF documents.
 

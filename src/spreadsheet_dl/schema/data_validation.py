@@ -1,13 +1,5 @@
 """Data validation rules and configuration.
 
-Implements:
-    - FR-VALID-001: List Validation
-    - FR-VALID-002: Number Range Validation
-    - FR-VALID-003: Date Range Validation
-    - FR-VALID-004: Custom Formula Validation
-    - FR-VALID-005: Input Messages
-    - FR-VALID-006: Error Alerts
-
 Provides comprehensive data validation support for spreadsheets
 including lists, numbers, dates, and custom formulas.
 """
@@ -59,15 +51,13 @@ class ErrorAlertStyle(Enum):
 
 
 # ============================================================================
-# Input Message Configuration (FR-VALID-005)
+# Input Message Configuration
 # ============================================================================
 
 
 @dataclass
 class InputMessage:
     """Input message shown when cell is selected.
-
-    Implements FR-VALID-005: Input Messages
 
     Examples:
         msg = InputMessage(
@@ -90,15 +80,13 @@ class InputMessage:
 
 
 # ============================================================================
-# Error Alert Configuration (FR-VALID-006)
+# Error Alert Configuration
 # ============================================================================
 
 
 @dataclass
 class ErrorAlert:
     """Error alert shown on invalid entry.
-
-    Implements FR-VALID-006: Error Alerts
 
     Examples:
         # Stop entry
@@ -155,14 +143,6 @@ class ErrorAlert:
 class DataValidation:
     """Data validation rule configuration.
 
-    Implements:
-        - FR-VALID-001: List Validation
-        - FR-VALID-002: Number Range Validation
-        - FR-VALID-003: Date Range Validation
-        - FR-VALID-004: Custom Formula Validation
-        - FR-VALID-005: Input Messages
-        - FR-VALID-006: Error Alerts
-
     Examples:
         # List validation
         category_validation = DataValidation.list(
@@ -213,7 +193,7 @@ class DataValidation:
     error_alert: ErrorAlert | None = None
 
     # ========================================================================
-    # Factory Methods - List Validation (FR-VALID-001)
+    # Factory Methods - List Validation
     # ========================================================================
 
     @classmethod
@@ -255,7 +235,7 @@ class DataValidation:
         )
 
     # ========================================================================
-    # Factory Methods - Number Validation (FR-VALID-002)
+    # Factory Methods - Number Validation
     # ========================================================================
 
     @classmethod
@@ -392,7 +372,7 @@ class DataValidation:
         )
 
     # ========================================================================
-    # Factory Methods - Date Validation (FR-VALID-003)
+    # Factory Methods - Date Validation
     # ========================================================================
 
     @classmethod
@@ -551,7 +531,7 @@ class DataValidation:
         )
 
     # ========================================================================
-    # Factory Methods - Custom Validation (FR-VALID-004)
+    # Factory Methods - Custom Validation
     # ========================================================================
 
     @classmethod

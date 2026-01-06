@@ -1,7 +1,6 @@
 """
 Tests for Education domain plugin.
 
-Implements:
     Comprehensive tests for Education domain (95%+ coverage target)
 """
 

@@ -3,7 +3,6 @@
 Target: <100ms for 1000 calls (from current ~200ms baseline)
 Goal: 2x improvement through pre-compiled dispatch and caching
 
-Implements:
     - PERF-MCP-001: Tool dispatch optimization
 """
 
@@ -41,7 +40,7 @@ class TestMCPDispatchBenchmarks:
             # Register 100 tools
             for i in range(100):
 
-                @registry.tool(
+                @registry.tool(  # type: ignore[arg-type]
                     name=f"test_tool_{i}",
                     description=f"Test tool {i}",
                     category="test",
@@ -85,7 +84,7 @@ class TestMCPDispatchBenchmarks:
 
         for i in range(100):
 
-            @registry.tool(
+            @registry.tool(  # type: ignore[arg-type]
                 name=f"tool_{i}",
                 description=f"Tool {i}",
             )
@@ -115,7 +114,7 @@ class TestMCPDispatchBenchmarks:
         """
         registry = MCPToolRegistry()
 
-        @registry.tool(
+        @registry.tool(  # type: ignore[arg-type]
             name="add",
             description="Add two numbers",
             parameters=[
@@ -171,7 +170,7 @@ class TestMCPDispatchBenchmarks:
         for category in categories:
             for i in range(10):
 
-                @registry.tool(
+                @registry.tool(  # type: ignore[arg-type]
                     name=f"{category}_tool_{i}",
                     description=f"{category} tool {i}",
                     category=category,
@@ -205,7 +204,7 @@ class TestMCPDispatchBenchmarks:
         # Register 50 tools with full metadata
         for i in range(50):
 
-            @registry.tool(
+            @registry.tool(  # type: ignore[arg-type]
                 name=f"tool_{i}",
                 description=f"Tool {i} with parameters",
                 category=f"category_{i % 5}",
@@ -259,7 +258,7 @@ class TestMCPDispatchBenchmarks:
                 registry.register(
                     name=f"bulk_tool_{i}",
                     description=f"Bulk tool {i}",
-                    handler=generic_handler,
+                    handler=generic_handler,  # type: ignore[arg-type]
                     parameters=[
                         MCPToolParameter(
                             name="x",

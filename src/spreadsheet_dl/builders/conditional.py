@@ -1,7 +1,5 @@
 """Fluent ConditionalFormatBuilder for conditional formatting rules.
 
-Implements FR-BUILDER-003: ConditionalFormatBuilder
-
 Provides a chainable API for building conditional formatting rules
 including cell value rules, color scales, data bars, and icon sets.
 """
@@ -328,8 +326,6 @@ class ValueRuleBuilder:
 @dataclass
 class ConditionalFormatBuilder:
     r"""Fluent builder for conditional formatting.
-
-    Implements FR-BUILDER-003: ConditionalFormatBuilder
 
     Examples:
         # Budget status formatting

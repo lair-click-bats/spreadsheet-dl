@@ -1,12 +1,5 @@
 """Enhanced template engine for professional spreadsheet generation.
 
-Implements:
-    - FR-TEMPLATE-001: Template Definition Schema
-    - FR-TEMPLATE-002: Variable Substitution
-    - FR-TEMPLATE-003: Conditional Content
-    - FR-TEMPLATE-004: Reusable Components
-    - FR-TEMPLATE-005: Component Library
-
 Provides a YAML-based template system with:
 - Variable substitution
 - Conditional content

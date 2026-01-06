@@ -1,9 +1,5 @@
 """Typography system with font pairing and type hierarchy.
 
-Implements:
-    - FR-THEME-002: Font Pairing System
-    - FR-THEME-003: Typography Hierarchy
-
 Provides:
 - Named font definitions with roles and fallbacks
 - Type scale generation with configurable ratios
@@ -20,7 +16,7 @@ from typing import Any
 from spreadsheet_dl.schema.styles import Color, Font, FontWeight
 
 # ============================================================================
-# Type Scale Ratios (FR-THEME-003)
+# Type Scale Ratios
 # ============================================================================
 
 
@@ -47,7 +43,7 @@ class TypeScaleRatio(Enum):
 
 
 # ============================================================================
-# Font Role Definitions (FR-THEME-002)
+# Font Role Definitions
 # ============================================================================
 
 
@@ -64,8 +60,6 @@ class FontRole(Enum):
 @dataclass
 class FontDefinition:
     """Complete font definition with role and fallback chain.
-
-    Implements FR-THEME-002: Font Pairing System
 
     Examples:
         body_font = FontDefinition(
@@ -123,15 +117,13 @@ class FontDefinition:
 
 
 # ============================================================================
-# Font Pairing System (FR-THEME-002)
+# Font Pairing System
 # ============================================================================
 
 
 @dataclass
 class FontPairing:
     """Collection of font definitions for a complete pairing.
-
-    Implements FR-THEME-002: Font Pairing System
 
     A font pairing defines fonts for different text roles
     (body, headings, code, etc.) that work well together.
@@ -368,7 +360,7 @@ FONT_PAIRINGS: dict[str, FontPairing] = {
 
 
 # ============================================================================
-# Typography Hierarchy (FR-THEME-003)
+# Typography Hierarchy
 # ============================================================================
 
 
@@ -417,8 +409,6 @@ class HeadingStyle:
 @dataclass
 class Typography:
     """Complete typography hierarchy system.
-
-    Implements FR-THEME-003: Typography Hierarchy
 
     Defines consistent text sizes, line heights, and spacing
     for professional document typography.

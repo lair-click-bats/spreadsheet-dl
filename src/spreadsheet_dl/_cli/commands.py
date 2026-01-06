@@ -2,17 +2,6 @@
 
 Contains all command implementation functions called from the main CLI app.
 
-Implements:
-    - FR-CORE-003: Expense append functionality
-    - FR-CORE-004: Account management
-    - FR-UX-004: Confirmation prompts
-    - FR-EXPORT-001: Multi-format export
-    - FR-DUAL-001/002: Dual export (ODS + JSON)
-    - FR-IMPORT-002: Extended bank formats
-    - FR-REPORT-003: Interactive visualization
-    - FR-CURR-001: Multi-currency support
-    - FR-EXT-001: Plugin system
-    - FR-EXT-005: Custom category management
     - DR-STORE-002: Backup/restore functionality
 """
 
@@ -69,7 +58,7 @@ def cmd_generate(args: argparse.Namespace) -> int:
     else:
         output_path = output
 
-    # Check for existing file (FR-UX-004)
+    # Check for existing file
     if not confirm_overwrite(output_path, skip_confirm=skip_confirm):
         raise OperationCancelledError("File generation")
 
@@ -192,11 +181,7 @@ def cmd_report(args: argparse.Namespace) -> int:
 
 
 def cmd_expense(args: argparse.Namespace) -> int:
-    """Handle quick expense entry.
-
-    Implements:
-        - FR-CORE-003: Expense append functionality (fixes Gap G-02)
-    """
+    """Handle quick expense entry."""
     from spreadsheet_dl.domains.finance.csv_import import TransactionCategorizer
     from spreadsheet_dl.domains.finance.ods_generator import (
         ExpenseCategory,
@@ -294,7 +279,7 @@ def cmd_expense(args: argparse.Namespace) -> int:
         if not json_output:
             print(f"Created new budget: {ods_path}")
 
-    # Append expense to file (FR-CORE-003 implementation)
+    # Append expense to file (implementation)
     try:
         editor = OdsEditor(ods_path)
         row_num = editor.append_expense(entry)
@@ -381,7 +366,7 @@ def cmd_import(args: argparse.Namespace) -> int:
         today = date.today()
         output_path = Path.cwd() / f"imported_{today.strftime('%Y%m%d')}.ods"
 
-    # Confirm overwrite (FR-UX-004)
+    # Confirm overwrite
     if not confirm_overwrite(output_path, skip_confirm=skip_confirm):
         raise OperationCancelledError("CSV import")
 
@@ -396,11 +381,7 @@ def cmd_import(args: argparse.Namespace) -> int:
 
 
 def cmd_export(args: argparse.Namespace) -> int:
-    """Handle export command.
-
-    Implements:
-        FR-EXPORT-001: Multi-format export (xlsx, csv, pdf)
-    """
+    """Handle export command."""
     from spreadsheet_dl.export import MultiFormatExporter
 
     skip_confirm = getattr(args, "yes", False) or getattr(args, "force", False)
@@ -412,7 +393,7 @@ def cmd_export(args: argparse.Namespace) -> int:
     # Determine output path
     output_path = args.output or args.file.with_suffix(f".{args.format}")
 
-    # Confirm overwrite (FR-UX-004)
+    # Confirm overwrite
     if not confirm_overwrite(output_path, skip_confirm=skip_confirm):
         raise OperationCancelledError("Export")
 
@@ -424,11 +405,7 @@ def cmd_export(args: argparse.Namespace) -> int:
 
 
 def cmd_export_dual(args: argparse.Namespace) -> int:
-    """Handle dual export command.
-
-    Implements:
-        FR-DUAL-001/002: Dual export (ODS + AI-friendly JSON)
-    """
+    """Handle dual export command."""
     from spreadsheet_dl.ai_export import AIExporter
 
     if not args.file.exists():
@@ -451,8 +428,7 @@ def cmd_export_dual(args: argparse.Namespace) -> int:
 def cmd_backup(args: argparse.Namespace) -> int:
     """Handle backup command.
 
-    Implements:
-        DR-STORE-002: Backup/restore functionality
+    DR-STORE-002: Backup/restore functionality
     """
     from spreadsheet_dl.backup import BackupManager, BackupReason
 
@@ -768,11 +744,7 @@ def cmd_dashboard(args: argparse.Namespace) -> int:
 
 
 def cmd_visualize(args: argparse.Namespace) -> int:
-    """Handle visualize command.
-
-    Implements:
-        FR-REPORT-003: Interactive visualization
-    """
+    """Handle visualize command."""
     from spreadsheet_dl.visualization import (
         ChartConfig,
         ChartDataPoint,
@@ -876,11 +848,7 @@ def cmd_visualize(args: argparse.Namespace) -> int:
 
 
 def cmd_account(args: argparse.Namespace) -> int:
-    """Handle account command.
-
-    Implements:
-        FR-CORE-004: Account Management
-    """
+    """Handle account command."""
     from decimal import Decimal
 
     from spreadsheet_dl.domains.finance.accounts import AccountManager, AccountType
@@ -1023,11 +991,7 @@ def cmd_account(args: argparse.Namespace) -> int:
 
 
 def cmd_category(args: argparse.Namespace) -> int:
-    """Handle category command.
-
-    Implements:
-        FR-EXT-005: Custom Category Support
-    """
+    """Handle category command."""
     from spreadsheet_dl.domains.finance.categories import Category, CategoryManager
 
     manager = CategoryManager()
@@ -1184,11 +1148,7 @@ def cmd_category(args: argparse.Namespace) -> int:
 
 
 def cmd_banks(args: argparse.Namespace) -> int:
-    """Handle banks command.
-
-    Implements:
-        FR-IMPORT-002: Extended bank formats
-    """
+    """Handle banks command."""
     from spreadsheet_dl.domains.finance.bank_formats import (
         BankFormatRegistry,
         count_formats,
@@ -1248,11 +1208,7 @@ def cmd_banks(args: argparse.Namespace) -> int:
 
 
 def cmd_currency(args: argparse.Namespace) -> int:
-    """Handle currency command.
-
-    Implements:
-        FR-CURR-001: Multi-currency support
-    """
+    """Handle currency command."""
     from spreadsheet_dl.domains.finance.currency import (
         CurrencyConverter,
         get_currency,
@@ -1490,11 +1446,7 @@ def cmd_config(args: argparse.Namespace) -> int:
 
 
 def cmd_plugin(args: argparse.Namespace) -> int:
-    """Handle plugin command.
-
-    Implements:
-        FR-EXT-001: Plugin management CLI
-    """
+    """Handle plugin command."""
     from spreadsheet_dl.plugins import get_plugin_manager
 
     manager = get_plugin_manager()

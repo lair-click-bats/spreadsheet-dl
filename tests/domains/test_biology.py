@@ -1,7 +1,6 @@
 """
 Tests for Biology domain plugin.
 
-Implements:
     Comprehensive tests for Biology domain (95%+ coverage target)
 """
 

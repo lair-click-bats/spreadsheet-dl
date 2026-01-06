@@ -1,7 +1,6 @@
 """
 Tests for domain plugin base classes.
 
-Implements:
     PHASE0-002: Tests for BaseDomainPlugin, BaseTemplate, BaseFormula, BaseImporter
 """
 

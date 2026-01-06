@@ -2,8 +2,6 @@
 
 Contains validation, formatting, and confirmation utilities used across CLI commands.
 
-Implements:
-    - FR-UX-004: Confirmation prompts for destructive operations
 """
 
 from __future__ import annotations
@@ -19,7 +17,7 @@ if TYPE_CHECKING:
     from pathlib import Path
 
 # =============================================================================
-# Confirmation Prompt Utilities (FR-UX-004)
+# Confirmation Prompt Utilities
 # =============================================================================
 
 
@@ -39,8 +37,6 @@ def confirm_action(
     Returns:
         True if action is confirmed, False otherwise.
 
-    Implements:
-        FR-UX-004: Confirmation prompts for destructive operations.
     """
     if skip_confirm:
         return True

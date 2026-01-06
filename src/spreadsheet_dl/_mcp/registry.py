@@ -17,7 +17,6 @@ if TYPE_CHECKING:
 class MCPToolRegistry:
     """Registry for MCP tools with decorator-based registration.
 
-    Implements:
         - MCPToolRegistry with decorator registration
         - Tool discovery system
 

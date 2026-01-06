@@ -3,21 +3,11 @@
 Contains argument parser setup, command routing, and main entry point.
 
 New in v4.0.0:
-    - FR-EXT-001: Plugin system framework (plugin command)
-    - FR-EXT-005: Custom category management (category command)
 
 New in v0.6.0 (Phase 3: Enhanced Features):
-    - FR-CORE-004: Account management (account command)
-    - FR-CURR-001: Multi-currency support (currency command)
-    - FR-IMPORT-002: Extended bank formats (50+ supported)
-    - FR-REPORT-003: Interactive visualization (visualize command)
-    - FR-AI-001/003: Enhanced AI export with semantic tagging
 
 New in v0.5.0:
-    - FR-UX-004: Confirmation prompts for destructive operations
     - DR-STORE-002: Backup/restore functionality
-    - FR-EXPORT-001: Multi-format export (xlsx, csv, pdf)
-    - FR-DUAL-001/002: Dual export (ODS + JSON for AI)
 """
 
 from __future__ import annotations
@@ -376,7 +366,7 @@ def _add_import_parser(subparsers: Any) -> None:
 
 
 def _add_export_parser(subparsers: Any) -> None:
-    """Add export command parser (FR-EXPORT-001)."""
+    """Add export command parser."""
     export_parser = subparsers.add_parser(
         "export",
         help="Export to other formats",
@@ -408,7 +398,7 @@ def _add_export_parser(subparsers: Any) -> None:
 
 
 def _add_export_dual_parser(subparsers: Any) -> None:
-    """Add export-dual command parser (FR-DUAL-001/002)."""
+    """Add export-dual command parser (/002)."""
     export_dual_parser = subparsers.add_parser(
         "export-dual",
         help="Export to ODS + AI-friendly JSON",
@@ -523,7 +513,7 @@ def _add_dashboard_parser(subparsers: Any) -> None:
 
 
 def _add_visualize_parser(subparsers: Any) -> None:
-    """Add visualize command parser (FR-REPORT-003)."""
+    """Add visualize command parser."""
     visualize_parser = subparsers.add_parser(
         "visualize",
         help="Generate interactive charts",
@@ -561,7 +551,7 @@ def _add_visualize_parser(subparsers: Any) -> None:
 
 
 def _add_account_parser(subparsers: Any) -> None:
-    """Add account command parser (FR-CORE-004)."""
+    """Add account command parser."""
     account_parser = subparsers.add_parser(
         "account",
         help="Manage financial accounts",
@@ -609,7 +599,7 @@ def _add_account_parser(subparsers: Any) -> None:
 
 
 def _add_category_parser(subparsers: Any) -> None:
-    """Add category command parser (FR-EXT-005)."""
+    """Add category command parser."""
     category_parser = subparsers.add_parser(
         "category",
         help="Manage expense categories",
@@ -675,7 +665,7 @@ def _add_category_parser(subparsers: Any) -> None:
 
 
 def _add_banks_parser(subparsers: Any) -> None:
-    """Add banks command parser (FR-IMPORT-002)."""
+    """Add banks command parser."""
     banks_parser = subparsers.add_parser(
         "banks",
         help="List supported bank formats",
@@ -709,7 +699,7 @@ def _add_banks_parser(subparsers: Any) -> None:
 
 
 def _add_currency_parser(subparsers: Any) -> None:
-    """Add currency command parser (FR-CURR-001)."""
+    """Add currency command parser."""
     currency_parser = subparsers.add_parser(
         "currency",
         help="Currency conversion utilities",
@@ -821,7 +811,7 @@ def _add_config_parser(subparsers: Any) -> None:
 
 
 def _add_plugin_parser(subparsers: Any) -> None:
-    """Add plugin command parser (FR-EXT-001)."""
+    """Add plugin command parser."""
     plugin_parser = subparsers.add_parser(
         "plugin",
         help="Manage plugins",

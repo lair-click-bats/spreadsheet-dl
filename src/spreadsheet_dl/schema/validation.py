@@ -1,6 +1,5 @@
 """Schema validation utilities.
 
-Implements:
     - Formula syntax validation
 
 Provides validation functions for themes, styles, colors, and formulas

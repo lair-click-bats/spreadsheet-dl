@@ -1,7 +1,5 @@
 """Pre-built template components for financial spreadsheets.
 
-Implements FR-TEMPLATE-005: Component Library
-
 Provides reusable components for common financial document sections:
 - Headers and titles
 - Budget tables
@@ -536,8 +534,6 @@ def transaction_entry() -> ComponentDefinition:
 @dataclass
 class ComponentLibrary:
     """Library of pre-built template components.
-
-    Implements FR-TEMPLATE-005: Component Library
 
     Provides access to common financial spreadsheet components
     that can be included in templates.

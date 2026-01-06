@@ -1,7 +1,5 @@
 """Template loader for YAML-based spreadsheet templates.
 
-Implements FR-TEMPLATE-001: Template Definition Schema
-
 Loads templates from YAML files and converts them to
 SpreadsheetTemplate objects.
 """
@@ -26,8 +24,6 @@ from spreadsheet_dl.template_engine.schema import (
 
 class TemplateLoader:
     """Loader for YAML-based spreadsheet templates.
-
-    Implements FR-TEMPLATE-001: Template Definition Schema
 
     Examples:
         loader = TemplateLoader()

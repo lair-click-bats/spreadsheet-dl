@@ -1,7 +1,5 @@
 """Fluent DataValidationBuilder for data validation rules.
 
-Implements FR-BUILDER-002: DataValidationBuilder
-
 Provides a chainable API for building data validation rules
 with support for lists, numbers, dates, and custom formulas.
 """
@@ -25,8 +23,6 @@ from spreadsheet_dl.schema.data_validation import (
 @dataclass
 class DataValidationBuilder:
     r"""Fluent builder for data validation rules.
-
-    Implements FR-BUILDER-002: DataValidationBuilder
 
     Examples:
         # List validation

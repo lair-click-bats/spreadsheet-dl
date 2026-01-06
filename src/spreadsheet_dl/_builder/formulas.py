@@ -307,8 +307,7 @@ class FormulaBuilder:
     def sumproduct(self, *arrays: RangeRef | str) -> str:
         """Create SUMPRODUCT formula (sum of products of corresponding ranges).
 
-        Implements:
-            - PHASE0-005: Complete FormulaBuilder with 100+ functions
+        - PHASE0-005: Complete FormulaBuilder with 100+ functions
         """
         parts = [self._format_ref(a) for a in arrays]
         return f"{self.PREFIX}SUMPRODUCT({';'.join(parts)})"
@@ -530,7 +529,7 @@ class FormulaBuilder:
         )
 
     # =========================================================================
-    # Financial Functions (FR-BUILDER-005)
+    # Financial Functions
     # =========================================================================
 
     def pmt(
@@ -687,7 +686,6 @@ class FormulaBuilder:
     ) -> str:
         """Create SLN formula (straight-line depreciation).
 
-        Implements:
             - PHASE0-005: Complete FormulaBuilder with 100+ functions
 
         Args:
@@ -765,7 +763,7 @@ class FormulaBuilder:
         return f"{self.PREFIX}SYD({self._format_value(cost)};{self._format_value(salvage)};{self._format_value(life)};{self._format_value(period)})"
 
     # =========================================================================
-    # Date/Time Functions (FR-BUILDER-005)
+    # Date/Time Functions
     # =========================================================================
 
     def today(self) -> str:
@@ -856,7 +854,6 @@ class FormulaBuilder:
     ) -> str:
         """Create NETWORKDAYS formula (working days between dates).
 
-        Implements:
             - PHASE0-005: Complete FormulaBuilder with 100+ functions
 
         Args:
@@ -896,7 +893,7 @@ class FormulaBuilder:
         return f"{self.PREFIX}EDATE({self._format_value(start_date)};{self._format_value(months)})"
 
     # =========================================================================
-    # Lookup Functions (FR-BUILDER-005)
+    # Lookup Functions
     # =========================================================================
 
     def vlookup(
@@ -1004,7 +1001,7 @@ class FormulaBuilder:
         return f"{self.PREFIX}INDIRECT({self._format_value(ref_text)})"
 
     # =========================================================================
-    # Text Functions (FR-BUILDER-005)
+    # Text Functions
     # =========================================================================
 
     def concatenate(self, *values: CellRef | str) -> str:
@@ -1115,7 +1112,6 @@ class FormulaBuilder:
     ) -> str:
         """Create TEXTJOIN formula (join text with delimiter).
 
-        Implements:
             - PHASE0-005: Complete FormulaBuilder with 100+ functions
 
         Args:
@@ -1192,7 +1188,6 @@ class FormulaBuilder:
     def xor(self, *conditions: str) -> str:
         """Create XOR formula (exclusive OR).
 
-        Implements:
             - PHASE0-005: Complete FormulaBuilder with 100+ functions
 
         Args:
@@ -1229,7 +1224,7 @@ class FormulaBuilder:
         return f"{self.PREFIX}ISODD({self._format_value(ref)})"
 
     # =========================================================================
-    # Array Formulas (FR-BUILDER-005)
+    # Array Formulas
     # =========================================================================
 
     def array(self, formula: str) -> str:

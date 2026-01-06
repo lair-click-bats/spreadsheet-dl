@@ -2,7 +2,6 @@
 
 Domain-specific functionality organized as plugins.
 
-Implements:
     PHASE0-001: Restructure package for domain plugins
     PHASE0-002: Create domain plugin base classes
 """

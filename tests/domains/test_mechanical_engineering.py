@@ -1,7 +1,6 @@
 """
 Tests for Mechanical Engineering domain plugin.
 
-Implements:
     Comprehensive tests for mechanical engineering domain (95%+ coverage target)
 """
 

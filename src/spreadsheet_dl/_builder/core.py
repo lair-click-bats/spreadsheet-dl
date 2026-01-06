@@ -1,7 +1,5 @@
 """Main SpreadsheetBuilder class for fluent spreadsheet construction.
 
-Implements:
-    - FR-BUILDER-001: Extended SpreadsheetBuilder
     - PHASE0-004: Perfect Builder API (v4.0.0)
 
 Provides a chainable API for building multi-sheet spreadsheets
@@ -39,7 +37,6 @@ if TYPE_CHECKING:
 class SpreadsheetBuilder:
     r"""Fluent builder for creating spreadsheets.
 
-    Implements FR-BUILDER-001: Extended SpreadsheetBuilder
     Implements PHASE0-004: Perfect Builder API (v4.0.0)
 
     Provides a chainable API for building multi-sheet spreadsheets
@@ -49,7 +46,7 @@ class SpreadsheetBuilder:
     - Alternating row styles
     - Total row formulas
     - Conditional formats and validations
-    - Charts (FR-BUILDER-004)
+    - Charts
 
     v4.0.0 Improvements:
     - Enhanced error messages with actionable guidance
@@ -124,7 +121,7 @@ class SpreadsheetBuilder:
         return self._theme
 
     # =========================================================================
-    # Workbook-Level Properties (FR-BUILDER-001)
+    # Workbook-Level Properties
     # =========================================================================
 
     def workbook_properties(
@@ -604,7 +601,7 @@ class SpreadsheetBuilder:
         return self
 
     # =========================================================================
-    # Charts (FR-BUILDER-004)
+    # Charts
     # =========================================================================
 
     def chart(self, chart_spec: ChartSpec) -> Self:

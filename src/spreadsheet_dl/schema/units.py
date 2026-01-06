@@ -1,8 +1,5 @@
 """Length and measurement value objects for consistent dimension handling.
 
-Implements:
-    - FR-SCHEMA-002: Length Value Object
-
 Provides immutable Length class supporting multiple units with
 conversion and arithmetic operations.
 """
@@ -46,8 +43,6 @@ _LENGTH_PATTERN = re.compile(
 @dataclass(frozen=True)
 class Length:
     """Immutable length value with unit.
-
-    Implements FR-SCHEMA-002: Length Value Object
 
     Supports creation from numeric values with units, parsing from strings,
     unit conversion, and arithmetic operations.

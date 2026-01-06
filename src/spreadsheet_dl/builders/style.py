@@ -1,7 +1,5 @@
 """Fluent StyleBuilder for inline style creation.
 
-Implements FR-BUILDER-006: StyleBuilder
-
 Provides a chainable API for building cell styles with
 font, alignment, fill, border, and number format configuration.
 """
@@ -34,8 +32,6 @@ from spreadsheet_dl.schema.styles import (
 @dataclass
 class StyleBuilder:
     r"""Fluent builder for cell styles.
-
-    Implements FR-BUILDER-006: StyleBuilder
 
     Examples:
         # Header style

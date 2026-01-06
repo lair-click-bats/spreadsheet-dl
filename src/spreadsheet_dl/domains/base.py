@@ -1,6 +1,5 @@
 """Domain Plugin Base Classes for SpreadsheetDL v4.0.0.
 
-Implements:
     PHASE0-002: Create domain plugin base classes
 
 Provides abstract base classes for domain plugin architecture enabling
@@ -72,7 +71,6 @@ ImporterT = TypeVar("ImporterT", bound="BaseImporter[Any]")
 class PluginMetadata:
     """Metadata for a domain plugin.
 
-    Implements:
         PHASE0-002: BaseDomainPlugin metadata requirements
 
     Attributes:
@@ -148,7 +146,6 @@ class PluginStatus(str, Enum):
 class BaseDomainPlugin(ABC):
     """Abstract base class for domain plugins.
 
-    Implements:
         PHASE0-002: BaseDomainPlugin abstract class
 
     Provides core plugin interface with:
@@ -561,7 +558,6 @@ class TemplateMetadata:
 class BaseTemplate(ABC):
     """Abstract base class for domain-specific templates.
 
-    Implements:
         PHASE0-002: BaseTemplate class for domain templates
 
     Provides common spreadsheet template functionality:
@@ -763,7 +759,6 @@ class FormulaMetadata:
 class BaseFormula(ABC):
     """Abstract base class for domain-specific formulas.
 
-    Implements:
         PHASE0-002: BaseFormula class for domain formula extensions
 
     Provides formula extension interface:
@@ -956,7 +951,6 @@ class ImportResult[T]:
 class BaseImporter[T](ABC):
     """Abstract base class for domain-specific data importers.
 
-    Implements:
         PHASE0-002: BaseImporter class for domain data importers
 
     Provides data import interface:

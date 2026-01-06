@@ -1,11 +1,5 @@
 """Template renderer for converting templates to spreadsheets.
 
-Implements:
-    FR-TEMPLATE-001: Template Definition Schema
-    FR-TEMPLATE-002: Variable Substitution
-    FR-TEMPLATE-003: Conditional Content
-    FR-TEMPLATE-004: Reusable Components
-
 Renders SpreadsheetTemplate objects with variable values
 into actual spreadsheet content.
 """
@@ -159,8 +153,6 @@ class RenderedSpreadsheet:
 
 class ExpressionEvaluator:
     """Evaluate expressions in template strings.
-
-    Implements FR-TEMPLATE-002: Variable Substitution
 
     Supports:
     - Simple variables: ${var_name}
@@ -483,8 +475,6 @@ class ExpressionEvaluator:
 class ConditionalEvaluator:
     """Evaluate conditional blocks in templates.
 
-    Implements FR-TEMPLATE-003: Conditional Content
-
     Evaluates if/else conditions and returns appropriate content.
     """
 
@@ -535,12 +525,6 @@ class ConditionalEvaluator:
 
 class TemplateRenderer:
     """Render templates to spreadsheet content.
-
-    Implements:
-    - FR-TEMPLATE-001: Template Definition Schema
-    - FR-TEMPLATE-002: Variable Substitution
-    - FR-TEMPLATE-003: Conditional Content
-    - FR-TEMPLATE-004: Reusable Components
 
     Examples:
         renderer = TemplateRenderer()
@@ -658,7 +642,7 @@ class TemplateRenderer:
         # Render rows
         rendered_rows: list[RenderedRow] = []
 
-        # Render components first (FR-TEMPLATE-004)
+        # Render components first
         for component_ref in sheet.components:
             component_rows = self._render_component(
                 component_ref, template, expr_eval, cond_eval
@@ -702,8 +686,6 @@ class TemplateRenderer:
         cond_eval: ConditionalEvaluator,
     ) -> list[RenderedRow]:
         """Render a component reference.
-
-        Implements FR-TEMPLATE-004: Reusable Components
 
         Args:
             component_ref: Component name or name with variables (e.g., "header" or "header:title=Budget")

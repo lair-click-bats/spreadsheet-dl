@@ -1,12 +1,11 @@
-"""
-from decimal import Decimal
-Additional CLI command tests for coverage improvement.
+"""Additional CLI command tests for coverage improvement.
 
 Tests specific command paths in _cli/commands.py.
 """
 
 from __future__ import annotations
 
+from decimal import Decimal
 from typing import TYPE_CHECKING
 from unittest.mock import MagicMock, patch
 
@@ -137,7 +136,7 @@ class TestCmdImport:
             date=date(2024, 1, 1),
             category=ExpenseCategory.GROCERIES,
             description="Test",
-            amount=50.00,
+            amount=Decimal("50.00"),
         )
 
         with (

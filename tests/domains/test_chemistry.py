@@ -1,8 +1,7 @@
 """Tests for Chemistry domain plugin.
 
-Implements:
-    Comprehensive tests for Chemistry domain (95%+ coverage target)
-    BATCH-4: Chemistry domain creation
+Comprehensive tests for Chemistry domain (95%+ coverage target)
+BATCH-4: Chemistry domain creation
 """
 
 from __future__ import annotations

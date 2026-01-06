@@ -108,7 +108,7 @@ class TestFormulaBuilderIntegration:
             fb.sum("A1:A10"),
             fb.average("B1:B10"),
             fb.multiply("C1", "D1"),
-            fb.if_formula("E1>0", "E1", "0"),
+            fb.if_expr("E1>0", "E1", "0"),
         ]
 
         for formula in formulas:

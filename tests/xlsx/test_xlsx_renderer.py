@@ -651,13 +651,12 @@ class TestXlsxNamedRanges:
         """Test adding a named range."""
         from openpyxl import load_workbook
 
-        from spreadsheet_dl.schema.advanced import NamedRange
+        from spreadsheet_dl._builder.references import NamedRange, RangeRef
         from spreadsheet_dl.xlsx_renderer import XlsxRenderer
 
         named_range = NamedRange(
             name="TestRange",
-            sheet="TestSheet",
-            range="$A$2:$C$3",
+            range=RangeRef("A2", "C3", sheet="TestSheet"),
         )
 
         output_path = tmp_path / "named_range.xlsx"
@@ -674,13 +673,13 @@ class TestXlsxNamedRanges:
         """Test adding multiple named ranges."""
         from openpyxl import load_workbook
 
-        from spreadsheet_dl.schema.advanced import NamedRange
+        from spreadsheet_dl._builder.references import NamedRange, RangeRef
         from spreadsheet_dl.xlsx_renderer import XlsxRenderer
 
         named_ranges = [
-            NamedRange(name="Names", sheet="TestSheet", range="$A$2:$A$3"),
-            NamedRange(name="Ages", sheet="TestSheet", range="$B$2:$B$3"),
-            NamedRange(name="Salaries", sheet="TestSheet", range="$C$2:$C$3"),
+            NamedRange(name="Names", range=RangeRef("A2", "A3", sheet="TestSheet")),
+            NamedRange(name="Ages", range=RangeRef("B2", "B3", sheet="TestSheet")),
+            NamedRange(name="Salaries", range=RangeRef("C2", "C3", sheet="TestSheet")),
         ]
 
         output_path = tmp_path / "multi_named_range.xlsx"

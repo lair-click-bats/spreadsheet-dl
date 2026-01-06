@@ -3,7 +3,6 @@
 Target: <100ms for 1000 formulas
 Goal: Fast parsing through regex compilation and caching
 
-Implements:
     - PERF-FORMULA-001: Formula parsing optimization
 """
 
@@ -98,11 +97,11 @@ class TestFormulaParsingBenchmarks:
                 "$B$10",
                 "A$1",
                 "$A1",
-                "Sheet1!A1",
-                "Sheet1!$A$1",
                 "A1:B10",
                 "$A$1:$B$10",
-                "Sheet1!A1:B10",
+                "A:Z",
+                "C:E",
+                "$A:$Z",
             ]
 
             for _ in range(100):
@@ -146,7 +145,7 @@ class TestFormulaParsingBenchmarks:
 
             for _ in range(100):
                 for func in functions:
-                    formula = func()
+                    formula = func()  # type: ignore[no-untyped-call]
                     formulas.append(formula)
 
             return formulas

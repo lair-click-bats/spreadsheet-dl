@@ -1,15 +1,5 @@
 """Conditional formatting rules and configuration.
 
-Implements:
-    - FR-COND-001: Cell Value Rules
-    - FR-COND-002: Formula-Based Rules
-    - FR-COND-003: Color Scales
-    - FR-COND-004: Data Bars
-    - FR-COND-005: Icon Sets
-    - FR-COND-006: Top/Bottom Rules
-    - FR-COND-007: Text Contains Rules
-    - FR-COND-008: Date Rules
-
 Provides comprehensive conditional formatting support for spreadsheets
 with financial-specific presets.
 """
@@ -131,7 +121,7 @@ class ValueType(Enum):
 
 
 # ============================================================================
-# Color Scale Configuration (FR-COND-003)
+# Color Scale Configuration
 # ============================================================================
 
 
@@ -162,7 +152,6 @@ class ColorScalePoint:
 class ColorScale:
     """Color scale configuration for gradient-style conditional formatting.
 
-    Implements FR-COND-003: Color Scales
     Implements Missing frozen=True on value objects
 
     Examples:
@@ -279,7 +268,7 @@ class ColorScale:
 
 
 # ============================================================================
-# Data Bar Configuration (FR-COND-004)
+# Data Bar Configuration
 # ============================================================================
 
 
@@ -287,7 +276,6 @@ class ColorScale:
 class DataBar:
     """Data bar configuration for bar-style conditional formatting.
 
-    Implements FR-COND-004: Data Bars
     Implements Missing frozen=True on value objects
 
     Examples:
@@ -368,7 +356,7 @@ class DataBar:
 
 
 # ============================================================================
-# Icon Set Configuration (FR-COND-005)
+# Icon Set Configuration
 # ============================================================================
 
 
@@ -389,7 +377,6 @@ class IconSetThreshold:
 class IconSet:
     """Icon set configuration.
 
-    Implements FR-COND-005: Icon Sets
     Implements Missing frozen=True on value objects
 
     Examples:
@@ -481,10 +468,6 @@ class IconSet:
 @dataclass
 class ConditionalRule:
     """Base conditional formatting rule.
-
-    Implements:
-        - FR-COND-001: Cell Value Rules
-        - FR-COND-002: Formula-Based Rules
 
     Examples:
         # Value rule: highlight negative values
@@ -811,7 +794,7 @@ class ConditionalFormat:
 
 
 # ============================================================================
-# Financial Presets (FR-COND-008)
+# Financial Presets
 # ============================================================================
 
 

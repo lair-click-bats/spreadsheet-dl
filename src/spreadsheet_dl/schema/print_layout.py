@@ -1,13 +1,5 @@
 """Print layout configuration for professional spreadsheet output.
 
-Implements:
-    - FR-FORMAT-007: Print Layout Control
-    - FR-FORMAT-008: Headers and Footers
-    - FR-PRINT-001: Page Setup Configuration
-    - FR-PRINT-002: Print Area Management
-    - FR-PRINT-003: Repeat Headers
-    - FR-PRINT-004: Page Breaks
-
 Provides comprehensive print configuration including:
 - Page size and orientation
 - Margins and scaling
@@ -28,7 +20,7 @@ from typing import Any
 
 
 class PageSize(Enum):
-    """Standard paper sizes (FR-PRINT-001)."""
+    """Standard paper sizes."""
 
     LETTER = "letter"  # 8.5 x 11 inches
     LEGAL = "legal"  # 8.5 x 14 inches
@@ -60,14 +52,14 @@ class PageSize(Enum):
 
 
 class PageOrientation(Enum):
-    """Page orientation (FR-PRINT-001)."""
+    """Page orientation."""
 
     PORTRAIT = "portrait"
     LANDSCAPE = "landscape"
 
 
 class PrintQuality(Enum):
-    """Print quality options (FR-PRINT-001)."""
+    """Print quality options."""
 
     DRAFT = 150
     NORMAL = 300
@@ -75,7 +67,7 @@ class PrintQuality(Enum):
 
 
 class HeaderFooterSection(Enum):
-    """Header/footer section (FR-FORMAT-008)."""
+    """Header/footer section."""
 
     LEFT = "left"
     CENTER = "center"
@@ -83,7 +75,7 @@ class HeaderFooterSection(Enum):
 
 
 class PrintScale(Enum):
-    """Print scaling options (FR-PRINT-001)."""
+    """Print scaling options."""
 
     NONE = "none"  # No scaling
     FIT_TO_PAGE = "fit_to_page"  # Fit all on one page
@@ -93,13 +85,13 @@ class PrintScale(Enum):
 
 
 # ============================================================================
-# Page Margins (FR-PRINT-001)
+# Page Margins
 # ============================================================================
 
 
 @dataclass
 class PageMargins:
-    """Page margin configuration (FR-PRINT-001).
+    """Page margin configuration.
 
     All measurements in centimeters.
 
@@ -168,13 +160,13 @@ class PageMargins:
 
 
 # ============================================================================
-# Header/Footer Content (FR-FORMAT-008)
+# Header/Footer Content
 # ============================================================================
 
 
 @dataclass
 class HeaderFooterContent:
-    """Content for a header or footer section (FR-FORMAT-008).
+    """Content for a header or footer section.
 
     Supports dynamic placeholders:
     - &[Page] - Current page number
@@ -239,7 +231,7 @@ class HeaderFooterContent:
 
 @dataclass
 class HeaderFooter:
-    """Complete header or footer specification (FR-FORMAT-008).
+    """Complete header or footer specification.
 
     A header/footer has three sections: left, center, and right.
 
@@ -314,13 +306,13 @@ class HeaderFooter:
 
 
 # ============================================================================
-# Page Break Configuration (FR-PRINT-004)
+# Page Break Configuration
 # ============================================================================
 
 
 @dataclass
 class PageBreak:
-    """Page break specification (FR-PRINT-004).
+    """Page break specification.
 
     Attributes:
         position: Row or column number (1-based)
@@ -334,13 +326,13 @@ class PageBreak:
 
 
 # ============================================================================
-# Print Area Configuration (FR-PRINT-002)
+# Print Area Configuration
 # ============================================================================
 
 
 @dataclass
 class PrintArea:
-    """Print area specification (FR-PRINT-002).
+    """Print area specification.
 
     Attributes:
         range: Cell range to print (e.g., "A1:D50")
@@ -358,13 +350,13 @@ class PrintArea:
 
 
 # ============================================================================
-# Repeat Configuration (FR-PRINT-003)
+# Repeat Configuration
 # ============================================================================
 
 
 @dataclass
 class RepeatConfig:
-    """Configuration for repeating rows/columns on each page (FR-PRINT-003).
+    """Configuration for repeating rows/columns on each page.
 
     Attributes:
         rows_start: First row to repeat (1-based, None for none)
@@ -418,13 +410,13 @@ class RepeatConfig:
 
 
 # ============================================================================
-# Complete Page Setup (FR-PRINT-001)
+# Complete Page Setup
 # ============================================================================
 
 
 @dataclass
 class PageSetup:
-    """Complete page setup configuration (FR-PRINT-001).
+    """Complete page setup configuration.
 
     Combines all print layout settings.
 

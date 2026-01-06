@@ -1,7 +1,6 @@
 """
 Tests for Environmental domain plugin.
 
-Implements:
     Comprehensive tests for Environmental domain (95%+ coverage target)
 """
 

@@ -1,7 +1,6 @@
 """
 Tests for Data Science domain plugin.
 
-Implements:
     Comprehensive tests for data science domain
     - Template tests (5 templates)
     - Formula tests (14 formulas)

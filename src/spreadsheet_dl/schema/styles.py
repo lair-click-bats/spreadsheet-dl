@@ -1,14 +1,5 @@
 """Style schema definitions with comprehensive dataclass validation.
 
-Implements:
-    - FR-SCHEMA-001: Extended Color Dataclass
-    - FR-SCHEMA-003: Font Dataclass Enhancement
-    - FR-SCHEMA-004: Border Edge and Borders Dataclass
-    - FR-SCHEMA-005: Cell Fill Dataclass
-    - FR-SCHEMA-006: Number Format Dataclass
-    - FR-SCHEMA-007: Complete CellStyle Dataclass
-    - FR-SCHEMA-010: Style Composition System
-
 Provides type-safe style definitions for themes including:
 - Color with hex/RGB/HSL support and manipulation
 - Font specifications with full typography control
@@ -34,7 +25,7 @@ from typing import Any
 
 
 class FontWeight(Enum):
-    """Font weight options (FR-SCHEMA-003)."""
+    """Font weight options."""
 
     THIN = "100"
     EXTRA_LIGHT = "200"
@@ -72,7 +63,7 @@ class FontWeight(Enum):
 
 
 class TextAlign(Enum):
-    """Horizontal text alignment options (FR-FORMAT-004)."""
+    """Horizontal text alignment options."""
 
     LEFT = "left"
     CENTER = "center"
@@ -83,7 +74,7 @@ class TextAlign(Enum):
 
 
 class VerticalAlign(Enum):
-    """Vertical text alignment options (FR-FORMAT-004)."""
+    """Vertical text alignment options."""
 
     TOP = "top"
     MIDDLE = "middle"
@@ -93,7 +84,7 @@ class VerticalAlign(Enum):
 
 
 class BorderStyle(Enum):
-    """Border style options (FR-SCHEMA-004)."""
+    """Border style options."""
 
     NONE = "none"
     THIN = "thin"
@@ -108,7 +99,7 @@ class BorderStyle(Enum):
 
 
 class UnderlineStyle(Enum):
-    """Underline style options (FR-SCHEMA-003)."""
+    """Underline style options."""
 
     NONE = "none"
     SINGLE = "single"
@@ -120,7 +111,7 @@ class UnderlineStyle(Enum):
 
 
 class StrikethroughStyle(Enum):
-    """Strikethrough style options (FR-SCHEMA-003)."""
+    """Strikethrough style options."""
 
     NONE = "none"
     SINGLE = "single"
@@ -128,7 +119,7 @@ class StrikethroughStyle(Enum):
 
 
 class PatternType(Enum):
-    """Pattern fill types (FR-SCHEMA-005)."""
+    """Pattern fill types."""
 
     NONE = "none"
     SOLID = "solid"
@@ -152,14 +143,14 @@ class PatternType(Enum):
 
 
 class GradientType(Enum):
-    """Gradient types (FR-SCHEMA-005)."""
+    """Gradient types."""
 
     LINEAR = "linear"
     RADIAL = "radial"
 
 
 class NumberFormatCategory(Enum):
-    """Number format categories (FR-SCHEMA-006)."""
+    """Number format categories."""
 
     GENERAL = "general"
     NUMBER = "number"
@@ -176,7 +167,7 @@ class NumberFormatCategory(Enum):
 
 
 class NegativeFormat(Enum):
-    """Negative number display formats (FR-SCHEMA-006)."""
+    """Negative number display formats."""
 
     MINUS = "minus"  # -123.45
     PARENTHESES = "parentheses"  # (123.45)
@@ -185,7 +176,7 @@ class NegativeFormat(Enum):
 
 
 # ============================================================================
-# Color Class (FR-SCHEMA-001)
+# Color Class
 # ============================================================================
 
 
@@ -235,7 +226,6 @@ CSS_NAMED_COLORS: dict[str, str] = {
 class Color:
     """Color specification supporting hex, RGB, HSL values and manipulation.
 
-    Implements FR-SCHEMA-001: Extended Color Dataclass
     Implements Missing frozen=True on value objects
 
     Examples:
@@ -649,15 +639,13 @@ class Color:
 
 
 # ============================================================================
-# Color Palette (FR-THEME-001)
+# Color Palette
 # ============================================================================
 
 
 @dataclass
 class ColorPalette:
     """Named color palette for themes with auto-generated tints and shades.
-
-    Implements FR-THEME-001: Color Palette Management
 
     Provides semantic color naming for consistent theming.
 
@@ -756,7 +744,7 @@ class ColorPalette:
 
 
 # ============================================================================
-# Font Classes (FR-SCHEMA-003)
+# Font Classes
 # ============================================================================
 
 
@@ -764,7 +752,6 @@ class ColorPalette:
 class Font:
     """Comprehensive font specification with full typographic control.
 
-    Implements FR-SCHEMA-003: Font Dataclass Enhancement
     Implements Missing frozen=True on value objects
 
     Examples:
@@ -885,7 +872,7 @@ class Font:
 
 
 # ============================================================================
-# Border Classes (FR-SCHEMA-004)
+# Border Classes
 # ============================================================================
 
 
@@ -893,7 +880,6 @@ class Font:
 class BorderEdge:
     """Single border edge specification.
 
-    Implements FR-SCHEMA-004: Border Edge and Borders Dataclass
     Implements Missing frozen=True on value objects
     """
 
@@ -985,8 +971,6 @@ class Border:
 @dataclass
 class Borders:
     """Complete borders specification with per-side control.
-
-    Implements FR-SCHEMA-004: Border Edge and Borders Dataclass
 
     Note: Not frozen as it's a container object, not a value object.
 
@@ -1102,7 +1086,7 @@ class Borders:
 
 
 # ============================================================================
-# Cell Fill Classes (FR-SCHEMA-005)
+# Cell Fill Classes
 # ============================================================================
 
 
@@ -1121,7 +1105,6 @@ class GradientStop:
 class PatternFill:
     """Pattern fill specification.
 
-    Implements FR-SCHEMA-005: Cell Fill Dataclass
     Implements Missing frozen=True on value objects
     """
 
@@ -1134,7 +1117,6 @@ class PatternFill:
 class GradientFill:
     """Gradient fill specification.
 
-    Implements FR-SCHEMA-005: Cell Fill Dataclass
     Implements Missing frozen=True on value objects
     """
 
@@ -1149,7 +1131,6 @@ class GradientFill:
 class CellFill:
     """Cell background fill specification.
 
-    Implements FR-SCHEMA-005: Cell Fill Dataclass
     Implements Missing frozen=True on value objects
 
     Supports solid colors, patterns, and gradients.
@@ -1205,7 +1186,7 @@ class CellFill:
 
 
 # ============================================================================
-# Number Format (FR-SCHEMA-006)
+# Number Format
 # ============================================================================
 
 
@@ -1213,7 +1194,6 @@ class CellFill:
 class NumberFormat:
     """Number format specification with ODF format code generation.
 
-    Implements FR-SCHEMA-006: Number Format Dataclass
     Implements Missing frozen=True on value objects
 
     Examples:
@@ -1411,17 +1391,13 @@ class NumberFormat:
 
 
 # ============================================================================
-# Style Definition (FR-SCHEMA-007, FR-SCHEMA-010)
+# Style Definition ()
 # ============================================================================
 
 
 @dataclass
 class StyleDefinition:
     """Base style definition that can be extended and composed.
-
-    Implements:
-        - FR-SCHEMA-007: Complete CellStyle Dataclass
-        - FR-SCHEMA-010: Style Composition System
 
     Note: Not frozen as it's a mutable configuration object used during theme loading.
 
@@ -1477,8 +1453,6 @@ class StyleDefinition:
 @dataclass
 class CellStyle:
     """Complete cell style definition with all properties resolved.
-
-    Implements FR-SCHEMA-007: Complete CellStyle Dataclass
 
     Note: Not frozen as it needs to support with_overrides() and merge_with() operations.
 
@@ -1689,7 +1663,7 @@ class CellStyle:
 
 
 # ============================================================================
-# Theme Classes (FR-THEME-*)
+# Theme Classes (*)
 # ============================================================================
 
 
@@ -1738,9 +1712,6 @@ class ThemeVariant:
 @dataclass
 class Theme:
     """Complete theme definition.
-
-    Implements:
-        - FR-THEME-005: Theme Inheritance System
 
     A theme contains:
     - Metadata (name, version, etc.)

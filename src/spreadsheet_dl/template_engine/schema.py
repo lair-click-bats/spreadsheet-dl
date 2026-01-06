@@ -1,11 +1,5 @@
 """Template schema definitions for YAML-based spreadsheet templates.
 
-Implements:
-    - FR-TEMPLATE-001: Template Definition Schema
-    - FR-TEMPLATE-002: Variable Substitution
-    - FR-TEMPLATE-003: Conditional Content
-    - FR-TEMPLATE-004: Reusable Components
-
 Provides dataclass definitions for template structure.
 """
 
@@ -31,8 +25,6 @@ class VariableType(Enum):
 @dataclass
 class TemplateVariable:
     """Template variable definition.
-
-    Implements FR-TEMPLATE-002: Variable Substitution
 
     Variables are placeholders that get replaced with actual values
     during template rendering.
@@ -93,8 +85,6 @@ class TemplateVariable:
 @dataclass
 class ConditionalBlock:
     """Conditional content block.
-
-    Implements FR-TEMPLATE-003: Conditional Content
 
     Content that is included or excluded based on conditions.
 
@@ -209,8 +199,6 @@ class ColumnTemplate:
 class ComponentDefinition:
     """Reusable component definition.
 
-    Implements FR-TEMPLATE-004: Reusable Components
-
     Components are reusable sections that can be included in templates.
 
     Examples:
@@ -295,8 +283,6 @@ class SheetTemplate:
 @dataclass
 class SpreadsheetTemplate:
     """Complete spreadsheet template definition.
-
-    Implements FR-TEMPLATE-001: Template Definition Schema
 
     Top-level container for a template with all its sheets,
     variables, components, and configuration.

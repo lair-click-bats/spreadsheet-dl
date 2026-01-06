@@ -1,21 +1,5 @@
 """Schema package - Declarative style and theme definitions.
 
-Implements:
-    - FR-SCHEMA-001: Extended Color Dataclass
-    - FR-SCHEMA-002: Length Value Object
-    - FR-SCHEMA-003: Font Dataclass Enhancement
-    - FR-SCHEMA-004: Border Edge and Borders Dataclass
-    - FR-SCHEMA-005: Cell Fill Dataclass
-    - FR-SCHEMA-006: Number Format Dataclass
-    - FR-SCHEMA-007: Complete CellStyle Dataclass
-    - FR-SCHEMA-010: Style Composition System
-    - FR-THEME-002: Font Pairing System
-    - FR-THEME-003: Typography Hierarchy
-    - FR-FORMAT-007: Print Layout Control
-    - FR-FORMAT-008: Headers and Footers
-    - FR-PRINT-001: Page Setup Configuration
-    - FR-PRINT-002: Print Area Management
-
 This package provides:
 - Style dataclasses for type-safe style definitions
 - Length value objects for consistent dimension handling
@@ -29,18 +13,18 @@ This package provides:
 
 from spreadsheet_dl.schema.loader import ThemeLoader
 from spreadsheet_dl.schema.print_layout import (
-    # Headers and footers (FR-FORMAT-008)
+    # Headers and footers
     HeaderFooter,
     HeaderFooterContent,
     HeaderFooterSection,
     PageBreak,
     PageMargins,
     PageOrientation,
-    # Page setup (FR-PRINT-001)
+    # Page setup
     PageSetup,
     PageSetupBuilder,
     PageSize,
-    # Print area (FR-PRINT-002)
+    # Print area
     PrintArea,
     # Presets
     PrintPresets,
@@ -88,11 +72,11 @@ from spreadsheet_dl.schema.styles import (
 from spreadsheet_dl.schema.typography import (
     FONT_PAIRINGS,
     TYPOGRAPHY_PRESETS,
-    # Font pairing (FR-THEME-002)
+    # Font pairing
     FontDefinition,
     FontPairing,
     FontRole,
-    # Typography hierarchy (FR-THEME-003)
+    # Typography hierarchy
     HeadingStyle,
     TypeScaleRatio,
     TypeSize,
@@ -122,21 +106,21 @@ __all__ = [
     "CSS_NAMED_COLORS",
     "FONT_PAIRINGS",
     "TYPOGRAPHY_PRESETS",
-    # Borders (FR-SCHEMA-004)
+    # Borders
     "Border",
     "BorderEdge",
     "BorderStyle",
     "Borders",
-    # Cell Fill (FR-SCHEMA-005)
+    # Cell Fill
     "CellFill",
-    # Cell Style (FR-SCHEMA-007)
+    # Cell Style
     "CellStyle",
-    # Colors (FR-SCHEMA-001)
+    # Colors
     "Color",
     "ColorPalette",
-    # Fonts (FR-SCHEMA-003)
+    # Fonts
     "Font",
-    # Font Pairing (FR-THEME-002)
+    # Font Pairing
     "FontDefinition",
     "FontPairing",
     "FontRole",
@@ -144,29 +128,29 @@ __all__ = [
     "GradientFill",
     "GradientStop",
     "GradientType",
-    # Headers and Footers (FR-FORMAT-008)
+    # Headers and Footers
     "HeaderFooter",
     "HeaderFooterContent",
     "HeaderFooterSection",
-    # Typography Hierarchy (FR-THEME-003)
+    # Typography Hierarchy
     "HeadingStyle",
-    # Length (FR-SCHEMA-002)
+    # Length
     "Length",
     "LengthUnit",
     "NegativeFormat",
-    # Number Format (FR-SCHEMA-006)
+    # Number Format
     "NumberFormat",
     "NumberFormatCategory",
     "PageBreak",
     "PageMargins",
     "PageOrientation",
-    # Page Setup (FR-PRINT-001)
+    # Page Setup
     "PageSetup",
     "PageSetupBuilder",
     "PageSize",
     "PatternFill",
     "PatternType",
-    # Print Area (FR-PRINT-002)
+    # Print Area
     "PrintArea",
     # Print Presets
     "PrintPresets",
@@ -179,7 +163,7 @@ __all__ = [
     "StyleDefinition",
     # Alignment
     "TextAlign",
-    # Theme (FR-THEME-*)
+    # Theme (*)
     "Theme",
     # Loader
     "ThemeLoader",

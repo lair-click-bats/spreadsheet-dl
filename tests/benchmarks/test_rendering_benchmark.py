@@ -3,7 +3,6 @@
 Target: <5 seconds for 10K rows (from current ~10s baseline)
 Goal: 2x improvement through batching and optimization
 
-Implements:
     - PERF-RENDER-001: Large file rendering optimization
 """
 
