@@ -1,13 +1,207 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # SpreadsheetDL Public Release Preparation Script
-# This script cleans git history using orphan branch strategy
+# This script cleans development artifacts and git history using orphan branch strategy
 #
 # WARNING: This rewrites git history. Only run when ready to go public.
 # Make sure you have a backup of the repository first!
 #
-# Usage: ./scripts/prepare-public-release.sh
+# Usage: ./scripts/prepare_public_release.sh [--cleanup-only] [--help]
 
-set -e  # Exit on error
+set -euo pipefail
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Get script directory and project root
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+cd "${PROJECT_ROOT}"
+
+show_help() {
+  cat <<EOF
+Usage: $(basename "$0") [OPTIONS]
+
+Prepare repository for public release by cleaning development artifacts and
+optionally rewriting git history using orphan branch strategy.
+
+⚠️  WARNING: This rewrites git history. Make sure you have a backup first!
+
+OPTIONS:
+    --cleanup-only  Only clean development artifacts, skip git history rewrite
+    -h, --help      Show this help message
+
+EXAMPLES:
+    $(basename "$0") --cleanup-only    # Clean artifacts only
+    $(basename "$0")                   # Full release preparation (interactive)
+
+WHAT IT DOES:
+    Phase 0 (Cleanup):
+    - Removes dated coordination files
+    - Resets state files to idle
+    - Cleans agent outputs and checkpoints
+
+    Phase 1-5 (Git History - Interactive):
+    - Archives current development history
+    - Creates clean orphan branch
+    - Creates comprehensive initial commit
+    - Tags as v4.0.0
+
+EOF
+  exit 0
+}
+
+# Parse arguments
+CLEANUP_ONLY=false
+while [[ $# -gt 0 ]]; do
+  case $1 in
+  --cleanup-only)
+    CLEANUP_ONLY=true
+    shift
+    ;;
+  -h | --help)
+    show_help
+    ;;
+  *)
+    echo "Error: Unknown option: $1" >&2
+    echo "Run '$(basename "$0") --help' for usage information" >&2
+    exit 1
+    ;;
+  esac
+done
+
+# Function to clean development artifacts
+cleanup_dev_artifacts() {
+  echo -e "${YELLOW}Phase 0: Cleaning Development Artifacts${NC}"
+  echo "=========================================="
+  echo ""
+
+  local removed_count=0
+
+  echo -e "${YELLOW}Cleaning .coordination/ directory${NC}"
+  echo "-----------------------------------"
+
+  # Remove dated coordination files
+  echo "Removing dated coordination markdown files..."
+  find .coordination/ -type f -name "2025-*.md" -delete 2>/dev/null || true
+  find .coordination/ -type f -name "2026-*.md" -delete 2>/dev/null || true
+  removed_count=$((removed_count + $(find .coordination/ -type f -name "*.md" ! -name "README.md" 2>/dev/null | wc -l)))
+  find .coordination/ -type f -name "*.md" ! -name "README.md" -delete 2>/dev/null || true
+
+  # Remove implementation summaries
+  echo "Removing implementation summaries..."
+  find .coordination/ -type f -name "*IMPLEMENTATION*.md" -delete 2>/dev/null || true
+  find .coordination/ -type f -name "*SUMMARY*.md" -delete 2>/dev/null || true
+  find .coordination/ -type f -name "*COMPLETION*.md" -delete 2>/dev/null || true
+
+  # Reset state files
+  echo "Resetting state files..."
+  if [[ -f ".coordination/active_work.json" ]]; then
+    echo '{"status": "idle", "task": null}' >.coordination/active_work.json
+    echo "  - Reset active_work.json"
+  fi
+
+  if [[ -f ".coordination/work_queue.json" ]]; then
+    echo '{"pending": [], "blocked": []}' >.coordination/work_queue.json
+    echo "  - Reset work_queue.json"
+  fi
+
+  # Remove outdated task graph
+  if [[ -f ".coordination/task-graph.json" ]]; then
+    rm -f .coordination/task-graph.json
+    echo "  - Removed outdated task-graph.json"
+    removed_count=$((removed_count + 1))
+  fi
+
+  # Remove completed.jsonl if it exists
+  if [[ -f ".coordination/completed.jsonl" ]]; then
+    rm -f .coordination/completed.jsonl
+    echo "  - Removed completed.jsonl"
+    removed_count=$((removed_count + 1))
+  fi
+
+  echo ""
+  echo -e "${YELLOW}Cleaning .claude/agent-outputs/ directory${NC}"
+  echo "-------------------------------------------"
+
+  # Remove all agent output files except .gitkeep
+  echo "Removing agent output files..."
+  find .claude/agent-outputs/ -type f ! -name ".gitkeep" -delete 2>/dev/null || true
+  local agent_files
+  agent_files=$(find .claude/agent-outputs/ -type f ! -name ".gitkeep" 2>/dev/null | wc -l)
+  removed_count=$((removed_count + agent_files))
+  echo "  - Removed all agent output files"
+
+  echo ""
+  echo -e "${YELLOW}Cleaning .coordination/checkpoints/ directory${NC}"
+  echo "------------------------------------------------"
+
+  # Remove checkpoint files except README.md
+  echo "Removing checkpoint files..."
+  find .coordination/checkpoints/ -type f ! -name "README.md" ! -name ".gitkeep" -delete 2>/dev/null || true
+  local checkpoint_files
+  checkpoint_files=$(find .coordination/checkpoints/ -type f ! -name "README.md" ! -name ".gitkeep" 2>/dev/null | wc -l)
+  removed_count=$((removed_count + checkpoint_files))
+  echo "  - Removed checkpoint files"
+
+  echo ""
+  echo -e "${YELLOW}Verification${NC}"
+  echo "-------------"
+
+  # Verify key files remain
+  echo "Verifying structure..."
+  local errors=0
+
+  if [[ ! -f ".coordination/README.md" ]]; then
+    echo -e "${RED}  ✗ .coordination/README.md missing!${NC}"
+    errors=$((errors + 1))
+  else
+    echo -e "${GREEN}  ✓ .coordination/README.md present${NC}"
+  fi
+
+  if [[ ! -f ".coordination/checkpoints/README.md" ]]; then
+    echo -e "${RED}  ✗ .coordination/checkpoints/README.md missing!${NC}"
+    errors=$((errors + 1))
+  else
+    echo -e "${GREEN}  ✓ .coordination/checkpoints/README.md present${NC}"
+  fi
+
+  if [[ ! -f ".coordination/spec/incomplete-features.yaml" ]]; then
+    echo -e "${RED}  ✗ .coordination/spec/incomplete-features.yaml missing!${NC}"
+    errors=$((errors + 1))
+  else
+    echo -e "${GREEN}  ✓ .coordination/spec/incomplete-features.yaml present${NC}"
+  fi
+
+  echo ""
+  echo -e "${GREEN}=== Cleanup Complete ===${NC}"
+  echo ""
+  echo "Summary:"
+  echo "  - Removed development artifacts"
+  echo "  - Reset state files to empty/idle state"
+  echo "  - Preserved README and structure files"
+
+  if [[ ${errors} -eq 0 ]]; then
+    echo -e "${GREEN}  ✓ All verification checks passed${NC}"
+  else
+    echo -e "${RED}  ✗ ${errors} verification check(s) failed${NC}"
+    return 1
+  fi
+
+  echo ""
+}
+
+# Run cleanup
+cleanup_dev_artifacts
+
+# If --cleanup-only flag, exit here
+if [[ "${CLEANUP_ONLY}" == "true" ]]; then
+  echo -e "${GREEN}Cleanup-only mode complete.${NC}"
+  exit 0
+fi
 
 echo "========================================="
 echo "SpreadsheetDL Public Release Preparation"
@@ -23,9 +217,9 @@ echo "WARNING: This rewrites git history!"
 echo ""
 read -r -p "Are you SURE you want to continue? (type 'yes' to proceed): " confirm
 
-if [ "$confirm" != "yes" ]; then
-    echo "Aborted."
-    exit 1
+if [[ "${confirm}" != "yes" ]]; then
+  echo "Aborted."
+  exit 1
 fi
 
 # Step 1: Archive current development
@@ -62,7 +256,7 @@ echo ""
 echo "[Step 5/5] Creating initial commit..."
 git add .
 
-cat > /tmp/commit-message.txt << 'EOF'
+cat >/tmp/commit-message.txt <<'EOF'
 feat: SpreadsheetDL v4.0.0 - Universal Spreadsheet Definition Language
 
 🎉 First Public Release
