@@ -80,6 +80,7 @@ dependencies = [
     "odfpy>=1.4.1",
     "pandas>=2.1.0",
     "pyexcel-ods3>=0.6.1",
+    "pyyaml>=6.0.0",
     "requests>=2.31.0",
     "rich>=13.0.0",
 ]
@@ -110,9 +111,6 @@ docs = [
 export = [
     "openpyxl>=3.1.0",
     "reportlab>=4.0.0",
-]
-config = [
-    "pyyaml>=6.0.0",
 ]
 html = [
     "beautifulsoup4>=4.12.0",
@@ -333,7 +331,9 @@ showcontent = true
 dev = [
     "hypothesis>=6.150.0",
     "mutmut>=3.4.0",
+    "mypy>=1.13.0",
     "pytest-benchmark>=5.2.3",
+    "ruff>=0.8.0",
 ]
 
 [tool.hypothesis]

@@ -119,7 +119,7 @@ The sections below document features developed during internal iterations prior 
 
 - **Bug Fixes** - ODF formula prefix consistency for electrical engineering
 
-#### What's New in v0.1.0 (Internal)
+#### Additional Features in v0.1.0 (Internal)
 
 - **Template Engine** - Define custom spreadsheets declaratively in YAML
   - Variable substitution with `${...}` syntax

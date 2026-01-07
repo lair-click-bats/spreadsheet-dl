@@ -38,6 +38,7 @@ The package has been successfully built:
    ```
 
 4. **Publish to PyPI**
+
    ```bash
    uv publish
    ```
