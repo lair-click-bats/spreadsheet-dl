@@ -214,7 +214,7 @@ class WebDAVClient:
         """Check if a file exists on the server."""
         url = self._build_url(remote_path)
         response = self._session.head(url)
-        return response.status_code == 200
+        return bool(response.status_code == 200)
 
     def delete_file(self, remote_path: str) -> bool:
         """Delete a file from the server.
@@ -271,7 +271,7 @@ class WebDAVClient:
                 self.webdav_url,
                 headers={"Depth": "0"},
             )
-            return response.status_code == 207
+            return bool(response.status_code == 207)
         except requests.RequestException:
             return False
 

@@ -313,7 +313,7 @@ class Serializer:
         json_str = self.to_json(data)
         json_data = json.loads(json_str)
 
-        return yaml.dump(json_data, default_flow_style=False, sort_keys=False)
+        return str(yaml.dump(json_data, default_flow_style=False, sort_keys=False))
 
     def from_yaml(self, yaml_str: str) -> Any:
         """Deserialize from YAML string.

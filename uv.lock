@@ -1684,6 +1684,7 @@ dependencies = [
     { name = "odfpy" },
     { name = "pandas" },
     { name = "pyexcel-ods3" },
+    { name = "pyyaml" },
     { name = "requests" },
     { name = "rich" },
 ]
@@ -1695,11 +1696,7 @@ all = [
     { name = "defusedxml" },
     { name = "lxml" },
     { name = "openpyxl" },
-    { name = "pyyaml" },
     { name = "reportlab" },
-]
-config = [
-    { name = "pyyaml" },
 ]
 dev = [
     { name = "hypothesis" },
@@ -1743,7 +1740,12 @@ security = [
 dev = [
     { name = "hypothesis" },
     { name = "mutmut" },
+    { name = "mypy" },
+    { name = "pandas-stubs" },
     { name = "pytest-benchmark" },
+    { name = "ruff" },
+    { name = "types-pyyaml" },
+    { name = "types-requests" },
 ]
 
 [package.metadata]
@@ -1770,24 +1772,29 @@ requires-dist = [
     { name = "pyexcel-ods3", specifier = ">=0.6.1" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0.0" },
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=4.1.0" },
-    { name = "pyyaml", marker = "extra == 'config'", specifier = ">=6.0.0" },
+    { name = "pyyaml", specifier = ">=6.0.0" },
     { name = "reportlab", marker = "extra == 'export'", specifier = ">=4.0.0" },
     { name = "requests", specifier = ">=2.31.0" },
     { name = "rich", specifier = ">=13.0.0" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.8.0" },
-    { name = "spreadsheet-dl", extras = ["export", "config", "html", "security"], marker = "extra == 'all'" },
+    { name = "spreadsheet-dl", extras = ["export", "html", "security"], marker = "extra == 'all'" },
     { name = "towncrier", marker = "extra == 'dev'", specifier = ">=24.8.0" },
     { name = "types-beautifulsoup4", marker = "extra == 'dev'", specifier = ">=4.12.0" },
     { name = "types-pyyaml", marker = "extra == 'dev'", specifier = ">=6.0.0" },
     { name = "types-requests", marker = "extra == 'dev'", specifier = ">=2.31.0" },
 ]
-provides-extras = ["dev", "docs", "export", "config", "html", "visualization", "notifications", "plaid", "mcp", "security", "all"]
+provides-extras = ["dev", "docs", "export", "html", "visualization", "notifications", "plaid", "mcp", "security", "all"]
 
 [package.metadata.requires-dev]
 dev = [
     { name = "hypothesis", specifier = ">=6.150.0" },
     { name = "mutmut", specifier = ">=3.4.0" },
+    { name = "mypy", specifier = ">=1.13.0" },
+    { name = "pandas-stubs", specifier = ">=2.1.0" },
     { name = "pytest-benchmark", specifier = ">=5.2.3" },
+    { name = "ruff", specifier = ">=0.8.0" },
+    { name = "types-pyyaml", specifier = ">=6.0.0" },
+    { name = "types-requests", specifier = ">=2.31.0" },
 ]
 
 [[package]]
