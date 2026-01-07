@@ -135,7 +135,7 @@ security = [
     "cryptography>=42.0.0",    # Hardware-accelerated encryption
 ]
 all = [
-    "spreadsheet-dl[export,config,html,security]",
+    "spreadsheet-dl[export,html,security]",
 ]
 
 [project.urls]
